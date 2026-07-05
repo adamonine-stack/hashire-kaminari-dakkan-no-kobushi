@@ -1,3 +1,24 @@
 [gd_scene format=3]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="Node2D"]
+
+[node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="IdlePlaceholder" type="Node2D" parent="VisualRoot"]
+
+[node name="Body" type="Polygon2D" parent="VisualRoot/IdlePlaceholder"]
+color = Color(0.14902, 0.454902, 0.952941, 1)
+polygon = PackedVector2Array(-28, -96, 28, -96, 36, 0, -36, 0)
+
+[node name="Head" type="Polygon2D" parent="VisualRoot/IdlePlaceholder"]
+position = Vector2(0, -124)
+color = Color(0.960784, 0.792157, 0.580392, 1)
+polygon = PackedVector2Array(0, -28, 20, -20, 28, 0, 20, 20, 0, 28, -20, 20, -28, 0, -20, -20)
+
+[node name="IdleStateLabel" type="Label" parent="VisualRoot/IdlePlaceholder"]
+offset_left = -28.0
+offset_top = -174.0
+offset_right = 28.0
+offset_bottom = -151.0
+text = "Idle"
+horizontal_alignment = 1
