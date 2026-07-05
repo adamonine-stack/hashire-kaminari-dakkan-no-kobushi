@@ -7,6 +7,7 @@ config_version=5
 
 config/name="HashireIkazuchi"
 config/description="2D fighting action game project based on the GDD for Hashire Ikazuchi."
+run/main_scene="res://scenes/Battle.tscn"
 
 [display]
 

@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var jump_power := 500.0
 @export var screen_margin := 36.0
 
-var gravity := ProjectSettings.get_setting("physics/2d/default_gravity") as float
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _physics_process(delta: float) -> void:
