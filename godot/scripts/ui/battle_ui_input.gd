@@ -1,9 +1,11 @@
 extends Control
 
 const BUTTON_ACTIONS := {
-	"MoveLeftButton": "MoveLeft",
-	"MoveRightButton": "MoveRight",
-	"JumpButton": "Jump",
+	"MoveLeftButton": "move_left",
+	"MoveRightButton": "move_right",
+	"CrouchButton": "crouch",
+	"PunchButton": "attack",
+	"JumpButton": "jump",
 }
 
 var _held_actions: Array[String] = []
