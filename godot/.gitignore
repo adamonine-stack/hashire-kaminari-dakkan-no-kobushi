@@ -1,0 +1,17 @@
+# Godot generated files
+.godot/
+*.tmp
+*.translation
+
+# Export outputs
+exports/
+builds/
+*.apk
+*.aab
+*.ipa
+*.pck
+*.zip
+
+# Local editor files
+.vscode/
+.idea/
