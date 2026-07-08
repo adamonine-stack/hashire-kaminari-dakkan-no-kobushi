@@ -57,11 +57,11 @@ horizontal_alignment = 1
 position = Vector2(0, -48)
 shape = SubResource("RectangleShape2D_player_body")
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="PunchHitBox" type="Area2D" parent="."]
 position = Vector2(56, -64)
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHitBox"]
 disabled = true
 shape = SubResource("RectangleShape2D_attack")
 
