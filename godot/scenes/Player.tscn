@@ -33,6 +33,12 @@ position = Vector2(44, -64)
 color = Color(0.227451, 0.823529, 1, 0.45)
 polygon = PackedVector2Array(0, -44, 20, -28, 20, 28, 0, 44, -12, 20, -12, -20)
 
+[node name="CrouchPlaceholder" type="Polygon2D" parent="VisualRoot/IdlePlaceholder"]
+visible = false
+position = Vector2(0, -40)
+color = Color(0.976471, 0.827451, 0.219608, 0.55)
+polygon = PackedVector2Array(-42, -20, 30, -28, 46, 0, 22, 24, -38, 18)
+
 [node name="IdleStateLabel" type="Label" parent="VisualRoot/IdlePlaceholder"]
 offset_left = -28.0
 offset_top = -174.0
