@@ -17,9 +17,11 @@ var attack_active_timer := 0.0
 var attack_cooldown_timer := 0.0
 var kick_active_timer := 0.0
 var kick_cooldown_timer := 0.0
+var is_guarding := false
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
+@onready var guard_visual := $VisualRoot/IdlePlaceholder/GuardPlaceholder
 @onready var attack_area := $AttackArea
 @onready var attack_shape := $AttackArea/CollisionShape2D
 @onready var kick_area := $KickHitBox
@@ -32,7 +34,9 @@ func _physics_process(delta: float) -> void:
 	var current_speed := crouch_speed if is_crouching else move_speed
 	var is_kicking := kick_active_timer > 0.0
 
-	if is_kicking:
+	_update_guard_state()
+
+	if is_kicking or is_guarding:
 		direction = 0.0
 		is_crouching = false
 
@@ -43,16 +47,16 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction * current_speed
 
 	if is_on_floor():
-		if Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking:
+		if Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding:
 			velocity.y = -jump_power
 		else:
 			velocity.y = 0.0
 	else:
 		velocity.y += gravity * delta
 
-	if not is_kicking and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
+	if not is_kicking and not is_guarding and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
 		_start_attack()
-	if Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
+	if not is_guarding and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
 		_start_kick()
 
 	_update_attack(delta)
@@ -70,6 +74,21 @@ func _start_attack() -> void:
 	attack_area.position.x = facing_direction * attack_offset
 	attack_area.set_deferred("monitoring", true)
 	attack_shape.set_deferred("disabled", false)
+
+
+func _update_guard_state() -> void:
+	var can_start_guard := attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+
+	if is_guarding:
+		if not Input.is_action_pressed("guard"):
+			is_guarding = false
+			print("Guard End")
+		return
+
+	if Input.is_action_just_pressed("guard") and can_start_guard:
+		is_guarding = true
+		velocity.x = 0.0
+		print("Guard Start")
 
 
 func _start_kick() -> void:
@@ -114,10 +133,13 @@ func _update_visual_state(is_crouching: bool) -> void:
 		state_label.text = "Kick"
 	elif attack_active_timer > 0.0:
 		state_label.text = "Punch"
+	elif is_guarding:
+		state_label.text = "Guard"
 	elif is_crouching:
 		state_label.text = "Crouch"
 	else:
 		state_label.text = "Idle"
 
+	guard_visual.visible = is_guarding
 	var target_y_scale := 0.7 if is_crouching else 1.0
 	visual_root.scale.y = target_y_scale
