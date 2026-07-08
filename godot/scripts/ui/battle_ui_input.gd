@@ -5,6 +5,7 @@ const BUTTON_ACTIONS := {
 	"MoveRightButton": "move_right",
 	"CrouchButton": "crouch",
 	"PunchButton": "attack",
+	"KickButton": "kick",
 	"JumpButton": "jump",
 }
 
