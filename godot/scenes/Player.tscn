@@ -72,3 +72,10 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KickHitBox"]
 disabled = true
 shape = SubResource("RectangleShape2D_kick")
+
+[node name="HurtBox" type="Area2D" parent="."]
+position = Vector2(0, -48)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_player_body")
