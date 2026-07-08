@@ -20,16 +20,23 @@ var kick_cooldown_timer := 0.0
 var is_guarding := false
 var is_crouching := false
 var is_crouch_guarding := false
+var punch_hitbox_active := false
+var kick_hitbox_active := false
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
 @onready var guard_visual := $VisualRoot/IdlePlaceholder/GuardPlaceholder
 @onready var crouch_visual := $VisualRoot/IdlePlaceholder/CrouchPlaceholder
 @onready var crouch_guard_visual := $VisualRoot/IdlePlaceholder/CrouchGuardPlaceholder
-@onready var attack_area := $AttackArea
-@onready var attack_shape := $AttackArea/CollisionShape2D
+@onready var punch_area := $PunchHitBox
+@onready var punch_shape := $PunchHitBox/CollisionShape2D
 @onready var kick_area := $KickHitBox
 @onready var kick_shape := $KickHitBox/CollisionShape2D
+
+
+func _ready() -> void:
+	_set_punch_hitbox_active(false, false)
+	_set_kick_hitbox_active(false, false)
 
 
 func _physics_process(delta: float) -> void:
@@ -72,9 +79,8 @@ func _physics_process(delta: float) -> void:
 func _start_attack() -> void:
 	attack_active_timer = attack_active_time
 	attack_cooldown_timer = attack_cooldown_time
-	attack_area.position.x = facing_direction * attack_offset
-	attack_area.set_deferred("monitoring", true)
-	attack_shape.set_deferred("disabled", false)
+	punch_area.position.x = facing_direction * attack_offset
+	_set_punch_hitbox_active(true)
 
 
 func _update_defensive_state() -> void:
@@ -151,8 +157,7 @@ func _start_kick() -> void:
 	kick_cooldown_timer = kick_cooldown_time
 	velocity.x = 0.0
 	kick_area.position.x = facing_direction * kick_offset
-	kick_area.set_deferred("monitoring", true)
-	kick_shape.set_deferred("disabled", false)
+	_set_kick_hitbox_active(true)
 
 
 func _update_attack(delta: float) -> void:
@@ -160,12 +165,12 @@ func _update_attack(delta: float) -> void:
 		attack_cooldown_timer = maxf(attack_cooldown_timer - delta, 0.0)
 
 	if attack_active_timer <= 0.0:
+		_set_punch_hitbox_active(false)
 		return
 
 	attack_active_timer = maxf(attack_active_timer - delta, 0.0)
 	if attack_active_timer == 0.0:
-		attack_area.set_deferred("monitoring", false)
-		attack_shape.set_deferred("disabled", true)
+		_set_punch_hitbox_active(false)
 
 
 func _update_kick(delta: float) -> void:
@@ -173,13 +178,35 @@ func _update_kick(delta: float) -> void:
 		kick_cooldown_timer = maxf(kick_cooldown_timer - delta, 0.0)
 
 	if kick_active_timer <= 0.0:
+		_set_kick_hitbox_active(false)
 		return
 
 	kick_active_timer = maxf(kick_active_timer - delta, 0.0)
 	if kick_active_timer == 0.0:
-		kick_area.set_deferred("monitoring", false)
-		kick_shape.set_deferred("disabled", true)
+		_set_kick_hitbox_active(false)
 		print("Kick End")
+
+
+func _set_punch_hitbox_active(is_active: bool, should_print := true) -> void:
+	if punch_hitbox_active == is_active:
+		return
+
+	punch_hitbox_active = is_active
+	punch_area.set_deferred("monitoring", is_active)
+	punch_shape.set_deferred("disabled", not is_active)
+	if should_print:
+		print("Punch HitBox ON" if is_active else "Punch HitBox OFF")
+
+
+func _set_kick_hitbox_active(is_active: bool, should_print := true) -> void:
+	if kick_hitbox_active == is_active:
+		return
+
+	kick_hitbox_active = is_active
+	kick_area.set_deferred("monitoring", is_active)
+	kick_shape.set_deferred("disabled", not is_active)
+	if should_print:
+		print("Kick HitBox ON" if is_active else "Kick HitBox OFF")
 
 
 func _update_visual_state() -> void:
