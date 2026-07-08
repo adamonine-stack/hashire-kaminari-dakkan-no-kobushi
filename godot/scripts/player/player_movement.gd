@@ -22,6 +22,8 @@ var is_crouching := false
 var is_crouch_guarding := false
 var punch_hitbox_active := false
 var kick_hitbox_active := false
+var punch_hit_targets: Array[Node] = []
+var kick_hit_targets: Array[Node] = []
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -32,9 +34,12 @@ var kick_hitbox_active := false
 @onready var punch_shape := $PunchHitBox/CollisionShape2D
 @onready var kick_area := $KickHitBox
 @onready var kick_shape := $KickHitBox/CollisionShape2D
+@onready var hurt_box := $HurtBox
 
 
 func _ready() -> void:
+	punch_area.area_entered.connect(_on_punch_hitbox_area_entered)
+	kick_area.area_entered.connect(_on_kick_hitbox_area_entered)
 	_set_punch_hitbox_active(false, false)
 	_set_kick_hitbox_active(false, false)
 
@@ -79,6 +84,7 @@ func _physics_process(delta: float) -> void:
 func _start_attack() -> void:
 	attack_active_timer = attack_active_time
 	attack_cooldown_timer = attack_cooldown_time
+	punch_hit_targets.clear()
 	punch_area.position.x = facing_direction * attack_offset
 	_set_punch_hitbox_active(true)
 
@@ -156,6 +162,7 @@ func _start_kick() -> void:
 	kick_active_timer = kick_active_time
 	kick_cooldown_timer = kick_cooldown_time
 	velocity.x = 0.0
+	kick_hit_targets.clear()
 	kick_area.position.x = facing_direction * kick_offset
 	_set_kick_hitbox_active(true)
 
@@ -194,6 +201,8 @@ func _set_punch_hitbox_active(is_active: bool, should_print := true) -> void:
 	punch_hitbox_active = is_active
 	punch_area.set_deferred("monitoring", is_active)
 	punch_shape.set_deferred("disabled", not is_active)
+	if not is_active:
+		punch_hit_targets.clear()
 	if should_print:
 		print("Punch HitBox ON" if is_active else "Punch HitBox OFF")
 
@@ -205,8 +214,45 @@ func _set_kick_hitbox_active(is_active: bool, should_print := true) -> void:
 	kick_hitbox_active = is_active
 	kick_area.set_deferred("monitoring", is_active)
 	kick_shape.set_deferred("disabled", not is_active)
+	if not is_active:
+		kick_hit_targets.clear()
 	if should_print:
 		print("Kick HitBox ON" if is_active else "Kick HitBox OFF")
+
+
+func _on_punch_hitbox_area_entered(area: Area2D) -> void:
+	if not punch_hitbox_active:
+		return
+
+	var hit_target := _get_valid_hurtbox_target(area)
+	if hit_target == null or punch_hit_targets.has(hit_target):
+		return
+
+	punch_hit_targets.append(hit_target)
+	print("Punch Hit")
+
+
+func _on_kick_hitbox_area_entered(area: Area2D) -> void:
+	if not kick_hitbox_active:
+		return
+
+	var hit_target := _get_valid_hurtbox_target(area)
+	if hit_target == null or kick_hit_targets.has(hit_target):
+		return
+
+	kick_hit_targets.append(hit_target)
+	print("Kick Hit")
+
+
+func _get_valid_hurtbox_target(area: Area2D) -> Node:
+	if area == hurt_box or area.name != "HurtBox":
+		return null
+
+	var target := area.get_parent()
+	if target == self:
+		return null
+
+	return target
 
 
 func _update_visual_state() -> void:
