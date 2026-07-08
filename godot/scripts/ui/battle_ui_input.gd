@@ -3,7 +3,7 @@ extends Control
 const BUTTON_ACTIONS := {
 	"MoveLeftButton": "move_left",
 	"MoveRightButton": "move_right",
-	"CrouchButton": "crouch",
+	"CrouchButton": "down",
 	"PunchButton": "attack",
 	"KickButton": "kick",
 	"GuardButton": "guard",
