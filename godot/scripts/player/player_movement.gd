@@ -10,8 +10,12 @@ extends CharacterBody2D
 @export var kick_active_time := 0.18
 @export var kick_cooldown_time := 0.5
 @export var kick_offset := 72.0
+@export var max_hp := 100
+@export var punch_damage := 5
+@export var kick_damage := 8
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var current_hp := 100
 var facing_direction := 1.0
 var attack_active_timer := 0.0
 var attack_cooldown_timer := 0.0
@@ -38,6 +42,7 @@ var kick_hit_targets: Array[Node] = []
 
 
 func _ready() -> void:
+	current_hp = max_hp
 	punch_area.area_entered.connect(_on_punch_hitbox_area_entered)
 	kick_area.area_entered.connect(_on_kick_hitbox_area_entered)
 	_set_punch_hitbox_active(false, false)
@@ -230,6 +235,7 @@ func _on_punch_hitbox_area_entered(area: Area2D) -> void:
 
 	punch_hit_targets.append(hit_target)
 	print("Punch Hit")
+	hit_target.apply_damage(punch_damage)
 
 
 func _on_kick_hitbox_area_entered(area: Area2D) -> void:
@@ -242,6 +248,7 @@ func _on_kick_hitbox_area_entered(area: Area2D) -> void:
 
 	kick_hit_targets.append(hit_target)
 	print("Kick Hit")
+	hit_target.apply_damage(kick_damage)
 
 
 func _get_valid_hurtbox_target(area: Area2D) -> Node:
@@ -251,8 +258,18 @@ func _get_valid_hurtbox_target(area: Area2D) -> Node:
 	var target := area.get_parent()
 	if target == self:
 		return null
+	if not target.has_method("apply_damage"):
+		return null
 
 	return target
+
+
+func apply_damage(damage: int) -> void:
+	current_hp = maxi(current_hp - damage, 0)
+	print("Damage: %d" % damage)
+	print("HP: %d" % current_hp)
+	if current_hp == 0:
+		print("HP reached 0")
 
 
 func _update_visual_state() -> void:
