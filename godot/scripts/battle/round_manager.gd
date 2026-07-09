@@ -2,7 +2,7 @@ extends Node
 
 enum RoundResult {
 	PLAYER,
-	ENEMY,	
+	ENEMY,
 	DRAW,
 }
 
