@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_movement.gd" id="1_player_movement"]
 
@@ -10,6 +10,15 @@ size = Vector2(48, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kick"]
 size = Vector2(60, 32)
+
+[sub_resource type="Animation" id="Animation_throw"]
+resource_name = "Throw"
+length = 0.45
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_player"]
+_data = {
+"Throw": SubResource("Animation_throw")
+}
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_player_movement")
@@ -79,3 +88,8 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("RectangleShape2D_player_body")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_player")
+}
