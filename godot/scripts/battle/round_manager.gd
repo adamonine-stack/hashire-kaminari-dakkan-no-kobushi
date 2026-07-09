@@ -95,6 +95,7 @@ func _finish_round_by_ko(winner: RoundResult) -> void:
 
 	isRoundActive = false
 	_set_round_input_enabled(false)
+	_reset_combos()
 	_show_message("KO")
 	await get_tree().create_timer(ko_display_duration).timeout
 	await _complete_round(winner)
@@ -106,6 +107,7 @@ func _finish_round_by_time_up() -> void:
 
 	isRoundActive = false
 	_set_round_input_enabled(false)
+	_reset_combos()
 	_show_message("TIME UP")
 	await get_tree().create_timer(round_result_duration).timeout
 	await _complete_round(_get_time_up_result())
@@ -138,6 +140,7 @@ func _finish_battle(player_won: bool) -> void:
 	isBattleFinished = true
 	isRoundActive = false
 	_set_round_input_enabled(false)
+	_reset_combos()
 	_show_message("YOU WIN" if player_won else "YOU LOSE")
 	await get_tree().create_timer(final_display_duration).timeout
 	get_tree().change_scene_to_file("res://scenes/Title.tscn")
@@ -184,6 +187,8 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.guard_hit_timer = 0.0
 	fighter.throw_recovery_timer = 0.0
 	fighter.throw_escape_timer = 0.0
+	fighter.combo_count = 0
+	fighter.combo_timer = 0.0
 	fighter._clear_pending_throw()
 	fighter.hurt_box.set_deferred("monitorable", true)
 	fighter._set_punch_hitbox_active(false, false)
@@ -199,6 +204,11 @@ func _set_round_input_enabled(is_enabled: bool) -> void:
 	enemy.is_round_active = is_enabled
 	player.input_enabled = is_enabled
 	enemy.input_enabled = is_enabled and enemy_accepts_input
+
+
+func _reset_combos() -> void:
+	player.reset_combo()
+	enemy.reset_combo()
 
 
 func _show_message(message: String) -> void:
