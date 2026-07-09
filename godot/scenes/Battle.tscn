@@ -1,15 +1,20 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/UI.tscn" id="1_ui"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/battle/battle_controller.gd" id="3_battle_controller"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1280, 32)
 
 [node name="Battle" type="Node2D"]
+script = ExtResource("3_battle_controller")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(320, 520)
+
+[node name="BattleCamera" type="Camera2D" parent="."]
+position = Vector2(640, 360)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(640, 536)
