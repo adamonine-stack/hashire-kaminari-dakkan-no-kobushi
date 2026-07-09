@@ -34,6 +34,10 @@ signal throw_hit(target: Node)
 @export var throw_damage := 12
 @export var throw_self_recovery_time := 0.45
 @export var throw_target_recovery_time := 0.6
+@export var throw_escape_window := 0.18
+@export var throw_escape_pushback := 30.0
+@export var throw_escape_freeze_time := 0.25
+@export var ai_throw_escape_rate := 0.35
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -55,16 +59,25 @@ var is_invincible := false
 var is_guard_hit := false
 var is_throwing := false
 var is_throw_locked := false
+var is_throw_escape_pending := false
+var is_throw_escaping := false
 var is_round_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var throw_recovery_timer := 0.0
+var throw_escape_timer := 0.0
+var pending_throw_damage := 0
+var pending_throw_hit_position := Vector2.ZERO
+var pending_throw_direction := 0.0
+var pending_throw_attacker: Node
+var pending_throw_ai_checked := false
 var weak_hit_se: AudioStreamPlayer2D
 var strong_hit_se: AudioStreamPlayer2D
 var guard_hit_se: AudioStreamPlayer2D
 var throw_se: AudioStreamPlayer2D
+var throw_escape_se: AudioStreamPlayer2D
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -99,6 +112,7 @@ func _physics_process(delta: float) -> void:
 	_update_invincibility(delta)
 	_update_hit_reaction(delta)
 	_update_guard_hit(delta)
+	_update_throw_escape(delta)
 	_update_throw_recovery(delta)
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
@@ -198,8 +212,6 @@ func _try_start_throw() -> void:
 	print("ThrowHit")
 	throw_hit.emit(target)
 	target.receive_throw(self, throw_damage, _get_hit_position(target), facing_direction)
-	_spawn_hit_effect(_get_hit_position(target), 1.0)
-	_play_throw_se()
 
 
 func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_direction: float) -> void:
@@ -214,11 +226,18 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	is_hit = false
 	is_throwing = false
 	is_throw_locked = true
+	is_throw_escape_pending = true
+	is_throw_escaping = false
 	throw_recovery_timer = throw_target_recovery_time
+	throw_escape_timer = throw_escape_window
+	pending_throw_attacker = attacker
+	pending_throw_damage = damage
+	pending_throw_hit_position = hit_position
+	pending_throw_direction = throw_direction
+	pending_throw_ai_checked = false
 	velocity = Vector2.ZERO
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
-	apply_damage(damage)
 
 
 func _get_throw_target() -> Node:
@@ -237,7 +256,7 @@ func _can_start_throw() -> bool:
 
 
 func can_be_thrown(attacker: Node) -> bool:
-	return is_round_active and is_on_floor() and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_invincible
+	return is_round_active and current_hp > 0 and is_on_floor() and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_throw_escape_pending and not is_throw_escaping and not is_invincible
 
 
 func _get_throw_gap_to(target: Node) -> float:
@@ -253,7 +272,121 @@ func _is_throw_input_held() -> bool:
 
 
 func _is_throw_busy() -> bool:
-	return is_throwing or is_throw_locked
+	return is_throwing or is_throw_locked or is_throw_escape_pending or is_throw_escaping
+
+
+func _update_throw_escape(delta: float) -> void:
+	if not is_throw_escape_pending:
+		return
+
+	if _should_escape_throw():
+		_complete_throw_escape()
+		return
+
+	throw_escape_timer = maxf(throw_escape_timer - delta, 0.0)
+	if throw_escape_timer == 0.0:
+		_complete_throw_hit()
+
+
+func _should_escape_throw() -> bool:
+	if not _can_escape_throw():
+		return false
+	if input_enabled and _is_throw_input_held():
+		return true
+	if not input_enabled and not pending_throw_ai_checked:
+		pending_throw_ai_checked = true
+		return randf() <= ai_throw_escape_rate
+	return false
+
+
+func _can_escape_throw() -> bool:
+	return is_throw_escape_pending and throw_escape_timer > 0.0 and current_hp > 0 and is_on_floor() and not is_hit and not is_guard_hit
+
+
+func _complete_throw_escape() -> void:
+	var attacker := pending_throw_attacker
+	is_throw_escape_pending = false
+	is_throw_escaping = true
+	is_throw_locked = true
+	throw_recovery_timer = throw_escape_freeze_time
+	throw_escape_timer = 0.0
+	velocity = Vector2.ZERO
+	_clear_pending_throw()
+
+	if attacker != null and attacker.has_method("enter_throw_escape_recovery"):
+		attacker.enter_throw_escape_recovery(self)
+
+	_push_throw_escape_apart(attacker)
+	_spawn_throw_escape_effect(global_position)
+	_play_throw_escape_se()
+
+
+func enter_throw_escape_recovery(escaped_target: Node) -> void:
+	is_throwing = false
+	is_throw_locked = true
+	is_throw_escaping = true
+	throw_recovery_timer = throw_escape_freeze_time
+	velocity = Vector2.ZERO
+	_set_punch_hitbox_active(false)
+	_set_kick_hitbox_active(false)
+
+
+func _complete_throw_hit() -> void:
+	var attacker := pending_throw_attacker
+	var hit_position := pending_throw_hit_position
+	var damage := pending_throw_damage
+	is_throw_escape_pending = false
+	throw_escape_timer = 0.0
+	_clear_pending_throw()
+	apply_damage(damage)
+
+	if attacker != null and attacker.has_method("_spawn_hit_effect"):
+		attacker._spawn_hit_effect(hit_position, 1.0)
+	if attacker != null and attacker.has_method("_play_throw_se"):
+		attacker._play_throw_se()
+
+
+func _clear_pending_throw() -> void:
+	pending_throw_attacker = null
+	pending_throw_damage = 0
+	pending_throw_hit_position = Vector2.ZERO
+	pending_throw_direction = 0.0
+	pending_throw_ai_checked = false
+
+
+func _push_throw_escape_apart(attacker: Node) -> void:
+	if not (attacker is Node2D):
+		return
+
+	var direction_from_attacker := signf(global_position.x - attacker.global_position.x)
+	if direction_from_attacker == 0.0:
+		direction_from_attacker = 1.0
+	position.x += direction_from_attacker * throw_escape_pushback
+	var attacker_2d := attacker as Node2D
+	attacker_2d.position.x -= direction_from_attacker * throw_escape_pushback
+
+
+func _spawn_throw_escape_effect(effect_position: Vector2) -> void:
+	var effect_root := Node2D.new()
+	effect_root.global_position = effect_position
+	effect_root.name = "ThrowEscapeEffect"
+
+	var flash := Polygon2D.new()
+	var points := PackedVector2Array()
+	var radius := 22.0
+	for point_index in range(12):
+		var angle := TAU * float(point_index) / 12.0
+		var point_radius := radius if point_index % 2 == 0 else radius * 0.45
+		points.append(Vector2(cos(angle), sin(angle)) * point_radius)
+	flash.color = Color(0.55, 0.95, 1.0, 0.78)
+	flash.polygon = points
+	effect_root.add_child(flash)
+	get_tree().current_scene.add_child(effect_root)
+
+	var tween := effect_root.create_tween()
+	tween.tween_property(effect_root, "scale", Vector2(1.5, 1.5), 0.16)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.16)
+	tween.tween_callback(effect_root.queue_free)
 
 
 func _update_throw_recovery(delta: float) -> void:
@@ -266,6 +399,7 @@ func _update_throw_recovery(delta: float) -> void:
 
 	is_throwing = false
 	is_throw_locked = false
+	is_throw_escaping = false
 
 
 func _play_throw_animation() -> void:
@@ -447,7 +581,11 @@ func _cancel_current_action() -> void:
 	is_guard_hit = false
 	is_throwing = false
 	is_throw_locked = false
+	is_throw_escape_pending = false
+	is_throw_escaping = false
 	throw_recovery_timer = 0.0
+	throw_escape_timer = 0.0
+	_clear_pending_throw()
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
 
@@ -651,6 +789,11 @@ func _setup_hit_audio() -> void:
 	throw_se.stream = _create_hit_stream(140.0)
 	add_child(throw_se)
 
+	throw_escape_se = AudioStreamPlayer2D.new()
+	throw_escape_se.name = "ThrowEscapeSE"
+	throw_escape_se.stream = _create_hit_stream(920.0)
+	add_child(throw_escape_se)
+
 
 func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 	var sample_rate := 22050
@@ -686,6 +829,10 @@ func _play_throw_se() -> void:
 	throw_se.play()
 
 
+func _play_throw_escape_se() -> void:
+	throw_escape_se.play()
+
+
 func _spawn_guard_effect(hit_position: Vector2) -> void:
 	var effect_root := Node2D.new()
 	effect_root.global_position = hit_position
@@ -709,7 +856,9 @@ func _spawn_guard_effect(hit_position: Vector2) -> void:
 
 
 func _update_visual_state() -> void:
-	if is_throwing or is_throw_locked:
+	if is_throw_escaping:
+		state_label.text = "ThrowEscape"
+	elif is_throwing or is_throw_locked or is_throw_escape_pending:
 		state_label.text = "Throw"
 	elif is_guard_hit:
 		state_label.text = "GuardHit"
