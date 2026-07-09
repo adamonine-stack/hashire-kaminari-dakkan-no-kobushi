@@ -2,7 +2,7 @@ extends Node
 
 enum RoundResult {
 	PLAYER,
-	ENEMY,
+	ENEMY,	
 	DRAW,
 }
 
@@ -173,11 +173,14 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.is_hit = false
 	fighter.is_invincible = false
 	fighter.is_guard_hit = false
+	fighter.is_throwing = false
+	fighter.is_throw_locked = false
 	fighter.is_round_active = false
 	fighter.hit_reaction_timer = 0.0
 	fighter.invincibility_timer = 0.0
 	fighter.hit_stop_timer = 0.0
 	fighter.guard_hit_timer = 0.0
+	fighter.throw_recovery_timer = 0.0
 	fighter.hurt_box.set_deferred("monitorable", true)
 	fighter._set_punch_hitbox_active(false, false)
 	fighter._set_kick_hitbox_active(false, false)
