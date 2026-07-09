@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/UI.tscn" id="1_ui"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/battle/battle_controller.gd" id="3_battle_controller"]
+[ext_resource type="Script" path="res://scripts/battle/round_manager.gd" id="4_round_manager"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1280, 32)
@@ -12,6 +13,9 @@ script = ExtResource("3_battle_controller")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(320, 520)
+
+[node name="Enemy" parent="." instance=ExtResource("2_player")]
+position = Vector2(960, 520)
 
 [node name="BattleCamera" type="Camera2D" parent="."]
 position = Vector2(640, 360)
@@ -23,3 +27,6 @@ position = Vector2(640, 536)
 shape = SubResource("RectangleShape2D_floor")
 
 [node name="UI" parent="." instance=ExtResource("1_ui")]
+
+[node name="RoundManager" type="Node" parent="."]
+script = ExtResource("4_round_manager")
