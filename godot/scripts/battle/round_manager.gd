@@ -169,11 +169,15 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.is_guarding = false
 	fighter.is_crouching = false
 	fighter.is_crouch_guarding = false
+	fighter.guard_type = "none"
 	fighter.is_hit = false
 	fighter.is_invincible = false
+	fighter.is_guard_hit = false
+	fighter.is_round_active = false
 	fighter.hit_reaction_timer = 0.0
 	fighter.invincibility_timer = 0.0
 	fighter.hit_stop_timer = 0.0
+	fighter.guard_hit_timer = 0.0
 	fighter.hurt_box.set_deferred("monitorable", true)
 	fighter._set_punch_hitbox_active(false, false)
 	fighter._set_kick_hitbox_active(false, false)
@@ -184,6 +188,8 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 
 
 func _set_round_input_enabled(is_enabled: bool) -> void:
+	player.is_round_active = is_enabled
+	enemy.is_round_active = is_enabled
 	player.input_enabled = is_enabled
 	enemy.input_enabled = is_enabled and enemy_accepts_input
 
