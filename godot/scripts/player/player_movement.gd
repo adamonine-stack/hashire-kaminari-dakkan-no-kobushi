@@ -41,6 +41,7 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var ai_throw_escape_rate := 0.35
 @export var combo_timeout := 1.0
 @export var combo_log_enabled := true
+@export var cancel_window_time := 0.25
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -78,6 +79,9 @@ var pending_throw_attacker: Node
 var pending_throw_ai_checked := false
 var combo_count := 0
 var combo_timer := 0.0
+var can_cancel := false
+var cancel_window_timer := 0.0
+var current_attack_type := ""
 var weak_hit_se: AudioStreamPlayer2D
 var strong_hit_se: AudioStreamPlayer2D
 var guard_hit_se: AudioStreamPlayer2D
@@ -120,6 +124,7 @@ func _physics_process(delta: float) -> void:
 	_update_throw_escape(delta)
 	_update_throw_recovery(delta)
 	_update_combo_timer(delta)
+	_update_cancel_window(delta)
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_defensive_state()
@@ -135,7 +140,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * move_speed
 
 	if is_on_floor():
-		if input_enabled and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
+		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			velocity.y = -jump_power
 		elif not is_hit:
 			velocity.y = 0.0
@@ -144,9 +149,10 @@ func _physics_process(delta: float) -> void:
 
 	if input_enabled and _is_throw_input_held() and _can_start_throw():
 		_try_start_throw()
-	if input_enabled and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
+	var did_cancel_attack := input_enabled and _try_cancel_attack_from_input()
+	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
 		_start_attack()
-	if input_enabled and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
+	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
 		_start_kick()
 
 	if not is_hit and not is_guard_hit and not _is_throw_busy():
@@ -163,6 +169,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _start_attack() -> void:
+	current_attack_type = "Punch"
 	attack_active_timer = attack_active_time
 	attack_cooldown_timer = attack_cooldown_time
 	punch_hit_targets.clear()
@@ -196,6 +203,7 @@ func _update_defensive_state() -> void:
 
 func _start_kick() -> void:
 	print("Kick Start")
+	current_attack_type = "Kick"
 	kick_active_timer = kick_active_time
 	kick_cooldown_timer = kick_cooldown_time
 	velocity.x = 0.0
@@ -258,7 +266,7 @@ func _get_throw_target() -> Node:
 
 
 func _can_start_throw() -> bool:
-	return input_enabled and is_round_active and is_on_floor() and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	return input_enabled and is_round_active and is_on_floor() and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
 
 
 func can_be_thrown(attacker: Node) -> bool:
@@ -416,6 +424,8 @@ func _play_throw_animation() -> void:
 func _update_attack(delta: float) -> void:
 	if attack_cooldown_timer > 0.0:
 		attack_cooldown_timer = maxf(attack_cooldown_timer - delta, 0.0)
+		if attack_cooldown_timer == 0.0 and current_attack_type == "Punch":
+			current_attack_type = ""
 
 	if attack_active_timer <= 0.0:
 		_set_punch_hitbox_active(false)
@@ -429,6 +439,8 @@ func _update_attack(delta: float) -> void:
 func _update_kick(delta: float) -> void:
 	if kick_cooldown_timer > 0.0:
 		kick_cooldown_timer = maxf(kick_cooldown_timer - delta, 0.0)
+		if kick_cooldown_timer == 0.0 and current_attack_type == "Kick":
+			current_attack_type = ""
 
 	if kick_active_timer <= 0.0:
 		_set_kick_hitbox_active(false)
@@ -520,10 +532,10 @@ func apply_damage(damage: int) -> void:
 		hp_depleted.emit()
 
 
-func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
+func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
 	if _can_guard_attack(attack_data, attacker):
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
-		return
+		return false
 
 	_cancel_current_action()
 	_enter_hit_state()
@@ -540,6 +552,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if attacker != null and attacker.has_method("start_hit_stop"):
 		attacker.start_hit_stop(attack_data["hit_stop_frames"])
 	screen_shake_requested.emit(attack_data["screen_shake"])
+	return true
 
 
 func start_hit_stop(frame_count: int) -> void:
@@ -550,7 +563,8 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 	if not target.has_method("receive_attack"):
 		return
 
-	target.receive_attack(attack_data, facing_direction, _get_hit_position(target), self)
+	if target.receive_attack(attack_data, facing_direction, _get_hit_position(target), self):
+		_open_cancel_window()
 
 
 func _get_punch_attack_data() -> Dictionary:
@@ -597,6 +611,8 @@ func _cancel_current_action() -> void:
 	is_throw_escaping = false
 	throw_recovery_timer = 0.0
 	throw_escape_timer = 0.0
+	_clear_cancel_window()
+	current_attack_type = ""
 	_clear_pending_throw()
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
@@ -620,6 +636,8 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	_set_kick_hitbox_active(false)
 	if attacker != null and attacker.has_method("reset_combo"):
 		attacker.reset_combo()
+	if attacker != null and attacker.has_method("_clear_cancel_window"):
+		attacker._clear_cancel_window()
 	_enter_guard_hit_state()
 	apply_damage(_get_guard_damage(attack_data["damage"]))
 	_apply_guard_knockback(attack_data, attack_direction)
@@ -789,6 +807,62 @@ func _update_combo_timer(delta: float) -> void:
 	combo_timer = maxf(combo_timer - delta, 0.0)
 	if combo_timer == 0.0:
 		reset_combo()
+
+
+func _open_cancel_window() -> void:
+	if current_attack_type == "":
+		return
+
+	can_cancel = true
+	cancel_window_timer = cancel_window_time
+
+
+func _update_cancel_window(delta: float) -> void:
+	if not can_cancel:
+		return
+
+	cancel_window_timer = maxf(cancel_window_timer - delta, 0.0)
+	if cancel_window_timer == 0.0:
+		can_cancel = false
+
+
+func _try_cancel_attack_from_input() -> bool:
+	if not _can_cancel_attack():
+		return false
+	if _is_throw_input_held():
+		return false
+	if Input.is_action_just_pressed("attack"):
+		_cancel_into_attack("Punch")
+		return true
+	if Input.is_action_just_pressed("kick"):
+		_cancel_into_attack("Kick")
+		return true
+	return false
+
+
+func _can_cancel_attack() -> bool:
+	return can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and not is_hit and not is_guard_hit and not _is_throw_busy()
+
+
+func _cancel_into_attack(next_attack_type: String) -> void:
+	var previous_attack_type := current_attack_type
+	attack_active_timer = 0.0
+	kick_active_timer = 0.0
+	_set_punch_hitbox_active(false)
+	_set_kick_hitbox_active(false)
+	punch_hit_targets.clear()
+	kick_hit_targets.clear()
+	_clear_cancel_window()
+	print("Cancel: %s -> %s" % [previous_attack_type, next_attack_type])
+	if next_attack_type == "Kick":
+		_start_kick()
+	else:
+		_start_attack()
+
+
+func _clear_cancel_window() -> void:
+	can_cancel = false
+	cancel_window_timer = 0.0
 
 
 func _get_combo_log_name() -> String:
