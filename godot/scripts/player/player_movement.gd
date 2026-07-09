@@ -3,6 +3,7 @@ extends CharacterBody2D
 signal hp_changed(current_hp: int, max_hp: int)
 signal hp_depleted
 signal screen_shake_requested(strength: float)
+signal throw_hit(target: Node)
 
 @export var move_speed := 300.0
 @export var crouch_speed := 120.0
@@ -28,6 +29,11 @@ signal screen_shake_requested(strength: float)
 @export var guard_damage_rate := 0.2
 @export var guard_hit_time := 0.25
 @export var guard_knockback_scale := 0.35
+@export var throw_range := 40.0
+@export var throw_body_width := 72.0
+@export var throw_damage := 12
+@export var throw_self_recovery_time := 0.45
+@export var throw_target_recovery_time := 0.6
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -47,14 +53,18 @@ var kick_hit_targets: Array[Node] = []
 var is_hit := false
 var is_invincible := false
 var is_guard_hit := false
+var is_throwing := false
+var is_throw_locked := false
 var is_round_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
+var throw_recovery_timer := 0.0
 var weak_hit_se: AudioStreamPlayer2D
 var strong_hit_se: AudioStreamPlayer2D
 var guard_hit_se: AudioStreamPlayer2D
+var throw_se: AudioStreamPlayer2D
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -66,6 +76,7 @@ var guard_hit_se: AudioStreamPlayer2D
 @onready var kick_area := $KickHitBox
 @onready var kick_shape := $KickHitBox/CollisionShape2D
 @onready var hurt_box := $HurtBox
+@onready var animation_player := get_node_or_null("AnimationPlayer") as AnimationPlayer
 
 
 func _ready() -> void:
@@ -88,34 +99,37 @@ func _physics_process(delta: float) -> void:
 	_update_invincibility(delta)
 	_update_hit_reaction(delta)
 	_update_guard_hit(delta)
+	_update_throw_recovery(delta)
 
-	if input_enabled and not is_hit and not is_guard_hit:
+	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_defensive_state()
 
-	if is_kicking or is_guarding or is_crouching or is_crouch_guarding or is_hit or is_guard_hit:
+	if is_kicking or is_guarding or is_crouching or is_crouch_guarding or is_hit or is_guard_hit or _is_throw_busy():
 		direction = 0.0
 
-	if direction != 0.0 and not is_hit and not is_guard_hit:
+	if direction != 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy():
 		facing_direction = signf(direction)
 		visual_root.scale.x = facing_direction
 
-	if not is_hit and not is_guard_hit:
+	if not is_hit and not is_guard_hit and not _is_throw_busy():
 		velocity.x = direction * move_speed
 
 	if is_on_floor():
-		if input_enabled and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit:
+		if input_enabled and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			velocity.y = -jump_power
 		elif not is_hit:
 			velocity.y = 0.0
 	else:
 		velocity.y += gravity * delta
 
-	if input_enabled and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
+	if input_enabled and _is_throw_input_held() and _can_start_throw():
+		_try_start_throw()
+	if input_enabled and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
 		_start_attack()
-	if input_enabled and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
+	if input_enabled and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
 		_start_kick()
 
-	if not is_hit and not is_guard_hit:
+	if not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_attack(delta)
 		_update_kick(delta)
 	_update_visual_state()
@@ -168,6 +182,95 @@ func _start_kick() -> void:
 	kick_hit_targets.clear()
 	kick_area.position.x = facing_direction * kick_offset
 	_set_kick_hitbox_active(true)
+
+
+func _try_start_throw() -> void:
+	var target := _get_throw_target()
+	if target == null:
+		return
+
+	is_throwing = true
+	throw_recovery_timer = throw_self_recovery_time
+	velocity = Vector2.ZERO
+	_clear_guard_state()
+	is_crouching = false
+	_play_throw_animation()
+	print("ThrowHit")
+	throw_hit.emit(target)
+	target.receive_throw(self, throw_damage, _get_hit_position(target), facing_direction)
+	_spawn_hit_effect(_get_hit_position(target), 1.0)
+	_play_throw_se()
+
+
+func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_direction: float) -> void:
+	if not can_be_thrown(attacker):
+		return
+
+	attack_active_timer = 0.0
+	kick_active_timer = 0.0
+	_clear_guard_state()
+	is_crouching = false
+	is_guard_hit = false
+	is_hit = false
+	is_throwing = false
+	is_throw_locked = true
+	throw_recovery_timer = throw_target_recovery_time
+	velocity = Vector2.ZERO
+	_set_punch_hitbox_active(false)
+	_set_kick_hitbox_active(false)
+	apply_damage(damage)
+
+
+func _get_throw_target() -> Node:
+	var target := _get_opponent()
+	if target == null or not target.has_method("receive_throw"):
+		return null
+	if _get_throw_gap_to(target) > throw_range:
+		return null
+	if not target.can_be_thrown(self):
+		return null
+	return target
+
+
+func _can_start_throw() -> bool:
+	return input_enabled and is_round_active and is_on_floor() and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+
+
+func can_be_thrown(attacker: Node) -> bool:
+	return is_round_active and is_on_floor() and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_invincible
+
+
+func _get_throw_gap_to(target: Node) -> float:
+	return maxf(absf(global_position.x - target.global_position.x) - throw_body_width, 0.0)
+
+
+func _is_throw_input_pressed() -> bool:
+	return (Input.is_action_just_pressed("attack") and Input.is_action_pressed("kick")) or (Input.is_action_just_pressed("kick") and Input.is_action_pressed("attack"))
+
+
+func _is_throw_input_held() -> bool:
+	return Input.is_action_pressed("attack") and Input.is_action_pressed("kick")
+
+
+func _is_throw_busy() -> bool:
+	return is_throwing or is_throw_locked
+
+
+func _update_throw_recovery(delta: float) -> void:
+	if not _is_throw_busy():
+		return
+
+	throw_recovery_timer = maxf(throw_recovery_timer - delta, 0.0)
+	if throw_recovery_timer > 0.0:
+		return
+
+	is_throwing = false
+	is_throw_locked = false
+
+
+func _play_throw_animation() -> void:
+	if animation_player != null and animation_player.has_animation("Throw"):
+		animation_player.play("Throw")
 
 
 func _update_attack(delta: float) -> void:
@@ -342,6 +445,9 @@ func _cancel_current_action() -> void:
 	_clear_guard_state()
 	is_crouching = false
 	is_guard_hit = false
+	is_throwing = false
+	is_throw_locked = false
+	throw_recovery_timer = 0.0
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
 
@@ -540,6 +646,11 @@ func _setup_hit_audio() -> void:
 	guard_hit_se.stream = _create_hit_stream(760.0)
 	add_child(guard_hit_se)
 
+	throw_se = AudioStreamPlayer2D.new()
+	throw_se.name = "ThrowSE"
+	throw_se.stream = _create_hit_stream(140.0)
+	add_child(throw_se)
+
 
 func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 	var sample_rate := 22050
@@ -571,6 +682,10 @@ func _play_guard_se() -> void:
 	guard_hit_se.play()
 
 
+func _play_throw_se() -> void:
+	throw_se.play()
+
+
 func _spawn_guard_effect(hit_position: Vector2) -> void:
 	var effect_root := Node2D.new()
 	effect_root.global_position = hit_position
@@ -594,7 +709,9 @@ func _spawn_guard_effect(hit_position: Vector2) -> void:
 
 
 func _update_visual_state() -> void:
-	if is_guard_hit:
+	if is_throwing or is_throw_locked:
+		state_label.text = "Throw"
+	elif is_guard_hit:
 		state_label.text = "GuardHit"
 	elif is_hit:
 		state_label.text = "Hit"
