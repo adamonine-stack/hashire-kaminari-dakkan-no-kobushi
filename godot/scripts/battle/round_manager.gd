@@ -189,6 +189,9 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.throw_escape_timer = 0.0
 	fighter.combo_count = 0
 	fighter.combo_timer = 0.0
+	fighter.can_cancel = false
+	fighter.cancel_window_timer = 0.0
+	fighter.current_attack_type = ""
 	fighter._clear_pending_throw()
 	fighter.hurt_box.set_deferred("monitorable", true)
 	fighter._set_punch_hitbox_active(false, false)
