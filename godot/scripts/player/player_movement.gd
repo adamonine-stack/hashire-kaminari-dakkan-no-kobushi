@@ -24,6 +24,10 @@ signal screen_shake_requested(strength: float)
 @export var hit_reaction_time := 0.25
 @export var invincibility_time := 0.3
 @export var input_enabled := true
+@export var can_guard := true
+@export var guard_damage_rate := 0.2
+@export var guard_hit_time := 0.25
+@export var guard_knockback_scale := 0.35
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -35,17 +39,22 @@ var kick_cooldown_timer := 0.0
 var is_guarding := false
 var is_crouching := false
 var is_crouch_guarding := false
+var guard_type := "none"
 var punch_hitbox_active := false
 var kick_hitbox_active := false
 var punch_hit_targets: Array[Node] = []
 var kick_hit_targets: Array[Node] = []
 var is_hit := false
 var is_invincible := false
+var is_guard_hit := false
+var is_round_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
+var guard_hit_timer := 0.0
 var weak_hit_se: AudioStreamPlayer2D
 var strong_hit_se: AudioStreamPlayer2D
+var guard_hit_se: AudioStreamPlayer2D
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -78,38 +87,42 @@ func _physics_process(delta: float) -> void:
 
 	_update_invincibility(delta)
 	_update_hit_reaction(delta)
+	_update_guard_hit(delta)
 
-	if input_enabled and not is_hit:
+	if input_enabled and not is_hit and not is_guard_hit:
 		_update_defensive_state()
 
-	if is_kicking or is_guarding or is_crouching or is_crouch_guarding or is_hit:
+	if is_kicking or is_guarding or is_crouching or is_crouch_guarding or is_hit or is_guard_hit:
 		direction = 0.0
 
-	if direction != 0.0 and not is_hit:
+	if direction != 0.0 and not is_hit and not is_guard_hit:
 		facing_direction = signf(direction)
 		visual_root.scale.x = facing_direction
 
-	if not is_hit:
+	if not is_hit and not is_guard_hit:
 		velocity.x = direction * move_speed
 
 	if is_on_floor():
-		if input_enabled and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit:
+		if input_enabled and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit:
 			velocity.y = -jump_power
 		elif not is_hit:
 			velocity.y = 0.0
 	else:
 		velocity.y += gravity * delta
 
-	if input_enabled and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
+	if input_enabled and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
 		_start_attack()
-	if input_enabled and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
+	if input_enabled and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
 		_start_kick()
 
-	if not is_hit:
+	if not is_hit and not is_guard_hit:
 		_update_attack(delta)
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+
+	if is_guard_hit and is_on_floor():
+		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
 
 	var viewport_width := get_viewport_rect().size.x
 	position.x = clampf(position.x, screen_margin, viewport_width - screen_margin)
@@ -125,70 +138,26 @@ func _start_attack() -> void:
 
 func _update_defensive_state() -> void:
 	var down_pressed := Input.is_action_pressed("down")
-	var guard_pressed := Input.is_action_pressed("guard")
-	var can_start_defense := is_on_floor() and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	var guard_pressed := _is_holding_back_against_opponent()
 
-	if is_crouch_guarding:
-		if down_pressed and guard_pressed and is_on_floor():
-			return
-
-		is_crouch_guarding = false
-		print("CrouchGuard End")
-		if down_pressed and is_on_floor():
-			is_crouching = true
-			print("Crouch Start")
-		elif guard_pressed:
-			is_guarding = true
-			print("Guard Start")
-		return
-
-	if is_guarding:
-		if not guard_pressed:
-			is_guarding = false
-			print("Guard End")
-			if down_pressed and can_start_defense:
-				is_crouching = true
-				print("Crouch Start")
-			return
-
-		if down_pressed and can_start_defense:
-			is_guarding = false
-			is_crouch_guarding = true
-			velocity.x = 0.0
-			print("CrouchGuard Start")
-		return
-
-	if is_crouching:
-		if not down_pressed or not is_on_floor():
+	if not _can_start_guard_or_crouch():
+		_clear_guard_state()
+		if not is_on_floor():
 			is_crouching = false
-			print("Crouch End")
-			if guard_pressed and can_start_defense:
-				is_guarding = true
-				print("Guard Start")
-			return
-
-		if guard_pressed and can_start_defense:
-			is_crouching = false
-			is_crouch_guarding = true
-			velocity.x = 0.0
-			print("CrouchGuard Start")
 		return
 
-	if not can_start_defense:
-		return
-
-	if down_pressed and guard_pressed and (Input.is_action_just_pressed("down") or Input.is_action_just_pressed("guard")):
-		is_crouch_guarding = true
-		velocity.x = 0.0
-		print("CrouchGuard Start")
-	elif Input.is_action_just_pressed("guard"):
+	if guard_pressed:
 		is_guarding = true
+		is_crouch_guarding = down_pressed
+		is_crouching = false
+		guard_type = "crouch" if down_pressed else "stand"
 		velocity.x = 0.0
-		print("Guard Start")
-	elif Input.is_action_just_pressed("down"):
-		is_crouching = true
+		return
+
+	_clear_guard_state()
+	is_crouching = down_pressed and is_on_floor()
+	if is_crouching:
 		velocity.x = 0.0
-		print("Crouch Start")
 
 
 func _start_kick() -> void:
@@ -307,6 +276,10 @@ func apply_damage(damage: int) -> void:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
+	if _can_guard_attack(attack_data, attacker):
+		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
+		return
+
 	_cancel_current_action()
 	_enter_hit_state()
 	apply_damage(attack_data["damage"])
@@ -334,6 +307,7 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 func _get_punch_attack_data() -> Dictionary:
 	return {
 		"damage": punch_damage,
+		"attack_height": "middle",
 		"knockback_x": punch_knockback_x,
 		"knockback_y": punch_knockback_y,
 		"hit_stop_frames": 3,
@@ -346,6 +320,7 @@ func _get_punch_attack_data() -> Dictionary:
 func _get_kick_attack_data() -> Dictionary:
 	return {
 		"damage": kick_damage,
+		"attack_height": "low",
 		"knockback_x": kick_knockback_x,
 		"knockback_y": kick_knockback_y,
 		"hit_stop_frames": 8,
@@ -364,9 +339,9 @@ func _get_hit_position(target: Node) -> Vector2:
 func _cancel_current_action() -> void:
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
-	is_guarding = false
+	_clear_guard_state()
 	is_crouching = false
-	is_crouch_guarding = false
+	is_guard_hit = false
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
 
@@ -380,6 +355,111 @@ func _apply_knockback(attack_data: Dictionary, attack_direction: float) -> void:
 	velocity.x = attack_data["knockback_x"] * attack_direction
 	if not is_on_floor():
 		velocity.y = -attack_data["knockback_y"]
+
+
+func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
+	attack_active_timer = 0.0
+	kick_active_timer = 0.0
+	_set_punch_hitbox_active(false)
+	_set_kick_hitbox_active(false)
+	_enter_guard_hit_state()
+	apply_damage(_get_guard_damage(attack_data["damage"]))
+	_apply_guard_knockback(attack_data, attack_direction)
+	_start_hit_stop(attack_data["hit_stop_frames"])
+	_spawn_guard_effect(hit_position)
+	_play_guard_se()
+	if attacker != null and attacker.has_method("start_hit_stop"):
+		attacker.start_hit_stop(attack_data["hit_stop_frames"])
+
+
+func _enter_guard_hit_state() -> void:
+	is_guard_hit = true
+	is_hit = false
+	guard_hit_timer = guard_hit_time
+
+
+func _get_guard_damage(damage: int) -> int:
+	return maxi(1, int(round(float(damage) * guard_damage_rate)))
+
+
+func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) -> void:
+	velocity.x = attack_data["knockback_x"] * guard_knockback_scale * attack_direction
+	if is_on_floor():
+		velocity.y = 0.0
+
+
+func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
+	if not can_guard or not is_round_active or is_guard_hit:
+		return false
+	if is_hit or is_invincible or not is_on_floor():
+		return false
+	if attack_active_timer > 0.0 or kick_active_timer > 0.0:
+		return false
+	if not is_guarding:
+		return false
+	if not _is_holding_back_against_attacker(attacker):
+		return false
+	return _is_attack_height_guardable(str(attack_data.get("attack_height", "middle")))
+
+
+func _is_attack_height_guardable(attack_height: String) -> bool:
+	match attack_height:
+		"high":
+			return guard_type == "stand" or guard_type == "crouch"
+		"middle":
+			return guard_type == "stand"
+		"low":
+			return guard_type == "crouch"
+		_:
+			return false
+
+
+func _can_start_guard_or_crouch() -> bool:
+	return can_guard and is_round_active and is_on_floor() and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit
+
+
+func _is_holding_back_against_opponent() -> bool:
+	return _is_holding_back_against_attacker(_get_opponent())
+
+
+func _is_holding_back_against_attacker(attacker: Node) -> bool:
+	if attacker is Node2D and input_enabled:
+		var direction_to_attacker := signf(attacker.global_position.x - global_position.x)
+		var input_direction := Input.get_axis("move_left", "move_right")
+		return direction_to_attacker != 0.0 and input_direction != 0.0 and signf(input_direction) == -direction_to_attacker
+
+	return is_guarding
+
+
+func _get_opponent() -> Node:
+	var parent_node := get_parent()
+	if parent_node == null:
+		return null
+	if name == "Player":
+		return parent_node.get_node_or_null("Enemy")
+	if name == "Enemy":
+		return parent_node.get_node_or_null("Player")
+	return null
+
+
+func _clear_guard_state() -> void:
+	is_guarding = false
+	is_crouch_guarding = false
+	guard_type = "none"
+
+
+func _update_guard_hit(delta: float) -> void:
+	if not is_guard_hit:
+		return
+
+	guard_hit_timer = maxf(guard_hit_timer - delta, 0.0)
+	if guard_hit_timer > 0.0:
+		return
+
+	is_guard_hit = false
+	_clear_guard_state()
+	if input_enabled:
+		_update_defensive_state()
 
 
 func _start_invincibility() -> void:
@@ -455,6 +535,11 @@ func _setup_hit_audio() -> void:
 	strong_hit_se.stream = _create_hit_stream(220.0)
 	add_child(strong_hit_se)
 
+	guard_hit_se = AudioStreamPlayer2D.new()
+	guard_hit_se.name = "GuardHitSE"
+	guard_hit_se.stream = _create_hit_stream(760.0)
+	add_child(guard_hit_se)
+
 
 func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 	var sample_rate := 22050
@@ -482,8 +567,36 @@ func _play_hit_se(se_type: String) -> void:
 		weak_hit_se.play()
 
 
+func _play_guard_se() -> void:
+	guard_hit_se.play()
+
+
+func _spawn_guard_effect(hit_position: Vector2) -> void:
+	var effect_root := Node2D.new()
+	effect_root.global_position = hit_position
+	effect_root.name = "GuardEffect"
+
+	var flash := Polygon2D.new()
+	var points := PackedVector2Array()
+	var radius := 16.0
+	for point_index in range(16):
+		var angle := TAU * float(point_index) / 16.0
+		points.append(Vector2(cos(angle), sin(angle)) * radius)
+	flash.color = Color(0.45, 0.9, 1.0, 0.65)
+	flash.polygon = points
+	effect_root.add_child(flash)
+	get_tree().current_scene.add_child(effect_root)
+
+	var tween := effect_root.create_tween()
+	tween.tween_property(effect_root, "scale", Vector2(1.7, 1.7), 0.12)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.12)
+	tween.tween_callback(effect_root.queue_free)
+
+
 func _update_visual_state() -> void:
-	if is_hit:
+	if is_guard_hit:
+		state_label.text = "GuardHit"
+	elif is_hit:
 		state_label.text = "Hit"
 	elif is_crouch_guarding:
 		state_label.text = "CrouchGuard"
@@ -500,7 +613,7 @@ func _update_visual_state() -> void:
 	else:
 		state_label.text = "Idle"
 
-	guard_visual.visible = is_guarding
+	guard_visual.visible = is_guarding and not is_crouch_guarding
 	crouch_visual.visible = is_crouching
 	crouch_guard_visual.visible = is_crouch_guarding
 	var target_y_scale := 0.7 if is_crouching or is_crouch_guarding else 1.0
