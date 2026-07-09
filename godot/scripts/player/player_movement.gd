@@ -4,6 +4,7 @@ signal hp_changed(current_hp: int, max_hp: int)
 signal hp_depleted
 signal screen_shake_requested(strength: float)
 signal throw_hit(target: Node)
+signal combo_changed(combo_count: int, combo_owner: Node)
 
 @export var move_speed := 300.0
 @export var crouch_speed := 120.0
@@ -38,6 +39,8 @@ signal throw_hit(target: Node)
 @export var throw_escape_pushback := 30.0
 @export var throw_escape_freeze_time := 0.25
 @export var ai_throw_escape_rate := 0.35
+@export var combo_timeout := 1.0
+@export var combo_log_enabled := true
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -73,6 +76,8 @@ var pending_throw_hit_position := Vector2.ZERO
 var pending_throw_direction := 0.0
 var pending_throw_attacker: Node
 var pending_throw_ai_checked := false
+var combo_count := 0
+var combo_timer := 0.0
 var weak_hit_se: AudioStreamPlayer2D
 var strong_hit_se: AudioStreamPlayer2D
 var guard_hit_se: AudioStreamPlayer2D
@@ -114,6 +119,7 @@ func _physics_process(delta: float) -> void:
 	_update_guard_hit(delta)
 	_update_throw_escape(delta)
 	_update_throw_recovery(delta)
+	_update_combo_timer(delta)
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_defensive_state()
@@ -504,6 +510,8 @@ func _get_valid_hurtbox_target(area: Area2D) -> Node:
 func apply_damage(damage: int) -> void:
 	var was_alive := current_hp > 0
 	current_hp = maxi(current_hp - damage, 0)
+	if damage > 0:
+		reset_combo()
 	print("Damage: %d" % damage)
 	print("HP: %d" % current_hp)
 	hp_changed.emit(current_hp, max_hp)
@@ -520,6 +528,10 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_cancel_current_action()
 	_enter_hit_state()
 	apply_damage(attack_data["damage"])
+	if current_hp > 0 and attacker != null and attacker.has_method("register_combo_hit"):
+		attacker.register_combo_hit(self)
+	elif attacker != null and attacker.has_method("reset_combo"):
+		attacker.reset_combo()
 	_apply_knockback(attack_data, attack_direction)
 	_start_invincibility()
 	_start_hit_stop(attack_data["hit_stop_frames"])
@@ -606,6 +618,8 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	kick_active_timer = 0.0
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
+	if attacker != null and attacker.has_method("reset_combo"):
+		attacker.reset_combo()
 	_enter_guard_hit_state()
 	apply_damage(_get_guard_damage(attack_data["damage"]))
 	_apply_guard_knockback(attack_data, attack_direction)
@@ -745,6 +759,44 @@ func _update_hit_reaction(delta: float) -> void:
 		is_hit = false
 		if is_on_floor():
 			velocity.x = 0.0
+
+
+func register_combo_hit(target: Node) -> void:
+	if combo_timer <= 0.0:
+		combo_count = 1
+	else:
+		combo_count += 1
+
+	combo_timer = combo_timeout
+	combo_changed.emit(combo_count, self)
+	if combo_log_enabled and combo_count >= 2:
+		print("Combo: %s %d HIT" % [_get_combo_log_name(), combo_count])
+
+
+func reset_combo() -> void:
+	if combo_count == 0 and combo_timer == 0.0:
+		return
+
+	combo_count = 0
+	combo_timer = 0.0
+	combo_changed.emit(combo_count, self)
+
+
+func _update_combo_timer(delta: float) -> void:
+	if combo_count == 0:
+		return
+
+	combo_timer = maxf(combo_timer - delta, 0.0)
+	if combo_timer == 0.0:
+		reset_combo()
+
+
+func _get_combo_log_name() -> String:
+	if name == "Player":
+		return "Player1"
+	if name == "Enemy":
+		return "Player2"
+	return name
 
 
 func _spawn_hit_effect(hit_position: Vector2, effect_size: float) -> void:
