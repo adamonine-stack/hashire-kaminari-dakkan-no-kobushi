@@ -185,8 +185,14 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.invincibility_timer = 0.0
 	fighter.hit_stop_timer = 0.0
 	fighter.guard_hit_timer = 0.0
+	fighter.throw_startup_timer = 0.0
+	fighter.throw_hold_timer = 0.0
 	fighter.throw_recovery_timer = 0.0
 	fighter.throw_escape_timer = 0.0
+	fighter.throw_state = ""
+	fighter.current_throw_target = null
+	fighter.has_throw_connected = false
+	fighter.has_throw_damage_applied = false
 	fighter.combo_count = 0
 	fighter.combo_timer = 0.0
 	fighter.can_cancel = false
@@ -194,6 +200,8 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.current_attack_type = ""
 	fighter.ai_guard_check_timer = 0.0
 	fighter.ai_guard_timer = 0.0
+	fighter.ai_throw_check_timer = 0.0
+	fighter.ai_throw_cooldown_timer = 0.0
 	fighter._clear_pending_throw()
 	fighter.hurt_box.set_deferred("monitorable", true)
 	fighter._set_punch_hitbox_active(false, false)
