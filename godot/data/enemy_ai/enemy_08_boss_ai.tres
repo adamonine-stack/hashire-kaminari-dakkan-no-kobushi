@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyAIProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_ai_profile.gd" id="1_ai"]
+
+[resource]
+script = ExtResource("1_ai")
+punch_weight = 0.25
+kick_weight = 0.20
+throw_weight = 0.15
+guard_weight = 0.20
+movement_weight = 0.20
+second_hit_probability = 0.65
+third_hit_probability = 0.40
+throw_escape_probability = 0.45
+decision_interval_min = 0.25
+decision_interval_max = 0.50
+preferred_distance_min = 55.0
+preferred_distance_max = 100.0
+guard_duration_min = 0.35
+guard_duration_max = 0.90
+throw_cooldown = 1.60
+action_recovery_min = 0.08
+action_recovery_max = 0.28
