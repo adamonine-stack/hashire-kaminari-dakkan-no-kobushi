@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
+[ext_resource type="Resource" path="res://data/enemy_ai/enemy_03_guard_ai.tres" id="3_ai"]
+
+[resource]
+script = ExtResource("1_def")
+fighter_id = &"enemy_03_guard"
+display_name = "WALL"
+description = "A defensive opponent who guards more often than the others."
+fighter_scene = ExtResource("2_scene")
+fighter_type = &"GUARD"
+team_type = &"ENEMY"
+enemy_order = 3
+ai_profile = ExtResource("3_ai")
+intro_title = "GUARD TYPE"
+intro_description = "Patient and tough. Use throws when guard pressure becomes hard to break."
+temporary_color = Color(0.65, 0.70, 0.85, 1.00)
+max_health = 110.0
+move_speed = 275.0
+jump_force = 480.0
+punch_damage_scale = 0.90
+kick_damage_scale = 0.95
+throw_damage_scale = 0.80
+knockback_scale = 1.00
+attack_speed_scale = 0.90
+combo_damage_scale = 0.95
+guard_damage_scale = 0.85
+power_rating = 3
+speed_rating = 2
+health_rating = 4
+throw_rating = 2
+combo_rating = 1
