@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var shake_duration := 0.12
-@export var combo_hide_delay := 0.7
+@export var combo_display_duration := 0.80
 
 var shake_timer := 0.0
 var shake_strength := 0.0
@@ -106,9 +106,9 @@ func _on_combo_changed(combo_count: int, combo_owner: Node, is_player_combo: boo
 	if combo_count < 2:
 		if label.visible:
 			if is_player_combo:
-				player_combo_hide_timer = combo_hide_delay
+				player_combo_hide_timer = combo_display_duration
 			else:
-				enemy_combo_hide_timer = combo_hide_delay
+				enemy_combo_hide_timer = combo_display_duration
 		return
 
 	label.text = "%d HIT COMBO" % combo_count
