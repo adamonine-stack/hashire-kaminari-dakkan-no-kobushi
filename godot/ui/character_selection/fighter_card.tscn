@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/character_selection/fighter_card.gd" id="1_card"]
+
+[node name="FighterCard" type="Button"]
+offset_right = 220.0
+offset_bottom = 160.0
+focus_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "FIGHTER"
+script = ExtResource("1_card")
