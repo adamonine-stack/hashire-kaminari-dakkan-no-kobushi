@@ -1,18 +1,40 @@
 extends Node
 
-enum RoundResult {
-	PLAYER,
-	ENEMY,
-	DRAW,
+signal battle_started(player_id: StringName, enemy_id: StringName)
+signal battle_finished(result: Dictionary)
+signal player_selection_requested(available_fighters: Array)
+signal active_fighter_changed(player_id: StringName, enemy_id: StringName)
+signal team_progress_updated(remaining_players: int, remaining_enemies: int)
+signal game_cleared()
+signal game_over()
+
+enum FlowState {
+	INITIALIZING,
+	PLAYER_SELECTION,
+	PRE_BATTLE,
+	BATTLE,
+	KO_PAUSE,
+	RESULT,
+	TRANSITION,
+	GAME_CLEAR,
+	GAME_OVER,
+}
+
+enum BattleOutcome {
+	PLAYER_WIN,
+	ENEMY_WIN,
+	DOUBLE_KO,
 }
 
 @export var round_time_limit := 99
-@export var ready_duration := 1.0
-@export var fight_message_duration := 0.5
-@export var ko_display_duration := 2.0
-@export var round_result_duration := 2.0
-@export var final_display_duration := 4.0
+@export var ko_pause_duration := 1.5
+@export var double_ko_check_window := 0.05
+@export var result_display_duration := 1.2
+@export var pre_battle_countdown := 3.0
+@export var fight_message_duration := 0.6
 @export var enemy_accepts_input := false
+@export var debug_auto_select_player := false
+@export var debug_flow_label_enabled := true
 
 var currentRound := 1
 var playerWinCount := 0
@@ -21,12 +43,29 @@ var roundTime := 99
 var isRoundActive := false
 var isBattleFinished := false
 
+var flow_state := FlowState.INITIALIZING
+var player_team: Array[Dictionary] = []
+var enemy_team: Array[Dictionary] = []
+var current_player_index := -1
+var current_enemy_index := 0
+var battle_result_locked := false
+
 var _time_accumulator := 0.0
 var _player_start_position := Vector2.ZERO
 var _enemy_start_position := Vector2.ZERO
+var _pending_player_ko := false
+var _pending_enemy_ko := false
+var _flow_sequence_id := 0
+
+var _selection_panel: PanelContainer
+var _selection_title: Label
+var _selection_buttons: Array[Button] = []
+var _progress_label: Label
+var _debug_flow_label: Label
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
+@onready var battle_ui_root := $"../UI/BattleUIRoot"
 @onready var timer_label := $"../UI/BattleUIRoot/TimerLabel"
 @onready var message_label := $"../UI/BattleUIRoot/KOLabel"
 @onready var player_win_marks := $"../UI/BattleUIRoot/PlayerWinMarks"
@@ -38,131 +77,309 @@ func _ready() -> void:
 	_enemy_start_position = enemy.position
 	player.hp_depleted.connect(_on_player_hp_depleted)
 	enemy.hp_depleted.connect(_on_enemy_hp_depleted)
-	_set_round_input_enabled(false)
-	_update_timer_ui()
-	_update_win_marks()
-	call_deferred("start_battle")
+	_create_flow_ui()
+	initialize_game_progress()
+	_set_battle_active(false)
+	_update_all_ui()
+	call_deferred("start_initial_player_selection")
 
 
 func _process(delta: float) -> void:
-	if not isRoundActive or isBattleFinished:
+	_update_debug_flow_label()
+
+	if flow_state != FlowState.BATTLE or not isRoundActive or isBattleFinished:
 		return
 
 	_time_accumulator += delta
-	while _time_accumulator >= 1.0 and isRoundActive:
+	while _time_accumulator >= 1.0 and flow_state == FlowState.BATTLE:
 		_time_accumulator -= 1.0
 		roundTime = maxi(roundTime - 1, 0)
 		_update_timer_ui()
 		if roundTime == 0:
-			_finish_round_by_time_up()
+			_finish_battle_by_time_up()
 
 
-func start_battle() -> void:
+func initialize_game_progress() -> void:
+	flow_state = FlowState.INITIALIZING
 	currentRound = 1
 	playerWinCount = 0
 	enemyWinCount = 0
+	roundTime = round_time_limit
+	isRoundActive = false
 	isBattleFinished = false
-	_update_win_marks()
-	await _start_round()
+	battle_result_locked = false
+	_pending_player_ko = false
+	_pending_enemy_ko = false
+	current_player_index = -1
+	current_enemy_index = 0
+	_flow_sequence_id += 1
+
+	player_team = [
+		_create_progress_entry(&"ally_01", "Akky", 0, player.max_hp),
+		_create_progress_entry(&"ally_02", "Gou", 1, player.max_hp),
+		_create_progress_entry(&"ally_03", "Seiya", 2, player.max_hp),
+	]
+
+	enemy_team.clear()
+	for index in range(8):
+		enemy_team.append(_create_progress_entry(
+			StringName("enemy_%02d" % (index + 1)),
+			"Enemy %d" % (index + 1),
+			index,
+			enemy.max_hp
+		))
+
+	print("Game progress initialized")
+	_update_all_ui()
 
 
-func _start_round() -> void:
-	if isBattleFinished:
+func start_initial_player_selection() -> void:
+	if flow_state == FlowState.GAME_CLEAR or flow_state == FlowState.GAME_OVER:
 		return
 
-	isRoundActive = false
+	flow_state = FlowState.PLAYER_SELECTION
+	_set_battle_active(false)
+	_show_message("")
+	_show_player_selection()
+
+
+func select_player(player_index: int) -> void:
+	if flow_state != FlowState.PLAYER_SELECTION:
+		return
+	if not _is_player_selectable(player_index):
+		return
+
+	current_player_index = player_index
+	_hide_player_selection()
+	flow_state = FlowState.TRANSITION
+	await prepare_battle()
+
+
+func spawn_active_player() -> void:
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return
+
+	var data := player_team[current_player_index]
+	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
+
+
+func spawn_active_enemy() -> void:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return
+
+	var data := enemy_team[current_enemy_index]
+	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
+
+
+func prepare_battle() -> void:
+	if _should_finish_game():
+		return
+
+	flow_state = FlowState.PRE_BATTLE
+	_flow_sequence_id += 1
+	var sequence_id := _flow_sequence_id
+	_pending_player_ko = false
+	_pending_enemy_ko = false
+	battle_result_locked = false
 	_time_accumulator = 0.0
 	roundTime = round_time_limit
-	_reset_fighters()
-	_update_timer_ui()
-	_update_win_marks()
-	_set_round_input_enabled(false)
-	_show_message("Round %d" % currentRound)
-	await get_tree().create_timer(0.4).timeout
-	_show_message("READY")
-	await get_tree().create_timer(ready_duration).timeout
-	_show_message("FIGHT")
+
+	spawn_active_player()
+	spawn_active_enemy()
+	_set_battle_active(false)
+	_update_all_ui()
+	active_fighter_changed.emit(_active_player_id(), _active_enemy_id())
+
+	await start_battle_countdown(sequence_id)
+
+
+func start_battle_countdown(sequence_id: int = -1) -> void:
+	if sequence_id == -1:
+		sequence_id = _flow_sequence_id
+
+	var count := int(ceil(pre_battle_countdown))
+	while count > 0:
+		if sequence_id != _flow_sequence_id or flow_state != FlowState.PRE_BATTLE:
+			return
+		_show_message(str(count))
+		await get_tree().create_timer(1.0).timeout
+		count -= 1
+
+	if sequence_id != _flow_sequence_id or flow_state != FlowState.PRE_BATTLE:
+		return
+
+	begin_battle(sequence_id)
+
+
+func begin_battle(sequence_id: int = -1) -> void:
+	if sequence_id != -1 and sequence_id != _flow_sequence_id:
+		return
+
+	flow_state = FlowState.BATTLE
+	isBattleFinished = false
 	isRoundActive = true
-	_set_round_input_enabled(true)
+	_set_battle_active(true)
+	_show_message("FIGHT")
+	battle_started.emit(_active_player_id(), _active_enemy_id())
+	print("Battle Start: %s VS %s" % [_active_player_id(), _active_enemy_id()])
 	await get_tree().create_timer(fight_message_duration).timeout
-	if isRoundActive:
+	if flow_state == FlowState.BATTLE:
 		_show_message("")
 
 
-func _finish_round_by_ko(winner: RoundResult) -> void:
-	if not isRoundActive:
+func on_fighter_ko(fighter: Node) -> void:
+	if flow_state != FlowState.BATTLE and flow_state != FlowState.KO_PAUSE:
 		return
 
-	isRoundActive = false
-	_set_round_input_enabled(false)
-	_reset_combos()
-	_show_message("KO")
-	await get_tree().create_timer(ko_display_duration).timeout
-	await _complete_round(winner)
-
-
-func _finish_round_by_time_up() -> void:
-	if not isRoundActive:
-		return
-
-	isRoundActive = false
-	_set_round_input_enabled(false)
-	_reset_combos()
-	_show_message("TIME UP")
-	await get_tree().create_timer(round_result_duration).timeout
-	await _complete_round(_get_time_up_result())
-
-
-func _complete_round(result: RoundResult) -> void:
-	match result:
-		RoundResult.PLAYER:
-			playerWinCount += 1
-			_show_message("PLAYER WIN")
-		RoundResult.ENEMY:
-			enemyWinCount += 1
-			_show_message("ENEMY WIN")
-		RoundResult.DRAW:
-			_show_message("DRAW")
-
-	_update_win_marks()
-	await get_tree().create_timer(round_result_duration).timeout
-
-	if playerWinCount >= 2:
-		await _finish_battle(true)
-	elif enemyWinCount >= 2:
-		await _finish_battle(false)
+	if fighter == player:
+		_pending_player_ko = true
+	elif fighter == enemy:
+		_pending_enemy_ko = true
 	else:
-		currentRound += 1
-		await _start_round()
+		return
+
+	if battle_result_locked:
+		return
+
+	battle_result_locked = true
+	flow_state = FlowState.KO_PAUSE
+	_set_battle_active(false)
+	_clear_active_fighter_actions(player)
+	_clear_active_fighter_actions(enemy)
+	_show_message("K.O.")
+	print("KO detected")
+	await _resolve_ko_after_pause()
 
 
-func _finish_battle(player_won: bool) -> void:
+func resolve_battle_result() -> void:
+	flow_state = FlowState.RESULT
+	var result := _get_pending_battle_result()
+	var result_data := {
+		"outcome": result,
+		"player_id": _active_player_id(),
+		"enemy_id": _active_enemy_id(),
+	}
+	battle_finished.emit(result_data)
+
+	match result:
+		BattleOutcome.PLAYER_WIN:
+			handle_player_victory()
+			_show_message("PLAYER WIN")
+		BattleOutcome.ENEMY_WIN:
+			handle_player_defeat()
+			_show_message("ENEMY WIN")
+		BattleOutcome.DOUBLE_KO:
+			handle_double_ko()
+			_show_message("DOUBLE K.O.")
+
+	_update_all_ui()
+	await get_tree().create_timer(result_display_duration).timeout
+
+	if _should_finish_game():
+		return
+
+	if result == BattleOutcome.PLAYER_WIN:
+		current_enemy_index = get_next_enemy_index()
+		if current_enemy_index == -1:
+			enter_game_clear()
+		else:
+			flow_state = FlowState.TRANSITION
+			await prepare_battle()
+	else:
+		start_initial_player_selection()
+
+
+func handle_player_victory() -> void:
+	_store_active_fighter_health()
+	_mark_enemy_defeated()
+	playerWinCount += 1
+	print("Enemy defeated: %s" % _active_enemy_id())
+
+
+func handle_player_defeat() -> void:
+	_store_active_fighter_health()
+	_mark_player_defeated()
+	enemyWinCount += 1
+	print("Player defeated: %s" % _active_player_id())
+
+
+func handle_double_ko() -> void:
+	_store_active_fighter_health()
+	_mark_player_defeated()
+	_mark_enemy_defeated()
+	playerWinCount += 1
+	enemyWinCount += 1
+	print("Double KO")
+
+
+func store_active_fighter_health() -> void:
+	_store_active_fighter_health()
+
+
+func get_available_player_indices() -> Array[int]:
+	var indices: Array[int] = []
+	for index in range(player_team.size()):
+		if _is_player_selectable(index):
+			indices.append(index)
+	return indices
+
+
+func get_next_enemy_index() -> int:
+	for index in range(current_enemy_index + 1, enemy_team.size()):
+		if not enemy_team[index]["is_defeated"]:
+			return index
+	return -1
+
+
+func are_all_players_defeated() -> bool:
+	for data in player_team:
+		if not data["is_defeated"] and data["current_health"] > 0:
+			return false
+	return true
+
+
+func are_all_enemies_defeated() -> bool:
+	for data in enemy_team:
+		if not data["is_defeated"] and data["current_health"] > 0:
+			return false
+	return true
+
+
+func enter_game_clear() -> void:
+	if flow_state == FlowState.GAME_CLEAR:
+		return
+	flow_state = FlowState.GAME_CLEAR
 	isBattleFinished = true
-	isRoundActive = false
-	_set_round_input_enabled(false)
-	_reset_combos()
-	_show_message("YOU WIN" if player_won else "YOU LOSE")
-	await get_tree().create_timer(final_display_duration).timeout
-	get_tree().change_scene_to_file("res://scenes/Title.tscn")
+	_set_battle_active(false)
+	_hide_player_selection()
+	_show_message("GAME CLEAR")
+	game_cleared.emit()
+	print("GAME CLEAR")
 
 
-func _get_time_up_result() -> RoundResult:
-	if player.current_hp > enemy.current_hp:
-		return RoundResult.PLAYER
-	if enemy.current_hp > player.current_hp:
-		return RoundResult.ENEMY
-	return RoundResult.DRAW
+func enter_game_over() -> void:
+	if flow_state == FlowState.GAME_OVER:
+		return
+	flow_state = FlowState.GAME_OVER
+	isBattleFinished = true
+	_set_battle_active(false)
+	_hide_player_selection()
+	_show_message("GAME OVER")
+	game_over.emit()
+	print("GAME OVER")
 
 
-func _reset_fighters() -> void:
-	_reset_fighter(player, _player_start_position, 1.0)
-	_reset_fighter(enemy, _enemy_start_position, -1.0)
-
-
-func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_facing_direction: float) -> void:
+func reset_active_fighter_state(
+	fighter: CharacterBody2D,
+	start_position := Vector2.ZERO,
+	start_facing_direction := 1.0,
+	health := -1
+) -> void:
 	fighter.position = start_position
 	fighter.velocity = Vector2.ZERO
-	fighter.current_hp = fighter.max_hp
+	fighter.current_hp = fighter.max_hp if health < 0 else clampi(health, 0, fighter.max_hp)
 	fighter.facing_direction = start_facing_direction
 	fighter.visual_root.scale.x = start_facing_direction
 	fighter.attack_active_timer = 0.0
@@ -202,33 +419,266 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.ai_guard_timer = 0.0
 	fighter.ai_throw_check_timer = 0.0
 	fighter.ai_throw_cooldown_timer = 0.0
-	fighter._clear_pending_throw()
+
+	if fighter.has_method("_clear_pending_throw"):
+		fighter._clear_pending_throw()
+	if fighter.has_method("reset_combo"):
+		fighter.reset_combo()
 	if fighter.has_method("reset_knockdown_state"):
 		fighter.reset_knockdown_state()
-	fighter.hurt_box.set_deferred("monitorable", true)
-	fighter._set_punch_hitbox_active(false, false)
-	fighter._set_kick_hitbox_active(false, false)
+	if fighter.has_method("_set_punch_hitbox_active"):
+		fighter._set_punch_hitbox_active(false, false)
+	if fighter.has_method("_set_kick_hitbox_active"):
+		fighter._set_kick_hitbox_active(false, false)
+
+	if fighter.hurt_box != null:
+		fighter.hurt_box.set_deferred("monitorable", fighter.current_hp > 0)
 	fighter.punch_hit_targets.clear()
 	fighter.kick_hit_targets.clear()
 	fighter.hp_changed.emit(fighter.current_hp, fighter.max_hp)
 	fighter._update_visual_state()
 
 
-func _set_round_input_enabled(is_enabled: bool) -> void:
+func create_progress_snapshot() -> Dictionary:
+	return {
+		"flow_state": FlowState.keys()[flow_state],
+		"current_player_index": current_player_index,
+		"current_enemy_index": current_enemy_index,
+		"players": _serialize_team(player_team),
+		"enemies": _serialize_team(enemy_team),
+		"result_locked": battle_result_locked,
+	}
+
+
+func reset_game_progress() -> void:
+	initialize_game_progress()
+	start_initial_player_selection()
+
+
+func _resolve_ko_after_pause() -> void:
+	await get_tree().create_timer(double_ko_check_window).timeout
+	if _pending_player_ko and _pending_enemy_ko:
+		_show_message("DOUBLE K.O.")
+	await get_tree().create_timer(ko_pause_duration).timeout
+	resolve_battle_result()
+
+
+func _finish_battle_by_time_up() -> void:
+	if battle_result_locked:
+		return
+
+	battle_result_locked = true
+	flow_state = FlowState.KO_PAUSE
+	_set_battle_active(false)
+	_show_message("TIME UP")
+
+	if player.current_hp > enemy.current_hp:
+		_pending_enemy_ko = true
+	elif enemy.current_hp > player.current_hp:
+		_pending_player_ko = true
+	else:
+		_pending_player_ko = true
+		_pending_enemy_ko = true
+
+	await get_tree().create_timer(ko_pause_duration).timeout
+	resolve_battle_result()
+
+
+func _get_pending_battle_result() -> BattleOutcome:
+	if _pending_player_ko and _pending_enemy_ko:
+		return BattleOutcome.DOUBLE_KO
+	if _pending_enemy_ko:
+		return BattleOutcome.PLAYER_WIN
+	return BattleOutcome.ENEMY_WIN
+
+
+func _store_active_fighter_health() -> void:
+	if current_player_index >= 0 and current_player_index < player_team.size():
+		player_team[current_player_index]["current_health"] = clampi(player.current_hp, 0, player.max_hp)
+	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
+		enemy_team[current_enemy_index]["current_health"] = clampi(enemy.current_hp, 0, enemy.max_hp)
+
+
+func _mark_player_defeated() -> void:
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return
+	player_team[current_player_index]["current_health"] = 0
+	player_team[current_player_index]["is_defeated"] = true
+
+
+func _mark_enemy_defeated() -> void:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return
+	enemy_team[current_enemy_index]["current_health"] = 0
+	enemy_team[current_enemy_index]["is_defeated"] = true
+
+
+func _should_finish_game() -> bool:
+	if are_all_players_defeated():
+		enter_game_over()
+		return true
+	if are_all_enemies_defeated():
+		enter_game_clear()
+		return true
+	return false
+
+
+func _set_battle_active(is_enabled: bool) -> void:
+	isRoundActive = is_enabled
 	player.is_round_active = is_enabled
 	enemy.is_round_active = is_enabled
 	player.input_enabled = is_enabled
 	enemy.input_enabled = is_enabled and enemy_accepts_input
 
 
-func _reset_combos() -> void:
-	player.reset_combo()
-	enemy.reset_combo()
+func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
+	fighter.attack_active_timer = 0.0
+	fighter.kick_active_timer = 0.0
+	fighter.attack_cooldown_timer = 0.0
+	fighter.kick_cooldown_timer = 0.0
+	fighter.velocity.x = 0.0
+	if fighter.has_method("_set_punch_hitbox_active"):
+		fighter._set_punch_hitbox_active(false, false)
+	if fighter.has_method("_set_kick_hitbox_active"):
+		fighter._set_kick_hitbox_active(false, false)
+	if fighter.has_method("_clear_pending_throw"):
+		fighter._clear_pending_throw()
+	if fighter.has_method("reset_combo"):
+		fighter.reset_combo()
 
 
-func _show_message(message: String) -> void:
-	message_label.text = message
-	message_label.visible = message != ""
+func _create_progress_entry(
+	fighter_id: StringName,
+	display_name: String,
+	battle_order: int,
+	max_health: int
+) -> Dictionary:
+	return {
+		"fighter_id": fighter_id,
+		"display_name": display_name,
+		"max_health": max_health,
+		"current_health": max_health,
+		"is_defeated": false,
+		"battle_order": battle_order,
+	}
+
+
+func _is_player_selectable(player_index: int) -> bool:
+	if player_index < 0 or player_index >= player_team.size():
+		return false
+	var data := player_team[player_index]
+	return not data["is_defeated"] and data["current_health"] > 0
+
+
+func _active_player_id() -> StringName:
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return &""
+	return player_team[current_player_index]["fighter_id"]
+
+
+func _active_enemy_id() -> StringName:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return &""
+	return enemy_team[current_enemy_index]["fighter_id"]
+
+
+func _remaining_count(team: Array[Dictionary]) -> int:
+	var count := 0
+	for data in team:
+		if not data["is_defeated"] and data["current_health"] > 0:
+			count += 1
+	return count
+
+
+func _serialize_team(team: Array[Dictionary]) -> Array:
+	var serialized := []
+	for data in team:
+		serialized.append(data.duplicate(true))
+	return serialized
+
+
+func _create_flow_ui() -> void:
+	_progress_label = Label.new()
+	_progress_label.name = "ProgressLabel"
+	_progress_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_progress_label.offset_left = 24.0
+	_progress_label.offset_top = 86.0
+	_progress_label.offset_right = -24.0
+	_progress_label.offset_bottom = 114.0
+	_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_progress_label.add_theme_font_size_override("font_size", 18)
+	battle_ui_root.add_child(_progress_label)
+
+	_debug_flow_label = Label.new()
+	_debug_flow_label.name = "DebugFlowLabel"
+	_debug_flow_label.visible = debug_flow_label_enabled
+	_debug_flow_label.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_debug_flow_label.offset_left = 24.0
+	_debug_flow_label.offset_top = 120.0
+	_debug_flow_label.offset_right = 360.0
+	_debug_flow_label.offset_bottom = 260.0
+	_debug_flow_label.add_theme_font_size_override("font_size", 14)
+	battle_ui_root.add_child(_debug_flow_label)
+
+	_selection_panel = PanelContainer.new()
+	_selection_panel.name = "PlayerSelectionPanel"
+	_selection_panel.visible = false
+	_selection_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_selection_panel.offset_left = -170.0
+	_selection_panel.offset_top = -120.0
+	_selection_panel.offset_right = 170.0
+	_selection_panel.offset_bottom = 120.0
+	battle_ui_root.add_child(_selection_panel)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 10)
+	_selection_panel.add_child(box)
+
+	_selection_title = Label.new()
+	_selection_title.text = "SELECT FIGHTER"
+	_selection_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_selection_title.add_theme_font_size_override("font_size", 22)
+	box.add_child(_selection_title)
+
+	for index in range(3):
+		var button := Button.new()
+		button.custom_minimum_size = Vector2(280.0, 44.0)
+		button.pressed.connect(select_player.bind(index))
+		_selection_buttons.append(button)
+		box.add_child(button)
+
+
+func _show_player_selection() -> void:
+	_update_selection_buttons()
+	_selection_panel.visible = true
+	player_selection_requested.emit(get_available_player_indices())
+
+	if debug_auto_select_player:
+		var indices := get_available_player_indices()
+		if not indices.is_empty():
+			call_deferred("select_player", indices[0])
+
+
+func _hide_player_selection() -> void:
+	if _selection_panel != null:
+		_selection_panel.visible = false
+
+
+func _update_selection_buttons() -> void:
+	for index in range(_selection_buttons.size()):
+		var button := _selection_buttons[index]
+		var data := player_team[index]
+		var hp_text := "%d/%d" % [data["current_health"], data["max_health"]]
+		button.text = "%s  HP %s" % [data["display_name"], hp_text]
+		button.disabled = not _is_player_selectable(index)
+
+
+func _update_all_ui() -> void:
+	_update_timer_ui()
+	_update_win_marks()
+	_update_progress_ui()
+	_update_selection_buttons()
+	_update_debug_flow_label()
 
 
 func _update_timer_ui() -> void:
@@ -236,19 +686,44 @@ func _update_timer_ui() -> void:
 
 
 func _update_win_marks() -> void:
-	player_win_marks.text = _format_win_marks(playerWinCount)
-	enemy_win_marks.text = _format_win_marks(enemyWinCount)
+	player_win_marks.text = "ALLY %d/3" % _remaining_count(player_team)
+	enemy_win_marks.text = "ENEMY %d/8" % _remaining_count(enemy_team)
 
 
-func _format_win_marks(win_count: int) -> String:
-	var filled_count := clampi(win_count, 0, 2)
-	var empty_count := 2 - filled_count
-	return String.chr(0x25CF).repeat(filled_count) + String.chr(0x25CB).repeat(empty_count)
+func _update_progress_ui() -> void:
+	if _progress_label == null:
+		return
+	_progress_label.text = "PLAYER %s  VS  %s" % [_active_player_id(), _active_enemy_id()]
+	team_progress_updated.emit(_remaining_count(player_team), _remaining_count(enemy_team))
+
+
+func _update_debug_flow_label() -> void:
+	if _debug_flow_label == null:
+		return
+	_debug_flow_label.visible = debug_flow_label_enabled
+	if not debug_flow_label_enabled:
+		return
+
+	_debug_flow_label.text = "\n".join([
+		"FLOW STATE: %s" % FlowState.keys()[flow_state],
+		"CURRENT PLAYER: %s" % _active_player_id(),
+		"CURRENT ENEMY: %s" % _active_enemy_id(),
+		"PLAYER HP: %d" % player.current_hp,
+		"ENEMY HP: %d" % enemy.current_hp,
+		"PLAYERS REMAINING: %d" % _remaining_count(player_team),
+		"ENEMIES REMAINING: %d" % _remaining_count(enemy_team),
+		"RESULT LOCKED: %s" % str(battle_result_locked).to_upper(),
+	])
+
+
+func _show_message(message: String) -> void:
+	message_label.text = message
+	message_label.visible = message != ""
 
 
 func _on_player_hp_depleted() -> void:
-	_finish_round_by_ko(RoundResult.ENEMY)
+	on_fighter_ko(player)
 
 
 func _on_enemy_hp_depleted() -> void:
-	_finish_round_by_ko(RoundResult.PLAYER)
+	on_fighter_ko(enemy)
