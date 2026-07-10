@@ -26,6 +26,11 @@ enum BattleOutcome {
 	DOUBLE_KO,
 }
 
+const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/character_selection_screen.tscn")
+const ALLY_BALANCE := preload("res://data/fighters/ally_balance.tres")
+const ALLY_POWER := preload("res://data/fighters/ally_power.tres")
+const ALLY_SPEED := preload("res://data/fighters/ally_speed.tres")
+
 @export var round_time_limit := 99
 @export var ko_pause_duration := 1.5
 @export var double_ko_check_window := 0.05
@@ -62,6 +67,8 @@ var _selection_title: Label
 var _selection_buttons: Array[Button] = []
 var _progress_label: Label
 var _debug_flow_label: Label
+var _character_selection_screen: Control
+var _selection_reason := "GAME_START"
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
@@ -115,9 +122,9 @@ func initialize_game_progress() -> void:
 	_flow_sequence_id += 1
 
 	player_team = [
-		_create_progress_entry(&"ally_01", "Akky", 0, player.max_hp),
-		_create_progress_entry(&"ally_02", "Gou", 1, player.max_hp),
-		_create_progress_entry(&"ally_03", "Seiya", 2, player.max_hp),
+		_create_progress_entry_from_definition(ALLY_BALANCE, 0),
+		_create_progress_entry_from_definition(ALLY_POWER, 1),
+		_create_progress_entry_from_definition(ALLY_SPEED, 2),
 	]
 
 	enemy_team.clear()
@@ -160,7 +167,10 @@ func spawn_active_player() -> void:
 		return
 
 	var data := player_team[current_player_index]
-	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	var definition: Resource = data["definition"]
+	if player.has_method("apply_fighter_definition"):
+		player.apply_fighter_definition(definition)
+	var current_health := int(clampi(data["current_health"], 1, definition.max_health))
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
 
 
@@ -302,6 +312,7 @@ func handle_player_defeat() -> void:
 	_store_active_fighter_health()
 	_mark_player_defeated()
 	enemyWinCount += 1
+	_selection_reason = "PLAYER_DEFEATED"
 	print("Player defeated: %s" % _active_player_id())
 
 
@@ -379,7 +390,10 @@ func reset_active_fighter_state(
 ) -> void:
 	fighter.position = start_position
 	fighter.velocity = Vector2.ZERO
-	fighter.current_hp = fighter.max_hp if health < 0 else clampi(health, 0, fighter.max_hp)
+	if fighter.has_method("set_health"):
+		fighter.set_health(fighter.max_hp if health < 0 else health)
+	else:
+		fighter.current_hp = fighter.max_hp if health < 0 else clampi(health, 0, fighter.max_hp)
 	fighter.facing_direction = start_facing_direction
 	fighter.visual_root.scale.x = start_facing_direction
 	fighter.attack_active_timer = 0.0
@@ -547,6 +561,19 @@ func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
 		fighter.reset_combo()
 
 
+func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
+	return {
+		"definition": definition,
+		"fighter_id": definition.fighter_id,
+		"display_name": definition.display_name,
+		"max_health": int(round(definition.max_health)),
+		"current_health": int(round(definition.max_health)),
+		"is_defeated": false,
+		"battle_order": battle_order,
+		"has_been_selected": false,
+	}
+
+
 func _create_progress_entry(
 	fighter_id: StringName,
 	display_name: String,
@@ -554,6 +581,7 @@ func _create_progress_entry(
 	max_health: int
 ) -> Dictionary:
 	return {
+		"definition": null,
 		"fighter_id": fighter_id,
 		"display_name": display_name,
 		"max_health": max_health,
@@ -619,38 +647,16 @@ func _create_flow_ui() -> void:
 	_debug_flow_label.offset_bottom = 260.0
 	_debug_flow_label.add_theme_font_size_override("font_size", 14)
 	battle_ui_root.add_child(_debug_flow_label)
-
-	_selection_panel = PanelContainer.new()
-	_selection_panel.name = "PlayerSelectionPanel"
-	_selection_panel.visible = false
-	_selection_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_selection_panel.offset_left = -170.0
-	_selection_panel.offset_top = -120.0
-	_selection_panel.offset_right = 170.0
-	_selection_panel.offset_bottom = 120.0
-	battle_ui_root.add_child(_selection_panel)
-
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
-	_selection_panel.add_child(box)
-
-	_selection_title = Label.new()
-	_selection_title.text = "SELECT FIGHTER"
-	_selection_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_selection_title.add_theme_font_size_override("font_size", 22)
-	box.add_child(_selection_title)
-
-	for index in range(3):
-		var button := Button.new()
-		button.custom_minimum_size = Vector2(280.0, 44.0)
-		button.pressed.connect(select_player.bind(index))
-		_selection_buttons.append(button)
-		box.add_child(button)
+	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
+	battle_ui_root.add_child(_character_selection_screen)
+	_character_selection_screen.fighter_selected.connect(select_player)
 
 
 func _show_player_selection() -> void:
-	_update_selection_buttons()
-	_selection_panel.visible = true
+	if get_available_player_indices().is_empty():
+		enter_game_over()
+		return
+	_character_selection_screen.open_selection(player_team, _selection_reason)
 	player_selection_requested.emit(get_available_player_indices())
 
 	if debug_auto_select_player:
@@ -660,17 +666,12 @@ func _show_player_selection() -> void:
 
 
 func _hide_player_selection() -> void:
-	if _selection_panel != null:
-		_selection_panel.visible = false
+	if _character_selection_screen != null:
+		_character_selection_screen.close_selection()
 
 
 func _update_selection_buttons() -> void:
-	for index in range(_selection_buttons.size()):
-		var button := _selection_buttons[index]
-		var data := player_team[index]
-		var hp_text := "%d/%d" % [data["current_health"], data["max_health"]]
-		button.text = "%s  HP %s" % [data["display_name"], hp_text]
-		button.disabled = not _is_player_selectable(index)
+	pass
 
 
 func _update_all_ui() -> void:
@@ -693,7 +694,7 @@ func _update_win_marks() -> void:
 func _update_progress_ui() -> void:
 	if _progress_label == null:
 		return
-	_progress_label.text = "PLAYER %s  VS  %s" % [_active_player_id(), _active_enemy_id()]
+	_progress_label.text = "PLAYER %s  VS  %s" % [_active_player_name(), _active_enemy_id()]
 	team_progress_updated.emit(_remaining_count(player_team), _remaining_count(enemy_team))
 
 
@@ -708,6 +709,9 @@ func _update_debug_flow_label() -> void:
 		"FLOW STATE: %s" % FlowState.keys()[flow_state],
 		"CURRENT PLAYER: %s" % _active_player_id(),
 		"CURRENT ENEMY: %s" % _active_enemy_id(),
+		"ACTIVE MOVE SPEED: %.1f" % player.move_speed,
+		"ACTIVE MAX HEALTH: %d" % player.max_hp,
+		"ACTIVE PUNCH DAMAGE: %d" % player.punch_damage,
 		"PLAYER HP: %d" % player.current_hp,
 		"ENEMY HP: %d" % enemy.current_hp,
 		"PLAYERS REMAINING: %d" % _remaining_count(player_team),
@@ -727,3 +731,9 @@ func _on_player_hp_depleted() -> void:
 
 func _on_enemy_hp_depleted() -> void:
 	on_fighter_ko(enemy)
+
+
+func _active_player_name() -> String:
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return ""
+	return player_team[current_player_index]["display_name"]
