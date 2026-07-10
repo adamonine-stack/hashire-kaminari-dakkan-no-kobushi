@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://scripts/player/player_combo_movement.gd" id="1_player_movement"]
+[ext_resource type="Script" path="res://scripts/player/player_knockdown_movement.gd" id="1_player_movement"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player_body"]
 size = Vector2(72, 96)

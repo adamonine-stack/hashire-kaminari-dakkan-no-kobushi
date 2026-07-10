@@ -203,6 +203,8 @@ func _reset_fighter(fighter: CharacterBody2D, start_position: Vector2, start_fac
 	fighter.ai_throw_check_timer = 0.0
 	fighter.ai_throw_cooldown_timer = 0.0
 	fighter._clear_pending_throw()
+	if fighter.has_method("reset_knockdown_state"):
+		fighter.reset_knockdown_state()
 	fighter.hurt_box.set_deferred("monitorable", true)
 	fighter._set_punch_hitbox_active(false, false)
 	fighter._set_kick_hitbox_active(false, false)
