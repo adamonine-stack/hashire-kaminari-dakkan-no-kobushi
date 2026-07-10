@@ -10,6 +10,12 @@ class_name FighterDefinition
 @export var selection_icon: Texture2D
 
 @export var fighter_type: StringName
+@export var team_type: StringName = &"ALLY"
+@export var enemy_order: int = 0
+@export var ai_profile: Resource
+@export var intro_title: String
+@export_multiline var intro_description: String
+@export var temporary_color: Color = Color.WHITE
 
 @export var max_health: float = 100.0
 @export var move_speed: float = 300.0
