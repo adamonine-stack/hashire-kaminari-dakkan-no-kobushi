@@ -27,9 +27,10 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var invincibility_time := 0.3
 @export var input_enabled := true
 @export var can_guard := true
-@export var guard_damage_rate := 0.2
-@export var guard_hit_time := 0.25
-@export var guard_knockback_scale := 0.35
+@export var guard_damage_rate := 0.25
+@export var guard_hit_time := 0.15
+@export var guard_knockback_x := 80.0
+@export var guard_hit_stop_time := 0.03
 @export var throw_range := 40.0
 @export var throw_body_width := 72.0
 @export var throw_damage := 12
@@ -42,6 +43,12 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var combo_timeout := 1.0
 @export var combo_log_enabled := true
 @export var cancel_window_time := 0.25
+@export var debug_state_label_enabled := true
+@export var ai_guard_enabled := true
+@export var ai_guard_chance := 0.25
+@export var ai_guard_check_interval := 0.35
+@export var ai_guard_min_time := 0.3
+@export var ai_guard_max_time := 1.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -82,6 +89,8 @@ var combo_timer := 0.0
 var can_cancel := false
 var cancel_window_timer := 0.0
 var current_attack_type := ""
+var ai_guard_check_timer := 0.0
+var ai_guard_timer := 0.0
 var weak_hit_se: AudioStreamPlayer2D
 var strong_hit_se: AudioStreamPlayer2D
 var guard_hit_se: AudioStreamPlayer2D
@@ -128,15 +137,17 @@ func _physics_process(delta: float) -> void:
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_defensive_state()
+	elif _uses_ai_guard():
+		_update_ai_guard(delta)
 
-	if is_kicking or is_guarding or is_crouching or is_crouch_guarding or is_hit or is_guard_hit or _is_throw_busy():
+	if is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy():
 		direction = 0.0
 
-	if direction != 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy():
+	if direction != 0.0 and not is_hit and not _is_throw_busy():
 		facing_direction = signf(direction)
 		visual_root.scale.x = facing_direction
 
-	if not is_hit and not is_guard_hit and not _is_throw_busy():
+	if not is_hit and not _is_throw_busy():
 		velocity.x = direction * move_speed
 
 	if is_on_floor():
@@ -179,7 +190,7 @@ func _start_attack() -> void:
 
 func _update_defensive_state() -> void:
 	var down_pressed := Input.is_action_pressed("down")
-	var guard_pressed := _is_holding_back_against_opponent()
+	var guard_pressed := Input.is_action_pressed("guard")
 
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
@@ -192,7 +203,6 @@ func _update_defensive_state() -> void:
 		is_crouch_guarding = down_pressed
 		is_crouching = false
 		guard_type = "crouch" if down_pressed else "stand"
-		velocity.x = 0.0
 		return
 
 	_clear_guard_state()
@@ -559,6 +569,10 @@ func start_hit_stop(frame_count: int) -> void:
 	_start_hit_stop(frame_count)
 
 
+func start_hit_stop_seconds(duration: float) -> void:
+	_start_hit_stop_seconds(duration)
+
+
 func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 	if not target.has_method("receive_attack"):
 		return
@@ -611,6 +625,8 @@ func _cancel_current_action() -> void:
 	is_throw_escaping = false
 	throw_recovery_timer = 0.0
 	throw_escape_timer = 0.0
+	ai_guard_check_timer = 0.0
+	ai_guard_timer = 0.0
 	_clear_cancel_window()
 	current_attack_type = ""
 	_clear_pending_throw()
@@ -641,11 +657,11 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	_enter_guard_hit_state()
 	apply_damage(_get_guard_damage(attack_data["damage"]))
 	_apply_guard_knockback(attack_data, attack_direction)
-	_start_hit_stop(attack_data["hit_stop_frames"])
+	_start_hit_stop_seconds(guard_hit_stop_time)
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop(attack_data["hit_stop_frames"])
+		attacker.start_hit_stop_seconds(guard_hit_stop_time)
 
 
 func _enter_guard_hit_state() -> void:
@@ -659,7 +675,7 @@ func _get_guard_damage(damage: int) -> int:
 
 
 func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) -> void:
-	velocity.x = attack_data["knockback_x"] * guard_knockback_scale * attack_direction
+	velocity.x = guard_knockback_x * attack_direction
 	if is_on_floor():
 		velocity.y = 0.0
 
@@ -673,7 +689,7 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 		return false
 	if not is_guarding:
 		return false
-	if not _is_holding_back_against_attacker(attacker):
+	if not _is_facing_attacker(attacker):
 		return false
 	return _is_attack_height_guardable(str(attack_data.get("attack_height", "middle")))
 
@@ -705,6 +721,60 @@ func _is_holding_back_against_attacker(attacker: Node) -> bool:
 		return direction_to_attacker != 0.0 and input_direction != 0.0 and signf(input_direction) == -direction_to_attacker
 
 	return is_guarding
+
+
+func _is_facing_attacker(attacker: Node) -> bool:
+	if not (attacker is Node2D):
+		return true
+
+	var direction_to_attacker := signf(attacker.global_position.x - global_position.x)
+	return direction_to_attacker == 0.0 or signf(facing_direction) == direction_to_attacker
+
+
+func _uses_ai_guard() -> bool:
+	return ai_guard_enabled and name == "Enemy" and is_round_active and not input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy()
+
+
+func _update_ai_guard(delta: float) -> void:
+	if not _can_start_guard_or_crouch():
+		_clear_guard_state()
+		ai_guard_timer = 0.0
+		return
+
+	if ai_guard_timer > 0.0:
+		ai_guard_timer = maxf(ai_guard_timer - delta, 0.0)
+		is_guarding = true
+		is_crouch_guarding = false
+		is_crouching = false
+		guard_type = "stand"
+		_face_opponent()
+		return
+
+	_clear_guard_state()
+	ai_guard_check_timer = maxf(ai_guard_check_timer - delta, 0.0)
+	if ai_guard_check_timer > 0.0:
+		return
+
+	ai_guard_check_timer = ai_guard_check_interval
+	if randf() <= ai_guard_chance:
+		ai_guard_timer = randf_range(ai_guard_min_time, ai_guard_max_time)
+		is_guarding = true
+		is_crouch_guarding = false
+		is_crouching = false
+		guard_type = "stand"
+		_face_opponent()
+
+
+func _face_opponent() -> void:
+	var opponent := _get_opponent()
+	if not (opponent is Node2D):
+		return
+
+	var direction_to_opponent := signf(opponent.global_position.x - global_position.x)
+	if direction_to_opponent == 0.0:
+		return
+	facing_direction = direction_to_opponent
+	visual_root.scale.x = facing_direction
 
 
 func _get_opponent() -> Node:
@@ -758,6 +828,10 @@ func _update_invincibility(delta: float) -> void:
 
 func _start_hit_stop(frame_count: int) -> void:
 	hit_stop_timer = maxf(hit_stop_timer, float(frame_count) / 60.0)
+
+
+func _start_hit_stop_seconds(duration: float) -> void:
+	hit_stop_timer = maxf(hit_stop_timer, duration)
 
 
 func _update_hit_stop(delta: float) -> bool:
@@ -982,18 +1056,23 @@ func _spawn_guard_effect(hit_position: Vector2) -> void:
 
 
 func _update_visual_state() -> void:
+	if not debug_state_label_enabled:
+		state_label.visible = false
+		return
+
+	state_label.visible = true
 	if is_throw_escaping:
 		state_label.text = "ThrowEscape"
 	elif is_throwing or is_throw_locked or is_throw_escape_pending:
 		state_label.text = "Throw"
 	elif is_guard_hit:
-		state_label.text = "GuardHit"
+		state_label.text = "BLOCKED"
 	elif is_hit:
 		state_label.text = "Hit"
 	elif is_crouch_guarding:
 		state_label.text = "CrouchGuard"
 	elif is_guarding:
-		state_label.text = "Guard"
+		state_label.text = "GUARD"
 	elif is_crouching:
 		state_label.text = "Crouch"
 	elif kick_active_timer > 0.0:
