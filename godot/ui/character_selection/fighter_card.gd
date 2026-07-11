@@ -20,9 +20,10 @@ func setup(index: int, data: Dictionary) -> void:
 	progress_data = data
 	var definition: Resource = data["definition"]
 	var defeated := bool(data["is_defeated"])
+	var available := bool(data.get("is_available", true))
 	var current_health := int(data["current_health"])
 	var max_health := int(definition.max_health)
-	var status := "DEFEATED" if defeated else "AVAILABLE"
+	var status := "DEFEATED" if defeated or not available else "AVAILABLE"
 
 	text = "%s\n%s\nHP %d / %d\n%s" % [
 		definition.display_name,
@@ -31,7 +32,7 @@ func setup(index: int, data: Dictionary) -> void:
 		max_health,
 		status,
 	]
-	disabled = defeated or current_health <= 0
+	disabled = defeated or not available or current_health <= 0
 	focus_mode = Control.FOCUS_NONE if disabled else Control.FOCUS_ALL
 	modulate = Color(0.45, 0.45, 0.45, 0.8) if disabled else Color.WHITE
 

@@ -8,6 +8,12 @@ signal active_fighter_changed(player_id: StringName, enemy_id: StringName)
 signal team_progress_updated(remaining_players: int, remaining_enemies: int)
 signal game_cleared()
 signal game_over()
+signal player_defeated(character_id)
+signal player_select_opened
+signal player_selected(character_id)
+signal current_player_changed(new_player)
+signal all_players_defeated
+signal game_over_started
 
 enum BattleState {
 	READY,
@@ -51,6 +57,7 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var enemy_accepts_input := false
 @export var debug_auto_select_player := false
 @export var debug_flow_label_enabled := true
+@export var player_change_invincible_time := 1.5
 
 var currentRound := 1
 var playerWinCount := 0
@@ -62,10 +69,14 @@ var is_run_active := false
 var is_battle_resolving := false
 var battle_result: StringName = &""
 var currentBattleState := BattleState.READY
+var player_roster: Array = []
+var current_player_id := ""
+var current_player_instance: Node = null
 var selected_player_ids: Array[StringName] = []
 var defeated_player_ids: Array[StringName] = []
 var enemy_order: Array[StringName] = []
 var defeated_enemy_ids: Array[StringName] = []
+var is_player_change_processing := false
 
 var flow_state := BattleState.READY
 var player_team: Array[Dictionary] = []
@@ -115,6 +126,7 @@ var _current_bgm_name := ""
 func _ready() -> void:
 	_player_start_position = player.position
 	_enemy_start_position = enemy.position
+	current_player_instance = player
 	player.hp_depleted.connect(_on_player_hp_depleted)
 	enemy.hp_depleted.connect(_on_enemy_hp_depleted)
 	player.hp_changed.connect(_on_player_hp_changed)
@@ -161,13 +173,10 @@ func initialize_game_progress() -> void:
 	selected_player_ids.clear()
 	defeated_player_ids.clear()
 	defeated_enemy_ids.clear()
+	is_player_change_processing = false
 	_flow_sequence_id += 1
 
-	player_team = [
-		_create_progress_entry_from_definition(ALLY_BALANCE, 0),
-		_create_progress_entry_from_definition(ALLY_POWER, 1),
-		_create_progress_entry_from_definition(ALLY_SPEED, 2),
-	]
+	reset_player_roster()
 
 	initialize_enemy_team()
 
@@ -193,6 +202,16 @@ func initialize_enemy_team() -> void:
 	for index in range(ENEMY_DEFINITIONS.size()):
 		enemy_order.append(ENEMY_DEFINITIONS[index].fighter_id)
 		enemy_team.append(_create_progress_entry_from_definition(ENEMY_DEFINITIONS[index], index))
+
+
+func reset_player_roster() -> void:
+	player_team = [
+		_create_progress_entry_from_definition(ALLY_BALANCE, 0),
+		_create_progress_entry_from_definition(ALLY_POWER, 1),
+		_create_progress_entry_from_definition(ALLY_SPEED, 2),
+	]
+	player_roster = player_team
+	current_player_id = ""
 
 
 func validate_enemy_definitions() -> bool:
@@ -226,23 +245,53 @@ func start_initial_player_selection() -> void:
 	if flow_state == BattleState.CLEAR or flow_state == BattleState.GAME_OVER:
 		return
 
+	open_player_select(_selection_reason == "GAME_START")
+
+
+func open_player_select(is_initial_select: bool = false) -> void:
+	if flow_state == BattleState.CLEAR or flow_state == BattleState.GAME_OVER:
+		return
 	_set_battle_state(BattleState.NEXT_PLAYER)
 	_set_battle_active(false)
 	_show_message("")
+	_selection_reason = "GAME_START" if is_initial_select else "PLAYER_DEFEATED"
 	_show_player_selection()
+	player_select_opened.emit()
+	print("[DEV033] Player select opened")
 
 
-func select_player(player_index: int) -> void:
+func close_player_select() -> void:
+	_hide_player_selection()
+
+
+func select_player(selection) -> void:
 	if flow_state != BattleState.NEXT_PLAYER:
 		return
+	var player_index := -1
+	if selection is String or selection is StringName:
+		player_index = _find_player_index_by_id(String(selection))
+	else:
+		player_index = int(selection)
 	if not _is_player_selectable(player_index):
 		return
 
+	var selected_id := String(player_team[player_index]["character_id"])
+	select_player_by_id(selected_id)
+
+
+func select_player_by_id(character_id: String) -> void:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1 or not _is_player_selectable(player_index):
+		return
+
 	current_player_index = player_index
+	current_player_id = character_id
 	var player_id := _active_player_id()
 	if player_id != &"" and not selected_player_ids.has(player_id):
 		selected_player_ids.append(player_id)
-	_hide_player_selection()
+	close_player_select()
+	player_selected.emit(character_id)
+	print("[DEV033] Player selected: %s" % character_id)
 	_set_battle_state(BattleState.READY)
 	await prepare_battle()
 
@@ -256,7 +305,12 @@ func spawn_active_player() -> void:
 	if player.has_method("apply_fighter_definition"):
 		player.apply_fighter_definition(definition)
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	player.visible = true
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
+	current_player_instance = player
+	current_player_id = String(data["character_id"])
+	current_player_changed.emit(current_player_instance)
+	update_player_hud()
 
 
 func spawn_active_enemy() -> void:
@@ -295,8 +349,8 @@ func prepare_battle() -> void:
 	_set_battle_active(false)
 	_update_all_ui()
 	active_fighter_changed.emit(_active_player_id(), _active_enemy_id())
-	if enemy.has_method("update_enemy_target"):
-		enemy.update_enemy_target(player)
+	update_enemy_target()
+	update_camera_target()
 
 	if _should_show_enemy_intro():
 		await start_enemy_intro(enemy_team[current_enemy_index])
@@ -354,6 +408,8 @@ func begin_battle(sequence_id: int = -1) -> void:
 	isBattleFinished = false
 	isRoundActive = true
 	_set_battle_active(true)
+	if is_player_change_processing:
+		start_change_invincibility()
 	_switch_bgm("BattleBGM")
 	_show_message("FIGHT")
 	battle_started.emit(_active_player_id(), _active_enemy_id())
@@ -361,10 +417,13 @@ func begin_battle(sequence_id: int = -1) -> void:
 	await get_tree().create_timer(fight_message_duration).timeout
 	if flow_state == BattleState.BATTLE:
 		_show_message("")
+		resume_battle_after_player_change()
 
 
 func on_fighter_ko(fighter: Node) -> void:
 	if flow_state != BattleState.BATTLE and flow_state != BattleState.ENEMY_DEAD and flow_state != BattleState.PLAYER_DEAD:
+		return
+	if fighter == player and is_player_change_processing:
 		return
 
 	if fighter == player:
@@ -434,11 +493,25 @@ func handle_player_victory() -> void:
 
 
 func handle_player_defeat() -> void:
+	handle_player_defeated()
+
+
+func handle_player_defeated() -> void:
+	if is_player_change_processing:
+		return
+	is_player_change_processing = true
 	_store_active_fighter_health()
-	_mark_player_defeated()
+	register_player_defeat(String(_active_player_id()))
+	remove_current_player()
 	enemyWinCount += 1
 	_selection_reason = "PLAYER_DEFEATED"
 	print("Player defeated: %s" % _active_player_id())
+	print("[DEV033] Enemy HP retained: %d / %d" % [enemy.current_hp, enemy.max_hp])
+	var available := get_available_players()
+	if available.is_empty():
+		print("[DEV033] No available players")
+	else:
+		print("[DEV033] Available players: %s" % ", ".join(available))
 
 
 func handle_double_ko() -> void:
@@ -460,6 +533,17 @@ func get_available_player_indices() -> Array[int]:
 		if _is_player_selectable(index):
 			indices.append(index)
 	return indices
+
+
+func get_available_players() -> Array[String]:
+	var available: Array[String] = []
+	for index in get_available_player_indices():
+		available.append(String(player_team[index]["character_id"]))
+	return available
+
+
+func has_available_player() -> bool:
+	return not get_available_players().is_empty()
 
 
 func get_next_enemy_index() -> int:
@@ -509,8 +593,11 @@ func enter_game_over() -> void:
 	_switch_bgm("LoseBGM")
 	_show_message("GAME OVER")
 	_show_end_panel("GAME OVER", "All ally fighters defeated.")
+	all_players_defeated.emit()
+	game_over_started.emit()
 	game_over.emit()
 	print("GAME OVER")
+	print("[DEV033] GAME OVER")
 
 
 func reset_active_fighter_state(
@@ -622,6 +709,51 @@ func transition_to_next_enemy() -> void:
 	await prepare_battle()
 
 
+func spawn_selected_player(character_id: String) -> void:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return
+	current_player_index = player_index
+	spawn_active_player()
+
+
+func remove_current_player() -> void:
+	_clear_active_fighter_actions(player)
+	player.visible = false
+	player.input_enabled = false
+
+
+func update_enemy_target() -> void:
+	if enemy.has_method("update_enemy_target"):
+		enemy.update_enemy_target(current_player_instance)
+	print("[DEV033] Enemy target updated: %s" % current_player_id)
+
+
+func update_camera_target() -> void:
+	pass
+
+
+func update_player_hud() -> void:
+	_update_hp_bar(player_hp_bar, player.current_hp, player.max_hp)
+	_update_all_ui()
+
+
+func start_change_invincibility() -> void:
+	player.is_invincible = true
+	player.invincibility_timer = player_change_invincible_time
+
+
+func resume_battle_after_player_change() -> void:
+	if not is_player_change_processing:
+		return
+	is_player_change_processing = false
+	print("[DEV033] Battle resumed")
+
+
+func start_game_over() -> void:
+	enter_game_over()
+
+
 func fade_out(duration := 0.4) -> void:
 	if _fade_overlay == null:
 		return
@@ -725,9 +857,20 @@ func _mark_player_defeated() -> void:
 		return
 	player_team[current_player_index]["current_health"] = 0
 	player_team[current_player_index]["is_defeated"] = true
+	player_team[current_player_index]["is_available"] = false
 	var player_id := StringName(player_team[current_player_index]["fighter_id"])
 	if not defeated_player_ids.has(player_id):
 		defeated_player_ids.append(player_id)
+
+
+func register_player_defeat(character_id: String) -> void:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return
+	current_player_index = player_index
+	_mark_player_defeated()
+	player_defeated.emit(character_id)
+	print("[DEV033] Player defeated: %s" % character_id)
 
 
 func _mark_enemy_defeated() -> void:
@@ -782,11 +925,14 @@ func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
 func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
 	return {
 		"definition": definition,
+		"character_id": definition.fighter_id,
 		"fighter_id": definition.fighter_id,
 		"display_name": definition.display_name,
+		"scene_path": "",
 		"max_health": int(round(definition.max_health)),
 		"current_health": int(round(definition.max_health)),
 		"is_defeated": false,
+		"is_available": true,
 		"battle_order": battle_order,
 		"has_been_selected": false,
 	}
@@ -800,11 +946,14 @@ func _create_progress_entry(
 ) -> Dictionary:
 	return {
 		"definition": null,
+		"character_id": fighter_id,
 		"fighter_id": fighter_id,
 		"display_name": display_name,
+		"scene_path": "",
 		"max_health": max_health,
 		"current_health": max_health,
 		"is_defeated": false,
+		"is_available": true,
 		"battle_order": battle_order,
 	}
 
@@ -813,7 +962,14 @@ func _is_player_selectable(player_index: int) -> bool:
 	if player_index < 0 or player_index >= player_team.size():
 		return false
 	var data := player_team[player_index]
-	return not data["is_defeated"] and data["current_health"] > 0
+	return bool(data.get("is_available", true)) and not data["is_defeated"] and data["current_health"] > 0
+
+
+func _find_player_index_by_id(character_id: String) -> int:
+	for index in range(player_team.size()):
+		if String(player_team[index].get("character_id", player_team[index]["fighter_id"])) == character_id:
+			return index
+	return -1
 
 
 func _active_player_id() -> StringName:
