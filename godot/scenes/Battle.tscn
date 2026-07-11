@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/UI.tscn" id="1_ui"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/battle/battle_controller.gd" id="3_battle_controller"]
-[ext_resource type="Script" path="res://scripts/battle/round_manager.gd" id="4_round_manager"]
+[ext_resource type="Script" path="res://scripts/battle/battle_manager.gd" id="4_battle_manager"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1280, 32)
@@ -28,5 +28,5 @@ shape = SubResource("RectangleShape2D_floor")
 
 [node name="UI" parent="." instance=ExtResource("1_ui")]
 
-[node name="RoundManager" type="Node" parent="."]
-script = ExtResource("4_round_manager")
+[node name="BattleManager" type="Node" parent="."]
+script = ExtResource("4_battle_manager")
