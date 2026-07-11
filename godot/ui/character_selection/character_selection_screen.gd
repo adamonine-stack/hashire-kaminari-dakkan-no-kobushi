@@ -200,7 +200,7 @@ func _is_selectable(player_index: int) -> bool:
 	if player_index < 0 or player_index >= progress_team.size():
 		return false
 	var data := progress_team[player_index]
-	return not data["is_defeated"] and data["current_health"] > 0
+	return bool(data.get("is_available", true)) and not data["is_defeated"] and data["current_health"] > 0
 
 
 func _update_details() -> void:
@@ -213,7 +213,7 @@ func _update_details() -> void:
 
 	var data := progress_team[focused_index]
 	var definition: Resource = data["definition"]
-	var status := "DEFEATED / UNAVAILABLE" if data["is_defeated"] else "AVAILABLE"
+	var status := "DEFEATED / UNAVAILABLE" if not bool(data.get("is_available", true)) or data["is_defeated"] else "AVAILABLE"
 	details_label.text = "%s\nTYPE: %s\nHP %d / %d\n%s\n\n%s" % [
 		definition.display_name,
 		String(definition.fighter_type).to_upper(),
