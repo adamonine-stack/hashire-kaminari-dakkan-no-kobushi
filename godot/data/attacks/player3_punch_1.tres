@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack_data"]
+
+[resource]
+script = ExtResource("1_attack_data")
+attack_id = "player3_punch_1"
+display_name = "Quick Punch 1"
+attack_type = "punch"
+base_damage = 0.90
+startup_time = 0.09
+active_time = 0.07
+recovery_time = 0.12
+combo_input_start = 0.05
+combo_input_end = 0.28
+hitbox_size = Vector2(44, 28)
+hitbox_offset = Vector2(32, -8)
+forward_move_distance = 8.0
+forward_move_duration = 0.08
+knockback = Vector2(130, -28)
+hitstop_time = 0.03
+hitstun_time = 0.14
+next_attack_ids = Array[String](["player3_punch_2"])
+animation_name = "punch_1"

@@ -1,7 +1,11 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="Resource" path="res://data/attacks/player3_punch_1.tres" id="3_punch_1"]
+[ext_resource type="Resource" path="res://data/attacks/player3_punch_2.tres" id="4_punch_2"]
+[ext_resource type="Resource" path="res://data/attacks/player3_punch_3.tres" id="5_punch_3"]
+[ext_resource type="Resource" path="res://data/attacks/player3_kick_finish.tres" id="6_kick_finish"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -24,6 +28,8 @@ guard_damage_multiplier = 0.32
 guard_stamina_multiplier = 1.2
 attack_knockback_multiplier = 0.8
 received_knockback_multiplier = 1.25
+attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_punch_3"), ExtResource("6_kick_finish")])
+max_attack_chain_count = 4
 punch_damage_scale = 0.9
 kick_damage_scale = 0.9
 throw_damage_scale = 0.85
