@@ -37,6 +37,7 @@ func open_selection(team_data: Array[Dictionary], reason := "GAME_START") -> voi
 	selection_locked = false
 	is_open = true
 	visible = true
+	_update_title_for_reason()
 	_refresh_cards()
 	_focus_first_available()
 	selection_opened.emit()
@@ -144,6 +145,17 @@ func _build_layout() -> void:
 	root.add_child(debug_label)
 
 
+func _update_title_for_reason() -> void:
+	if title_label == null:
+		return
+	if selection_reason == "PLAYER_DEFEATED":
+		title_label.text = "SELECT NEXT FIGHTER"
+		guide_label.text = "Defeated fighters cannot be selected"
+	else:
+		title_label.text = "SELECT FIRST FIGHTER"
+		guide_label.text = "Left / Right: Select    Enter: Confirm"
+
+
 func _refresh_cards() -> void:
 	for child in cards_container.get_children():
 		child.queue_free()
@@ -201,7 +213,7 @@ func _update_details() -> void:
 
 	var data := progress_team[focused_index]
 	var definition: Resource = data["definition"]
-	var status := "DEFEATED" if data["is_defeated"] else "AVAILABLE"
+	var status := "DEFEATED / UNAVAILABLE" if data["is_defeated"] else "AVAILABLE"
 	details_label.text = "%s\nTYPE: %s\nHP %d / %d\n%s\n\n%s" % [
 		definition.display_name,
 		String(definition.fighter_type).to_upper(),

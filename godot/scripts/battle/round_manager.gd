@@ -57,6 +57,13 @@ var enemyWinCount := 0
 var roundTime := 99
 var isRoundActive := false
 var isBattleFinished := false
+var is_run_active := false
+var is_battle_resolving := false
+var battle_result: StringName = &""
+var selected_player_ids: Array[StringName] = []
+var defeated_player_ids: Array[StringName] = []
+var enemy_order: Array[StringName] = []
+var defeated_enemy_ids: Array[StringName] = []
 
 var flow_state := FlowState.INITIALIZING
 var player_team: Array[Dictionary] = []
@@ -82,6 +89,11 @@ var _selection_reason := "GAME_START"
 var _enemy_intro_panel: PanelContainer
 var _enemy_intro_label: Label
 var _last_intro_enemy_index := -1
+var _end_panel: PanelContainer
+var _end_title_label: Label
+var _end_body_label: Label
+var _restart_button: Button
+var _title_button: Button
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
@@ -127,12 +139,18 @@ func initialize_game_progress() -> void:
 	roundTime = round_time_limit
 	isRoundActive = false
 	isBattleFinished = false
+	is_run_active = true
+	is_battle_resolving = false
+	battle_result = &""
 	battle_result_locked = false
 	_pending_player_ko = false
 	_pending_enemy_ko = false
 	current_player_index = -1
 	current_enemy_index = 0
 	_last_intro_enemy_index = -1
+	selected_player_ids.clear()
+	defeated_player_ids.clear()
+	defeated_enemy_ids.clear()
 	_flow_sequence_id += 1
 
 	player_team = [
@@ -149,10 +167,13 @@ func initialize_game_progress() -> void:
 
 func initialize_enemy_team() -> void:
 	enemy_team.clear()
+	enemy_order.clear()
 	if not validate_enemy_definitions():
 		for index in range(8):
+			var fallback_id := StringName("enemy_%02d" % (index + 1))
+			enemy_order.append(fallback_id)
 			enemy_team.append(_create_progress_entry(
-				StringName("enemy_%02d" % (index + 1)),
+				fallback_id,
 				"Enemy %d" % (index + 1),
 				index,
 				enemy.max_hp
@@ -160,6 +181,7 @@ func initialize_enemy_team() -> void:
 		return
 
 	for index in range(ENEMY_DEFINITIONS.size()):
+		enemy_order.append(ENEMY_DEFINITIONS[index].fighter_id)
 		enemy_team.append(_create_progress_entry_from_definition(ENEMY_DEFINITIONS[index], index))
 
 
@@ -207,6 +229,9 @@ func select_player(player_index: int) -> void:
 		return
 
 	current_player_index = player_index
+	var player_id := _active_player_id()
+	if player_id != &"" and not selected_player_ids.has(player_id):
+		selected_player_ids.append(player_id)
 	_hide_player_selection()
 	flow_state = FlowState.TRANSITION
 	await prepare_battle()
@@ -220,7 +245,8 @@ func spawn_active_player() -> void:
 	var definition: Resource = data["definition"]
 	if player.has_method("apply_fighter_definition"):
 		player.apply_fighter_definition(definition)
-	var current_health := int(clampi(data["current_health"], 1, definition.max_health))
+	var current_health := int(round(definition.max_health))
+	data["current_health"] = current_health
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
 
 
@@ -237,7 +263,8 @@ func spawn_active_enemy() -> void:
 	if definition != null and enemy.has_method("apply_temporary_color"):
 		enemy.apply_temporary_color(definition.temporary_color)
 
-	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	var current_health := int(data["max_health"])
+	data["current_health"] = current_health
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
 
 
@@ -251,11 +278,12 @@ func prepare_battle() -> void:
 	_pending_player_ko = false
 	_pending_enemy_ko = false
 	battle_result_locked = false
+	is_battle_resolving = false
+	battle_result = &""
 	_time_accumulator = 0.0
 	roundTime = round_time_limit
 
-	spawn_active_player()
-	spawn_active_enemy()
+	start_battle(_active_player_id(), _active_enemy_id())
 	_set_battle_active(false)
 	_update_all_ui()
 	active_fighter_changed.emit(_active_player_id(), _active_enemy_id())
@@ -266,6 +294,15 @@ func prepare_battle() -> void:
 		await start_enemy_intro(enemy_team[current_enemy_index])
 
 	await start_battle_countdown(sequence_id)
+
+
+func start_battle(player_id: StringName = &"", enemy_id: StringName = &"") -> void:
+	if player_id != &"" and player_id != _active_player_id():
+		push_warning("start_battle player id mismatch: %s" % player_id)
+	if enemy_id != &"" and enemy_id != _active_enemy_id():
+		push_warning("start_battle enemy id mismatch: %s" % enemy_id)
+	spawn_active_player()
+	spawn_active_enemy()
 
 
 func start_enemy_intro(enemy_data: Dictionary) -> void:
@@ -334,6 +371,7 @@ func on_fighter_ko(fighter: Node) -> void:
 		return
 
 	battle_result_locked = true
+	is_battle_resolving = true
 	flow_state = FlowState.KO_PAUSE
 	_set_battle_active(false)
 	_clear_active_fighter_actions(player)
@@ -346,6 +384,7 @@ func on_fighter_ko(fighter: Node) -> void:
 func resolve_battle_result() -> void:
 	flow_state = FlowState.RESULT
 	var result := _get_pending_battle_result()
+	battle_result = StringName(BattleOutcome.keys()[result])
 	var result_data := {
 		"outcome": result,
 		"player_id": _active_player_id(),
@@ -443,9 +482,11 @@ func enter_game_clear() -> void:
 		return
 	flow_state = FlowState.GAME_CLEAR
 	isBattleFinished = true
+	is_run_active = false
 	_set_battle_active(false)
 	_hide_player_selection()
 	_show_message("GAME CLEAR")
+	_show_end_panel("GAME CLEAR", "All 8 enemies defeated.")
 	game_cleared.emit()
 	print("GAME CLEAR")
 
@@ -455,9 +496,11 @@ func enter_game_over() -> void:
 		return
 	flow_state = FlowState.GAME_OVER
 	isBattleFinished = true
+	is_run_active = false
 	_set_battle_active(false)
 	_hide_player_selection()
 	_show_message("GAME OVER")
+	_show_end_panel("GAME OVER", "All ally fighters defeated.")
 	game_over.emit()
 	print("GAME OVER")
 
@@ -543,10 +586,19 @@ func create_progress_snapshot() -> Dictionary:
 		"players": _serialize_team(player_team),
 		"enemies": _serialize_team(enemy_team),
 		"result_locked": battle_result_locked,
+		"selected_player_ids": selected_player_ids.duplicate(),
+		"defeated_player_ids": defeated_player_ids.duplicate(),
+		"enemy_order": enemy_order.duplicate(),
+		"defeated_enemy_ids": defeated_enemy_ids.duplicate(),
+		"current_player_id": _active_player_id(),
+		"current_enemy_id": _active_enemy_id(),
+		"battle_result": battle_result,
+		"is_run_active": is_run_active,
 	}
 
 
 func reset_game_progress() -> void:
+	_hide_end_panel()
 	initialize_game_progress()
 	start_initial_player_selection()
 
@@ -564,6 +616,7 @@ func _finish_battle_by_time_up() -> void:
 		return
 
 	battle_result_locked = true
+	is_battle_resolving = true
 	flow_state = FlowState.KO_PAUSE
 	_set_battle_active(false)
 	_show_message("TIME UP")
@@ -590,9 +643,11 @@ func _get_pending_battle_result() -> BattleOutcome:
 
 func _store_active_fighter_health() -> void:
 	if current_player_index >= 0 and current_player_index < player_team.size():
-		player_team[current_player_index]["current_health"] = clampi(player.current_hp, 0, player.max_hp)
+		var player_data := player_team[current_player_index]
+		player_data["current_health"] = 0 if player_data["is_defeated"] else player_data["max_health"]
 	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
-		enemy_team[current_enemy_index]["current_health"] = clampi(enemy.current_hp, 0, enemy.max_hp)
+		var enemy_data := enemy_team[current_enemy_index]
+		enemy_data["current_health"] = 0 if enemy_data["is_defeated"] else enemy_data["max_health"]
 
 
 func _mark_player_defeated() -> void:
@@ -600,6 +655,9 @@ func _mark_player_defeated() -> void:
 		return
 	player_team[current_player_index]["current_health"] = 0
 	player_team[current_player_index]["is_defeated"] = true
+	var player_id := StringName(player_team[current_player_index]["fighter_id"])
+	if not defeated_player_ids.has(player_id):
+		defeated_player_ids.append(player_id)
 
 
 func _mark_enemy_defeated() -> void:
@@ -607,6 +665,9 @@ func _mark_enemy_defeated() -> void:
 		return
 	enemy_team[current_enemy_index]["current_health"] = 0
 	enemy_team[current_enemy_index]["is_defeated"] = true
+	var enemy_id := StringName(enemy_team[current_enemy_index]["fighter_id"])
+	if not defeated_enemy_ids.has(enemy_id):
+		defeated_enemy_ids.append(enemy_id)
 
 
 func _should_finish_game() -> bool:
@@ -747,6 +808,42 @@ func _create_flow_ui() -> void:
 	_enemy_intro_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_enemy_intro_label.add_theme_font_size_override("font_size", 22)
 	_enemy_intro_panel.add_child(_enemy_intro_label)
+
+	_end_panel = PanelContainer.new()
+	_end_panel.name = "RunEndPanel"
+	_end_panel.visible = false
+	_end_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_end_panel.offset_left = -190.0
+	_end_panel.offset_top = -120.0
+	_end_panel.offset_right = 190.0
+	_end_panel.offset_bottom = 120.0
+	battle_ui_root.add_child(_end_panel)
+
+	var end_box := VBoxContainer.new()
+	end_box.add_theme_constant_override("separation", 14)
+	_end_panel.add_child(end_box)
+
+	_end_title_label = Label.new()
+	_end_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_end_title_label.add_theme_font_size_override("font_size", 30)
+	end_box.add_child(_end_title_label)
+
+	_end_body_label = Label.new()
+	_end_body_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_end_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	end_box.add_child(_end_body_label)
+
+	_restart_button = Button.new()
+	_restart_button.text = "RESTART"
+	_restart_button.custom_minimum_size = Vector2(260.0, 42.0)
+	_restart_button.pressed.connect(reset_game_progress)
+	end_box.add_child(_restart_button)
+
+	_title_button = Button.new()
+	_title_button.text = "TITLE"
+	_title_button.disabled = true
+	_title_button.custom_minimum_size = Vector2(260.0, 42.0)
+	end_box.add_child(_title_button)
 	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
 	battle_ui_root.add_child(_character_selection_screen)
 	_character_selection_screen.fighter_selected.connect(select_player)
@@ -812,6 +909,8 @@ func _update_debug_flow_label() -> void:
 		"ENEMY NAME: %s" % _active_enemy_name(),
 		"ENEMY TYPE: %s" % _active_enemy_type(),
 		"ENEMY ORDER: %s" % _active_enemy_order_text(),
+		"RUN ACTIVE: %s" % str(is_run_active).to_upper(),
+		"BATTLE RESULT: %s" % String(battle_result),
 		"ACTIVE MOVE SPEED: %.1f" % player.move_speed,
 		"ACTIVE MAX HEALTH: %d" % player.max_hp,
 		"ACTIVE PUNCH DAMAGE: %d" % player.punch_damage,
@@ -822,9 +921,13 @@ func _update_debug_flow_label() -> void:
 		"ENEMY THROW DAMAGE: %d" % enemy.throw_damage,
 		"PLAYER HP: %d" % player.current_hp,
 		"ENEMY HP: %d" % enemy.current_hp,
-		"PLAYERS REMAINING: %d" % _remaining_count(player_team),
-		"ENEMIES REMAINING: %d" % _remaining_count(enemy_team),
+		"ALLY REMAINING: %d" % _remaining_count(player_team),
+		"ENEMY REMAINING: %d" % _remaining_count(enemy_team),
+		"SELECTED ALLIES: %s" % _ids_to_text(selected_player_ids),
+		"DEFEATED ALLIES: %s" % _ids_to_text(defeated_player_ids),
+		"DEFEATED ENEMIES: %s" % _ids_to_text(defeated_enemy_ids),
 		"RESULT LOCKED: %s" % str(battle_result_locked).to_upper(),
+		"RESOLVING: %s" % str(is_battle_resolving).to_upper(),
 	] + _enemy_ai_debug_lines())
 
 
@@ -904,3 +1007,26 @@ func _enemy_ai_debug_lines() -> Array[String]:
 	if enemy == null or not enemy.has_method("get_ai_debug_lines"):
 		return []
 	return enemy.get_ai_debug_lines()
+
+
+func _show_end_panel(title: String, body: String) -> void:
+	if _end_panel == null:
+		return
+	_end_title_label.text = title
+	_end_body_label.text = body
+	_end_panel.visible = true
+	_restart_button.grab_focus()
+
+
+func _hide_end_panel() -> void:
+	if _end_panel != null:
+		_end_panel.visible = false
+
+
+func _ids_to_text(ids: Array[StringName]) -> String:
+	if ids.is_empty():
+		return "NONE"
+	var text_ids: Array[String] = []
+	for id in ids:
+		text_ids.append(String(id))
+	return ", ".join(text_ids)
