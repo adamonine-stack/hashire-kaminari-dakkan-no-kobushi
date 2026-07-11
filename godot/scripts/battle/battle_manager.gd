@@ -14,6 +14,12 @@ signal player_selected(character_id)
 signal current_player_changed(new_player)
 signal all_players_defeated
 signal game_over_started
+signal player_order_select_opened
+signal player_order_changed(order)
+signal player_order_confirmed(order)
+signal battle_start_requested(first_player_id)
+signal next_ordered_player_requested(character_id)
+signal player_order_status_updated
 
 enum BattleState {
 	READY,
@@ -58,6 +64,8 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var debug_auto_select_player := false
 @export var debug_flow_label_enabled := true
 @export var player_change_invincible_time := 1.5
+@export var player_defeat_display_time := 1.0
+@export var next_player_display_time := 1.0
 
 var currentRound := 1
 var playerWinCount := 0
@@ -77,6 +85,11 @@ var defeated_player_ids: Array[StringName] = []
 var enemy_order: Array[StringName] = []
 var defeated_enemy_ids: Array[StringName] = []
 var is_player_change_processing := false
+var selected_player_order: Array[String] = []
+var current_player_order_index := 0
+var is_player_order_confirmed := false
+var is_battle_starting := false
+var is_ordered_player_change_processing := false
 
 var flow_state := BattleState.READY
 var player_team: Array[Dictionary] = []
@@ -111,6 +124,17 @@ var _fade_overlay: ColorRect
 var _heal_effect_label: Label
 var _bgm_player: AudioStreamPlayer
 var _current_bgm_name := ""
+var _player_order_panel: PanelContainer
+var _player_order_title_label: Label
+var _player_order_slots_label: Label
+var _player_order_status_label: Label
+var _player_order_confirm_button: Button
+var _player_order_reset_button: Button
+var _player_order_character_buttons: Dictionary = {}
+var _player_order_up_buttons: Dictionary = {}
+var _player_order_down_buttons: Dictionary = {}
+var _player_order_remove_buttons: Dictionary = {}
+var _player_order_hud_label: Label
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
@@ -131,8 +155,8 @@ func _ready() -> void:
 	enemy.hp_depleted.connect(_on_enemy_hp_depleted)
 	player.hp_changed.connect(_on_player_hp_changed)
 	enemy.hp_changed.connect(_on_enemy_hp_changed)
-	_create_flow_ui()
 	initialize_game_progress()
+	_create_flow_ui()
 	_set_battle_active(false)
 	_update_all_ui()
 	call_deferred("start_initial_player_selection")
@@ -174,6 +198,7 @@ func initialize_game_progress() -> void:
 	defeated_player_ids.clear()
 	defeated_enemy_ids.clear()
 	is_player_change_processing = false
+	reset_player_order_data()
 	_flow_sequence_id += 1
 
 	reset_player_roster()
@@ -214,6 +239,14 @@ func reset_player_roster() -> void:
 	current_player_id = ""
 
 
+func reset_player_order_data() -> void:
+	selected_player_order.clear()
+	current_player_order_index = 0
+	is_player_order_confirmed = false
+	is_battle_starting = false
+	is_ordered_player_change_processing = false
+
+
 func validate_enemy_definitions() -> bool:
 	var seen_ids := {}
 	var expected_order := 1
@@ -245,7 +278,10 @@ func start_initial_player_selection() -> void:
 	if flow_state == BattleState.CLEAR or flow_state == BattleState.GAME_OVER:
 		return
 
-	open_player_select(_selection_reason == "GAME_START")
+	if not is_player_order_confirmed:
+		open_player_order_select()
+	else:
+		open_player_select(_selection_reason == "GAME_START")
 
 
 func open_player_select(is_initial_select: bool = false) -> void:
@@ -262,6 +298,229 @@ func open_player_select(is_initial_select: bool = false) -> void:
 
 func close_player_select() -> void:
 	_hide_player_selection()
+
+
+func open_player_order_select() -> void:
+	if flow_state == BattleState.CLEAR or flow_state == BattleState.GAME_OVER:
+		return
+	_set_battle_state(BattleState.READY)
+	_set_battle_active(false)
+	_clear_active_fighter_actions(player)
+	_clear_active_fighter_actions(enemy)
+	player.visible = false
+	enemy.visible = false
+	_show_message("")
+	if _player_order_panel != null:
+		_player_order_panel.visible = true
+	update_order_select_ui()
+	player_order_select_opened.emit()
+	print("[DEV034] Player order select opened")
+
+
+func close_player_order_select() -> void:
+	if _player_order_panel != null:
+		_player_order_panel.visible = false
+	player.visible = true
+	enemy.visible = true
+
+
+func select_order_character(character_id: String) -> void:
+	if is_player_order_confirmed:
+		return
+	if not is_valid_player_id(character_id):
+		return
+	if selected_player_order.has(character_id):
+		deselect_order_character(character_id)
+		return
+	if selected_player_order.size() >= 3:
+		return
+	selected_player_order.append(character_id)
+	print("[DEV034] Player selected for order: %s" % character_id)
+	_emit_player_order_changed()
+
+
+func deselect_order_character(character_id: String) -> void:
+	if is_player_order_confirmed:
+		return
+	var index := selected_player_order.find(character_id)
+	if index == -1:
+		return
+	selected_player_order.remove_at(index)
+	_emit_player_order_changed()
+
+
+func move_order_up(character_id: String) -> void:
+	var index := selected_player_order.find(character_id)
+	if index <= 0:
+		return
+	var previous := selected_player_order[index - 1]
+	selected_player_order[index - 1] = character_id
+	selected_player_order[index] = previous
+	_emit_player_order_changed()
+
+
+func move_order_down(character_id: String) -> void:
+	var index := selected_player_order.find(character_id)
+	if index == -1 or index >= selected_player_order.size() - 1:
+		return
+	var next := selected_player_order[index + 1]
+	selected_player_order[index + 1] = character_id
+	selected_player_order[index] = next
+	_emit_player_order_changed()
+
+
+func reset_order_selection() -> void:
+	if is_player_order_confirmed:
+		return
+	selected_player_order.clear()
+	_emit_player_order_changed()
+
+
+func confirm_player_order() -> void:
+	if is_battle_starting:
+		return
+	if not is_valid_player_order(selected_player_order):
+		push_warning("Invalid player order.")
+		return
+	is_battle_starting = true
+	set_player_order(selected_player_order)
+	player_order_confirmed.emit(selected_player_order.duplicate())
+	print("[DEV034] Player order confirmed: %s" % ", ".join(selected_player_order))
+	start_battle_with_first_player()
+
+
+func set_player_order(order: Array[String]) -> void:
+	if not is_valid_player_order(order):
+		push_warning("Invalid player order.")
+		return
+	selected_player_order = order.duplicate()
+	current_player_order_index = 0
+	is_player_order_confirmed = true
+	update_player_order_hud()
+
+
+func get_player_order() -> Array[String]:
+	return selected_player_order.duplicate()
+
+
+func get_first_player_id() -> String:
+	if selected_player_order.is_empty():
+		return ""
+	return selected_player_order[0]
+
+
+func get_next_ordered_player_id() -> String:
+	if current_player_order_index + 1 >= selected_player_order.size():
+		return ""
+	return selected_player_order[current_player_order_index + 1]
+
+
+func get_next_available_ordered_player_id() -> String:
+	for index in range(current_player_order_index + 1, selected_player_order.size()):
+		var character_id := selected_player_order[index]
+		if is_player_available(character_id):
+			current_player_order_index = index
+			return character_id
+	return ""
+
+
+func advance_player_order() -> void:
+	current_player_order_index = mini(current_player_order_index + 1, selected_player_order.size())
+
+
+func reset_player_order() -> void:
+	reset_player_order_data()
+	update_order_select_ui()
+	update_player_order_hud()
+
+
+func is_valid_player_order(order: Array[String]) -> bool:
+	if order.size() != 3:
+		return false
+	var unique_ids := {}
+	for character_id in order:
+		if character_id == "":
+			return false
+		if not is_valid_player_id(character_id):
+			return false
+		if unique_ids.has(character_id):
+			return false
+		unique_ids[character_id] = true
+	return true
+
+
+func validate_player_order(order: Array[String]) -> bool:
+	return is_valid_player_order(order)
+
+
+func is_valid_player_id(character_id: String) -> bool:
+	return _find_player_index_by_id(character_id) != -1
+
+
+func is_player_available(character_id: String) -> bool:
+	var player_index := _find_player_index_by_id(character_id)
+	return player_index != -1 and _is_player_selectable(player_index)
+
+
+func start_battle_with_first_player() -> void:
+	var first_player_id := get_first_player_id()
+	if first_player_id == "":
+		is_battle_starting = false
+		return
+	close_player_order_select()
+	battle_start_requested.emit(first_player_id)
+	spawn_ordered_player(first_player_id)
+	print("[DEV034] First player spawned: %s" % first_player_id)
+	print("[DEV034] Battle started")
+	is_battle_starting = false
+	_set_battle_state(BattleState.READY)
+	await prepare_battle()
+
+
+func start_ordered_player_change() -> void:
+	if is_ordered_player_change_processing:
+		return
+	is_ordered_player_change_processing = true
+	var defeated_id := String(_active_player_id())
+	print("[DEV034] Ordered player defeated: %s" % defeated_id)
+	var next_player_id := get_next_available_ordered_player_id()
+	if next_player_id == "":
+		print("[DEV034] No ordered players remaining")
+		print("[DEV034] GAME OVER")
+		is_ordered_player_change_processing = false
+		enter_game_over()
+		return
+	next_ordered_player_requested.emit(next_player_id)
+	print("[DEV034] Next ordered player: %s" % next_player_id)
+	print("[DEV034] Enemy HP retained: %d / %d" % [enemy.current_hp, enemy.max_hp])
+	await show_next_player_message(next_player_id)
+	spawn_ordered_player(next_player_id)
+	print("[DEV034] Player spawned: %s" % next_player_id)
+	is_ordered_player_change_processing = false
+	await prepare_battle()
+
+
+func show_next_player_message(character_id: String) -> void:
+	_show_message("%s K.O." % _display_name_for_id(String(_active_player_id())))
+	await get_tree().create_timer(player_defeat_display_time).timeout
+	_show_message("NEXT FIGHTER\n%s" % _display_name_for_id(character_id))
+	await get_tree().create_timer(next_player_display_time).timeout
+	_show_message("")
+
+
+func spawn_ordered_player(character_id: String) -> void:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return
+	current_player_order_index = selected_player_order.find(character_id)
+	current_player_index = player_index
+	current_player_id = character_id
+	if not selected_player_ids.has(StringName(character_id)):
+		selected_player_ids.append(StringName(character_id))
+	spawn_active_player()
+	update_enemy_target()
+	update_camera_target()
+	update_player_order_hud()
 
 
 func select_player(selection) -> void:
@@ -482,7 +741,7 @@ func resolve_battle_result() -> void:
 			_set_battle_state(BattleState.NEXT_ENEMY)
 			await transition_to_next_enemy()
 	else:
-		start_initial_player_selection()
+		await start_ordered_player_change()
 
 
 func handle_player_victory() -> void:
@@ -575,9 +834,14 @@ func enter_game_clear() -> void:
 	is_run_active = false
 	_set_battle_active(false)
 	_hide_player_selection()
+	close_player_order_select()
 	_switch_bgm("WinBGM")
 	_show_message("GAME CLEAR")
-	_show_end_panel("GAME CLEAR", "All 8 enemies defeated.")
+	_show_end_panel("GAME CLEAR", "All 8 enemies defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
+		_order_text(),
+		defeated_player_ids.size(),
+		maxi(0, selected_player_order.size() - defeated_player_ids.size()),
+	])
 	game_cleared.emit()
 	print("GAME CLEAR")
 
@@ -590,6 +854,7 @@ func enter_game_over() -> void:
 	is_run_active = false
 	_set_battle_active(false)
 	_hide_player_selection()
+	close_player_order_select()
 	_switch_bgm("LoseBGM")
 	_show_message("GAME OVER")
 	_show_end_panel("GAME OVER", "All ally fighters defeated.")
@@ -972,6 +1237,42 @@ func _find_player_index_by_id(character_id: String) -> int:
 	return -1
 
 
+func _display_name_for_id(character_id: String) -> String:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return character_id
+	return String(player_team[player_index]["display_name"])
+
+
+func _order_slot_text(index: int) -> String:
+	if index < selected_player_order.size():
+		return _display_name_for_id(selected_player_order[index])
+	return "NOT SELECTED"
+
+
+func _order_status_text(character_id: String, order_index: int) -> String:
+	if defeated_player_ids.has(StringName(character_id)):
+		return "DEFEATED"
+	if order_index == current_player_order_index and String(_active_player_id()) == character_id and flow_state == BattleState.BATTLE:
+		return "ACTIVE"
+	return "WAIT"
+
+
+func _order_text() -> String:
+	if selected_player_order.is_empty():
+		return "NONE"
+	var names: Array[String] = []
+	for character_id in selected_player_order:
+		names.append(_display_name_for_id(character_id))
+	return ", ".join(names)
+
+
+func _emit_player_order_changed() -> void:
+	player_order_changed.emit(selected_player_order.duplicate())
+	print("[DEV034] Current order: %s" % ", ".join(selected_player_order))
+	update_order_select_ui()
+
+
 func _active_player_id() -> StringName:
 	if current_player_index < 0 or current_player_index >= player_team.size():
 		return &""
@@ -1100,6 +1401,8 @@ func _create_flow_ui() -> void:
 	_bgm_player.name = "BattleBGMPlayer"
 	add_child(_bgm_player)
 
+	_create_player_order_ui()
+
 	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
 	battle_ui_root.add_child(_character_selection_screen)
 	_character_selection_screen.fighter_selected.connect(select_player)
@@ -1118,6 +1421,165 @@ func _show_player_selection() -> void:
 			call_deferred("select_player", indices[0])
 
 
+func _create_player_order_ui() -> void:
+	_player_order_hud_label = Label.new()
+	_player_order_hud_label.name = "PlayerOrderHudLabel"
+	_player_order_hud_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_player_order_hud_label.offset_left = 24.0
+	_player_order_hud_label.offset_top = 114.0
+	_player_order_hud_label.offset_right = -24.0
+	_player_order_hud_label.offset_bottom = 170.0
+	_player_order_hud_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_player_order_hud_label.add_theme_font_size_override("font_size", 15)
+	battle_ui_root.add_child(_player_order_hud_label)
+
+	_player_order_panel = PanelContainer.new()
+	_player_order_panel.name = "PlayerOrderSelectUI"
+	_player_order_panel.visible = false
+	_player_order_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_player_order_panel.offset_left = 36.0
+	_player_order_panel.offset_top = 28.0
+	_player_order_panel.offset_right = -36.0
+	_player_order_panel.offset_bottom = -28.0
+	battle_ui_root.add_child(_player_order_panel)
+
+	var root := VBoxContainer.new()
+	root.add_theme_constant_override("separation", 14)
+	_player_order_panel.add_child(root)
+
+	_player_order_title_label = Label.new()
+	_player_order_title_label.text = "SELECT PLAYER ORDER"
+	_player_order_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_player_order_title_label.add_theme_font_size_override("font_size", 32)
+	root.add_child(_player_order_title_label)
+
+	_player_order_slots_label = Label.new()
+	_player_order_slots_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_player_order_slots_label.add_theme_font_size_override("font_size", 22)
+	root.add_child(_player_order_slots_label)
+
+	var character_list := HBoxContainer.new()
+	character_list.alignment = BoxContainer.ALIGNMENT_CENTER
+	character_list.add_theme_constant_override("separation", 14)
+	root.add_child(character_list)
+
+	for data in player_team:
+		var character_id := String(data["character_id"])
+		var box := VBoxContainer.new()
+		box.custom_minimum_size = Vector2(240.0, 230.0)
+		character_list.add_child(box)
+
+		var button := Button.new()
+		button.custom_minimum_size = Vector2(230.0, 118.0)
+		button.pressed.connect(select_order_character.bind(character_id))
+		box.add_child(button)
+		_player_order_character_buttons[character_id] = button
+
+		var controls := HBoxContainer.new()
+		controls.alignment = BoxContainer.ALIGNMENT_CENTER
+		box.add_child(controls)
+
+		var up_button := Button.new()
+		up_button.text = "UP"
+		up_button.pressed.connect(move_order_up.bind(character_id))
+		controls.add_child(up_button)
+		_player_order_up_buttons[character_id] = up_button
+
+		var down_button := Button.new()
+		down_button.text = "DOWN"
+		down_button.pressed.connect(move_order_down.bind(character_id))
+		controls.add_child(down_button)
+		_player_order_down_buttons[character_id] = down_button
+
+		var remove_button := Button.new()
+		remove_button.text = "REMOVE"
+		remove_button.pressed.connect(deselect_order_character.bind(character_id))
+		box.add_child(remove_button)
+		_player_order_remove_buttons[character_id] = remove_button
+
+	_player_order_status_label = Label.new()
+	_player_order_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	root.add_child(_player_order_status_label)
+
+	var footer := HBoxContainer.new()
+	footer.alignment = BoxContainer.ALIGNMENT_CENTER
+	footer.add_theme_constant_override("separation", 14)
+	root.add_child(footer)
+
+	_player_order_confirm_button = Button.new()
+	_player_order_confirm_button.text = "CONFIRM"
+	_player_order_confirm_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_confirm_button.pressed.connect(confirm_player_order)
+	footer.add_child(_player_order_confirm_button)
+
+	_player_order_reset_button = Button.new()
+	_player_order_reset_button.text = "RESET"
+	_player_order_reset_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_reset_button.pressed.connect(reset_order_selection)
+	footer.add_child(_player_order_reset_button)
+
+	update_order_select_ui()
+
+
+func update_order_select_ui() -> void:
+	if _player_order_slots_label == null:
+		return
+	_player_order_slots_label.text = "\n".join([
+		"1: %s" % _order_slot_text(0),
+		"2: %s" % _order_slot_text(1),
+		"3: %s" % _order_slot_text(2),
+	])
+
+	for data in player_team:
+		var character_id := String(data["character_id"])
+		var order_index := selected_player_order.find(character_id)
+		var selected := order_index != -1
+		var button: Button = _player_order_character_buttons.get(character_id)
+		if button != null:
+			button.text = "%s\nID: %s\nTYPE: %s\n%s" % [
+				data["display_name"],
+				character_id,
+				String(data["definition"].fighter_type).to_upper(),
+				"ORDER %d" % (order_index + 1) if selected else "NOT SELECTED",
+			]
+			button.disabled = is_player_order_confirmed
+			button.modulate = Color(0.65, 0.85, 1.0, 1.0) if selected else Color.WHITE
+
+		var up_button: Button = _player_order_up_buttons.get(character_id)
+		if up_button != null:
+			up_button.disabled = not selected or order_index <= 0 or is_player_order_confirmed
+		var down_button: Button = _player_order_down_buttons.get(character_id)
+		if down_button != null:
+			down_button.disabled = not selected or order_index >= selected_player_order.size() - 1 or is_player_order_confirmed
+		var remove_button: Button = _player_order_remove_buttons.get(character_id)
+		if remove_button != null:
+			remove_button.disabled = not selected or is_player_order_confirmed
+
+	if _player_order_status_label != null:
+		_player_order_status_label.text = "Current order: %s" % _order_text()
+	update_confirm_button_state()
+	update_player_order_hud()
+
+
+func update_confirm_button_state() -> void:
+	if _player_order_confirm_button == null:
+		return
+	_player_order_confirm_button.disabled = not is_valid_player_order(selected_player_order) or is_battle_starting
+
+
+func update_player_order_hud() -> void:
+	if _player_order_hud_label == null:
+		return
+	if selected_player_order.is_empty():
+		_player_order_hud_label.text = ""
+		return
+	var lines: Array[String] = []
+	for index in range(selected_player_order.size()):
+		var character_id := selected_player_order[index]
+		lines.append("%d %s  %s" % [index + 1, _display_name_for_id(character_id), _order_status_text(character_id, index)])
+	_player_order_hud_label.text = "\n".join(lines)
+
+
 func _hide_player_selection() -> void:
 	if _character_selection_screen != null:
 		_character_selection_screen.close_selection()
@@ -1132,6 +1594,7 @@ func _update_all_ui() -> void:
 	_update_win_marks()
 	_update_progress_ui()
 	_update_selection_buttons()
+	update_player_order_hud()
 	_update_debug_flow_label()
 
 
