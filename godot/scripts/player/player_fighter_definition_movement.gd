@@ -3,6 +3,7 @@ extends "res://scripts/player/player_knockdown_movement.gd"
 var fighter_definition: Resource
 var base_max_hp := 100
 var base_move_speed := 300.0
+var base_air_move_speed := 300.0
 var base_jump_power := 500.0
 var base_punch_damage := 5
 var base_kick_damage := 8
@@ -14,6 +15,13 @@ var base_kick_knockback_y := 260.0
 var base_attack_cooldown_time := 0.35
 var base_kick_cooldown_time := 0.5
 var base_guard_damage_rate := 0.25
+var base_punch_startup_multiplier := 1.0
+var base_kick_startup_multiplier := 1.0
+var base_punch_recovery_multiplier := 1.0
+var base_kick_recovery_multiplier := 1.0
+var base_guard_stamina_multiplier := 1.0
+var base_attack_knockback_multiplier := 1.0
+var base_received_knockback_multiplier := 1.0
 var base_second_hit_damage_scale := 0.90
 var base_third_hit_damage_scale := 0.80
 var ai_profile: Resource
@@ -36,32 +44,106 @@ func _physics_process(delta: float) -> void:
 
 
 func apply_fighter_definition(definition: Resource) -> void:
-	fighter_definition = definition
-	if fighter_definition == null:
+	apply_character_data(definition)
+
+
+func apply_character_data(data: Resource) -> void:
+	fighter_definition = data
+	if not validate_character_data(fighter_definition):
 		_restore_base_stats()
 		return
 
-	max_hp = int(round(fighter_definition.max_health))
-	move_speed = fighter_definition.move_speed
-	jump_power = fighter_definition.jump_force
-	punch_damage = maxi(1, int(round(float(base_punch_damage) * fighter_definition.punch_damage_scale)))
-	kick_damage = maxi(1, int(round(float(base_kick_damage) * fighter_definition.kick_damage_scale)))
-	throw_damage = maxi(1, int(round(float(base_throw_damage) * fighter_definition.throw_damage_scale)))
-	punch_knockback_x = base_punch_knockback_x * fighter_definition.knockback_scale
-	punch_knockback_y = base_punch_knockback_y * fighter_definition.knockback_scale
-	kick_knockback_x = base_kick_knockback_x * fighter_definition.knockback_scale
-	kick_knockback_y = base_kick_knockback_y * fighter_definition.knockback_scale
-	attack_cooldown_time = base_attack_cooldown_time / maxf(fighter_definition.attack_speed_scale, 0.1)
-	kick_cooldown_time = base_kick_cooldown_time / maxf(fighter_definition.attack_speed_scale, 0.1)
-	guard_damage_rate = base_guard_damage_rate * fighter_definition.guard_damage_scale
-	second_hit_damage_scale = base_second_hit_damage_scale * fighter_definition.combo_damage_scale
-	third_hit_damage_scale = base_third_hit_damage_scale * fighter_definition.combo_damage_scale
+	apply_movement_stats()
+	apply_attack_stats()
+	apply_guard_stats()
+	apply_knockback_stats()
+	second_hit_damage_scale = base_second_hit_damage_scale * float(fighter_definition.combo_damage_scale)
+	third_hit_damage_scale = base_third_hit_damage_scale * float(fighter_definition.combo_damage_scale)
 	dev026_second_hit_damage_scale = second_hit_damage_scale
 	dev026_third_hit_damage_scale = third_hit_damage_scale
 	current_hp = clampi(current_hp, 0, max_hp)
 	hp_changed.emit(current_hp, max_hp)
 	apply_ai_profile(fighter_definition.ai_profile)
 	apply_temporary_color(fighter_definition.temporary_color)
+	update_character_status_ui()
+
+
+func validate_character_data(data: Resource) -> bool:
+	if data == null:
+		push_warning("[DEV035] Character data missing. Restoring base stats.")
+		return false
+	if String(data.fighter_id).is_empty() or String(data.display_name).is_empty():
+		push_warning("[DEV035] Character data has empty id or display name.")
+		return false
+	if float(data.max_health) <= 0.0 or float(data.move_speed) <= 0.0 or float(data.jump_force) <= 0.0:
+		push_warning("[DEV035] Character data has invalid movement or HP values: %s" % String(data.fighter_id))
+		return false
+	return true
+
+
+func apply_movement_stats() -> void:
+	max_hp = int(round(float(fighter_definition.max_health)))
+	move_speed = float(fighter_definition.move_speed)
+	air_move_speed = _definition_float("air_move_speed", move_speed) if _uses_direct_character_stats() else move_speed
+	jump_power = absf(float(fighter_definition.jump_force))
+
+
+func apply_attack_stats() -> void:
+	var direct_punch_damage := _definition_float("punch_damage", 0.0)
+	var direct_kick_damage := _definition_float("kick_damage", 0.0)
+	punch_damage = maxi(1, int(round(direct_punch_damage))) if _uses_direct_character_stats() and direct_punch_damage > 0.0 else maxi(1, int(round(float(base_punch_damage) * fighter_definition.punch_damage_scale)))
+	kick_damage = maxi(1, int(round(direct_kick_damage))) if _uses_direct_character_stats() and direct_kick_damage > 0.0 else maxi(1, int(round(float(base_kick_damage) * fighter_definition.kick_damage_scale)))
+	throw_damage = maxi(1, int(round(float(base_throw_damage) * fighter_definition.throw_damage_scale)))
+	if _uses_direct_character_stats():
+		punch_startup_multiplier = maxf(_definition_float("punch_startup_multiplier", base_punch_startup_multiplier), 0.01)
+		kick_startup_multiplier = maxf(_definition_float("kick_startup_multiplier", base_kick_startup_multiplier), 0.01)
+		punch_recovery_multiplier = maxf(_definition_float("punch_recovery_multiplier", base_punch_recovery_multiplier), 0.01)
+		kick_recovery_multiplier = maxf(_definition_float("kick_recovery_multiplier", base_kick_recovery_multiplier), 0.01)
+	else:
+		var legacy_recovery_multiplier := 1.0 / maxf(float(fighter_definition.attack_speed_scale), 0.1)
+		punch_startup_multiplier = base_punch_startup_multiplier
+		kick_startup_multiplier = base_kick_startup_multiplier
+		punch_recovery_multiplier = legacy_recovery_multiplier
+		kick_recovery_multiplier = legacy_recovery_multiplier
+
+
+func apply_guard_stats() -> void:
+	if _uses_direct_character_stats():
+		guard_damage_rate = _definition_float("guard_damage_multiplier", base_guard_damage_rate)
+		guard_stamina_multiplier = _definition_float("guard_stamina_multiplier", base_guard_stamina_multiplier)
+	else:
+		guard_damage_rate = base_guard_damage_rate * float(fighter_definition.guard_damage_scale)
+		guard_stamina_multiplier = base_guard_stamina_multiplier
+
+
+func apply_knockback_stats() -> void:
+	if _uses_direct_character_stats():
+		attack_knockback_multiplier = _definition_float("attack_knockback_multiplier", base_attack_knockback_multiplier)
+		received_knockback_multiplier = _definition_float("received_knockback_multiplier", base_received_knockback_multiplier)
+	else:
+		attack_knockback_multiplier = float(fighter_definition.knockback_scale)
+		received_knockback_multiplier = base_received_knockback_multiplier
+	punch_knockback_x = base_punch_knockback_x
+	punch_knockback_y = base_punch_knockback_y
+	kick_knockback_x = base_kick_knockback_x
+	kick_knockback_y = base_kick_knockback_y
+
+
+func update_character_status_ui() -> void:
+	print("[DEV035] Character data loaded: %s" % String(fighter_definition.fighter_id))
+	print("[DEV035] Type: %s" % _display_type_text())
+	print("[DEV035] HP: %d" % max_hp)
+	print("[DEV035] Move speed: %d" % int(round(move_speed)))
+	print("[DEV035] Punch damage: %d" % punch_damage)
+	print("[DEV035] Kick damage: %d" % kick_damage)
+
+
+func update_character_select_stats() -> void:
+	update_character_status_ui()
+
+
+func reset_character_stats() -> void:
+	_restore_base_stats()
 
 
 func apply_ai_profile(profile: Resource) -> void:
@@ -129,6 +211,7 @@ func get_ai_debug_lines() -> Array[String]:
 func _capture_base_stats() -> void:
 	base_max_hp = max_hp
 	base_move_speed = move_speed
+	base_air_move_speed = air_move_speed
 	base_jump_power = jump_power
 	base_punch_damage = punch_damage
 	base_kick_damage = kick_damage
@@ -140,6 +223,13 @@ func _capture_base_stats() -> void:
 	base_attack_cooldown_time = attack_cooldown_time
 	base_kick_cooldown_time = kick_cooldown_time
 	base_guard_damage_rate = guard_damage_rate
+	base_punch_startup_multiplier = punch_startup_multiplier
+	base_kick_startup_multiplier = kick_startup_multiplier
+	base_punch_recovery_multiplier = punch_recovery_multiplier
+	base_kick_recovery_multiplier = kick_recovery_multiplier
+	base_guard_stamina_multiplier = guard_stamina_multiplier
+	base_attack_knockback_multiplier = attack_knockback_multiplier
+	base_received_knockback_multiplier = received_knockback_multiplier
 	base_second_hit_damage_scale = second_hit_damage_scale
 	base_third_hit_damage_scale = third_hit_damage_scale
 
@@ -147,6 +237,7 @@ func _capture_base_stats() -> void:
 func _restore_base_stats() -> void:
 	max_hp = base_max_hp
 	move_speed = base_move_speed
+	air_move_speed = base_air_move_speed
 	jump_power = base_jump_power
 	punch_damage = base_punch_damage
 	kick_damage = base_kick_damage
@@ -158,12 +249,41 @@ func _restore_base_stats() -> void:
 	attack_cooldown_time = base_attack_cooldown_time
 	kick_cooldown_time = base_kick_cooldown_time
 	guard_damage_rate = base_guard_damage_rate
+	punch_startup_multiplier = base_punch_startup_multiplier
+	kick_startup_multiplier = base_kick_startup_multiplier
+	punch_recovery_multiplier = base_punch_recovery_multiplier
+	kick_recovery_multiplier = base_kick_recovery_multiplier
+	guard_stamina_multiplier = base_guard_stamina_multiplier
+	attack_knockback_multiplier = base_attack_knockback_multiplier
+	received_knockback_multiplier = base_received_knockback_multiplier
 	second_hit_damage_scale = base_second_hit_damage_scale
 	third_hit_damage_scale = base_third_hit_damage_scale
 	dev026_second_hit_damage_scale = base_second_hit_damage_scale
 	dev026_third_hit_damage_scale = base_third_hit_damage_scale
 	apply_temporary_color(Color.WHITE)
 	clear_ai_action_state()
+
+
+func _definition_float(property_name: String, fallback: float) -> float:
+	if fighter_definition == null:
+		return fallback
+	var value = fighter_definition.get(property_name)
+	if value == null:
+		return fallback
+	return float(value)
+
+
+func _uses_direct_character_stats() -> bool:
+	return fighter_definition != null and fighter_definition.team_type == &"ALLY"
+
+
+func _display_type_text() -> String:
+	if fighter_definition == null:
+		return ""
+	var type_text := String(fighter_definition.fighter_type)
+	if type_text.is_empty():
+		return ""
+	return type_text.capitalize()
 
 
 func _update_profile_ai(delta: float) -> void:

@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 		visual_root.scale.x = facing_direction
 
 	if not is_hit and not _is_throw_busy():
-		velocity.x = direction * move_speed
+		velocity.x = direction * get_current_move_speed()
 
 	if is_on_floor():
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
@@ -89,8 +89,8 @@ func _dev_start_attack() -> void:
 		dev_last_attack_type = &""
 	current_attack_type = "Punch"
 	dev_current_attack_connected = false
-	attack_active_timer = attack_active_time
-	attack_cooldown_timer = attack_cooldown_time
+	attack_active_timer = get_attack_active_time()
+	attack_cooldown_timer = get_attack_cooldown_time()
 	punch_hit_targets.clear()
 	punch_area.position.x = facing_direction * attack_offset
 	_play_attack_animation(_get_attack_animation_name(&"Punch"))
@@ -104,8 +104,8 @@ func _dev_start_kick() -> void:
 		dev_last_attack_type = &""
 	current_attack_type = "Kick"
 	dev_current_attack_connected = false
-	kick_active_timer = kick_active_time
-	kick_cooldown_timer = kick_cooldown_time
+	kick_active_timer = get_kick_active_time()
+	kick_cooldown_timer = get_kick_cooldown_time()
 	velocity.x = 0.0
 	kick_hit_targets.clear()
 	kick_area.position.x = facing_direction * kick_offset
