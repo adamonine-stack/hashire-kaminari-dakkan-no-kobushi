@@ -135,6 +135,7 @@ var _player_order_up_buttons: Dictionary = {}
 var _player_order_down_buttons: Dictionary = {}
 var _player_order_remove_buttons: Dictionary = {}
 var _player_order_hud_label: Label
+var _last_spawned_player_id := ""
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
@@ -561,6 +562,7 @@ func spawn_active_player() -> void:
 
 	var data := player_team[current_player_index]
 	var definition: Resource = data["definition"]
+	var previous_player_id := _last_spawned_player_id
 	if player.has_method("apply_fighter_definition"):
 		player.apply_fighter_definition(definition)
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
@@ -568,6 +570,11 @@ func spawn_active_player() -> void:
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
 	current_player_instance = player
 	current_player_id = String(data["character_id"])
+	if previous_player_id != "" and previous_player_id != current_player_id:
+		print("[DEV035] Character changed: %s -> %s" % [previous_player_id, current_player_id])
+	print("[DEV035] %s stats applied" % current_player_id)
+	print("[DEV035] HUD max HP updated: %d" % player.max_hp)
+	_last_spawned_player_id = current_player_id
 	current_player_changed.emit(current_player_instance)
 	update_player_hud()
 
@@ -1094,6 +1101,9 @@ func _heal_active_player_after_enemy_defeat() -> void:
 	else:
 		player.current_hp = healed_hp
 		player.hp_changed.emit(player.current_hp, player.max_hp)
+	print("[DEV035] Enemy defeated by: %s" % current_player_id)
+	print("[DEV035] Recovery amount: %d" % heal_amount)
+	print("[DEV035] HP after recovery: %d / %d" % [healed_hp, player.max_hp])
 	_show_heal_effect(heal_amount)
 
 
@@ -1188,14 +1198,16 @@ func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
 
 
 func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
+	var max_health := int(round(definition.max_health))
 	return {
 		"definition": definition,
 		"character_id": definition.fighter_id,
 		"fighter_id": definition.fighter_id,
 		"display_name": definition.display_name,
+		"fighter_type": String(definition.fighter_type),
 		"scene_path": "",
-		"max_health": int(round(definition.max_health)),
-		"current_health": int(round(definition.max_health)),
+		"max_health": max_health,
+		"current_health": max_health,
 		"is_defeated": false,
 		"is_available": true,
 		"battle_order": battle_order,
@@ -1242,6 +1254,33 @@ func _display_name_for_id(character_id: String) -> String:
 	if player_index == -1:
 		return character_id
 	return String(player_team[player_index]["display_name"])
+
+
+func _definition_for_player_id(character_id: String) -> Resource:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return null
+	return player_team[player_index].get("definition", null)
+
+
+func _type_for_player_id(character_id: String) -> String:
+	var definition := _definition_for_player_id(character_id)
+	if definition == null:
+		return ""
+	return String(definition.fighter_type).to_upper()
+
+
+func _stats_text_for_definition(definition: Resource) -> String:
+	if definition == null:
+		return ""
+	return "HP %d  SPD %d/%d\nP %d  K %d  GRD %.2f" % [
+		int(round(definition.max_health)),
+		int(round(definition.move_speed)),
+		int(round(definition.air_move_speed)),
+		int(round(definition.punch_damage)),
+		int(round(definition.kick_damage)),
+		float(definition.guard_damage_multiplier),
+	]
 
 
 func _order_slot_text(index: int) -> String:
@@ -1470,7 +1509,7 @@ func _create_player_order_ui() -> void:
 		character_list.add_child(box)
 
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(230.0, 118.0)
+		button.custom_minimum_size = Vector2(230.0, 150.0)
 		button.pressed.connect(select_order_character.bind(character_id))
 		box.add_child(button)
 		_player_order_character_buttons[character_id] = button
@@ -1536,10 +1575,11 @@ func update_order_select_ui() -> void:
 		var selected := order_index != -1
 		var button: Button = _player_order_character_buttons.get(character_id)
 		if button != null:
-			button.text = "%s\nID: %s\nTYPE: %s\n%s" % [
+			button.text = "%s\nID: %s\nTYPE: %s\n%s\n%s" % [
 				data["display_name"],
 				character_id,
 				String(data["definition"].fighter_type).to_upper(),
+				_stats_text_for_definition(data["definition"]),
 				"ORDER %d" % (order_index + 1) if selected else "NOT SELECTED",
 			]
 			button.disabled = is_player_order_confirmed
@@ -1576,7 +1616,15 @@ func update_player_order_hud() -> void:
 	var lines: Array[String] = []
 	for index in range(selected_player_order.size()):
 		var character_id := selected_player_order[index]
-		lines.append("%d %s  %s" % [index + 1, _display_name_for_id(character_id), _order_status_text(character_id, index)])
+		var definition := _definition_for_player_id(character_id)
+		var max_health := int(round(definition.max_health)) if definition != null else 0
+		lines.append("%d %s [%s] HP %d  %s" % [
+			index + 1,
+			_display_name_for_id(character_id),
+			_type_for_player_id(character_id),
+			max_health,
+			_order_status_text(character_id, index),
+		])
 	_player_order_hud_label.text = "\n".join(lines)
 
 
@@ -1649,9 +1697,13 @@ func _update_debug_flow_label() -> void:
 		"ENEMY ORDER: %s" % _active_enemy_order_text(),
 		"RUN ACTIVE: %s" % str(is_run_active).to_upper(),
 		"BATTLE RESULT: %s" % String(battle_result),
+		"ACTIVE TYPE: %s" % _type_for_player_id(String(_active_player_id())),
 		"ACTIVE MOVE SPEED: %.1f" % player.move_speed,
+		"ACTIVE AIR SPEED: %.1f" % player.air_move_speed,
 		"ACTIVE MAX HEALTH: %d" % player.max_hp,
 		"ACTIVE PUNCH DAMAGE: %d" % player.punch_damage,
+		"ACTIVE KICK DAMAGE: %d" % player.kick_damage,
+		"ACTIVE GUARD RATE: %.2f" % player.guard_damage_rate,
 		"ENEMY MOVE SPEED: %.1f" % enemy.move_speed,
 		"ENEMY MAX HEALTH: %d" % enemy.max_hp,
 		"ENEMY PUNCH DAMAGE: %d" % enemy.punch_damage,

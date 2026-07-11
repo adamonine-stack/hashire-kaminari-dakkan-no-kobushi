@@ -7,6 +7,7 @@ signal throw_hit(target: Node)
 signal combo_changed(combo_count: int, combo_owner: Node)
 
 @export var move_speed := 300.0
+@export var air_move_speed := 300.0
 @export var crouch_speed := 120.0
 @export var jump_power := 500.0
 @export var screen_margin := 36.0
@@ -49,6 +50,18 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var ai_throw_cooldown := 1.5
 @export var ai_throw_check_interval := 0.4
 @export var combo_timeout := 1.0
+@export var combo_input_buffer_time := 0.20
+@export var combo_continue_window := 0.25
+@export var combo_reset_time := 0.80
+@export var max_combo_hits: int = 3
+@export var minimum_combo_damage := 1.0
+@export var combo_hitstun_time := 0.30
+@export_range(0.0, 1.0, 0.05) var second_hit_damage_scale := 0.90
+@export_range(0.0, 1.0, 0.05) var third_hit_damage_scale := 0.80
+@export_range(0.0, 1.0, 0.05) var first_combo_knockback_scale := 0.50
+@export_range(0.0, 1.0, 0.05) var second_combo_knockback_scale := 0.65
+@export_range(0.0, 1.0, 0.05) var ai_combo_continue_probability := 0.45
+@export_range(0.0, 1.0, 0.05) var ai_third_hit_probability := 0.25
 @export var combo_log_enabled := true
 @export var cancel_window_time := 0.25
 @export var debug_state_label_enabled := true
@@ -57,6 +70,14 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var ai_guard_check_interval := 0.35
 @export var ai_guard_min_time := 0.3
 @export var ai_guard_max_time := 1.0
+
+var punch_startup_multiplier := 1.0
+var kick_startup_multiplier := 1.0
+var punch_recovery_multiplier := 1.0
+var kick_recovery_multiplier := 1.0
+var guard_stamina_multiplier := 1.0
+var attack_knockback_multiplier := 1.0
+var received_knockback_multiplier := 1.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var current_hp := 100
@@ -100,7 +121,15 @@ var current_throw_target: Node
 var has_throw_connected := false
 var has_throw_damage_applied := false
 var combo_count := 0
+var current_combo_hits := 0
 var combo_timer := 0.0
+var combo_window_open := false
+var buffered_attack: StringName = &""
+var attack_buffer_timer := 0.0
+var last_attack_type: StringName = &""
+var combo_target: Node
+var current_attack_connected := false
+var combo_step := 0
 var can_cancel := false
 var cancel_window_timer := 0.0
 var current_attack_type := ""
@@ -150,6 +179,7 @@ func _physics_process(delta: float) -> void:
 	_update_throw_state(delta)
 	_update_combo_timer(delta)
 	_update_cancel_window(delta)
+	_update_attack_buffer(delta)
 	_update_ai_throw(delta)
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
@@ -165,7 +195,7 @@ func _physics_process(delta: float) -> void:
 		visual_root.scale.x = facing_direction
 
 	if not is_hit and not _is_throw_busy():
-		velocity.x = direction * move_speed
+		velocity.x = direction * get_current_move_speed()
 
 	if is_on_floor():
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
@@ -177,7 +207,7 @@ func _physics_process(delta: float) -> void:
 
 	if input_enabled and _is_throw_input_pressed() and _can_start_throw():
 		_start_throw()
-	var did_cancel_attack := input_enabled and _try_cancel_attack_from_input()
+	var did_cancel_attack := _try_cancel_attack_from_input()
 	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
 		_start_attack()
 	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
@@ -196,12 +226,19 @@ func _physics_process(delta: float) -> void:
 	position.x = clampf(position.x, screen_margin, viewport_width - screen_margin)
 
 
-func _start_attack() -> void:
+func _start_attack(is_combo_attack := false) -> void:
+	if not is_combo_attack:
+		combo_step = 1
+		last_attack_type = &""
+	else:
+		combo_step = mini(combo_count + 1, max_combo_hits)
 	current_attack_type = "Punch"
-	attack_active_timer = attack_active_time
-	attack_cooldown_timer = attack_cooldown_time
+	current_attack_connected = false
+	attack_active_timer = get_attack_active_time()
+	attack_cooldown_timer = get_attack_cooldown_time()
 	punch_hit_targets.clear()
 	punch_area.position.x = facing_direction * attack_offset
+	_play_attack_animation(_get_attack_animation_name(&"Punch"))
 	_set_punch_hitbox_active(true)
 
 
@@ -228,18 +265,26 @@ func _update_defensive_state() -> void:
 		velocity.x = 0.0
 
 
-func _start_kick() -> void:
+func _start_kick(is_combo_attack := false) -> void:
 	print("Kick Start")
+	if not is_combo_attack:
+		combo_step = 1
+		last_attack_type = &""
+	else:
+		combo_step = mini(combo_count + 1, max_combo_hits)
 	current_attack_type = "Kick"
-	kick_active_timer = kick_active_time
-	kick_cooldown_timer = kick_cooldown_time
+	current_attack_connected = false
+	kick_active_timer = get_kick_active_time()
+	kick_cooldown_timer = get_kick_cooldown_time()
 	velocity.x = 0.0
 	kick_hit_targets.clear()
 	kick_area.position.x = facing_direction * kick_offset
+	_play_attack_animation(_get_attack_animation_name(&"Kick"))
 	_set_kick_hitbox_active(true)
 
 
 func _start_throw() -> void:
+	interrupt_combo()
 	is_throwing = true
 	throw_state = "THROW_STARTUP"
 	throw_startup_timer = throw_startup_time
@@ -262,6 +307,7 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	if not can_be_thrown(attacker):
 		return
 
+	interrupt_combo()
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
 	_clear_guard_state()
@@ -410,6 +456,7 @@ func _complete_throw_escape() -> void:
 
 
 func enter_throw_escape_recovery(escaped_target: Node) -> void:
+	interrupt_combo()
 	is_throwing = false
 	is_throw_locked = true
 	is_throw_escaping = true
@@ -594,11 +641,36 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 		animation_player.play("Throw")
 
 
+func _play_attack_animation(animation_name: StringName) -> void:
+	if animation_player == null:
+		return
+	if animation_player.has_animation(String(animation_name)):
+		animation_player.play(String(animation_name))
+	elif animation_player.has_animation("Punch") and current_attack_type == "Punch":
+		animation_player.play("Punch")
+	elif animation_player.has_animation("Kick") and current_attack_type == "Kick":
+		animation_player.play("Kick")
+
+
+func _get_attack_animation_name(attack_type: StringName) -> StringName:
+	if attack_type == &"Punch":
+		return &"punch_2" if combo_step == 2 else &"punch_1"
+	if combo_step >= max_combo_hits:
+		return &"combo_finisher"
+	return &"kick_1"
+
+
 func _update_attack(delta: float) -> void:
 	if attack_cooldown_timer > 0.0:
 		attack_cooldown_timer = maxf(attack_cooldown_timer - delta, 0.0)
 		if attack_cooldown_timer == 0.0 and current_attack_type == "Punch":
+			if combo_count > 0 and not current_attack_connected:
+				reset_combo()
 			current_attack_type = ""
+			clear_attack_buffer()
+			close_combo_window()
+			if combo_count >= max_combo_hits:
+				reset_combo()
 
 	if attack_active_timer <= 0.0:
 		_set_punch_hitbox_active(false)
@@ -613,7 +685,13 @@ func _update_kick(delta: float) -> void:
 	if kick_cooldown_timer > 0.0:
 		kick_cooldown_timer = maxf(kick_cooldown_timer - delta, 0.0)
 		if kick_cooldown_timer == 0.0 and current_attack_type == "Kick":
+			if combo_count > 0 and not current_attack_connected:
+				reset_combo()
 			current_attack_type = ""
+			clear_attack_buffer()
+			close_combo_window()
+			if combo_count >= max_combo_hits:
+				reset_combo()
 
 	if kick_active_timer <= 0.0:
 		_set_kick_hitbox_active(false)
@@ -710,13 +788,16 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
 		return false
 
+	interrupt_combo()
 	_cancel_current_action()
 	_enter_hit_state()
+	if int(attack_data.get("combo_hit_index", 1)) < max_combo_hits:
+		hit_reaction_timer = maxf(hit_reaction_timer, combo_hitstun_time)
 	apply_damage(attack_data["damage"])
-	if current_hp > 0 and attacker != null and attacker.has_method("register_combo_hit"):
+	if attacker != null and attacker.has_method("register_combo_hit"):
 		attacker.register_combo_hit(self)
-	elif attacker != null and attacker.has_method("reset_combo"):
-		attacker.reset_combo()
+		if current_hp == 0 and attacker.has_method("_finish_combo_after_ko"):
+			attacker._finish_combo_after_ko()
 	_apply_knockback(attack_data, attack_direction)
 	_start_invincibility()
 	_start_hit_stop(attack_data["hit_stop_frames"])
@@ -740,16 +821,16 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 	if not target.has_method("receive_attack"):
 		return
 
-	if target.receive_attack(attack_data, facing_direction, _get_hit_position(target), self):
-		_open_cancel_window()
+	var scaled_attack_data := _build_combo_scaled_attack_data(attack_data, target)
+	target.receive_attack(scaled_attack_data, facing_direction, _get_hit_position(target), self)
 
 
 func _get_punch_attack_data() -> Dictionary:
 	return {
 		"damage": punch_damage,
 		"attack_height": "middle",
-		"knockback_x": punch_knockback_x,
-		"knockback_y": punch_knockback_y,
+		"knockback_x": calculate_attack_knockback(Vector2(punch_knockback_x, punch_knockback_y)).x,
+		"knockback_y": calculate_attack_knockback(Vector2(punch_knockback_x, punch_knockback_y)).y,
 		"hit_stop_frames": 3,
 		"effect_size": 1.0,
 		"screen_shake": 2.0,
@@ -761,8 +842,8 @@ func _get_kick_attack_data() -> Dictionary:
 	return {
 		"damage": kick_damage,
 		"attack_height": "low",
-		"knockback_x": kick_knockback_x,
-		"knockback_y": kick_knockback_y,
+		"knockback_x": calculate_attack_knockback(Vector2(kick_knockback_x, kick_knockback_y)).x,
+		"knockback_y": calculate_attack_knockback(Vector2(kick_knockback_x, kick_knockback_y)).y,
 		"hit_stop_frames": 8,
 		"effect_size": 1.5,
 		"screen_shake": 4.0,
@@ -811,9 +892,10 @@ func _enter_hit_state() -> void:
 
 
 func _apply_knockback(attack_data: Dictionary, attack_direction: float) -> void:
-	velocity.x = attack_data["knockback_x"] * attack_direction
+	var received_knockback := calculate_received_knockback(Vector2(attack_data["knockback_x"], attack_data["knockback_y"]))
+	velocity.x = received_knockback.x * attack_direction
 	if not is_on_floor():
-		velocity.y = -attack_data["knockback_y"]
+		velocity.y = -received_knockback.y
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
@@ -825,8 +907,10 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker.reset_combo()
 	if attacker != null and attacker.has_method("_clear_cancel_window"):
 		attacker._clear_cancel_window()
+	if attacker != null and attacker.has_method("clear_attack_buffer"):
+		attacker.clear_attack_buffer()
 	_enter_guard_hit_state()
-	apply_damage(_get_guard_damage(attack_data["damage"]))
+	apply_damage(_get_guard_damage(int(attack_data.get("base_damage", attack_data["damage"]))))
 	_apply_guard_knockback(attack_data, attack_direction)
 	_start_hit_stop_seconds(guard_hit_stop_time)
 	_spawn_guard_effect(hit_position)
@@ -842,11 +926,12 @@ func _enter_guard_hit_state() -> void:
 
 
 func _get_guard_damage(damage: int) -> int:
-	return maxi(1, int(round(float(damage) * guard_damage_rate)))
+	return int(calculate_guarded_damage(float(damage)))
 
 
 func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) -> void:
-	velocity.x = guard_knockback_x * attack_direction
+	var guard_knockback := calculate_received_knockback(Vector2(guard_knockback_x, 0.0))
+	velocity.x = guard_knockback.x * attack_direction
 	if is_on_floor():
 		velocity.y = 0.0
 
@@ -879,6 +964,58 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 func _can_start_guard_or_crouch() -> bool:
 	return can_guard and is_round_active and is_on_floor() and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit
+
+
+func get_current_move_speed() -> float:
+	return move_speed if is_on_floor() else air_move_speed
+
+
+func get_attack_active_time() -> float:
+	return attack_active_time * maxf(punch_startup_multiplier, 0.01)
+
+
+func get_kick_active_time() -> float:
+	return kick_active_time * maxf(kick_startup_multiplier, 0.01)
+
+
+func get_attack_cooldown_time() -> float:
+	return attack_cooldown_time * maxf(punch_recovery_multiplier, 0.01)
+
+
+func get_kick_cooldown_time() -> float:
+	return kick_cooldown_time * maxf(kick_recovery_multiplier, 0.01)
+
+
+func get_punch_damage() -> float:
+	return float(punch_damage)
+
+
+func get_kick_damage() -> float:
+	return float(kick_damage)
+
+
+func get_guard_damage_multiplier() -> float:
+	return guard_damage_rate
+
+
+func get_attack_knockback_multiplier() -> float:
+	return attack_knockback_multiplier
+
+
+func get_received_knockback_multiplier() -> float:
+	return received_knockback_multiplier
+
+
+func calculate_guarded_damage(incoming_damage: float) -> float:
+	return maxi(1, int(round(incoming_damage * get_guard_damage_multiplier())))
+
+
+func calculate_attack_knockback(base_knockback: Vector2) -> Vector2:
+	return base_knockback * get_attack_knockback_multiplier()
+
+
+func calculate_received_knockback(incoming_knockback: Vector2) -> Vector2:
+	return incoming_knockback * get_received_knockback_multiplier()
 
 
 func _is_holding_back_against_opponent() -> bool:
@@ -928,6 +1065,35 @@ func _update_ai_throw(delta: float) -> void:
 	ai_throw_cooldown_timer = ai_throw_cooldown
 	_face_opponent()
 	_start_throw()
+
+
+func _maybe_buffer_ai_combo() -> void:
+	if name != "Enemy" or input_enabled:
+		return
+	if not combo_window_open or buffered_attack != &"" or combo_count >= max_combo_hits:
+		return
+	if not current_attack_connected or current_attack_type == "":
+		return
+
+	var continue_probability := ai_combo_continue_probability if combo_count <= 1 else ai_third_hit_probability
+	if randf() > continue_probability:
+		return
+
+	var next_attack := _choose_ai_combo_attack()
+	if next_attack == &"":
+		return
+
+	buffer_attack(next_attack)
+
+
+func _choose_ai_combo_attack() -> StringName:
+	match StringName(current_attack_type):
+		&"Punch":
+			return &"Kick" if randf() < 0.5 else &"Punch"
+		&"Kick":
+			return &"Punch"
+		_:
+			return &""
 
 
 func _update_ai_guard(delta: float) -> void:
@@ -1049,23 +1215,51 @@ func _update_hit_reaction(delta: float) -> void:
 
 
 func register_combo_hit(target: Node) -> void:
-	if combo_timer <= 0.0:
-		combo_count = 1
-	else:
-		combo_count += 1
+	if target == null or not is_instance_valid(target):
+		reset_combo()
+		return
 
-	combo_timer = combo_timeout
+	if combo_timer <= 0.0 or combo_target == null or not is_instance_valid(combo_target):
+		combo_count = 0
+		current_combo_hits = 0
+		combo_target = target
+	elif combo_target != target:
+		reset_combo()
+		combo_target = target
+
+	combo_count = mini(combo_count + 1, max_combo_hits)
+	current_combo_hits = combo_count
+	current_attack_connected = true
+	last_attack_type = StringName(current_attack_type)
+	combo_step = combo_count
+
+	combo_timer = combo_reset_time
 	combo_changed.emit(combo_count, self)
 	if combo_log_enabled and combo_count >= 2:
 		print("Combo: %s %d HIT" % [_get_combo_log_name(), combo_count])
 
+	if combo_count < max_combo_hits and current_hp > 0:
+		open_combo_window()
+	else:
+		close_combo_window()
+		clear_attack_buffer()
+
 
 func reset_combo() -> void:
-	if combo_count == 0 and combo_timer == 0.0:
+	if combo_count == 0 and combo_timer == 0.0 and not combo_window_open and buffered_attack == &"":
 		return
 
 	combo_count = 0
+	current_combo_hits = 0
 	combo_timer = 0.0
+	combo_window_open = false
+	buffered_attack = &""
+	attack_buffer_timer = 0.0
+	last_attack_type = &""
+	combo_target = null
+	current_attack_connected = false
+	combo_step = 0
+	_clear_cancel_window()
 	combo_changed.emit(combo_count, self)
 
 
@@ -1078,42 +1272,96 @@ func _update_combo_timer(delta: float) -> void:
 		reset_combo()
 
 
-func _open_cancel_window() -> void:
+func buffer_attack(attack_type: StringName) -> void:
+	if attack_type != &"Punch" and attack_type != &"Kick":
+		return
+
+	buffered_attack = attack_type
+	attack_buffer_timer = combo_input_buffer_time
+
+
+func clear_attack_buffer() -> void:
+	buffered_attack = &""
+	attack_buffer_timer = 0.0
+
+
+func open_combo_window() -> void:
 	if current_attack_type == "":
 		return
 
 	can_cancel = true
-	cancel_window_timer = cancel_window_time
+	combo_window_open = true
+	cancel_window_timer = combo_continue_window
+	_maybe_buffer_ai_combo()
+
+
+func close_combo_window() -> void:
+	combo_window_open = false
+	can_cancel = false
+	cancel_window_timer = 0.0
+
+
+func _open_cancel_window() -> void:
+	open_combo_window()
 
 
 func _update_cancel_window(delta: float) -> void:
-	if not can_cancel:
+	if not can_cancel and not combo_window_open:
 		return
 
 	cancel_window_timer = maxf(cancel_window_timer - delta, 0.0)
 	if cancel_window_timer == 0.0:
-		can_cancel = false
+		close_combo_window()
+
+
+func _update_attack_buffer(delta: float) -> void:
+	if attack_buffer_timer > 0.0:
+		attack_buffer_timer = maxf(attack_buffer_timer - delta, 0.0)
+		if attack_buffer_timer == 0.0:
+			clear_attack_buffer()
+
+	if not input_enabled or current_attack_type == "" or _is_throw_input_held():
+		return
+	if Input.is_action_just_pressed("attack"):
+		buffer_attack(&"Punch")
+	elif Input.is_action_just_pressed("kick"):
+		buffer_attack(&"Kick")
 
 
 func _try_cancel_attack_from_input() -> bool:
-	if not _can_cancel_attack():
-		return false
-	if _is_throw_input_held():
-		return false
-	if Input.is_action_just_pressed("attack"):
-		_cancel_into_attack("Punch")
-		return true
-	if Input.is_action_just_pressed("kick"):
-		_cancel_into_attack("Kick")
-		return true
-	return false
+	return try_continue_combo()
 
 
 func _can_cancel_attack() -> bool:
-	return can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and not is_hit and not is_guard_hit and not _is_throw_busy()
+	return is_round_active and combo_window_open and can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and current_attack_connected and combo_count < max_combo_hits and is_on_floor() and not is_hit and not is_guard_hit and not is_guarding and not is_crouching and not is_crouch_guarding and not _is_throw_busy()
 
 
-func _cancel_into_attack(next_attack_type: String) -> void:
+func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bool:
+	match current_attack:
+		&"Punch":
+			return next_attack == &"Punch" or next_attack == &"Kick"
+		&"Kick":
+			return next_attack == &"Punch"
+		_:
+			return false
+
+
+func try_continue_combo() -> bool:
+	if not _can_cancel_attack():
+		return false
+	if buffered_attack == &"":
+		return false
+	if not can_chain_attack(StringName(current_attack_type), buffered_attack):
+		clear_attack_buffer()
+		return false
+
+	var next_attack := buffered_attack
+	clear_attack_buffer()
+	start_combo_attack(next_attack)
+	return true
+
+
+func start_combo_attack(next_attack_type: StringName) -> void:
 	var previous_attack_type := current_attack_type
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
@@ -1121,17 +1369,82 @@ func _cancel_into_attack(next_attack_type: String) -> void:
 	_set_kick_hitbox_active(false)
 	punch_hit_targets.clear()
 	kick_hit_targets.clear()
-	_clear_cancel_window()
+	close_combo_window()
+	current_attack_connected = false
 	print("Cancel: %s -> %s" % [previous_attack_type, next_attack_type])
-	if next_attack_type == "Kick":
-		_start_kick()
+	if next_attack_type == &"Kick":
+		_start_kick(true)
 	else:
-		_start_attack()
+		_start_attack(true)
+
+
+func _cancel_into_attack(next_attack_type: String) -> void:
+	start_combo_attack(StringName(next_attack_type))
 
 
 func _clear_cancel_window() -> void:
 	can_cancel = false
 	cancel_window_timer = 0.0
+	combo_window_open = false
+
+
+func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> Dictionary:
+	var scaled_attack_data := attack_data.duplicate()
+	var hit_index := _get_next_combo_hit_index(target)
+	var damage_scale := _get_combo_damage_scale_for_hit(hit_index)
+	var knockback_scale := _get_combo_knockback_scale_for_hit(hit_index)
+	scaled_attack_data["base_damage"] = attack_data["damage"]
+	scaled_attack_data["damage"] = maxi(int(round(float(attack_data["damage"]) * damage_scale)), int(minimum_combo_damage))
+	scaled_attack_data["knockback_x"] = float(attack_data["knockback_x"]) * knockback_scale
+	scaled_attack_data["knockback_y"] = float(attack_data["knockback_y"]) * knockback_scale
+	scaled_attack_data["combo_hit_index"] = hit_index
+	scaled_attack_data["damage_scale"] = damage_scale
+	return scaled_attack_data
+
+
+func _get_next_combo_hit_index(target: Node) -> int:
+	if combo_timer <= 0.0 or combo_target == null or not is_instance_valid(combo_target) or combo_target != target:
+		return 1
+	return mini(combo_count + 1, max_combo_hits)
+
+
+func get_combo_damage_scale() -> float:
+	return _get_combo_damage_scale_for_hit(maxi(combo_count, 1))
+
+
+func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
+	match hit_index:
+		1:
+			return 1.0
+		2:
+			return second_hit_damage_scale
+		_:
+			return third_hit_damage_scale
+
+
+func get_combo_knockback_scale() -> float:
+	return _get_combo_knockback_scale_for_hit(maxi(combo_count, 1))
+
+
+func _get_combo_knockback_scale_for_hit(hit_index: int) -> float:
+	if hit_index <= 1:
+		return first_combo_knockback_scale
+	if hit_index == 2 and max_combo_hits > 2:
+		return second_combo_knockback_scale
+	return 1.0
+
+
+func interrupt_combo() -> void:
+	_set_punch_hitbox_active(false)
+	_set_kick_hitbox_active(false)
+	clear_attack_buffer()
+	close_combo_window()
+	reset_combo()
+
+
+func _finish_combo_after_ko() -> void:
+	clear_attack_buffer()
+	close_combo_window()
 
 
 func _get_combo_log_name() -> String:
@@ -1311,6 +1624,18 @@ func _update_visual_state() -> void:
 		state_label.text = "Walk"
 	else:
 		state_label.text = "Idle"
+
+	if combo_count > 0 or combo_window_open or buffered_attack != &"":
+		var buffered_text := "NONE" if buffered_attack == &"" else String(buffered_attack).to_upper()
+		var window_text := "OPEN" if combo_window_open else "CLOSED"
+		state_label.text += "\nCOMBO HITS: %d\nCOMBO STEP: %d\nBUFFERED ATTACK: %s\nCOMBO WINDOW: %s\nATTACK CONNECTED: %s\nDAMAGE SCALE: %.2f" % [
+			combo_count,
+			combo_step,
+			buffered_text,
+			window_text,
+			str(current_attack_connected).to_upper(),
+			get_combo_damage_scale(),
+		]
 
 	guard_visual.visible = is_guarding and not is_crouch_guarding
 	crouch_visual.visible = is_crouching

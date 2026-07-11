@@ -124,10 +124,10 @@ func _complete_throw_hit() -> void:
 	var throw_direction := signf(throw_velocity.x)
 	if throw_direction == 0.0:
 		throw_direction = 1.0
-	enter_knockback(attacker, Vector2(
+	enter_knockback(attacker, calculate_received_knockback(Vector2(
 		maxf(absf(throw_velocity.x), knockdown_horizontal_force) * throw_direction,
 		minf(throw_velocity.y, knockdown_vertical_force)
-	))
+	)))
 
 
 func _get_valid_hurtbox_target(area: Area2D) -> Node:
@@ -285,7 +285,7 @@ func _get_knockdown_force(attack_data: Dictionary, attacker: Node, fallback_dire
 
 	var force_x := maxf(float(attack_data.get("knockback_x", knockdown_horizontal_force)), knockdown_horizontal_force)
 	var force_y := maxf(float(attack_data.get("knockback_y", absf(knockdown_vertical_force))), absf(knockdown_vertical_force))
-	return Vector2(force_x * direction, -force_y)
+	return calculate_received_knockback(Vector2(force_x * direction, -force_y))
 
 
 func _clear_control_state_for_knockdown() -> void:

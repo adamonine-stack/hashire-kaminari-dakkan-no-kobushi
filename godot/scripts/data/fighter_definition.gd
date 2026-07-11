@@ -19,8 +19,22 @@ class_name FighterDefinition
 
 @export var max_health: float = 100.0
 @export var move_speed: float = 300.0
+@export var air_move_speed: float = 300.0
 @export var jump_force: float = 500.0
 
+@export_group("Direct Character Stats")
+@export var punch_damage: float = 0.0
+@export var kick_damage: float = 0.0
+@export var punch_startup_multiplier: float = 1.0
+@export var kick_startup_multiplier: float = 1.0
+@export var punch_recovery_multiplier: float = 1.0
+@export var kick_recovery_multiplier: float = 1.0
+@export var guard_damage_multiplier: float = 0.25
+@export var guard_stamina_multiplier: float = 1.0
+@export var attack_knockback_multiplier: float = 1.0
+@export var received_knockback_multiplier: float = 1.0
+
+@export_group("Legacy Scales")
 @export var punch_damage_scale: float = 1.0
 @export var kick_damage_scale: float = 1.0
 @export var throw_damage_scale: float = 1.0
