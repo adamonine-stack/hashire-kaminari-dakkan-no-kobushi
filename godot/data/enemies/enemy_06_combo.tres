@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
+[ext_resource type="Resource" path="res://data/enemy_ai/enemy_06_combo_ai.tres" id="3_ai"]
+
+[resource]
+script = ExtResource("1_def")
+fighter_id = &"enemy_06_combo"
+display_name = "BOXER"
+description = "A punch-focused opponent with better combo continuation."
+fighter_scene = ExtResource("2_scene")
+fighter_type = &"COMBO"
+team_type = &"ENEMY"
+enemy_order = 6
+ai_profile = ExtResource("3_ai")
+intro_title = "COMBO TYPE"
+intro_description = "Punch pressure can chain into follow-ups. Break the rhythm quickly."
+temporary_color = Color(0.25, 0.25, 0.30, 1.00)
+max_health = 100.0
+move_speed = 320.0
+jump_force = 500.0
+punch_damage_scale = 1.00
+kick_damage_scale = 0.85
+throw_damage_scale = 0.70
+knockback_scale = 0.90
+attack_speed_scale = 1.15
+combo_damage_scale = 1.10
+guard_damage_scale = 1.00
+power_rating = 3
+speed_rating = 4
+health_rating = 3
+throw_rating = 1
+combo_rating = 5
