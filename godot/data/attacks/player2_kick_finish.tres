@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack_data"]
+
+[resource]
+script = ExtResource("1_attack_data")
+attack_id = "player2_kick_finish"
+display_name = "Heavy Kick Finish"
+attack_type = "kick"
+base_damage = 1.35
+startup_time = 0.34
+active_time = 0.18
+recovery_time = 0.52
+combo_input_start = 0.18
+combo_input_end = 0.52
+hitbox_size = Vector2(82, 44)
+hitbox_offset = Vector2(55, 8)
+forward_move_distance = 32.0
+forward_move_duration = 0.28
+knockback = Vector2(360, -90)
+hitstop_time = 0.15
+hitstun_time = 0.38
+next_attack_ids = Array[String]([])
+animation_name = "combo_finisher"

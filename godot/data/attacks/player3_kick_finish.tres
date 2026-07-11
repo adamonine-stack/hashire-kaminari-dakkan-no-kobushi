@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack_data"]
+
+[resource]
+script = ExtResource("1_attack_data")
+attack_id = "player3_kick_finish"
+display_name = "Quick Kick Finish"
+attack_type = "kick"
+base_damage = 1.10
+startup_time = 0.15
+active_time = 0.10
+recovery_time = 0.22
+combo_input_start = 0.08
+combo_input_end = 0.32
+hitbox_size = Vector2(62, 32)
+hitbox_offset = Vector2(43, 4)
+forward_move_distance = 18.0
+forward_move_duration = 0.14
+knockback = Vector2(210, -56)
+hitstop_time = 0.06
+hitstun_time = 0.22
+next_attack_ids = Array[String]([])
+animation_name = "combo_finisher"

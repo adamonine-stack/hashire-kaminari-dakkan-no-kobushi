@@ -55,6 +55,7 @@ func apply_character_data(data: Resource) -> void:
 
 	apply_movement_stats()
 	apply_attack_stats()
+	apply_attack_sequence_stats()
 	apply_guard_stats()
 	apply_knockback_stats()
 	second_hit_damage_scale = base_second_hit_damage_scale * float(fighter_definition.combo_damage_scale)
@@ -105,6 +106,12 @@ func apply_attack_stats() -> void:
 		kick_startup_multiplier = base_kick_startup_multiplier
 		punch_recovery_multiplier = legacy_recovery_multiplier
 		kick_recovery_multiplier = legacy_recovery_multiplier
+
+
+func apply_attack_sequence_stats() -> void:
+	if has_method("apply_attack_sequence") and not fighter_definition.attack_sequence.is_empty():
+		apply_attack_sequence(fighter_definition.attack_sequence)
+		dev026_max_combo_hits = int(fighter_definition.max_attack_chain_count) if int(fighter_definition.max_attack_chain_count) > 0 else fighter_definition.attack_sequence.size()
 
 
 func apply_guard_stats() -> void:

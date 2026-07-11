@@ -1273,14 +1273,34 @@ func _type_for_player_id(character_id: String) -> String:
 func _stats_text_for_definition(definition: Resource) -> String:
 	if definition == null:
 		return ""
-	return "HP %d  SPD %d/%d\nP %d  K %d  GRD %.2f" % [
+	return "HP %d  SPD %d/%d\nP %d  K %d  GRD %.2f\n%s" % [
 		int(round(definition.max_health)),
 		int(round(definition.move_speed)),
 		int(round(definition.air_move_speed)),
 		int(round(definition.punch_damage)),
 		int(round(definition.kick_damage)),
 		float(definition.guard_damage_multiplier),
+		_attack_trait_text_for_definition(definition),
 	]
+
+
+func _attack_trait_text_for_definition(definition: Resource) -> String:
+	var combo_count := 0
+	var max_reach := 0.0
+	for attack_data in definition.attack_sequence:
+		if attack_data == null:
+			continue
+		combo_count += 1
+		max_reach = maxf(max_reach, absf(float(attack_data.hitbox_offset.x)) + float(attack_data.hitbox_size.x) * 0.5)
+	if int(definition.max_attack_chain_count) > 0:
+		combo_count = int(definition.max_attack_chain_count)
+	var type_text := "STANDARD"
+	match String(definition.fighter_type):
+		"power":
+			type_text = "HEAVY"
+		"speed":
+			type_text = "RUSH"
+	return "ATK %s  COMBO %d  RANGE %d" % [type_text, combo_count, int(round(max_reach))]
 
 
 func _order_slot_text(index: int) -> String:
