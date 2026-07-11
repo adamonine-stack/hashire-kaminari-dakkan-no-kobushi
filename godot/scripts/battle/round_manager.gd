@@ -30,6 +30,16 @@ const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/charact
 const ALLY_BALANCE := preload("res://data/fighters/ally_balance.tres")
 const ALLY_POWER := preload("res://data/fighters/ally_power.tres")
 const ALLY_SPEED := preload("res://data/fighters/ally_speed.tres")
+const ENEMY_DEFINITIONS: Array[Resource] = [
+	preload("res://data/enemies/enemy_01_standard.tres"),
+	preload("res://data/enemies/enemy_02_speed.tres"),
+	preload("res://data/enemies/enemy_03_guard.tres"),
+	preload("res://data/enemies/enemy_04_throw.tres"),
+	preload("res://data/enemies/enemy_05_power.tres"),
+	preload("res://data/enemies/enemy_06_combo.tres"),
+	preload("res://data/enemies/enemy_07_tricky.tres"),
+	preload("res://data/enemies/enemy_08_boss.tres"),
+]
 
 @export var round_time_limit := 99
 @export var ko_pause_duration := 1.5
@@ -69,6 +79,9 @@ var _progress_label: Label
 var _debug_flow_label: Label
 var _character_selection_screen: Control
 var _selection_reason := "GAME_START"
+var _enemy_intro_panel: PanelContainer
+var _enemy_intro_label: Label
+var _last_intro_enemy_index := -1
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
@@ -119,6 +132,7 @@ func initialize_game_progress() -> void:
 	_pending_enemy_ko = false
 	current_player_index = -1
 	current_enemy_index = 0
+	_last_intro_enemy_index = -1
 	_flow_sequence_id += 1
 
 	player_team = [
@@ -127,17 +141,53 @@ func initialize_game_progress() -> void:
 		_create_progress_entry_from_definition(ALLY_SPEED, 2),
 	]
 
-	enemy_team.clear()
-	for index in range(8):
-		enemy_team.append(_create_progress_entry(
-			StringName("enemy_%02d" % (index + 1)),
-			"Enemy %d" % (index + 1),
-			index,
-			enemy.max_hp
-		))
+	initialize_enemy_team()
 
 	print("Game progress initialized")
 	_update_all_ui()
+
+
+func initialize_enemy_team() -> void:
+	enemy_team.clear()
+	if not validate_enemy_definitions():
+		for index in range(8):
+			enemy_team.append(_create_progress_entry(
+				StringName("enemy_%02d" % (index + 1)),
+				"Enemy %d" % (index + 1),
+				index,
+				enemy.max_hp
+			))
+		return
+
+	for index in range(ENEMY_DEFINITIONS.size()):
+		enemy_team.append(_create_progress_entry_from_definition(ENEMY_DEFINITIONS[index], index))
+
+
+func validate_enemy_definitions() -> bool:
+	var seen_ids := {}
+	var expected_order := 1
+	for definition in ENEMY_DEFINITIONS:
+		if definition == null:
+			push_warning("Enemy definition is missing.")
+			return false
+		if definition.fighter_id == &"" or seen_ids.has(definition.fighter_id):
+			push_warning("Enemy definition has an empty or duplicated fighter_id.")
+			return false
+		seen_ids[definition.fighter_id] = true
+		if int(definition.enemy_order) != expected_order:
+			push_warning("Enemy order mismatch: %s" % definition.fighter_id)
+			return false
+		if definition.fighter_scene == null:
+			push_warning("Enemy scene is missing: %s" % definition.fighter_id)
+			return false
+		if int(round(definition.max_health)) <= 0:
+			push_warning("Enemy max health is invalid: %s" % definition.fighter_id)
+			return false
+		if definition.ai_profile == null:
+			push_warning("Enemy AI profile is missing: %s" % definition.fighter_id)
+			return false
+		expected_order += 1
+	return ENEMY_DEFINITIONS.size() == 8
 
 
 func start_initial_player_selection() -> void:
@@ -179,6 +229,14 @@ func spawn_active_enemy() -> void:
 		return
 
 	var data := enemy_team[current_enemy_index]
+	var definition: Resource = data.get("definition", null)
+	if definition != null and enemy.has_method("apply_fighter_definition"):
+		enemy.apply_fighter_definition(definition)
+	if definition != null and enemy.has_method("apply_ai_profile"):
+		enemy.apply_ai_profile(definition.ai_profile)
+	if definition != null and enemy.has_method("apply_temporary_color"):
+		enemy.apply_temporary_color(definition.temporary_color)
+
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
 
@@ -201,8 +259,30 @@ func prepare_battle() -> void:
 	_set_battle_active(false)
 	_update_all_ui()
 	active_fighter_changed.emit(_active_player_id(), _active_enemy_id())
+	if enemy.has_method("update_enemy_target"):
+		enemy.update_enemy_target(player)
+
+	if _should_show_enemy_intro():
+		await start_enemy_intro(enemy_team[current_enemy_index])
 
 	await start_battle_countdown(sequence_id)
+
+
+func start_enemy_intro(enemy_data: Dictionary) -> void:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return
+	_last_intro_enemy_index = current_enemy_index
+	_set_battle_active(false)
+	_clear_active_fighter_actions(player)
+	_clear_active_fighter_actions(enemy)
+	_show_enemy_intro(enemy_data)
+	await get_tree().create_timer(1.35).timeout
+	finish_enemy_intro()
+
+
+func finish_enemy_intro() -> void:
+	if _enemy_intro_panel != null:
+		_enemy_intro_panel.visible = false
 
 
 func start_battle_countdown(sequence_id: int = -1) -> void:
@@ -434,6 +514,8 @@ func reset_active_fighter_state(
 	fighter.ai_throw_check_timer = 0.0
 	fighter.ai_throw_cooldown_timer = 0.0
 
+	if fighter.has_method("clear_ai_action_state"):
+		fighter.clear_ai_action_state()
 	if fighter.has_method("_clear_pending_throw"):
 		fighter._clear_pending_throw()
 	if fighter.has_method("reset_combo"):
@@ -647,6 +729,24 @@ func _create_flow_ui() -> void:
 	_debug_flow_label.offset_bottom = 260.0
 	_debug_flow_label.add_theme_font_size_override("font_size", 14)
 	battle_ui_root.add_child(_debug_flow_label)
+
+	_enemy_intro_panel = PanelContainer.new()
+	_enemy_intro_panel.name = "EnemyIntroPanel"
+	_enemy_intro_panel.visible = false
+	_enemy_intro_panel.set_anchors_preset(Control.PRESET_CENTER)
+	_enemy_intro_panel.offset_left = -220.0
+	_enemy_intro_panel.offset_top = -90.0
+	_enemy_intro_panel.offset_right = 220.0
+	_enemy_intro_panel.offset_bottom = 90.0
+	battle_ui_root.add_child(_enemy_intro_panel)
+
+	_enemy_intro_label = Label.new()
+	_enemy_intro_label.name = "EnemyIntroLabel"
+	_enemy_intro_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_enemy_intro_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_enemy_intro_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_enemy_intro_label.add_theme_font_size_override("font_size", 22)
+	_enemy_intro_panel.add_child(_enemy_intro_label)
 	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
 	battle_ui_root.add_child(_character_selection_screen)
 	_character_selection_screen.fighter_selected.connect(select_player)
@@ -694,7 +794,7 @@ func _update_win_marks() -> void:
 func _update_progress_ui() -> void:
 	if _progress_label == null:
 		return
-	_progress_label.text = "PLAYER %s  VS  %s" % [_active_player_name(), _active_enemy_id()]
+	_progress_label.text = "PLAYER %s  VS  %s" % [_active_player_name(), _active_enemy_name()]
 	team_progress_updated.emit(_remaining_count(player_team), _remaining_count(enemy_team))
 
 
@@ -709,15 +809,23 @@ func _update_debug_flow_label() -> void:
 		"FLOW STATE: %s" % FlowState.keys()[flow_state],
 		"CURRENT PLAYER: %s" % _active_player_id(),
 		"CURRENT ENEMY: %s" % _active_enemy_id(),
+		"ENEMY NAME: %s" % _active_enemy_name(),
+		"ENEMY TYPE: %s" % _active_enemy_type(),
+		"ENEMY ORDER: %s" % _active_enemy_order_text(),
 		"ACTIVE MOVE SPEED: %.1f" % player.move_speed,
 		"ACTIVE MAX HEALTH: %d" % player.max_hp,
 		"ACTIVE PUNCH DAMAGE: %d" % player.punch_damage,
+		"ENEMY MOVE SPEED: %.1f" % enemy.move_speed,
+		"ENEMY MAX HEALTH: %d" % enemy.max_hp,
+		"ENEMY PUNCH DAMAGE: %d" % enemy.punch_damage,
+		"ENEMY KICK DAMAGE: %d" % enemy.kick_damage,
+		"ENEMY THROW DAMAGE: %d" % enemy.throw_damage,
 		"PLAYER HP: %d" % player.current_hp,
 		"ENEMY HP: %d" % enemy.current_hp,
 		"PLAYERS REMAINING: %d" % _remaining_count(player_team),
 		"ENEMIES REMAINING: %d" % _remaining_count(enemy_team),
 		"RESULT LOCKED: %s" % str(battle_result_locked).to_upper(),
-	])
+	] + _enemy_ai_debug_lines())
 
 
 func _show_message(message: String) -> void:
@@ -737,3 +845,62 @@ func _active_player_name() -> String:
 	if current_player_index < 0 or current_player_index >= player_team.size():
 		return ""
 	return player_team[current_player_index]["display_name"]
+
+
+func _active_enemy_name() -> String:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return ""
+	return enemy_team[current_enemy_index]["display_name"]
+
+
+func _active_enemy_type() -> String:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return ""
+	var definition: Resource = enemy_team[current_enemy_index].get("definition", null)
+	if definition == null:
+		return ""
+	return String(definition.fighter_type)
+
+
+func _active_enemy_order_text() -> String:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return "- / 8"
+	var definition: Resource = enemy_team[current_enemy_index].get("definition", null)
+	if definition == null:
+		return "%d / 8" % (current_enemy_index + 1)
+	return "%d / 8" % int(definition.enemy_order)
+
+
+func _should_show_enemy_intro() -> bool:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return false
+	return _last_intro_enemy_index != current_enemy_index
+
+
+func _show_enemy_intro(enemy_data: Dictionary) -> void:
+	if _enemy_intro_panel == null or _enemy_intro_label == null:
+		return
+	var definition: Resource = enemy_data.get("definition", null)
+	var intro_title := "ENEMY"
+	var intro_description := ""
+	var enemy_type := ""
+	var order_text := "%d / 8" % (current_enemy_index + 1)
+	if definition != null:
+		intro_title = definition.intro_title
+		intro_description = definition.intro_description
+		enemy_type = String(definition.fighter_type)
+		order_text = "%d / 8" % int(definition.enemy_order)
+	_enemy_intro_label.text = "ENEMY %s\n%s\nTYPE: %s\n%s\n%s" % [
+		order_text,
+		enemy_data["display_name"],
+		enemy_type,
+		intro_title,
+		intro_description,
+	]
+	_enemy_intro_panel.visible = true
+
+
+func _enemy_ai_debug_lines() -> Array[String]:
+	if enemy == null or not enemy.has_method("get_ai_debug_lines"):
+		return []
+	return enemy.get_ai_debug_lines()

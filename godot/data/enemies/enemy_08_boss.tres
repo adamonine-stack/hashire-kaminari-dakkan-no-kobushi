@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
+[ext_resource type="Resource" path="res://data/enemy_ai/enemy_08_boss_ai.tres" id="3_ai"]
+
+[resource]
+script = ExtResource("1_def")
+fighter_id = &"enemy_08_boss"
+display_name = "BOSS"
+description = "A strong final opponent with balanced offense, guard, throw, and combo choices."
+fighter_scene = ExtResource("2_scene")
+fighter_type = &"BOSS"
+team_type = &"ENEMY"
+enemy_order = 8
+ai_profile = ExtResource("3_ai")
+intro_title = "BOSS TYPE"
+intro_description = "The final enemy. Strong, steady, and able to use every basic system."
+temporary_color = Color(0.95, 0.90, 0.25, 1.00)
+max_health = 170.0
+move_speed = 320.0
+jump_force = 520.0
+punch_damage_scale = 1.20
+kick_damage_scale = 1.30
+throw_damage_scale = 1.15
+knockback_scale = 1.20
+attack_speed_scale = 1.10
+combo_damage_scale = 1.20
+guard_damage_scale = 0.90
+power_rating = 5
+speed_rating = 4
+health_rating = 5
+throw_rating = 4
+combo_rating = 5
