@@ -910,13 +910,14 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	if attacker != null and attacker.has_method("clear_attack_buffer"):
 		attacker.clear_attack_buffer()
 	_enter_guard_hit_state()
-	apply_damage(_get_guard_damage(int(attack_data.get("base_damage", attack_data["damage"]))))
+	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
+	apply_damage(_get_guard_damage_from_attack_data(attack_data))
 	_apply_guard_knockback(attack_data, attack_direction)
-	_start_hit_stop_seconds(guard_hit_stop_time)
+	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop_seconds(guard_hit_stop_time)
+		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 
 
 func _enter_guard_hit_state() -> void:
@@ -929,14 +930,24 @@ func _get_guard_damage(damage: int) -> int:
 	return int(calculate_guarded_damage(float(damage)))
 
 
+func _get_guard_damage_from_attack_data(attack_data: Dictionary) -> int:
+	var base_damage := int(attack_data.get("base_damage", attack_data["damage"]))
+	if attack_data.has("guard_damage_multiplier"):
+		return maxi(1, int(round(float(base_damage) * float(attack_data["guard_damage_multiplier"]))))
+	return _get_guard_damage(base_damage)
+
+
 func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) -> void:
-	var guard_knockback := calculate_received_knockback(Vector2(guard_knockback_x, 0.0))
+	var guard_knockback_value: Vector2 = attack_data.get("guard_knockback", Vector2(guard_knockback_x, 0.0))
+	var guard_knockback := calculate_received_knockback(guard_knockback_value)
 	velocity.x = guard_knockback.x * attack_direction
 	if is_on_floor():
 		velocity.y = 0.0
 
 
 func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
+	if not bool(attack_data.get("is_guardable", true)):
+		return false
 	if not can_guard or not is_round_active or is_guard_hit:
 		return false
 	if is_hit or is_invincible or not is_on_floor():

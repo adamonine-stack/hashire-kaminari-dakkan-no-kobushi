@@ -35,6 +35,7 @@ class_name FighterDefinition
 @export var received_knockback_multiplier: float = 1.0
 @export var attack_sequence: Array[Resource] = []
 @export var max_attack_chain_count: int = 0
+@export var special_attack_sequence: Array[Resource] = []
 
 @export_group("Legacy Scales")
 @export var punch_damage_scale: float = 1.0

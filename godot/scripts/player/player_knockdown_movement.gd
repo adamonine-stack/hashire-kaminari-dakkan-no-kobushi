@@ -68,6 +68,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	)
 
 	_enter_hit_state()
+	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
 	if causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(final_damage)

@@ -1,8 +1,11 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_08_boss_ai.tres" id="3_ai"]
+[ext_resource type="Resource" path="res://data/attacks/enemy8_charge_attack.tres" id="4_charge"]
+[ext_resource type="Resource" path="res://data/attacks/enemy8_spin_kick.tres" id="5_spin"]
+[ext_resource type="Resource" path="res://data/attacks/enemy8_ultimate_shockwave.tres" id="6_ultimate"]
 
 [resource]
 script = ExtResource("1_def")
@@ -27,6 +30,7 @@ knockback_scale = 1.20
 attack_speed_scale = 1.10
 combo_damage_scale = 1.20
 guard_damage_scale = 0.90
+special_attack_sequence = Array[Resource]([ExtResource("4_charge"), ExtResource("5_spin"), ExtResource("6_ultimate")])
 power_rating = 5
 speed_rating = 4
 health_rating = 5
