@@ -110,6 +110,8 @@ var ultimate_interrupt_resistant := false
 var ultimate_resistance_timer := 0.0
 var boss_warning_node: Node2D
 var boss_preview_node: Node2D
+var boss_cinematic_overlay: ColorRect
+var boss_aura_node: Node2D
 
 @onready var special_area := get_node_or_null("SpecialHitBox") as Area2D
 @onready var special_shape := get_node_or_null("SpecialHitBox/CollisionShape2D") as CollisionShape2D
@@ -1068,7 +1070,9 @@ func enter_ultimate_startup() -> void:
 	ultimate_interrupt_resistant = false
 	show_attack_warning()
 	show_attack_preview()
+	_show_boss_cinematic_flash()
 	_play_boss_attack_animation(&"ultimate_startup", &"Kick")
+	_play_hit_se("special")
 	ultimate_requested.emit()
 	attack_warning_started.emit(boss_current_attack_id)
 	print("[DEV038][Enemy8] Ultimate startup")
@@ -1081,6 +1085,7 @@ func enter_ultimate_active() -> void:
 	boss_attack_timer = float(boss_current_attack_data.active_time)
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	enable_ultimate_interrupt_resistance()
 	apply_special_hitbox_data(boss_current_attack_data)
 	enable_special_hitbox()
@@ -1096,6 +1101,7 @@ func enter_ultimate_recovery() -> void:
 	stop_special_movement()
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	disable_ultimate_interrupt_resistance()
 	boss_attack_state = BossAttackState.ULTIMATE_RECOVERY
 	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 1.1
@@ -1171,6 +1177,49 @@ func hide_attack_preview() -> void:
 	if boss_preview_node != null and is_instance_valid(boss_preview_node):
 		boss_preview_node.queue_free()
 	boss_preview_node = null
+
+
+func _show_boss_cinematic_flash() -> void:
+	_hide_boss_cinematic_flash()
+	if get_tree().current_scene == null:
+		return
+	var canvas := CanvasLayer.new()
+	canvas.name = "BossCinematicLayer"
+	canvas.layer = 20
+	get_tree().current_scene.add_child(canvas)
+
+	boss_cinematic_overlay = ColorRect.new()
+	boss_cinematic_overlay.name = "BossCinematicOverlay"
+	boss_cinematic_overlay.color = Color(0.04, 0.02, 0.08, 0.34)
+	boss_cinematic_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_cinematic_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(boss_cinematic_overlay)
+
+	boss_aura_node = Node2D.new()
+	boss_aura_node.name = "BossUltimateAura"
+	boss_aura_node.global_position = global_position + Vector2(0.0, -72.0)
+	var aura := Polygon2D.new()
+	aura.color = Color(0.72, 0.32, 1.0, 0.42)
+	aura.polygon = _circle_points(24, 58.0)
+	boss_aura_node.add_child(aura)
+	get_tree().current_scene.add_child(boss_aura_node)
+
+	var tween := create_tween()
+	tween.tween_interval(0.22)
+	tween.tween_property(boss_cinematic_overlay, "color", Color(0.04, 0.02, 0.08, 0.0), 0.08)
+	tween.parallel().tween_property(aura, "modulate:a", 0.0, 0.08)
+	tween.tween_callback(_hide_boss_cinematic_flash)
+
+
+func _hide_boss_cinematic_flash() -> void:
+	if boss_cinematic_overlay != null and is_instance_valid(boss_cinematic_overlay):
+		var canvas := boss_cinematic_overlay.get_parent()
+		if canvas != null:
+			canvas.queue_free()
+	boss_cinematic_overlay = null
+	if boss_aura_node != null and is_instance_valid(boss_aura_node):
+		boss_aura_node.queue_free()
+	boss_aura_node = null
 
 
 func apply_charge_movement(delta: float) -> void:
@@ -1277,6 +1326,7 @@ func reset_special_attack_state(reset_ultimate_state := true) -> void:
 	disable_special_hitbox()
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	stop_special_movement()
 	clear_special_hit_targets()
 	boss_attack_state = BossAttackState.NONE
@@ -1380,11 +1430,11 @@ func _get_boss_attack_dictionary() -> Dictionary:
 		"guard_knockback": boss_current_attack_data.guard_knockback,
 		"knockback_x": final_knockback.x,
 		"knockback_y": absf(final_knockback.y),
-		"hit_stop_frames": maxi(1, int(round(float(boss_current_attack_data.hitstop_time) * 60.0))),
+		"hit_stop_frames": maxi(9 if _is_ultimate_attack_id(boss_current_attack_id) else 8, int(round(float(boss_current_attack_data.hitstop_time) * 60.0))),
 		"hitstun_time": float(boss_current_attack_data.hitstun_time),
-		"effect_size": 2.0 if _is_ultimate_attack_id(boss_current_attack_id) else 1.35,
-		"screen_shake": 6.0 if _is_ultimate_attack_id(boss_current_attack_id) else 3.5,
-		"se_type": "strong",
+		"effect_size": 2.6 if _is_ultimate_attack_id(boss_current_attack_id) else 1.6,
+		"screen_shake": 7.5 if _is_ultimate_attack_id(boss_current_attack_id) else 4.8,
+		"se_type": "special" if _is_ultimate_attack_id(boss_current_attack_id) else "strong",
 		"attack_id": boss_current_attack_id,
 	}
 

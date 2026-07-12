@@ -73,11 +73,13 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(final_damage)
 	damage_feedback_requested.emit(self, final_damage, false, hit_position)
+	_flash_damage()
 	if attacker != null and attacker.has_method("register_combo_hit"):
 		attacker.register_combo_hit(self)
 
 	if current_hp <= 0:
 		reset_knockdown_state()
+		_play_ko_feedback(hit_position, attack_direction)
 		if attacker != null and attacker.has_method("_finish_combo_after_ko"):
 			attacker._finish_combo_after_ko()
 		return true
@@ -114,6 +116,7 @@ func _complete_throw_hit() -> void:
 	_enter_hit_state()
 	apply_damage(damage)
 	damage_feedback_requested.emit(self, damage, false, hit_position)
+	_flash_damage()
 
 	if attacker != null and attacker.has_method("_spawn_throw_impact_effect"):
 		attacker._spawn_throw_impact_effect(hit_position)
@@ -122,6 +125,7 @@ func _complete_throw_hit() -> void:
 
 	if current_hp <= 0:
 		reset_knockdown_state()
+		_play_ko_feedback(hit_position, signf(throw_velocity.x))
 		return
 
 	var throw_direction := signf(throw_velocity.x)
