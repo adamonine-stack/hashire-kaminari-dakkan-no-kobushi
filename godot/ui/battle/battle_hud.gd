@@ -45,11 +45,23 @@ var boss_warning_label: Label
 var result_panel: PanelContainer
 var result_title_label: Label
 var result_body_label: Label
+var result_retry_button: Button
+var result_title_button: Button
+var pause_panel: PanelContainer
+var pause_continue_button: Button
+var pause_restart_button: Button
+var pause_title_button: Button
+var confirm_panel: PanelContainer
+var confirm_label: Label
+var confirm_yes_button: Button
+var confirm_no_button: Button
+var pending_confirm_action := ""
 var debug_overlay_label: Label
 var floating_layer: Control
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	_build_hud()
@@ -58,6 +70,15 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_update_live_state_labels()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if confirm_panel != null and confirm_panel.visible and event.is_action_pressed("ui_cancel"):
+		_cancel_confirm()
+		get_viewport().set_input_as_handled()
+	elif pause_panel != null and pause_panel.visible and event.is_action_pressed("ui_cancel"):
+		_request_continue()
+		get_viewport().set_input_as_handled()
 
 
 func initialize_hud(manager: Node) -> void:
@@ -129,6 +150,8 @@ func reset_battle_hud() -> void:
 	disable_boss_hud()
 	hide_boss_warning()
 	hide_result_layer()
+	hide_pause_menu()
+	hide_confirm_dialog()
 	message_label.visible = false
 	player_state_label.visible = false
 	player_name_label.text = "PLAYER"
@@ -353,8 +376,10 @@ func show_game_over() -> void:
 	hide_boss_warning()
 	clear_message_queue()
 	result_title_label.text = "GAME OVER"
-	result_body_label.text = "RETRY: RESTART button"
+	result_body_label.text = "Retry or return to title."
 	result_panel.visible = true
+	result_retry_button.text = "RETRY"
+	result_retry_button.grab_focus()
 	show_battle_message("GAME OVER", MessagePriority.CRITICAL, 1.2)
 
 
@@ -362,13 +387,76 @@ func show_game_clear() -> void:
 	hide_boss_warning()
 	clear_message_queue()
 	result_title_label.text = "GAME CLEAR"
-	result_body_label.text = "ENEMY 8 DEFEATED\nRETRY: RESTART button"
+	result_body_label.text = "Enemy 8 defeated."
 	result_panel.visible = true
+	result_retry_button.text = "PLAY AGAIN"
+	result_retry_button.grab_focus()
 	show_battle_message("GAME CLEAR", MessagePriority.CRITICAL, 1.2)
 
 
 func hide_result_layer() -> void:
 	result_panel.visible = false
+
+
+func show_pause_menu() -> void:
+	pause_panel.visible = true
+	pause_continue_button.grab_focus()
+
+
+func hide_pause_menu() -> void:
+	if pause_panel != null:
+		pause_panel.visible = false
+
+
+func show_restart_confirm() -> void:
+	_show_confirm_dialog("Restart current run?", "restart")
+
+
+func show_return_title_confirm() -> void:
+	_show_confirm_dialog("Return to title?", "title")
+
+
+func hide_confirm_dialog() -> void:
+	if confirm_panel != null:
+		confirm_panel.visible = false
+	pending_confirm_action = ""
+
+
+func _show_confirm_dialog(message: String, action: String) -> void:
+	pending_confirm_action = action
+	confirm_label.text = message
+	confirm_panel.visible = true
+	confirm_yes_button.grab_focus()
+
+
+func _confirm_current_action() -> void:
+	var action := pending_confirm_action
+	hide_confirm_dialog()
+	if action == "restart":
+		_request_restart()
+	elif action == "title":
+		_request_return_to_title()
+
+
+func _cancel_confirm() -> void:
+	hide_confirm_dialog()
+	if pause_panel != null and pause_panel.visible:
+		pause_restart_button.grab_focus()
+
+
+func _request_continue() -> void:
+	if battle_manager != null and battle_manager.has_method("return_to_battle"):
+		battle_manager.return_to_battle()
+
+
+func _request_restart() -> void:
+	if battle_manager != null and battle_manager.has_method("restart_current_game"):
+		battle_manager.restart_current_game()
+
+
+func _request_return_to_title() -> void:
+	if battle_manager != null and battle_manager.has_method("go_to_title"):
+		battle_manager.go_to_title()
 
 
 func show_battle_message(message: String, priority: int = MessagePriority.NORMAL, duration: float = 0.8) -> void:
@@ -503,11 +591,51 @@ func _build_hud() -> void:
 
 	result_panel = _make_panel("ResultLayer", Control.PRESET_CENTER, Vector2(-230.0, -130.0), Vector2(230.0, 130.0))
 	result_panel.visible = false
+	result_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var result_box := _make_margin_vbox(result_panel)
 	result_title_label = _make_label(result_box, "GAME OVER", 36)
 	result_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	result_body_label = _make_label(result_box, "RETRY", 18)
 	result_body_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	result_retry_button = _make_action_button("RETRY")
+	result_retry_button.pressed.connect(_request_restart)
+	result_box.add_child(result_retry_button)
+	result_title_button = _make_action_button("RETURN TO TITLE")
+	result_title_button.pressed.connect(_request_return_to_title)
+	result_box.add_child(result_title_button)
+
+	pause_panel = _make_panel("PauseMenu", Control.PRESET_CENTER, Vector2(-220.0, -160.0), Vector2(220.0, 160.0))
+	pause_panel.visible = false
+	pause_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var pause_box := _make_margin_vbox(pause_panel)
+	var pause_title := _make_label(pause_box, "PAUSE", 34)
+	pause_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pause_continue_button = _make_action_button("CONTINUE")
+	pause_continue_button.pressed.connect(_request_continue)
+	pause_box.add_child(pause_continue_button)
+	pause_restart_button = _make_action_button("RESTART")
+	pause_restart_button.pressed.connect(show_restart_confirm)
+	pause_box.add_child(pause_restart_button)
+	pause_title_button = _make_action_button("RETURN TO TITLE")
+	pause_title_button.pressed.connect(show_return_title_confirm)
+	pause_box.add_child(pause_title_button)
+
+	confirm_panel = _make_panel("ConfirmDialog", Control.PRESET_CENTER, Vector2(-210.0, -110.0), Vector2(210.0, 110.0))
+	confirm_panel.visible = false
+	confirm_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var confirm_box := _make_margin_vbox(confirm_panel)
+	confirm_label = _make_label(confirm_box, "Are you sure?", 22)
+	confirm_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var confirm_buttons := HBoxContainer.new()
+	confirm_buttons.alignment = BoxContainer.ALIGNMENT_CENTER
+	confirm_buttons.add_theme_constant_override("separation", 12)
+	confirm_box.add_child(confirm_buttons)
+	confirm_yes_button = _make_action_button("YES")
+	confirm_yes_button.pressed.connect(_confirm_current_action)
+	confirm_buttons.add_child(confirm_yes_button)
+	confirm_no_button = _make_action_button("NO")
+	confirm_no_button.pressed.connect(_cancel_confirm)
+	confirm_buttons.add_child(confirm_no_button)
 
 	debug_overlay_label = Label.new()
 	debug_overlay_label.name = "DebugOverlay"
@@ -564,6 +692,14 @@ func _make_label(parent: Node, text: String, font_size: int) -> Label:
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(label)
 	return label
+
+
+func _make_action_button(text: String) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size = Vector2(240.0, 42.0)
+	button.focus_mode = Control.FOCUS_ALL
+	return button
 
 
 func _make_hp_stack(parent: Node) -> Dictionary:

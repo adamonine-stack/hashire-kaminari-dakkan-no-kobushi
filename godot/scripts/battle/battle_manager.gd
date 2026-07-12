@@ -25,6 +25,16 @@ signal hud_enemy_defeated(enemy: Node, enemy_index: int)
 signal hud_healing_applied(target: Node, applied_amount: int)
 signal hud_message_requested(message: String, priority: int, duration: float)
 signal hud_retry_started()
+signal game_flow_state_changed(previous_state, new_state)
+signal new_game_requested
+signal restart_requested
+signal return_to_title_requested
+signal battle_paused
+signal battle_resumed
+signal scene_transition_started(scene_path)
+signal scene_transition_finished(scene_path)
+signal game_over_menu_opened
+signal game_clear_menu_opened
 
 enum BattleState {
 	READY,
@@ -95,6 +105,8 @@ var current_player_order_index := 0
 var is_player_order_confirmed := false
 var is_battle_starting := false
 var is_ordered_player_change_processing := false
+var is_game_paused := false
+var is_scene_transitioning := false
 
 var flow_state := BattleState.READY
 var player_team: Array[Dictionary] = []
@@ -135,6 +147,7 @@ var _player_order_slots_label: Label
 var _player_order_status_label: Label
 var _player_order_confirm_button: Button
 var _player_order_reset_button: Button
+var _player_order_back_button: Button
 var _player_order_character_buttons: Dictionary = {}
 var _player_order_up_buttons: Dictionary = {}
 var _player_order_down_buttons: Dictionary = {}
@@ -155,6 +168,8 @@ var _last_spawned_player_id := ""
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().paused = false
 	_player_start_position = player.position
 	_enemy_start_position = enemy.position
 	current_player_instance = player
@@ -168,6 +183,15 @@ func _ready() -> void:
 	_set_battle_active(false)
 	_update_all_ui()
 	call_deferred("start_initial_player_selection")
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		if is_game_paused:
+			return_to_battle()
+		elif _can_pause_battle():
+			pause_battle()
+		get_viewport().set_input_as_handled()
 
 
 func _process(delta: float) -> void:
@@ -869,6 +893,7 @@ func enter_game_clear() -> void:
 		defeated_player_ids.size(),
 		maxi(0, selected_player_order.size() - defeated_player_ids.size()),
 	])
+	game_clear_menu_opened.emit()
 	game_cleared.emit()
 	print("GAME CLEAR")
 
@@ -886,6 +911,7 @@ func enter_game_over() -> void:
 	_show_message("GAME OVER")
 	_notify_hud_game_over()
 	_show_end_panel("GAME OVER", "All ally fighters defeated.")
+	game_over_menu_opened.emit()
 	all_players_defeated.emit()
 	game_over_started.emit()
 	game_over.emit()
@@ -992,6 +1018,99 @@ func reset_game_progress() -> void:
 	_hide_end_panel()
 	initialize_game_progress()
 	start_initial_player_selection()
+
+
+func initialize_new_run() -> void:
+	initialize_game_progress()
+
+
+func restart_current_game() -> void:
+	if is_scene_transitioning:
+		return
+	is_scene_transitioning = true
+	restart_requested.emit()
+	print("[DEV041][GameFlow] Restart confirmed")
+	var preserved_order := selected_player_order.duplicate()
+	cleanup_battle_before_transition()
+	hud_retry_started.emit()
+	if battle_hud != null and battle_hud.has_method("reset_battle_hud"):
+		battle_hud.reset_battle_hud()
+	_hide_end_panel()
+	initialize_game_progress()
+	if preserved_order.size() == 3 and is_valid_player_order(preserved_order):
+		set_player_order(preserved_order)
+		await start_battle_with_first_player()
+	else:
+		start_initial_player_selection()
+	is_scene_transitioning = false
+	scene_transition_finished.emit("restart")
+
+
+func go_to_title() -> void:
+	if is_scene_transitioning:
+		return
+	is_scene_transitioning = true
+	return_to_title_requested.emit()
+	print("[DEV041][GameFlow] Returning to title")
+	cleanup_battle_before_transition()
+	scene_transition_started.emit("res://scenes/Title.tscn")
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
+
+
+func return_to_battle() -> void:
+	if not is_game_paused:
+		return
+	is_game_paused = false
+	get_tree().paused = false
+	if battle_hud != null and battle_hud.has_method("hide_pause_menu"):
+		battle_hud.hide_pause_menu()
+	if battle_hud != null and battle_hud.has_method("hide_confirm_dialog"):
+		battle_hud.hide_confirm_dialog()
+	battle_resumed.emit()
+	print("[DEV041][Pause] Battle resumed")
+
+
+func pause_battle() -> void:
+	if not _can_pause_battle() or is_game_paused:
+		return
+	is_game_paused = true
+	if battle_hud != null and battle_hud.has_method("show_pause_menu"):
+		battle_hud.show_pause_menu()
+	get_tree().paused = true
+	battle_paused.emit()
+	print("[DEV041][Pause] Battle paused")
+
+
+func cleanup_battle_before_transition() -> void:
+	is_game_paused = false
+	get_tree().paused = false
+	_set_battle_active(false)
+	_clear_active_fighter_actions(player)
+	_clear_active_fighter_actions(enemy)
+	if player.has_method("reset_special_attack_state"):
+		player.reset_special_attack_state(false)
+	if enemy.has_method("reset_special_attack_state"):
+		enemy.reset_special_attack_state(false)
+	if battle_hud != null:
+		if battle_hud.has_method("hide_pause_menu"):
+			battle_hud.hide_pause_menu()
+		if battle_hud.has_method("hide_confirm_dialog"):
+			battle_hud.hide_confirm_dialog()
+		if battle_hud.has_method("hide_boss_warning"):
+			battle_hud.hide_boss_warning()
+	print("[DEV041][GameFlow] Battle cleanup completed")
+
+
+func _can_pause_battle() -> bool:
+	if is_scene_transitioning or isBattleFinished:
+		return false
+	if flow_state != BattleState.BATTLE:
+		return false
+	if not isRoundActive:
+		return false
+	if _end_panel != null and _end_panel.visible:
+		return false
+	return true
 
 
 func transition_to_next_enemy() -> void:
@@ -1186,8 +1305,11 @@ func _mark_enemy_defeated() -> void:
 
 
 func _set_battle_state(next_state: BattleState) -> void:
+	var previous_state := flow_state
 	flow_state = next_state
 	currentBattleState = next_state
+	if previous_state != next_state:
+		game_flow_state_changed.emit(BattleState.keys()[previous_state], BattleState.keys()[next_state])
 
 
 func _should_finish_game() -> bool:
@@ -1521,8 +1643,9 @@ func _create_flow_ui() -> void:
 
 	_title_button = Button.new()
 	_title_button.text = "TITLE"
-	_title_button.disabled = true
+	_title_button.disabled = false
 	_title_button.custom_minimum_size = Vector2(260.0, 42.0)
+	_title_button.pressed.connect(go_to_title)
 	end_box.add_child(_title_button)
 
 	_heal_effect_label = Label.new()
@@ -1665,6 +1788,12 @@ func _create_player_order_ui() -> void:
 	_player_order_reset_button.custom_minimum_size = Vector2(220.0, 46.0)
 	_player_order_reset_button.pressed.connect(reset_order_selection)
 	footer.add_child(_player_order_reset_button)
+
+	_player_order_back_button = Button.new()
+	_player_order_back_button.text = "BACK TO TITLE"
+	_player_order_back_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_back_button.pressed.connect(go_to_title)
+	footer.add_child(_player_order_back_button)
 
 	update_order_select_ui()
 
