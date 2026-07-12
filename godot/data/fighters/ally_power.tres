@@ -1,24 +1,25 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
 [ext_resource type="Resource" path="res://data/attacks/player2_punch_1.tres" id="3_punch_1"]
 [ext_resource type="Resource" path="res://data/attacks/player2_punch_2.tres" id="4_punch_2"]
 [ext_resource type="Resource" path="res://data/attacks/player2_kick_finish.tres" id="5_kick_finish"]
+[ext_resource type="Resource" path="res://data/attacks/player2_special_iron_breaker.tres" id="6_special"]
 
 [resource]
 script = ExtResource("1_definition")
-fighter_id = &"ally_power"
-display_name = "POWER"
-description = "Heavy fighter with high health, stronger hits, and slower movement."
+fighter_id = &"player_02_gou"
+display_name = "ごう"
+description = "圧倒的な拳と脚力を持つパワーファイター。一撃が重く、正面から押し切る。"
 fighter_scene = ExtResource("2_player")
 fighter_type = &"power"
 max_health = 130.0
 move_speed = 175.0
 air_move_speed = 145.0
 jump_force = 410.0
-punch_damage = 16.0
-kick_damage = 23.0
+punch_damage = 17.0
+kick_damage = 24.0
 punch_startup_multiplier = 1.2
 kick_startup_multiplier = 1.25
 punch_recovery_multiplier = 1.2
@@ -29,6 +30,7 @@ attack_knockback_multiplier = 1.35
 received_knockback_multiplier = 0.7
 attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_kick_finish")])
 max_attack_chain_count = 2
+special_attack_sequence = Array[Resource]([ExtResource("6_special")])
 punch_damage_scale = 1.2
 kick_damage_scale = 1.15
 throw_damage_scale = 1.3

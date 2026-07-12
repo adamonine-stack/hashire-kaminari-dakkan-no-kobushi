@@ -129,6 +129,8 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if hit_stop_timer > 0.0:
 		return
+	if _should_start_player_special():
+		perform_special_attack()
 	update_special_cooldowns(delta)
 	check_ultimate_condition()
 	update_boss_special_attack(delta)
@@ -963,7 +965,7 @@ func apply_boss_special_attack_data(sequence: Array) -> void:
 
 
 func perform_special_attack() -> bool:
-	print("[DEV038][Enemy8] Special attack requested")
+	print("[DEV042][%s] Special attack requested" % _debug_enemy_id())
 	if not can_start_special_attack():
 		return false
 	if ultimate_pending and can_start_ultimate():
@@ -977,10 +979,26 @@ func perform_special_attack() -> bool:
 
 
 func can_start_special_attack() -> bool:
-	return _is_enemy8() and can_ai_act() and boss_attack_state == BossAttackState.NONE and boss_special_common_cooldown <= 0.0
+	if boss_attack_state != BossAttackState.NONE or boss_special_common_cooldown > 0.0 or boss_attack_data_by_id.is_empty():
+		return false
+	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or _is_throw_busy():
+		return false
+	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
+		return false
+	if is_guarding or is_crouching or is_crouch_guarding or not is_on_floor():
+		return false
+	if name == "Enemy":
+		return _is_enemy8() and can_ai_act()
+	return input_enabled
 
 
 func choose_special_attack() -> String:
+	if not _is_enemy8():
+		for attack_id in boss_attack_data_by_id.keys():
+			var candidate := String(attack_id)
+			if not is_special_attack_on_cooldown(candidate):
+				return candidate
+		return ""
 	var distance := evaluate_distance()
 	if distance <= 95.0 and not is_special_attack_on_cooldown("enemy8_spin_kick"):
 		return "enemy8_spin_kick"
@@ -993,12 +1011,14 @@ func start_special_attack(attack_id: String) -> void:
 	var attack_data = boss_attack_data_by_id.get(attack_id, null)
 	if attack_data == null:
 		return
-	if attack_id == "enemy8_charge_attack":
+	if _is_enemy8() and attack_id == "enemy8_charge_attack":
 		start_charge_attack()
-	elif attack_id == "enemy8_spin_kick":
+	elif _is_enemy8() and attack_id == "enemy8_spin_kick":
 		start_spin_kick()
-	else:
+	elif _is_enemy8():
 		return
+	else:
+		print("[DEV042][%s] Selected: %s" % [_debug_enemy_id(), attack_id])
 	boss_current_attack_data = attack_data
 	boss_current_attack_id = attack_id
 	enter_special_startup()
@@ -1033,7 +1053,7 @@ func enter_special_startup() -> void:
 	show_attack_preview()
 	_play_boss_attack_animation(StringName(boss_current_attack_data.animation_name), &"Kick")
 	special_attack_started.emit(boss_current_attack_id)
-	print("[DEV038][Enemy8] %s startup" % _boss_log_attack_name())
+	print("[DEV042][%s] %s startup" % [_debug_enemy_id(), _boss_log_attack_name()])
 
 
 func enter_special_active() -> void:
@@ -1047,7 +1067,7 @@ func enter_special_active() -> void:
 	enable_special_hitbox()
 	_setup_boss_special_movement()
 	special_attack_became_active.emit(boss_current_attack_id)
-	print("[DEV038][Enemy8] %s active" % _boss_log_attack_name())
+	print("[DEV042][%s] %s active" % [_debug_enemy_id(), _boss_log_attack_name()])
 
 
 func enter_special_recovery() -> void:
@@ -1057,7 +1077,7 @@ func enter_special_recovery() -> void:
 	hide_attack_preview()
 	boss_attack_state = BossAttackState.SPECIAL_RECOVERY
 	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 0.4
-	print("[DEV038][Enemy8] %s recovery" % _boss_log_attack_name())
+	print("[DEV042][%s] %s recovery" % [_debug_enemy_id(), _boss_log_attack_name()])
 
 
 func enter_ultimate_startup() -> void:
@@ -1544,7 +1564,18 @@ func _boss_log_attack_name() -> String:
 
 
 func _is_enemy8() -> bool:
-	return fighter_definition != null and String(fighter_definition.fighter_id) == "enemy_08_boss"
+	if fighter_definition == null:
+		return false
+	var id := String(fighter_definition.fighter_id)
+	return id == "enemy_08_boss" or id == "enemy_08_leon_crow"
+
+
+func _should_start_player_special() -> bool:
+	if name == "Enemy" or not input_enabled:
+		return false
+	if not InputMap.has_action("special") or not Input.is_action_just_pressed("special"):
+		return false
+	return can_start_special_attack()
 
 
 func _debug_enemy_id() -> String:

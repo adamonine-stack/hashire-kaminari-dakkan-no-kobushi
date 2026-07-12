@@ -1,23 +1,24 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
 [ext_resource type="Resource" path="res://data/attacks/player1_punch_1.tres" id="3_punch_1"]
 [ext_resource type="Resource" path="res://data/attacks/player1_punch_2.tres" id="4_punch_2"]
 [ext_resource type="Resource" path="res://data/attacks/player1_kick_finish.tres" id="5_kick_finish"]
+[ext_resource type="Resource" path="res://data/attacks/player1_special_thunder_drive.tres" id="6_special"]
 
 [resource]
 script = ExtResource("1_definition")
-fighter_id = &"ally_balance"
-display_name = "BALANCE"
-description = "Balanced fighter with steady health, movement, and attack power."
+fighter_id = &"player_01_akky"
+display_name = "アッキー"
+description = "冷静沈着で頭の切れる総合格闘ファイター。攻撃、防御、機動力のバランスに優れる。"
 fighter_scene = ExtResource("2_player")
 fighter_type = &"balance"
 max_health = 100.0
-move_speed = 220.0
-air_move_speed = 190.0
+move_speed = 235.0
+air_move_speed = 200.0
 jump_force = 480.0
-punch_damage = 10.0
+punch_damage = 11.0
 kick_damage = 15.0
 punch_startup_multiplier = 1.0
 kick_startup_multiplier = 1.0
@@ -29,6 +30,7 @@ attack_knockback_multiplier = 1.0
 received_knockback_multiplier = 1.0
 attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_kick_finish")])
 max_attack_chain_count = 3
+special_attack_sequence = Array[Resource]([ExtResource("6_special")])
 punch_damage_scale = 1.0
 kick_damage_scale = 1.0
 throw_damage_scale = 1.0
