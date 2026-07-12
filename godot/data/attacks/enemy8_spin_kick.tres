@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack"]
+
+[resource]
+script = ExtResource("1_attack")
+attack_id = "enemy8_spin_kick"
+display_name = "Spin Kick"
+attack_type = "special"
+attack_category = "special"
+base_damage = 1.20
+damage_multiplier = 1.20
+startup_time = 0.38
+active_time = 0.22
+recovery_time = 0.62
+hitbox_size = Vector2(118, 54)
+hitbox_offset = Vector2(0, 2)
+move_distance = 20.0
+move_duration = 0.18
+move_speed_multiplier = 1.0
+knockback = Vector2(250, -90)
+hitstop_time = 0.09
+hitstun_time = 0.30
+is_guardable = true
+guard_damage_multiplier = 0.0
+guard_hit_time = 0.22
+guard_knockback = Vector2(85, 0)
+can_be_interrupted = true
+interruptible_until_active = true
+cooldown = 3.80
+animation_name = "special_spin_kick"
+warning_effect_name = "spin_warning"
+attack_effect_name = "spin_impact"

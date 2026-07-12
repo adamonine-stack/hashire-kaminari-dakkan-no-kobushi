@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_fighter_definition_movement.gd" id="1_player_movement"]
 
@@ -10,6 +10,9 @@ size = Vector2(48, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kick"]
 size = Vector2(60, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_special"]
+size = Vector2(86, 52)
 
 [sub_resource type="Animation" id="Animation_throw"]
 resource_name = "Throw"
@@ -81,6 +84,14 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KickHitBox"]
 disabled = true
 shape = SubResource("RectangleShape2D_kick")
+
+[node name="SpecialHitBox" type="Area2D" parent="."]
+position = Vector2(48, -52)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpecialHitBox"]
+disabled = true
+shape = SubResource("RectangleShape2D_special")
 
 [node name="HurtBox" type="Area2D" parent="."]
 position = Vector2(0, -48)

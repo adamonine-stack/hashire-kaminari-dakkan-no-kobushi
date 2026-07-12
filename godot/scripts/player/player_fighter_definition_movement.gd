@@ -8,6 +8,18 @@ signal enemy_guard_requested
 signal enemy_retreat_started
 signal enemy_feint_started
 signal special_attack_requested(enemy)
+signal special_attack_started(attack_id)
+signal special_attack_became_active(attack_id)
+signal special_attack_hit(attack_id, target)
+signal special_attack_interrupted(attack_id)
+signal special_attack_finished(attack_id)
+signal ultimate_requested
+signal ultimate_started
+signal ultimate_became_active
+signal ultimate_interrupted
+signal ultimate_finished
+signal attack_warning_started(attack_id)
+signal attack_warning_finished(attack_id)
 
 enum EnemyAIState {
 	DISABLED,
@@ -22,6 +34,16 @@ enum EnemyAIState {
 	DOWN,
 	KO,
 	SPECIAL_ATTACK_REQUEST,
+}
+
+enum BossAttackState {
+	NONE,
+	SPECIAL_STARTUP,
+	SPECIAL_ACTIVE,
+	SPECIAL_RECOVERY,
+	ULTIMATE_STARTUP,
+	ULTIMATE_ACTIVE,
+	ULTIMATE_RECOVERY,
 }
 
 var fighter_definition: Resource
@@ -70,15 +92,44 @@ var ai_selected_attack_type := ""
 var ai_special_request_cooldown_timer := 0.0
 var ai_has_pending_action := false
 var show_ai_debug := false
+var boss_attack_data_by_id: Dictionary = {}
+var boss_attack_state := BossAttackState.NONE
+var boss_current_attack_data: Resource
+var boss_current_attack_id := ""
+var boss_attack_timer := 0.0
+var boss_special_common_cooldown := 0.0
+var boss_special_cooldowns: Dictionary = {}
+var boss_special_hit_targets: Array[Node] = []
+var boss_attack_direction := -1.0
+var boss_special_move_timer := 0.0
+var boss_special_move_speed := 0.0
+var ultimate_used := false
+var ultimate_pending := false
+var ultimate_retry_cooldown := 0.0
+var ultimate_interrupt_resistant := false
+var ultimate_resistance_timer := 0.0
+var boss_warning_node: Node2D
+var boss_preview_node: Node2D
+
+@onready var special_area := get_node_or_null("SpecialHitBox") as Area2D
+@onready var special_shape := get_node_or_null("SpecialHitBox/CollisionShape2D") as CollisionShape2D
 
 
 func _ready() -> void:
 	_capture_base_stats()
 	super._ready()
+	if special_area != null:
+		special_area.area_entered.connect(_on_special_hitbox_area_entered)
+	_set_special_hitbox_active(false)
 
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
+	if hit_stop_timer > 0.0:
+		return
+	update_special_cooldowns(delta)
+	check_ultimate_condition()
+	update_boss_special_attack(delta)
 	_update_profile_ai(delta)
 
 
@@ -104,6 +155,7 @@ func apply_character_data(data: Resource) -> void:
 	current_hp = clampi(current_hp, 0, max_hp)
 	hp_changed.emit(current_hp, max_hp)
 	apply_ai_profile(fighter_definition.ai_profile)
+	apply_boss_special_attack_data(fighter_definition.special_attack_sequence)
 	apply_temporary_color(fighter_definition.temporary_color)
 	update_character_status_ui()
 
@@ -245,6 +297,7 @@ func reset_ai_state() -> void:
 	ai_special_request_cooldown_timer = 0.0
 	ai_has_pending_action = false
 	_clear_guard_state()
+	reset_special_attack_state()
 	_set_ai_state(EnemyAIState.DISABLED)
 
 
@@ -263,17 +316,24 @@ func get_ai_debug_lines() -> Array[String]:
 	if opponent is Node2D:
 		distance = absf(global_position.x - opponent.global_position.x)
 
-	lines.append("AI STATE: %s" % _debug_ai_action_text())
-	lines.append("AI DISTANCE: %.0f" % distance)
-	lines.append("AI TARGET DISTANCE: %.0f" % ai_current_target_distance)
-	lines.append("AI REACTION: %.2f" % ai_reaction_timer)
-	lines.append("AI COOLDOWN: %.2f" % ai_attack_cooldown_timer)
-	lines.append("SELECTED ATTACK: %s" % ("NONE" if ai_selected_attack_type.is_empty() else ai_selected_attack_type.to_upper()))
-	lines.append("AGGRESSION: %.2f" % _profile_float(&"aggression_rate", 0.0))
-	lines.append("GUARD RATE: %.2f" % _profile_float(&"guard_rate", 0.0))
-	lines.append("RETREAT RATE: %.2f" % _profile_float(&"retreat_rate", 0.0))
-	lines.append("COMBO RATE: %d%%" % int(round(_profile_float(&"combo_rate", 0.0) * 100.0)))
-	lines.append("THROW ESCAPE: %d%%" % int(round(_profile_float(&"throw_escape_probability", 0.0) * 100.0)))
+	lines.append("AI STATE: %s" % [_debug_ai_action_text()])
+	lines.append("AI DISTANCE: %.0f" % [distance])
+	lines.append("AI TARGET DISTANCE: %.0f" % [ai_current_target_distance])
+	lines.append("AI REACTION: %.2f" % [ai_reaction_timer])
+	lines.append("AI COOLDOWN: %.2f" % [ai_attack_cooldown_timer])
+	lines.append("SELECTED ATTACK: %s" % ["NONE" if ai_selected_attack_type.is_empty() else ai_selected_attack_type.to_upper()])
+	lines.append("AGGRESSION: %.2f" % [_profile_float(&"aggression_rate", 0.0)])
+	lines.append("GUARD RATE: %.2f" % [_profile_float(&"guard_rate", 0.0)])
+	lines.append("RETREAT RATE: %.2f" % [_profile_float(&"retreat_rate", 0.0)])
+	lines.append("COMBO RATE: %d%%" % [int(round(_profile_float(&"combo_rate", 0.0) * 100.0))])
+	lines.append("THROW ESCAPE: %d%%" % [int(round(_profile_float(&"throw_escape_probability", 0.0) * 100.0))])
+	if _is_enemy8():
+		lines.append("BOSS STATE: %s" % [BossAttackState.keys()[boss_attack_state]])
+		lines.append("BOSS ATTACK: %s" % ["NONE" if boss_current_attack_id.is_empty() else boss_current_attack_id])
+		lines.append("SPECIAL CD: %.2f" % [boss_special_common_cooldown])
+		lines.append("ULT USED: %s" % [str(ultimate_used).to_upper()])
+		lines.append("ULT PENDING: %s" % [str(ultimate_pending).to_upper()])
+		lines.append("ARMOR: %s" % [str(ultimate_interrupt_resistant).to_upper()])
 	return lines
 
 
@@ -360,6 +420,8 @@ func _update_profile_ai(delta: float) -> void:
 		return
 	if hit_stop_timer > 0.0:
 		return
+	if is_boss_special_busy():
+		return
 	if not is_round_active or current_hp <= 0 or _get_opponent() == null:
 		disable_ai()
 		return
@@ -397,6 +459,8 @@ func can_ai_act() -> bool:
 	if _is_throw_busy() or _is_knockdown_busy():
 		return false
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
+		return false
+	if is_boss_special_busy():
 		return false
 	return true
 
@@ -436,7 +500,11 @@ func can_choose_guard() -> bool:
 
 
 func update_enemy_target(_target: Node) -> void:
-	reset_ai_state()
+	cancel_current_ai_action()
+	ai_enabled = false
+	_set_ai_state(EnemyAIState.DISABLED)
+	if is_boss_special_busy():
+		reset_special_attack_state(false)
 
 
 func _profile_float(property_name: StringName, fallback: float) -> float:
@@ -702,9 +770,9 @@ func request_special_attack() -> bool:
 	special_attack_requested.emit(self)
 	print("[DEV037][%s] Special attack requested" % _debug_enemy_id())
 	ai_special_request_cooldown_timer = 2.0
-	if has_method("perform_special_attack"):
-		var result: bool = bool(call("perform_special_attack"))
-		if result:
+	if _is_enemy8():
+		var did_start := perform_special_attack()
+		if did_start:
 			return true
 	print("[DEV037][%s] Special attack unavailable" % _debug_enemy_id())
 	print("[DEV037][%s] Fallback to normal attack" % _debug_enemy_id())
@@ -782,6 +850,7 @@ func _update_special_request() -> void:
 
 func _sync_ai_locked_state() -> bool:
 	if current_hp <= 0:
+		reset_special_attack_state()
 		cancel_current_ai_action()
 		_set_ai_state(EnemyAIState.KO)
 		return true
@@ -880,6 +949,552 @@ func _update_ai_throw(delta: float) -> void:
 	_start_throw()
 
 
+func apply_boss_special_attack_data(sequence: Array) -> void:
+	boss_attack_data_by_id.clear()
+	for attack_data in sequence:
+		if attack_data == null:
+			continue
+		var attack_id := String(attack_data.attack_id)
+		if attack_id.is_empty():
+			continue
+		boss_attack_data_by_id[attack_id] = attack_data
+
+
+func perform_special_attack() -> bool:
+	print("[DEV038][Enemy8] Special attack requested")
+	if not can_start_special_attack():
+		return false
+	if ultimate_pending and can_start_ultimate():
+		start_ultimate_attack()
+		return true
+	var attack_id := choose_special_attack()
+	if attack_id.is_empty():
+		return false
+	start_special_attack(attack_id)
+	return true
+
+
+func can_start_special_attack() -> bool:
+	return _is_enemy8() and can_ai_act() and boss_attack_state == BossAttackState.NONE and boss_special_common_cooldown <= 0.0
+
+
+func choose_special_attack() -> String:
+	var distance := evaluate_distance()
+	if distance <= 95.0 and not is_special_attack_on_cooldown("enemy8_spin_kick"):
+		return "enemy8_spin_kick"
+	if distance >= 90.0 and distance <= 220.0 and not is_special_attack_on_cooldown("enemy8_charge_attack"):
+		return "enemy8_charge_attack"
+	return ""
+
+
+func start_special_attack(attack_id: String) -> void:
+	var attack_data = boss_attack_data_by_id.get(attack_id, null)
+	if attack_data == null:
+		return
+	if attack_id == "enemy8_charge_attack":
+		start_charge_attack()
+	elif attack_id == "enemy8_spin_kick":
+		start_spin_kick()
+	else:
+		return
+	boss_current_attack_data = attack_data
+	boss_current_attack_id = attack_id
+	enter_special_startup()
+
+
+func start_charge_attack() -> void:
+	print("[DEV038][Enemy8] Selected: charge_attack")
+
+
+func start_spin_kick() -> void:
+	print("[DEV038][Enemy8] Selected: spin_kick")
+
+
+func start_ultimate_attack() -> void:
+	var attack_data = boss_attack_data_by_id.get("enemy8_ultimate_shockwave", null)
+	if attack_data == null:
+		return
+	boss_current_attack_data = attack_data
+	boss_current_attack_id = "enemy8_ultimate_shockwave"
+	ultimate_pending = false
+	ultimate_started.emit()
+	enter_ultimate_startup()
+
+
+func enter_special_startup() -> void:
+	if boss_current_attack_data == null:
+		return
+	_prepare_boss_attack()
+	boss_attack_state = BossAttackState.SPECIAL_STARTUP
+	boss_attack_timer = float(boss_current_attack_data.startup_time)
+	show_attack_warning()
+	show_attack_preview()
+	_play_boss_attack_animation(StringName(boss_current_attack_data.animation_name), &"Kick")
+	special_attack_started.emit(boss_current_attack_id)
+	print("[DEV038][Enemy8] %s startup" % _boss_log_attack_name())
+
+
+func enter_special_active() -> void:
+	if boss_current_attack_data == null:
+		return
+	boss_attack_state = BossAttackState.SPECIAL_ACTIVE
+	boss_attack_timer = float(boss_current_attack_data.active_time)
+	hide_attack_warning()
+	hide_attack_preview()
+	apply_special_hitbox_data(boss_current_attack_data)
+	enable_special_hitbox()
+	_setup_boss_special_movement()
+	special_attack_became_active.emit(boss_current_attack_id)
+	print("[DEV038][Enemy8] %s active" % _boss_log_attack_name())
+
+
+func enter_special_recovery() -> void:
+	disable_special_hitbox()
+	stop_special_movement()
+	hide_attack_warning()
+	hide_attack_preview()
+	boss_attack_state = BossAttackState.SPECIAL_RECOVERY
+	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 0.4
+	print("[DEV038][Enemy8] %s recovery" % _boss_log_attack_name())
+
+
+func enter_ultimate_startup() -> void:
+	if boss_current_attack_data == null:
+		return
+	_prepare_boss_attack()
+	boss_attack_state = BossAttackState.ULTIMATE_STARTUP
+	boss_attack_timer = float(boss_current_attack_data.startup_time)
+	ultimate_resistance_timer = 0.40
+	ultimate_interrupt_resistant = false
+	show_attack_warning()
+	show_attack_preview()
+	_play_boss_attack_animation(&"ultimate_startup", &"Kick")
+	ultimate_requested.emit()
+	attack_warning_started.emit(boss_current_attack_id)
+	print("[DEV038][Enemy8] Ultimate startup")
+
+
+func enter_ultimate_active() -> void:
+	if boss_current_attack_data == null:
+		return
+	boss_attack_state = BossAttackState.ULTIMATE_ACTIVE
+	boss_attack_timer = float(boss_current_attack_data.active_time)
+	hide_attack_warning()
+	hide_attack_preview()
+	enable_ultimate_interrupt_resistance()
+	apply_special_hitbox_data(boss_current_attack_data)
+	enable_special_hitbox()
+	_play_boss_attack_animation(&"ultimate_attack", &"Kick")
+	ultimate_used = true
+	ultimate_pending = false
+	ultimate_became_active.emit()
+	print("[DEV038][Enemy8] Ultimate active")
+
+
+func enter_ultimate_recovery() -> void:
+	disable_special_hitbox()
+	stop_special_movement()
+	hide_attack_warning()
+	hide_attack_preview()
+	disable_ultimate_interrupt_resistance()
+	boss_attack_state = BossAttackState.ULTIMATE_RECOVERY
+	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 1.1
+	_play_boss_attack_animation(&"ultimate_recovery", &"Kick")
+
+
+func enable_special_hitbox() -> void:
+	_set_special_hitbox_active(true)
+
+
+func disable_special_hitbox() -> void:
+	_set_special_hitbox_active(false)
+
+
+func apply_special_hitbox_data(data: Resource) -> void:
+	if special_area == null or data == null:
+		return
+	special_area.position = Vector2(float(data.hitbox_offset.x) * boss_attack_direction, -52.0 + float(data.hitbox_offset.y))
+	if special_shape != null:
+		if special_shape.shape == null or not (special_shape.shape is RectangleShape2D):
+			special_shape.shape = RectangleShape2D.new()
+		else:
+			special_shape.shape = special_shape.shape.duplicate()
+		special_shape.shape.size = data.hitbox_size
+
+
+func show_attack_warning() -> void:
+	hide_attack_warning()
+	boss_warning_node = Node2D.new()
+	boss_warning_node.name = "BossAttackWarning"
+	var warning_label := Label.new()
+	warning_label.text = "DANGER" if _is_ultimate_state_or_data() else "!"
+	warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	warning_label.add_theme_font_size_override("font_size", 24 if _is_ultimate_state_or_data() else 32)
+	warning_label.modulate = Color(1.0, 0.25, 0.15, 0.88) if _is_ultimate_state_or_data() else Color(1.0, 0.9, 0.15, 0.9)
+	warning_label.position = Vector2(-54.0, -180.0)
+	boss_warning_node.add_child(warning_label)
+	add_child(boss_warning_node)
+	attack_warning_started.emit(boss_current_attack_id)
+
+
+func hide_attack_warning() -> void:
+	if boss_warning_node != null and is_instance_valid(boss_warning_node):
+		boss_warning_node.queue_free()
+	boss_warning_node = null
+	if not boss_current_attack_id.is_empty():
+		attack_warning_finished.emit(boss_current_attack_id)
+
+
+func show_attack_preview() -> void:
+	hide_attack_preview()
+	if boss_current_attack_data == null:
+		return
+	boss_preview_node = Node2D.new()
+	boss_preview_node.name = "BossAttackPreview"
+	var preview := Polygon2D.new()
+	var size: Vector2 = boss_current_attack_data.hitbox_size
+	var offset: Vector2 = boss_current_attack_data.hitbox_offset
+	var rect := Rect2(Vector2(-size.x * 0.5, -size.y * 0.5), size)
+	preview.polygon = PackedVector2Array([
+		rect.position,
+		rect.position + Vector2(rect.size.x, 0.0),
+		rect.position + rect.size,
+		rect.position + Vector2(0.0, rect.size.y),
+	])
+	preview.color = Color(1.0, 0.18, 0.1, 0.18) if _is_ultimate_state_or_data() else Color(1.0, 0.85, 0.1, 0.18)
+	preview.position = Vector2(offset.x * boss_attack_direction, -52.0 + offset.y)
+	boss_preview_node.add_child(preview)
+	add_child(boss_preview_node)
+
+
+func hide_attack_preview() -> void:
+	if boss_preview_node != null and is_instance_valid(boss_preview_node):
+		boss_preview_node.queue_free()
+	boss_preview_node = null
+
+
+func apply_charge_movement(delta: float) -> void:
+	if boss_special_move_timer <= 0.0:
+		return
+	var step := minf(delta, boss_special_move_timer)
+	position.x += boss_special_move_speed * step
+	boss_special_move_timer = maxf(boss_special_move_timer - delta, 0.0)
+	_clamp_to_screen()
+
+
+func stop_special_movement() -> void:
+	boss_special_move_timer = 0.0
+	boss_special_move_speed = 0.0
+	velocity.x = 0.0
+
+
+func register_special_hit(target: Node) -> void:
+	if target == null or boss_special_hit_targets.has(target):
+		return
+	boss_special_hit_targets.append(target)
+	special_attack_hit.emit(boss_current_attack_id, target)
+	print("[DEV038][Enemy8] %s hit player" % _boss_log_attack_name())
+
+
+func clear_special_hit_targets() -> void:
+	boss_special_hit_targets.clear()
+
+
+func update_special_cooldowns(delta: float) -> void:
+	boss_special_common_cooldown = maxf(boss_special_common_cooldown - delta, 0.0)
+	ultimate_retry_cooldown = maxf(ultimate_retry_cooldown - delta, 0.0)
+	for attack_id in boss_special_cooldowns.keys():
+		boss_special_cooldowns[attack_id] = maxf(float(boss_special_cooldowns[attack_id]) - delta, 0.0)
+
+
+func is_special_attack_on_cooldown(attack_id: String) -> bool:
+	return boss_special_common_cooldown > 0.0 or float(boss_special_cooldowns.get(attack_id, 0.0)) > 0.0
+
+
+func check_ultimate_condition() -> void:
+	if not _is_enemy8() or ultimate_used or ultimate_pending or current_hp <= 0:
+		return
+	if max_hp <= 0 or float(current_hp) / float(max_hp) > 0.35:
+		return
+	ultimate_pending = true
+	ultimate_requested.emit()
+	print("[DEV038][Enemy8] HP below 35%")
+	print("[DEV038][Enemy8] Ultimate pending")
+
+
+func request_ultimate_attack() -> void:
+	ultimate_pending = true
+
+
+func can_start_ultimate() -> bool:
+	return _is_enemy8() and ultimate_pending and not ultimate_used and ultimate_retry_cooldown <= 0.0 and can_start_special_attack()
+
+
+func enable_ultimate_interrupt_resistance() -> void:
+	ultimate_interrupt_resistant = true
+	print("[DEV038][Enemy8] Ultimate armor enabled")
+
+
+func disable_ultimate_interrupt_resistance() -> void:
+	ultimate_interrupt_resistant = false
+	ultimate_resistance_timer = 0.0
+
+
+func interrupt_special_attack() -> void:
+	if boss_attack_state == BossAttackState.NONE:
+		return
+	var interrupted_attack_id := boss_current_attack_id
+	if boss_attack_state == BossAttackState.ULTIMATE_STARTUP:
+		ultimate_pending = true
+		ultimate_retry_cooldown = 5.0
+		ultimate_interrupted.emit()
+	elif boss_attack_state == BossAttackState.ULTIMATE_ACTIVE or boss_attack_state == BossAttackState.ULTIMATE_RECOVERY:
+		ultimate_used = true
+		ultimate_pending = false
+	_add_special_cooldown(interrupted_attack_id, 1.5)
+	reset_special_attack_state(false)
+	special_attack_interrupted.emit(interrupted_attack_id)
+	print("[DEV038][Enemy8] %s interrupted" % interrupted_attack_id)
+
+
+func finish_special_attack() -> void:
+	var finished_attack_id := boss_current_attack_id
+	var was_ultimate := _is_ultimate_attack_id(finished_attack_id)
+	_add_special_cooldown(finished_attack_id, _special_attack_cooldown_for(finished_attack_id))
+	reset_special_attack_state(false)
+	ai_reaction_timer = randf_range(_profile_float(&"reaction_time_min", 0.20), _profile_float(&"reaction_time_max", 0.45))
+	_set_ai_state(EnemyAIState.IDLE)
+	if was_ultimate:
+		ultimate_used = true
+		ultimate_pending = false
+		ultimate_finished.emit()
+		print("[DEV038][Enemy8] Ultimate finished")
+	else:
+		special_attack_finished.emit(finished_attack_id)
+
+
+func reset_special_attack_state(reset_ultimate_state := true) -> void:
+	disable_special_hitbox()
+	hide_attack_warning()
+	hide_attack_preview()
+	stop_special_movement()
+	clear_special_hit_targets()
+	boss_attack_state = BossAttackState.NONE
+	boss_current_attack_data = null
+	boss_current_attack_id = ""
+	boss_attack_timer = 0.0
+	disable_ultimate_interrupt_resistance()
+	if reset_ultimate_state:
+		ultimate_used = false
+		ultimate_pending = false
+		ultimate_retry_cooldown = 0.0
+		boss_special_common_cooldown = 0.0
+		boss_special_cooldowns.clear()
+
+
+func update_boss_special_attack(delta: float) -> void:
+	if boss_attack_state == BossAttackState.NONE:
+		return
+	if current_hp <= 0 or not is_round_active:
+		reset_special_attack_state(false)
+		return
+	if boss_attack_state == BossAttackState.ULTIMATE_STARTUP and not ultimate_interrupt_resistant:
+		ultimate_resistance_timer = maxf(ultimate_resistance_timer - delta, 0.0)
+		if ultimate_resistance_timer == 0.0:
+			enable_ultimate_interrupt_resistance()
+	boss_attack_timer = maxf(boss_attack_timer - delta, 0.0)
+	if boss_attack_state == BossAttackState.SPECIAL_ACTIVE or boss_attack_state == BossAttackState.ULTIMATE_ACTIVE:
+		apply_charge_movement(delta)
+	match boss_attack_state:
+		BossAttackState.SPECIAL_STARTUP:
+			if boss_attack_timer == 0.0:
+				enter_special_active()
+		BossAttackState.SPECIAL_ACTIVE:
+			if boss_attack_timer == 0.0:
+				enter_special_recovery()
+		BossAttackState.SPECIAL_RECOVERY:
+			if boss_attack_timer == 0.0:
+				finish_special_attack()
+		BossAttackState.ULTIMATE_STARTUP:
+			if boss_attack_timer == 0.0:
+				enter_ultimate_active()
+		BossAttackState.ULTIMATE_ACTIVE:
+			if boss_attack_timer == 0.0:
+				enter_ultimate_recovery()
+		BossAttackState.ULTIMATE_RECOVERY:
+			if boss_attack_timer == 0.0:
+				finish_special_attack()
+
+
+func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	var was_boss_special := is_boss_special_busy()
+	if was_boss_special and _should_interrupt_boss_special():
+		interrupt_special_attack()
+		return super.receive_attack(attack_data, attack_direction, hit_position, attacker)
+	if was_boss_special and ultimate_interrupt_resistant:
+		apply_damage(int(attack_data["damage"]))
+		_start_hit_stop(attack_data["hit_stop_frames"])
+		_spawn_hit_effect(hit_position, attack_data["effect_size"])
+		if attacker != null and attacker.has_method("start_hit_stop"):
+			attacker.start_hit_stop(attack_data["hit_stop_frames"])
+		if current_hp <= 0:
+			reset_special_attack_state(false)
+		return true
+	var did_hit: bool = bool(super.receive_attack(attack_data, attack_direction, hit_position, attacker))
+	if was_boss_special and current_hp <= 0:
+		reset_special_attack_state(false)
+	return did_hit
+
+
+func is_boss_special_busy() -> bool:
+	return boss_attack_state != BossAttackState.NONE
+
+
+func _on_special_hitbox_area_entered(area: Area2D) -> void:
+	if boss_attack_state != BossAttackState.SPECIAL_ACTIVE and boss_attack_state != BossAttackState.ULTIMATE_ACTIVE:
+		return
+	var target := _get_valid_hurtbox_target(area)
+	if target == null or boss_special_hit_targets.has(target):
+		return
+	var attack_data := _get_boss_attack_dictionary()
+	var did_hit: bool = bool(target.receive_attack(attack_data, boss_attack_direction, _get_hit_position(target), self))
+	register_special_hit(target)
+	if did_hit and boss_current_attack_data != null:
+		_spawn_boss_attack_effect(_get_hit_position(target), _is_ultimate_attack_id(boss_current_attack_id))
+
+
+func _get_boss_attack_dictionary() -> Dictionary:
+	var base_damage := maxi(punch_damage, kick_damage)
+	var multiplier := float(boss_current_attack_data.damage_multiplier) if boss_current_attack_data != null else 1.0
+	var final_knockback := calculate_attack_knockback(Vector2(absf(float(boss_current_attack_data.knockback.x)), absf(float(boss_current_attack_data.knockback.y))))
+	return {
+		"damage": maxi(1, int(round(float(base_damage) * multiplier))),
+		"base_damage": maxi(1, int(round(float(base_damage) * multiplier))),
+		"attack_height": "high",
+		"is_guardable": bool(boss_current_attack_data.is_guardable),
+		"guard_damage_multiplier": float(boss_current_attack_data.guard_damage_multiplier),
+		"guard_hit_time": float(boss_current_attack_data.guard_hit_time),
+		"guard_hit_stop_time": float(boss_current_attack_data.hitstop_time) * 0.6,
+		"guard_knockback": boss_current_attack_data.guard_knockback,
+		"knockback_x": final_knockback.x,
+		"knockback_y": absf(final_knockback.y),
+		"hit_stop_frames": maxi(1, int(round(float(boss_current_attack_data.hitstop_time) * 60.0))),
+		"hitstun_time": float(boss_current_attack_data.hitstun_time),
+		"effect_size": 2.0 if _is_ultimate_attack_id(boss_current_attack_id) else 1.35,
+		"screen_shake": 6.0 if _is_ultimate_attack_id(boss_current_attack_id) else 3.5,
+		"se_type": "strong",
+		"attack_id": boss_current_attack_id,
+	}
+
+
+func _set_special_hitbox_active(is_active: bool) -> void:
+	if special_area != null:
+		special_area.set_deferred("monitoring", is_active)
+	if special_shape != null:
+		special_shape.set_deferred("disabled", not is_active)
+
+
+func _prepare_boss_attack() -> void:
+	interrupt_combo()
+	reset_attack_state(false)
+	_clear_guard_state()
+	is_crouching = false
+	velocity = Vector2.ZERO
+	_face_opponent()
+	boss_attack_direction = facing_direction
+	visual_root.scale.x = boss_attack_direction
+	clear_special_hit_targets()
+
+
+func _setup_boss_special_movement() -> void:
+	stop_special_movement()
+	if boss_current_attack_data == null:
+		return
+	var duration := float(boss_current_attack_data.move_duration)
+	if duration <= 0.0:
+		return
+	boss_special_move_timer = duration
+	boss_special_move_speed = (float(boss_current_attack_data.move_distance) / duration) * boss_attack_direction * float(boss_current_attack_data.move_speed_multiplier)
+
+
+func _add_special_cooldown(attack_id: String, cooldown: float) -> void:
+	if attack_id.is_empty():
+		return
+	boss_special_common_cooldown = maxf(boss_special_common_cooldown, 3.5)
+	boss_special_cooldowns[attack_id] = maxf(float(boss_special_cooldowns.get(attack_id, 0.0)), cooldown)
+
+
+func _special_attack_cooldown_for(attack_id: String) -> float:
+	var attack_data = boss_attack_data_by_id.get(attack_id, null)
+	return float(attack_data.cooldown) if attack_data != null else 3.5
+
+
+func _should_interrupt_boss_special() -> bool:
+	if boss_current_attack_data == null:
+		return false
+	if current_hp <= 0:
+		return true
+	if boss_attack_state == BossAttackState.SPECIAL_STARTUP:
+		return bool(boss_current_attack_data.can_be_interrupted)
+	if boss_attack_state == BossAttackState.ULTIMATE_STARTUP:
+		return not ultimate_interrupt_resistant
+	if boss_attack_state == BossAttackState.SPECIAL_RECOVERY or boss_attack_state == BossAttackState.ULTIMATE_RECOVERY:
+		return true
+	return false
+
+
+func _play_boss_attack_animation(animation_name: StringName, fallback_name: StringName) -> void:
+	if animation_player == null:
+		return
+	if animation_player.has_animation(String(animation_name)):
+		animation_player.play(String(animation_name))
+	elif animation_player.has_animation(String(fallback_name)):
+		animation_player.play(String(fallback_name))
+
+
+func _spawn_boss_attack_effect(effect_position: Vector2, is_ultimate: bool) -> void:
+	var effect_root := Node2D.new()
+	effect_root.global_position = effect_position
+	effect_root.name = "BossAttackEffect"
+	var flash := Polygon2D.new()
+	var size := 36.0 if is_ultimate else 22.0
+	flash.color = Color(1.0, 0.2, 0.08, 0.75) if is_ultimate else Color(1.0, 0.85, 0.1, 0.65)
+	flash.polygon = PackedVector2Array([
+		Vector2(0, -size),
+		Vector2(size, 0),
+		Vector2(0, size),
+		Vector2(-size, 0),
+	])
+	effect_root.add_child(flash)
+	get_tree().current_scene.add_child(effect_root)
+	var tween := effect_root.create_tween()
+	tween.tween_property(effect_root, "scale", Vector2(1.8, 1.8), 0.16)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.16)
+	tween.tween_callback(effect_root.queue_free)
+
+
+func _is_ultimate_state_or_data() -> bool:
+	return boss_attack_state == BossAttackState.ULTIMATE_STARTUP or boss_attack_state == BossAttackState.ULTIMATE_ACTIVE or _is_ultimate_attack_id(boss_current_attack_id)
+
+
+func _is_ultimate_attack_id(attack_id: String) -> bool:
+	return attack_id == "enemy8_ultimate_shockwave"
+
+
+func _boss_log_attack_name() -> String:
+	if boss_current_attack_id == "enemy8_charge_attack":
+		return "Charge"
+	if boss_current_attack_id == "enemy8_spin_kick":
+		return "Spin"
+	if boss_current_attack_id == "enemy8_ultimate_shockwave":
+		return "Ultimate"
+	return boss_current_attack_id
+
+
+func _is_enemy8() -> bool:
+	return fighter_definition != null and String(fighter_definition.fighter_id) == "enemy_08_boss"
+
+
 func _debug_enemy_id() -> String:
 	if fighter_definition != null and not String(fighter_definition.fighter_id).is_empty():
 		return String(fighter_definition.fighter_id)
@@ -895,3 +1510,12 @@ func _update_visual_state() -> void:
 		evaluate_distance(),
 		ai_attack_cooldown_timer,
 	]
+	if _is_enemy8():
+		state_label.text += "\nBOSS: %s\nSPECIAL: %s\nSP CD: %.2f\nULT USED: %s\nULT PEND: %s\nARMOR: %s" % [
+			BossAttackState.keys()[boss_attack_state],
+			"NONE" if boss_current_attack_id.is_empty() else boss_current_attack_id,
+			boss_special_common_cooldown,
+			str(ultimate_used).to_upper(),
+			str(ultimate_pending).to_upper(),
+			str(ultimate_interrupt_resistant).to_upper(),
+		]

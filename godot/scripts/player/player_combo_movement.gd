@@ -427,13 +427,14 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	if attacker != null and attacker.has_method("clear_attack_buffer"):
 		attacker.clear_attack_buffer()
 	_enter_guard_hit_state()
-	apply_damage(_get_guard_damage(int(attack_data.get("base_damage", attack_data["damage"]))))
+	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
+	apply_damage(_get_guard_damage_from_attack_data(attack_data))
 	_apply_guard_knockback(attack_data, attack_direction)
-	_start_hit_stop_seconds(guard_hit_stop_time)
+	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop_seconds(guard_hit_stop_time)
+		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 
 
 func _update_attack(delta: float) -> void:
