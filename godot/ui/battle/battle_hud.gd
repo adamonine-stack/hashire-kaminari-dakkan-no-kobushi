@@ -31,6 +31,8 @@ var player_hp_label: Label
 var player_hp_bar: ProgressBar
 var player_delay_hp_bar: ProgressBar
 var player_state_label: Label
+var player_special_label: Label
+var player_low_hp_label: Label
 var team_panel: PanelContainer
 var team_labels: Array[Label] = []
 var enemy_panel: PanelContainer
@@ -40,6 +42,7 @@ var enemy_progress_label: Label
 var enemy_hp_label: Label
 var enemy_hp_bar: ProgressBar
 var enemy_delay_hp_bar: ProgressBar
+var enemy_low_hp_label: Label
 var message_label: Label
 var boss_warning_label: Label
 var result_panel: PanelContainer
@@ -49,6 +52,8 @@ var result_retry_button: Button
 var result_title_button: Button
 var pause_panel: PanelContainer
 var pause_continue_button: Button
+var pause_how_to_button: Button
+var pause_options_button: Button
 var pause_restart_button: Button
 var pause_title_button: Button
 var confirm_panel: PanelContainer
@@ -154,12 +159,15 @@ func reset_battle_hud() -> void:
 	hide_confirm_dialog()
 	message_label.visible = false
 	player_state_label.visible = false
+	player_special_label.text = "SPECIAL --"
+	player_low_hp_label.visible = false
 	player_name_label.text = "PLAYER"
 	player_hp_label.text = "0 / 0"
 	enemy_name_label.text = "ENEMY"
 	enemy_type_label.text = ""
 	enemy_progress_label.text = "ENEMY 1 / 8"
 	enemy_hp_label.text = "0 / 0"
+	enemy_low_hp_label.visible = false
 	update_player_hp(0, 1, false)
 	update_enemy_hp(0, 1, false)
 	for label in team_labels:
@@ -251,6 +259,7 @@ func update_player_hp(current_hp: float, max_hp: float, animate := true) -> void
 	player_hp_label.text = "%d / %d" % [roundi(safe_current), roundi(safe_max)]
 	player_hp_bar.visible = show_battle_hp_bars
 	player_delay_hp_bar.visible = show_battle_hp_bars
+	_update_low_hp_label(player_low_hp_label, safe_current, safe_max)
 	_animate_hp_bar(player_hp_bar, player_delay_hp_bar, player_display_hp, player_delay_hp, safe_current, animate)
 	player_display_hp = safe_current
 	player_delay_hp = safe_current
@@ -264,6 +273,7 @@ func update_enemy_hp(current_hp: float, max_hp: float, animate := true) -> void:
 	enemy_hp_label.text = "%d / %d" % [roundi(safe_current), roundi(safe_max)]
 	enemy_hp_bar.visible = show_battle_hp_bars
 	enemy_delay_hp_bar.visible = show_battle_hp_bars
+	_update_low_hp_label(enemy_low_hp_label, safe_current, safe_max)
 	_animate_hp_bar(enemy_hp_bar, enemy_delay_hp_bar, enemy_display_hp, enemy_delay_hp, safe_current, animate)
 	enemy_display_hp = safe_current
 	enemy_delay_hp = safe_current
@@ -376,10 +386,11 @@ func show_game_over() -> void:
 	hide_boss_warning()
 	clear_message_queue()
 	result_title_label.text = "GAME OVER"
-	result_body_label.text = "Retry or return to title."
+	result_body_label.text = "All ally fighters defeated.\nRETRY or RETURN TO TITLE."
 	result_panel.visible = true
 	result_retry_button.text = "RETRY"
 	result_retry_button.grab_focus()
+	_play_ui_se("defeat")
 	show_battle_message("GAME OVER", MessagePriority.CRITICAL, 1.2)
 
 
@@ -387,10 +398,11 @@ func show_game_clear() -> void:
 	hide_boss_warning()
 	clear_message_queue()
 	result_title_label.text = "GAME CLEAR"
-	result_body_label.text = "Enemy 8 defeated."
+	result_body_label.text = "All 8 enemies defeated.\nBattle run complete."
 	result_panel.visible = true
 	result_retry_button.text = "PLAY AGAIN"
 	result_retry_button.grab_focus()
+	_play_ui_se("clear")
 	show_battle_message("GAME CLEAR", MessagePriority.CRITICAL, 1.2)
 
 
@@ -400,6 +412,7 @@ func hide_result_layer() -> void:
 
 func show_pause_menu() -> void:
 	pause_panel.visible = true
+	_play_ui_se("pause")
 	pause_continue_button.grab_focus()
 
 
@@ -409,10 +422,12 @@ func hide_pause_menu() -> void:
 
 
 func show_restart_confirm() -> void:
+	_play_ui_se("confirm")
 	_show_confirm_dialog("Restart current run?", "restart")
 
 
 func show_return_title_confirm() -> void:
+	_play_ui_se("confirm")
 	_show_confirm_dialog("Return to title?", "title")
 
 
@@ -445,18 +460,40 @@ func _cancel_confirm() -> void:
 
 
 func _request_continue() -> void:
+	_play_ui_se("confirm")
 	if battle_manager != null and battle_manager.has_method("return_to_battle"):
 		battle_manager.return_to_battle()
 
 
 func _request_restart() -> void:
+	_play_ui_se("confirm")
 	if battle_manager != null and battle_manager.has_method("restart_current_game"):
 		battle_manager.restart_current_game()
 
 
 func _request_return_to_title() -> void:
+	_play_ui_se("confirm")
 	if battle_manager != null and battle_manager.has_method("go_to_title"):
 		battle_manager.go_to_title()
+
+
+func _show_pause_how_to_play() -> void:
+	_play_ui_se("confirm")
+	show_battle_message("MOVE / JUMP / PUNCH / KICK / GUARD / SPECIAL", MessagePriority.CRITICAL, 1.8)
+
+
+func _show_pause_options_hint() -> void:
+	_play_ui_se("confirm")
+	var settings := get_node_or_null("/root/SettingsManager")
+	if settings != null:
+		show_battle_message("BGM %d%%  SE %d%%  SHAKE %s  HITSTOP %s" % [
+			int(round(float(settings.get("bgm_volume")) * 100.0)),
+			int(round(float(settings.get("se_volume")) * 100.0)),
+			String(settings.get("screen_shake_mode")),
+			String(settings.get("hitstop_mode")),
+		], MessagePriority.CRITICAL, 1.8)
+	else:
+		show_battle_message("OPTIONS", MessagePriority.CRITICAL, 1.2)
 
 
 func show_battle_message(message: String, priority: int = MessagePriority.NORMAL, duration: float = 0.8) -> void:
@@ -542,6 +579,11 @@ func _build_hud() -> void:
 	player_hp_bar = player_hp_stack["front"]
 	player_state_label = _make_label(player_box, "INVINCIBLE", 15)
 	player_state_label.visible = false
+	player_special_label = _make_label(player_box, "SPECIAL --", 14)
+	player_special_label.add_theme_color_override("font_color", Color(0.78, 0.88, 1.0, 1.0))
+	player_low_hp_label = _make_label(player_box, "DANGER", 14)
+	player_low_hp_label.add_theme_color_override("font_color", Color(1.0, 0.22, 0.16, 1.0))
+	player_low_hp_label.visible = false
 
 	team_panel = _make_panel("TeamStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 154.0), Vector2(386.0, 94.0))
 	var team_box := _make_margin_vbox(team_panel)
@@ -559,6 +601,9 @@ func _build_hud() -> void:
 	var enemy_hp_stack := _make_hp_stack(enemy_box)
 	enemy_delay_hp_bar = enemy_hp_stack["delay"]
 	enemy_hp_bar = enemy_hp_stack["front"]
+	enemy_low_hp_label = _make_label(enemy_box, "DANGER", 14)
+	enemy_low_hp_label.add_theme_color_override("font_color", Color(1.0, 0.22, 0.16, 1.0))
+	enemy_low_hp_label.visible = false
 
 	message_label = Label.new()
 	message_label.name = "StateMessageLabel"
@@ -613,6 +658,12 @@ func _build_hud() -> void:
 	pause_continue_button = _make_action_button("CONTINUE")
 	pause_continue_button.pressed.connect(_request_continue)
 	pause_box.add_child(pause_continue_button)
+	pause_how_to_button = _make_action_button("HOW TO PLAY")
+	pause_how_to_button.pressed.connect(_show_pause_how_to_play)
+	pause_box.add_child(pause_how_to_button)
+	pause_options_button = _make_action_button("OPTIONS")
+	pause_options_button.pressed.connect(_show_pause_options_hint)
+	pause_box.add_child(pause_options_button)
 	pause_restart_button = _make_action_button("RESTART")
 	pause_restart_button.pressed.connect(show_restart_confirm)
 	pause_box.add_child(pause_restart_button)
@@ -699,6 +750,7 @@ func _make_action_button(text: String) -> Button:
 	button.text = text
 	button.custom_minimum_size = Vector2(240.0, 42.0)
 	button.focus_mode = Control.FOCUS_ALL
+	button.focus_entered.connect(_play_ui_se.bind("cursor"))
 	return button
 
 
@@ -745,6 +797,7 @@ func _animate_hp_bar(front_bar: ProgressBar, delay_bar: ProgressBar, previous_fr
 func _display_message(data: Dictionary) -> void:
 	if not show_battle_messages:
 		return
+	_play_ui_se("message")
 	is_message_showing = true
 	current_message_priority = int(data.get("priority", MessagePriority.NORMAL))
 	message_label.text = String(data.get("message", ""))
@@ -768,6 +821,7 @@ func _finish_message() -> void:
 
 func _update_live_state_labels() -> void:
 	if current_player != null and is_instance_valid(current_player):
+		_update_special_status()
 		var invincible := bool(current_player.get("is_invincible"))
 		var guarding := bool(current_player.get("is_guarding")) or bool(current_player.get("is_crouch_guarding")) or bool(current_player.get("is_guard_hit"))
 		if invincible:
@@ -783,6 +837,34 @@ func _update_live_state_labels() -> void:
 		debug_overlay_label.text = _debug_text()
 	else:
 		debug_overlay_label.visible = false
+
+
+func _update_special_status() -> void:
+	if player_special_label == null or current_player == null:
+		return
+	if not current_player.has_method("has_special_attack") or not bool(current_player.has_special_attack()):
+		player_special_label.text = "SPECIAL --"
+		player_special_label.modulate = Color(0.7, 0.7, 0.7, 1.0)
+		return
+	var special_name := "SPECIAL"
+	if current_player.has_method("get_special_display_name"):
+		special_name = String(current_player.get_special_display_name())
+	var cooldown := 0.0
+	if current_player.has_method("get_special_cooldown_remaining"):
+		cooldown = float(current_player.get_special_cooldown_remaining())
+	var ready := cooldown <= 0.05 and (not current_player.has_method("can_start_special_attack") or bool(current_player.can_start_special_attack()))
+	if ready:
+		player_special_label.text = "%s READY" % special_name
+		player_special_label.modulate = Color(0.55, 0.95, 1.0, 1.0)
+	else:
+		player_special_label.text = "%s %.1f" % [special_name, cooldown]
+		player_special_label.modulate = Color(0.45, 0.55, 0.7, 1.0)
+
+
+func _update_low_hp_label(label: Label, current_hp: float, max_hp: float) -> void:
+	if label == null:
+		return
+	label.visible = max_hp > 0.0 and current_hp > 0.0 and current_hp / max_hp <= 0.25
 
 
 func _debug_text() -> String:
@@ -1005,3 +1087,9 @@ func _hide_legacy_battle_labels() -> void:
 
 func _track_tween(tween: Tween) -> void:
 	_hud_tweens.append(tween)
+
+
+func _play_ui_se(se_id: String) -> void:
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("play_ui_se"):
+		audio.call("play_ui_se", se_id)

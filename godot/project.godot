@@ -15,6 +15,11 @@ config/description="2D fighting action game project based on the GDD for Hashire
 run/main_scene="res://scenes/Title.tscn"
 config/features=PackedStringArray("4.7")
 
+[autoload]
+
+SettingsManager="*res://scripts/autoload/settings_manager.gd"
+AudioManager="*res://scripts/autoload/audio_manager.gd"
+
 [display]
 
 window/size/viewport_width=1280

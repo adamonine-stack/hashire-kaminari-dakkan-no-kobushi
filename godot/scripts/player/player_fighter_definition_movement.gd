@@ -992,6 +992,29 @@ func can_start_special_attack() -> bool:
 	return input_enabled
 
 
+func has_special_attack() -> bool:
+	return not boss_attack_data_by_id.is_empty()
+
+
+func get_special_cooldown_remaining() -> float:
+	var remaining := boss_special_common_cooldown
+	for cooldown in boss_special_cooldowns.values():
+		remaining = maxf(remaining, float(cooldown))
+	return remaining
+
+
+func get_special_display_name() -> String:
+	if fighter_definition != null:
+		var custom_name = fighter_definition.get("special_move_name")
+		if custom_name != null and not String(custom_name).is_empty():
+			return String(custom_name)
+	for attack_id in boss_attack_data_by_id.keys():
+		var data = boss_attack_data_by_id[attack_id]
+		if data != null and not String(data.display_name).is_empty():
+			return String(data.display_name)
+	return "SPECIAL"
+
+
 func choose_special_attack() -> String:
 	if not _is_enemy8():
 		for attack_id in boss_attack_data_by_id.keys():
@@ -1051,7 +1074,9 @@ func enter_special_startup() -> void:
 	boss_attack_timer = float(boss_current_attack_data.startup_time)
 	show_attack_warning()
 	show_attack_preview()
+	_show_boss_cinematic_flash()
 	_play_boss_attack_animation(StringName(boss_current_attack_data.animation_name), &"Kick")
+	_play_audio_manager_se("special_start")
 	special_attack_started.emit(boss_current_attack_id)
 	print("[DEV042][%s] %s startup" % [_debug_enemy_id(), _boss_log_attack_name()])
 
@@ -1066,6 +1091,7 @@ func enter_special_active() -> void:
 	apply_special_hitbox_data(boss_current_attack_data)
 	enable_special_hitbox()
 	_setup_boss_special_movement()
+	_play_audio_manager_se("special_attack")
 	special_attack_became_active.emit(boss_current_attack_id)
 	print("[DEV042][%s] %s active" % [_debug_enemy_id(), _boss_log_attack_name()])
 
@@ -1075,6 +1101,7 @@ func enter_special_recovery() -> void:
 	stop_special_movement()
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	boss_attack_state = BossAttackState.SPECIAL_RECOVERY
 	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 0.4
 	print("[DEV042][%s] %s recovery" % [_debug_enemy_id(), _boss_log_attack_name()])
@@ -1093,6 +1120,7 @@ func enter_ultimate_startup() -> void:
 	_show_boss_cinematic_flash()
 	_play_boss_attack_animation(&"ultimate_startup", &"Kick")
 	_play_hit_se("special")
+	_play_audio_manager_se("ultimate_warning")
 	ultimate_requested.emit()
 	attack_warning_started.emit(boss_current_attack_id)
 	print("[DEV038][Enemy8] Ultimate startup")
@@ -1110,6 +1138,7 @@ func enter_ultimate_active() -> void:
 	apply_special_hitbox_data(boss_current_attack_data)
 	enable_special_hitbox()
 	_play_boss_attack_animation(&"ultimate_attack", &"Kick")
+	_play_audio_manager_se("ultimate_attack")
 	ultimate_used = true
 	ultimate_pending = false
 	ultimate_became_active.emit()
@@ -1582,6 +1611,12 @@ func _debug_enemy_id() -> String:
 	if fighter_definition != null and not String(fighter_definition.fighter_id).is_empty():
 		return String(fighter_definition.fighter_id)
 	return name
+
+
+func _play_audio_manager_se(se_id: String) -> void:
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("play_se"):
+		audio.call("play_se", se_id)
 
 
 func _update_visual_state() -> void:

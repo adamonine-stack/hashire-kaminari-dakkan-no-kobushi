@@ -1270,7 +1270,21 @@ func _switch_bgm(bgm_name: String) -> void:
 	if _current_bgm_name == bgm_name:
 		return
 	_current_bgm_name = bgm_name
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("fade_bgm"):
+		audio.call("fade_bgm", _bgm_id_for_name(bgm_name), 0.35)
 	print("BGM: %s" % bgm_name)
+
+
+func _bgm_id_for_name(bgm_name: String) -> String:
+	match bgm_name:
+		"BattleBGM":
+			return "final_boss" if current_enemy_index >= 7 else "battle"
+		"WinBGM":
+			return "clear"
+		"LoseBGM":
+			return "game_over"
+	return bgm_name.to_snake_case()
 
 
 func _mark_player_defeated() -> void:

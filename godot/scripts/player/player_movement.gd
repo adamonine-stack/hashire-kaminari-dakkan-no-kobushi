@@ -1232,11 +1232,11 @@ func _update_invincibility(delta: float) -> void:
 
 
 func _start_hit_stop(frame_count: int) -> void:
-	hit_stop_timer = maxf(hit_stop_timer, float(frame_count) / 60.0)
+	hit_stop_timer = maxf(hit_stop_timer, (float(frame_count) / 60.0) * _hitstop_multiplier())
 
 
 func _start_hit_stop_seconds(duration: float) -> void:
-	hit_stop_timer = maxf(hit_stop_timer, duration)
+	hit_stop_timer = maxf(hit_stop_timer, duration * _hitstop_multiplier())
 
 
 func _update_hit_stop(delta: float) -> bool:
@@ -1659,6 +1659,7 @@ func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 
 
 func _play_hit_se(se_type: String) -> void:
+	_play_audio_manager_se("hit_%s" % se_type)
 	if se_type == "ko":
 		ko_hit_se.play()
 	elif se_type == "special":
@@ -1670,14 +1671,17 @@ func _play_hit_se(se_type: String) -> void:
 
 
 func _play_guard_se() -> void:
+	_play_audio_manager_se("guard")
 	guard_hit_se.play()
 
 
 func _play_throw_se() -> void:
+	_play_audio_manager_se("throw")
 	throw_se.play()
 
 
 func _play_throw_escape_se() -> void:
+	_play_audio_manager_se("throw_escape")
 	throw_escape_se.play()
 
 
@@ -1808,6 +1812,19 @@ func _play_ko_feedback(hit_position: Vector2, attack_direction: float) -> void:
 	screen_shake_requested.emit(ko_shake_strength)
 	velocity.x += attack_direction * 220.0
 	velocity.y = minf(velocity.y, -180.0)
+
+
+func _hitstop_multiplier() -> float:
+	var settings := get_node_or_null("/root/SettingsManager")
+	if settings != null and settings.has_method("get_hitstop_multiplier"):
+		return float(settings.call("get_hitstop_multiplier"))
+	return 1.0
+
+
+func _play_audio_manager_se(se_id: String) -> void:
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("play_se"):
+		audio.call("play_se", se_id)
 
 
 func _is_speed_style_fighter() -> bool:
