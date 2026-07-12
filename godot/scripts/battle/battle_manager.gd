@@ -20,6 +20,11 @@ signal player_order_confirmed(order)
 signal battle_start_requested(first_player_id)
 signal next_ordered_player_requested(character_id)
 signal player_order_status_updated
+signal hud_enemy_spawned(enemy: Node, enemy_index: int, enemy_data: Dictionary)
+signal hud_enemy_defeated(enemy: Node, enemy_index: int)
+signal hud_healing_applied(target: Node, applied_amount: int)
+signal hud_message_requested(message: String, priority: int, duration: float)
+signal hud_retry_started()
 
 enum BattleState {
 	READY,
@@ -146,6 +151,7 @@ var _last_spawned_player_id := ""
 @onready var enemy_win_marks := $"../UI/BattleUIRoot/EnemyWinMarks"
 @onready var player_hp_bar := $"../UI/BattleUIRoot/PlayerHpBar"
 @onready var enemy_hp_bar := $"../UI/BattleUIRoot/EnemyHpBar"
+@onready var battle_hud := $"../UI/BattleUIRoot/BattleHUD"
 
 
 func _ready() -> void:
@@ -158,6 +164,7 @@ func _ready() -> void:
 	enemy.hp_changed.connect(_on_enemy_hp_changed)
 	initialize_game_progress()
 	_create_flow_ui()
+	_initialize_battle_hud()
 	_set_battle_active(false)
 	_update_all_ui()
 	call_deferred("start_initial_player_selection")
@@ -576,6 +583,7 @@ func spawn_active_player() -> void:
 	print("[DEV035] HUD max HP updated: %d" % player.max_hp)
 	_last_spawned_player_id = current_player_id
 	current_player_changed.emit(current_player_instance)
+	_update_battle_hud_player()
 	update_player_hud()
 
 
@@ -594,6 +602,8 @@ func spawn_active_enemy() -> void:
 
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
+	_update_battle_hud_enemy()
+	hud_enemy_spawned.emit(enemy, current_enemy_index, data.duplicate(true))
 
 
 func prepare_battle() -> void:
@@ -619,6 +629,7 @@ func prepare_battle() -> void:
 	update_camera_target()
 
 	if _should_show_enemy_intro():
+		_notify_hud_enemy_intro(enemy_team[current_enemy_index], current_enemy_index)
 		await start_enemy_intro(enemy_team[current_enemy_index])
 
 	await start_battle_countdown(sequence_id)
@@ -657,6 +668,7 @@ func start_battle_countdown(sequence_id: int = -1) -> void:
 	if sequence_id != _flow_sequence_id or flow_state != BattleState.READY:
 		return
 	_show_message("ENEMY %d" % (current_enemy_index + 1))
+	_notify_hud_message("ENEMY %d" % (current_enemy_index + 1), 1, 0.9)
 	await get_tree().create_timer(1.0).timeout
 
 	if sequence_id != _flow_sequence_id or flow_state != BattleState.READY:
@@ -678,6 +690,7 @@ func begin_battle(sequence_id: int = -1) -> void:
 		start_change_invincibility()
 	_switch_bgm("BattleBGM")
 	_show_message("FIGHT")
+	_notify_hud_fight()
 	battle_started.emit(_active_player_id(), _active_enemy_id())
 	print("Battle Start: %s VS %s" % [_active_player_id(), _active_enemy_id()])
 	await get_tree().create_timer(fight_message_duration).timeout
@@ -709,6 +722,7 @@ func on_fighter_ko(fighter: Node) -> void:
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
 	_show_message("K.O.")
+	_notify_hud_message("K.O.", 2, 0.9)
 	print("KO detected")
 	await _resolve_ko_after_pause()
 
@@ -727,12 +741,15 @@ func resolve_battle_result() -> void:
 		BattleOutcome.PLAYER_WIN:
 			handle_player_victory()
 			_show_message("PLAYER WIN")
+			_notify_hud_message("PLAYER WIN", 2, 1.0)
 		BattleOutcome.ENEMY_WIN:
 			handle_player_defeat()
 			_show_message("ENEMY WIN")
+			_notify_hud_message("ENEMY WIN", 2, 1.0)
 		BattleOutcome.DOUBLE_KO:
 			handle_double_ko()
 			_show_message("DOUBLE K.O.")
+			_notify_hud_message("DOUBLE K.O.", 2, 1.0)
 
 	_update_all_ui()
 	await get_tree().create_timer(result_display_duration).timeout
@@ -753,6 +770,8 @@ func resolve_battle_result() -> void:
 
 func handle_player_victory() -> void:
 	_mark_enemy_defeated()
+	hud_enemy_defeated.emit(enemy, current_enemy_index)
+	_notify_hud_enemy_defeated()
 	_heal_active_player_after_enemy_defeat()
 	playerWinCount += 1
 	print("Enemy defeated: %s" % _active_enemy_id())
@@ -844,6 +863,7 @@ func enter_game_clear() -> void:
 	close_player_order_select()
 	_switch_bgm("WinBGM")
 	_show_message("GAME CLEAR")
+	_notify_hud_game_clear()
 	_show_end_panel("GAME CLEAR", "All 8 enemies defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
 		_order_text(),
 		defeated_player_ids.size(),
@@ -864,6 +884,7 @@ func enter_game_over() -> void:
 	close_player_order_select()
 	_switch_bgm("LoseBGM")
 	_show_message("GAME OVER")
+	_notify_hud_game_over()
 	_show_end_panel("GAME OVER", "All ally fighters defeated.")
 	all_players_defeated.emit()
 	game_over_started.emit()
@@ -965,6 +986,9 @@ func create_progress_snapshot() -> Dictionary:
 
 
 func reset_game_progress() -> void:
+	hud_retry_started.emit()
+	if battle_hud != null and battle_hud.has_method("reset_battle_hud"):
+		battle_hud.reset_battle_hud()
 	_hide_end_panel()
 	initialize_game_progress()
 	start_initial_player_selection()
@@ -1094,7 +1118,9 @@ func _heal_active_player_after_enemy_defeat() -> void:
 		return
 	var player_data := player_team[current_player_index]
 	var heal_amount := maxi(1, int(round(float(player.max_hp) * 0.2)))
+	var previous_hp: int = player.current_hp
 	var healed_hp := clampi(player.current_hp + heal_amount, 0, player.max_hp)
+	var applied_heal: int = healed_hp - previous_hp
 	player_data["current_health"] = healed_hp
 	if player.has_method("set_health"):
 		player.set_health(healed_hp)
@@ -1102,9 +1128,10 @@ func _heal_active_player_after_enemy_defeat() -> void:
 		player.current_hp = healed_hp
 		player.hp_changed.emit(player.current_hp, player.max_hp)
 	print("[DEV035] Enemy defeated by: %s" % current_player_id)
-	print("[DEV035] Recovery amount: %d" % heal_amount)
+	print("[DEV035] Recovery amount: %d" % applied_heal)
 	print("[DEV035] HP after recovery: %d / %d" % [healed_hp, player.max_hp])
-	_show_heal_effect(heal_amount)
+	hud_healing_applied.emit(player, applied_heal)
+	_show_heal_effect(applied_heal)
 
 
 func _show_heal_effect(heal_amount: int) -> void:
@@ -1357,6 +1384,68 @@ func _serialize_team(team: Array[Dictionary]) -> Array:
 	for data in team:
 		serialized.append(data.duplicate(true))
 	return serialized
+
+
+func get_battle_hud_snapshot() -> Dictionary:
+	return {
+		"player": player,
+		"enemy": enemy,
+		"player_team": _serialize_team(player_team),
+		"enemy_team": _serialize_team(enemy_team),
+		"current_player_index": current_player_index,
+		"current_enemy_index": current_enemy_index,
+		"flow_state": BattleState.keys()[flow_state],
+	}
+
+
+func _initialize_battle_hud() -> void:
+	if battle_hud == null:
+		return
+	if battle_hud.has_method("initialize_hud"):
+		battle_hud.initialize_hud(self)
+
+
+func _update_battle_hud_player() -> void:
+	if battle_hud == null:
+		return
+	if battle_hud.has_method("update_player_status"):
+		battle_hud.update_player_status(player)
+	if battle_hud.has_method("update_team_status"):
+		battle_hud.update_team_status(player_team, current_player_index)
+
+
+func _update_battle_hud_enemy() -> void:
+	if battle_hud == null:
+		return
+	if battle_hud.has_method("update_enemy_status"):
+		battle_hud.update_enemy_status(enemy)
+	if battle_hud.has_method("update_enemy_information") and current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
+		battle_hud.update_enemy_information(enemy_team[current_enemy_index], current_enemy_index)
+
+
+func _notify_hud_enemy_intro(enemy_data: Dictionary, enemy_index: int) -> void:
+	if battle_hud != null and battle_hud.has_method("show_enemy_intro"):
+		battle_hud.show_enemy_intro(enemy_data, enemy_index)
+
+
+func _notify_hud_enemy_defeated() -> void:
+	pass
+
+
+func _notify_hud_fight() -> void:
+	_notify_hud_message("FIGHT", 2, fight_message_duration)
+
+
+func _notify_hud_message(message: String, priority: int, duration: float) -> void:
+	hud_message_requested.emit(message, priority, duration)
+
+
+func _notify_hud_game_over() -> void:
+	pass
+
+
+func _notify_hud_game_clear() -> void:
+	pass
 
 
 func _create_flow_ui() -> void:
@@ -1674,12 +1763,18 @@ func _on_player_hp_changed(current_hp: int, max_hp: int) -> void:
 	_update_hp_bar(player_hp_bar, current_hp, max_hp)
 	if current_player_index >= 0 and current_player_index < player_team.size() and not player_team[current_player_index]["is_defeated"]:
 		player_team[current_player_index]["current_health"] = clampi(current_hp, 0, max_hp)
+	if battle_hud != null and battle_hud.has_method("update_player_hp"):
+		battle_hud.update_player_hp(current_hp, max_hp, true)
+	if battle_hud != null and battle_hud.has_method("update_team_status"):
+		battle_hud.update_team_status(player_team, current_player_index)
 
 
 func _on_enemy_hp_changed(current_hp: int, max_hp: int) -> void:
 	_update_hp_bar(enemy_hp_bar, current_hp, max_hp)
 	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size() and not enemy_team[current_enemy_index]["is_defeated"]:
 		enemy_team[current_enemy_index]["current_health"] = clampi(current_hp, 0, max_hp)
+	if battle_hud != null and battle_hud.has_method("update_enemy_hp"):
+		battle_hud.update_enemy_hp(current_hp, max_hp, true)
 
 
 func _update_hp_bar(bar: ProgressBar, current_hp: int, max_hp: int) -> void:

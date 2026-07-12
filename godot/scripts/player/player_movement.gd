@@ -5,6 +5,7 @@ signal hp_depleted
 signal screen_shake_requested(strength: float)
 signal throw_hit(target: Node)
 signal combo_changed(combo_count: int, combo_owner: Node)
+signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_position: Vector2)
 
 @export var move_speed := 300.0
 @export var air_move_speed := 300.0
@@ -794,6 +795,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if int(attack_data.get("combo_hit_index", 1)) < max_combo_hits:
 		hit_reaction_timer = maxf(hit_reaction_timer, combo_hitstun_time)
 	apply_damage(attack_data["damage"])
+	damage_feedback_requested.emit(self, int(attack_data["damage"]), false, hit_position)
 	if attacker != null and attacker.has_method("register_combo_hit"):
 		attacker.register_combo_hit(self)
 		if current_hp == 0 and attacker.has_method("_finish_combo_after_ko"):
@@ -911,7 +913,9 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker.clear_attack_buffer()
 	_enter_guard_hit_state()
 	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
-	apply_damage(_get_guard_damage_from_attack_data(attack_data))
+	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
+	apply_damage(guard_damage)
+	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
 	_apply_guard_knockback(attack_data, attack_direction)
 	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 	_spawn_guard_effect(hit_position)

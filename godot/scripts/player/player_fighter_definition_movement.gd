@@ -1332,7 +1332,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		interrupt_special_attack()
 		return super.receive_attack(attack_data, attack_direction, hit_position, attacker)
 	if was_boss_special and ultimate_interrupt_resistant:
-		apply_damage(int(attack_data["damage"]))
+		var damage := int(attack_data["damage"])
+		apply_damage(damage)
+		damage_feedback_requested.emit(self, damage, false, hit_position)
 		_start_hit_stop(attack_data["hit_stop_frames"])
 		_spawn_hit_effect(hit_position, attack_data["effect_size"])
 		if attacker != null and attacker.has_method("start_hit_stop"):
