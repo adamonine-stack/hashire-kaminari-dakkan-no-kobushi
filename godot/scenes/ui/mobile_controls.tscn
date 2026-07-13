@@ -1,0 +1,124 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/mobile_controls.gd" id="1_mobile_controls"]
+
+[node name="MobileControls" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_mobile_controls")
+
+[node name="LeftControls" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="MoveLeftButton" type="Button" parent="LeftControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = "<"
+
+[node name="MoveRightButton" type="Button" parent="LeftControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = ">"
+
+[node name="CrouchButton" type="Button" parent="LeftControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = "v"
+
+[node name="RightControls" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="JumpButton" type="Button" parent="RightControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = "JUMP"
+
+[node name="PunchButton" type="Button" parent="RightControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = "P"
+
+[node name="KickButton" type="Button" parent="RightControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = "K"
+
+[node name="GuardButton" type="Button" parent="RightControls"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 88.0
+text = "G"
+
+[node name="SpecialButton" type="Button" parent="RightControls"]
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 96.0
+text = "SP"
+
+[node name="SpecialCooldownLabel" type="Label" parent="RightControls/SpecialButton"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "0.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 72.0
+text = "II"
+
+[node name="RotateHint" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -58.0
+offset_right = 210.0
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RotateHintLabel" type="Label" parent="RotateHint"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "端末を横向きにしてください"
+horizontal_alignment = 1
+vertical_alignment = 1
