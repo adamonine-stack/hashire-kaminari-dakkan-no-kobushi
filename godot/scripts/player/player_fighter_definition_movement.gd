@@ -1540,7 +1540,7 @@ func _prepare_boss_attack() -> void:
 	velocity = Vector2.ZERO
 	_face_opponent()
 	boss_attack_direction = facing_direction
-	visual_root.scale.x = boss_attack_direction
+	_set_visual_facing()
 	clear_special_hit_targets()
 
 
@@ -1582,6 +1582,7 @@ func _should_interrupt_boss_special() -> bool:
 
 
 func _play_boss_attack_animation(animation_name: StringName, fallback_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -1658,6 +1659,16 @@ func _play_audio_manager_se(se_id: String) -> void:
 
 func _update_visual_state() -> void:
 	super._update_visual_state()
+	if is_boss_special_busy():
+		match boss_attack_state:
+			BossAttackState.ULTIMATE_STARTUP:
+				_play_visual_animation(&"ultimate_startup")
+			BossAttackState.ULTIMATE_ACTIVE:
+				_play_visual_animation(&"ultimate_attack")
+			BossAttackState.ULTIMATE_RECOVERY:
+				_play_visual_animation(&"ultimate_recovery")
+			_:
+				_play_visual_animation(&"special")
 	if name != "Enemy" or ai_profile == null or not debug_state_label_enabled or state_label == null:
 		return
 	state_label.text += "\nAI: %s\nDIST: %.0f\nCD: %.2f" % [

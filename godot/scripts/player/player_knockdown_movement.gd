@@ -351,6 +351,7 @@ func _separate_from_opponent_on_get_up() -> void:
 
 
 func _play_state_animation(animation_name: StringName, fallback_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -395,7 +396,10 @@ func _update_visual_state() -> void:
 	if not _is_knockdown_busy():
 		return
 
-	if knockdown_state == &"KNOCKDOWN":
+	if uses_official_character_art:
+		visual_root.scale.y = 1.0
+		visual_root.position.y = default_visual_position.y
+	elif knockdown_state == &"KNOCKDOWN":
 		visual_root.scale.y = 0.35
 		visual_root.position.y = default_visual_position.y + knockdown_ground_offset
 	elif knockdown_state == &"GET_UP":

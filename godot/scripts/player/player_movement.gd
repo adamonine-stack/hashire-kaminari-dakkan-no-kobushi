@@ -159,6 +159,7 @@ var was_on_floor_last_frame := false
 var invincible_flash_timer := 0.0
 var base_shadow_scale := Vector2.ONE
 var uses_official_character_art := false
+var uses_animated_character_art := false
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -171,7 +172,9 @@ var uses_official_character_art := false
 @onready var kick_shape := $KickHitBox/CollisionShape2D
 @onready var hurt_box := $HurtBox
 @onready var animation_player := get_node_or_null("AnimationPlayer") as AnimationPlayer
+@onready var animated_character_sprite := get_node_or_null("VisualRoot/AnimatedCharacterSprite") as AnimatedSprite2D
 @onready var character_sprite := get_node_or_null("VisualRoot/CharacterSprite") as Sprite2D
+@onready var character_visual_controller := get_node_or_null("VisualRoot/CharacterVisualController")
 @onready var shadow_sprite := get_node_or_null("ShadowSprite") as Sprite2D
 @onready var placeholder_body := get_node_or_null("VisualRoot/IdlePlaceholder/Body") as Polygon2D
 @onready var placeholder_head := get_node_or_null("VisualRoot/IdlePlaceholder/Head") as Polygon2D
@@ -214,10 +217,17 @@ func _ensure_official_animation_placeholders() -> void:
 
 func apply_character_art(definition: Resource) -> void:
 	var battle_texture: Texture2D = definition.get("battle_texture") if definition != null else null
+	uses_animated_character_art = false
+	if visual_root != null:
+		visual_root.scale.x = 1.0
+	if character_visual_controller != null and character_visual_controller.has_method("setup"):
+		uses_animated_character_art = bool(character_visual_controller.call("setup", definition, animated_character_sprite, character_sprite))
+		if character_visual_controller.has_method("set_facing"):
+			character_visual_controller.call("set_facing", int(signf(facing_direction)))
 	if character_sprite != null:
 		character_sprite.texture = battle_texture
-		character_sprite.visible = battle_texture != null
-		uses_official_character_art = battle_texture != null
+		character_sprite.visible = battle_texture != null and not uses_animated_character_art
+		uses_official_character_art = uses_animated_character_art or battle_texture != null
 		if battle_texture != null:
 			var target_height := float(definition.get("battle_sprite_height"))
 			var texture_height := maxf(float(battle_texture.get_height()), 1.0)
@@ -229,11 +239,11 @@ func apply_character_art(definition: Resource) -> void:
 			if placeholder_head != null:
 				placeholder_head.visible = false
 		else:
-			uses_official_character_art = false
+			uses_official_character_art = uses_animated_character_art
 			if placeholder_body != null:
-				placeholder_body.visible = true
+				placeholder_body.visible = not uses_animated_character_art
 			if placeholder_head != null:
-				placeholder_head.visible = true
+				placeholder_head.visible = not uses_animated_character_art
 
 	var shadow_texture: Texture2D = definition.get("shadow_texture") if definition != null else null
 	if shadow_sprite != null:
@@ -272,7 +282,7 @@ func _physics_process(delta: float) -> void:
 
 	if direction != 0.0 and not is_hit and not _is_throw_busy():
 		facing_direction = signf(direction)
-		visual_root.scale.x = facing_direction
+		_set_visual_facing()
 
 	if not is_hit and not _is_throw_busy():
 		velocity.x = direction * get_current_move_speed()
@@ -728,6 +738,7 @@ func _is_valid_throw_target(target: Node) -> bool:
 
 
 func _play_throw_animation(animation_name := "Throw") -> void:
+	_play_visual_animation(StringName(animation_name), true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(animation_name):
@@ -737,6 +748,7 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 
 
 func _play_attack_animation(animation_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -1251,7 +1263,7 @@ func _face_opponent() -> void:
 	if direction_to_opponent == 0.0:
 		return
 	facing_direction = direction_to_opponent
-	visual_root.scale.x = facing_direction
+	_set_visual_facing()
 
 
 func _get_opponent() -> Node:
@@ -1869,6 +1881,9 @@ func _update_movement_feedback(direction: float, was_on_floor_before_move: bool)
 
 
 func _flash_damage() -> void:
+	if uses_animated_character_art and character_visual_controller != null and character_visual_controller.has_method("show_damage_flash"):
+		character_visual_controller.call("show_damage_flash")
+		return
 	if visual_root == null:
 		return
 	visual_root.modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -1878,6 +1893,11 @@ func _flash_damage() -> void:
 
 
 func _flash_guard() -> void:
+	if uses_animated_character_art and animated_character_sprite != null:
+		animated_character_sprite.modulate = Color(0.72, 0.9, 1.0, 1.0)
+		var sprite_tween := create_tween()
+		sprite_tween.tween_property(animated_character_sprite, "modulate", Color.WHITE, 0.12)
+		return
 	if visual_root == null:
 		return
 	visual_root.modulate = Color(0.72, 0.9, 1.0, 1.0)
@@ -1914,7 +1934,77 @@ func _is_speed_style_fighter() -> bool:
 	return move_speed >= 340.0
 
 
+func _set_visual_facing() -> void:
+	var facing := int(signf(facing_direction))
+	if facing == 0:
+		facing = 1
+	if uses_animated_character_art and character_visual_controller != null and character_visual_controller.has_method("set_facing"):
+		visual_root.scale.x = 1.0
+		character_visual_controller.call("set_facing", facing)
+	else:
+		visual_root.scale.x = float(facing)
+
+
+func _play_visual_animation(animation_name: StringName, force := false) -> void:
+	if not uses_animated_character_art:
+		return
+	if character_visual_controller == null or not character_visual_controller.has_method("play_animation"):
+		return
+	character_visual_controller.call("play_animation", animation_name, force)
+
+
+func _get_current_visual_animation() -> StringName:
+	if current_hp <= 0:
+		return &"ko"
+	if _is_knockdown_state(&"KNOCKDOWN"):
+		return &"down"
+	if _is_knockdown_state(&"GET_UP"):
+		return &"getup"
+	if _is_knockdown_state(&"KNOCKBACK"):
+		return &"damage_heavy"
+	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
+		return &"throw"
+	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		return &"thrown"
+	if is_throw_escaping:
+		return &"getup"
+	if is_guard_hit:
+		return &"guard"
+	if is_hit:
+		return &"damage"
+	if is_crouch_guarding or is_guarding:
+		return &"guard"
+	if is_crouching:
+		return &"crouch"
+	if current_attack_type == "Punch":
+		if not is_on_floor():
+			return &"jump_punch"
+		if is_crouching:
+			return &"crouch_punch"
+		return &"punch_2" if combo_step == 2 else &"punch_1"
+	if current_attack_type == "Kick":
+		if not is_on_floor():
+			return &"jump_kick"
+		if is_crouching:
+			return &"crouch_kick"
+		return &"kick_2" if combo_step >= max_combo_hits else &"kick_1"
+	if not is_on_floor():
+		return &"jump" if velocity.y < 0.0 else &"fall"
+	if absf(velocity.x) > move_speed * 1.05:
+		return &"dash"
+	if absf(velocity.x) > 0.0:
+		return &"walk"
+	return &"idle"
+
+
+func _is_knockdown_state(state_name: StringName) -> bool:
+	return get("knockdown_state") == state_name
+
+
 func _update_visual_state() -> void:
+	_set_visual_facing()
+	_play_visual_animation(_get_current_visual_animation())
+
 	if not debug_state_label_enabled:
 		state_label.visible = false
 		queue_redraw()
@@ -1957,6 +2047,8 @@ func _update_visual_state() -> void:
 			str(current_attack_connected).to_upper(),
 			get_combo_damage_scale(),
 		]
+	if uses_official_character_art and character_visual_controller != null and character_visual_controller.has_method("get_debug_source"):
+		state_label.text += "\nVISUAL: %s" % String(character_visual_controller.call("get_debug_source")).to_upper()
 
 	if uses_official_character_art:
 		guard_visual.visible = false
@@ -1966,7 +2058,7 @@ func _update_visual_state() -> void:
 		guard_visual.visible = is_guarding and not is_crouch_guarding
 		crouch_visual.visible = is_crouching
 		crouch_guard_visual.visible = is_crouch_guarding
-	var target_y_scale := 0.7 if is_crouching or is_crouch_guarding else 1.0
+	var target_y_scale := 1.0 if uses_official_character_art else (0.7 if is_crouching or is_crouch_guarding else 1.0)
 	visual_root.scale.y = target_y_scale
 	if shadow_sprite != null and shadow_sprite.visible:
 		var airborne_scale := 0.72 if not is_on_floor() else 1.0
