@@ -206,21 +206,32 @@ func _layout_controls() -> void:
 	var viewport_size := get_viewport_rect().size
 	var is_portrait := viewport_size.y > viewport_size.x
 	if left_controls != null:
+		left_controls.anchor_left = 0.0
+		left_controls.anchor_top = 0.0
+		left_controls.anchor_right = 0.0
+		left_controls.anchor_bottom = 0.0
 		left_controls.position = Vector2.ZERO
 		left_controls.size = viewport_size
 	if right_controls != null:
+		right_controls.anchor_left = 0.0
+		right_controls.anchor_top = 0.0
+		right_controls.anchor_right = 0.0
+		right_controls.anchor_bottom = 0.0
 		right_controls.position = Vector2.ZERO
 		right_controls.size = viewport_size
-	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.72, 1.18)
+	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.62, 0.92)
 	var button_size := base_button_size * scale_factor
 	var gap := 16.0 * scale_factor
 	var margin := Vector2(maxf(safe_margin.x, 24.0), maxf(safe_margin.y, 20.0))
-	var left_origin := Vector2(margin.x, viewport_size.y - margin.y - button_size.y * 2.25 - gap)
-	var right_origin := Vector2(viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0, viewport_size.y - margin.y - button_size.y * 2.05 - gap)
+	var bottom_margin := 150.0 if not is_portrait else margin.y
+	var left_top_y := minf(viewport_size.y * 0.62, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap)
+	var right_top_y := minf(viewport_size.y * 0.62, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap)
+	var left_origin := Vector2(margin.x, left_top_y)
+	var right_origin := Vector2(viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0, right_top_y)
 	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 2.0 - gap))
-	left_origin.y = clampf(left_origin.y, margin.y + 80.0, maxf(margin.y + 80.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
+	left_origin.y = clampf(left_origin.y, margin.y + 100.0, maxf(margin.y + 100.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
 	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0))
-	right_origin.y = clampf(right_origin.y, margin.y + 80.0, maxf(margin.y + 80.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
+	right_origin.y = clampf(right_origin.y, margin.y + 100.0, maxf(margin.y + 100.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
 
 	_position_button($LeftControls/MoveLeftButton, left_origin + Vector2(0.0, button_size.y * 0.5 + gap * 0.5), button_size)
 	_position_button($LeftControls/MoveRightButton, left_origin + Vector2(button_size.x + gap, button_size.y * 0.5 + gap * 0.5), button_size)
