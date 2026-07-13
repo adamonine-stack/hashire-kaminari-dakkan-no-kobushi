@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -6,6 +6,11 @@
 [ext_resource type="Resource" path="res://data/attacks/enemy8_charge_attack.tres" id="4_charge"]
 [ext_resource type="Resource" path="res://data/attacks/enemy8_spin_kick.tres" id="5_spin"]
 [ext_resource type="Resource" path="res://data/attacks/enemy8_ultimate_shockwave.tres" id="6_ultimate"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/portrait.png" id="7_portrait"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/icon.png" id="8_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/battle.png" id="9_battle"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/sprite_sheet.png" id="10_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/shadow.png" id="11_shadow"]
 
 [resource]
 script = ExtResource("1_def")
@@ -13,6 +18,14 @@ fighter_id = &"enemy_08_leon_crow"
 display_name = "レオン・クロウ"
 description = "黒翼の舞踏家。華麗なステップと紫の必殺技で相手を翻弄する最終ボス。"
 fighter_scene = ExtResource("2_scene")
+selection_portrait = ExtResource("7_portrait")
+selection_icon = ExtResource("8_icon")
+portrait = ExtResource("7_portrait")
+battle_texture = ExtResource("9_battle")
+icon = ExtResource("8_icon")
+sprite_sheet = ExtResource("10_sheet")
+shadow_texture = ExtResource("11_shadow")
+art_folder = "res://assets/characters/enemy08/"
 fighter_type = &"BOSS"
 team_type = &"ENEMY"
 enemy_order = 8

@@ -26,7 +26,15 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_player_movement")
 
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.42)
+position = Vector2(0, -2)
+z_index = -5
+
 [node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="CharacterSprite" type="Sprite2D" parent="VisualRoot"]
+z_index = 1
 
 [node name="IdlePlaceholder" type="Node2D" parent="VisualRoot"]
 

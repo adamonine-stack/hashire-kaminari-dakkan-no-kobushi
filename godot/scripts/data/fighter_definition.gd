@@ -9,6 +9,16 @@ class_name FighterDefinition
 @export var selection_portrait: Texture2D
 @export var selection_icon: Texture2D
 
+@export_group("Official Art Assets")
+@export var portrait: Texture2D
+@export var battle_texture: Texture2D
+@export var icon: Texture2D
+@export var sprite_sheet: Texture2D
+@export var shadow_texture: Texture2D
+@export var art_folder: String = ""
+@export var battle_sprite_height: float = 150.0
+@export var battle_sprite_offset: Vector2 = Vector2(0.0, 0.0)
+
 @export var fighter_type: StringName
 @export var team_type: StringName = &"ALLY"
 @export var enemy_order: int = 0

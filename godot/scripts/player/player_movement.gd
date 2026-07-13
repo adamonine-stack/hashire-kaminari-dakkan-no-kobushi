@@ -157,6 +157,8 @@ var afterimage_pool: Array[Node2D] = []
 var was_moving_last_frame := false
 var was_on_floor_last_frame := false
 var invincible_flash_timer := 0.0
+var base_shadow_scale := Vector2.ONE
+var uses_official_character_art := false
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -169,6 +171,10 @@ var invincible_flash_timer := 0.0
 @onready var kick_shape := $KickHitBox/CollisionShape2D
 @onready var hurt_box := $HurtBox
 @onready var animation_player := get_node_or_null("AnimationPlayer") as AnimationPlayer
+@onready var character_sprite := get_node_or_null("VisualRoot/CharacterSprite") as Sprite2D
+@onready var shadow_sprite := get_node_or_null("ShadowSprite") as Sprite2D
+@onready var placeholder_body := get_node_or_null("VisualRoot/IdlePlaceholder/Body") as Polygon2D
+@onready var placeholder_head := get_node_or_null("VisualRoot/IdlePlaceholder/Head") as Polygon2D
 
 
 func _ready() -> void:
@@ -177,10 +183,67 @@ func _ready() -> void:
 	kick_area.area_entered.connect(_on_kick_hitbox_area_entered)
 	_setup_hit_audio()
 	call_deferred("_setup_feel_effect_pools")
+	_ensure_official_animation_placeholders()
 	_set_punch_hitbox_active(false, false)
 	_set_kick_hitbox_active(false, false)
 	was_on_floor_last_frame = is_on_floor()
 	hp_changed.emit(current_hp, max_hp)
+
+
+func _ensure_official_animation_placeholders() -> void:
+	if animation_player == null:
+		return
+	var library := animation_player.get_animation_library("")
+	if library == null:
+		library = AnimationLibrary.new()
+		animation_player.add_animation_library("", library)
+	var animation_names := [
+		"idle", "walk", "dash", "jump", "fall", "land",
+		"punch1", "punch2", "kick1", "kick2", "guard",
+		"damage", "down", "getup", "special", "ko", "victory",
+		"Punch", "Kick", "Throw",
+	]
+	for animation_name in animation_names:
+		if animation_player.has_animation(animation_name):
+			continue
+		var animation := Animation.new()
+		animation.resource_name = animation_name
+		animation.length = 0.35
+		library.add_animation(animation_name, animation)
+
+
+func apply_character_art(definition: Resource) -> void:
+	var battle_texture: Texture2D = definition.get("battle_texture") if definition != null else null
+	if character_sprite != null:
+		character_sprite.texture = battle_texture
+		character_sprite.visible = battle_texture != null
+		uses_official_character_art = battle_texture != null
+		if battle_texture != null:
+			var target_height := float(definition.get("battle_sprite_height"))
+			var texture_height := maxf(float(battle_texture.get_height()), 1.0)
+			var sprite_scale := target_height / texture_height
+			character_sprite.scale = Vector2(sprite_scale, sprite_scale)
+			character_sprite.position = Vector2(0.0, -target_height * 0.5) + Vector2(definition.get("battle_sprite_offset"))
+			if placeholder_body != null:
+				placeholder_body.visible = false
+			if placeholder_head != null:
+				placeholder_head.visible = false
+		else:
+			uses_official_character_art = false
+			if placeholder_body != null:
+				placeholder_body.visible = true
+			if placeholder_head != null:
+				placeholder_head.visible = true
+
+	var shadow_texture: Texture2D = definition.get("shadow_texture") if definition != null else null
+	if shadow_sprite != null:
+		shadow_sprite.texture = shadow_texture
+		shadow_sprite.visible = shadow_texture != null
+		if shadow_texture != null:
+			var shadow_width := maxf(float(shadow_texture.get_width()), 1.0)
+			var shadow_scale := 92.0 / shadow_width
+			base_shadow_scale = Vector2(shadow_scale, shadow_scale * 0.75)
+			shadow_sprite.scale = base_shadow_scale
 
 
 func _physics_process(delta: float) -> void:
@@ -1895,11 +1958,20 @@ func _update_visual_state() -> void:
 			get_combo_damage_scale(),
 		]
 
-	guard_visual.visible = is_guarding and not is_crouch_guarding
-	crouch_visual.visible = is_crouching
-	crouch_guard_visual.visible = is_crouch_guarding
+	if uses_official_character_art:
+		guard_visual.visible = false
+		crouch_visual.visible = false
+		crouch_guard_visual.visible = false
+	else:
+		guard_visual.visible = is_guarding and not is_crouch_guarding
+		crouch_visual.visible = is_crouching
+		crouch_guard_visual.visible = is_crouch_guarding
 	var target_y_scale := 0.7 if is_crouching or is_crouch_guarding else 1.0
 	visual_root.scale.y = target_y_scale
+	if shadow_sprite != null and shadow_sprite.visible:
+		var airborne_scale := 0.72 if not is_on_floor() else 1.0
+		shadow_sprite.scale = Vector2(base_shadow_scale.x * airborne_scale, base_shadow_scale.y * airborne_scale)
+		shadow_sprite.modulate.a = 0.28 if not is_on_floor() else 0.42
 	queue_redraw()
 
 

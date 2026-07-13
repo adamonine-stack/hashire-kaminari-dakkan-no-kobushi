@@ -1,8 +1,13 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_01_standard_ai.tres" id="3_ai"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/portrait.png" id="4_portrait"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/icon.png" id="5_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/battle.png" id="6_battle"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/sprite_sheet.png" id="7_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/shadow.png" id="8_shadow"]
 
 [resource]
 script = ExtResource("1_def")
@@ -10,6 +15,14 @@ fighter_id = &"enemy_01_crusher"
 display_name = "クラッシャー"
 description = "鉄塊の暴将。巨大な体と怪力で押し切る重量級ファイター。"
 fighter_scene = ExtResource("2_scene")
+selection_portrait = ExtResource("4_portrait")
+selection_icon = ExtResource("5_icon")
+portrait = ExtResource("4_portrait")
+battle_texture = ExtResource("6_battle")
+icon = ExtResource("5_icon")
+sprite_sheet = ExtResource("7_sheet")
+shadow_texture = ExtResource("8_shadow")
+art_folder = "res://assets/characters/enemy01/"
 fighter_type = &"POWER"
 team_type = &"ENEMY"
 enemy_order = 1

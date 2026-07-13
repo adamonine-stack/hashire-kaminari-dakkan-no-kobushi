@@ -26,6 +26,7 @@ var enemy_delay_hp := 0.0
 var _hud_tweens: Array[Tween] = []
 
 var player_panel: PanelContainer
+var player_icon_rect: TextureRect
 var player_name_label: Label
 var player_hp_label: Label
 var player_hp_bar: ProgressBar
@@ -36,6 +37,7 @@ var player_low_hp_label: Label
 var team_panel: PanelContainer
 var team_labels: Array[Label] = []
 var enemy_panel: PanelContainer
+var enemy_icon_rect: TextureRect
 var enemy_name_label: Label
 var enemy_type_label: Label
 var enemy_progress_label: Label
@@ -196,6 +198,8 @@ func update_player_status(player_node: Node) -> void:
 		return
 	var display_name := _fighter_display_name_from_node(current_player, "PLAYER")
 	player_name_label.text = display_name
+	if player_icon_rect != null:
+		player_icon_rect.texture = _fighter_icon_from_node(current_player, true)
 	update_player_hp(int(current_player.get("current_hp")), int(current_player.get("max_hp")), false)
 
 
@@ -237,6 +241,8 @@ func update_enemy_information(enemy_data: Dictionary, enemy_index: int) -> void:
 	var enemy_type := _enemy_type_label(enemy_data)
 	enemy_name_label.text = enemy_name
 	enemy_type_label.text = enemy_type
+	if enemy_icon_rect != null:
+		enemy_icon_rect.texture = _definition_texture(enemy_data.get("definition", null), "icon", "selection_icon")
 	update_enemy_progress(enemy_index + 1, _enemy_total_count())
 	if _is_boss_enemy(enemy_data, enemy_index):
 		show_boss_hud()
@@ -572,6 +578,7 @@ func refresh_from_manager() -> void:
 func _build_hud() -> void:
 	player_panel = _make_panel("PlayerStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 18.0), Vector2(386.0, 132.0))
 	var player_box := _make_margin_vbox(player_panel)
+	player_icon_rect = _make_icon_rect(player_box)
 	player_name_label = _make_label(player_box, "PLAYER", 18)
 	player_hp_label = _make_label(player_box, "0 / 0", 15)
 	var player_hp_stack := _make_hp_stack(player_box)
@@ -594,6 +601,7 @@ func _build_hud() -> void:
 
 	enemy_panel = _make_panel("EnemyStatusPanel", Control.PRESET_TOP_RIGHT, Vector2(-410.0, 18.0), Vector2(-24.0, 150.0))
 	var enemy_box := _make_margin_vbox(enemy_panel)
+	enemy_icon_rect = _make_icon_rect(enemy_box)
 	enemy_name_label = _make_label(enemy_box, "ENEMY", 18)
 	enemy_type_label = _make_label(enemy_box, "", 14)
 	enemy_progress_label = _make_label(enemy_box, "ENEMY 1 / 8", 14)
@@ -743,6 +751,16 @@ func _make_label(parent: Node, text: String, font_size: int) -> Label:
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(label)
 	return label
+
+
+func _make_icon_rect(parent: Node) -> TextureRect:
+	var rect := TextureRect.new()
+	rect.custom_minimum_size = Vector2(48.0, 48.0)
+	rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(rect)
+	return rect
 
 
 func _make_action_button(text: String) -> Button:
@@ -1028,6 +1046,27 @@ func _fighter_display_name_from_node(fighter: Node, fallback: String) -> String:
 		if enemy_index >= 0 and enemy_index < team.size():
 			return String(team[enemy_index].get("display_name", fallback))
 	return fallback
+
+
+func _fighter_icon_from_node(fighter: Node, is_player: bool) -> Texture2D:
+	if battle_manager == null or fighter == null:
+		return null
+	var index_property := "current_player_index" if is_player else "current_enemy_index"
+	var team_property := "player_team" if is_player else "enemy_team"
+	var fighter_index := int(battle_manager.get(index_property))
+	var team: Array = battle_manager.get(team_property)
+	if fighter_index < 0 or fighter_index >= team.size():
+		return null
+	return _definition_texture(team[fighter_index].get("definition", null), "icon", "selection_icon")
+
+
+func _definition_texture(definition: Resource, primary_property: String, fallback_property: String) -> Texture2D:
+	if definition == null:
+		return null
+	var texture: Texture2D = definition.get(primary_property)
+	if texture == null:
+		texture = definition.get(fallback_property)
+	return texture
 
 
 func _enemy_type_label(enemy_data: Dictionary) -> String:

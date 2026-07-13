@@ -160,9 +160,13 @@ func apply_character_data(data: Resource) -> void:
 	dev026_third_hit_damage_scale = third_hit_damage_scale
 	current_hp = clampi(current_hp, 0, max_hp)
 	hp_changed.emit(current_hp, max_hp)
+	apply_character_art(fighter_definition)
 	apply_ai_profile(fighter_definition.ai_profile)
 	apply_boss_special_attack_data(fighter_definition.special_attack_sequence)
-	apply_temporary_color(fighter_definition.temporary_color)
+	if fighter_definition.battle_texture == null:
+		apply_temporary_color(fighter_definition.temporary_color)
+	else:
+		apply_temporary_color(Color.WHITE)
 	update_character_status_ui()
 
 
