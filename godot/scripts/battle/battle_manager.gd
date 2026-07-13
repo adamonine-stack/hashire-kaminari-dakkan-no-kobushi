@@ -171,10 +171,12 @@ var _player_order_down_buttons: Dictionary = {}
 var _player_order_remove_buttons: Dictionary = {}
 var _player_order_hud_label: Label
 var _last_spawned_player_id := ""
+var _last_pause_toggle_frame := -1
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
 @onready var battle_ui_root := $"../UI/BattleUIRoot"
+@onready var mobile_controls := $"../UI/BattleUIRoot/MobileControls"
 @onready var timer_label := $"../UI/BattleUIRoot/TimerLabel"
 @onready var message_label := $"../UI/BattleUIRoot/KOLabel"
 @onready var player_win_marks := $"../UI/BattleUIRoot/PlayerWinMarks"
@@ -204,14 +206,12 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
-		if is_game_paused:
-			return_to_battle()
-		elif _can_pause_battle():
-			pause_battle()
+		_toggle_pause_from_input()
 		get_viewport().set_input_as_handled()
 
 
 func _process(delta: float) -> void:
+	_poll_pause_action()
 	_update_debug_flow_label()
 
 	if flow_state != BattleState.BATTLE or not isRoundActive or isBattleFinished:
@@ -634,7 +634,7 @@ func spawn_active_player() -> void:
 	update_player_hud()
 
 
-func spawn_active_enemy() -> void:
+func spawn_active_enemy(restore_full_health := true) -> void:
 	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
 		return
 
@@ -647,8 +647,15 @@ func spawn_active_enemy() -> void:
 	if definition != null and enemy.has_method("apply_temporary_color"):
 		enemy.apply_temporary_color(definition.temporary_color)
 
+	if restore_full_health:
+		data["current_health"] = int(data["max_health"])
+		data["is_defeated"] = false
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
+	enemy.current_hp = enemy.max_hp if restore_full_health else enemy.current_hp
+	if restore_full_health:
+		data["current_health"] = enemy.current_hp
+		enemy.hp_changed.emit(enemy.current_hp, enemy.max_hp)
 	_update_battle_hud_enemy()
 	hud_enemy_spawned.emit(enemy, current_enemy_index, data.duplicate(true))
 
@@ -688,7 +695,7 @@ func start_battle(player_id: StringName = &"", enemy_id: StringName = &"") -> vo
 	if enemy_id != &"" and enemy_id != _active_enemy_id():
 		push_warning("start_battle enemy id mismatch: %s" % enemy_id)
 	spawn_active_player()
-	spawn_active_enemy()
+	spawn_active_enemy(not is_player_change_processing)
 
 
 func start_enemy_intro(enemy_data: Dictionary) -> void:
@@ -1086,12 +1093,14 @@ func go_to_title() -> void:
 func return_to_battle() -> void:
 	if not is_game_paused:
 		return
+	_release_touch_inputs()
 	is_game_paused = false
 	get_tree().paused = false
 	if battle_hud != null and battle_hud.has_method("hide_pause_menu"):
 		battle_hud.hide_pause_menu()
 	if battle_hud != null and battle_hud.has_method("hide_confirm_dialog"):
 		battle_hud.hide_confirm_dialog()
+	_set_mobile_controls_paused(false)
 	battle_resumed.emit()
 	print("[DEV041][Pause] Battle resumed")
 
@@ -1100,8 +1109,10 @@ func pause_battle() -> void:
 	if not _can_pause_battle() or is_game_paused:
 		return
 	is_game_paused = true
+	_release_touch_inputs()
 	if battle_hud != null and battle_hud.has_method("show_pause_menu"):
 		battle_hud.show_pause_menu()
+	_set_mobile_controls_paused(true)
 	get_tree().paused = true
 	battle_paused.emit()
 	print("[DEV041][Pause] Battle paused")
@@ -1110,6 +1121,8 @@ func pause_battle() -> void:
 func cleanup_battle_before_transition() -> void:
 	is_game_paused = false
 	get_tree().paused = false
+	_release_touch_inputs()
+	_set_mobile_controls_paused(false)
 	_set_battle_active(false)
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
@@ -1137,6 +1150,32 @@ func _can_pause_battle() -> bool:
 	if _end_panel != null and _end_panel.visible:
 		return false
 	return true
+
+
+func _poll_pause_action() -> void:
+	if Input.is_action_just_pressed("pause"):
+		_toggle_pause_from_input()
+
+
+func _toggle_pause_from_input() -> void:
+	var frame := Engine.get_process_frames()
+	if _last_pause_toggle_frame == frame:
+		return
+	_last_pause_toggle_frame = frame
+	if is_game_paused:
+		return_to_battle()
+	elif _can_pause_battle():
+		pause_battle()
+
+
+func _release_touch_inputs() -> void:
+	if mobile_controls != null and mobile_controls.has_method("release_all_touch_inputs"):
+		mobile_controls.release_all_touch_inputs()
+
+
+func _set_mobile_controls_paused(is_paused: bool) -> void:
+	if mobile_controls != null and mobile_controls.has_method("set_paused_input_mode"):
+		mobile_controls.set_paused_input_mode(is_paused)
 
 
 func transition_to_next_enemy() -> void:

@@ -21,7 +21,7 @@ const TAP_BUTTON_ACTIONS := {
 	"PauseButton": "pause",
 }
 
-@export var touch_controls_mode: TouchControlsMode = TouchControlsMode.AUTO
+@export var touch_controls_mode: TouchControlsMode = TouchControlsMode.ON
 @export var button_opacity := 0.72
 @export var pressed_opacity := 0.96
 @export var disabled_opacity := 0.25
@@ -33,6 +33,7 @@ var _held_actions: Array[String] = []
 var _pressed_buttons: Dictionary = {}
 var _special_cooldown_remaining := 0.0
 var _special_cooldown_total := 0.0
+var _combat_buttons_paused := false
 
 @onready var left_controls := $LeftControls as Control
 @onready var right_controls := $RightControls as Control
@@ -73,6 +74,19 @@ func release_all_touch_inputs() -> void:
 	_set_all_button_pressed_visuals(false)
 
 
+func set_paused_input_mode(is_paused: bool) -> void:
+	_combat_buttons_paused = is_paused
+	release_all_touch_inputs()
+	for button in find_children("*", "Button", true, false):
+		if button is Button and button != pause_button:
+			button.disabled = is_paused
+			button.modulate.a = disabled_opacity if is_paused else button_opacity
+	if pause_button != null:
+		pause_button.disabled = false
+		pause_button.modulate.a = button_opacity
+	_update_special_button_state()
+
+
 func show_touch_controls() -> void:
 	visible = true
 	_apply_touch_visibility()
@@ -108,7 +122,9 @@ func _connect_touch_buttons() -> void:
 		button.mouse_exited.connect(_on_hold_button_up.bind(button, action_name))
 
 	for button_name in TAP_BUTTON_ACTIONS:
-		var button := get_node_or_null("RightControls/%s" % button_name) as Button
+		var button := get_node_or_null("LeftControls/%s" % button_name) as Button
+		if button == null:
+			button = get_node_or_null("RightControls/%s" % button_name) as Button
 		if button == null and button_name == "PauseButton":
 			button = pause_button
 		if button == null:
@@ -189,22 +205,33 @@ func _should_show_for_current_device() -> bool:
 func _layout_controls() -> void:
 	var viewport_size := get_viewport_rect().size
 	var is_portrait := viewport_size.y > viewport_size.x
-	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.82, 1.35)
+	if left_controls != null:
+		left_controls.position = Vector2.ZERO
+		left_controls.size = viewport_size
+	if right_controls != null:
+		right_controls.position = Vector2.ZERO
+		right_controls.size = viewport_size
+	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.72, 1.18)
 	var button_size := base_button_size * scale_factor
-	var gap := 14.0 * scale_factor
-	var left_origin := Vector2(safe_margin.x, viewport_size.y - safe_margin.y - button_size.y * 2.0 - gap)
-	var right_origin := Vector2(viewport_size.x - safe_margin.x - button_size.x * 3.0 - gap * 2.0, viewport_size.y - safe_margin.y - button_size.y * 2.0 - gap)
+	var gap := 16.0 * scale_factor
+	var margin := Vector2(maxf(safe_margin.x, 24.0), maxf(safe_margin.y, 20.0))
+	var left_origin := Vector2(margin.x, viewport_size.y - margin.y - button_size.y * 2.25 - gap)
+	var right_origin := Vector2(viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0, viewport_size.y - margin.y - button_size.y * 2.05 - gap)
+	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 2.0 - gap))
+	left_origin.y = clampf(left_origin.y, margin.y + 80.0, maxf(margin.y + 80.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
+	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0))
+	right_origin.y = clampf(right_origin.y, margin.y + 80.0, maxf(margin.y + 80.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
 
 	_position_button($LeftControls/MoveLeftButton, left_origin + Vector2(0.0, button_size.y * 0.5 + gap * 0.5), button_size)
 	_position_button($LeftControls/MoveRightButton, left_origin + Vector2(button_size.x + gap, button_size.y * 0.5 + gap * 0.5), button_size)
 	_position_button($LeftControls/CrouchButton, left_origin + Vector2((button_size.x + gap) * 0.5, button_size.y + gap), button_size)
+	_position_button($RightControls/JumpButton, left_origin + Vector2((button_size.x + gap) * 0.5, 0.0), button_size)
 
-	_position_button($RightControls/JumpButton, right_origin + Vector2(button_size.x + gap, 0.0), button_size)
-	_position_button($RightControls/GuardButton, right_origin + Vector2(0.0, button_size.y + gap), button_size)
-	_position_button($RightControls/PunchButton, right_origin + Vector2(button_size.x + gap, button_size.y + gap), button_size)
-	_position_button($RightControls/KickButton, right_origin + Vector2((button_size.x + gap) * 2.0, button_size.y + gap), button_size)
-	_position_button($RightControls/SpecialButton, right_origin + Vector2((button_size.x + gap) * 2.0, 0.0), button_size * 1.06)
-	_position_button(pause_button, Vector2(viewport_size.x - safe_margin.x - button_size.x * 0.82, safe_margin.y), button_size * 0.82)
+	_position_button($RightControls/GuardButton, right_origin + Vector2(0.0, button_size.y * 0.55), button_size)
+	_position_button($RightControls/PunchButton, right_origin + Vector2(button_size.x + gap, 0.0), button_size)
+	_position_button($RightControls/KickButton, right_origin + Vector2((button_size.x + gap) * 2.0, button_size.y * 0.55), button_size)
+	_position_button($RightControls/SpecialButton, right_origin + Vector2(button_size.x + gap, button_size.y + gap), button_size * 1.06)
+	_position_button(pause_button, Vector2(viewport_size.x - margin.x - button_size.x * 0.78, margin.y), button_size * 0.78)
 
 	if rotate_hint != null:
 		rotate_hint.visible = show_rotate_hint and is_portrait and visible
@@ -229,8 +256,8 @@ func _update_special_button_state() -> void:
 	if special_button == null or special_cooldown_label == null:
 		return
 	var cooling_down := _special_cooldown_remaining > 0.0
-	special_button.disabled = cooling_down
-	special_button.modulate.a = disabled_opacity if cooling_down else button_opacity
+	special_button.disabled = cooling_down or _combat_buttons_paused
+	special_button.modulate.a = disabled_opacity if special_button.disabled else button_opacity
 	special_cooldown_label.visible = cooling_down
 	if cooling_down:
 		special_cooldown_label.text = "%0.1f" % _special_cooldown_remaining
