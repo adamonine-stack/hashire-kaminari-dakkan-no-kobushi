@@ -4,16 +4,16 @@
 [ext_resource type="Script" path="res://scripts/characters/character_visual_controller.gd" id="2_visual_controller"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player_body"]
-size = Vector2(72, 96)
+size = Vector2(86, 115)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_attack"]
-size = Vector2(48, 40)
+size = Vector2(58, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kick"]
-size = Vector2(60, 32)
+size = Vector2(72, 38)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_special"]
-size = Vector2(86, 52)
+size = Vector2(103, 62)
 
 [sub_resource type="Animation" id="Animation_throw"]
 resource_name = "Throw"
@@ -83,11 +83,11 @@ text = ""
 horizontal_alignment = 1
 
 [node name="GroundContactShape" type="CollisionShape2D" parent="."]
-position = Vector2(0, -48)
+position = Vector2(0, -57.5)
 shape = SubResource("RectangleShape2D_player_body")
 
 [node name="PunchHitBox" type="Area2D" parent="."]
-position = Vector2(56, -64)
+position = Vector2(67, -77)
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHitBox"]
@@ -95,7 +95,7 @@ disabled = true
 shape = SubResource("RectangleShape2D_attack")
 
 [node name="KickHitBox" type="Area2D" parent="."]
-position = Vector2(72, -44)
+position = Vector2(86, -53)
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KickHitBox"]
@@ -103,7 +103,7 @@ disabled = true
 shape = SubResource("RectangleShape2D_kick")
 
 [node name="SpecialHitBox" type="Area2D" parent="."]
-position = Vector2(48, -52)
+position = Vector2(58, -62)
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpecialHitBox"]
@@ -111,7 +111,7 @@ disabled = true
 shape = SubResource("RectangleShape2D_special")
 
 [node name="HurtBox" type="Area2D" parent="."]
-position = Vector2(0, -48)
+position = Vector2(0, -57.5)
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]

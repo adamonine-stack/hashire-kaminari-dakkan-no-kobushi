@@ -3,6 +3,15 @@ extends Node2D
 @export var shake_duration := 0.12
 @export var combo_display_duration := 0.80
 @export var show_combo_labels := false
+@export var camera_base_zoom := 1.10
+@export var camera_min_zoom := 0.86
+@export var camera_max_zoom := 1.16
+@export var camera_zoom_in_distance := 260.0
+@export var camera_zoom_out_distance := 720.0
+@export var camera_follow_smoothing := 5.5
+@export var camera_zoom_smoothing := 4.5
+@export var camera_edge_margin := 64.0
+@export var stage_width := 1280.0
 
 var shake_timer := 0.0
 var shake_strength := 0.0
@@ -13,6 +22,7 @@ var player_combo_tween: Tween
 var enemy_combo_tween: Tween
 
 @onready var player := $Player
+@onready var enemy := $Enemy
 @onready var camera := $BattleCamera
 @onready var battle_ui_root := $UI/BattleUIRoot
 @onready var player_hp_bar := $UI/BattleUIRoot/PlayerHpBar
@@ -24,10 +34,10 @@ var enemy_combo_tween: Tween
 func _ready() -> void:
 	camera.make_current()
 	camera_start_position = camera.position
+	camera.zoom = Vector2.ONE * camera_base_zoom
 	_connect_player_health(player, true)
 	_connect_combo(player, true)
 
-	var enemy := get_node_or_null("Enemy")
 	if enemy != null:
 		_connect_player_health(enemy, false)
 		_connect_combo(enemy, false)
@@ -35,16 +45,16 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_update_combo_label_visibility(delta)
+	_update_dynamic_camera(delta)
 
-	if shake_timer <= 0.0:
-		camera.position = camera_start_position
-		return
-
-	shake_timer = maxf(shake_timer - delta, 0.0)
-	camera.position = camera_start_position + Vector2(
-		randf_range(-shake_strength, shake_strength),
-		randf_range(-shake_strength, shake_strength)
-	)
+	var shake_offset := Vector2.ZERO
+	if shake_timer > 0.0:
+		shake_timer = maxf(shake_timer - delta, 0.0)
+		shake_offset = Vector2(
+			randf_range(-shake_strength, shake_strength),
+			randf_range(-shake_strength, shake_strength)
+		)
+	camera.offset = shake_offset
 
 
 func _connect_player_health(target: Node, is_player_bar: bool) -> void:
@@ -158,3 +168,28 @@ func _screen_shake_multiplier() -> float:
 	if settings != null and settings.has_method("get_screen_shake_multiplier"):
 		return float(settings.call("get_screen_shake_multiplier"))
 	return 1.0
+
+
+func _update_dynamic_camera(delta: float) -> void:
+	if camera == null or player == null or enemy == null:
+		return
+	var player_pos: Vector2 = player.global_position
+	var enemy_pos: Vector2 = enemy.global_position
+	var midpoint := (player_pos + enemy_pos) * 0.5
+	var distance := absf(player_pos.x - enemy_pos.x)
+	var zoom_t := inverse_lerp(camera_zoom_in_distance, camera_zoom_out_distance, distance)
+	zoom_t = clampf(zoom_t, 0.0, 1.0)
+	var target_zoom := lerpf(camera_max_zoom, camera_min_zoom, zoom_t)
+	target_zoom = clampf(target_zoom, camera_min_zoom, camera_max_zoom)
+	var viewport_width := get_viewport_rect().size.x
+	var half_width := viewport_width * 0.5 / maxf(target_zoom, 0.01)
+	var min_x := half_width - camera_edge_margin
+	var max_x := stage_width - half_width + camera_edge_margin
+	var target_x := midpoint.x
+	if min_x < max_x:
+		target_x = clampf(target_x, min_x, max_x)
+	var target_position := Vector2(target_x, camera_start_position.y)
+	var follow_weight := 1.0 - exp(-camera_follow_smoothing * delta)
+	var zoom_weight := 1.0 - exp(-camera_zoom_smoothing * delta)
+	camera.position = camera.position.lerp(target_position, follow_weight)
+	camera.zoom = camera.zoom.lerp(Vector2.ONE * target_zoom, zoom_weight)

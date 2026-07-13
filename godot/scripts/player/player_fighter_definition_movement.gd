@@ -1205,13 +1205,14 @@ func disable_special_hitbox() -> void:
 func apply_special_hitbox_data(data: Resource) -> void:
 	if special_area == null or data == null:
 		return
-	special_area.position = Vector2(float(data.hitbox_offset.x) * boss_attack_direction, -52.0 + float(data.hitbox_offset.y))
+	var scale_multiplier := battle_visual_scale_multiplier
+	special_area.position = Vector2(float(data.hitbox_offset.x) * scale_multiplier * boss_attack_direction, (-52.0 + float(data.hitbox_offset.y)) * scale_multiplier)
 	if special_shape != null:
 		if special_shape.shape == null or not (special_shape.shape is RectangleShape2D):
 			special_shape.shape = RectangleShape2D.new()
 		else:
 			special_shape.shape = special_shape.shape.duplicate()
-		special_shape.shape.size = data.hitbox_size
+		special_shape.shape.size = data.hitbox_size * scale_multiplier
 
 
 func show_attack_warning() -> void:
@@ -1246,8 +1247,9 @@ func show_attack_preview() -> void:
 	boss_preview_node = Node2D.new()
 	boss_preview_node.name = "BossAttackPreview"
 	var preview := Polygon2D.new()
-	var size: Vector2 = boss_current_attack_data.hitbox_size
-	var offset: Vector2 = boss_current_attack_data.hitbox_offset
+	var scale_multiplier := battle_visual_scale_multiplier
+	var size: Vector2 = boss_current_attack_data.hitbox_size * scale_multiplier
+	var offset: Vector2 = boss_current_attack_data.hitbox_offset * scale_multiplier
 	var rect := Rect2(Vector2(-size.x * 0.5, -size.y * 0.5), size)
 	preview.polygon = PackedVector2Array([
 		rect.position,

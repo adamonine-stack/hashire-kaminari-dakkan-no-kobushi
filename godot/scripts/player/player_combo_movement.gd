@@ -279,13 +279,14 @@ func apply_attack_hitbox_data(data: Resource) -> void:
 		return
 	var target_area := kick_area if String(data.attack_type).to_lower() == "kick" else punch_area
 	var target_shape := kick_shape if String(data.attack_type).to_lower() == "kick" else punch_shape
-	target_area.position = Vector2(float(data.hitbox_offset.x) * facing_direction, float(data.hitbox_offset.y))
+	var scale_multiplier := battle_visual_scale_multiplier
+	target_area.position = Vector2(float(data.hitbox_offset.x) * scale_multiplier * facing_direction, float(data.hitbox_offset.y) * scale_multiplier)
 	if target_shape != null:
 		if target_shape.shape == null or not (target_shape.shape is RectangleShape2D):
 			target_shape.shape = RectangleShape2D.new()
 		else:
 			target_shape.shape = target_shape.shape.duplicate()
-		target_shape.shape.size = data.hitbox_size
+		target_shape.shape.size = data.hitbox_size * scale_multiplier
 
 
 func register_attack_hit(target: Node) -> void:

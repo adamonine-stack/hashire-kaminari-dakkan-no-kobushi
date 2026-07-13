@@ -11,13 +11,13 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var air_move_speed := 300.0
 @export var crouch_speed := 120.0
 @export var jump_power := 500.0
-@export var screen_margin := 36.0
+@export var screen_margin := 64.0
 @export var attack_active_time := 0.12
 @export var attack_cooldown_time := 0.35
-@export var attack_offset := 56.0
+@export var attack_offset := 67.0
 @export var kick_active_time := 0.18
 @export var kick_cooldown_time := 0.5
-@export var kick_offset := 72.0
+@export var kick_offset := 86.0
 @export var max_hp := 100
 @export var punch_damage := 5
 @export var kick_damage := 8
@@ -67,6 +67,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var combo_log_enabled := true
 @export var cancel_window_time := 0.25
 @export var debug_state_label_enabled := false
+@export var battle_visual_scale_multiplier := 1.2
 @export var ai_guard_enabled := true
 @export var ai_guard_chance := 0.25
 @export var ai_guard_check_interval := 0.35
@@ -230,10 +231,11 @@ func apply_character_art(definition: Resource) -> void:
 		uses_official_character_art = uses_animated_character_art or battle_texture != null
 		if battle_texture != null:
 			var target_height := float(definition.get("battle_sprite_height"))
+			target_height *= battle_visual_scale_multiplier
 			var texture_height := maxf(float(battle_texture.get_height()), 1.0)
 			var sprite_scale := target_height / texture_height
 			character_sprite.scale = Vector2(sprite_scale, sprite_scale)
-			character_sprite.position = Vector2(0.0, -target_height * 0.5) + Vector2(definition.get("battle_sprite_offset"))
+			character_sprite.position = Vector2(0.0, -target_height * 0.5) + Vector2(definition.get("battle_sprite_offset")) * battle_visual_scale_multiplier
 			if placeholder_body != null:
 				placeholder_body.visible = false
 			if placeholder_head != null:
@@ -251,7 +253,7 @@ func apply_character_art(definition: Resource) -> void:
 		shadow_sprite.visible = shadow_texture != null
 		if shadow_texture != null:
 			var shadow_width := maxf(float(shadow_texture.get_width()), 1.0)
-			var shadow_scale := 92.0 / shadow_width
+			var shadow_scale := 110.0 / shadow_width
 			base_shadow_scale = Vector2(shadow_scale, shadow_scale * 0.75)
 			shadow_sprite.scale = base_shadow_scale
 

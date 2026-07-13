@@ -20,6 +20,7 @@ var fallback_sprite: Sprite2D
 var current_animation: StringName = &""
 var fallback_active := true
 var definition: Resource
+var battle_visual_scale_multiplier := 1.2
 
 
 func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_node: Sprite2D) -> bool:
@@ -269,6 +270,8 @@ func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
 	if definition != null:
 		target_height = float(definition.get("battle_sprite_height"))
 		visual_offset = Vector2(definition.get("battle_sprite_offset"))
+	target_height *= battle_visual_scale_multiplier
+	visual_offset *= battle_visual_scale_multiplier
 	var source_height := PLAYER_FRAME_HEIGHT if definition == null or definition.get("team_type") != &"ENEMY" else ENEMY_FRAME_HEIGHT
 	var sprite_scale := target_height / maxf(source_height, 1.0)
 	set_visual_scale(Vector2(sprite_scale, sprite_scale))
