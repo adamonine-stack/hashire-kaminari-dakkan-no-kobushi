@@ -27,6 +27,29 @@ icon = ExtResource("9_icon")
 sprite_sheet = ExtResource("11_sheet")
 shadow_texture = ExtResource("12_shadow")
 art_folder = "res://assets/characters/player03/"
+sprite_frame_size = Vector2i(96, 96)
+sprite_sheet_columns = 16
+sprite_animation_rows = {
+"idle": 1,
+"walk": 2,
+"dash": 3,
+"jump": 4,
+"jump_attack": 5,
+"crouch": 6,
+"crouch_punch": 7,
+"crouch_kick": 8,
+"punch1": 9,
+"punch2": 10,
+"kick1": 11,
+"kick2": 12,
+"guard": 13,
+"guard_counter": 14,
+"damage": 15,
+"down": 16,
+"getup": 17,
+"special": 18,
+"victory": 19
+}
 fighter_type = &"technical"
 max_health = 92.0
 move_speed = 265.0

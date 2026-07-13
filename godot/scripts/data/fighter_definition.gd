@@ -18,6 +18,9 @@ class_name FighterDefinition
 @export var art_folder: String = ""
 @export var battle_sprite_height: float = 150.0
 @export var battle_sprite_offset: Vector2 = Vector2(0.0, 0.0)
+@export var sprite_frame_size: Vector2i = Vector2i(96, 96)
+@export var sprite_sheet_columns: int = 16
+@export var sprite_animation_rows: Dictionary = {}
 
 @export var fighter_type: StringName
 @export var team_type: StringName = &"ALLY"
