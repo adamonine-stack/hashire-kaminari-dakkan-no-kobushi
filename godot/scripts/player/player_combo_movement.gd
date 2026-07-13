@@ -84,9 +84,11 @@ func _physics_process(delta: float) -> void:
 	if not is_hit and not _is_throw_busy():
 		velocity.x = direction * get_current_move_speed()
 
+	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			velocity.y = -jump_power
+			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
 			velocity.y = 0.0
 	else:
@@ -105,6 +107,7 @@ func _physics_process(delta: float) -> void:
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
@@ -389,6 +392,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if int(attack_data.get("combo_hit_index", 1)) < dev026_max_combo_hits:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(attack_data["damage"])
+	damage_feedback_requested.emit(self, int(attack_data["damage"]), false, hit_position)
+	_flash_damage()
 	if attacker != null and attacker.has_method("register_combo_hit"):
 		attacker.register_combo_hit(self)
 		if current_hp == 0 and attacker.has_method("_finish_combo_after_ko"):
@@ -401,6 +406,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if attacker != null and attacker.has_method("start_hit_stop"):
 		attacker.start_hit_stop(attack_data["hit_stop_frames"])
 	screen_shake_requested.emit(attack_data["screen_shake"])
+	if current_hp <= 0:
+		_play_ko_feedback(hit_position, attack_direction)
 	return true
 
 
@@ -428,13 +435,18 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker.clear_attack_buffer()
 	_enter_guard_hit_state()
 	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
-	apply_damage(_get_guard_damage_from_attack_data(attack_data))
+	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
+	apply_damage(guard_damage)
+	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
+	_flash_guard()
 	_apply_guard_knockback(attack_data, attack_direction)
 	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop"):
 		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
+	if current_hp <= 0:
+		_play_ko_feedback(hit_position, attack_direction)
 
 
 func _update_attack(delta: float) -> void:
@@ -658,13 +670,15 @@ func get_combo_damage_scale() -> float:
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
-	match hit_index:
-		1:
-			return 1.0
-		2:
-			return dev026_second_hit_damage_scale
-		_:
-			return dev026_third_hit_damage_scale
+	if hit_index <= 2:
+		return 1.0
+	if hit_index <= 4:
+		return dev026_second_hit_damage_scale
+	if hit_index <= 6:
+		return dev026_third_hit_damage_scale
+	if hit_index <= 8:
+		return 0.70
+	return 0.60
 
 
 func get_combo_knockback_scale() -> float:
@@ -762,9 +776,9 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		"attack_height": "low" if attack_type == "Kick" else "middle",
 		"knockback_x": final_knockback.x,
 		"knockback_y": final_knockback.y,
-		"hit_stop_frames": maxi(1, int(round(float(attack_data.hitstop_time) * 60.0))),
+		"hit_stop_frames": maxi(6 if attack_type == "Kick" else 4, int(round(float(attack_data.hitstop_time) * 60.0))),
 		"effect_size": 1.5 if attack_type == "Kick" else 1.0,
-		"screen_shake": 4.0 if attack_type == "Kick" else 2.0,
+		"screen_shake": 4.5 if attack_type == "Kick" else 2.8,
 		"se_type": "strong" if attack_type == "Kick" else "weak",
 		"attack_id": current_attack_id,
 	}

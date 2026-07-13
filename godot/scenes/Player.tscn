@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_fighter_definition_movement.gd" id="1_player_movement"]
+[ext_resource type="Script" path="res://scripts/characters/character_visual_controller.gd" id="2_visual_controller"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player_body"]
 size = Vector2(72, 96)
@@ -26,7 +27,22 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_player_movement")
 
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.42)
+position = Vector2(0, -2)
+z_index = -5
+
 [node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="AnimatedCharacterSprite" type="AnimatedSprite2D" parent="VisualRoot"]
+visible = false
+z_index = 2
+
+[node name="CharacterSprite" type="Sprite2D" parent="VisualRoot"]
+z_index = 1
+
+[node name="CharacterVisualController" type="Node" parent="VisualRoot"]
+script = ExtResource("2_visual_controller")
 
 [node name="IdlePlaceholder" type="Node2D" parent="VisualRoot"]
 

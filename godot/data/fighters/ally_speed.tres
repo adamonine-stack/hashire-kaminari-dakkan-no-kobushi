@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -6,20 +6,57 @@
 [ext_resource type="Resource" path="res://data/attacks/player3_punch_2.tres" id="4_punch_2"]
 [ext_resource type="Resource" path="res://data/attacks/player3_punch_3.tres" id="5_punch_3"]
 [ext_resource type="Resource" path="res://data/attacks/player3_kick_finish.tres" id="6_kick_finish"]
+[ext_resource type="Resource" path="res://data/attacks/player3_special_clear_counter.tres" id="7_special"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/portrait.png" id="8_portrait"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/icon.png" id="9_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/battle.png" id="10_battle"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/sprite_sheet.png" id="11_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/shadow.png" id="12_shadow"]
 
 [resource]
 script = ExtResource("1_definition")
-fighter_id = &"ally_speed"
-display_name = "SPEED"
-description = "Fast fighter with quick movement, lighter hits, and strong combo flow."
+fighter_id = &"player_03_seiya"
+display_name = "せいや"
+description = "冷静な判断と確かな技術で戦うオールラウンド型。反応速度と連続攻撃に優れる。"
 fighter_scene = ExtResource("2_player")
-fighter_type = &"speed"
-max_health = 80.0
-move_speed = 275.0
-air_move_speed = 235.0
-jump_force = 550.0
-punch_damage = 8.0
-kick_damage = 12.0
+selection_portrait = ExtResource("8_portrait")
+selection_icon = ExtResource("9_icon")
+portrait = ExtResource("8_portrait")
+battle_texture = ExtResource("10_battle")
+icon = ExtResource("9_icon")
+sprite_sheet = ExtResource("11_sheet")
+shadow_texture = ExtResource("12_shadow")
+art_folder = "res://assets/characters/player03/"
+sprite_frame_size = Vector2i(96, 96)
+sprite_sheet_columns = 16
+sprite_animation_rows = {
+"idle": 1,
+"walk": 2,
+"dash": 3,
+"jump": 4,
+"jump_attack": 5,
+"crouch": 6,
+"crouch_punch": 7,
+"crouch_kick": 8,
+"punch1": 9,
+"punch2": 10,
+"kick1": 11,
+"kick2": 12,
+"guard": 13,
+"guard_counter": 14,
+"damage": 15,
+"down": 16,
+"getup": 17,
+"special": 18,
+"victory": 19
+}
+fighter_type = &"technical"
+max_health = 92.0
+move_speed = 265.0
+air_move_speed = 230.0
+jump_force = 535.0
+punch_damage = 9.0
+kick_damage = 13.0
 punch_startup_multiplier = 0.78
 kick_startup_multiplier = 0.82
 punch_recovery_multiplier = 0.75
@@ -30,6 +67,7 @@ attack_knockback_multiplier = 0.8
 received_knockback_multiplier = 1.25
 attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_punch_3"), ExtResource("6_kick_finish")])
 max_attack_chain_count = 4
+special_attack_sequence = Array[Resource]([ExtResource("7_special")])
 punch_damage_scale = 0.9
 kick_damage_scale = 0.9
 throw_damage_scale = 0.85
@@ -38,7 +76,7 @@ attack_speed_scale = 1.2
 combo_damage_scale = 1.15
 guard_damage_scale = 1.0
 power_rating = 2
-speed_rating = 5
-health_rating = 2
-throw_rating = 2
+speed_rating = 4
+health_rating = 3
+throw_rating = 3
 combo_rating = 5

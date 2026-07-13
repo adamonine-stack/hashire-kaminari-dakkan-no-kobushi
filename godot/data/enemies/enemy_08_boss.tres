@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -6,25 +6,38 @@
 [ext_resource type="Resource" path="res://data/attacks/enemy8_charge_attack.tres" id="4_charge"]
 [ext_resource type="Resource" path="res://data/attacks/enemy8_spin_kick.tres" id="5_spin"]
 [ext_resource type="Resource" path="res://data/attacks/enemy8_ultimate_shockwave.tres" id="6_ultimate"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/portrait.png" id="7_portrait"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/icon.png" id="8_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/battle.png" id="9_battle"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/sprite_sheet.png" id="10_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy08/shadow.png" id="11_shadow"]
 
 [resource]
 script = ExtResource("1_def")
-fighter_id = &"enemy_08_boss"
-display_name = "BOSS"
-description = "A strong final opponent with balanced offense, guard, throw, and combo choices."
+fighter_id = &"enemy_08_leon_crow"
+display_name = "レオン・クロウ"
+description = "黒翼の舞踏家。華麗なステップと紫の必殺技で相手を翻弄する最終ボス。"
 fighter_scene = ExtResource("2_scene")
+selection_portrait = ExtResource("7_portrait")
+selection_icon = ExtResource("8_icon")
+portrait = ExtResource("7_portrait")
+battle_texture = ExtResource("9_battle")
+icon = ExtResource("8_icon")
+sprite_sheet = ExtResource("10_sheet")
+shadow_texture = ExtResource("11_shadow")
+art_folder = "res://assets/characters/enemy08/"
 fighter_type = &"BOSS"
 team_type = &"ENEMY"
 enemy_order = 8
 ai_profile = ExtResource("3_ai")
-intro_title = "BOSS TYPE"
-intro_description = "The final enemy. Strong, steady, and able to use every basic system."
-temporary_color = Color(0.95, 0.90, 0.25, 1.00)
+intro_title = "黒翼の舞踏家"
+intro_description = "すべての基本能力が高く、HP低下で衝撃波フィニッシュを狙う。最後まで隙を見逃せない。"
+temporary_color = Color(0.46, 0.20, 0.88, 1.00)
 max_health = 170.0
-move_speed = 320.0
+move_speed = 330.0
 jump_force = 520.0
-punch_damage_scale = 1.20
-kick_damage_scale = 1.30
+punch_damage_scale = 1.18
+kick_damage_scale = 1.28
 throw_damage_scale = 1.15
 knockback_scale = 1.20
 attack_speed_scale = 1.10

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack"]
+
+[resource]
+script = ExtResource("1_attack")
+attack_id = "player1_special_thunder_drive"
+display_name = "Thunder Drive"
+attack_type = "special"
+attack_category = "special"
+base_damage = 1.0
+damage_multiplier = 1.55
+startup_time = 0.42
+active_time = 0.16
+recovery_time = 0.58
+hitbox_size = Vector2(96, 46)
+hitbox_offset = Vector2(58, -2)
+move_distance = 88.0
+move_duration = 0.22
+move_speed_multiplier = 1.0
+knockback = Vector2(330, -78)
+hitstop_time = 0.11
+hitstun_time = 0.36
+is_guardable = true
+guard_damage_multiplier = 0.15
+guard_hit_time = 0.28
+guard_knockback = Vector2(95, 0)
+can_be_interrupted = true
+interruptible_until_active = true
+cooldown = 4.20
+animation_name = "special_thunder_drive"
+warning_effect_name = "player1_special_warning"
+attack_effect_name = "player1_thunder_drive"

@@ -17,6 +17,7 @@ var cards: Array[Button] = []
 
 var title_label: Label
 var cards_container: HBoxContainer
+var portrait_texture_rect: TextureRect
 var details_label: Label
 var stats_label: Label
 var confirm_button: Button
@@ -114,10 +115,11 @@ func _build_layout() -> void:
 	details_box.add_theme_constant_override("separation", 24)
 	detail_panel.add_child(details_box)
 
-	var portrait := ColorRect.new()
-	portrait.custom_minimum_size = Vector2(140.0, 160.0)
-	portrait.color = Color(0.18, 0.24, 0.32, 1.0)
-	details_box.add_child(portrait)
+	portrait_texture_rect = TextureRect.new()
+	portrait_texture_rect.custom_minimum_size = Vector2(140.0, 160.0)
+	portrait_texture_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	portrait_texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	details_box.add_child(portrait_texture_rect)
 
 	details_label = Label.new()
 	details_label.custom_minimum_size = Vector2(430.0, 150.0)
@@ -207,12 +209,16 @@ func _update_details() -> void:
 	if focused_index < 0 or focused_index >= progress_team.size():
 		details_label.text = "No selectable fighter."
 		stats_label.text = ""
+		if portrait_texture_rect != null:
+			portrait_texture_rect.texture = null
 		confirm_button.disabled = true
 		_update_debug()
 		return
 
 	var data := progress_team[focused_index]
 	var definition: Resource = data["definition"]
+	if portrait_texture_rect != null:
+		portrait_texture_rect.texture = _definition_texture(definition, "portrait", "selection_portrait")
 	var status := "DEFEATED / UNAVAILABLE" if not bool(data.get("is_available", true)) or data["is_defeated"] else "AVAILABLE"
 	details_label.text = "%s\nTYPE: %s\nHP %d / %d\n%s\n\n%s" % [
 		definition.display_name,
@@ -235,6 +241,15 @@ func _update_details() -> void:
 
 func _rating_text(value: int) -> String:
 	return "#".repeat(clampi(value, 1, 5)) + "-".repeat(5 - clampi(value, 1, 5))
+
+
+func _definition_texture(definition: Resource, primary_property: String, fallback_property: String) -> Texture2D:
+	if definition == null:
+		return null
+	var texture: Texture2D = definition.get(primary_property)
+	if texture == null:
+		texture = definition.get(fallback_property)
+	return texture
 
 
 func _update_debug() -> void:

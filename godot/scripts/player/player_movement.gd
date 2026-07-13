@@ -5,6 +5,7 @@ signal hp_depleted
 signal screen_shake_requested(strength: float)
 signal throw_hit(target: Node)
 signal combo_changed(combo_count: int, combo_owner: Node)
+signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_position: Vector2)
 
 @export var move_speed := 300.0
 @export var air_move_speed := 300.0
@@ -45,6 +46,7 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var throw_escape_pushback := 80.0
 @export var throw_escape_recovery_time := 0.25
 @export var throw_vertical_tolerance := 40.0
+@export var throw_regrab_lock_time := 0.9
 @export_range(0.0, 1.0, 0.05) var throw_escape_probability := 0.25
 @export_range(0.0, 1.0, 0.05) var ai_throw_probability := 0.2
 @export var ai_throw_cooldown := 1.5
@@ -70,6 +72,10 @@ signal combo_changed(combo_count: int, combo_owner: Node)
 @export var ai_guard_check_interval := 0.35
 @export var ai_guard_min_time := 0.3
 @export var ai_guard_max_time := 1.0
+@export_group("Game Feel")
+@export var feel_effect_pool_size := 24
+@export var landing_shake_strength := 0.8
+@export var ko_shake_strength := 8.0
 
 var punch_startup_multiplier := 1.0
 var kick_startup_multiplier := 1.0
@@ -110,6 +116,7 @@ var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
 var throw_recovery_timer := 0.0
 var throw_escape_timer := 0.0
+var throw_regrab_lock_timer := 0.0
 var pending_throw_damage := 0
 var pending_throw_hit_position := Vector2.ZERO
 var pending_throw_direction := 0.0
@@ -142,6 +149,17 @@ var strong_hit_se: AudioStreamPlayer2D
 var guard_hit_se: AudioStreamPlayer2D
 var throw_se: AudioStreamPlayer2D
 var throw_escape_se: AudioStreamPlayer2D
+var ko_hit_se: AudioStreamPlayer2D
+var special_hit_se: AudioStreamPlayer2D
+var movement_dust_pool: Array[Node2D] = []
+var hit_effect_pool: Array[Node2D] = []
+var afterimage_pool: Array[Node2D] = []
+var was_moving_last_frame := false
+var was_on_floor_last_frame := false
+var invincible_flash_timer := 0.0
+var base_shadow_scale := Vector2.ONE
+var uses_official_character_art := false
+var uses_animated_character_art := false
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -154,6 +172,12 @@ var throw_escape_se: AudioStreamPlayer2D
 @onready var kick_shape := $KickHitBox/CollisionShape2D
 @onready var hurt_box := $HurtBox
 @onready var animation_player := get_node_or_null("AnimationPlayer") as AnimationPlayer
+@onready var animated_character_sprite := get_node_or_null("VisualRoot/AnimatedCharacterSprite") as AnimatedSprite2D
+@onready var character_sprite := get_node_or_null("VisualRoot/CharacterSprite") as Sprite2D
+@onready var character_visual_controller := get_node_or_null("VisualRoot/CharacterVisualController")
+@onready var shadow_sprite := get_node_or_null("ShadowSprite") as Sprite2D
+@onready var placeholder_body := get_node_or_null("VisualRoot/IdlePlaceholder/Body") as Polygon2D
+@onready var placeholder_head := get_node_or_null("VisualRoot/IdlePlaceholder/Head") as Polygon2D
 
 
 func _ready() -> void:
@@ -161,9 +185,75 @@ func _ready() -> void:
 	punch_area.area_entered.connect(_on_punch_hitbox_area_entered)
 	kick_area.area_entered.connect(_on_kick_hitbox_area_entered)
 	_setup_hit_audio()
+	call_deferred("_setup_feel_effect_pools")
+	_ensure_official_animation_placeholders()
 	_set_punch_hitbox_active(false, false)
 	_set_kick_hitbox_active(false, false)
+	was_on_floor_last_frame = is_on_floor()
 	hp_changed.emit(current_hp, max_hp)
+
+
+func _ensure_official_animation_placeholders() -> void:
+	if animation_player == null:
+		return
+	var library := animation_player.get_animation_library("")
+	if library == null:
+		library = AnimationLibrary.new()
+		animation_player.add_animation_library("", library)
+	var animation_names := [
+		"idle", "walk", "dash", "jump", "fall", "land",
+		"punch1", "punch2", "kick1", "kick2", "guard",
+		"damage", "down", "getup", "special", "ko", "victory",
+		"Punch", "Kick", "Throw",
+	]
+	for animation_name in animation_names:
+		if animation_player.has_animation(animation_name):
+			continue
+		var animation := Animation.new()
+		animation.resource_name = animation_name
+		animation.length = 0.35
+		library.add_animation(animation_name, animation)
+
+
+func apply_character_art(definition: Resource) -> void:
+	var battle_texture: Texture2D = definition.get("battle_texture") if definition != null else null
+	uses_animated_character_art = false
+	if visual_root != null:
+		visual_root.scale.x = 1.0
+	if character_visual_controller != null and character_visual_controller.has_method("setup"):
+		uses_animated_character_art = bool(character_visual_controller.call("setup", definition, animated_character_sprite, character_sprite))
+		if character_visual_controller.has_method("set_facing"):
+			character_visual_controller.call("set_facing", int(signf(facing_direction)))
+	if character_sprite != null:
+		character_sprite.texture = battle_texture
+		character_sprite.visible = battle_texture != null and not uses_animated_character_art
+		uses_official_character_art = uses_animated_character_art or battle_texture != null
+		if battle_texture != null:
+			var target_height := float(definition.get("battle_sprite_height"))
+			var texture_height := maxf(float(battle_texture.get_height()), 1.0)
+			var sprite_scale := target_height / texture_height
+			character_sprite.scale = Vector2(sprite_scale, sprite_scale)
+			character_sprite.position = Vector2(0.0, -target_height * 0.5) + Vector2(definition.get("battle_sprite_offset"))
+			if placeholder_body != null:
+				placeholder_body.visible = false
+			if placeholder_head != null:
+				placeholder_head.visible = false
+		else:
+			uses_official_character_art = uses_animated_character_art
+			if placeholder_body != null:
+				placeholder_body.visible = not uses_animated_character_art
+			if placeholder_head != null:
+				placeholder_head.visible = not uses_animated_character_art
+
+	var shadow_texture: Texture2D = definition.get("shadow_texture") if definition != null else null
+	if shadow_sprite != null:
+		shadow_sprite.texture = shadow_texture
+		shadow_sprite.visible = shadow_texture != null
+		if shadow_texture != null:
+			var shadow_width := maxf(float(shadow_texture.get_width()), 1.0)
+			var shadow_scale := 92.0 / shadow_width
+			base_shadow_scale = Vector2(shadow_scale, shadow_scale * 0.75)
+			shadow_sprite.scale = base_shadow_scale
 
 
 func _physics_process(delta: float) -> void:
@@ -192,14 +282,16 @@ func _physics_process(delta: float) -> void:
 
 	if direction != 0.0 and not is_hit and not _is_throw_busy():
 		facing_direction = signf(direction)
-		visual_root.scale.x = facing_direction
+		_set_visual_facing()
 
 	if not is_hit and not _is_throw_busy():
 		velocity.x = direction * get_current_move_speed()
 
+	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			velocity.y = -jump_power
+			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
 			velocity.y = 0.0
 	else:
@@ -218,6 +310,7 @@ func _physics_process(delta: float) -> void:
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
@@ -351,11 +444,11 @@ func _get_throw_target() -> Node:
 
 
 func _can_start_throw() -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	return is_round_active and current_hp > 0 and is_on_floor() and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
 
 
 func can_be_thrown(attacker: Node) -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_throw_escape_pending and not is_throw_escaping and not is_invincible
+	return is_round_active and current_hp > 0 and is_on_floor() and throw_regrab_lock_timer <= 0.0 and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_throw_escape_pending and not is_throw_escaping and not is_invincible
 
 
 func _get_throw_gap_to(target: Node) -> float:
@@ -375,6 +468,9 @@ func _is_throw_busy() -> bool:
 
 
 func _update_throw_state(delta: float) -> void:
+	if throw_regrab_lock_timer > 0.0:
+		throw_regrab_lock_timer = maxf(throw_regrab_lock_timer - delta, 0.0)
+
 	if is_throwing:
 		_update_active_throw(delta)
 		return
@@ -450,6 +546,7 @@ func _complete_throw_escape() -> void:
 	if attacker != null and attacker.has_method("enter_throw_escape_recovery"):
 		attacker.enter_throw_escape_recovery(self)
 
+	apply_throw_regrab_lock()
 	_push_throw_escape_apart(attacker)
 	_spawn_throw_escape_effect(global_position)
 	_play_throw_escape_se()
@@ -466,6 +563,7 @@ func enter_throw_escape_recovery(escaped_target: Node) -> void:
 	has_throw_connected = false
 	has_throw_damage_applied = false
 	velocity = Vector2.ZERO
+	apply_throw_regrab_lock()
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
 
@@ -480,6 +578,7 @@ func _complete_throw_hit() -> void:
 	throw_state = ""
 	throw_escape_timer = 0.0
 	_clear_pending_throw()
+	apply_throw_regrab_lock()
 	_enter_hit_state()
 	apply_damage(damage)
 	velocity = throw_velocity
@@ -575,6 +674,7 @@ func _release_throw() -> void:
 	print("THROW RELEASE")
 	if _is_valid_throw_target(current_throw_target) and current_throw_target.has_method("_complete_throw_hit"):
 		current_throw_target._complete_throw_hit()
+	apply_throw_regrab_lock()
 	throw_state = "THROW_RECOVERY"
 	throw_recovery_timer = throw_recovery_time
 	current_throw_target = null
@@ -612,8 +712,13 @@ func _complete_simultaneous_throw(target: Node) -> void:
 	_play_throw_escape_se()
 	throw_state = "THROW_ESCAPE"
 	throw_recovery_timer = throw_escape_recovery_time
+	apply_throw_regrab_lock()
 	if target.has_method("enter_throw_escape_recovery"):
 		target.enter_throw_escape_recovery(self)
+
+
+func apply_throw_regrab_lock() -> void:
+	throw_regrab_lock_timer = maxf(throw_regrab_lock_timer, throw_regrab_lock_time)
 
 
 func _lock_throw_target_position(target: Node) -> void:
@@ -633,6 +738,7 @@ func _is_valid_throw_target(target: Node) -> bool:
 
 
 func _play_throw_animation(animation_name := "Throw") -> void:
+	_play_visual_animation(StringName(animation_name), true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(animation_name):
@@ -642,6 +748,7 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 
 
 func _play_attack_animation(animation_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -794,6 +901,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if int(attack_data.get("combo_hit_index", 1)) < max_combo_hits:
 		hit_reaction_timer = maxf(hit_reaction_timer, combo_hitstun_time)
 	apply_damage(attack_data["damage"])
+	damage_feedback_requested.emit(self, int(attack_data["damage"]), false, hit_position)
+	_flash_damage()
 	if attacker != null and attacker.has_method("register_combo_hit"):
 		attacker.register_combo_hit(self)
 		if current_hp == 0 and attacker.has_method("_finish_combo_after_ko"):
@@ -806,6 +915,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if attacker != null and attacker.has_method("start_hit_stop"):
 		attacker.start_hit_stop(attack_data["hit_stop_frames"])
 	screen_shake_requested.emit(attack_data["screen_shake"])
+	if current_hp <= 0:
+		_play_ko_feedback(hit_position, attack_direction)
 	return true
 
 
@@ -844,9 +955,9 @@ func _get_kick_attack_data() -> Dictionary:
 		"attack_height": "low",
 		"knockback_x": calculate_attack_knockback(Vector2(kick_knockback_x, kick_knockback_y)).x,
 		"knockback_y": calculate_attack_knockback(Vector2(kick_knockback_x, kick_knockback_y)).y,
-		"hit_stop_frames": 8,
+		"hit_stop_frames": 6,
 		"effect_size": 1.5,
-		"screen_shake": 4.0,
+		"screen_shake": 4.5,
 		"se_type": "strong",
 	}
 
@@ -869,6 +980,7 @@ func _cancel_current_action() -> void:
 	is_throw_escaping = false
 	throw_recovery_timer = 0.0
 	throw_escape_timer = 0.0
+	throw_regrab_lock_timer = 0.0
 	throw_startup_timer = 0.0
 	throw_hold_timer = 0.0
 	throw_state = ""
@@ -911,13 +1023,18 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker.clear_attack_buffer()
 	_enter_guard_hit_state()
 	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
-	apply_damage(_get_guard_damage_from_attack_data(attack_data))
+	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
+	apply_damage(guard_damage)
+	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
+	_flash_guard()
 	_apply_guard_knockback(attack_data, attack_direction)
 	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop"):
 		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
+	if current_hp <= 0:
+		_play_ko_feedback(hit_position, attack_direction)
 
 
 func _enter_guard_hit_state() -> void:
@@ -1146,7 +1263,7 @@ func _face_opponent() -> void:
 	if direction_to_opponent == 0.0:
 		return
 	facing_direction = direction_to_opponent
-	visual_root.scale.x = facing_direction
+	_set_visual_facing()
 
 
 func _get_opponent() -> Node:
@@ -1193,17 +1310,23 @@ func _update_invincibility(delta: float) -> void:
 		return
 
 	invincibility_timer = maxf(invincibility_timer - delta, 0.0)
+	invincible_flash_timer += delta
+	if visual_root != null:
+		visual_root.modulate.a = 0.45 if int(invincible_flash_timer * 18.0) % 2 == 0 else 1.0
 	if invincibility_timer == 0.0:
 		is_invincible = false
+		invincible_flash_timer = 0.0
+		if visual_root != null:
+			visual_root.modulate.a = 1.0
 		hurt_box.set_deferred("monitorable", true)
 
 
 func _start_hit_stop(frame_count: int) -> void:
-	hit_stop_timer = maxf(hit_stop_timer, float(frame_count) / 60.0)
+	hit_stop_timer = maxf(hit_stop_timer, (float(frame_count) / 60.0) * _hitstop_multiplier())
 
 
 func _start_hit_stop_seconds(duration: float) -> void:
-	hit_stop_timer = maxf(hit_stop_timer, duration)
+	hit_stop_timer = maxf(hit_stop_timer, duration * _hitstop_multiplier())
 
 
 func _update_hit_stop(delta: float) -> bool:
@@ -1424,13 +1547,15 @@ func get_combo_damage_scale() -> float:
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
-	match hit_index:
-		1:
-			return 1.0
-		2:
-			return second_hit_damage_scale
-		_:
-			return third_hit_damage_scale
+	if hit_index <= 2:
+		return 1.0
+	if hit_index <= 4:
+		return second_hit_damage_scale
+	if hit_index <= 6:
+		return third_hit_damage_scale
+	if hit_index <= 8:
+		return 0.70
+	return 0.60
 
 
 func get_combo_knockback_scale() -> float:
@@ -1466,25 +1591,77 @@ func _get_combo_log_name() -> String:
 	return name
 
 
-func _spawn_hit_effect(hit_position: Vector2, effect_size: float) -> void:
+func _setup_feel_effect_pools() -> void:
+	if not hit_effect_pool.is_empty() or not movement_dust_pool.is_empty() or not afterimage_pool.is_empty():
+		return
+	for index in range(feel_effect_pool_size):
+		hit_effect_pool.append(_create_pooled_polygon_effect("PooledHitEffect"))
+		movement_dust_pool.append(_create_pooled_polygon_effect("PooledDustEffect"))
+		afterimage_pool.append(_create_pooled_polygon_effect("PooledAfterimage"))
+
+
+func _create_pooled_polygon_effect(effect_name: String) -> Node2D:
 	var effect_root := Node2D.new()
+	effect_root.name = effect_name
+	effect_root.visible = false
+	var flash := Polygon2D.new()
+	flash.name = "Flash"
+	effect_root.add_child(flash)
+	var ring := Polygon2D.new()
+	ring.name = "Ring"
+	effect_root.add_child(ring)
+	if get_tree().current_scene != null:
+		get_tree().current_scene.add_child(effect_root)
+	else:
+		add_child(effect_root)
+	return effect_root
+
+
+func _get_pooled_effect(pool: Array[Node2D], effect_name: String) -> Node2D:
+	for effect in pool:
+		if effect != null and is_instance_valid(effect) and not effect.visible:
+			return effect
+	var fallback := _create_pooled_polygon_effect(effect_name)
+	pool.append(fallback)
+	return fallback
+
+
+func _spawn_hit_effect(hit_position: Vector2, effect_size: float) -> void:
+	var effect_root := _get_pooled_effect(hit_effect_pool, "PooledHitEffect")
 	effect_root.global_position = hit_position
 	effect_root.name = "HitEffect"
+	effect_root.scale = Vector2.ONE
+	effect_root.visible = true
 
-	var flash := Polygon2D.new()
+	var flash := effect_root.get_node("Flash") as Polygon2D
+	var ring := effect_root.get_node("Ring") as Polygon2D
 	var size := 18.0 * effect_size
-	flash.color = Color(1.0, 0.95, 0.25, 0.75)
+	flash.color = _hit_effect_color(effect_size)
 	flash.polygon = PackedVector2Array([
 		Vector2(0, -size),
 		Vector2(size, 0),
 		Vector2(0, size),
 		Vector2(-size, 0),
 	])
-	effect_root.add_child(flash)
-	get_tree().current_scene.add_child(effect_root)
+	var ring_size := size * 1.35
+	ring.color = Color(flash.color.r, flash.color.g, flash.color.b, 0.22)
+	ring.polygon = _circle_points(18, ring_size)
 
-	var timer := get_tree().create_timer(0.15)
-	timer.timeout.connect(effect_root.queue_free)
+	var tween := effect_root.create_tween()
+	tween.tween_property(effect_root, "scale", Vector2(1.45, 1.45), 0.12)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.12)
+	tween.parallel().tween_property(ring, "modulate:a", 0.0, 0.16)
+	tween.tween_callback(_release_pooled_effect.bind(effect_root))
+
+
+func _hit_effect_color(effect_size: float) -> Color:
+	if effect_size >= 2.0:
+		return Color(0.78, 0.35, 1.0, 0.86)
+	if effect_size >= 1.5:
+		return Color(1.0, 0.48, 0.14, 0.84)
+	if effect_size > 1.0:
+		return Color(1.0, 0.92, 0.25, 0.80)
+	return Color(1.0, 1.0, 1.0, 0.78)
 
 
 func _spawn_throw_success_effect(effect_position: Vector2) -> void:
@@ -1492,7 +1669,7 @@ func _spawn_throw_success_effect(effect_position: Vector2) -> void:
 
 
 func _spawn_throw_impact_effect(effect_position: Vector2) -> void:
-	_spawn_throw_effect(effect_position, "ThrowImpactEffect", Color(1.0, 0.92, 0.35, 0.78), 22.0)
+	_spawn_throw_effect(effect_position, "ThrowImpactEffect", Color(1.0, 0.48, 0.14, 0.78), 24.0)
 
 
 func _spawn_throw_effect(effect_position: Vector2, effect_name: String, effect_color: Color, radius: float) -> void:
@@ -1543,6 +1720,16 @@ func _setup_hit_audio() -> void:
 	throw_escape_se.stream = _create_hit_stream(920.0)
 	add_child(throw_escape_se)
 
+	ko_hit_se = AudioStreamPlayer2D.new()
+	ko_hit_se.name = "KOHitSE"
+	ko_hit_se.stream = _create_hit_stream(90.0)
+	add_child(ko_hit_se)
+
+	special_hit_se = AudioStreamPlayer2D.new()
+	special_hit_se.name = "SpecialHitSE"
+	special_hit_se.stream = _create_hit_stream(320.0)
+	add_child(special_hit_se)
+
 
 func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 	var sample_rate := 22050
@@ -1564,47 +1751,260 @@ func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 
 
 func _play_hit_se(se_type: String) -> void:
-	if se_type == "strong":
+	_play_audio_manager_se("hit_%s" % se_type)
+	if se_type == "ko":
+		ko_hit_se.play()
+	elif se_type == "special":
+		special_hit_se.play()
+	elif se_type == "strong":
 		strong_hit_se.play()
 	else:
 		weak_hit_se.play()
 
 
 func _play_guard_se() -> void:
+	_play_audio_manager_se("guard")
 	guard_hit_se.play()
 
 
 func _play_throw_se() -> void:
+	_play_audio_manager_se("throw")
 	throw_se.play()
 
 
 func _play_throw_escape_se() -> void:
+	_play_audio_manager_se("throw_escape")
 	throw_escape_se.play()
 
 
 func _spawn_guard_effect(hit_position: Vector2) -> void:
-	var effect_root := Node2D.new()
+	var effect_root := _get_pooled_effect(hit_effect_pool, "PooledGuardEffect")
 	effect_root.global_position = hit_position
 	effect_root.name = "GuardEffect"
+	effect_root.scale = Vector2.ONE
+	effect_root.visible = true
 
-	var flash := Polygon2D.new()
-	var points := PackedVector2Array()
+	var flash := effect_root.get_node("Flash") as Polygon2D
+	var ring := effect_root.get_node("Ring") as Polygon2D
 	var radius := 16.0
-	for point_index in range(16):
-		var angle := TAU * float(point_index) / 16.0
-		points.append(Vector2(cos(angle), sin(angle)) * radius)
 	flash.color = Color(0.45, 0.9, 1.0, 0.65)
-	flash.polygon = points
-	effect_root.add_child(flash)
-	get_tree().current_scene.add_child(effect_root)
+	flash.polygon = _circle_points(16, radius)
+	ring.color = Color(0.75, 0.95, 1.0, 0.24)
+	ring.polygon = _circle_points(24, radius * 1.8)
 
 	var tween := effect_root.create_tween()
 	tween.tween_property(effect_root, "scale", Vector2(1.7, 1.7), 0.12)
 	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.12)
-	tween.tween_callback(effect_root.queue_free)
+	tween.parallel().tween_property(ring, "modulate:a", 0.0, 0.12)
+	tween.tween_callback(_release_pooled_effect.bind(effect_root))
+
+
+func _spawn_movement_dust(effect_position: Vector2, dust_scale := 1.0) -> void:
+	var effect_root := _get_pooled_effect(movement_dust_pool, "PooledDustEffect")
+	effect_root.global_position = effect_position
+	effect_root.scale = Vector2.ONE * dust_scale
+	effect_root.visible = true
+	var flash := effect_root.get_node("Flash") as Polygon2D
+	var ring := effect_root.get_node("Ring") as Polygon2D
+	flash.color = Color(0.72, 0.68, 0.56, 0.42)
+	flash.polygon = PackedVector2Array([
+		Vector2(-18, 0),
+		Vector2(-8, -7),
+		Vector2(12, -5),
+		Vector2(24, 0),
+		Vector2(8, 6),
+		Vector2(-14, 5),
+	])
+	ring.color = Color(0.72, 0.68, 0.56, 0.18)
+	ring.polygon = _circle_points(14, 18.0)
+	var tween := effect_root.create_tween()
+	tween.tween_property(effect_root, "scale", Vector2(1.55, 1.15) * dust_scale, 0.16)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.16)
+	tween.parallel().tween_property(ring, "modulate:a", 0.0, 0.16)
+	tween.tween_callback(_release_pooled_effect.bind(effect_root))
+
+
+func _spawn_afterimage() -> void:
+	var effect_root := _get_pooled_effect(afterimage_pool, "PooledAfterimage")
+	effect_root.global_position = global_position + Vector2(0.0, -54.0)
+	effect_root.scale = Vector2(facing_direction, 1.0)
+	effect_root.visible = true
+	var flash := effect_root.get_node("Flash") as Polygon2D
+	var ring := effect_root.get_node("Ring") as Polygon2D
+	flash.color = Color(0.55, 0.85, 1.0, 0.22)
+	flash.polygon = PackedVector2Array([
+		Vector2(-18, -42),
+		Vector2(18, -42),
+		Vector2(18, 42),
+		Vector2(-18, 42),
+	])
+	ring.color = Color.TRANSPARENT
+	ring.polygon = PackedVector2Array()
+	var duration := 0.22 if _is_speed_style_fighter() else 0.14
+	var tween := effect_root.create_tween()
+	tween.tween_property(effect_root, "position:x", effect_root.position.x - facing_direction * 16.0, duration)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, duration)
+	tween.tween_callback(_release_pooled_effect.bind(effect_root))
+
+
+func _release_pooled_effect(effect_root: Node2D) -> void:
+	if effect_root == null or not is_instance_valid(effect_root):
+		return
+	effect_root.visible = false
+	effect_root.modulate = Color.WHITE
+	for child in effect_root.get_children():
+		if child is CanvasItem:
+			child.modulate = Color.WHITE
+
+
+func _circle_points(point_count: int, radius: float) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for point_index in range(point_count):
+		var angle := TAU * float(point_index) / float(point_count)
+		points.append(Vector2(cos(angle), sin(angle)) * radius)
+	return points
+
+
+func _update_movement_feedback(direction: float, was_on_floor_before_move: bool) -> void:
+	var moving_now := absf(direction) > 0.0 and is_on_floor() and not is_hit and not _is_throw_busy()
+	if moving_now and not was_moving_last_frame:
+		_spawn_movement_dust(global_position + Vector2(-facing_direction * 18.0, -4.0), 0.8)
+		_spawn_afterimage()
+		if _is_speed_style_fighter():
+			_spawn_afterimage()
+	was_moving_last_frame = moving_now
+
+	if not was_on_floor_before_move and is_on_floor():
+		_spawn_movement_dust(global_position + Vector2(0.0, -2.0), 1.0)
+		screen_shake_requested.emit(landing_shake_strength)
+	was_on_floor_last_frame = is_on_floor()
+
+
+func _flash_damage() -> void:
+	if uses_animated_character_art and character_visual_controller != null and character_visual_controller.has_method("show_damage_flash"):
+		character_visual_controller.call("show_damage_flash")
+		return
+	if visual_root == null:
+		return
+	visual_root.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	var tween := create_tween()
+	tween.tween_property(visual_root, "modulate", Color(1.0, 0.72, 0.72, 1.0), 0.04)
+	tween.tween_property(visual_root, "modulate", Color.WHITE, 0.08)
+
+
+func _flash_guard() -> void:
+	if uses_animated_character_art and animated_character_sprite != null:
+		animated_character_sprite.modulate = Color(0.72, 0.9, 1.0, 1.0)
+		var sprite_tween := create_tween()
+		sprite_tween.tween_property(animated_character_sprite, "modulate", Color.WHITE, 0.12)
+		return
+	if visual_root == null:
+		return
+	visual_root.modulate = Color(0.72, 0.9, 1.0, 1.0)
+	var tween := create_tween()
+	tween.tween_property(visual_root, "modulate", Color.WHITE, 0.12)
+
+
+func _play_ko_feedback(hit_position: Vector2, attack_direction: float) -> void:
+	_start_hit_stop(10)
+	_spawn_hit_effect(hit_position, 3.0)
+	_play_hit_se("ko")
+	screen_shake_requested.emit(ko_shake_strength)
+	velocity.x += attack_direction * 220.0
+	velocity.y = minf(velocity.y, -180.0)
+
+
+func _hitstop_multiplier() -> float:
+	var settings := get_node_or_null("/root/SettingsManager")
+	if settings != null and settings.has_method("get_hitstop_multiplier"):
+		return float(settings.call("get_hitstop_multiplier"))
+	return 1.0
+
+
+func _play_audio_manager_se(se_id: String) -> void:
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("play_se"):
+		audio.call("play_se", se_id)
+
+
+func _is_speed_style_fighter() -> bool:
+	var definition: Resource = get("fighter_definition")
+	if definition != null:
+		return String(definition.fighter_type).to_lower() == "speed"
+	return move_speed >= 340.0
+
+
+func _set_visual_facing() -> void:
+	var facing := int(signf(facing_direction))
+	if facing == 0:
+		facing = 1
+	if uses_animated_character_art and character_visual_controller != null and character_visual_controller.has_method("set_facing"):
+		visual_root.scale.x = 1.0
+		character_visual_controller.call("set_facing", facing)
+	else:
+		visual_root.scale.x = float(facing)
+
+
+func _play_visual_animation(animation_name: StringName, force := false) -> void:
+	if not uses_animated_character_art:
+		return
+	if character_visual_controller == null or not character_visual_controller.has_method("play_animation"):
+		return
+	character_visual_controller.call("play_animation", animation_name, force)
+
+
+func _get_current_visual_animation() -> StringName:
+	if current_hp <= 0:
+		return &"ko"
+	if _is_knockdown_state(&"KNOCKDOWN"):
+		return &"down"
+	if _is_knockdown_state(&"GET_UP"):
+		return &"getup"
+	if _is_knockdown_state(&"KNOCKBACK"):
+		return &"damage_heavy"
+	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
+		return &"throw"
+	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		return &"thrown"
+	if is_throw_escaping:
+		return &"getup"
+	if is_guard_hit:
+		return &"guard"
+	if is_hit:
+		return &"damage"
+	if is_crouch_guarding or is_guarding:
+		return &"guard"
+	if is_crouching:
+		return &"crouch"
+	if current_attack_type == "Punch":
+		if not is_on_floor():
+			return &"jump_punch"
+		if is_crouching:
+			return &"crouch_punch"
+		return &"punch_2" if combo_step == 2 else &"punch_1"
+	if current_attack_type == "Kick":
+		if not is_on_floor():
+			return &"jump_kick"
+		if is_crouching:
+			return &"crouch_kick"
+		return &"kick_2" if combo_step >= max_combo_hits else &"kick_1"
+	if not is_on_floor():
+		return &"jump" if velocity.y < 0.0 else &"fall"
+	if absf(velocity.x) > move_speed * 1.05:
+		return &"dash"
+	if absf(velocity.x) > 0.0:
+		return &"walk"
+	return &"idle"
+
+
+func _is_knockdown_state(state_name: StringName) -> bool:
+	return get("knockdown_state") == state_name
 
 
 func _update_visual_state() -> void:
+	_set_visual_facing()
+	_play_visual_animation(_get_current_visual_animation())
+
 	if not debug_state_label_enabled:
 		state_label.visible = false
 		queue_redraw()
@@ -1647,12 +2047,23 @@ func _update_visual_state() -> void:
 			str(current_attack_connected).to_upper(),
 			get_combo_damage_scale(),
 		]
+	if uses_official_character_art and character_visual_controller != null and character_visual_controller.has_method("get_debug_source"):
+		state_label.text += "\nVISUAL: %s" % String(character_visual_controller.call("get_debug_source")).to_upper()
 
-	guard_visual.visible = is_guarding and not is_crouch_guarding
-	crouch_visual.visible = is_crouching
-	crouch_guard_visual.visible = is_crouch_guarding
-	var target_y_scale := 0.7 if is_crouching or is_crouch_guarding else 1.0
+	if uses_official_character_art:
+		guard_visual.visible = false
+		crouch_visual.visible = false
+		crouch_guard_visual.visible = false
+	else:
+		guard_visual.visible = is_guarding and not is_crouch_guarding
+		crouch_visual.visible = is_crouching
+		crouch_guard_visual.visible = is_crouch_guarding
+	var target_y_scale := 1.0 if uses_official_character_art else (0.7 if is_crouching or is_crouch_guarding else 1.0)
 	visual_root.scale.y = target_y_scale
+	if shadow_sprite != null and shadow_sprite.visible:
+		var airborne_scale := 0.72 if not is_on_floor() else 1.0
+		shadow_sprite.scale = Vector2(base_shadow_scale.x * airborne_scale, base_shadow_scale.y * airborne_scale)
+		shadow_sprite.modulate.a = 0.28 if not is_on_floor() else 0.42
 	queue_redraw()
 
 

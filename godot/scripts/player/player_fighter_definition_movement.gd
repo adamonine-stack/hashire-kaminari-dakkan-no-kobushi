@@ -91,6 +91,8 @@ var ai_current_target_distance := 60.0
 var ai_selected_attack_type := ""
 var ai_special_request_cooldown_timer := 0.0
 var ai_has_pending_action := false
+var ai_state_watchdog_timer := 0.0
+var ai_state_watchdog_limit := 4.0
 var show_ai_debug := false
 var boss_attack_data_by_id: Dictionary = {}
 var boss_attack_state := BossAttackState.NONE
@@ -110,6 +112,8 @@ var ultimate_interrupt_resistant := false
 var ultimate_resistance_timer := 0.0
 var boss_warning_node: Node2D
 var boss_preview_node: Node2D
+var boss_cinematic_overlay: ColorRect
+var boss_aura_node: Node2D
 
 @onready var special_area := get_node_or_null("SpecialHitBox") as Area2D
 @onready var special_shape := get_node_or_null("SpecialHitBox/CollisionShape2D") as CollisionShape2D
@@ -127,6 +131,8 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if hit_stop_timer > 0.0:
 		return
+	if _should_start_player_special():
+		perform_special_attack()
 	update_special_cooldowns(delta)
 	check_ultimate_condition()
 	update_boss_special_attack(delta)
@@ -154,9 +160,13 @@ func apply_character_data(data: Resource) -> void:
 	dev026_third_hit_damage_scale = third_hit_damage_scale
 	current_hp = clampi(current_hp, 0, max_hp)
 	hp_changed.emit(current_hp, max_hp)
+	apply_character_art(fighter_definition)
 	apply_ai_profile(fighter_definition.ai_profile)
 	apply_boss_special_attack_data(fighter_definition.special_attack_sequence)
-	apply_temporary_color(fighter_definition.temporary_color)
+	if fighter_definition.battle_texture == null:
+		apply_temporary_color(fighter_definition.temporary_color)
+	else:
+		apply_temporary_color(Color.WHITE)
 	update_character_status_ui()
 
 
@@ -296,6 +306,7 @@ func reset_ai_state() -> void:
 	ai_selected_attack_type = ""
 	ai_special_request_cooldown_timer = 0.0
 	ai_has_pending_action = false
+	ai_state_watchdog_timer = 0.0
 	_clear_guard_state()
 	reset_special_attack_state()
 	_set_ai_state(EnemyAIState.DISABLED)
@@ -475,6 +486,8 @@ func update_ai(delta: float) -> void:
 	ai_reaction_timer = maxf(ai_reaction_timer - delta, 0.0)
 	if ai_reaction_timer > 0.0:
 		return
+	if _update_ai_watchdog(delta):
+		return
 
 	match ai_state:
 		EnemyAIState.IDLE:
@@ -493,6 +506,32 @@ func update_ai(delta: float) -> void:
 			_update_special_request()
 		_:
 			enter_idle()
+
+
+func _update_ai_watchdog(delta: float) -> bool:
+	match ai_state:
+		EnemyAIState.DISABLED, EnemyAIState.HITSTUN, EnemyAIState.KNOCKBACK, EnemyAIState.DOWN, EnemyAIState.KO:
+			ai_state_watchdog_timer = 0.0
+			return false
+
+	ai_state_watchdog_timer += delta
+	var state_limit := ai_state_watchdog_limit
+	if ai_state == EnemyAIState.ATTACK:
+		state_limit = maxf(ai_state_watchdog_limit, 4.5)
+	elif ai_state == EnemyAIState.FEINT:
+		state_limit = maxf(ai_state_watchdog_limit, 3.0)
+
+	if ai_state_watchdog_timer < state_limit:
+		return false
+
+	if show_ai_debug:
+		print("[DEV044][%s] AI watchdog recovered from %s" % [_debug_enemy_id(), EnemyAIState.keys()[ai_state]])
+	if current_attack_type != "":
+		_cancel_current_action()
+	cancel_current_ai_action()
+	velocity.x = 0.0
+	enter_idle()
+	return true
 
 
 func can_choose_guard() -> bool:
@@ -789,6 +828,7 @@ func cancel_current_ai_action(clear_guard := true) -> void:
 	ai_feint_phase = &""
 	ai_has_pending_action = false
 	ai_selected_attack_type = ""
+	ai_state_watchdog_timer = 0.0
 	if clear_guard:
 		_clear_guard_state()
 		ai_guard_timer = 0.0
@@ -880,6 +920,7 @@ func _set_ai_state(next_state: int) -> void:
 		return
 	var previous := ai_state
 	ai_state = next_state
+	ai_state_watchdog_timer = 0.0
 	ai_state_changed.emit(EnemyAIState.keys()[previous], EnemyAIState.keys()[next_state])
 	if show_ai_debug:
 		print("[DEV037][%s] %s -> %s" % [_debug_enemy_id(), EnemyAIState.keys()[previous], EnemyAIState.keys()[next_state]])
@@ -961,7 +1002,7 @@ func apply_boss_special_attack_data(sequence: Array) -> void:
 
 
 func perform_special_attack() -> bool:
-	print("[DEV038][Enemy8] Special attack requested")
+	print("[DEV042][%s] Special attack requested" % _debug_enemy_id())
 	if not can_start_special_attack():
 		return false
 	if ultimate_pending and can_start_ultimate():
@@ -975,10 +1016,49 @@ func perform_special_attack() -> bool:
 
 
 func can_start_special_attack() -> bool:
-	return _is_enemy8() and can_ai_act() and boss_attack_state == BossAttackState.NONE and boss_special_common_cooldown <= 0.0
+	if boss_attack_state != BossAttackState.NONE or boss_special_common_cooldown > 0.0 or boss_attack_data_by_id.is_empty():
+		return false
+	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or _is_throw_busy():
+		return false
+	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
+		return false
+	if is_guarding or is_crouching or is_crouch_guarding or not is_on_floor():
+		return false
+	if name == "Enemy":
+		return _is_enemy8() and can_ai_act()
+	return input_enabled
+
+
+func has_special_attack() -> bool:
+	return not boss_attack_data_by_id.is_empty()
+
+
+func get_special_cooldown_remaining() -> float:
+	var remaining := boss_special_common_cooldown
+	for cooldown in boss_special_cooldowns.values():
+		remaining = maxf(remaining, float(cooldown))
+	return remaining
+
+
+func get_special_display_name() -> String:
+	if fighter_definition != null:
+		var custom_name = fighter_definition.get("special_move_name")
+		if custom_name != null and not String(custom_name).is_empty():
+			return String(custom_name)
+	for attack_id in boss_attack_data_by_id.keys():
+		var data = boss_attack_data_by_id[attack_id]
+		if data != null and not String(data.display_name).is_empty():
+			return String(data.display_name)
+	return "SPECIAL"
 
 
 func choose_special_attack() -> String:
+	if not _is_enemy8():
+		for attack_id in boss_attack_data_by_id.keys():
+			var candidate := String(attack_id)
+			if not is_special_attack_on_cooldown(candidate):
+				return candidate
+		return ""
 	var distance := evaluate_distance()
 	if distance <= 95.0 and not is_special_attack_on_cooldown("enemy8_spin_kick"):
 		return "enemy8_spin_kick"
@@ -991,12 +1071,14 @@ func start_special_attack(attack_id: String) -> void:
 	var attack_data = boss_attack_data_by_id.get(attack_id, null)
 	if attack_data == null:
 		return
-	if attack_id == "enemy8_charge_attack":
+	if _is_enemy8() and attack_id == "enemy8_charge_attack":
 		start_charge_attack()
-	elif attack_id == "enemy8_spin_kick":
+	elif _is_enemy8() and attack_id == "enemy8_spin_kick":
 		start_spin_kick()
-	else:
+	elif _is_enemy8():
 		return
+	else:
+		print("[DEV042][%s] Selected: %s" % [_debug_enemy_id(), attack_id])
 	boss_current_attack_data = attack_data
 	boss_current_attack_id = attack_id
 	enter_special_startup()
@@ -1029,9 +1111,11 @@ func enter_special_startup() -> void:
 	boss_attack_timer = float(boss_current_attack_data.startup_time)
 	show_attack_warning()
 	show_attack_preview()
+	_show_boss_cinematic_flash()
 	_play_boss_attack_animation(StringName(boss_current_attack_data.animation_name), &"Kick")
+	_play_audio_manager_se("special_start")
 	special_attack_started.emit(boss_current_attack_id)
-	print("[DEV038][Enemy8] %s startup" % _boss_log_attack_name())
+	print("[DEV042][%s] %s startup" % [_debug_enemy_id(), _boss_log_attack_name()])
 
 
 func enter_special_active() -> void:
@@ -1044,8 +1128,9 @@ func enter_special_active() -> void:
 	apply_special_hitbox_data(boss_current_attack_data)
 	enable_special_hitbox()
 	_setup_boss_special_movement()
+	_play_audio_manager_se("special_attack")
 	special_attack_became_active.emit(boss_current_attack_id)
-	print("[DEV038][Enemy8] %s active" % _boss_log_attack_name())
+	print("[DEV042][%s] %s active" % [_debug_enemy_id(), _boss_log_attack_name()])
 
 
 func enter_special_recovery() -> void:
@@ -1053,9 +1138,10 @@ func enter_special_recovery() -> void:
 	stop_special_movement()
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	boss_attack_state = BossAttackState.SPECIAL_RECOVERY
 	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 0.4
-	print("[DEV038][Enemy8] %s recovery" % _boss_log_attack_name())
+	print("[DEV042][%s] %s recovery" % [_debug_enemy_id(), _boss_log_attack_name()])
 
 
 func enter_ultimate_startup() -> void:
@@ -1068,7 +1154,10 @@ func enter_ultimate_startup() -> void:
 	ultimate_interrupt_resistant = false
 	show_attack_warning()
 	show_attack_preview()
+	_show_boss_cinematic_flash()
 	_play_boss_attack_animation(&"ultimate_startup", &"Kick")
+	_play_hit_se("special")
+	_play_audio_manager_se("ultimate_warning")
 	ultimate_requested.emit()
 	attack_warning_started.emit(boss_current_attack_id)
 	print("[DEV038][Enemy8] Ultimate startup")
@@ -1081,10 +1170,12 @@ func enter_ultimate_active() -> void:
 	boss_attack_timer = float(boss_current_attack_data.active_time)
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	enable_ultimate_interrupt_resistance()
 	apply_special_hitbox_data(boss_current_attack_data)
 	enable_special_hitbox()
 	_play_boss_attack_animation(&"ultimate_attack", &"Kick")
+	_play_audio_manager_se("ultimate_attack")
 	ultimate_used = true
 	ultimate_pending = false
 	ultimate_became_active.emit()
@@ -1096,6 +1187,7 @@ func enter_ultimate_recovery() -> void:
 	stop_special_movement()
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	disable_ultimate_interrupt_resistance()
 	boss_attack_state = BossAttackState.ULTIMATE_RECOVERY
 	boss_attack_timer = float(boss_current_attack_data.recovery_time) if boss_current_attack_data != null else 1.1
@@ -1171,6 +1263,49 @@ func hide_attack_preview() -> void:
 	if boss_preview_node != null and is_instance_valid(boss_preview_node):
 		boss_preview_node.queue_free()
 	boss_preview_node = null
+
+
+func _show_boss_cinematic_flash() -> void:
+	_hide_boss_cinematic_flash()
+	if get_tree().current_scene == null:
+		return
+	var canvas := CanvasLayer.new()
+	canvas.name = "BossCinematicLayer"
+	canvas.layer = 20
+	get_tree().current_scene.add_child(canvas)
+
+	boss_cinematic_overlay = ColorRect.new()
+	boss_cinematic_overlay.name = "BossCinematicOverlay"
+	boss_cinematic_overlay.color = Color(0.04, 0.02, 0.08, 0.34)
+	boss_cinematic_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_cinematic_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(boss_cinematic_overlay)
+
+	boss_aura_node = Node2D.new()
+	boss_aura_node.name = "BossUltimateAura"
+	boss_aura_node.global_position = global_position + Vector2(0.0, -72.0)
+	var aura := Polygon2D.new()
+	aura.color = Color(0.72, 0.32, 1.0, 0.42)
+	aura.polygon = _circle_points(24, 58.0)
+	boss_aura_node.add_child(aura)
+	get_tree().current_scene.add_child(boss_aura_node)
+
+	var tween := create_tween()
+	tween.tween_interval(0.22)
+	tween.tween_property(boss_cinematic_overlay, "color", Color(0.04, 0.02, 0.08, 0.0), 0.08)
+	tween.parallel().tween_property(aura, "modulate:a", 0.0, 0.08)
+	tween.tween_callback(_hide_boss_cinematic_flash)
+
+
+func _hide_boss_cinematic_flash() -> void:
+	if boss_cinematic_overlay != null and is_instance_valid(boss_cinematic_overlay):
+		var canvas := boss_cinematic_overlay.get_parent()
+		if canvas != null:
+			canvas.queue_free()
+	boss_cinematic_overlay = null
+	if boss_aura_node != null and is_instance_valid(boss_aura_node):
+		boss_aura_node.queue_free()
+	boss_aura_node = null
 
 
 func apply_charge_movement(delta: float) -> void:
@@ -1277,6 +1412,7 @@ func reset_special_attack_state(reset_ultimate_state := true) -> void:
 	disable_special_hitbox()
 	hide_attack_warning()
 	hide_attack_preview()
+	_hide_boss_cinematic_flash()
 	stop_special_movement()
 	clear_special_hit_targets()
 	boss_attack_state = BossAttackState.NONE
@@ -1332,7 +1468,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		interrupt_special_attack()
 		return super.receive_attack(attack_data, attack_direction, hit_position, attacker)
 	if was_boss_special and ultimate_interrupt_resistant:
-		apply_damage(int(attack_data["damage"]))
+		var damage := int(attack_data["damage"])
+		apply_damage(damage)
+		damage_feedback_requested.emit(self, damage, false, hit_position)
 		_start_hit_stop(attack_data["hit_stop_frames"])
 		_spawn_hit_effect(hit_position, attack_data["effect_size"])
 		if attacker != null and attacker.has_method("start_hit_stop"):
@@ -1378,11 +1516,11 @@ func _get_boss_attack_dictionary() -> Dictionary:
 		"guard_knockback": boss_current_attack_data.guard_knockback,
 		"knockback_x": final_knockback.x,
 		"knockback_y": absf(final_knockback.y),
-		"hit_stop_frames": maxi(1, int(round(float(boss_current_attack_data.hitstop_time) * 60.0))),
+		"hit_stop_frames": maxi(9 if _is_ultimate_attack_id(boss_current_attack_id) else 8, int(round(float(boss_current_attack_data.hitstop_time) * 60.0))),
 		"hitstun_time": float(boss_current_attack_data.hitstun_time),
-		"effect_size": 2.0 if _is_ultimate_attack_id(boss_current_attack_id) else 1.35,
-		"screen_shake": 6.0 if _is_ultimate_attack_id(boss_current_attack_id) else 3.5,
-		"se_type": "strong",
+		"effect_size": 2.6 if _is_ultimate_attack_id(boss_current_attack_id) else 1.6,
+		"screen_shake": 7.5 if _is_ultimate_attack_id(boss_current_attack_id) else 4.8,
+		"se_type": "special" if _is_ultimate_attack_id(boss_current_attack_id) else "strong",
 		"attack_id": boss_current_attack_id,
 	}
 
@@ -1402,7 +1540,7 @@ func _prepare_boss_attack() -> void:
 	velocity = Vector2.ZERO
 	_face_opponent()
 	boss_attack_direction = facing_direction
-	visual_root.scale.x = boss_attack_direction
+	_set_visual_facing()
 	clear_special_hit_targets()
 
 
@@ -1444,6 +1582,7 @@ func _should_interrupt_boss_special() -> bool:
 
 
 func _play_boss_attack_animation(animation_name: StringName, fallback_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -1492,7 +1631,18 @@ func _boss_log_attack_name() -> String:
 
 
 func _is_enemy8() -> bool:
-	return fighter_definition != null and String(fighter_definition.fighter_id) == "enemy_08_boss"
+	if fighter_definition == null:
+		return false
+	var id := String(fighter_definition.fighter_id)
+	return id == "enemy_08_boss" or id == "enemy_08_leon_crow"
+
+
+func _should_start_player_special() -> bool:
+	if name == "Enemy" or not input_enabled:
+		return false
+	if not InputMap.has_action("special") or not Input.is_action_just_pressed("special"):
+		return false
+	return can_start_special_attack()
 
 
 func _debug_enemy_id() -> String:
@@ -1501,8 +1651,24 @@ func _debug_enemy_id() -> String:
 	return name
 
 
+func _play_audio_manager_se(se_id: String) -> void:
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("play_se"):
+		audio.call("play_se", se_id)
+
+
 func _update_visual_state() -> void:
 	super._update_visual_state()
+	if is_boss_special_busy():
+		match boss_attack_state:
+			BossAttackState.ULTIMATE_STARTUP:
+				_play_visual_animation(&"ultimate_startup")
+			BossAttackState.ULTIMATE_ACTIVE:
+				_play_visual_animation(&"ultimate_attack")
+			BossAttackState.ULTIMATE_RECOVERY:
+				_play_visual_animation(&"ultimate_recovery")
+			_:
+				_play_visual_animation(&"special")
 	if name != "Enemy" or ai_profile == null or not debug_state_label_enabled or state_label == null:
 		return
 	state_label.text += "\nAI: %s\nDIST: %.0f\nCD: %.2f" % [
