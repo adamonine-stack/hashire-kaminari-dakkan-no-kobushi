@@ -74,11 +74,12 @@ color = Color(0.172549, 0.968627, 0.709804, 0.55)
 polygon = PackedVector2Array(-18, -36, 22, -30, 34, 0, 16, 34, -24, 26, -36, -2)
 
 [node name="IdleStateLabel" type="Label" parent="VisualRoot/IdlePlaceholder"]
+visible = false
 offset_left = -28.0
 offset_top = -174.0
 offset_right = 28.0
 offset_bottom = -151.0
-text = "Idle"
+text = ""
 horizontal_alignment = 1
 
 [node name="GroundContactShape" type="CollisionShape2D" parent="."]

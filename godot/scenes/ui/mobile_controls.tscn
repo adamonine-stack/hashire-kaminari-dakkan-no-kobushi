@@ -26,19 +26,19 @@ mouse_filter = 2
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = "<"
+text = "←"
 
 [node name="MoveRightButton" type="Button" parent="LeftControls"]
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = ">"
+text = "→"
 
 [node name="CrouchButton" type="Button" parent="LeftControls"]
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = "v"
+text = "↓"
 
 [node name="RightControls" type="Control" parent="."]
 layout_mode = 1
@@ -53,31 +53,31 @@ mouse_filter = 2
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = "JUMP"
+text = "↑"
 
 [node name="PunchButton" type="Button" parent="RightControls"]
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = "P"
+text = "●"
 
 [node name="KickButton" type="Button" parent="RightControls"]
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = "K"
+text = "◆"
 
 [node name="GuardButton" type="Button" parent="RightControls"]
 layout_mode = 0
 offset_right = 88.0
 offset_bottom = 88.0
-text = "G"
+text = "□"
 
 [node name="SpecialButton" type="Button" parent="RightControls"]
 layout_mode = 0
 offset_right = 96.0
 offset_bottom = 96.0
-text = "SP"
+text = "✦"
 
 [node name="SpecialCooldownLabel" type="Label" parent="RightControls/SpecialButton"]
 visible = false
@@ -88,7 +88,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 24
-text = "0.0"
+text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 

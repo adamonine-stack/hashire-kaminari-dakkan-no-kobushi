@@ -9,8 +9,8 @@ enum MessagePriority {
 
 @export var show_normal_battle_hud := true
 @export var show_debug_overlay := false
-@export var show_damage_numbers := true
-@export var show_battle_messages := true
+@export var show_damage_numbers := false
+@export var show_battle_messages := false
 @export var show_battle_hp_bars := true
 
 var battle_manager: Node
@@ -72,6 +72,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	_build_hud()
+	_apply_minimal_battle_text_visibility()
 	reset_battle_hud()
 
 
@@ -161,20 +162,30 @@ func reset_battle_hud() -> void:
 	hide_confirm_dialog()
 	message_label.visible = false
 	player_state_label.visible = false
-	player_special_label.text = "SPECIAL --"
+	player_special_label.visible = false
+	player_special_label.text = ""
 	player_low_hp_label.visible = false
-	player_name_label.text = "PLAYER"
-	player_hp_label.text = "0 / 0"
-	enemy_name_label.text = "ENEMY"
+	player_name_label.visible = false
+	player_name_label.text = ""
+	player_hp_label.visible = false
+	player_hp_label.text = ""
+	enemy_name_label.visible = false
+	enemy_name_label.text = ""
+	enemy_type_label.visible = false
 	enemy_type_label.text = ""
-	enemy_progress_label.text = "ENEMY 1 / 8"
-	enemy_hp_label.text = "0 / 0"
+	enemy_progress_label.visible = false
+	enemy_progress_label.text = ""
+	enemy_hp_label.visible = false
+	enemy_hp_label.text = ""
 	enemy_low_hp_label.visible = false
 	update_player_hp(0, 1, false)
 	update_enemy_hp(0, 1, false)
 	for label in team_labels:
-		label.text = "-"
+		label.text = ""
+		label.visible = false
+	team_panel.visible = false
 	debug_overlay_label.visible = show_debug_overlay
+	_apply_minimal_battle_text_visibility()
 
 
 func show_normal_enemy_hud() -> void:
@@ -184,11 +195,8 @@ func show_normal_enemy_hud() -> void:
 
 func show_boss_hud() -> void:
 	enemy_panel.custom_minimum_size = Vector2(430.0, 136.0)
-	if not enemy_name_label.text.begins_with("BOSS"):
-		enemy_name_label.text = "BOSS - %s" % enemy_name_label.text
-	boss_warning_label.visible = true
-	boss_warning_label.text = "FINAL ENEMY"
-	boss_warning_label.modulate.a = 0.85
+	boss_warning_label.visible = false
+	boss_warning_label.text = ""
 
 
 func update_player_status(player_node: Node) -> void:
@@ -196,8 +204,8 @@ func update_player_status(player_node: Node) -> void:
 	_connect_fighter_signals(current_player)
 	if current_player == null:
 		return
-	var display_name := _fighter_display_name_from_node(current_player, "PLAYER")
-	player_name_label.text = display_name
+	player_name_label.text = ""
+	player_name_label.visible = false
 	if player_icon_rect != null:
 		player_icon_rect.texture = _fighter_icon_from_node(current_player, true)
 	update_player_hp(int(current_player.get("current_hp")), int(current_player.get("max_hp")), false)
@@ -214,7 +222,7 @@ func update_team_status(team_data: Array, active_index: int = -1) -> void:
 		if index >= team_data.size():
 			team_labels[index].visible = false
 			continue
-		team_labels[index].visible = true
+		team_labels[index].visible = false
 		var data: Dictionary = team_data[index]
 		var status := "READY"
 		if bool(data.get("is_defeated", false)) or int(data.get("current_health", 0)) <= 0:
@@ -222,7 +230,7 @@ func update_team_status(team_data: Array, active_index: int = -1) -> void:
 		elif index == active_index:
 			status = "ACTIVE"
 		var hp_text := "%d/%d" % [int(data.get("current_health", 0)), int(data.get("max_health", 0))]
-		team_labels[index].text = "%s  %s  %s" % [String(data.get("display_name", "P%d" % (index + 1))), status, hp_text]
+		team_labels[index].text = ""
 		team_labels[index].modulate = Color(1.0, 0.95, 0.55, 1.0) if status == "ACTIVE" else Color.WHITE
 		if status == "KO":
 			team_labels[index].modulate = Color(0.8, 0.35, 0.35, 1.0)
@@ -239,8 +247,10 @@ func update_enemy_status(enemy_node: Node) -> void:
 func update_enemy_information(enemy_data: Dictionary, enemy_index: int) -> void:
 	var enemy_name := String(enemy_data.get("display_name", "ENEMY %d" % (enemy_index + 1)))
 	var enemy_type := _enemy_type_label(enemy_data)
-	enemy_name_label.text = enemy_name
-	enemy_type_label.text = enemy_type
+	enemy_name_label.text = ""
+	enemy_name_label.visible = false
+	enemy_type_label.text = ""
+	enemy_type_label.visible = false
 	if enemy_icon_rect != null:
 		enemy_icon_rect.texture = _definition_texture(enemy_data.get("definition", null), "icon", "selection_icon")
 	update_enemy_progress(enemy_index + 1, _enemy_total_count())
@@ -254,7 +264,8 @@ func update_enemy_information(enemy_data: Dictionary, enemy_index: int) -> void:
 func update_enemy_progress(current_index: int, total_count: int) -> void:
 	if total_count <= 0:
 		total_count = 8
-	enemy_progress_label.text = "FINAL ENEMY" if current_index >= total_count else "ENEMY %d / %d" % [current_index, total_count]
+	enemy_progress_label.text = ""
+	enemy_progress_label.visible = false
 
 
 func update_player_hp(current_hp: float, max_hp: float, animate := true) -> void:
@@ -262,7 +273,8 @@ func update_player_hp(current_hp: float, max_hp: float, animate := true) -> void
 	var safe_current := clampf(current_hp, 0.0, safe_max)
 	player_hp_bar.max_value = safe_max
 	player_delay_hp_bar.max_value = safe_max
-	player_hp_label.text = "%d / %d" % [roundi(safe_current), roundi(safe_max)]
+	player_hp_label.text = ""
+	player_hp_label.visible = false
 	player_hp_bar.visible = show_battle_hp_bars
 	player_delay_hp_bar.visible = show_battle_hp_bars
 	_update_low_hp_label(player_low_hp_label, safe_current, safe_max)
@@ -276,7 +288,8 @@ func update_enemy_hp(current_hp: float, max_hp: float, animate := true) -> void:
 	var safe_current := clampf(current_hp, 0.0, safe_max)
 	enemy_hp_bar.max_value = safe_max
 	enemy_delay_hp_bar.max_value = safe_max
-	enemy_hp_label.text = "%d / %d" % [roundi(safe_current), roundi(safe_max)]
+	enemy_hp_label.text = ""
+	enemy_hp_label.visible = false
 	enemy_hp_bar.visible = show_battle_hp_bars
 	enemy_delay_hp_bar.visible = show_battle_hp_bars
 	_update_low_hp_label(enemy_low_hp_label, safe_current, safe_max)
@@ -286,8 +299,8 @@ func update_enemy_hp(current_hp: float, max_hp: float, animate := true) -> void:
 
 
 func show_invincibility_state(duration: float = 0.0) -> void:
-	player_state_label.text = "INVINCIBLE"
-	player_state_label.visible = true
+	player_state_label.text = ""
+	player_state_label.visible = false
 	if duration > 0.0:
 		var tween := create_tween()
 		_track_tween(tween)
@@ -301,8 +314,8 @@ func hide_invincibility_state() -> void:
 
 
 func show_guard_state(_character: Node = null) -> void:
-	player_state_label.text = "GUARD"
-	player_state_label.visible = true
+	player_state_label.text = ""
+	player_state_label.visible = false
 
 
 func hide_guard_state(_character: Node = null) -> void:
@@ -329,7 +342,7 @@ func show_damage_number(target: Node, damage: int, guarded := false, hit_positio
 
 
 func show_heal_number(target: Node, heal_amount: int) -> void:
-	if heal_amount <= 0:
+	if heal_amount <= 0 or not show_damage_numbers:
 		return
 	var label := Label.new()
 	label.text = "HP +%d" % heal_amount
@@ -349,16 +362,14 @@ func show_heal_number(target: Node, heal_amount: int) -> void:
 
 func show_enemy_intro(enemy_data: Dictionary, enemy_index: int) -> void:
 	update_enemy_information(enemy_data, enemy_index)
-	show_battle_message("FINAL BATTLE" if enemy_index >= 7 else "ENEMY %d" % (enemy_index + 1), MessagePriority.NORMAL, 0.9)
 
 
 func show_enemy_defeated(_enemy: Node = null) -> void:
 	update_enemy_hp(0, maxf(enemy_hp_bar.max_value, 1.0), true)
-	show_battle_message("ENEMY DEFEATED", MessagePriority.HIGH, 1.0)
 
 
 func show_fight_message() -> void:
-	show_battle_message("FIGHT", MessagePriority.HIGH, 0.65)
+	pass
 
 
 func enable_boss_hud(enemy_node: Node) -> void:
@@ -371,16 +382,15 @@ func disable_boss_hud() -> void:
 
 
 func show_special_attack_warning(attack_id: String) -> void:
-	boss_warning_label.visible = true
+	boss_warning_label.visible = false
 	boss_warning_label.modulate.a = 1.0
-	boss_warning_label.text = _special_warning_text(attack_id)
+	boss_warning_label.text = ""
 
 
 func show_ultimate_warning() -> void:
-	boss_warning_label.visible = true
+	boss_warning_label.visible = false
 	boss_warning_label.modulate.a = 1.0
-	boss_warning_label.text = "DANGER\nULTIMATE ATTACK"
-	show_battle_message("DANGER", MessagePriority.CRITICAL, 1.0)
+	boss_warning_label.text = ""
 
 
 func hide_boss_warning(_attack_id: String = "") -> void:
@@ -397,7 +407,6 @@ func show_game_over() -> void:
 	result_retry_button.text = "RETRY"
 	result_retry_button.grab_focus()
 	_play_ui_se("defeat")
-	show_battle_message("GAME OVER", MessagePriority.CRITICAL, 1.2)
 
 
 func show_game_clear() -> void:
@@ -409,7 +418,6 @@ func show_game_clear() -> void:
 	result_retry_button.text = "PLAY AGAIN"
 	result_retry_button.grab_focus()
 	_play_ui_se("clear")
-	show_battle_message("GAME CLEAR", MessagePriority.CRITICAL, 1.2)
 
 
 func hide_result_layer() -> void:
@@ -485,21 +493,15 @@ func _request_return_to_title() -> void:
 
 func _show_pause_how_to_play() -> void:
 	_play_ui_se("confirm")
-	show_battle_message("MOVE / JUMP / PUNCH / KICK / GUARD / SPECIAL", MessagePriority.CRITICAL, 1.8)
 
 
 func _show_pause_options_hint() -> void:
 	_play_ui_se("confirm")
 	var settings := get_node_or_null("/root/SettingsManager")
 	if settings != null:
-		show_battle_message("BGM %d%%  SE %d%%  SHAKE %s  HITSTOP %s" % [
-			int(round(float(settings.get("bgm_volume")) * 100.0)),
-			int(round(float(settings.get("se_volume")) * 100.0)),
-			String(settings.get("screen_shake_mode")),
-			String(settings.get("hitstop_mode")),
-		], MessagePriority.CRITICAL, 1.8)
+		return
 	else:
-		show_battle_message("OPTIONS", MessagePriority.CRITICAL, 1.2)
+		return
 
 
 func show_battle_message(message: String, priority: int = MessagePriority.NORMAL, duration: float = 0.8) -> void:
@@ -815,19 +817,7 @@ func _animate_hp_bar(front_bar: ProgressBar, delay_bar: ProgressBar, previous_fr
 func _display_message(data: Dictionary) -> void:
 	if not show_battle_messages:
 		return
-	_play_ui_se("message")
-	is_message_showing = true
-	current_message_priority = int(data.get("priority", MessagePriority.NORMAL))
-	message_label.text = String(data.get("message", ""))
-	message_label.visible = true
-	message_label.modulate.a = 1.0
-	message_label.scale = Vector2(1.1, 1.1)
-	var tween := create_tween()
-	_track_tween(tween)
-	tween.tween_property(message_label, "scale", Vector2.ONE, 0.08)
-	tween.tween_interval(float(data.get("duration", 0.8)))
-	tween.tween_property(message_label, "modulate:a", 0.0, 0.18)
-	tween.tween_callback(_finish_message)
+	message_label.visible = false
 
 
 func _finish_message() -> void:
@@ -840,16 +830,8 @@ func _finish_message() -> void:
 func _update_live_state_labels() -> void:
 	if current_player != null and is_instance_valid(current_player):
 		_update_special_status()
-		var invincible := bool(current_player.get("is_invincible"))
-		var guarding := bool(current_player.get("is_guarding")) or bool(current_player.get("is_crouch_guarding")) or bool(current_player.get("is_guard_hit"))
-		if invincible:
-			player_state_label.text = "INVINCIBLE"
-			player_state_label.visible = true
-		elif guarding:
-			player_state_label.text = "GUARD"
-			player_state_label.visible = true
-		elif player_state_label.text == "INVINCIBLE" or player_state_label.text == "GUARD":
-			player_state_label.visible = false
+		player_state_label.text = ""
+		player_state_label.visible = false
 	if show_debug_overlay and battle_manager != null:
 		debug_overlay_label.visible = true
 		debug_overlay_label.text = _debug_text()
@@ -860,6 +842,9 @@ func _update_live_state_labels() -> void:
 func _update_special_status() -> void:
 	if player_special_label == null or current_player == null:
 		return
+	player_special_label.text = ""
+	player_special_label.visible = false
+	return
 	if not current_player.has_method("has_special_attack") or not bool(current_player.has_special_attack()):
 		player_special_label.text = "SPECIAL --"
 		player_special_label.modulate = Color(0.7, 0.7, 0.7, 1.0)
@@ -882,7 +867,7 @@ func _update_special_status() -> void:
 func _update_low_hp_label(label: Label, current_hp: float, max_hp: float) -> void:
 	if label == null:
 		return
-	label.visible = max_hp > 0.0 and current_hp > 0.0 and current_hp / max_hp <= 0.25
+	label.visible = false
 
 
 func _debug_text() -> String:
@@ -1122,6 +1107,39 @@ func _hide_legacy_battle_labels() -> void:
 		var node := get_parent().get_node_or_null(node_name)
 		if node is CanvasItem:
 			node.visible = false
+
+
+func _apply_minimal_battle_text_visibility() -> void:
+	var hidden_labels := [
+		player_name_label,
+		player_hp_label,
+		player_state_label,
+		player_special_label,
+		player_low_hp_label,
+		enemy_name_label,
+		enemy_type_label,
+		enemy_progress_label,
+		enemy_hp_label,
+		enemy_low_hp_label,
+		message_label,
+		boss_warning_label,
+		debug_overlay_label,
+	]
+	for label in hidden_labels:
+		if label != null:
+			label.text = ""
+			label.visible = false
+	if team_panel != null:
+		team_panel.visible = false
+	if show_battle_hp_bars:
+		if player_hp_bar != null:
+			player_hp_bar.visible = true
+		if player_delay_hp_bar != null:
+			player_delay_hp_bar.visible = true
+		if enemy_hp_bar != null:
+			enemy_hp_bar.visible = true
+		if enemy_delay_hp_bar != null:
+			enemy_delay_hp_bar.visible = true
 
 
 func _track_tween(tween: Tween) -> void:

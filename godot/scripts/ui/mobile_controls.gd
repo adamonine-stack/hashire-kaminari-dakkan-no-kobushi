@@ -269,9 +269,8 @@ func _update_special_button_state() -> void:
 	var cooling_down := _special_cooldown_remaining > 0.0
 	special_button.disabled = cooling_down or _combat_buttons_paused
 	special_button.modulate.a = disabled_opacity if special_button.disabled else button_opacity
-	special_cooldown_label.visible = cooling_down
-	if cooling_down:
-		special_cooldown_label.text = "%0.1f" % _special_cooldown_remaining
+	special_cooldown_label.visible = false
+	special_cooldown_label.text = ""
 
 
 func _set_all_button_pressed_visuals(is_pressed: bool) -> void:

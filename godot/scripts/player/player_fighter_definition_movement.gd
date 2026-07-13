@@ -1218,13 +1218,15 @@ func show_attack_warning() -> void:
 	hide_attack_warning()
 	boss_warning_node = Node2D.new()
 	boss_warning_node.name = "BossAttackWarning"
-	var warning_label := Label.new()
-	warning_label.text = "DANGER" if _is_ultimate_state_or_data() else "!"
-	warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	warning_label.add_theme_font_size_override("font_size", 24 if _is_ultimate_state_or_data() else 32)
-	warning_label.modulate = Color(1.0, 0.25, 0.15, 0.88) if _is_ultimate_state_or_data() else Color(1.0, 0.9, 0.15, 0.9)
-	warning_label.position = Vector2(-54.0, -180.0)
-	boss_warning_node.add_child(warning_label)
+	var warning_mark := Polygon2D.new()
+	warning_mark.polygon = PackedVector2Array([
+		Vector2(0.0, -24.0),
+		Vector2(22.0, 18.0),
+		Vector2(-22.0, 18.0),
+	])
+	warning_mark.color = Color(1.0, 0.25, 0.15, 0.42) if _is_ultimate_state_or_data() else Color(1.0, 0.9, 0.15, 0.38)
+	warning_mark.position = Vector2(0.0, -176.0)
+	boss_warning_node.add_child(warning_mark)
 	add_child(boss_warning_node)
 	attack_warning_started.emit(boss_current_attack_id)
 

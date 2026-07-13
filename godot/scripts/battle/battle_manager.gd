@@ -85,7 +85,7 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var fight_message_duration := 0.6
 @export var enemy_accepts_input := false
 @export var debug_auto_select_player := false
-@export var debug_flow_label_enabled := true
+@export var debug_flow_label_enabled := false
 @export var player_change_invincible_time := 1.5
 @export var player_defeat_display_time := 1.0
 @export var next_player_display_time := 1.0
@@ -1335,8 +1335,9 @@ func apply_enemy_defeat_recovery(character_id: String) -> int:
 func _show_heal_effect(heal_amount: int) -> void:
 	if _heal_effect_label == null:
 		return
-	_heal_effect_label.text = "+%d HP" % heal_amount
-	_heal_effect_label.visible = true
+	_heal_effect_label.text = ""
+	_heal_effect_label.visible = false
+	return
 	_heal_effect_label.modulate.a = 1.0
 	var tween := create_tween()
 	tween.tween_interval(1.0)
@@ -1836,6 +1837,8 @@ func _notify_hud_game_clear() -> void:
 func _create_flow_ui() -> void:
 	_progress_label = Label.new()
 	_progress_label.name = "ProgressLabel"
+	_progress_label.visible = false
+	_progress_label.text = ""
 	_progress_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	_progress_label.offset_left = 24.0
 	_progress_label.offset_top = 86.0
@@ -1958,6 +1961,8 @@ func _show_player_selection() -> void:
 func _create_player_order_ui() -> void:
 	_player_order_hud_label = Label.new()
 	_player_order_hud_label.name = "PlayerOrderHudLabel"
+	_player_order_hud_label.visible = false
+	_player_order_hud_label.text = ""
 	_player_order_hud_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	_player_order_hud_label.offset_left = 24.0
 	_player_order_hud_label.offset_top = 114.0
@@ -2111,6 +2116,9 @@ func update_confirm_button_state() -> void:
 func update_player_order_hud() -> void:
 	if _player_order_hud_label == null:
 		return
+	_player_order_hud_label.visible = false
+	_player_order_hud_label.text = ""
+	return
 	if selected_player_order.is_empty():
 		_player_order_hud_label.text = ""
 		return
@@ -2148,7 +2156,7 @@ func _update_all_ui() -> void:
 
 
 func _update_timer_ui() -> void:
-	timer_label.text = str(roundTime)
+	timer_label.visible = false
 
 
 func _on_player_hp_changed(current_hp: int, max_hp: int) -> void:
@@ -2177,14 +2185,15 @@ func _update_hp_bar(bar: ProgressBar, current_hp: int, max_hp: int) -> void:
 
 
 func _update_win_marks() -> void:
-	player_win_marks.text = "Player %d / 3" % (current_player_index + 1 if current_player_index >= 0 else 1)
-	enemy_win_marks.text = "Enemy %d / 8" % (current_enemy_index + 1)
+	player_win_marks.visible = false
+	enemy_win_marks.visible = false
 
 
 func _update_progress_ui() -> void:
 	if _progress_label == null:
 		return
-	_progress_label.text = "PLAYER %s  VS  %s" % [_active_player_name(), _active_enemy_name()]
+	_progress_label.visible = false
+	_progress_label.text = ""
 	team_progress_updated.emit(_remaining_count(player_team), _remaining_count(enemy_team))
 
 
@@ -2229,8 +2238,8 @@ func _update_debug_flow_label() -> void:
 
 
 func _show_message(message: String) -> void:
-	message_label.text = message
-	message_label.visible = message != ""
+	message_label.text = ""
+	message_label.visible = false
 
 
 func _on_player_hp_depleted() -> void:
@@ -2280,6 +2289,9 @@ func _should_show_enemy_intro() -> bool:
 func _show_enemy_intro(enemy_data: Dictionary) -> void:
 	if _enemy_intro_panel == null or _enemy_intro_label == null:
 		return
+	_enemy_intro_label.text = ""
+	_enemy_intro_panel.visible = false
+	return
 	var definition: Resource = enemy_data.get("definition", null)
 	var intro_title := "ENEMY"
 	var intro_description := ""

@@ -2,6 +2,7 @@ extends Node2D
 
 @export var shake_duration := 0.12
 @export var combo_display_duration := 0.80
+@export var show_combo_labels := false
 
 var shake_timer := 0.0
 var shake_strength := 0.0
@@ -102,6 +103,10 @@ func _create_combo_label(label_name: String, label_position: Vector2) -> Label:
 
 
 func _on_combo_changed(combo_count: int, combo_owner: Node, is_player_combo: bool) -> void:
+	if not show_combo_labels:
+		player_combo_label.visible = false
+		enemy_combo_label.visible = false
+		return
 	var label := player_combo_label if is_player_combo else enemy_combo_label
 	if combo_count < 2:
 		if label.visible:

@@ -66,7 +66,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export_range(0.0, 1.0, 0.05) var ai_third_hit_probability := 0.25
 @export var combo_log_enabled := true
 @export var cancel_window_time := 0.25
-@export var debug_state_label_enabled := true
+@export var debug_state_label_enabled := false
 @export var ai_guard_enabled := true
 @export var ai_guard_chance := 0.25
 @export var ai_guard_check_interval := 0.35
