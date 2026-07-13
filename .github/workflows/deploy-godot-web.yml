@@ -1,0 +1,102 @@
+name: Deploy Godot Web to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "godot/**"
+      - ".github/workflows/deploy-godot-web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.7"
+  GODOT_STATUS: "stable"
+  GODOT_PROJECT_DIR: "godot"
+  WEB_BUILD_DIR: "build/web"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install required packages
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Download Godot editor and export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          GODOT_TAG="${GODOT_VERSION}-${GODOT_STATUS}"
+          GODOT_FILE="Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip"
+          TEMPLATE_FILE="Godot_v${GODOT_VERSION}-${GODOT_STATUS}_export_templates.tpz"
+          BASE_URL="https://github.com/godotengine/godot/releases/download/${GODOT_TAG}"
+
+          curl --fail --location --retry 3 --output godot.zip "${BASE_URL}/${GODOT_FILE}"
+          curl --fail --location --retry 3 --output export_templates.tpz "${BASE_URL}/${TEMPLATE_FILE}"
+
+          mkdir -p "$HOME/.local/bin"
+          unzip -q godot.zip -d "$HOME/.local/bin"
+          GODOT_BINARY="$HOME/.local/bin/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64"
+          chmod +x "$GODOT_BINARY"
+          ln -sf "$GODOT_BINARY" "$HOME/.local/bin/godot"
+
+          TEMPLATE_DIR="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_STATUS}"
+          mkdir -p template_extract "$TEMPLATE_DIR"
+          unzip -q export_templates.tpz -d template_extract
+          cp -a template_extract/templates/. "$TEMPLATE_DIR/"
+
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Verify Godot installation
+        run: godot --version
+
+      - name: Import project resources
+        run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
+
+      - name: Export Web build
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$WEB_BUILD_DIR"
+          godot --headless --path "$GODOT_PROJECT_DIR" --export-release "Web" "../$WEB_BUILD_DIR/index.html"
+          touch "$WEB_BUILD_DIR/.nojekyll"
+
+      - name: Verify Web build
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$WEB_BUILD_DIR/index.html"
+          find "$WEB_BUILD_DIR" -maxdepth 1 -type f -print
+          find "$WEB_BUILD_DIR" -maxdepth 1 -type f -name "*.wasm" | grep -q .
+          find "$WEB_BUILD_DIR" -maxdepth 1 -type f -name "*.pck" | grep -q .
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
