@@ -91,6 +91,8 @@ var ai_current_target_distance := 60.0
 var ai_selected_attack_type := ""
 var ai_special_request_cooldown_timer := 0.0
 var ai_has_pending_action := false
+var ai_state_watchdog_timer := 0.0
+var ai_state_watchdog_limit := 4.0
 var show_ai_debug := false
 var boss_attack_data_by_id: Dictionary = {}
 var boss_attack_state := BossAttackState.NONE
@@ -300,6 +302,7 @@ func reset_ai_state() -> void:
 	ai_selected_attack_type = ""
 	ai_special_request_cooldown_timer = 0.0
 	ai_has_pending_action = false
+	ai_state_watchdog_timer = 0.0
 	_clear_guard_state()
 	reset_special_attack_state()
 	_set_ai_state(EnemyAIState.DISABLED)
@@ -479,6 +482,8 @@ func update_ai(delta: float) -> void:
 	ai_reaction_timer = maxf(ai_reaction_timer - delta, 0.0)
 	if ai_reaction_timer > 0.0:
 		return
+	if _update_ai_watchdog(delta):
+		return
 
 	match ai_state:
 		EnemyAIState.IDLE:
@@ -497,6 +502,32 @@ func update_ai(delta: float) -> void:
 			_update_special_request()
 		_:
 			enter_idle()
+
+
+func _update_ai_watchdog(delta: float) -> bool:
+	match ai_state:
+		EnemyAIState.DISABLED, EnemyAIState.HITSTUN, EnemyAIState.KNOCKBACK, EnemyAIState.DOWN, EnemyAIState.KO:
+			ai_state_watchdog_timer = 0.0
+			return false
+
+	ai_state_watchdog_timer += delta
+	var state_limit := ai_state_watchdog_limit
+	if ai_state == EnemyAIState.ATTACK:
+		state_limit = maxf(ai_state_watchdog_limit, 4.5)
+	elif ai_state == EnemyAIState.FEINT:
+		state_limit = maxf(ai_state_watchdog_limit, 3.0)
+
+	if ai_state_watchdog_timer < state_limit:
+		return false
+
+	if show_ai_debug:
+		print("[DEV044][%s] AI watchdog recovered from %s" % [_debug_enemy_id(), EnemyAIState.keys()[ai_state]])
+	if current_attack_type != "":
+		_cancel_current_action()
+	cancel_current_ai_action()
+	velocity.x = 0.0
+	enter_idle()
+	return true
 
 
 func can_choose_guard() -> bool:
@@ -793,6 +824,7 @@ func cancel_current_ai_action(clear_guard := true) -> void:
 	ai_feint_phase = &""
 	ai_has_pending_action = false
 	ai_selected_attack_type = ""
+	ai_state_watchdog_timer = 0.0
 	if clear_guard:
 		_clear_guard_state()
 		ai_guard_timer = 0.0
@@ -884,6 +916,7 @@ func _set_ai_state(next_state: int) -> void:
 		return
 	var previous := ai_state
 	ai_state = next_state
+	ai_state_watchdog_timer = 0.0
 	ai_state_changed.emit(EnemyAIState.keys()[previous], EnemyAIState.keys()[next_state])
 	if show_ai_debug:
 		print("[DEV037][%s] %s -> %s" % [_debug_enemy_id(), EnemyAIState.keys()[previous], EnemyAIState.keys()[next_state]])

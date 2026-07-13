@@ -46,6 +46,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var throw_escape_pushback := 80.0
 @export var throw_escape_recovery_time := 0.25
 @export var throw_vertical_tolerance := 40.0
+@export var throw_regrab_lock_time := 0.9
 @export_range(0.0, 1.0, 0.05) var throw_escape_probability := 0.25
 @export_range(0.0, 1.0, 0.05) var ai_throw_probability := 0.2
 @export var ai_throw_cooldown := 1.5
@@ -115,6 +116,7 @@ var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
 var throw_recovery_timer := 0.0
 var throw_escape_timer := 0.0
+var throw_regrab_lock_timer := 0.0
 var pending_throw_damage := 0
 var pending_throw_hit_position := Vector2.ZERO
 var pending_throw_direction := 0.0
@@ -369,11 +371,11 @@ func _get_throw_target() -> Node:
 
 
 func _can_start_throw() -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	return is_round_active and current_hp > 0 and is_on_floor() and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
 
 
 func can_be_thrown(attacker: Node) -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_throw_escape_pending and not is_throw_escaping and not is_invincible
+	return is_round_active and current_hp > 0 and is_on_floor() and throw_regrab_lock_timer <= 0.0 and not is_hit and not is_guard_hit and not is_throwing and not is_throw_locked and not is_throw_escape_pending and not is_throw_escaping and not is_invincible
 
 
 func _get_throw_gap_to(target: Node) -> float:
@@ -393,6 +395,9 @@ func _is_throw_busy() -> bool:
 
 
 func _update_throw_state(delta: float) -> void:
+	if throw_regrab_lock_timer > 0.0:
+		throw_regrab_lock_timer = maxf(throw_regrab_lock_timer - delta, 0.0)
+
 	if is_throwing:
 		_update_active_throw(delta)
 		return
@@ -468,6 +473,7 @@ func _complete_throw_escape() -> void:
 	if attacker != null and attacker.has_method("enter_throw_escape_recovery"):
 		attacker.enter_throw_escape_recovery(self)
 
+	apply_throw_regrab_lock()
 	_push_throw_escape_apart(attacker)
 	_spawn_throw_escape_effect(global_position)
 	_play_throw_escape_se()
@@ -484,6 +490,7 @@ func enter_throw_escape_recovery(escaped_target: Node) -> void:
 	has_throw_connected = false
 	has_throw_damage_applied = false
 	velocity = Vector2.ZERO
+	apply_throw_regrab_lock()
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
 
@@ -498,6 +505,7 @@ func _complete_throw_hit() -> void:
 	throw_state = ""
 	throw_escape_timer = 0.0
 	_clear_pending_throw()
+	apply_throw_regrab_lock()
 	_enter_hit_state()
 	apply_damage(damage)
 	velocity = throw_velocity
@@ -593,6 +601,7 @@ func _release_throw() -> void:
 	print("THROW RELEASE")
 	if _is_valid_throw_target(current_throw_target) and current_throw_target.has_method("_complete_throw_hit"):
 		current_throw_target._complete_throw_hit()
+	apply_throw_regrab_lock()
 	throw_state = "THROW_RECOVERY"
 	throw_recovery_timer = throw_recovery_time
 	current_throw_target = null
@@ -630,8 +639,13 @@ func _complete_simultaneous_throw(target: Node) -> void:
 	_play_throw_escape_se()
 	throw_state = "THROW_ESCAPE"
 	throw_recovery_timer = throw_escape_recovery_time
+	apply_throw_regrab_lock()
 	if target.has_method("enter_throw_escape_recovery"):
 		target.enter_throw_escape_recovery(self)
+
+
+func apply_throw_regrab_lock() -> void:
+	throw_regrab_lock_timer = maxf(throw_regrab_lock_timer, throw_regrab_lock_time)
 
 
 func _lock_throw_target_position(target: Node) -> void:
@@ -891,6 +905,7 @@ func _cancel_current_action() -> void:
 	is_throw_escaping = false
 	throw_recovery_timer = 0.0
 	throw_escape_timer = 0.0
+	throw_regrab_lock_timer = 0.0
 	throw_startup_timer = 0.0
 	throw_hold_timer = 0.0
 	throw_state = ""
@@ -1457,13 +1472,15 @@ func get_combo_damage_scale() -> float:
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
-	match hit_index:
-		1:
-			return 1.0
-		2:
-			return second_hit_damage_scale
-		_:
-			return third_hit_damage_scale
+	if hit_index <= 2:
+		return 1.0
+	if hit_index <= 4:
+		return second_hit_damage_scale
+	if hit_index <= 6:
+		return third_hit_damage_scale
+	if hit_index <= 8:
+		return 0.70
+	return 0.60
 
 
 func get_combo_knockback_scale() -> float:

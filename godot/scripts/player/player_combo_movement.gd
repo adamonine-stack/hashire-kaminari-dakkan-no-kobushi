@@ -670,13 +670,15 @@ func get_combo_damage_scale() -> float:
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
-	match hit_index:
-		1:
-			return 1.0
-		2:
-			return dev026_second_hit_damage_scale
-		_:
-			return dev026_third_hit_damage_scale
+	if hit_index <= 2:
+		return 1.0
+	if hit_index <= 4:
+		return dev026_second_hit_damage_scale
+	if hit_index <= 6:
+		return dev026_third_hit_damage_scale
+	if hit_index <= 8:
+		return 0.70
+	return 0.60
 
 
 func get_combo_knockback_scale() -> float:

@@ -54,6 +54,14 @@ enum BattleOutcome {
 	DOUBLE_KO,
 }
 
+enum Dev044DebugMode {
+	NORMAL,
+	FAST_VERIFY,
+	AI_CHECK,
+	HITBOX_CHECK,
+	PERFORMANCE_CHECK,
+}
+
 const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/character_selection_screen.tscn")
 const ALLY_BALANCE := preload("res://data/fighters/ally_balance.tres")
 const ALLY_POWER := preload("res://data/fighters/ally_power.tres")
@@ -81,6 +89,9 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var player_change_invincible_time := 1.5
 @export var player_defeat_display_time := 1.0
 @export var next_player_display_time := 1.0
+@export_group("DEV044 Debug")
+@export var dev044_debug_tools_enabled := false
+@export var dev044_debug_mode := Dev044DebugMode.NORMAL
 
 var currentRound := 1
 var playerWinCount := 0
@@ -121,6 +132,12 @@ var _enemy_start_position := Vector2.ZERO
 var _pending_player_ko := false
 var _pending_enemy_ko := false
 var _flow_sequence_id := 0
+var _last_recovery_enemy_index := -1
+var _current_battle_start_time_msec := 0
+var _current_battle_start_player_hp := 0
+var _current_battle_start_enemy_hp := 0
+var _current_battle_statistics_recorded := false
+var battle_statistics: Array[Dictionary] = []
 
 var _selection_panel: PanelContainer
 var _selection_title: Label
@@ -226,6 +243,12 @@ func initialize_game_progress() -> void:
 	current_player_index = -1
 	current_enemy_index = 0
 	_last_intro_enemy_index = -1
+	_last_recovery_enemy_index = -1
+	_current_battle_start_time_msec = 0
+	_current_battle_start_player_hp = 0
+	_current_battle_start_enemy_hp = 0
+	_current_battle_statistics_recorded = false
+	battle_statistics.clear()
 	selected_player_ids.clear()
 	defeated_player_ids.clear()
 	defeated_enemy_ids.clear()
@@ -713,6 +736,8 @@ func begin_battle(sequence_id: int = -1) -> void:
 	if is_player_change_processing:
 		start_change_invincibility()
 	_switch_bgm("BattleBGM")
+	_start_dev044_battle_statistics()
+	_apply_dev044_debug_mode()
 	_show_message("FIGHT")
 	_notify_hud_fight()
 	battle_started.emit(_active_player_id(), _active_enemy_id())
@@ -759,6 +784,7 @@ func resolve_battle_result() -> void:
 		"player_id": _active_player_id(),
 		"enemy_id": _active_enemy_id(),
 	}
+	_record_dev044_battle_statistics(result)
 	battle_finished.emit(result_data)
 
 	match result:
@@ -1233,24 +1259,38 @@ func _store_active_fighter_health() -> void:
 
 
 func _heal_active_player_after_enemy_defeat() -> void:
-	if current_player_index < 0 or current_player_index >= player_team.size():
+	var applied_heal := apply_enemy_defeat_recovery(String(_active_player_id()))
+	if applied_heal <= 0:
 		return
+	print("[DEV035] Enemy defeated by: %s" % current_player_id)
+	print("[DEV035] Recovery amount: %d" % applied_heal)
+	print("[DEV035] HP after recovery: %d / %d" % [player.current_hp, player.max_hp])
+	hud_healing_applied.emit(player, applied_heal)
+	_show_heal_effect(applied_heal)
+
+
+func apply_enemy_defeat_recovery(character_id: String) -> int:
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return 0
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return 0
+	if _last_recovery_enemy_index == current_enemy_index:
+		return 0
+	if String(_active_player_id()) != character_id:
+		return 0
 	var player_data := player_team[current_player_index]
 	var heal_amount := maxi(1, int(round(float(player.max_hp) * 0.2)))
 	var previous_hp: int = player.current_hp
 	var healed_hp := clampi(player.current_hp + heal_amount, 0, player.max_hp)
 	var applied_heal: int = healed_hp - previous_hp
+	_last_recovery_enemy_index = current_enemy_index
 	player_data["current_health"] = healed_hp
 	if player.has_method("set_health"):
 		player.set_health(healed_hp)
 	else:
 		player.current_hp = healed_hp
 		player.hp_changed.emit(player.current_hp, player.max_hp)
-	print("[DEV035] Enemy defeated by: %s" % current_player_id)
-	print("[DEV035] Recovery amount: %d" % applied_heal)
-	print("[DEV035] HP after recovery: %d / %d" % [healed_hp, player.max_hp])
-	hud_healing_applied.emit(player, applied_heal)
-	_show_heal_effect(applied_heal)
+	return applied_heal
 
 
 func _show_heal_effect(heal_amount: int) -> void:
@@ -1264,6 +1304,176 @@ func _show_heal_effect(heal_amount: int) -> void:
 	tween.tween_property(_heal_effect_label, "modulate:a", 0.0, 0.2)
 	await tween.finished
 	_heal_effect_label.visible = false
+
+
+func _start_dev044_battle_statistics() -> void:
+	_current_battle_start_time_msec = Time.get_ticks_msec()
+	_current_battle_start_player_hp = player.current_hp if player != null else 0
+	_current_battle_start_enemy_hp = enemy.current_hp if enemy != null else 0
+	_current_battle_statistics_recorded = false
+
+
+func _record_dev044_battle_statistics(outcome: int) -> void:
+	if _current_battle_statistics_recorded:
+		return
+	_current_battle_statistics_recorded = true
+	var elapsed_sec := 0.0
+	if _current_battle_start_time_msec > 0:
+		elapsed_sec = float(Time.get_ticks_msec() - _current_battle_start_time_msec) / 1000.0
+	var player_hp: int = player.current_hp if player != null else 0
+	var enemy_hp: int = enemy.current_hp if enemy != null else 0
+	var record := {
+		"player_id": String(_active_player_id()),
+		"enemy_id": String(_active_enemy_id()),
+		"outcome": BattleOutcome.keys()[outcome],
+		"battle_time": snappedf(elapsed_sec, 0.01),
+		"player_remaining_hp": player_hp,
+		"enemy_remaining_hp": enemy_hp,
+		"damage_dealt": maxi(_current_battle_start_enemy_hp - enemy_hp, 0),
+		"damage_taken": maxi(_current_battle_start_player_hp - player_hp, 0),
+		"player_combo": _dev044_get_int_property(player, "combo_count"),
+	}
+	battle_statistics.append(record)
+	if dev044_debug_tools_enabled:
+		print("[DEV044][BattleStats] %s" % record)
+
+
+func get_dev044_battle_statistics() -> Array[Dictionary]:
+	return battle_statistics.duplicate(true)
+
+
+func _apply_dev044_debug_mode() -> void:
+	if not dev044_debug_tools_enabled:
+		return
+	match dev044_debug_mode:
+		Dev044DebugMode.FAST_VERIFY:
+			dev044_set_enemy_hp_to_one()
+		Dev044DebugMode.AI_CHECK:
+			_set_dev044_character_debug(enemy, "show_ai_debug", true)
+		Dev044DebugMode.HITBOX_CHECK:
+			_set_dev044_character_debug(player, "show_attack_hitboxes", true)
+			_set_dev044_character_debug(enemy, "show_attack_hitboxes", true)
+		Dev044DebugMode.PERFORMANCE_CHECK:
+			_set_dev044_character_debug(player, "debug_state_label_enabled", false)
+			_set_dev044_character_debug(enemy, "debug_state_label_enabled", false)
+
+
+func _set_dev044_character_debug(character: Node, property_name: String, value: Variant) -> void:
+	if character == null:
+		return
+	for property in character.get_property_list():
+		if property.get("name", "") == property_name:
+			character.set(property_name, value)
+			return
+
+
+func _dev044_get_int_property(character: Node, property_name: String) -> int:
+	if character == null:
+		return 0
+	for property in character.get_property_list():
+		if property.get("name", "") == property_name:
+			return int(character.get(property_name))
+	return 0
+
+
+func _dev044_can_use_tools() -> bool:
+	if not dev044_debug_tools_enabled:
+		push_warning("DEV044 debug tools are disabled.")
+		return false
+	return true
+
+
+func dev044_set_enemy_hp_to_one() -> void:
+	if not _dev044_can_use_tools() or enemy == null:
+		return
+	if enemy.has_method("set_health"):
+		enemy.set_health(1)
+	else:
+		enemy.current_hp = 1
+		enemy.hp_changed.emit(enemy.current_hp, enemy.max_hp)
+	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
+		enemy_team[current_enemy_index]["current_health"] = 1
+	_update_all_ui()
+
+
+func dev044_full_heal_player() -> void:
+	if not _dev044_can_use_tools() or player == null:
+		return
+	if player.has_method("set_health"):
+		player.set_health(player.max_hp)
+	else:
+		player.current_hp = player.max_hp
+		player.hp_changed.emit(player.current_hp, player.max_hp)
+	if current_player_index >= 0 and current_player_index < player_team.size():
+		player_team[current_player_index]["current_health"] = player.max_hp
+	_update_all_ui()
+
+
+func dev044_reset_special_cooldowns() -> void:
+	if not _dev044_can_use_tools():
+		return
+	for fighter in [player, enemy]:
+		if fighter != null and fighter.has_method("reset_special_attack_state"):
+			fighter.reset_special_attack_state()
+
+
+func dev044_ko_current_enemy() -> void:
+	if not _dev044_can_use_tools() or enemy == null:
+		return
+	if enemy.has_method("set_health"):
+		enemy.set_health(0)
+	else:
+		enemy.current_hp = 0
+		enemy.hp_changed.emit(enemy.current_hp, enemy.max_hp)
+	on_fighter_ko(enemy)
+
+
+func dev044_next_enemy() -> void:
+	if not _dev044_can_use_tools():
+		return
+	var next_index := get_next_enemy_index()
+	if next_index == -1:
+		enter_game_clear()
+		return
+	current_enemy_index = next_index
+	_flow_sequence_id += 1
+	call_deferred("transition_to_next_enemy")
+
+
+func dev044_toggle_player_defeated() -> void:
+	if not _dev044_can_use_tools():
+		return
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return
+	var defeated: bool = not bool(player_team[current_player_index]["is_defeated"])
+	player_team[current_player_index]["is_defeated"] = defeated
+	player_team[current_player_index]["is_available"] = not defeated
+	player_team[current_player_index]["current_health"] = 0 if defeated else player_team[current_player_index]["max_health"]
+	_update_all_ui()
+
+
+func dev044_go_to_clear_before_final() -> void:
+	if not _dev044_can_use_tools():
+		return
+	for index in range(enemy_team.size()):
+		enemy_team[index]["is_defeated"] = index < enemy_team.size() - 1
+		enemy_team[index]["current_health"] = 0 if index < enemy_team.size() - 1 else enemy_team[index]["max_health"]
+	current_enemy_index = maxi(enemy_team.size() - 1, 0)
+	spawn_active_enemy()
+	_update_all_ui()
+
+
+func dev044_go_to_game_over_before_final_player() -> void:
+	if not _dev044_can_use_tools():
+		return
+	for index in range(player_team.size()):
+		var defeated := index < player_team.size() - 1
+		player_team[index]["is_defeated"] = defeated
+		player_team[index]["is_available"] = not defeated
+		player_team[index]["current_health"] = 0 if defeated else player_team[index]["max_health"]
+	current_player_index = maxi(player_team.size() - 1, 0)
+	spawn_active_player()
+	_update_all_ui()
 
 
 func _switch_bgm(bgm_name: String) -> void:
