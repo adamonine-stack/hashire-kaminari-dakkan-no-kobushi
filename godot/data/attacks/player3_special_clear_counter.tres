@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack"]
+
+[resource]
+script = ExtResource("1_attack")
+attack_id = "player3_special_clear_counter"
+display_name = "Clear Counter"
+attack_type = "special"
+attack_category = "special"
+base_damage = 1.0
+damage_multiplier = 1.35
+startup_time = 0.28
+active_time = 0.14
+recovery_time = 0.42
+hitbox_size = Vector2(88, 42)
+hitbox_offset = Vector2(52, -4)
+move_distance = 64.0
+move_duration = 0.16
+move_speed_multiplier = 1.15
+knockback = Vector2(270, -72)
+hitstop_time = 0.09
+hitstun_time = 0.30
+is_guardable = true
+guard_damage_multiplier = 0.12
+guard_hit_time = 0.24
+guard_knockback = Vector2(80, 0)
+can_be_interrupted = true
+interruptible_until_active = true
+cooldown = 3.60
+animation_name = "special_clear_counter"
+warning_effect_name = "player3_special_warning"
+attack_effect_name = "player3_clear_counter"

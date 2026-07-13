@@ -68,14 +68,18 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	)
 
 	_enter_hit_state()
+	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
 	if causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(final_damage)
+	damage_feedback_requested.emit(self, final_damage, false, hit_position)
+	_flash_damage()
 	if attacker != null and attacker.has_method("register_combo_hit"):
 		attacker.register_combo_hit(self)
 
 	if current_hp <= 0:
 		reset_knockdown_state()
+		_play_ko_feedback(hit_position, attack_direction)
 		if attacker != null and attacker.has_method("_finish_combo_after_ko"):
 			attacker._finish_combo_after_ko()
 		return true
@@ -111,6 +115,8 @@ func _complete_throw_hit() -> void:
 	_clear_pending_throw()
 	_enter_hit_state()
 	apply_damage(damage)
+	damage_feedback_requested.emit(self, damage, false, hit_position)
+	_flash_damage()
 
 	if attacker != null and attacker.has_method("_spawn_throw_impact_effect"):
 		attacker._spawn_throw_impact_effect(hit_position)
@@ -119,15 +125,16 @@ func _complete_throw_hit() -> void:
 
 	if current_hp <= 0:
 		reset_knockdown_state()
+		_play_ko_feedback(hit_position, signf(throw_velocity.x))
 		return
 
 	var throw_direction := signf(throw_velocity.x)
 	if throw_direction == 0.0:
 		throw_direction = 1.0
-	enter_knockback(attacker, Vector2(
+	enter_knockback(attacker, calculate_received_knockback(Vector2(
 		maxf(absf(throw_velocity.x), knockdown_horizontal_force) * throw_direction,
 		minf(throw_velocity.y, knockdown_vertical_force)
-	))
+	)))
 
 
 func _get_valid_hurtbox_target(area: Area2D) -> Node:
@@ -285,7 +292,7 @@ func _get_knockdown_force(attack_data: Dictionary, attacker: Node, fallback_dire
 
 	var force_x := maxf(float(attack_data.get("knockback_x", knockdown_horizontal_force)), knockdown_horizontal_force)
 	var force_y := maxf(float(attack_data.get("knockback_y", absf(knockdown_vertical_force))), absf(knockdown_vertical_force))
-	return Vector2(force_x * direction, -force_y)
+	return calculate_received_knockback(Vector2(force_x * direction, -force_y))
 
 
 func _clear_control_state_for_knockdown() -> void:
@@ -344,6 +351,7 @@ func _separate_from_opponent_on_get_up() -> void:
 
 
 func _play_state_animation(animation_name: StringName, fallback_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -388,7 +396,10 @@ func _update_visual_state() -> void:
 	if not _is_knockdown_busy():
 		return
 
-	if knockdown_state == &"KNOCKDOWN":
+	if uses_official_character_art:
+		visual_root.scale.y = 1.0
+		visual_root.position.y = default_visual_position.y
+	elif knockdown_state == &"KNOCKDOWN":
 		visual_root.scale.y = 0.35
 		visual_root.position.y = default_visual_position.y + knockdown_ground_offset
 	elif knockdown_state == &"GET_UP":

@@ -32,6 +32,9 @@ func setup(index: int, data: Dictionary) -> void:
 		max_health,
 		status,
 	]
+	icon = _definition_texture(definition, "icon", "selection_icon")
+	expand_icon = true
+	icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	disabled = defeated or not available or current_health <= 0
 	focus_mode = Control.FOCUS_NONE if disabled else Control.FOCUS_ALL
 	modulate = Color(0.45, 0.45, 0.45, 0.8) if disabled else Color.WHITE
@@ -47,3 +50,12 @@ func _emit_confirmed() -> void:
 	if disabled:
 		return
 	card_confirmed.emit(player_index)
+
+
+func _definition_texture(definition: Resource, primary_property: String, fallback_property: String) -> Texture2D:
+	if definition == null:
+		return null
+	var texture: Texture2D = definition.get(primary_property)
+	if texture == null:
+		texture = definition.get(fallback_property)
+	return texture

@@ -82,7 +82,7 @@ func _update_hp_bar(bar: ProgressBar, current_hp: int, max_hp: int) -> void:
 
 
 func _on_screen_shake_requested(strength: float) -> void:
-	shake_strength = maxf(shake_strength, strength)
+	shake_strength = maxf(shake_strength, strength * _screen_shake_multiplier())
 	shake_timer = shake_duration
 
 
@@ -111,7 +111,7 @@ func _on_combo_changed(combo_count: int, combo_owner: Node, is_player_combo: boo
 				enemy_combo_hide_timer = combo_display_duration
 		return
 
-	label.text = "%d HIT COMBO" % combo_count
+	label.text = "%d HIT\n%s" % [combo_count, _combo_rank_text(combo_count)]
 	label.visible = true
 	label.scale = Vector2(1.22, 1.22)
 	if is_player_combo:
@@ -138,3 +138,18 @@ func _update_combo_label_visibility(delta: float) -> void:
 		enemy_combo_hide_timer = maxf(enemy_combo_hide_timer - delta, 0.0)
 		if enemy_combo_hide_timer == 0.0:
 			enemy_combo_label.visible = false
+
+
+func _combo_rank_text(combo_count: int) -> String:
+	if combo_count >= 7:
+		return "EXCELLENT"
+	if combo_count >= 4:
+		return "GREAT"
+	return "GOOD"
+
+
+func _screen_shake_multiplier() -> float:
+	var settings := get_node_or_null("/root/SettingsManager")
+	if settings != null and settings.has_method("get_screen_shake_multiplier"):
+		return float(settings.call("get_screen_shake_multiplier"))
+	return 1.0

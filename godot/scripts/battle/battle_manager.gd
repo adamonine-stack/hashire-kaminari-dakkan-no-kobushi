@@ -20,6 +20,21 @@ signal player_order_confirmed(order)
 signal battle_start_requested(first_player_id)
 signal next_ordered_player_requested(character_id)
 signal player_order_status_updated
+signal hud_enemy_spawned(enemy: Node, enemy_index: int, enemy_data: Dictionary)
+signal hud_enemy_defeated(enemy: Node, enemy_index: int)
+signal hud_healing_applied(target: Node, applied_amount: int)
+signal hud_message_requested(message: String, priority: int, duration: float)
+signal hud_retry_started()
+signal game_flow_state_changed(previous_state, new_state)
+signal new_game_requested
+signal restart_requested
+signal return_to_title_requested
+signal battle_paused
+signal battle_resumed
+signal scene_transition_started(scene_path)
+signal scene_transition_finished(scene_path)
+signal game_over_menu_opened
+signal game_clear_menu_opened
 
 enum BattleState {
 	READY,
@@ -37,6 +52,14 @@ enum BattleOutcome {
 	PLAYER_WIN,
 	ENEMY_WIN,
 	DOUBLE_KO,
+}
+
+enum Dev044DebugMode {
+	NORMAL,
+	FAST_VERIFY,
+	AI_CHECK,
+	HITBOX_CHECK,
+	PERFORMANCE_CHECK,
 }
 
 const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/character_selection_screen.tscn")
@@ -66,6 +89,9 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var player_change_invincible_time := 1.5
 @export var player_defeat_display_time := 1.0
 @export var next_player_display_time := 1.0
+@export_group("DEV044 Debug")
+@export var dev044_debug_tools_enabled := false
+@export var dev044_debug_mode := Dev044DebugMode.NORMAL
 
 var currentRound := 1
 var playerWinCount := 0
@@ -90,6 +116,8 @@ var current_player_order_index := 0
 var is_player_order_confirmed := false
 var is_battle_starting := false
 var is_ordered_player_change_processing := false
+var is_game_paused := false
+var is_scene_transitioning := false
 
 var flow_state := BattleState.READY
 var player_team: Array[Dictionary] = []
@@ -104,6 +132,12 @@ var _enemy_start_position := Vector2.ZERO
 var _pending_player_ko := false
 var _pending_enemy_ko := false
 var _flow_sequence_id := 0
+var _last_recovery_enemy_index := -1
+var _current_battle_start_time_msec := 0
+var _current_battle_start_player_hp := 0
+var _current_battle_start_enemy_hp := 0
+var _current_battle_statistics_recorded := false
+var battle_statistics: Array[Dictionary] = []
 
 var _selection_panel: PanelContainer
 var _selection_title: Label
@@ -130,11 +164,13 @@ var _player_order_slots_label: Label
 var _player_order_status_label: Label
 var _player_order_confirm_button: Button
 var _player_order_reset_button: Button
+var _player_order_back_button: Button
 var _player_order_character_buttons: Dictionary = {}
 var _player_order_up_buttons: Dictionary = {}
 var _player_order_down_buttons: Dictionary = {}
 var _player_order_remove_buttons: Dictionary = {}
 var _player_order_hud_label: Label
+var _last_spawned_player_id := ""
 
 @onready var player := $"../Player"
 @onready var enemy := $"../Enemy"
@@ -145,9 +181,12 @@ var _player_order_hud_label: Label
 @onready var enemy_win_marks := $"../UI/BattleUIRoot/EnemyWinMarks"
 @onready var player_hp_bar := $"../UI/BattleUIRoot/PlayerHpBar"
 @onready var enemy_hp_bar := $"../UI/BattleUIRoot/EnemyHpBar"
+@onready var battle_hud := $"../UI/BattleUIRoot/BattleHUD"
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().paused = false
 	_player_start_position = player.position
 	_enemy_start_position = enemy.position
 	current_player_instance = player
@@ -157,9 +196,19 @@ func _ready() -> void:
 	enemy.hp_changed.connect(_on_enemy_hp_changed)
 	initialize_game_progress()
 	_create_flow_ui()
+	_initialize_battle_hud()
 	_set_battle_active(false)
 	_update_all_ui()
 	call_deferred("start_initial_player_selection")
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		if is_game_paused:
+			return_to_battle()
+		elif _can_pause_battle():
+			pause_battle()
+		get_viewport().set_input_as_handled()
 
 
 func _process(delta: float) -> void:
@@ -194,6 +243,12 @@ func initialize_game_progress() -> void:
 	current_player_index = -1
 	current_enemy_index = 0
 	_last_intro_enemy_index = -1
+	_last_recovery_enemy_index = -1
+	_current_battle_start_time_msec = 0
+	_current_battle_start_player_hp = 0
+	_current_battle_start_enemy_hp = 0
+	_current_battle_statistics_recorded = false
+	battle_statistics.clear()
 	selected_player_ids.clear()
 	defeated_player_ids.clear()
 	defeated_enemy_ids.clear()
@@ -561,6 +616,7 @@ func spawn_active_player() -> void:
 
 	var data := player_team[current_player_index]
 	var definition: Resource = data["definition"]
+	var previous_player_id := _last_spawned_player_id
 	if player.has_method("apply_fighter_definition"):
 		player.apply_fighter_definition(definition)
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
@@ -568,7 +624,13 @@ func spawn_active_player() -> void:
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
 	current_player_instance = player
 	current_player_id = String(data["character_id"])
+	if previous_player_id != "" and previous_player_id != current_player_id:
+		print("[DEV035] Character changed: %s -> %s" % [previous_player_id, current_player_id])
+	print("[DEV035] %s stats applied" % current_player_id)
+	print("[DEV035] HUD max HP updated: %d" % player.max_hp)
+	_last_spawned_player_id = current_player_id
 	current_player_changed.emit(current_player_instance)
+	_update_battle_hud_player()
 	update_player_hud()
 
 
@@ -587,6 +649,8 @@ func spawn_active_enemy() -> void:
 
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
+	_update_battle_hud_enemy()
+	hud_enemy_spawned.emit(enemy, current_enemy_index, data.duplicate(true))
 
 
 func prepare_battle() -> void:
@@ -612,6 +676,7 @@ func prepare_battle() -> void:
 	update_camera_target()
 
 	if _should_show_enemy_intro():
+		_notify_hud_enemy_intro(enemy_team[current_enemy_index], current_enemy_index)
 		await start_enemy_intro(enemy_team[current_enemy_index])
 
 	await start_battle_countdown(sequence_id)
@@ -650,6 +715,7 @@ func start_battle_countdown(sequence_id: int = -1) -> void:
 	if sequence_id != _flow_sequence_id or flow_state != BattleState.READY:
 		return
 	_show_message("ENEMY %d" % (current_enemy_index + 1))
+	_notify_hud_message("ENEMY %d" % (current_enemy_index + 1), 1, 0.9)
 	await get_tree().create_timer(1.0).timeout
 
 	if sequence_id != _flow_sequence_id or flow_state != BattleState.READY:
@@ -670,7 +736,10 @@ func begin_battle(sequence_id: int = -1) -> void:
 	if is_player_change_processing:
 		start_change_invincibility()
 	_switch_bgm("BattleBGM")
+	_start_dev044_battle_statistics()
+	_apply_dev044_debug_mode()
 	_show_message("FIGHT")
+	_notify_hud_fight()
 	battle_started.emit(_active_player_id(), _active_enemy_id())
 	print("Battle Start: %s VS %s" % [_active_player_id(), _active_enemy_id()])
 	await get_tree().create_timer(fight_message_duration).timeout
@@ -702,6 +771,7 @@ func on_fighter_ko(fighter: Node) -> void:
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
 	_show_message("K.O.")
+	_notify_hud_message("K.O.", 2, 0.9)
 	print("KO detected")
 	await _resolve_ko_after_pause()
 
@@ -714,18 +784,22 @@ func resolve_battle_result() -> void:
 		"player_id": _active_player_id(),
 		"enemy_id": _active_enemy_id(),
 	}
+	_record_dev044_battle_statistics(result)
 	battle_finished.emit(result_data)
 
 	match result:
 		BattleOutcome.PLAYER_WIN:
 			handle_player_victory()
 			_show_message("PLAYER WIN")
+			_notify_hud_message("PLAYER WIN", 2, 1.0)
 		BattleOutcome.ENEMY_WIN:
 			handle_player_defeat()
 			_show_message("ENEMY WIN")
+			_notify_hud_message("ENEMY WIN", 2, 1.0)
 		BattleOutcome.DOUBLE_KO:
 			handle_double_ko()
 			_show_message("DOUBLE K.O.")
+			_notify_hud_message("DOUBLE K.O.", 2, 1.0)
 
 	_update_all_ui()
 	await get_tree().create_timer(result_display_duration).timeout
@@ -746,6 +820,8 @@ func resolve_battle_result() -> void:
 
 func handle_player_victory() -> void:
 	_mark_enemy_defeated()
+	hud_enemy_defeated.emit(enemy, current_enemy_index)
+	_notify_hud_enemy_defeated()
 	_heal_active_player_after_enemy_defeat()
 	playerWinCount += 1
 	print("Enemy defeated: %s" % _active_enemy_id())
@@ -837,11 +913,13 @@ func enter_game_clear() -> void:
 	close_player_order_select()
 	_switch_bgm("WinBGM")
 	_show_message("GAME CLEAR")
+	_notify_hud_game_clear()
 	_show_end_panel("GAME CLEAR", "All 8 enemies defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
 		_order_text(),
 		defeated_player_ids.size(),
 		maxi(0, selected_player_order.size() - defeated_player_ids.size()),
 	])
+	game_clear_menu_opened.emit()
 	game_cleared.emit()
 	print("GAME CLEAR")
 
@@ -857,7 +935,9 @@ func enter_game_over() -> void:
 	close_player_order_select()
 	_switch_bgm("LoseBGM")
 	_show_message("GAME OVER")
+	_notify_hud_game_over()
 	_show_end_panel("GAME OVER", "All ally fighters defeated.")
+	game_over_menu_opened.emit()
 	all_players_defeated.emit()
 	game_over_started.emit()
 	game_over.emit()
@@ -958,9 +1038,105 @@ func create_progress_snapshot() -> Dictionary:
 
 
 func reset_game_progress() -> void:
+	hud_retry_started.emit()
+	if battle_hud != null and battle_hud.has_method("reset_battle_hud"):
+		battle_hud.reset_battle_hud()
 	_hide_end_panel()
 	initialize_game_progress()
 	start_initial_player_selection()
+
+
+func initialize_new_run() -> void:
+	initialize_game_progress()
+
+
+func restart_current_game() -> void:
+	if is_scene_transitioning:
+		return
+	is_scene_transitioning = true
+	restart_requested.emit()
+	print("[DEV041][GameFlow] Restart confirmed")
+	var preserved_order := selected_player_order.duplicate()
+	cleanup_battle_before_transition()
+	hud_retry_started.emit()
+	if battle_hud != null and battle_hud.has_method("reset_battle_hud"):
+		battle_hud.reset_battle_hud()
+	_hide_end_panel()
+	initialize_game_progress()
+	if preserved_order.size() == 3 and is_valid_player_order(preserved_order):
+		set_player_order(preserved_order)
+		await start_battle_with_first_player()
+	else:
+		start_initial_player_selection()
+	is_scene_transitioning = false
+	scene_transition_finished.emit("restart")
+
+
+func go_to_title() -> void:
+	if is_scene_transitioning:
+		return
+	is_scene_transitioning = true
+	return_to_title_requested.emit()
+	print("[DEV041][GameFlow] Returning to title")
+	cleanup_battle_before_transition()
+	scene_transition_started.emit("res://scenes/Title.tscn")
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
+
+
+func return_to_battle() -> void:
+	if not is_game_paused:
+		return
+	is_game_paused = false
+	get_tree().paused = false
+	if battle_hud != null and battle_hud.has_method("hide_pause_menu"):
+		battle_hud.hide_pause_menu()
+	if battle_hud != null and battle_hud.has_method("hide_confirm_dialog"):
+		battle_hud.hide_confirm_dialog()
+	battle_resumed.emit()
+	print("[DEV041][Pause] Battle resumed")
+
+
+func pause_battle() -> void:
+	if not _can_pause_battle() or is_game_paused:
+		return
+	is_game_paused = true
+	if battle_hud != null and battle_hud.has_method("show_pause_menu"):
+		battle_hud.show_pause_menu()
+	get_tree().paused = true
+	battle_paused.emit()
+	print("[DEV041][Pause] Battle paused")
+
+
+func cleanup_battle_before_transition() -> void:
+	is_game_paused = false
+	get_tree().paused = false
+	_set_battle_active(false)
+	_clear_active_fighter_actions(player)
+	_clear_active_fighter_actions(enemy)
+	if player.has_method("reset_special_attack_state"):
+		player.reset_special_attack_state(false)
+	if enemy.has_method("reset_special_attack_state"):
+		enemy.reset_special_attack_state(false)
+	if battle_hud != null:
+		if battle_hud.has_method("hide_pause_menu"):
+			battle_hud.hide_pause_menu()
+		if battle_hud.has_method("hide_confirm_dialog"):
+			battle_hud.hide_confirm_dialog()
+		if battle_hud.has_method("hide_boss_warning"):
+			battle_hud.hide_boss_warning()
+	print("[DEV041][GameFlow] Battle cleanup completed")
+
+
+func _can_pause_battle() -> bool:
+	if is_scene_transitioning or isBattleFinished:
+		return false
+	if flow_state != BattleState.BATTLE:
+		return false
+	if not isRoundActive:
+		return false
+	if _end_panel != null and _end_panel.visible:
+		return false
+	return true
 
 
 func transition_to_next_enemy() -> void:
@@ -1083,18 +1259,38 @@ func _store_active_fighter_health() -> void:
 
 
 func _heal_active_player_after_enemy_defeat() -> void:
-	if current_player_index < 0 or current_player_index >= player_team.size():
+	var applied_heal := apply_enemy_defeat_recovery(String(_active_player_id()))
+	if applied_heal <= 0:
 		return
+	print("[DEV035] Enemy defeated by: %s" % current_player_id)
+	print("[DEV035] Recovery amount: %d" % applied_heal)
+	print("[DEV035] HP after recovery: %d / %d" % [player.current_hp, player.max_hp])
+	hud_healing_applied.emit(player, applied_heal)
+	_show_heal_effect(applied_heal)
+
+
+func apply_enemy_defeat_recovery(character_id: String) -> int:
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return 0
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return 0
+	if _last_recovery_enemy_index == current_enemy_index:
+		return 0
+	if String(_active_player_id()) != character_id:
+		return 0
 	var player_data := player_team[current_player_index]
 	var heal_amount := maxi(1, int(round(float(player.max_hp) * 0.2)))
+	var previous_hp: int = player.current_hp
 	var healed_hp := clampi(player.current_hp + heal_amount, 0, player.max_hp)
+	var applied_heal: int = healed_hp - previous_hp
+	_last_recovery_enemy_index = current_enemy_index
 	player_data["current_health"] = healed_hp
 	if player.has_method("set_health"):
 		player.set_health(healed_hp)
 	else:
 		player.current_hp = healed_hp
 		player.hp_changed.emit(player.current_hp, player.max_hp)
-	_show_heal_effect(heal_amount)
+	return applied_heal
 
 
 func _show_heal_effect(heal_amount: int) -> void:
@@ -1110,11 +1306,195 @@ func _show_heal_effect(heal_amount: int) -> void:
 	_heal_effect_label.visible = false
 
 
+func _start_dev044_battle_statistics() -> void:
+	_current_battle_start_time_msec = Time.get_ticks_msec()
+	_current_battle_start_player_hp = player.current_hp if player != null else 0
+	_current_battle_start_enemy_hp = enemy.current_hp if enemy != null else 0
+	_current_battle_statistics_recorded = false
+
+
+func _record_dev044_battle_statistics(outcome: int) -> void:
+	if _current_battle_statistics_recorded:
+		return
+	_current_battle_statistics_recorded = true
+	var elapsed_sec := 0.0
+	if _current_battle_start_time_msec > 0:
+		elapsed_sec = float(Time.get_ticks_msec() - _current_battle_start_time_msec) / 1000.0
+	var player_hp: int = player.current_hp if player != null else 0
+	var enemy_hp: int = enemy.current_hp if enemy != null else 0
+	var record := {
+		"player_id": String(_active_player_id()),
+		"enemy_id": String(_active_enemy_id()),
+		"outcome": BattleOutcome.keys()[outcome],
+		"battle_time": snappedf(elapsed_sec, 0.01),
+		"player_remaining_hp": player_hp,
+		"enemy_remaining_hp": enemy_hp,
+		"damage_dealt": maxi(_current_battle_start_enemy_hp - enemy_hp, 0),
+		"damage_taken": maxi(_current_battle_start_player_hp - player_hp, 0),
+		"player_combo": _dev044_get_int_property(player, "combo_count"),
+	}
+	battle_statistics.append(record)
+	if dev044_debug_tools_enabled:
+		print("[DEV044][BattleStats] %s" % record)
+
+
+func get_dev044_battle_statistics() -> Array[Dictionary]:
+	return battle_statistics.duplicate(true)
+
+
+func _apply_dev044_debug_mode() -> void:
+	if not dev044_debug_tools_enabled:
+		return
+	match dev044_debug_mode:
+		Dev044DebugMode.FAST_VERIFY:
+			dev044_set_enemy_hp_to_one()
+		Dev044DebugMode.AI_CHECK:
+			_set_dev044_character_debug(enemy, "show_ai_debug", true)
+		Dev044DebugMode.HITBOX_CHECK:
+			_set_dev044_character_debug(player, "show_attack_hitboxes", true)
+			_set_dev044_character_debug(enemy, "show_attack_hitboxes", true)
+		Dev044DebugMode.PERFORMANCE_CHECK:
+			_set_dev044_character_debug(player, "debug_state_label_enabled", false)
+			_set_dev044_character_debug(enemy, "debug_state_label_enabled", false)
+
+
+func _set_dev044_character_debug(character: Node, property_name: String, value: Variant) -> void:
+	if character == null:
+		return
+	for property in character.get_property_list():
+		if property.get("name", "") == property_name:
+			character.set(property_name, value)
+			return
+
+
+func _dev044_get_int_property(character: Node, property_name: String) -> int:
+	if character == null:
+		return 0
+	for property in character.get_property_list():
+		if property.get("name", "") == property_name:
+			return int(character.get(property_name))
+	return 0
+
+
+func _dev044_can_use_tools() -> bool:
+	if not dev044_debug_tools_enabled:
+		push_warning("DEV044 debug tools are disabled.")
+		return false
+	return true
+
+
+func dev044_set_enemy_hp_to_one() -> void:
+	if not _dev044_can_use_tools() or enemy == null:
+		return
+	if enemy.has_method("set_health"):
+		enemy.set_health(1)
+	else:
+		enemy.current_hp = 1
+		enemy.hp_changed.emit(enemy.current_hp, enemy.max_hp)
+	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
+		enemy_team[current_enemy_index]["current_health"] = 1
+	_update_all_ui()
+
+
+func dev044_full_heal_player() -> void:
+	if not _dev044_can_use_tools() or player == null:
+		return
+	if player.has_method("set_health"):
+		player.set_health(player.max_hp)
+	else:
+		player.current_hp = player.max_hp
+		player.hp_changed.emit(player.current_hp, player.max_hp)
+	if current_player_index >= 0 and current_player_index < player_team.size():
+		player_team[current_player_index]["current_health"] = player.max_hp
+	_update_all_ui()
+
+
+func dev044_reset_special_cooldowns() -> void:
+	if not _dev044_can_use_tools():
+		return
+	for fighter in [player, enemy]:
+		if fighter != null and fighter.has_method("reset_special_attack_state"):
+			fighter.reset_special_attack_state()
+
+
+func dev044_ko_current_enemy() -> void:
+	if not _dev044_can_use_tools() or enemy == null:
+		return
+	if enemy.has_method("set_health"):
+		enemy.set_health(0)
+	else:
+		enemy.current_hp = 0
+		enemy.hp_changed.emit(enemy.current_hp, enemy.max_hp)
+	on_fighter_ko(enemy)
+
+
+func dev044_next_enemy() -> void:
+	if not _dev044_can_use_tools():
+		return
+	var next_index := get_next_enemy_index()
+	if next_index == -1:
+		enter_game_clear()
+		return
+	current_enemy_index = next_index
+	_flow_sequence_id += 1
+	call_deferred("transition_to_next_enemy")
+
+
+func dev044_toggle_player_defeated() -> void:
+	if not _dev044_can_use_tools():
+		return
+	if current_player_index < 0 or current_player_index >= player_team.size():
+		return
+	var defeated: bool = not bool(player_team[current_player_index]["is_defeated"])
+	player_team[current_player_index]["is_defeated"] = defeated
+	player_team[current_player_index]["is_available"] = not defeated
+	player_team[current_player_index]["current_health"] = 0 if defeated else player_team[current_player_index]["max_health"]
+	_update_all_ui()
+
+
+func dev044_go_to_clear_before_final() -> void:
+	if not _dev044_can_use_tools():
+		return
+	for index in range(enemy_team.size()):
+		enemy_team[index]["is_defeated"] = index < enemy_team.size() - 1
+		enemy_team[index]["current_health"] = 0 if index < enemy_team.size() - 1 else enemy_team[index]["max_health"]
+	current_enemy_index = maxi(enemy_team.size() - 1, 0)
+	spawn_active_enemy()
+	_update_all_ui()
+
+
+func dev044_go_to_game_over_before_final_player() -> void:
+	if not _dev044_can_use_tools():
+		return
+	for index in range(player_team.size()):
+		var defeated := index < player_team.size() - 1
+		player_team[index]["is_defeated"] = defeated
+		player_team[index]["is_available"] = not defeated
+		player_team[index]["current_health"] = 0 if defeated else player_team[index]["max_health"]
+	current_player_index = maxi(player_team.size() - 1, 0)
+	spawn_active_player()
+	_update_all_ui()
+
+
 func _switch_bgm(bgm_name: String) -> void:
 	if _current_bgm_name == bgm_name:
 		return
 	_current_bgm_name = bgm_name
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("fade_bgm"):
+		audio.call("fade_bgm", _bgm_id_for_name(bgm_name), 0.35)
 	print("BGM: %s" % bgm_name)
+
+
+func _bgm_id_for_name(bgm_name: String) -> String:
+	match bgm_name:
+		"BattleBGM":
+			return "final_boss" if current_enemy_index >= 7 else "battle"
+		"WinBGM":
+			return "clear"
+		"LoseBGM":
+			return "game_over"
+	return bgm_name.to_snake_case()
 
 
 func _mark_player_defeated() -> void:
@@ -1149,8 +1529,11 @@ func _mark_enemy_defeated() -> void:
 
 
 func _set_battle_state(next_state: BattleState) -> void:
+	var previous_state := flow_state
 	flow_state = next_state
 	currentBattleState = next_state
+	if previous_state != next_state:
+		game_flow_state_changed.emit(BattleState.keys()[previous_state], BattleState.keys()[next_state])
 
 
 func _should_finish_game() -> bool:
@@ -1188,14 +1571,16 @@ func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
 
 
 func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
+	var max_health := int(round(definition.max_health))
 	return {
 		"definition": definition,
 		"character_id": definition.fighter_id,
 		"fighter_id": definition.fighter_id,
 		"display_name": definition.display_name,
+		"fighter_type": String(definition.fighter_type),
 		"scene_path": "",
-		"max_health": int(round(definition.max_health)),
-		"current_health": int(round(definition.max_health)),
+		"max_health": max_health,
+		"current_health": max_health,
 		"is_defeated": false,
 		"is_available": true,
 		"battle_order": battle_order,
@@ -1242,6 +1627,53 @@ func _display_name_for_id(character_id: String) -> String:
 	if player_index == -1:
 		return character_id
 	return String(player_team[player_index]["display_name"])
+
+
+func _definition_for_player_id(character_id: String) -> Resource:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return null
+	return player_team[player_index].get("definition", null)
+
+
+func _type_for_player_id(character_id: String) -> String:
+	var definition := _definition_for_player_id(character_id)
+	if definition == null:
+		return ""
+	return String(definition.fighter_type).to_upper()
+
+
+func _stats_text_for_definition(definition: Resource) -> String:
+	if definition == null:
+		return ""
+	return "HP %d  SPD %d/%d\nP %d  K %d  GRD %.2f\n%s" % [
+		int(round(definition.max_health)),
+		int(round(definition.move_speed)),
+		int(round(definition.air_move_speed)),
+		int(round(definition.punch_damage)),
+		int(round(definition.kick_damage)),
+		float(definition.guard_damage_multiplier),
+		_attack_trait_text_for_definition(definition),
+	]
+
+
+func _attack_trait_text_for_definition(definition: Resource) -> String:
+	var combo_count := 0
+	var max_reach := 0.0
+	for attack_data in definition.attack_sequence:
+		if attack_data == null:
+			continue
+		combo_count += 1
+		max_reach = maxf(max_reach, absf(float(attack_data.hitbox_offset.x)) + float(attack_data.hitbox_size.x) * 0.5)
+	if int(definition.max_attack_chain_count) > 0:
+		combo_count = int(definition.max_attack_chain_count)
+	var type_text := "STANDARD"
+	match String(definition.fighter_type):
+		"power":
+			type_text = "HEAVY"
+		"speed":
+			type_text = "RUSH"
+	return "ATK %s  COMBO %d  RANGE %d" % [type_text, combo_count, int(round(max_reach))]
 
 
 func _order_slot_text(index: int) -> String:
@@ -1298,6 +1730,68 @@ func _serialize_team(team: Array[Dictionary]) -> Array:
 	for data in team:
 		serialized.append(data.duplicate(true))
 	return serialized
+
+
+func get_battle_hud_snapshot() -> Dictionary:
+	return {
+		"player": player,
+		"enemy": enemy,
+		"player_team": _serialize_team(player_team),
+		"enemy_team": _serialize_team(enemy_team),
+		"current_player_index": current_player_index,
+		"current_enemy_index": current_enemy_index,
+		"flow_state": BattleState.keys()[flow_state],
+	}
+
+
+func _initialize_battle_hud() -> void:
+	if battle_hud == null:
+		return
+	if battle_hud.has_method("initialize_hud"):
+		battle_hud.initialize_hud(self)
+
+
+func _update_battle_hud_player() -> void:
+	if battle_hud == null:
+		return
+	if battle_hud.has_method("update_player_status"):
+		battle_hud.update_player_status(player)
+	if battle_hud.has_method("update_team_status"):
+		battle_hud.update_team_status(player_team, current_player_index)
+
+
+func _update_battle_hud_enemy() -> void:
+	if battle_hud == null:
+		return
+	if battle_hud.has_method("update_enemy_status"):
+		battle_hud.update_enemy_status(enemy)
+	if battle_hud.has_method("update_enemy_information") and current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
+		battle_hud.update_enemy_information(enemy_team[current_enemy_index], current_enemy_index)
+
+
+func _notify_hud_enemy_intro(enemy_data: Dictionary, enemy_index: int) -> void:
+	if battle_hud != null and battle_hud.has_method("show_enemy_intro"):
+		battle_hud.show_enemy_intro(enemy_data, enemy_index)
+
+
+func _notify_hud_enemy_defeated() -> void:
+	pass
+
+
+func _notify_hud_fight() -> void:
+	_notify_hud_message("FIGHT", 2, fight_message_duration)
+
+
+func _notify_hud_message(message: String, priority: int, duration: float) -> void:
+	hud_message_requested.emit(message, priority, duration)
+
+
+func _notify_hud_game_over() -> void:
+	pass
+
+
+func _notify_hud_game_clear() -> void:
+	pass
 
 
 func _create_flow_ui() -> void:
@@ -1373,8 +1867,9 @@ func _create_flow_ui() -> void:
 
 	_title_button = Button.new()
 	_title_button.text = "TITLE"
-	_title_button.disabled = true
+	_title_button.disabled = false
 	_title_button.custom_minimum_size = Vector2(260.0, 42.0)
+	_title_button.pressed.connect(go_to_title)
 	end_box.add_child(_title_button)
 
 	_heal_effect_label = Label.new()
@@ -1470,7 +1965,7 @@ func _create_player_order_ui() -> void:
 		character_list.add_child(box)
 
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(230.0, 118.0)
+		button.custom_minimum_size = Vector2(230.0, 150.0)
 		button.pressed.connect(select_order_character.bind(character_id))
 		box.add_child(button)
 		_player_order_character_buttons[character_id] = button
@@ -1518,6 +2013,12 @@ func _create_player_order_ui() -> void:
 	_player_order_reset_button.pressed.connect(reset_order_selection)
 	footer.add_child(_player_order_reset_button)
 
+	_player_order_back_button = Button.new()
+	_player_order_back_button.text = "BACK TO TITLE"
+	_player_order_back_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_back_button.pressed.connect(go_to_title)
+	footer.add_child(_player_order_back_button)
+
 	update_order_select_ui()
 
 
@@ -1536,10 +2037,11 @@ func update_order_select_ui() -> void:
 		var selected := order_index != -1
 		var button: Button = _player_order_character_buttons.get(character_id)
 		if button != null:
-			button.text = "%s\nID: %s\nTYPE: %s\n%s" % [
+			button.text = "%s\nID: %s\nTYPE: %s\n%s\n%s" % [
 				data["display_name"],
 				character_id,
 				String(data["definition"].fighter_type).to_upper(),
+				_stats_text_for_definition(data["definition"]),
 				"ORDER %d" % (order_index + 1) if selected else "NOT SELECTED",
 			]
 			button.disabled = is_player_order_confirmed
@@ -1576,7 +2078,15 @@ func update_player_order_hud() -> void:
 	var lines: Array[String] = []
 	for index in range(selected_player_order.size()):
 		var character_id := selected_player_order[index]
-		lines.append("%d %s  %s" % [index + 1, _display_name_for_id(character_id), _order_status_text(character_id, index)])
+		var definition := _definition_for_player_id(character_id)
+		var max_health := int(round(definition.max_health)) if definition != null else 0
+		lines.append("%d %s [%s] HP %d  %s" % [
+			index + 1,
+			_display_name_for_id(character_id),
+			_type_for_player_id(character_id),
+			max_health,
+			_order_status_text(character_id, index),
+		])
 	_player_order_hud_label.text = "\n".join(lines)
 
 
@@ -1606,12 +2116,18 @@ func _on_player_hp_changed(current_hp: int, max_hp: int) -> void:
 	_update_hp_bar(player_hp_bar, current_hp, max_hp)
 	if current_player_index >= 0 and current_player_index < player_team.size() and not player_team[current_player_index]["is_defeated"]:
 		player_team[current_player_index]["current_health"] = clampi(current_hp, 0, max_hp)
+	if battle_hud != null and battle_hud.has_method("update_player_hp"):
+		battle_hud.update_player_hp(current_hp, max_hp, true)
+	if battle_hud != null and battle_hud.has_method("update_team_status"):
+		battle_hud.update_team_status(player_team, current_player_index)
 
 
 func _on_enemy_hp_changed(current_hp: int, max_hp: int) -> void:
 	_update_hp_bar(enemy_hp_bar, current_hp, max_hp)
 	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size() and not enemy_team[current_enemy_index]["is_defeated"]:
 		enemy_team[current_enemy_index]["current_health"] = clampi(current_hp, 0, max_hp)
+	if battle_hud != null and battle_hud.has_method("update_enemy_hp"):
+		battle_hud.update_enemy_hp(current_hp, max_hp, true)
 
 
 func _update_hp_bar(bar: ProgressBar, current_hp: int, max_hp: int) -> void:
@@ -1641,31 +2157,35 @@ func _update_debug_flow_label() -> void:
 		return
 
 	_debug_flow_label.text = "\n".join([
-		"FLOW STATE: %s" % BattleState.keys()[flow_state],
-		"CURRENT PLAYER: %s" % _active_player_id(),
-		"CURRENT ENEMY: %s" % _active_enemy_id(),
-		"ENEMY NAME: %s" % _active_enemy_name(),
-		"ENEMY TYPE: %s" % _active_enemy_type(),
-		"ENEMY ORDER: %s" % _active_enemy_order_text(),
-		"RUN ACTIVE: %s" % str(is_run_active).to_upper(),
-		"BATTLE RESULT: %s" % String(battle_result),
-		"ACTIVE MOVE SPEED: %.1f" % player.move_speed,
-		"ACTIVE MAX HEALTH: %d" % player.max_hp,
-		"ACTIVE PUNCH DAMAGE: %d" % player.punch_damage,
-		"ENEMY MOVE SPEED: %.1f" % enemy.move_speed,
-		"ENEMY MAX HEALTH: %d" % enemy.max_hp,
-		"ENEMY PUNCH DAMAGE: %d" % enemy.punch_damage,
-		"ENEMY KICK DAMAGE: %d" % enemy.kick_damage,
-		"ENEMY THROW DAMAGE: %d" % enemy.throw_damage,
-		"PLAYER HP: %d" % player.current_hp,
-		"ENEMY HP: %d" % enemy.current_hp,
-		"ALLY REMAINING: %d" % _remaining_count(player_team),
-		"ENEMY REMAINING: %d" % _remaining_count(enemy_team),
-		"SELECTED ALLIES: %s" % _ids_to_text(selected_player_ids),
-		"DEFEATED ALLIES: %s" % _ids_to_text(defeated_player_ids),
-		"DEFEATED ENEMIES: %s" % _ids_to_text(defeated_enemy_ids),
-		"RESULT LOCKED: %s" % str(battle_result_locked).to_upper(),
-		"RESOLVING: %s" % str(is_battle_resolving).to_upper(),
+		"FLOW STATE: %s" % [BattleState.keys()[flow_state]],
+		"CURRENT PLAYER: %s" % [_active_player_id()],
+		"CURRENT ENEMY: %s" % [_active_enemy_id()],
+		"ENEMY NAME: %s" % [_active_enemy_name()],
+		"ENEMY TYPE: %s" % [_active_enemy_type()],
+		"ENEMY ORDER: %s" % [_active_enemy_order_text()],
+		"RUN ACTIVE: %s" % [str(is_run_active).to_upper()],
+		"BATTLE RESULT: %s" % [String(battle_result)],
+		"ACTIVE TYPE: %s" % [_type_for_player_id(String(_active_player_id()))],
+		"ACTIVE MOVE SPEED: %.1f" % [player.move_speed],
+		"ACTIVE AIR SPEED: %.1f" % [player.air_move_speed],
+		"ACTIVE MAX HEALTH: %d" % [player.max_hp],
+		"ACTIVE PUNCH DAMAGE: %d" % [player.punch_damage],
+		"ACTIVE KICK DAMAGE: %d" % [player.kick_damage],
+		"ACTIVE GUARD RATE: %.2f" % [player.guard_damage_rate],
+		"ENEMY MOVE SPEED: %.1f" % [enemy.move_speed],
+		"ENEMY MAX HEALTH: %d" % [enemy.max_hp],
+		"ENEMY PUNCH DAMAGE: %d" % [enemy.punch_damage],
+		"ENEMY KICK DAMAGE: %d" % [enemy.kick_damage],
+		"ENEMY THROW DAMAGE: %d" % [enemy.throw_damage],
+		"PLAYER HP: %d" % [player.current_hp],
+		"ENEMY HP: %d" % [enemy.current_hp],
+		"ALLY REMAINING: %d" % [_remaining_count(player_team)],
+		"ENEMY REMAINING: %d" % [_remaining_count(enemy_team)],
+		"SELECTED ALLIES: %s" % [_ids_to_text(selected_player_ids)],
+		"DEFEATED ALLIES: %s" % [_ids_to_text(defeated_player_ids)],
+		"DEFEATED ENEMIES: %s" % [_ids_to_text(defeated_enemy_ids)],
+		"RESULT LOCKED: %s" % [str(battle_result_locked).to_upper()],
+		"RESOLVING: %s" % [str(is_battle_resolving).to_upper()],
 	] + _enemy_ai_debug_lines())
 
 

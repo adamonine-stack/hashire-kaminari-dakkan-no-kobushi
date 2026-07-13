@@ -8,6 +8,8 @@ const BUTTON_ACTIONS := {
 	"KickButton": "kick",
 	"GuardButton": "guard",
 	"JumpButton": "jump",
+	"SpecialButton": "special",
+	"PauseButton": "pause",
 }
 
 var _held_actions: Array[String] = []
@@ -26,6 +28,15 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
+	release_all_ui_inputs()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		release_all_ui_inputs()
+
+
+func release_all_ui_inputs() -> void:
 	for action_name in _held_actions:
 		Input.action_release(action_name)
 	_held_actions.clear()
