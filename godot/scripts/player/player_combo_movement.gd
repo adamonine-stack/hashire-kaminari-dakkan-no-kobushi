@@ -79,7 +79,7 @@ func _physics_process(delta: float) -> void:
 
 	if direction != 0.0 and not is_hit and not _is_throw_busy():
 		facing_direction = signf(direction)
-		visual_root.scale.x = facing_direction
+		_set_visual_facing()
 
 	if not is_hit and not _is_throw_busy():
 		velocity.x = direction * get_current_move_speed()

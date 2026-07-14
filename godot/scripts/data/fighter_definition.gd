@@ -21,6 +21,14 @@ class_name FighterDefinition
 @export var sprite_frame_size: Vector2i = Vector2i(96, 96)
 @export var sprite_sheet_columns: int = 16
 @export var sprite_animation_rows: Dictionary = {}
+@export_group("Sprite Sheet Layout")
+@export var sprite_frame_origin: Vector2 = Vector2(-1.0, -1.0)
+@export var sprite_frame_step: Vector2 = Vector2(-1.0, -1.0)
+@export var sprite_row_height: float = -1.0
+@export var sprite_max_frames_per_animation: int = 8
+@export var sprite_cleanup_background: bool = true
+@export_range(0.0, 1.0, 0.01) var sprite_background_brightness_limit: float = 0.62
+@export_range(0.0, 1.0, 0.01) var sprite_background_color_tolerance: float = 0.24
 
 @export var fighter_type: StringName
 @export var team_type: StringName = &"ALLY"

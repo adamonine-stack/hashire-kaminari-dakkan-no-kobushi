@@ -226,10 +226,10 @@ func apply_character_art(definition: Resource) -> void:
 		if character_visual_controller.has_method("set_facing"):
 			character_visual_controller.call("set_facing", int(signf(facing_direction)))
 	if character_sprite != null:
-		character_sprite.texture = battle_texture
+		character_sprite.texture = null if uses_animated_character_art else battle_texture
 		character_sprite.visible = battle_texture != null and not uses_animated_character_art
 		uses_official_character_art = uses_animated_character_art or battle_texture != null
-		if battle_texture != null:
+		if battle_texture != null and not uses_animated_character_art:
 			var target_height := float(definition.get("battle_sprite_height"))
 			target_height *= battle_visual_scale_multiplier
 			var texture_height := maxf(float(battle_texture.get_height()), 1.0)
@@ -1260,12 +1260,18 @@ func _face_opponent() -> void:
 	var opponent := _get_opponent()
 	if not (opponent is Node2D):
 		return
+	if _locks_visual_facing():
+		return
 
 	var direction_to_opponent := signf(opponent.global_position.x - global_position.x)
-	if direction_to_opponent == 0.0:
+	if absf(opponent.global_position.x - global_position.x) < 12.0 or direction_to_opponent == 0.0:
 		return
 	facing_direction = direction_to_opponent
 	_set_visual_facing()
+
+
+func _locks_visual_facing() -> bool:
+	return current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0 or is_hit or is_guard_hit or _is_throw_busy() or _is_knockdown_state(&"KNOCKDOWN") or _is_knockdown_state(&"KNOCKBACK") or _is_knockdown_state(&"GET_UP") or current_hp <= 0
 
 
 func _get_opponent() -> Node:
@@ -1957,13 +1963,13 @@ func _play_visual_animation(animation_name: StringName, force := false) -> void:
 
 func _get_current_visual_animation() -> StringName:
 	if current_hp <= 0:
-		return &"ko"
+		return &"defeat"
 	if _is_knockdown_state(&"KNOCKDOWN"):
-		return &"down"
+		return &"knockdown"
 	if _is_knockdown_state(&"GET_UP"):
 		return &"getup"
 	if _is_knockdown_state(&"KNOCKBACK"):
-		return &"damage_heavy"
+		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
@@ -1971,13 +1977,13 @@ func _get_current_visual_animation() -> StringName:
 	if is_throw_escaping:
 		return &"getup"
 	if is_guard_hit:
-		return &"guard"
+		return &"guard_hit"
 	if is_hit:
 		return &"damage"
 	if is_crouch_guarding or is_guarding:
 		return &"guard"
 	if is_crouching:
-		return &"crouch"
+		return &"crouch_idle"
 	if current_attack_type == "Punch":
 		if not is_on_floor():
 			return &"jump_punch"
@@ -1991,11 +1997,11 @@ func _get_current_visual_animation() -> StringName:
 			return &"crouch_kick"
 		return &"kick_2" if combo_step >= max_combo_hits else &"kick_1"
 	if not is_on_floor():
-		return &"jump" if velocity.y < 0.0 else &"fall"
+		return &"jump_up" if velocity.y < 0.0 else &"jump_fall"
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
 	if absf(velocity.x) > 0.0:
-		return &"walk"
+		return &"walk_forward"
 	return &"idle"
 
 
