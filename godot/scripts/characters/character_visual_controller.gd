@@ -236,6 +236,11 @@ func _add_clip_animation(frames: SpriteFrames, sprite_sheet: Texture2D, animatio
 
 
 func _add_enemy_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> void:
+	var clips: Dictionary = character_data.get("sprite_animation_clips")
+	if not clips.is_empty():
+		_add_clip_animations(frames, sprite_sheet, clips, true)
+		return
+
 	var row_map := {
 		&"idle": 1,
 		&"walk": 2,
