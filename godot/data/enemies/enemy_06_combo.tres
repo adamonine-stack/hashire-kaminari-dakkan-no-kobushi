@@ -23,6 +23,141 @@ icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy06/"
+sprite_frame_size = Vector2i(80, 107)
+sprite_sheet_columns = 16
+sprite_animation_clips = {
+"idle": {
+"row": 1,
+"start": 0,
+"count": 4
+},
+"walk": {
+"row": 1,
+"start": 2,
+"count": 8
+},
+"dash": {
+"row": 2,
+"start": 0,
+"count": 7
+},
+"jump": {
+"row": 2,
+"start": 8,
+"count": 6
+},
+"jump_attack": {
+"row": 3,
+"start": 10,
+"count": 5
+},
+"crouch": {
+"row": 6,
+"start": 5,
+"count": 6
+},
+"crouch_punch": {
+"row": 6,
+"start": 7,
+"count": 5
+},
+"crouch_kick": {
+"row": 4,
+"start": 12,
+"count": 3
+},
+"punch": {
+"row": 3,
+"start": 4,
+"count": 5
+},
+"punch_1": {
+"row": 3,
+"start": 4,
+"count": 5
+},
+"punch_2": {
+"row": 3,
+"start": 7,
+"count": 5
+},
+"kick": {
+"row": 4,
+"start": 0,
+"count": 6
+},
+"kick_1": {
+"row": 4,
+"start": 0,
+"count": 6
+},
+"kick_2": {
+"row": 4,
+"start": 4,
+"count": 6
+},
+"guard": {
+"row": 3,
+"start": 0,
+"count": 4
+},
+"grab": {
+"row": 6,
+"start": 0,
+"count": 5
+},
+"throw": {
+"row": 7,
+"start": 5,
+"count": 8
+},
+"damage": {
+"row": 5,
+"start": 0,
+"count": 6
+},
+"damage_light": {
+"row": 5,
+"start": 0,
+"count": 6
+},
+"damage_heavy": {
+"row": 5,
+"start": 0,
+"count": 6
+},
+"down": {
+"row": 5,
+"start": 6,
+"count": 8
+},
+"getup": {
+"row": 6,
+"start": 0,
+"count": 5
+},
+"ko": {
+"row": 5,
+"start": 8,
+"count": 6
+},
+"special": {
+"row": 8,
+"start": 4,
+"count": 9
+},
+"victory": {
+"row": 8,
+"start": 14,
+"count": 2
+}
+}
+sprite_frame_origin = Vector2(0, 0)
+sprite_frame_step = Vector2(80, 107)
+sprite_row_height = 107.0
+sprite_max_frames_per_animation = 16
+sprite_background_brightness_limit = 0.9
+sprite_background_color_tolerance = 0.32
 fighter_type = &"GRAPPLE_SPEED"
 team_type = &"ENEMY"
 enemy_order = 6
