@@ -26,8 +26,8 @@ icon = ExtResource("8_icon")
 sprite_sheet = ExtResource("10_sheet")
 shadow_texture = ExtResource("11_shadow")
 art_folder = "res://assets/characters/player01/"
-sprite_frame_size = Vector2i(96, 96)
-sprite_sheet_columns = 16
+sprite_frame_size = Vector2i(107, 138)
+sprite_sheet_columns = 15
 sprite_animation_rows = {
 "idle": 1,
 "walk": 2,
@@ -49,6 +49,109 @@ sprite_animation_rows = {
 "special": 18,
 "victory": 19
 }
+sprite_animation_clips = {
+"idle": {
+"row": 1,
+"start": 0,
+"count": 4
+},
+"walk": {
+"row": 1,
+"start": 2,
+"count": 8
+},
+"dash": {
+"row": 2,
+"start": 0,
+"count": 8
+},
+"jump": {
+"row": 2,
+"start": 8,
+"count": 6
+},
+"jump_attack": {
+"row": 3,
+"start": 10,
+"count": 5
+},
+"crouch": {
+"row": 6,
+"start": 5,
+"count": 6
+},
+"crouch_punch": {
+"row": 6,
+"start": 7,
+"count": 5
+},
+"crouch_kick": {
+"row": 4,
+"start": 12,
+"count": 3
+},
+"punch1": {
+"row": 3,
+"start": 4,
+"count": 5
+},
+"punch2": {
+"row": 3,
+"start": 7,
+"count": 5
+},
+"kick1": {
+"row": 4,
+"start": 0,
+"count": 6
+},
+"kick2": {
+"row": 4,
+"start": 4,
+"count": 6
+},
+"guard": {
+"row": 3,
+"start": 0,
+"count": 4
+},
+"guard_counter": {
+"row": 3,
+"start": 2,
+"count": 5
+},
+"damage": {
+"row": 5,
+"start": 0,
+"count": 6
+},
+"down": {
+"row": 5,
+"start": 6,
+"count": 8
+},
+"getup": {
+"row": 6,
+"start": 0,
+"count": 5
+},
+"special": {
+"row": 7,
+"start": 3,
+"count": 8
+},
+"victory": {
+"row": 7,
+"start": 12,
+"count": 3
+}
+}
+sprite_frame_origin = Vector2(0, 0)
+sprite_frame_step = Vector2(108, 139)
+sprite_row_height = 139.0
+sprite_max_frames_per_animation = 15
+sprite_background_brightness_limit = 0.9
+sprite_background_color_tolerance = 0.32
 fighter_type = &"balance"
 max_health = 100.0
 move_speed = 235.0

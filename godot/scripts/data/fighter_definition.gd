@@ -21,6 +21,7 @@ class_name FighterDefinition
 @export var sprite_frame_size: Vector2i = Vector2i(96, 96)
 @export var sprite_sheet_columns: int = 16
 @export var sprite_animation_rows: Dictionary = {}
+@export var sprite_animation_clips: Dictionary = {}
 @export_group("Sprite Sheet Layout")
 @export var sprite_frame_origin: Vector2 = Vector2(-1.0, -1.0)
 @export var sprite_frame_step: Vector2 = Vector2(-1.0, -1.0)

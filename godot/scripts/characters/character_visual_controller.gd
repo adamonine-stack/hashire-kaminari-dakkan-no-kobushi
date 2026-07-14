@@ -148,6 +148,11 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 
 
 func _add_player_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> void:
+	var clips: Dictionary = character_data.get("sprite_animation_clips")
+	if not clips.is_empty():
+		_add_clip_animations(frames, sprite_sheet, clips, false)
+		return
+
 	var rows: Dictionary = character_data.get("sprite_animation_rows")
 	var row_map := {
 		&"idle": int(rows.get("idle", 1)),
@@ -183,6 +188,51 @@ func _add_player_animations(frames: SpriteFrames, sprite_sheet: Texture2D, chara
 	}
 	for animation_name in row_map.keys():
 		_add_row_animation(frames, sprite_sheet, animation_name, row_map[animation_name], false)
+
+
+func _add_clip_animations(frames: SpriteFrames, sprite_sheet: Texture2D, clips: Dictionary, is_enemy: bool) -> void:
+	for animation_key in clips.keys():
+		var animation_name := StringName(String(animation_key))
+		var clip: Dictionary = clips[animation_key]
+		var row_number := int(clip.get("row", 1))
+		var start_column := int(clip.get("start", 0))
+		var frame_count := int(clip.get("count", _max_frames_per_animation()))
+		_add_clip_animation(frames, sprite_sheet, animation_name, row_number, start_column, frame_count, is_enemy)
+
+
+func _add_clip_animation(frames: SpriteFrames, sprite_sheet: Texture2D, animation_name: StringName, row_number: int, start_column: int, frame_count: int, is_enemy: bool) -> void:
+	if row_number <= 0 or frame_count <= 0:
+		return
+	var top_y := _layout_top_y(is_enemy)
+	var row_height := _layout_row_height(is_enemy)
+	var x_start := _layout_x_start(is_enemy)
+	var frame_width := _layout_frame_width(is_enemy)
+	var frame_height := _layout_frame_height(is_enemy)
+	var frame_step := _layout_frame_step(is_enemy)
+	var y := top_y + float(row_number - 1) * row_height
+	if y + frame_height > float(sprite_sheet.get_height()):
+		frame_height = maxf(float(sprite_sheet.get_height()) - y, 1.0)
+	if y >= float(sprite_sheet.get_height()):
+		return
+
+	frames.add_animation(String(animation_name))
+	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
+	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
+
+	var sheet_image := sprite_sheet.get_image()
+	for index in range(frame_count):
+		var x := x_start + float(start_column + index) * frame_step
+		if x >= float(sprite_sheet.get_width()):
+			break
+		var clipped_width := minf(frame_width, float(sprite_sheet.get_width()) - x)
+		if clipped_width <= 0.0:
+			continue
+		var frame_texture := _create_clean_frame_texture(sheet_image, Rect2i(roundi(x), roundi(y), roundi(clipped_width), roundi(frame_height)))
+		if frame_texture != null:
+			frames.add_frame(String(animation_name), frame_texture)
+
+	if frames.get_frame_count(String(animation_name)) == 0:
+		frames.remove_animation(String(animation_name))
 
 
 func _add_enemy_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> void:
@@ -405,6 +455,10 @@ func _layout_frame_step(is_enemy: bool) -> float:
 
 
 func _layout_source_scale(is_enemy: bool) -> float:
+	var origin: Vector2 = definition.get("sprite_frame_origin")
+	var step: Vector2 = definition.get("sprite_frame_step")
+	if origin.x >= 0.0 or origin.y >= 0.0 or step.x > 0.0 or step.y > 0.0:
+		return 1.0
 	var frame_size: Vector2i = definition.get("sprite_frame_size")
 	if is_enemy:
 		return ENEMY_FRAME_WIDTH / maxf(float(frame_size.x), 1.0)
