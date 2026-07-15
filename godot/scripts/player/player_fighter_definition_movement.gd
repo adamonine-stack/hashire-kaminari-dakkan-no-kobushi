@@ -20,6 +20,12 @@ signal ultimate_interrupted
 signal ultimate_finished
 signal attack_warning_started(attack_id)
 signal attack_warning_finished(attack_id)
+signal character_special_started(attack_id)
+signal character_special_became_active(attack_id)
+signal character_special_hit(attack_id, target)
+signal character_special_blocked(attack_id, target)
+signal character_special_interrupted(attack_id)
+signal character_special_finished(attack_id)
 
 enum EnemyAIState {
 	DISABLED,
@@ -44,6 +50,13 @@ enum BossAttackState {
 	ULTIMATE_STARTUP,
 	ULTIMATE_ACTIVE,
 	ULTIMATE_RECOVERY,
+}
+
+enum CharacterSpecialState {
+	NONE,
+	STARTUP,
+	ACTIVE,
+	RECOVERY,
 }
 
 var fighter_definition: Resource
@@ -114,6 +127,19 @@ var boss_warning_node: Node2D
 var boss_preview_node: Node2D
 var boss_cinematic_overlay: ColorRect
 var boss_aura_node: Node2D
+var character_special_data: Resource
+var character_special_state := CharacterSpecialState.NONE
+var character_special_timer := 0.0
+var character_special_id := ""
+var character_special_direction := 1.0
+var character_special_hit_targets: Array[Node] = []
+var character_special_move_timer := 0.0
+var character_special_move_speed := 0.0
+var special_gauge := 0.0
+var max_special_gauge := 100.0
+var special_gauge_cost := 100.0
+var special_ai_use_chance := 0.35
+var special_has_armor := false
 
 @onready var special_area := get_node_or_null("SpecialHitBox") as Area2D
 @onready var special_shape := get_node_or_null("SpecialHitBox/CollisionShape2D") as CollisionShape2D
@@ -131,8 +157,9 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if hit_stop_timer > 0.0:
 		return
+	update_character_special(delta)
 	if _should_start_player_special():
-		perform_special_attack()
+		request_character_special(false)
 	update_special_cooldowns(delta)
 	check_ultimate_condition()
 	update_boss_special_attack(delta)
@@ -152,6 +179,7 @@ func apply_character_data(data: Resource) -> void:
 	apply_movement_stats()
 	apply_attack_stats()
 	apply_attack_sequence_stats()
+	apply_character_special_stats()
 	apply_guard_stats()
 	apply_knockback_stats()
 	second_hit_damage_scale = base_second_hit_damage_scale * float(fighter_definition.combo_damage_scale)
@@ -162,7 +190,10 @@ func apply_character_data(data: Resource) -> void:
 	hp_changed.emit(current_hp, max_hp)
 	apply_character_art(fighter_definition)
 	apply_ai_profile(fighter_definition.ai_profile)
-	apply_boss_special_attack_data(fighter_definition.special_attack_sequence)
+	if _is_enemy8():
+		apply_boss_special_attack_data(fighter_definition.special_attack_sequence)
+	else:
+		apply_boss_special_attack_data([])
 	if fighter_definition.battle_texture == null:
 		apply_temporary_color(fighter_definition.temporary_color)
 	else:
@@ -213,6 +244,17 @@ func apply_attack_sequence_stats() -> void:
 	if has_method("apply_attack_sequence") and not fighter_definition.attack_sequence.is_empty():
 		apply_attack_sequence(fighter_definition.attack_sequence)
 		dev026_max_combo_hits = int(fighter_definition.max_attack_chain_count) if int(fighter_definition.max_attack_chain_count) > 0 else fighter_definition.attack_sequence.size()
+
+
+func apply_character_special_stats() -> void:
+	character_special_data = null
+	if fighter_definition != null and not _is_enemy8() and not fighter_definition.special_attack_sequence.is_empty():
+		character_special_data = fighter_definition.special_attack_sequence[0]
+	max_special_gauge = maxf(_definition_float("max_special_gauge", 100.0), 1.0)
+	special_gauge_cost = clampf(_definition_float("special_gauge_cost", 100.0), 1.0, max_special_gauge)
+	special_ai_use_chance = clampf(_definition_float("special_ai_use_chance", 0.35), 0.0, 1.0)
+	special_has_armor = bool(fighter_definition.get("special_has_armor")) if fighter_definition != null else false
+	set_special_gauge(clampf(special_gauge, 0.0, max_special_gauge))
 
 
 func apply_guard_stats() -> void:
@@ -591,6 +633,14 @@ func choose_next_action() -> void:
 	if should_use_feint():
 		enter_feint()
 		return
+	if should_use_character_special():
+		_set_ai_state(EnemyAIState.SPECIAL_ATTACK_REQUEST)
+		ai_action_started.emit("character_special")
+		if request_character_special(true):
+			ai_attack_cooldown_timer = randf_range(_profile_float(&"attack_cooldown_min", 0.30), _profile_float(&"attack_cooldown_max", 0.60))
+			return
+		enter_idle()
+		return
 	if should_request_special_attack():
 		request_special_attack()
 		return
@@ -804,6 +854,323 @@ func request_existing_attack(attack_type: String) -> bool:
 	return current_attack_type != ""
 
 
+func should_use_character_special() -> bool:
+	if not can_start_character_special(true):
+		return false
+	if evaluate_distance() > _profile_float(&"attack_distance", 55.0) + 35.0:
+		return false
+	return randf() <= special_ai_use_chance
+
+
+func request_character_special(is_ai_request := false) -> bool:
+	if not can_start_character_special(is_ai_request):
+		return false
+	start_character_special()
+	return character_special_state != CharacterSpecialState.NONE
+
+
+func can_start_character_special(is_ai_request := false) -> bool:
+	if character_special_data == null:
+		return false
+	if special_gauge + 0.001 < special_gauge_cost:
+		return false
+	if character_special_state != CharacterSpecialState.NONE or is_boss_special_busy():
+		return false
+	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or _is_throw_busy():
+		return false
+	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
+		return false
+	if is_guarding or is_crouching or is_crouch_guarding or not is_on_floor():
+		return false
+	if _is_knockdown_busy():
+		return false
+	if name == "Enemy":
+		return is_ai_request and can_ai_act()
+	return input_enabled and not is_ai_request
+
+
+func start_character_special() -> void:
+	var attack_id := String(character_special_data.attack_id) if character_special_data != null else ""
+	if attack_id.is_empty():
+		attack_id = "character_special"
+	set_special_gauge(special_gauge - special_gauge_cost)
+	interrupt_combo()
+	reset_attack_state(false)
+	_clear_guard_state()
+	is_crouching = false
+	velocity = Vector2.ZERO
+	_face_opponent()
+	character_special_direction = facing_direction
+	_set_visual_facing()
+	character_special_id = attack_id
+	character_special_hit_targets.clear()
+	character_special_state = CharacterSpecialState.STARTUP
+	character_special_timer = maxf(float(character_special_data.startup_time), 0.01)
+	disable_character_special_hitbox()
+	_play_character_special_animation(&"special_startup", &"kick_1")
+	character_special_started.emit(character_special_id)
+	print("[Special] started id=%s" % character_special_id)
+
+
+func enter_character_special_active() -> void:
+	if character_special_data == null:
+		interrupt_character_special(false)
+		return
+	character_special_state = CharacterSpecialState.ACTIVE
+	character_special_timer = maxf(float(character_special_data.active_time), 0.01)
+	apply_character_special_hitbox_data()
+	enable_character_special_hitbox()
+	_setup_character_special_movement()
+	_play_character_special_animation(&"special_attack", &"kick_1")
+	character_special_became_active.emit(character_special_id)
+	print("[Special] active")
+
+
+func enter_character_special_recovery() -> void:
+	disable_character_special_hitbox()
+	stop_character_special_movement()
+	character_special_state = CharacterSpecialState.RECOVERY
+	character_special_timer = maxf(float(character_special_data.recovery_time), 0.01)
+	_play_character_special_animation(&"special_recovery", &"idle")
+
+
+func finish_character_special() -> void:
+	var finished_id := character_special_id
+	reset_character_special_state(false)
+	if not finished_id.is_empty():
+		character_special_finished.emit(finished_id)
+		print("[Special] finished")
+
+
+func interrupt_character_special(emit_signal := true) -> void:
+	if character_special_state == CharacterSpecialState.NONE:
+		return
+	var interrupted_id := character_special_id
+	reset_character_special_state(false)
+	if emit_signal and not interrupted_id.is_empty():
+		character_special_interrupted.emit(interrupted_id)
+		print("[Special] interrupted")
+
+
+func reset_character_special_state(reset_gauge := false) -> void:
+	disable_character_special_hitbox()
+	stop_character_special_movement()
+	character_special_state = CharacterSpecialState.NONE
+	character_special_timer = 0.0
+	character_special_id = ""
+	character_special_hit_targets.clear()
+	if reset_gauge:
+		set_special_gauge(0.0)
+
+
+func is_character_special_busy() -> bool:
+	return character_special_state != CharacterSpecialState.NONE
+
+
+func update_character_special(delta: float) -> void:
+	if character_special_state == CharacterSpecialState.NONE:
+		return
+	if current_hp <= 0 or not is_round_active:
+		reset_character_special_state(false)
+		return
+	_apply_character_special_movement(delta)
+	character_special_timer = maxf(character_special_timer - delta, 0.0)
+	match character_special_state:
+		CharacterSpecialState.STARTUP:
+			if character_special_timer == 0.0:
+				enter_character_special_active()
+		CharacterSpecialState.ACTIVE:
+			if character_special_timer == 0.0:
+				enter_character_special_recovery()
+		CharacterSpecialState.RECOVERY:
+			if character_special_timer == 0.0:
+				finish_character_special()
+
+
+func set_special_gauge(value: float) -> void:
+	special_gauge = clampf(value, 0.0, max_special_gauge)
+	special_gauge_changed.emit(special_gauge, max_special_gauge)
+	if is_equal_approx(special_gauge, max_special_gauge):
+		print("[Special] gauge_full")
+
+
+func add_special_gauge(amount: float) -> void:
+	if amount <= 0.0 or current_hp <= 0:
+		return
+	set_special_gauge(special_gauge + amount)
+	print("[Special] gauge_changed=%d" % int(round(special_gauge)))
+
+
+func get_special_gauge() -> float:
+	return special_gauge
+
+
+func get_max_special_gauge() -> float:
+	return max_special_gauge
+
+
+func get_special_gauge_ratio() -> float:
+	return clampf(special_gauge / maxf(max_special_gauge, 1.0), 0.0, 1.0)
+
+
+func enable_character_special_hitbox() -> void:
+	_set_character_special_hitbox_active(true)
+
+
+func disable_character_special_hitbox() -> void:
+	_set_character_special_hitbox_active(false)
+
+
+func apply_character_special_hitbox_data() -> void:
+	if special_area == null or character_special_data == null:
+		return
+	var scale_multiplier := battle_visual_scale_multiplier
+	var offset: Vector2 = character_special_data.hitbox_offset
+	special_area.position = Vector2(float(offset.x) * scale_multiplier * character_special_direction, (-52.0 + float(offset.y)) * scale_multiplier)
+	if special_shape != null:
+		if special_shape.shape == null or not (special_shape.shape is RectangleShape2D):
+			special_shape.shape = RectangleShape2D.new()
+		else:
+			special_shape.shape = special_shape.shape.duplicate()
+		special_shape.shape.size = character_special_data.hitbox_size * scale_multiplier
+
+
+func _set_character_special_hitbox_active(is_active: bool) -> void:
+	if special_area != null:
+		special_area.set_deferred("monitoring", is_active)
+	if special_shape != null:
+		special_shape.set_deferred("disabled", not is_active)
+
+
+func _setup_character_special_movement() -> void:
+	stop_character_special_movement()
+	if character_special_data == null:
+		return
+	var duration := float(character_special_data.move_duration)
+	var distance := float(character_special_data.move_distance)
+	if duration <= 0.0:
+		duration = float(character_special_data.forward_move_duration)
+		distance = float(character_special_data.forward_move_distance)
+	if duration <= 0.0 or distance == 0.0:
+		return
+	character_special_move_timer = duration
+	character_special_move_speed = (distance / duration) * character_special_direction * float(character_special_data.move_speed_multiplier)
+
+
+func _apply_character_special_movement(delta: float) -> void:
+	if character_special_move_timer <= 0.0:
+		return
+	var step := minf(delta, character_special_move_timer)
+	position.x += character_special_move_speed * step
+	character_special_move_timer = maxf(character_special_move_timer - delta, 0.0)
+	_clamp_to_screen()
+
+
+func stop_character_special_movement() -> void:
+	character_special_move_timer = 0.0
+	character_special_move_speed = 0.0
+
+
+func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
+	if character_special_state != CharacterSpecialState.ACTIVE:
+		return
+	var target := _get_valid_hurtbox_target(area)
+	if target == null or character_special_hit_targets.has(target):
+		return
+	character_special_hit_targets.append(target)
+	var attack_data := _get_character_special_attack_dictionary()
+	var did_hit: bool = bool(target.receive_attack(attack_data, character_special_direction, _get_hit_position(target), self))
+	if did_hit:
+		character_special_hit.emit(character_special_id, target)
+		_spawn_hit_effect(_get_hit_position(target), attack_data["effect_size"])
+		print("[Special] hit target=%s" % _target_debug_name(target))
+	else:
+		character_special_blocked.emit(character_special_id, target)
+		print("[Special] blocked")
+
+
+func _get_character_special_attack_dictionary() -> Dictionary:
+	var base_damage := maxi(punch_damage, kick_damage)
+	var multiplier := float(character_special_data.damage_multiplier) if character_special_data != null else 2.8
+	if multiplier <= 1.0:
+		multiplier = 2.8
+	var raw_knockback: Vector2 = character_special_data.knockback if character_special_data != null else Vector2(kick_knockback_x * 1.4, -kick_knockback_y * 1.4)
+	var final_knockback := calculate_attack_knockback(Vector2(absf(float(raw_knockback.x)), absf(float(raw_knockback.y))))
+	return {
+		"damage": maxi(1, int(round(float(base_damage) * multiplier))),
+		"base_damage": maxi(1, int(round(float(base_damage) * multiplier))),
+		"attack_height": "middle",
+		"attack_type": "special",
+		"is_guardable": true,
+		"guard_damage_multiplier": maxf(float(character_special_data.guard_damage_multiplier), 0.20) if character_special_data != null else 0.20,
+		"guard_hit_time": float(character_special_data.guard_hit_time) if character_special_data != null else 0.28,
+		"guard_hitstop_attacker": 0.06,
+		"guard_hitstop_defender": 0.08,
+		"guard_knockback": character_special_data.guard_knockback if character_special_data != null else Vector2(95.0, 0.0),
+		"knockback_x": final_knockback.x,
+		"knockback_y": final_knockback.y,
+		"hit_stop_frames": 8,
+		"hitstop_attacker": 0.09,
+		"hitstop_defender": 0.13,
+		"hitstun_time": float(character_special_data.hitstun_time) if character_special_data != null else 0.36,
+		"effect_size": 1.85,
+		"screen_shake": 5.8,
+		"se_type": "special",
+		"attack_id": character_special_id,
+		"causes_knockdown": String(fighter_definition.fighter_type) == "power" if fighter_definition != null else false,
+	}
+
+
+func _play_character_special_animation(primary_name: StringName, fallback_name: StringName) -> void:
+	var animation_name := StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else primary_name
+	if primary_name == &"special_startup":
+		animation_name = &"special_startup"
+	elif primary_name == &"special_attack":
+		animation_name = StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else &"special_attack"
+	elif primary_name == &"special_recovery":
+		animation_name = &"special_recovery"
+	_play_visual_animation(animation_name, true)
+	if animation_player == null:
+		return
+	if animation_player.has_animation(String(animation_name)):
+		animation_player.play(String(animation_name))
+	elif animation_player.has_animation(String(fallback_name)):
+		animation_player.play(String(fallback_name))
+
+
+func gain_special_gauge_for_attack_hit(attack_data: Dictionary) -> void:
+	var attack_type := String(attack_data.get("attack_type", current_attack_type)).to_lower()
+	var combo_index := int(attack_data.get("combo_hit_index", 1))
+	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
+		return
+	if combo_index >= dev026_max_combo_hits:
+		add_special_gauge(12.0)
+	elif combo_index >= 2:
+		add_special_gauge(7.0)
+	elif attack_type == "kick" or current_attack_type == "Kick":
+		add_special_gauge(8.0)
+	else:
+		add_special_gauge(6.0)
+
+
+func gain_special_gauge_for_guarded_attack(attack_data: Dictionary) -> void:
+	var attack_type := String(attack_data.get("attack_type", current_attack_type)).to_lower()
+	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
+		return
+	add_special_gauge(3.0 if attack_type == "kick" or current_attack_type == "Kick" else 2.0)
+
+
+func gain_special_gauge_from_damage(amount: int, attack_data: Dictionary) -> void:
+	if amount <= 0:
+		return
+	if bool(attack_data.get("causes_knockdown", false)):
+		add_special_gauge(10.0)
+	elif String(attack_data.get("attack_type", "")).to_lower() == "kick" or amount >= maxi(kick_damage, punch_damage + 4):
+		add_special_gauge(8.0)
+	else:
+		add_special_gauge(5.0)
+
+
 func request_special_attack() -> bool:
 	_set_ai_state(EnemyAIState.SPECIAL_ATTACK_REQUEST)
 	special_attack_requested.emit(self)
@@ -890,11 +1257,13 @@ func _update_special_request() -> void:
 
 func _sync_ai_locked_state() -> bool:
 	if current_hp <= 0:
+		reset_character_special_state(false)
 		reset_special_attack_state()
 		cancel_current_ai_action()
 		_set_ai_state(EnemyAIState.KO)
 		return true
 	if _is_knockdown_busy():
+		reset_character_special_state(false)
 		cancel_current_ai_action()
 		if knockdown_state == &"KNOCKBACK":
 			_set_ai_state(EnemyAIState.KNOCKBACK)
@@ -902,6 +1271,8 @@ func _sync_ai_locked_state() -> bool:
 			_set_ai_state(EnemyAIState.DOWN)
 		return true
 	if is_hit or is_guard_hit:
+		if is_hit:
+			reset_character_special_state(false)
 		cancel_current_ai_action(not is_guard_hit)
 		_set_ai_state(EnemyAIState.HITSTUN)
 		return true
@@ -1016,6 +1387,8 @@ func perform_special_attack() -> bool:
 
 
 func can_start_special_attack() -> bool:
+	if not _is_enemy8():
+		return false
 	if boss_attack_state != BossAttackState.NONE or boss_special_common_cooldown > 0.0 or boss_attack_data_by_id.is_empty():
 		return false
 	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or _is_throw_busy():
@@ -1467,6 +1840,9 @@ func update_boss_special_attack(delta: float) -> void:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	var was_character_special := is_character_special_busy()
+	if was_character_special and not special_has_armor:
+		interrupt_character_special()
 	var was_boss_special := is_boss_special_busy()
 	if was_boss_special and _should_interrupt_boss_special():
 		interrupt_special_attack()
@@ -1493,6 +1869,9 @@ func is_boss_special_busy() -> bool:
 
 
 func _on_special_hitbox_area_entered(area: Area2D) -> void:
+	if character_special_state == CharacterSpecialState.ACTIVE:
+		_on_character_special_hitbox_area_entered(area)
+		return
 	if boss_attack_state != BossAttackState.SPECIAL_ACTIVE and boss_attack_state != BossAttackState.ULTIMATE_ACTIVE:
 		return
 	var target := _get_valid_hurtbox_target(area)
@@ -1642,11 +2021,7 @@ func _is_enemy8() -> bool:
 
 
 func _should_start_player_special() -> bool:
-	if name == "Enemy" or not input_enabled:
-		return false
-	if not InputMap.has_action("special") or not Input.is_action_just_pressed("special"):
-		return false
-	return can_start_special_attack()
+	return false
 
 
 func _debug_enemy_id() -> String:
@@ -1663,6 +2038,14 @@ func _play_audio_manager_se(se_id: String) -> void:
 
 func _update_visual_state() -> void:
 	super._update_visual_state()
+	if is_character_special_busy():
+		match character_special_state:
+			CharacterSpecialState.STARTUP:
+				_play_visual_animation(&"special_startup")
+			CharacterSpecialState.ACTIVE:
+				_play_visual_animation(StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else &"special_attack")
+			CharacterSpecialState.RECOVERY:
+				_play_visual_animation(&"special_recovery")
 	if is_boss_special_busy():
 		match boss_attack_state:
 			BossAttackState.ULTIMATE_STARTUP:

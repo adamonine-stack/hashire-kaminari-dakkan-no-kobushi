@@ -10,6 +10,7 @@ signal combo_advanced(attack_id, combo_index)
 signal combo_finished
 signal hitstop_started(duration)
 signal hitstop_finished
+signal special_gauge_changed(current_value, max_value)
 
 enum AttackPhase {
 	NONE,
@@ -21,6 +22,7 @@ enum AttackPhase {
 enum CombatInput {
 	PUNCH,
 	KICK,
+	SPECIAL,
 }
 
 @export var dev026_combo_input_buffer_time := 0.18
@@ -89,19 +91,19 @@ func _physics_process(delta: float) -> void:
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
 
-	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy():
+	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy():
 		direction = 0.0
 
 	if direction != 0.0 and not is_hit and not _is_throw_busy():
 		facing_direction = signf(direction)
 		_set_visual_facing()
 
-	if not is_hit and not _is_throw_busy():
+	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
 		velocity.x = direction * get_current_move_speed()
 
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
-		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
+		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
 			velocity.y = -jump_power
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
@@ -109,9 +111,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y += gravity * delta
 
-	if input_enabled and _is_throw_input_pressed() and _can_start_throw():
+	if input_enabled and _is_throw_input_pressed() and _can_start_throw() and not is_character_special_busy():
 		_start_throw()
 	var did_cancel_attack := try_continue_combo()
+	if not did_cancel_attack and _is_special_input_just_pressed():
+		request_combat_input(CombatInput.SPECIAL)
 	if not did_cancel_attack and Input.is_action_just_pressed("attack"):
 		request_combat_input(CombatInput.PUNCH)
 	if not did_cancel_attack and Input.is_action_just_pressed("kick"):
@@ -189,6 +193,8 @@ func request_combat_input(combat_input: CombatInput, is_ai_request := false) -> 
 			return request_attack_input(&"Punch", is_ai_request)
 		CombatInput.KICK:
 			return request_attack_input(&"Kick", is_ai_request)
+		CombatInput.SPECIAL:
+			return request_character_special(is_ai_request)
 		_:
 			return false
 
@@ -213,11 +219,11 @@ func request_attack_input(attack_type: StringName, is_ai_request := false) -> bo
 func _can_accept_attack_input(is_ai_request: bool) -> bool:
 	if not is_ai_request and not input_enabled:
 		return false
-	return current_hp > 0 and is_round_active and not is_hit and not is_guard_hit and not _is_throw_busy() and (is_ai_request or not _is_throw_input_held())
+	return current_hp > 0 and is_round_active and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
 
 
 func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) -> bool:
-	if current_attack_type != "" or is_guarding or is_crouching or is_crouch_guarding:
+	if current_attack_type != "" or is_guarding or is_crouching or is_crouch_guarding or is_character_special_busy():
 		return false
 	if not is_ai_request and not input_enabled:
 		return false
@@ -441,6 +447,20 @@ func reset_attack_state(clear_combo_state := true) -> void:
 		close_combo_window()
 
 
+func request_character_special(_is_ai_request := false) -> bool:
+	return false
+
+
+func is_character_special_busy() -> bool:
+	return false
+
+
+func _is_special_input_just_pressed() -> bool:
+	var primary := InputMap.has_action("special_attack") and Input.is_action_just_pressed("special_attack")
+	var legacy := InputMap.has_action("special") and Input.is_action_just_pressed("special")
+	return primary or legacy
+
+
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
 	if _can_guard_attack(attack_data, attacker):
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
@@ -480,6 +500,8 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 	var did_hit: bool = bool(target.receive_attack(scaled_attack_data, facing_direction, _get_hit_position(target), self))
 	if did_hit:
 		register_attack_hit(target)
+		if has_method("gain_special_gauge_for_attack_hit"):
+			call("gain_special_gauge_for_attack_hit", scaled_attack_data)
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
@@ -494,10 +516,14 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker._clear_cancel_window()
 	if attacker != null and attacker.has_method("clear_attack_buffer"):
 		attacker.clear_attack_buffer()
+	if attacker != null and attacker.has_method("gain_special_gauge_for_guarded_attack"):
+		attacker.gain_special_gauge_for_guarded_attack(attack_data)
 	_enter_guard_hit_state()
 	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
+	if has_method("gain_special_gauge_from_damage"):
+		call("gain_special_gauge_from_damage", guard_damage, attack_data)
 	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
 	_flash_guard()
 	_apply_guard_knockback(attack_data, attack_direction)

@@ -62,6 +62,12 @@ class_name FighterDefinition
 @export var max_attack_chain_count: int = 0
 @export var special_attack_sequence: Array[Resource] = []
 
+@export_group("Character Special")
+@export var max_special_gauge: float = 100.0
+@export var special_gauge_cost: float = 100.0
+@export var special_ai_use_chance: float = 0.35
+@export var special_has_armor: bool = false
+
 @export_group("Legacy Scales")
 @export var punch_damage_scale: float = 1.0
 @export var kick_damage_scale: float = 1.0

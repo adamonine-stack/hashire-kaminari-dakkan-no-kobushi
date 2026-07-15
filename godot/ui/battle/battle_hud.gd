@@ -31,6 +31,7 @@ var player_name_label: Label
 var player_hp_label: Label
 var player_hp_bar: ProgressBar
 var player_delay_hp_bar: ProgressBar
+var player_special_bar: ProgressBar
 var player_state_label: Label
 var player_special_label: Label
 var player_low_hp_label: Label
@@ -164,6 +165,7 @@ func reset_battle_hud() -> void:
 	player_state_label.visible = false
 	player_special_label.visible = false
 	player_special_label.text = ""
+	update_player_special_gauge(0.0, 100.0)
 	player_low_hp_label.visible = false
 	player_name_label.visible = false
 	player_name_label.text = ""
@@ -209,6 +211,10 @@ func update_player_status(player_node: Node) -> void:
 	if player_icon_rect != null:
 		player_icon_rect.texture = _fighter_icon_from_node(current_player, true)
 	update_player_hp(int(current_player.get("current_hp")), int(current_player.get("max_hp")), false)
+	if current_player.has_method("get_special_gauge") and current_player.has_method("get_max_special_gauge"):
+		update_player_special_gauge(float(current_player.get_special_gauge()), float(current_player.get_max_special_gauge()))
+	else:
+		update_player_special_gauge(0.0, 100.0)
 
 
 func update_team_status(team_data: Array, active_index: int = -1) -> void:
@@ -281,6 +287,18 @@ func update_player_hp(current_hp: float, max_hp: float, animate := true) -> void
 	_animate_hp_bar(player_hp_bar, player_delay_hp_bar, player_display_hp, player_delay_hp, safe_current, animate)
 	player_display_hp = safe_current
 	player_delay_hp = safe_current
+
+
+func update_player_special_gauge(current_value: float, max_value: float) -> void:
+	if player_special_bar == null:
+		return
+	var safe_max := maxf(max_value, 1.0)
+	var safe_current := clampf(current_value, 0.0, safe_max)
+	player_special_bar.max_value = safe_max
+	player_special_bar.value = safe_current
+	player_special_bar.visible = show_battle_hp_bars
+	var ratio := safe_current / safe_max
+	player_special_bar.modulate = Color(0.45, 0.95, 1.0, 1.0) if ratio >= 0.999 else Color(0.28, 0.56, 0.95, 0.82)
 
 
 func update_enemy_hp(current_hp: float, max_hp: float, animate := true) -> void:
@@ -586,6 +604,7 @@ func _build_hud() -> void:
 	var player_hp_stack := _make_hp_stack(player_box)
 	player_delay_hp_bar = player_hp_stack["delay"]
 	player_hp_bar = player_hp_stack["front"]
+	player_special_bar = _make_special_gauge_bar(player_box)
 	player_state_label = _make_label(player_box, "INVINCIBLE", 15)
 	player_state_label.visible = false
 	player_special_label = _make_label(player_box, "SPECIAL --", 14)
@@ -795,6 +814,17 @@ func _make_hp_stack(parent: Node) -> Dictionary:
 	}
 
 
+func _make_special_gauge_bar(parent: Node) -> ProgressBar:
+	var bar := ProgressBar.new()
+	bar.custom_minimum_size = Vector2(300.0, 8.0)
+	bar.show_percentage = false
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.max_value = 100.0
+	bar.value = 0.0
+	parent.add_child(bar)
+	return bar
+
+
 func _animate_hp_bar(front_bar: ProgressBar, delay_bar: ProgressBar, previous_front: float, previous_delay: float, target_value: float, animate: bool) -> void:
 	if not animate:
 		front_bar.value = target_value
@@ -885,6 +915,8 @@ func _connect_fighter_signals(fighter: Node) -> void:
 	if fighter == null:
 		return
 	_connect_signal_once(fighter, "hp_changed", Callable(self, "_on_fighter_hp_changed").bind(fighter))
+	if fighter == current_player:
+		_connect_signal_once(fighter, "special_gauge_changed", Callable(self, "_on_player_special_gauge_changed"))
 	_connect_signal_once(fighter, "damage_feedback_requested", Callable(self, "_on_damage_feedback_requested").bind(fighter))
 	_connect_signal_once(fighter, "special_attack_started", Callable(self, "_on_special_attack_started"))
 	_connect_signal_once(fighter, "special_attack_finished", Callable(self, "_on_special_attack_finished"))
@@ -984,6 +1016,10 @@ func _on_fighter_hp_changed(current_hp: int, max_hp: int, fighter: Node) -> void
 
 func _on_damage_feedback_requested(target: Node, damage: int, guarded: bool, hit_position: Vector2, _fighter: Node) -> void:
 	show_damage_number(target, damage, guarded, hit_position)
+
+
+func _on_player_special_gauge_changed(current_value: float, max_value: float) -> void:
+	update_player_special_gauge(current_value, max_value)
 
 
 func _on_special_attack_started(attack_id: String) -> void:
@@ -1136,6 +1172,8 @@ func _apply_minimal_battle_text_visibility() -> void:
 			player_hp_bar.visible = true
 		if player_delay_hp_bar != null:
 			player_delay_hp_bar.visible = true
+		if player_special_bar != null:
+			player_special_bar.visible = true
 		if enemy_hp_bar != null:
 			enemy_hp_bar.visible = true
 		if enemy_delay_hp_bar != null:

@@ -8,7 +8,7 @@ const BUTTON_ACTIONS := {
 	"KickButton": "kick",
 	"GuardButton": "guard",
 	"JumpButton": "jump",
-	"SpecialButton": "special",
+	"SpecialButton": "special_attack",
 	"PauseButton": "pause",
 }
 

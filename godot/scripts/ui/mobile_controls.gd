@@ -17,7 +17,7 @@ const TAP_BUTTON_ACTIONS := {
 	"PunchButton": "attack",
 	"KickButton": "kick",
 	"JumpButton": "jump",
-	"SpecialButton": "special",
+	"SpecialButton": "special_attack",
 	"PauseButton": "pause",
 }
 

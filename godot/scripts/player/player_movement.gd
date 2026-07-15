@@ -1001,6 +1001,8 @@ func _cancel_current_action() -> void:
 	_clear_pending_throw()
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
+	if has_method("reset_character_special_state"):
+		call("reset_character_special_state", false)
 
 
 func _enter_hit_state() -> void:

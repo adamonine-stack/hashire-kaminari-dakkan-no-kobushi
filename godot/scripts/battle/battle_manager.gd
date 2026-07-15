@@ -196,6 +196,8 @@ func _ready() -> void:
 	enemy.hp_depleted.connect(_on_enemy_hp_depleted)
 	player.hp_changed.connect(_on_player_hp_changed)
 	enemy.hp_changed.connect(_on_enemy_hp_changed)
+	if player.has_signal("special_gauge_changed"):
+		player.special_gauge_changed.connect(_on_player_special_gauge_changed)
 	initialize_game_progress()
 	_create_flow_ui()
 	_initialize_battle_hud()
@@ -617,8 +619,12 @@ func spawn_active_player() -> void:
 	var data := player_team[current_player_index]
 	var definition: Resource = data["definition"]
 	var previous_player_id := _last_spawned_player_id
+	if previous_player_id != "":
+		_store_player_special_gauge(previous_player_id)
 	if player.has_method("apply_fighter_definition"):
 		player.apply_fighter_definition(definition)
+	if player.has_method("set_special_gauge"):
+		player.set_special_gauge(float(data.get("special_gauge", 0.0)))
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	player.visible = true
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
@@ -652,6 +658,8 @@ func spawn_active_enemy(restore_full_health := true) -> void:
 		data["is_defeated"] = false
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
+	if enemy.has_method("set_special_gauge"):
+		enemy.set_special_gauge(0.0)
 	enemy.current_hp = enemy.max_hp if restore_full_health else enemy.current_hp
 	if restore_full_health:
 		data["current_health"] = enemy.current_hp
@@ -1012,6 +1020,8 @@ func reset_active_fighter_state(
 		fighter.reset_combo()
 	if fighter.has_method("reset_knockdown_state"):
 		fighter.reset_knockdown_state()
+	if fighter.has_method("reset_character_special_state"):
+		fighter.reset_character_special_state(false)
 	if fighter.has_method("_set_punch_hitbox_active"):
 		fighter._set_punch_hitbox_active(false, false)
 	if fighter.has_method("_set_kick_hitbox_active"):
@@ -1292,9 +1302,18 @@ func _store_active_fighter_health() -> void:
 	if current_player_index >= 0 and current_player_index < player_team.size():
 		var player_data := player_team[current_player_index]
 		player_data["current_health"] = 0 if player_data["is_defeated"] else clampi(player.current_hp, 0, player.max_hp)
+		if player.has_method("get_special_gauge"):
+			player_data["special_gauge"] = float(player.get_special_gauge())
 	if current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
 		var enemy_data := enemy_team[current_enemy_index]
 		enemy_data["current_health"] = 0 if enemy_data["is_defeated"] else clampi(enemy.current_hp, 0, enemy.max_hp)
+
+
+func _store_player_special_gauge(character_id: String) -> void:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1 or player == null or not player.has_method("get_special_gauge"):
+		return
+	player_team[player_index]["special_gauge"] = float(player.get_special_gauge())
 
 
 func _heal_active_player_after_enemy_defeat() -> void:
@@ -1608,6 +1627,8 @@ func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
 		fighter._clear_pending_throw()
 	if fighter.has_method("reset_combo"):
 		fighter.reset_combo()
+	if fighter.has_method("reset_character_special_state"):
+		fighter.reset_character_special_state(false)
 
 
 func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
@@ -1621,6 +1642,7 @@ func _create_progress_entry_from_definition(definition: Resource, battle_order: 
 		"scene_path": "",
 		"max_health": max_health,
 		"current_health": max_health,
+		"special_gauge": 0.0,
 		"is_defeated": false,
 		"is_available": true,
 		"battle_order": battle_order,
@@ -1642,6 +1664,7 @@ func _create_progress_entry(
 		"scene_path": "",
 		"max_health": max_health,
 		"current_health": max_health,
+		"special_gauge": 0.0,
 		"is_defeated": false,
 		"is_available": true,
 		"battle_order": battle_order,
@@ -2167,6 +2190,13 @@ func _on_player_hp_changed(current_hp: int, max_hp: int) -> void:
 		battle_hud.update_player_hp(current_hp, max_hp, true)
 	if battle_hud != null and battle_hud.has_method("update_team_status"):
 		battle_hud.update_team_status(player_team, current_player_index)
+
+
+func _on_player_special_gauge_changed(current_value: float, max_value: float) -> void:
+	if current_player_index >= 0 and current_player_index < player_team.size():
+		player_team[current_player_index]["special_gauge"] = clampf(current_value, 0.0, maxf(max_value, 1.0))
+	if battle_hud != null and battle_hud.has_method("update_player_special_gauge"):
+		battle_hud.update_player_special_gauge(current_value, max_value)
 
 
 func _on_enemy_hp_changed(current_hp: int, max_hp: int) -> void:

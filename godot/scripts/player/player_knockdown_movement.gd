@@ -74,6 +74,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(final_damage)
+	if has_method("gain_special_gauge_from_damage"):
+		call("gain_special_gauge_from_damage", final_damage, attack_data)
 	damage_feedback_requested.emit(self, final_damage, false, hit_position)
 	_flash_damage()
 	if attacker != null and attacker.has_method("register_combo_hit"):
@@ -119,6 +121,11 @@ func _complete_throw_hit() -> void:
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)
+	if has_method("gain_special_gauge_from_damage"):
+		call("gain_special_gauge_from_damage", damage, {
+			"attack_type": "throw",
+			"causes_knockdown": true,
+		})
 	damage_feedback_requested.emit(self, damage, false, hit_position)
 	_flash_damage()
 
@@ -323,6 +330,8 @@ func _clear_control_state_for_knockdown() -> void:
 	_clear_pending_throw()
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
+	if has_method("reset_character_special_state"):
+		call("reset_character_special_state", false)
 	clear_attack_buffer()
 	close_combo_window()
 	reset_combo()
