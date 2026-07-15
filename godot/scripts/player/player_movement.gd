@@ -914,11 +914,11 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 			attacker._finish_combo_after_ko()
 	_apply_knockback(attack_data, attack_direction)
 	_start_invincibility()
-	_start_hit_stop(attack_data["hit_stop_frames"])
+	_start_hit_stop_seconds(_get_defender_hitstop_duration_from_data(attack_data))
 	_spawn_hit_effect(hit_position, attack_data["effect_size"])
 	_play_hit_se(attack_data["se_type"])
-	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop(attack_data["hit_stop_frames"])
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(_get_attacker_hitstop_duration_from_data(attack_data))
 	screen_shake_requested.emit(attack_data["screen_shake"])
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
@@ -1033,11 +1033,11 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
 	_flash_guard()
 	_apply_guard_knockback(attack_data, attack_direction)
-	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
+	_start_hit_stop_seconds(float(attack_data.get("guard_hitstop_defender", attack_data.get("guard_hit_stop_time", guard_hit_stop_time))))
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
-	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hitstop_attacker", attack_data.get("guard_hit_stop_time", guard_hit_stop_time))))
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
 
@@ -1339,6 +1339,18 @@ func _start_hit_stop(frame_count: int) -> void:
 
 func _start_hit_stop_seconds(duration: float) -> void:
 	hit_stop_timer = maxf(hit_stop_timer, duration * _hitstop_multiplier())
+
+
+func _get_attacker_hitstop_duration_from_data(attack_data: Dictionary) -> float:
+	if attack_data.has("hitstop_attacker"):
+		return float(attack_data["hitstop_attacker"])
+	return float(attack_data.get("hit_stop_frames", 4)) / 60.0
+
+
+func _get_defender_hitstop_duration_from_data(attack_data: Dictionary) -> float:
+	if attack_data.has("hitstop_defender"):
+		return float(attack_data["hitstop_defender"])
+	return float(attack_data.get("hit_stop_frames", 4)) / 60.0
 
 
 func _update_hit_stop(delta: float) -> bool:

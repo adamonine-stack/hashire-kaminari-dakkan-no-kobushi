@@ -87,11 +87,11 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		return true
 
 	_apply_knockback(attack_data, attack_direction)
-	_start_hit_stop(attack_data["hit_stop_frames"])
+	_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
 	_spawn_hit_effect(hit_position, attack_data["effect_size"])
 	_play_hit_se(attack_data["se_type"])
-	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop(attack_data["hit_stop_frames"])
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(_get_attacker_hitstop_duration(attack_data))
 	screen_shake_requested.emit(attack_data["screen_shake"])
 
 	if causes_down:

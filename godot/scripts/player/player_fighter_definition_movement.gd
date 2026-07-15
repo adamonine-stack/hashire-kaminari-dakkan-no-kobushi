@@ -798,9 +798,9 @@ func request_existing_attack(attack_type: String) -> bool:
 		return false
 	match attack_type:
 		"kick":
-			_dev_start_kick()
+			request_attack_input(&"Kick", true)
 		_:
-			_dev_start_attack()
+			request_attack_input(&"Punch", true)
 	return current_attack_type != ""
 
 
@@ -1475,10 +1475,10 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		var damage := int(attack_data["damage"])
 		apply_damage(damage)
 		damage_feedback_requested.emit(self, damage, false, hit_position)
-		_start_hit_stop(attack_data["hit_stop_frames"])
+		_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
 		_spawn_hit_effect(hit_position, attack_data["effect_size"])
-		if attacker != null and attacker.has_method("start_hit_stop"):
-			attacker.start_hit_stop(attack_data["hit_stop_frames"])
+		if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+			attacker.start_hit_stop_seconds(_get_attacker_hitstop_duration(attack_data))
 		if current_hp <= 0:
 			reset_special_attack_state(false)
 		return true

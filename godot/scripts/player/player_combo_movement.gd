@@ -18,7 +18,12 @@ enum AttackPhase {
 	RECOVERY,
 }
 
-@export var dev026_combo_input_buffer_time := 0.20
+enum CombatInput {
+	PUNCH,
+	KICK,
+}
+
+@export var dev026_combo_input_buffer_time := 0.18
 @export var dev026_combo_continue_window := 0.25
 @export var dev026_combo_reset_time := 0.80
 @export var dev026_max_combo_hits: int = 3
@@ -31,6 +36,16 @@ enum AttackPhase {
 @export_range(0.0, 1.0, 0.05) var dev026_ai_combo_continue_probability := 0.45
 @export_range(0.0, 1.0, 0.05) var dev026_ai_third_hit_probability := 0.25
 @export var show_attack_hitboxes := false
+@export var dev052_punch_1_hitstop_attacker := 0.045
+@export var dev052_punch_1_hitstop_defender := 0.065
+@export var dev052_punch_2_hitstop_attacker := 0.050
+@export var dev052_punch_2_hitstop_defender := 0.075
+@export var dev052_kick_1_hitstop_attacker := 0.060
+@export var dev052_kick_1_hitstop_defender := 0.085
+@export var dev052_finisher_hitstop_attacker := 0.070
+@export var dev052_finisher_hitstop_defender := 0.100
+@export var dev052_guard_hitstop_attacker := 0.035
+@export var dev052_guard_hitstop_defender := 0.050
 
 var dev_combo_window_open := false
 var dev_buffered_attack: StringName = &""
@@ -97,10 +112,10 @@ func _physics_process(delta: float) -> void:
 	if input_enabled and _is_throw_input_pressed() and _can_start_throw():
 		_start_throw()
 	var did_cancel_attack := try_continue_combo()
-	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
-		request_punch_attack()
-	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
-		request_kick_attack()
+	if not did_cancel_attack and Input.is_action_just_pressed("attack"):
+		request_combat_input(CombatInput.PUNCH)
+	if not did_cancel_attack and Input.is_action_just_pressed("kick"):
+		request_combat_input(CombatInput.KICK)
 
 	if not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_attack(delta)
@@ -117,11 +132,11 @@ func _physics_process(delta: float) -> void:
 
 
 func _dev_start_attack() -> void:
-	request_punch_attack()
+	request_attack_input(&"Punch", true)
 
 
 func _dev_start_kick() -> void:
-	request_kick_attack()
+	request_attack_input(&"Kick", true)
 
 
 func _start_throw() -> void:
@@ -166,6 +181,51 @@ func request_kick_attack() -> void:
 	if attack_id.is_empty():
 		attack_id = _ensure_fallback_attack_data("kick")
 	start_attack(attack_id)
+
+
+func request_combat_input(combat_input: CombatInput, is_ai_request := false) -> bool:
+	match combat_input:
+		CombatInput.PUNCH:
+			return request_attack_input(&"Punch", is_ai_request)
+		CombatInput.KICK:
+			return request_attack_input(&"Kick", is_ai_request)
+		_:
+			return false
+
+
+func request_attack_input(attack_type: StringName, is_ai_request := false) -> bool:
+	if attack_type != &"Punch" and attack_type != &"Kick":
+		return false
+	if not _can_accept_attack_input(is_ai_request):
+		return false
+	if current_attack_type != "":
+		buffer_attack(attack_type)
+		return try_continue_combo()
+	if not _can_start_attack_from_input(attack_type, is_ai_request):
+		return false
+	if attack_type == &"Kick":
+		request_kick_attack()
+	else:
+		request_punch_attack()
+	return current_attack_type != ""
+
+
+func _can_accept_attack_input(is_ai_request: bool) -> bool:
+	if not is_ai_request and not input_enabled:
+		return false
+	return current_hp > 0 and is_round_active and not is_hit and not is_guard_hit and not _is_throw_busy() and (is_ai_request or not _is_throw_input_held())
+
+
+func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) -> bool:
+	if current_attack_type != "" or is_guarding or is_crouching or is_crouch_guarding:
+		return false
+	if not is_ai_request and not input_enabled:
+		return false
+	if not is_on_floor():
+		return false
+	if attack_type == &"Punch":
+		return attack_cooldown_timer <= 0.0 and kick_active_timer <= 0.0
+	return kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0
 
 
 func start_attack(attack_id: String) -> void:
@@ -401,11 +461,11 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 			attacker._finish_combo_after_ko()
 	_apply_knockback(attack_data, attack_direction)
 	_start_invincibility()
-	_start_hit_stop(attack_data["hit_stop_frames"])
+	_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
 	_spawn_hit_effect(hit_position, attack_data["effect_size"])
 	_play_hit_se(attack_data["se_type"])
-	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop(attack_data["hit_stop_frames"])
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(_get_attacker_hitstop_duration(attack_data))
 	screen_shake_requested.emit(attack_data["screen_shake"])
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
@@ -441,11 +501,11 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
 	_flash_guard()
 	_apply_guard_knockback(attack_data, attack_direction)
-	_start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
+	_start_hit_stop_seconds(_get_guard_defender_hitstop_duration(attack_data))
 	_spawn_guard_effect(hit_position)
 	_play_guard_se()
-	if attacker != null and attacker.has_method("start_hit_stop"):
-		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hit_stop_time", guard_hit_stop_time)))
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(_get_guard_attacker_hitstop_duration(attack_data))
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
 
@@ -587,9 +647,9 @@ func _update_attack_buffer(delta: float) -> void:
 	if not input_enabled or current_attack_type == "" or _is_throw_input_held():
 		return
 	if Input.is_action_just_pressed("attack"):
-		buffer_attack(&"Punch")
+		request_combat_input(CombatInput.PUNCH)
 	elif Input.is_action_just_pressed("kick"):
-		buffer_attack(&"Kick")
+		request_combat_input(CombatInput.KICK)
 
 
 func _try_cancel_attack_from_input() -> bool:
@@ -603,7 +663,11 @@ func _can_cancel_attack() -> bool:
 func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bool:
 	if current_attack_data == null:
 		return false
-	return not get_next_attack_id(String(next_attack).to_lower()).is_empty()
+	if current_attack == &"Punch" and combo_count <= 1:
+		return next_attack == &"Punch" and not get_next_attack_id("punch").is_empty()
+	if current_attack == &"Punch" and combo_count == 2:
+		return next_attack == &"Kick" and not get_next_attack_id("kick").is_empty()
+	return false
 
 
 func try_continue_combo() -> bool:
@@ -726,11 +790,13 @@ func _maybe_buffer_ai_combo() -> void:
 func _choose_ai_combo_attack() -> StringName:
 	match StringName(current_attack_type):
 		&"Punch":
-			if not get_next_attack_id("kick").is_empty() and randf() < 0.5:
+			if combo_count <= 1 and not get_next_attack_id("punch").is_empty():
+				return &"Punch"
+			if combo_count == 2 and not get_next_attack_id("kick").is_empty():
 				return &"Kick"
-			return &"Punch" if not get_next_attack_id("punch").is_empty() else &""
+			return &""
 		&"Kick":
-			return &"Punch" if not get_next_attack_id("punch").is_empty() else &""
+			return &""
 		_:
 			return &""
 
@@ -778,6 +844,10 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		"knockback_x": final_knockback.x,
 		"knockback_y": final_knockback.y,
 		"hit_stop_frames": maxi(6 if attack_type == "Kick" else 4, int(round(float(attack_data.hitstop_time) * 60.0))),
+		"hitstop_attacker": _get_attack_hitstop_attacker(attack_data, attack_type),
+		"hitstop_defender": _get_attack_hitstop_defender(attack_data, attack_type),
+		"guard_hitstop_attacker": dev052_guard_hitstop_attacker,
+		"guard_hitstop_defender": dev052_guard_hitstop_defender,
 		"effect_size": 1.5 if attack_type == "Kick" else 1.0,
 		"screen_shake": 4.5 if attack_type == "Kick" else 2.8,
 		"se_type": "strong" if attack_type == "Kick" else "weak",
@@ -833,9 +903,53 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
+	if String(current_attack_type) == "Kick" and combo_count <= 0 and not dev_starting_combo_attack:
+		return &"kick_1"
+	if String(current_attack_type) == "Kick" and dev_combo_step >= dev026_max_combo_hits:
+		return &"combo_finisher"
 	if attack_data != null and not String(attack_data.animation_name).is_empty():
 		return StringName(attack_data.animation_name)
 	return _get_attack_animation_name(StringName(current_attack_type))
+
+
+func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) -> float:
+	if attack_type == "Kick":
+		if dev_combo_step >= dev026_max_combo_hits or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
+			return dev052_finisher_hitstop_attacker
+		return dev052_kick_1_hitstop_attacker
+	if dev_combo_step == 2:
+		return dev052_punch_2_hitstop_attacker
+	return dev052_punch_1_hitstop_attacker
+
+
+func _get_attack_hitstop_defender(attack_data: Resource, attack_type: String) -> float:
+	if attack_type == "Kick":
+		if dev_combo_step >= dev026_max_combo_hits or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
+			return dev052_finisher_hitstop_defender
+		return dev052_kick_1_hitstop_defender
+	if dev_combo_step == 2:
+		return dev052_punch_2_hitstop_defender
+	return dev052_punch_1_hitstop_defender
+
+
+func _get_attacker_hitstop_duration(attack_data: Dictionary) -> float:
+	if attack_data.has("hitstop_attacker"):
+		return float(attack_data["hitstop_attacker"])
+	return float(attack_data.get("hit_stop_frames", 4)) / 60.0
+
+
+func _get_defender_hitstop_duration(attack_data: Dictionary) -> float:
+	if attack_data.has("hitstop_defender"):
+		return float(attack_data["hitstop_defender"])
+	return float(attack_data.get("hit_stop_frames", 4)) / 60.0
+
+
+func _get_guard_attacker_hitstop_duration(attack_data: Dictionary) -> float:
+	return float(attack_data.get("guard_hitstop_attacker", dev052_guard_hitstop_attacker))
+
+
+func _get_guard_defender_hitstop_duration(attack_data: Dictionary) -> float:
+	return float(attack_data.get("guard_hitstop_defender", dev052_guard_hitstop_defender))
 
 
 func _setup_attack_forward_movement(attack_data: Resource) -> void:
