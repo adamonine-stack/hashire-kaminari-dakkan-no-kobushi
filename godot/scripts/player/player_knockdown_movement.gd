@@ -67,7 +67,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		int(attack_data.get("combo_hit_index", 1)) >= dev026_max_combo_hits
 	)
 
+	last_damage_animation = _get_damage_animation_from_attack(attack_data)
 	_enter_hit_state()
+	_play_visual_animation(last_damage_animation, true)
 	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
 	if causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
@@ -113,7 +115,9 @@ func _complete_throw_hit() -> void:
 	throw_state = ""
 	throw_escape_timer = 0.0
 	_clear_pending_throw()
+	last_damage_animation = &"damage_heavy"
 	_enter_hit_state()
+	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)
 	damage_feedback_requested.emit(self, damage, false, hit_position)
 	_flash_damage()
@@ -216,7 +220,7 @@ func start_get_up() -> void:
 	did_get_up_separation = false
 	set_hurtbox_enabled(false)
 	_separate_from_opponent_on_get_up()
-	_play_state_animation(&"get_up", &"Throw")
+	_play_state_animation(&"stand_up", &"Throw")
 	get_up_started.emit(self)
 
 

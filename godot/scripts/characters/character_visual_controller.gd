@@ -28,10 +28,27 @@ const REQUIRED_ANIMATION_ALIASES := {
 	&"jump_fall": &"jump_air",
 	&"landing": &"land",
 	&"crouch_idle": &"crouch",
+	&"punch_1": &"punch",
+	&"punch_2": &"punch",
+	&"crouch_punch": &"punch",
+	&"jump_punch": &"punch",
+	&"light_attack": &"punch",
+	&"kick_1": &"kick",
+	&"kick_2": &"kick",
+	&"crouch_kick": &"kick",
+	&"jump_kick": &"kick",
+	&"heavy_attack": &"kick",
+	&"combo_finisher": &"kick",
+	&"damage": &"damage_light",
 	&"guard_hit": &"damage",
 	&"knockback": &"damage_heavy",
 	&"knockdown": &"down",
+	&"getup": &"stand_up",
+	&"get_up": &"stand_up",
 	&"defeat": &"ko",
+	&"special_startup": &"special",
+	&"special_attack": &"special",
+	&"special_recovery": &"special",
 }
 
 var animated_sprite: AnimatedSprite2D
@@ -40,6 +57,7 @@ var current_animation: StringName = &""
 var fallback_active := true
 var definition: Resource
 var battle_visual_scale_multiplier := 1.2
+var missing_animation_warnings := {}
 
 
 func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_node: Sprite2D) -> bool:
@@ -48,6 +66,7 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 	fallback_sprite = fallback_node
 	current_animation = &""
 	fallback_active = true
+	missing_animation_warnings.clear()
 
 	if animated_sprite == null or definition == null:
 		set_fallback_enabled(true)
@@ -84,7 +103,7 @@ func play_animation(animation_name: StringName, force := false) -> void:
 		set_fallback_enabled(true)
 		return
 
-	if not force and current_animation == resolved_name and animated_sprite.is_playing():
+	if not force and current_animation == resolved_name:
 		return
 
 	current_animation = resolved_name
@@ -176,16 +195,6 @@ func _add_standard_192_animations(frames: SpriteFrames, sprite_sheet: Texture2D,
 	if rows.is_empty() or not rows.has("idle") or int(frame_counts.get("idle", 0)) <= 0:
 		return false
 
-	var max_required_row := 0
-	for animation_key in rows.keys():
-		var row_index := int(rows[animation_key])
-		var frame_count := int(frame_counts.get(animation_key, STANDARD_192_COLUMNS))
-		if row_index < 0 or frame_count <= 0:
-			continue
-		max_required_row = maxi(max_required_row, row_index)
-	if sprite_sheet.get_height() < STANDARD_192_CELL_SIZE.y * (max_required_row + 1):
-		return false
-
 	var sheet_image := sprite_sheet.get_image()
 	for animation_key in rows.keys():
 		var animation_name := StringName(String(animation_key))
@@ -216,12 +225,30 @@ func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, anima
 			break
 		if frame_rect.position.y + frame_rect.size.y > sheet_image.get_height():
 			break
-		var frame_texture := _create_clean_frame_texture(sheet_image, frame_rect)
+		var frame_image := sheet_image.get_region(frame_rect)
+		frame_image.convert(Image.FORMAT_RGBA8)
+		if _is_blank_frame(frame_image):
+			continue
+		var frame_texture := ImageTexture.create_from_image(frame_image)
 		if frame_texture != null:
 			frames.add_frame(String(animation_name), frame_texture)
 
 	if frames.get_frame_count(String(animation_name)) == 0:
 		frames.remove_animation(String(animation_name))
+
+
+func _is_blank_frame(image: Image) -> bool:
+	if image == null:
+		return true
+	var width := image.get_width()
+	var height := image.get_height()
+	if width <= 0 or height <= 0:
+		return true
+	for y in range(height):
+		for x in range(width):
+			if image.get_pixel(x, y).a > 0.01:
+				return false
+	return true
 
 
 func _add_player_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> void:
@@ -387,8 +414,7 @@ func _add_required_aliases(frames: SpriteFrames) -> void:
 		if frames.has_animation(String(alias_name)):
 			continue
 		var source_name: StringName = REQUIRED_ANIMATION_ALIASES[alias_name]
-		source_name = _first_existing_animation(frames, [source_name, &"idle"])
-		if source_name == &"":
+		if not frames.has_animation(String(source_name)):
 			continue
 		_clone_animation(frames, source_name, alias_name)
 
@@ -571,17 +597,19 @@ func _resolve_animation_name(animation_name: StringName) -> StringName:
 		&"kick_1", &"kick_2", &"crouch_kick", &"jump_kick", &"combo_finisher":
 			fallbacks = [&"kick", &"punch", &"idle"]
 		&"damage_light", &"damage_heavy", &"guard_hit", &"knockback":
-			fallbacks = [&"damage", &"idle"]
+			fallbacks = [&"damage_light", &"damage_heavy", &"damage", &"idle"]
 		&"knockdown":
-			fallbacks = [&"down", &"damage", &"idle"]
+			fallbacks = [&"down", &"damage_heavy", &"damage_light", &"idle"]
+		&"getup", &"get_up", &"stand_up":
+			fallbacks = [&"stand_up", &"idle"]
 		&"fall", &"land":
-			fallbacks = [&"jump", &"idle"]
+			fallbacks = [&"jump_air", &"jump", &"idle"]
 		&"throw_start", &"throw_hold", &"throw_release":
 			fallbacks = [&"throw", &"special", &"punch", &"idle"]
 		&"thrown", &"grabbed":
-			fallbacks = [&"damage", &"down", &"idle"]
+			fallbacks = [&"damage_heavy", &"damage_light", &"down", &"idle"]
 		&"ko", &"defeat":
-			fallbacks = [&"down", &"damage", &"idle"]
+			fallbacks = [&"ko", &"down", &"damage_heavy", &"damage_light", &"idle"]
 		&"special_01", &"special_02", &"ultimate_startup", &"ultimate_attack", &"ultimate_recovery":
 			fallbacks = [&"special", &"kick", &"punch", &"idle"]
 		_:
@@ -589,8 +617,16 @@ func _resolve_animation_name(animation_name: StringName) -> StringName:
 	for fallback in fallbacks:
 		if has_animation(fallback):
 			return fallback
-	push_warning("[CharacterVisual] %s: animation \"%s\" not found. Fallback to battle texture." % [_fighter_id(), String(animation_name)])
+	_warn_missing_animation(animation_name)
 	return &""
+
+
+func _warn_missing_animation(animation_name: StringName) -> void:
+	var warning_key := "%s:%s" % [_fighter_id(), String(animation_name)]
+	if missing_animation_warnings.has(warning_key):
+		return
+	missing_animation_warnings[warning_key] = true
+	push_warning("[CharacterVisual] %s: animation \"%s\" not found. Fallback to battle texture." % [_fighter_id(), String(animation_name)])
 
 
 func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
@@ -627,6 +663,8 @@ func _animation_speed(animation_name: StringName) -> float:
 			return 12.0
 		&"down", &"knockdown", &"getup", &"ko", &"defeat":
 			return 8.0
+		&"stand_up", &"get_up":
+			return 10.0
 		_:
 			return 8.0
 

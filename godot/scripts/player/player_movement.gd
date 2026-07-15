@@ -113,6 +113,7 @@ var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
+var last_damage_animation: StringName = &"damage_light"
 var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
 var throw_recovery_timer := 0.0
@@ -899,7 +900,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 
 	interrupt_combo()
 	_cancel_current_action()
+	last_damage_animation = _get_damage_animation_from_attack(attack_data)
 	_enter_hit_state()
+	_play_visual_animation(last_damage_animation, true)
 	if int(attack_data.get("combo_hit_index", 1)) < max_combo_hits:
 		hit_reaction_timer = maxf(hit_reaction_timer, combo_hitstun_time)
 	apply_damage(attack_data["damage"])
@@ -1043,6 +1046,7 @@ func _enter_guard_hit_state() -> void:
 	is_guard_hit = true
 	is_hit = false
 	guard_hit_timer = guard_hit_time
+	_play_visual_animation(&"guard_hit", true)
 
 
 func _get_guard_damage(damage: int) -> int:
@@ -1963,11 +1967,11 @@ func _play_visual_animation(animation_name: StringName, force := false) -> void:
 
 func _get_current_visual_animation() -> StringName:
 	if current_hp <= 0:
-		return &"defeat"
+		return &"ko"
 	if _is_knockdown_state(&"KNOCKDOWN"):
 		return &"knockdown"
 	if _is_knockdown_state(&"GET_UP"):
-		return &"getup"
+		return &"stand_up"
 	if _is_knockdown_state(&"KNOCKBACK"):
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
@@ -1979,7 +1983,7 @@ func _get_current_visual_animation() -> StringName:
 	if is_guard_hit:
 		return &"guard_hit"
 	if is_hit:
-		return &"damage"
+		return last_damage_animation
 	if is_crouch_guarding or is_guarding:
 		return &"guard"
 	if is_crouching:
@@ -2003,6 +2007,24 @@ func _get_current_visual_animation() -> StringName:
 	if absf(velocity.x) > 0.0:
 		return &"walk_forward"
 	return &"idle"
+
+
+func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
+	var damage_value := float(attack_data.get("damage", 0))
+	var knockback_x := absf(float(attack_data.get("knockback_x", 0.0)))
+	var knockback_y := absf(float(attack_data.get("knockback_y", 0.0)))
+	if attack_data.has("knockback"):
+		var knockback_value: Vector2 = attack_data.get("knockback")
+		knockback_x = maxf(knockback_x, absf(knockback_value.x))
+		knockback_y = maxf(knockback_y, absf(knockback_value.y))
+	if attack_type == "kick" or attack_type == "throw" or attack_type == "special" or attack_type == "ultimate":
+		return &"damage_heavy"
+	if damage_value >= maxf(float(kick_damage), float(punch_damage) + 3.0):
+		return &"damage_heavy"
+	if knockback_x >= 240.0 or knockback_y >= 70.0:
+		return &"damage_heavy"
+	return &"damage_light"
 
 
 func _is_knockdown_state(state_name: StringName) -> bool:
