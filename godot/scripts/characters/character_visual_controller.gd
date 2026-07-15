@@ -15,12 +15,17 @@ const ENEMY_FRAME_WIDTH := 28.0
 const ENEMY_FRAME_HEIGHT := 25.0
 const ENEMY_FRAME_STEP := 29.0
 
+const STANDARD_192_FORMAT := &"standard_192"
+const STANDARD_192_CELL_SIZE := Vector2i(192, 192)
+const STANDARD_192_COLUMNS := 8
+
 const REQUIRED_ANIMATION_ALIASES := {
 	&"walk_forward": &"walk",
 	&"walk_backward": &"walk",
 	&"jump_start": &"jump",
-	&"jump_up": &"jump",
-	&"jump_fall": &"fall",
+	&"jump_air": &"fall",
+	&"jump_up": &"jump_start",
+	&"jump_fall": &"jump_air",
 	&"landing": &"land",
 	&"crouch_idle": &"crouch",
 	&"guard_hit": &"damage",
@@ -138,6 +143,13 @@ func get_debug_source() -> String:
 func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> SpriteFrames:
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
+	if _uses_standard_192_sheet(character_data):
+		if _add_standard_192_animations(frames, sprite_sheet, character_data):
+			_add_required_aliases(frames)
+			return frames
+		push_warning("[SpriteSheet] Invalid standard_192 sheet: character=%s" % _fighter_id())
+		return frames
+
 	var is_enemy: bool = character_data.get("team_type") == &"ENEMY"
 	if is_enemy:
 		_add_enemy_animations(frames, sprite_sheet, character_data)
@@ -145,6 +157,71 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		_add_player_animations(frames, sprite_sheet, character_data)
 	_add_required_aliases(frames)
 	return frames
+
+
+func _uses_standard_192_sheet(character_data: Resource) -> bool:
+	if character_data == null:
+		return false
+	return StringName(character_data.get("sprite_sheet_format")) == STANDARD_192_FORMAT
+
+
+func _add_standard_192_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> bool:
+	if sprite_sheet == null:
+		return false
+	if sprite_sheet.get_width() < STANDARD_192_CELL_SIZE.x * STANDARD_192_COLUMNS:
+		return false
+
+	var rows: Dictionary = character_data.get("sprite_animation_rows")
+	var frame_counts: Dictionary = character_data.get("sprite_animation_frame_counts")
+	if rows.is_empty() or not rows.has("idle") or int(frame_counts.get("idle", 0)) <= 0:
+		return false
+
+	var max_required_row := 0
+	for animation_key in rows.keys():
+		var row_index := int(rows[animation_key])
+		var frame_count := int(frame_counts.get(animation_key, STANDARD_192_COLUMNS))
+		if row_index < 0 or frame_count <= 0:
+			continue
+		max_required_row = maxi(max_required_row, row_index)
+	if sprite_sheet.get_height() < STANDARD_192_CELL_SIZE.y * (max_required_row + 1):
+		return false
+
+	var sheet_image := sprite_sheet.get_image()
+	for animation_key in rows.keys():
+		var animation_name := StringName(String(animation_key))
+		var row_index := int(rows[animation_key])
+		var frame_count := int(frame_counts.get(animation_key, STANDARD_192_COLUMNS))
+		_add_standard_192_animation(frames, sheet_image, animation_name, row_index, frame_count)
+
+	return frames.has_animation("idle") and frames.get_frame_count("idle") > 0
+
+
+func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, frame_count: int) -> void:
+	if row_index < 0 or frame_count <= 0:
+		return
+
+	var clamped_count := clampi(frame_count, 1, STANDARD_192_COLUMNS)
+	frames.add_animation(String(animation_name))
+	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
+	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
+
+	for column_index in range(clamped_count):
+		var frame_rect := Rect2i(
+			column_index * STANDARD_192_CELL_SIZE.x,
+			row_index * STANDARD_192_CELL_SIZE.y,
+			STANDARD_192_CELL_SIZE.x,
+			STANDARD_192_CELL_SIZE.y
+		)
+		if frame_rect.position.x + frame_rect.size.x > sheet_image.get_width():
+			break
+		if frame_rect.position.y + frame_rect.size.y > sheet_image.get_height():
+			break
+		var frame_texture := _create_clean_frame_texture(sheet_image, frame_rect)
+		if frame_texture != null:
+			frames.add_frame(String(animation_name), frame_texture)
+
+	if frames.get_frame_count(String(animation_name)) == 0:
+		frames.remove_animation(String(animation_name))
 
 
 func _add_player_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> void:
@@ -531,6 +608,12 @@ func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
 
 
 func _animation_speed(animation_name: StringName) -> float:
+	if definition != null:
+		var speeds: Dictionary = definition.get("sprite_animation_speeds")
+		if speeds.has(String(animation_name)):
+			return float(speeds[String(animation_name)])
+		if speeds.has(animation_name):
+			return float(speeds[animation_name])
 	match animation_name:
 		&"idle", &"guard", &"crouch", &"crouch_idle", &"victory":
 			return 6.0

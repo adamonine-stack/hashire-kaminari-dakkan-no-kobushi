@@ -26,132 +26,37 @@ icon = ExtResource("8_icon")
 sprite_sheet = ExtResource("10_sheet")
 shadow_texture = ExtResource("11_shadow")
 art_folder = "res://assets/characters/player01/"
-sprite_frame_size = Vector2i(128, 128)
+sprite_sheet_format = &"standard_192"
+sprite_frame_size = Vector2i(192, 192)
 sprite_sheet_columns = 8
 sprite_animation_rows = {
-"idle": 1,
-"walk": 2,
-"dash": 3,
-"jump": 4,
-"jump_attack": 5,
-"crouch": 6,
-"crouch_punch": 7,
-"crouch_kick": 8,
-"punch1": 9,
-"punch2": 10,
-"kick1": 11,
-"kick2": 12,
-"guard": 13,
-"guard_counter": 14,
-"damage": 15,
-"down": 16,
-"getup": 17,
-"special": 18,
-"victory": 19
+"idle": 0,
+"walk": 1,
+"dash": 2,
+"jump_start": 3,
+"jump_air": 4
+}
+sprite_animation_frame_counts = {
+"idle": 8,
+"walk": 8,
+"dash": 8,
+"jump_start": 4,
+"jump_air": 4
+}
+sprite_animation_speeds = {
+"idle": 6.0,
+"walk": 10.0,
+"dash": 14.0,
+"jump_start": 10.0,
+"jump_air": 8.0
 }
 sprite_animation_clips = {
-"idle": {
-"row": 1,
-"start": 0,
-"count": 3
-},
-"walk": {
-"row": 2,
-"start": 0,
-"count": 8
-},
-"dash": {
-"row": 2,
-"start": 3,
-"count": 5
-},
-"jump": {
-"row": 8,
-"start": 4,
-"count": 2
-},
-"jump_attack": {
-"row": 9,
-"start": 1,
-"count": 2
-},
-"crouch": {
-"row": 3,
-"start": 0,
-"count": 8
-},
-"crouch_punch": {
-"row": 6,
-"start": 0,
-"count": 4
-},
-"crouch_kick": {
-"row": 9,
-"start": 1,
-"count": 2
-},
-"punch1": {
-"row": 6,
-"start": 0,
-"count": 8
-},
-"punch2": {
-"row": 7,
-"start": 0,
-"count": 4
-},
-"kick1": {
-"row": 8,
-"start": 4,
-"count": 2
-},
-"kick2": {
-"row": 8,
-"start": 4,
-"count": 2
-},
-"guard": {
-"row": 5,
-"start": 4,
-"count": 4
-},
-"guard_counter": {
-"row": 12,
-"start": 0,
-"count": 4
-},
-"damage": {
-"row": 8,
-"start": 0,
-"count": 4
-},
-"down": {
-"row": 9,
-"start": 3,
-"count": 5
-},
-"getup": {
-"row": 11,
-"start": 0,
-"count": 4
-},
-"special": {
-"row": 10,
-"start": 0,
-"count": 2
-},
-"victory": {
-"row": 12,
-"start": 0,
-"count": 4
-}
 }
 sprite_frame_origin = Vector2(0, 0)
-sprite_frame_step = Vector2(128, 128)
-sprite_row_height = 128.0
+sprite_frame_step = Vector2(192, 192)
+sprite_row_height = 192.0
 sprite_max_frames_per_animation = 8
-sprite_background_brightness_limit = 0.34
-sprite_background_color_tolerance = 0.18
+sprite_cleanup_background = false
 fighter_type = &"balance"
 max_health = 100.0
 move_speed = 235.0

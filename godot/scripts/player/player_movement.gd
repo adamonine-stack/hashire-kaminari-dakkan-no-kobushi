@@ -202,7 +202,7 @@ func _ensure_official_animation_placeholders() -> void:
 		library = AnimationLibrary.new()
 		animation_player.add_animation_library("", library)
 	var animation_names := [
-		"idle", "walk", "dash", "jump", "fall", "land",
+		"idle", "walk", "dash", "jump", "jump_start", "jump_air", "fall", "land",
 		"punch1", "punch2", "kick1", "kick2", "guard",
 		"damage", "down", "getup", "special", "ko", "victory",
 		"Punch", "Kick", "Throw",
