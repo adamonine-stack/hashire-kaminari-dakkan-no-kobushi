@@ -210,10 +210,8 @@ func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, anima
 		return
 
 	var clamped_count := clampi(frame_count, 1, STANDARD_192_COLUMNS)
-	frames.add_animation(String(animation_name))
-	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
-	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
-
+	var frame_images: Array[Image] = []
+	var content_rects: Array[Rect2i] = []
 	for column_index in range(clamped_count):
 		var frame_rect := Rect2i(
 			column_index * STANDARD_192_CELL_SIZE.x,
@@ -229,7 +227,24 @@ func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, anima
 		frame_image.convert(Image.FORMAT_RGBA8)
 		if _is_blank_frame(frame_image):
 			continue
-		var frame_texture := ImageTexture.create_from_image(frame_image)
+		var content_rect := _get_visible_content_rect(frame_image)
+		if content_rect.size.x <= 0 or content_rect.size.y <= 0:
+			continue
+		frame_images.append(frame_image)
+		content_rects.append(content_rect)
+
+	if frame_images.is_empty():
+		return
+
+	frames.add_animation(String(animation_name))
+	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
+	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
+
+	var target_center_x := _standard_192_target_center_x(content_rects)
+	var target_bottom_y := _standard_192_target_bottom_y(content_rects)
+	for index in range(frame_images.size()):
+		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y)
+		var frame_texture := ImageTexture.create_from_image(normalized_frame)
 		if frame_texture != null:
 			frames.add_frame(String(animation_name), frame_texture)
 
@@ -249,6 +264,74 @@ func _is_blank_frame(image: Image) -> bool:
 			if image.get_pixel(x, y).a > 0.01:
 				return false
 	return true
+
+
+func _get_visible_content_rect(image: Image) -> Rect2i:
+	if image == null:
+		return Rect2i()
+	var width := image.get_width()
+	var height := image.get_height()
+	var min_x := width
+	var min_y := height
+	var max_x := -1
+	var max_y := -1
+	for y in range(height):
+		for x in range(width):
+			if image.get_pixel(x, y).a <= 0.01:
+				continue
+			min_x = mini(min_x, x)
+			min_y = mini(min_y, y)
+			max_x = maxi(max_x, x)
+			max_y = maxi(max_y, y)
+	if max_x < min_x or max_y < min_y:
+		return Rect2i()
+	return Rect2i(min_x, min_y, max_x - min_x + 1, max_y - min_y + 1)
+
+
+func _standard_192_target_center_x(content_rects: Array[Rect2i]) -> int:
+	if content_rects.is_empty():
+		return STANDARD_192_CELL_SIZE.x / 2
+	var sum := 0.0
+	for rect in content_rects:
+		sum += float(rect.position.x) + float(rect.size.x) * 0.5
+	return clampi(roundi(sum / float(content_rects.size())), 0, STANDARD_192_CELL_SIZE.x)
+
+
+func _standard_192_target_bottom_y(content_rects: Array[Rect2i]) -> int:
+	if content_rects.is_empty():
+		return STANDARD_192_CELL_SIZE.y
+	var bottom_y := 0
+	for rect in content_rects:
+		bottom_y = maxi(bottom_y, rect.position.y + rect.size.y)
+	return clampi(bottom_y, 1, STANDARD_192_CELL_SIZE.y)
+
+
+func _normalize_standard_192_frame(source_image: Image, content_rect: Rect2i, target_center_x: int, target_bottom_y: int) -> Image:
+	var normalized := Image.create(STANDARD_192_CELL_SIZE.x, STANDARD_192_CELL_SIZE.y, false, Image.FORMAT_RGBA8)
+	normalized.fill(Color(0.0, 0.0, 0.0, 0.0))
+
+	var content_center_x := content_rect.position.x + int(round(float(content_rect.size.x) * 0.5))
+	var content_bottom_y := content_rect.position.y + content_rect.size.y
+	var offset := Vector2i(target_center_x - content_center_x, target_bottom_y - content_bottom_y)
+	var dst_position := content_rect.position + offset
+	var src_rect := content_rect
+
+	if dst_position.x < 0:
+		src_rect.position.x -= dst_position.x
+		src_rect.size.x += dst_position.x
+		dst_position.x = 0
+	if dst_position.y < 0:
+		src_rect.position.y -= dst_position.y
+		src_rect.size.y += dst_position.y
+		dst_position.y = 0
+	if dst_position.x + src_rect.size.x > STANDARD_192_CELL_SIZE.x:
+		src_rect.size.x = STANDARD_192_CELL_SIZE.x - dst_position.x
+	if dst_position.y + src_rect.size.y > STANDARD_192_CELL_SIZE.y:
+		src_rect.size.y = STANDARD_192_CELL_SIZE.y - dst_position.y
+
+	if src_rect.size.x > 0 and src_rect.size.y > 0:
+		normalized.blit_rect(source_image, src_rect, dst_position)
+	return normalized
 
 
 func _add_player_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> void:
