@@ -46,6 +46,8 @@ var _combat_buttons_paused := false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	modulate.a = 1.0
 	_connect_touch_buttons()
 	_apply_touch_visibility()
 	_layout_controls()
@@ -89,12 +91,23 @@ func set_paused_input_mode(is_paused: bool) -> void:
 
 func show_touch_controls() -> void:
 	visible = true
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	modulate.a = 1.0
 	_apply_touch_visibility()
+	_layout_controls()
 
 
 func hide_touch_controls() -> void:
 	release_all_touch_inputs()
 	visible = false
+
+
+func refresh_layout() -> void:
+	_layout_controls()
+
+
+func set_input_enabled(is_enabled: bool) -> void:
+	set_paused_input_mode(not is_enabled)
 
 
 func set_touch_controls_mode(mode: TouchControlsMode) -> void:
@@ -204,6 +217,10 @@ func _should_show_for_current_device() -> bool:
 
 func _layout_controls() -> void:
 	var viewport_size := get_viewport_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		return
+	position = Vector2.ZERO
+	size = viewport_size
 	var is_portrait := viewport_size.y > viewport_size.x
 	if left_controls != null:
 		left_controls.anchor_left = 0.0
@@ -219,19 +236,19 @@ func _layout_controls() -> void:
 		right_controls.anchor_bottom = 0.0
 		right_controls.position = Vector2.ZERO
 		right_controls.size = viewport_size
-	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.62, 0.92)
+	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.56, 0.92)
 	var button_size := base_button_size * scale_factor
-	var gap := 16.0 * scale_factor
-	var margin := Vector2(maxf(safe_margin.x, 24.0), maxf(safe_margin.y, 20.0))
-	var bottom_margin := 150.0 if not is_portrait else margin.y
-	var left_top_y := minf(viewport_size.y * 0.62, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap)
-	var right_top_y := minf(viewport_size.y * 0.62, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap)
+	var gap := maxf(10.0, 16.0 * scale_factor)
+	var margin := Vector2(maxf(safe_margin.x * scale_factor, 18.0), maxf(safe_margin.y * scale_factor, 16.0))
+	var bottom_margin := margin.y + (8.0 if not is_portrait else 0.0)
+	var left_top_y := viewport_size.y - bottom_margin - button_size.y * 2.0 - gap
+	var right_top_y := viewport_size.y - bottom_margin - button_size.y * 2.0 - gap
 	var left_origin := Vector2(margin.x, left_top_y)
 	var right_origin := Vector2(viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0, right_top_y)
 	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 2.0 - gap))
-	left_origin.y = clampf(left_origin.y, margin.y + 100.0, maxf(margin.y + 100.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
+	left_origin.y = clampf(left_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap))
 	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0))
-	right_origin.y = clampf(right_origin.y, margin.y + 100.0, maxf(margin.y + 100.0, viewport_size.y - margin.y - button_size.y * 2.0 - gap))
+	right_origin.y = clampf(right_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap))
 
 	_position_button($LeftControls/MoveLeftButton, left_origin + Vector2(0.0, button_size.y * 0.5 + gap * 0.5), button_size)
 	_position_button($LeftControls/MoveRightButton, left_origin + Vector2(button_size.x + gap, button_size.y * 0.5 + gap * 0.5), button_size)

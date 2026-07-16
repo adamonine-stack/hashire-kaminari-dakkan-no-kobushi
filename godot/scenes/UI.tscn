@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/mobile_controls.tscn" id="3_mobile_controls"]
 
 [node name="UI" type="CanvasLayer"]
+layer = 40
 
 [node name="BattleUIRoot" type="Control" parent="."]
 layout_mode = 3

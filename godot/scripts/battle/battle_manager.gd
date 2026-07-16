@@ -214,8 +214,11 @@ func _ready() -> void:
 	_initialize_battle_hud()
 	if not get_viewport().size_changed.is_connected(_apply_player_order_responsive_layout):
 		get_viewport().size_changed.connect(_apply_player_order_responsive_layout)
+	if not get_viewport().size_changed.is_connected(_on_battle_viewport_size_changed):
+		get_viewport().size_changed.connect(_on_battle_viewport_size_changed)
 	_set_battle_active(false)
 	_update_all_ui()
+	call_deferred("refresh_mobile_controls_visibility")
 	call_deferred("start_initial_player_selection")
 
 
@@ -1103,6 +1106,7 @@ func restart_current_game() -> void:
 	else:
 		start_initial_player_selection()
 	is_scene_transitioning = false
+	refresh_mobile_controls_visibility()
 	scene_transition_finished.emit("restart")
 
 
@@ -1128,6 +1132,7 @@ func return_to_battle() -> void:
 	if battle_hud != null and battle_hud.has_method("hide_confirm_dialog"):
 		battle_hud.hide_confirm_dialog()
 	_set_mobile_controls_paused(false)
+	refresh_mobile_controls_visibility()
 	battle_resumed.emit()
 	print("[DEV041][Pause] Battle resumed")
 
@@ -1140,6 +1145,7 @@ func pause_battle() -> void:
 	if battle_hud != null and battle_hud.has_method("show_pause_menu"):
 		battle_hud.show_pause_menu()
 	_set_mobile_controls_paused(true)
+	refresh_mobile_controls_visibility()
 	get_tree().paused = true
 	battle_paused.emit()
 	print("[DEV041][Pause] Battle paused")
@@ -1203,6 +1209,39 @@ func _release_touch_inputs() -> void:
 func _set_mobile_controls_paused(is_paused: bool) -> void:
 	if mobile_controls != null and mobile_controls.has_method("set_paused_input_mode"):
 		mobile_controls.set_paused_input_mode(is_paused)
+
+
+func refresh_mobile_controls_visibility() -> void:
+	if mobile_controls == null:
+		return
+	var viewport_size := get_viewport().get_visible_rect().size
+	var is_portrait_orientation := viewport_size.y > viewport_size.x
+	var is_player_order_open := _player_order_panel != null and _player_order_panel.visible
+	var is_result_open := _end_panel != null and _end_panel.visible
+	var should_show := (
+		flow_state == BattleState.BATTLE
+		and isRoundActive
+		and not isBattleFinished
+		and not is_scene_transitioning
+		and not is_player_order_open
+		and not is_result_open
+		and not is_portrait_orientation
+	)
+	mobile_controls.process_mode = Node.PROCESS_MODE_ALWAYS if should_show else Node.PROCESS_MODE_DISABLED
+	mobile_controls.visible = should_show
+	mobile_controls.modulate.a = 1.0
+	if should_show:
+		if mobile_controls.has_method("set_paused_input_mode"):
+			mobile_controls.set_paused_input_mode(is_game_paused)
+		if mobile_controls.has_method("refresh_layout"):
+			mobile_controls.call_deferred("refresh_layout")
+	else:
+		if mobile_controls.has_method("release_all_touch_inputs"):
+			mobile_controls.release_all_touch_inputs()
+
+
+func _on_battle_viewport_size_changed() -> void:
+	refresh_mobile_controls_visibility()
 
 
 func transition_to_next_enemy() -> void:
@@ -1610,6 +1649,7 @@ func _set_battle_state(next_state: BattleState) -> void:
 	currentBattleState = next_state
 	if previous_state != next_state:
 		game_flow_state_changed.emit(BattleState.keys()[previous_state], BattleState.keys()[next_state])
+	refresh_mobile_controls_visibility()
 
 
 func _should_finish_game() -> bool:
@@ -1628,6 +1668,7 @@ func _set_battle_active(is_enabled: bool) -> void:
 	enemy.is_round_active = is_enabled
 	player.input_enabled = is_enabled
 	enemy.input_enabled = is_enabled and enemy_accepts_input
+	refresh_mobile_controls_visibility()
 
 
 func _clear_active_fighter_actions(fighter: CharacterBody2D) -> void:
@@ -2246,14 +2287,13 @@ func update_confirm_button_state() -> void:
 func _set_player_order_exclusive_ui(is_open: bool) -> void:
 	if battle_hud != null:
 		battle_hud.visible = not is_open
-	if mobile_controls != null:
-		mobile_controls.visible = false if is_open else flow_state == BattleState.BATTLE
 	if _enemy_intro_panel != null:
 		_enemy_intro_panel.visible = false
 	if _progress_label != null:
 		_progress_label.visible = false
 	if _heal_effect_label != null:
 		_heal_effect_label.visible = false
+	refresh_mobile_controls_visibility()
 
 
 func _apply_player_order_responsive_layout() -> void:
