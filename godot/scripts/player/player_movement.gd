@@ -2105,7 +2105,7 @@ func _prepare_jump_visual_state() -> void:
 		visual_root.rotation = 0.0
 		visual_root.scale.y = 1.0
 	_sync_single_character_visual()
-	_play_visual_animation(&"jump_start", true)
+	_play_visual_animation(&"jump", true)
 
 
 func _play_visual_animation(animation_name: StringName, force := false) -> void:
@@ -2152,7 +2152,7 @@ func _get_current_visual_animation() -> StringName:
 			return &"crouch_kick"
 		return &"kick_2" if combo_step >= max_combo_hits else &"kick_1"
 	if not is_on_floor():
-		return &"jump_up" if velocity.y < 0.0 else &"jump_fall"
+		return &"jump"
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
 	if absf(velocity.x) > 0.0:
