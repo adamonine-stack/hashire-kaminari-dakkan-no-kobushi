@@ -66,9 +66,6 @@ const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/charact
 const ALLY_BALANCE := preload("res://data/fighters/ally_balance.tres")
 const ALLY_POWER := preload("res://data/fighters/ally_power.tres")
 const ALLY_SPEED := preload("res://data/fighters/ally_speed.tres")
-const PLAYER_ORDER_PORTRAITS := {
-	"player_01_akky": preload("res://assets/characters/player01/selection_portrait.png"),
-}
 const ENEMY_DEFINITIONS: Array[Resource] = [
 	preload("res://data/enemies/enemy_01_standard.tres"),
 	preload("res://data/enemies/enemy_02_speed.tres"),
@@ -444,6 +441,7 @@ func confirm_player_order() -> void:
 		push_warning("Invalid player order.")
 		return
 	is_battle_starting = true
+	update_confirm_button_state()
 	set_player_order(selected_player_order)
 	player_order_confirmed.emit(selected_player_order.duplicate())
 	print("[DEV034] Player order confirmed: %s" % ", ".join(selected_player_order))
@@ -1696,6 +1694,13 @@ func _display_name_for_id(character_id: String) -> String:
 	return String(player_team[player_index]["display_name"])
 
 
+func _short_order_name_for_id(character_id: String) -> String:
+	var player_index := _find_player_index_by_id(character_id)
+	if player_index == -1:
+		return character_id
+	return "P%d" % (player_index + 1)
+
+
 func _definition_for_player_id(character_id: String) -> Resource:
 	var player_index := _find_player_index_by_id(character_id)
 	if player_index == -1:
@@ -1725,9 +1730,6 @@ func _stats_text_for_definition(definition: Resource) -> String:
 
 
 func _order_portrait_texture(data: Dictionary) -> Texture2D:
-	var character_id := String(data.get("character_id", data.get("fighter_id", "")))
-	if PLAYER_ORDER_PORTRAITS.has(character_id):
-		return PLAYER_ORDER_PORTRAITS[character_id]
 	var definition: Resource = data.get("definition", null)
 	if definition == null:
 		return null
@@ -1761,8 +1763,8 @@ func _attack_trait_text_for_definition(definition: Resource) -> String:
 
 func _order_slot_text(index: int) -> String:
 	if index < selected_player_order.size():
-		return _display_name_for_id(selected_player_order[index])
-	return "NOT SELECTED"
+		return _short_order_name_for_id(selected_player_order[index])
+	return "--"
 
 
 func _order_status_text(character_id: String, order_index: int) -> String:
@@ -2019,49 +2021,59 @@ func _create_player_order_ui() -> void:
 	_player_order_panel.name = "PlayerOrderSelectUI"
 	_player_order_panel.visible = false
 	_player_order_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_player_order_panel.offset_left = 36.0
-	_player_order_panel.offset_top = 28.0
-	_player_order_panel.offset_right = -36.0
-	_player_order_panel.offset_bottom = -28.0
+	_player_order_panel.offset_left = 20.0
+	_player_order_panel.offset_top = 16.0
+	_player_order_panel.offset_right = -20.0
+	_player_order_panel.offset_bottom = -18.0
 	battle_ui_root.add_child(_player_order_panel)
 
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 14)
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_theme_constant_override("separation", 6)
 	_player_order_panel.add_child(root)
 
 	_player_order_title_label = Label.new()
-	_player_order_title_label.text = "SELECT PLAYER ORDER"
+	_player_order_title_label.text = "PLAYER ORDER"
 	_player_order_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_player_order_title_label.add_theme_font_size_override("font_size", 32)
+	_player_order_title_label.add_theme_font_size_override("font_size", 22)
 	root.add_child(_player_order_title_label)
 
 	_player_order_slots_label = Label.new()
 	_player_order_slots_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_player_order_slots_label.add_theme_font_size_override("font_size", 22)
+	_player_order_slots_label.add_theme_font_size_override("font_size", 15)
 	root.add_child(_player_order_slots_label)
 
 	var character_list := HBoxContainer.new()
 	character_list.alignment = BoxContainer.ALIGNMENT_CENTER
-	character_list.add_theme_constant_override("separation", 14)
+	character_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	character_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	character_list.add_theme_constant_override("separation", 10)
 	root.add_child(character_list)
 
 	for data in player_team:
 		var character_id := String(data["character_id"])
 		var box := VBoxContainer.new()
-		box.custom_minimum_size = Vector2(240.0, 360.0)
+		box.custom_minimum_size = Vector2(0.0, 0.0)
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 4)
 		character_list.add_child(box)
 
 		var portrait_rect := TextureRect.new()
-		portrait_rect.custom_minimum_size = Vector2(230.0, 170.0)
-		portrait_rect.expand_mode = TextureRect.EXPAND_FIT_HEIGHT_PROPORTIONAL
-		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait_rect.custom_minimum_size = Vector2(120.0, 120.0)
+		portrait_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		portrait_rect.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		portrait_rect.texture = _order_portrait_texture(data)
 		portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		box.add_child(portrait_rect)
 		_player_order_portrait_rects[character_id] = portrait_rect
 
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(230.0, 104.0)
+		button.custom_minimum_size = Vector2(0.0, 46.0)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(select_order_character.bind(character_id))
 		box.add_child(button)
 		_player_order_character_buttons[character_id] = button
@@ -2084,34 +2096,40 @@ func _create_player_order_ui() -> void:
 
 		var remove_button := Button.new()
 		remove_button.text = "REMOVE"
+		remove_button.custom_minimum_size = Vector2(0.0, 28.0)
+		remove_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		remove_button.pressed.connect(deselect_order_character.bind(character_id))
 		box.add_child(remove_button)
 		_player_order_remove_buttons[character_id] = remove_button
 
 	_player_order_status_label = Label.new()
+	_player_order_status_label.visible = false
 	_player_order_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	root.add_child(_player_order_status_label)
 
 	var footer := HBoxContainer.new()
 	footer.alignment = BoxContainer.ALIGNMENT_CENTER
-	footer.add_theme_constant_override("separation", 14)
+	footer.custom_minimum_size = Vector2(0.0, 50.0)
+	footer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	footer.add_theme_constant_override("separation", 10)
 	root.add_child(footer)
 
 	_player_order_confirm_button = Button.new()
 	_player_order_confirm_button.text = "CONFIRM"
-	_player_order_confirm_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_confirm_button.visible = true
+	_player_order_confirm_button.custom_minimum_size = Vector2(160.0, 48.0)
 	_player_order_confirm_button.pressed.connect(confirm_player_order)
 	footer.add_child(_player_order_confirm_button)
 
 	_player_order_reset_button = Button.new()
 	_player_order_reset_button.text = "RESET"
-	_player_order_reset_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_reset_button.custom_minimum_size = Vector2(140.0, 48.0)
 	_player_order_reset_button.pressed.connect(reset_order_selection)
 	footer.add_child(_player_order_reset_button)
 
 	_player_order_back_button = Button.new()
-	_player_order_back_button.text = "BACK TO TITLE"
-	_player_order_back_button.custom_minimum_size = Vector2(220.0, 46.0)
+	_player_order_back_button.text = "TITLE"
+	_player_order_back_button.custom_minimum_size = Vector2(140.0, 48.0)
 	_player_order_back_button.pressed.connect(go_to_title)
 	footer.add_child(_player_order_back_button)
 
@@ -2121,11 +2139,11 @@ func _create_player_order_ui() -> void:
 func update_order_select_ui() -> void:
 	if _player_order_slots_label == null:
 		return
-	_player_order_slots_label.text = "\n".join([
-		"1: %s" % _order_slot_text(0),
-		"2: %s" % _order_slot_text(1),
-		"3: %s" % _order_slot_text(2),
-	])
+	_player_order_slots_label.text = "1:%s   2:%s   3:%s" % [
+		_order_slot_text(0),
+		_order_slot_text(1),
+		_order_slot_text(2),
+	]
 
 	for data in player_team:
 		var character_id := String(data["character_id"])
@@ -2133,11 +2151,7 @@ func update_order_select_ui() -> void:
 		var selected := order_index != -1
 		var button: Button = _player_order_character_buttons.get(character_id)
 		if button != null:
-			button.text = "%s\nTYPE: %s\n%s" % [
-				data["display_name"],
-				String(data["definition"].fighter_type).to_upper(),
-				"ORDER %d" % (order_index + 1) if selected else "NOT SELECTED",
-			]
+			button.text = "ORDER %d" % (order_index + 1) if selected else "SELECT"
 			button.disabled = is_player_order_confirmed
 			button.modulate = Color(0.65, 0.85, 1.0, 1.0) if selected else Color.WHITE
 
@@ -2165,6 +2179,7 @@ func update_order_select_ui() -> void:
 func update_confirm_button_state() -> void:
 	if _player_order_confirm_button == null:
 		return
+	_player_order_confirm_button.visible = true
 	_player_order_confirm_button.disabled = not is_valid_player_order(selected_player_order) or is_battle_starting
 
 

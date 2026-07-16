@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/player03/battle.png" id="10_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/sprite_sheet.png" id="11_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/shadow.png" id="12_shadow"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/selection_portrait.png" id="13_selection_portrait"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -19,7 +20,7 @@ fighter_id = &"player_03_seiya"
 display_name = "せいや"
 description = "冷静な判断と確かな技術で戦うオールラウンド型。反応速度と連続攻撃に優れる。"
 fighter_scene = ExtResource("2_player")
-selection_portrait = ExtResource("8_portrait")
+selection_portrait = ExtResource("13_selection_portrait")
 selection_icon = ExtResource("9_icon")
 portrait = ExtResource("8_portrait")
 battle_texture = ExtResource("10_battle")

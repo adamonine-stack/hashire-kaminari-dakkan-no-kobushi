@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=12 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/player02/battle.png" id="9_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/player02/sprite_sheet.png" id="10_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/player02/shadow.png" id="11_shadow"]
+[ext_resource type="Texture2D" path="res://assets/characters/player02/selection_portrait.png" id="12_selection_portrait"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -18,7 +19,7 @@ fighter_id = &"player_02_gou"
 display_name = "ごう"
 description = "圧倒的な拳と脚力を持つパワーファイター。一撃が重く、正面から押し切る。"
 fighter_scene = ExtResource("2_player")
-selection_portrait = ExtResource("7_portrait")
+selection_portrait = ExtResource("12_selection_portrait")
 selection_icon = ExtResource("8_icon")
 portrait = ExtResource("7_portrait")
 battle_texture = ExtResource("9_battle")
