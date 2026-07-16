@@ -165,6 +165,7 @@ var invincible_flash_timer := 0.0
 var base_shadow_scale := Vector2.ONE
 var uses_official_character_art := false
 var uses_animated_character_art := false
+var visual_sort_offset_y := 0.0
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -181,6 +182,7 @@ var uses_animated_character_art := false
 @onready var character_sprite := get_node_or_null("VisualRoot/CharacterSprite") as Sprite2D
 @onready var character_visual_controller := get_node_or_null("VisualRoot/CharacterVisualController")
 @onready var shadow_sprite := get_node_or_null("ShadowSprite") as Sprite2D
+@onready var effect_layer := get_node_or_null("EffectLayer") as Node2D
 @onready var placeholder_body := get_node_or_null("VisualRoot/IdlePlaceholder/Body") as Polygon2D
 @onready var placeholder_head := get_node_or_null("VisualRoot/IdlePlaceholder/Head") as Polygon2D
 
@@ -192,6 +194,7 @@ func _ready() -> void:
 	_setup_hit_audio()
 	call_deferred("_setup_feel_effect_pools")
 	_ensure_official_animation_placeholders()
+	_setup_character_layering()
 	_set_punch_hitbox_active(false, false)
 	_set_kick_hitbox_active(false, false)
 	was_on_floor_last_frame = is_on_floor()
@@ -262,6 +265,46 @@ func apply_character_art(definition: Resource) -> void:
 			shadow_sprite.scale = base_shadow_scale
 
 
+func _setup_character_layering() -> void:
+	z_as_relative = false
+	_update_character_sort_order()
+	if visual_root != null:
+		visual_root.z_as_relative = true
+		visual_root.z_index = 0
+	if animated_character_sprite != null:
+		animated_character_sprite.z_as_relative = true
+		animated_character_sprite.z_index = 2
+	if character_sprite != null:
+		character_sprite.z_as_relative = true
+		character_sprite.z_index = 1
+	if shadow_sprite != null:
+		shadow_sprite.z_as_relative = true
+		shadow_sprite.z_index = -10
+	if effect_layer != null:
+		effect_layer.z_as_relative = true
+		effect_layer.z_index = 10
+
+
+func _update_character_sort_order() -> void:
+	z_index = clampi(roundi(global_position.y + visual_sort_offset_y), -4096, 4096)
+
+
+func _get_character_effect_parent() -> Node:
+	if effect_layer != null and is_instance_valid(effect_layer):
+		return effect_layer
+	return self
+
+
+func _prepare_character_effect_node(effect_root: Node2D, effect_name: String, relative_z_index := 0) -> void:
+	if effect_root == null:
+		return
+	effect_root.name = effect_name
+	effect_root.z_as_relative = true
+	effect_root.z_index = relative_z_index
+	effect_root.top_level = false
+	effect_root.modulate = Color.WHITE
+
+
 func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
@@ -316,6 +359,7 @@ func _physics_process(delta: float) -> void:
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+	_update_character_sort_order()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
@@ -1631,7 +1675,7 @@ func _setup_feel_effect_pools() -> void:
 
 func _create_pooled_polygon_effect(effect_name: String) -> Node2D:
 	var effect_root := Node2D.new()
-	effect_root.name = effect_name
+	_prepare_character_effect_node(effect_root, effect_name, 0)
 	effect_root.visible = false
 	var flash := Polygon2D.new()
 	flash.name = "Flash"
@@ -1639,10 +1683,7 @@ func _create_pooled_polygon_effect(effect_name: String) -> Node2D:
 	var ring := Polygon2D.new()
 	ring.name = "Ring"
 	effect_root.add_child(ring)
-	if get_tree().current_scene != null:
-		get_tree().current_scene.add_child(effect_root)
-	else:
-		add_child(effect_root)
+	_get_character_effect_parent().add_child(effect_root)
 	return effect_root
 
 
@@ -1657,8 +1698,8 @@ func _get_pooled_effect(pool: Array[Node2D], effect_name: String) -> Node2D:
 
 func _spawn_hit_effect(hit_position: Vector2, effect_size: float) -> void:
 	var effect_root := _get_pooled_effect(hit_effect_pool, "PooledHitEffect")
+	_prepare_character_effect_node(effect_root, "HitEffect", 20)
 	effect_root.global_position = hit_position
-	effect_root.name = "HitEffect"
 	effect_root.scale = Vector2.ONE
 	effect_root.visible = true
 
@@ -1703,8 +1744,8 @@ func _spawn_throw_impact_effect(effect_position: Vector2) -> void:
 
 func _spawn_throw_effect(effect_position: Vector2, effect_name: String, effect_color: Color, radius: float) -> void:
 	var effect_root := Node2D.new()
+	_prepare_character_effect_node(effect_root, effect_name, 20)
 	effect_root.global_position = effect_position
-	effect_root.name = effect_name
 
 	var flash := Polygon2D.new()
 	var points := PackedVector2Array()
@@ -1715,7 +1756,7 @@ func _spawn_throw_effect(effect_position: Vector2, effect_name: String, effect_c
 	flash.color = effect_color
 	flash.polygon = points
 	effect_root.add_child(flash)
-	get_tree().current_scene.add_child(effect_root)
+	_get_character_effect_parent().add_child(effect_root)
 
 	var tween := effect_root.create_tween()
 	tween.tween_property(effect_root, "scale", Vector2(1.6, 1.6), 0.14)
@@ -1808,8 +1849,8 @@ func _play_throw_escape_se() -> void:
 
 func _spawn_guard_effect(hit_position: Vector2) -> void:
 	var effect_root := _get_pooled_effect(hit_effect_pool, "PooledGuardEffect")
+	_prepare_character_effect_node(effect_root, "GuardEffect", 20)
 	effect_root.global_position = hit_position
-	effect_root.name = "GuardEffect"
 	effect_root.scale = Vector2.ONE
 	effect_root.visible = true
 
@@ -1830,6 +1871,7 @@ func _spawn_guard_effect(hit_position: Vector2) -> void:
 
 func _spawn_movement_dust(effect_position: Vector2, dust_scale := 1.0) -> void:
 	var effect_root := _get_pooled_effect(movement_dust_pool, "PooledDustEffect")
+	_prepare_character_effect_node(effect_root, "DustEffect", -2)
 	effect_root.global_position = effect_position
 	effect_root.scale = Vector2.ONE * dust_scale
 	effect_root.visible = true
@@ -1855,6 +1897,7 @@ func _spawn_movement_dust(effect_position: Vector2, dust_scale := 1.0) -> void:
 
 func _spawn_afterimage() -> void:
 	var effect_root := _get_pooled_effect(afterimage_pool, "PooledAfterimage")
+	_prepare_character_effect_node(effect_root, "Afterimage", -1)
 	effect_root.global_position = global_position + Vector2(0.0, -54.0)
 	effect_root.scale = Vector2(facing_direction, 1.0)
 	effect_root.visible = true

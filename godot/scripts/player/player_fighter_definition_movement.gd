@@ -1976,8 +1976,8 @@ func _play_boss_attack_animation(animation_name: StringName, fallback_name: Stri
 
 func _spawn_boss_attack_effect(effect_position: Vector2, is_ultimate: bool) -> void:
 	var effect_root := Node2D.new()
+	_prepare_character_effect_node(effect_root, "BossAttackEffect", 20)
 	effect_root.global_position = effect_position
-	effect_root.name = "BossAttackEffect"
 	var flash := Polygon2D.new()
 	var size := 36.0 if is_ultimate else 22.0
 	flash.color = Color(1.0, 0.2, 0.08, 0.75) if is_ultimate else Color(1.0, 0.85, 0.1, 0.65)
@@ -1988,7 +1988,7 @@ func _spawn_boss_attack_effect(effect_position: Vector2, is_ultimate: bool) -> v
 		Vector2(-size, 0),
 	])
 	effect_root.add_child(flash)
-	get_tree().current_scene.add_child(effect_root)
+	_get_character_effect_parent().add_child(effect_root)
 	var tween := effect_root.create_tween()
 	tween.tween_property(effect_root, "scale", Vector2(1.8, 1.8), 0.16)
 	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.16)
