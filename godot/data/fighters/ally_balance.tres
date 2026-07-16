@@ -66,7 +66,7 @@ sprite_animation_frame_counts = {
 "ko": 8
 }
 sprite_animation_speeds = {
-"idle": 6.0,
+"idle": 8.0,
 "walk": 10.0,
 "dash": 14.0,
 "jump_start": 10.0,
