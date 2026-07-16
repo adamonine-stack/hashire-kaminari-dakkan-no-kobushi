@@ -109,9 +109,10 @@ func _physics_process(delta: float) -> void:
 		jump_pressed_this_airtime = false
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
 			_prepare_jump_visual_state()
+			var jump_direction := _get_horizontal_input_direction()
 			velocity.y = -jump_power
-			if direction != 0.0:
-				velocity.x = direction * jump_horizontal_speed
+			if jump_direction != 0.0:
+				velocity.x = jump_direction * jump_horizontal_speed
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
 			velocity.y = 0.0
@@ -842,6 +843,11 @@ func _choose_ai_combo_attack() -> StringName:
 
 
 func _play_attack_animation(animation_name: StringName) -> void:
+	_play_visual_animation(animation_name, true)
+	if uses_animated_character_art:
+		if animation_player != null and animation_player.is_playing():
+			animation_player.stop()
+		return
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):

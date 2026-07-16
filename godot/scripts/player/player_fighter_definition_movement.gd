@@ -1130,6 +1130,10 @@ func _play_character_special_animation(primary_name: StringName, fallback_name: 
 	elif primary_name == &"special_recovery":
 		animation_name = &"special_recovery"
 	_play_visual_animation(animation_name, true)
+	if uses_animated_character_art:
+		if animation_player != null and animation_player.is_playing():
+			animation_player.stop()
+		return
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -1966,6 +1970,10 @@ func _should_interrupt_boss_special() -> bool:
 
 func _play_boss_attack_animation(animation_name: StringName, fallback_name: StringName) -> void:
 	_play_visual_animation(animation_name, true)
+	if uses_animated_character_art:
+		if animation_player != null and animation_player.is_playing():
+			animation_player.stop()
+		return
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):

@@ -184,6 +184,7 @@ var jump_pressed_this_airtime := false
 @onready var character_visual_controller := get_node_or_null("VisualRoot/CharacterVisualController")
 @onready var shadow_sprite := get_node_or_null("ShadowSprite") as Sprite2D
 @onready var effect_layer := get_node_or_null("EffectLayer") as Node2D
+@onready var idle_placeholder := get_node_or_null("VisualRoot/IdlePlaceholder") as Node2D
 @onready var placeholder_body := get_node_or_null("VisualRoot/IdlePlaceholder/Body") as Polygon2D
 @onready var placeholder_head := get_node_or_null("VisualRoot/IdlePlaceholder/Head") as Polygon2D
 
@@ -250,6 +251,8 @@ func apply_character_art(definition: Resource) -> void:
 				placeholder_head.visible = false
 		else:
 			uses_official_character_art = uses_animated_character_art
+			if idle_placeholder != null:
+				idle_placeholder.visible = not uses_animated_character_art
 			if placeholder_body != null:
 				placeholder_body.visible = not uses_animated_character_art
 			if placeholder_head != null:
@@ -342,7 +345,10 @@ func _physics_process(delta: float) -> void:
 		jump_pressed_this_airtime = false
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			_prepare_jump_visual_state()
+			var jump_direction := _get_horizontal_input_direction()
 			velocity.y = -jump_power
+			if jump_direction != 0.0:
+				velocity.x = jump_direction * jump_horizontal_speed
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
 			velocity.y = 0.0
@@ -792,6 +798,10 @@ func _is_valid_throw_target(target: Node) -> bool:
 
 func _play_throw_animation(animation_name := "Throw") -> void:
 	_play_visual_animation(StringName(animation_name), true)
+	if uses_animated_character_art:
+		if animation_player != null and animation_player.is_playing():
+			animation_player.stop()
+		return
 	if animation_player == null:
 		return
 	if animation_player.has_animation(animation_name):
@@ -802,6 +812,10 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 
 func _play_attack_animation(animation_name: StringName) -> void:
 	_play_visual_animation(animation_name, true)
+	if uses_animated_character_art:
+		if animation_player != null and animation_player.is_playing():
+			animation_player.stop()
+		return
 	if animation_player == null:
 		return
 	if animation_player.has_animation(String(animation_name)):
@@ -2027,6 +2041,8 @@ func _sync_single_character_visual() -> void:
 		animated_character_sprite.visible = true
 	if character_sprite != null:
 		character_sprite.visible = false
+	if idle_placeholder != null:
+		idle_placeholder.visible = false
 	if placeholder_body != null:
 		placeholder_body.visible = false
 	if placeholder_head != null:
@@ -2041,6 +2057,23 @@ func _sync_single_character_visual() -> void:
 		visual_root.scale.y = 1.0
 
 
+func _clear_motion_ghosts() -> void:
+	for ghost in afterimage_pool:
+		if ghost == null or not is_instance_valid(ghost):
+			continue
+		ghost.visible = false
+		ghost.modulate.a = 0.0
+
+
+func _get_horizontal_input_direction() -> float:
+	if not input_enabled:
+		return 0.0
+	var input_value := Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	if absf(input_value) < 0.1:
+		return 0.0
+	return signf(input_value)
+
+
 func _prepare_jump_visual_state() -> void:
 	jump_pressed_this_airtime = true
 	is_crouching = false
@@ -2052,6 +2085,13 @@ func _prepare_jump_visual_state() -> void:
 		animation_player.stop()
 	_set_punch_hitbox_active(false, false)
 	_set_kick_hitbox_active(false, false)
+	_clear_motion_ghosts()
+	if has_method("restore_sprite_transform"):
+		call("restore_sprite_transform")
+	elif visual_root != null:
+		visual_root.position = Vector2.ZERO
+		visual_root.rotation = 0.0
+		visual_root.scale.y = 1.0
 	_sync_single_character_visual()
 	_play_visual_animation(&"jump_start", true)
 
