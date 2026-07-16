@@ -99,12 +99,17 @@ func _physics_process(delta: float) -> void:
 		_set_visual_facing()
 
 	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
-		velocity.x = direction * get_current_move_speed()
+		if is_on_floor():
+			velocity.x = direction * get_current_move_speed()
+		else:
+			_update_air_movement(direction, delta)
 
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
 			velocity.y = -jump_power
+			if direction != 0.0:
+				velocity.x = direction * jump_horizontal_speed
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
 			velocity.y = 0.0
@@ -133,6 +138,13 @@ func _physics_process(delta: float) -> void:
 
 	var viewport_width := get_viewport_rect().size.x
 	position.x = clampf(position.x, screen_margin, viewport_width - screen_margin)
+
+
+func _update_air_movement(direction: float, delta: float) -> void:
+	if direction != 0.0:
+		velocity.x = move_toward(velocity.x, direction * air_move_speed, air_control_acceleration * delta)
+		return
+	velocity.x = move_toward(velocity.x, 0.0, air_brake_acceleration * delta)
 
 
 func _dev_start_attack() -> void:

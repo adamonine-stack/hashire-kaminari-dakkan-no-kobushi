@@ -9,6 +9,9 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 
 @export var move_speed := 300.0
 @export var air_move_speed := 300.0
+@export var jump_horizontal_speed := 220.0
+@export var air_control_acceleration := 900.0
+@export var air_brake_acceleration := 160.0
 @export var crouch_speed := 120.0
 @export var jump_power := 500.0
 @export var screen_margin := 64.0
