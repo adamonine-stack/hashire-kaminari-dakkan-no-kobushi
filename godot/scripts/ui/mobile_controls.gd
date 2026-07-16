@@ -184,6 +184,7 @@ func _on_tap_button_down(button: Button, action_name: String) -> void:
 
 func _tap_action(action_name: String) -> void:
 	Input.action_press(action_name)
+	await get_tree().physics_frame
 	await get_tree().process_frame
 	Input.action_release(action_name)
 

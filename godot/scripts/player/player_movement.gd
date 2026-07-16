@@ -2043,9 +2043,13 @@ func _set_visual_facing() -> void:
 func _sync_single_character_visual() -> void:
 	if not uses_animated_character_art:
 		return
+	if animation_player != null:
+		animation_player.stop()
+		animation_player.active = false
 	if animated_character_sprite != null:
 		animated_character_sprite.visible = true
 	if character_sprite != null:
+		character_sprite.texture = null
 		character_sprite.visible = false
 	if idle_placeholder != null:
 		idle_placeholder.visible = false
@@ -2061,6 +2065,8 @@ func _sync_single_character_visual() -> void:
 		crouch_guard_visual.visible = false
 	if visual_root != null:
 		visual_root.scale.y = 1.0
+		visual_root.rotation = 0.0
+	_clear_motion_ghosts()
 
 
 func _clear_motion_ghosts() -> void:

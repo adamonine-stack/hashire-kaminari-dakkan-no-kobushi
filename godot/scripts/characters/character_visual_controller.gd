@@ -100,7 +100,18 @@ func play_animation(animation_name: StringName, force := false) -> void:
 
 	var resolved_name := _resolve_animation_name(animation_name)
 	if resolved_name == &"":
-		set_fallback_enabled(true)
+		if has_animation(&"idle"):
+			resolved_name = &"idle"
+		else:
+			return
+	set_fallback_enabled(false)
+	if fallback_sprite != null:
+		fallback_sprite.visible = false
+	if animated_sprite != null:
+		animated_sprite.visible = true
+		animated_sprite.centered = true
+
+	if resolved_name == &"":
 		return
 
 	if not force and current_animation == resolved_name:
@@ -210,8 +221,10 @@ func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, anima
 		return
 
 	var clamped_count := clampi(frame_count, 1, STANDARD_192_COLUMNS)
-	var frame_images: Array[Image] = []
-	var content_rects: Array[Rect2i] = []
+	frames.add_animation(String(animation_name))
+	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
+	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
+
 	for column_index in range(clamped_count):
 		var frame_rect := Rect2i(
 			column_index * STANDARD_192_CELL_SIZE.x,
@@ -225,31 +238,22 @@ func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, anima
 			break
 		var frame_image := sheet_image.get_region(frame_rect)
 		frame_image.convert(Image.FORMAT_RGBA8)
+		_sanitize_standard_192_frame(frame_image)
 		if _is_blank_frame(frame_image):
 			continue
-		var content_rect := _get_visible_content_rect(frame_image)
-		if content_rect.size.x <= 0 or content_rect.size.y <= 0:
-			continue
-		frame_images.append(frame_image)
-		content_rects.append(content_rect)
-
-	if frame_images.is_empty():
-		return
-
-	frames.add_animation(String(animation_name))
-	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
-	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
-
-	var target_center_x := _standard_192_target_center_x(content_rects)
-	var target_bottom_y := _standard_192_target_bottom_y(content_rects)
-	for index in range(frame_images.size()):
-		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y)
-		var frame_texture := ImageTexture.create_from_image(normalized_frame)
+		var frame_texture := ImageTexture.create_from_image(frame_image)
 		if frame_texture != null:
 			frames.add_frame(String(animation_name), frame_texture)
 
 	if frames.get_frame_count(String(animation_name)) == 0:
 		frames.remove_animation(String(animation_name))
+
+
+func _sanitize_standard_192_frame(frame_image: Image) -> void:
+	if frame_image == null:
+		return
+	if bool(definition.get("sprite_cleanup_background")):
+		_remove_connected_sheet_background(frame_image)
 
 
 func _is_blank_frame(image: Image) -> bool:
@@ -709,7 +713,7 @@ func _warn_missing_animation(animation_name: StringName) -> void:
 	if missing_animation_warnings.has(warning_key):
 		return
 	missing_animation_warnings[warning_key] = true
-	push_warning("[CharacterVisual] %s: animation \"%s\" not found. Fallback to battle texture." % [_fighter_id(), String(animation_name)])
+	push_warning("[CharacterVisual] %s: animation \"%s\" not found. Using idle from sprite sheet." % [_fighter_id(), String(animation_name)])
 
 
 func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
