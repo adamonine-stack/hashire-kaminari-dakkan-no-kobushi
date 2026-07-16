@@ -55,7 +55,7 @@ sprite_animation_frame_counts = {
 "jump_start": 4,
 "jump_air": 4,
 "punch": 8,
-"kick": 6,
+"kick": 8,
 "guard": 4,
 "guard_hit": 3,
 "damage_light": 4,
