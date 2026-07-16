@@ -2077,10 +2077,10 @@ func _create_player_order_ui() -> void:
 	_player_order_panel.name = "PlayerOrderSelectUI"
 	_player_order_panel.visible = false
 	_player_order_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_player_order_panel.offset_left = 20.0
-	_player_order_panel.offset_top = 16.0
-	_player_order_panel.offset_right = -20.0
-	_player_order_panel.offset_bottom = -18.0
+	_player_order_panel.offset_left = 0.0
+	_player_order_panel.offset_top = 0.0
+	_player_order_panel.offset_right = 0.0
+	_player_order_panel.offset_bottom = 0.0
 	battle_ui_root.add_child(_player_order_panel)
 
 	_player_order_margin = MarginContainer.new()
@@ -2094,8 +2094,8 @@ func _create_player_order_ui() -> void:
 	_player_order_margin.add_child(_player_order_center)
 
 	_player_order_root = VBoxContainer.new()
-	_player_order_root.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	_player_order_root.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_player_order_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_player_order_root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_player_order_root.add_theme_constant_override("separation", 6)
 	_player_order_center.add_child(_player_order_root)
 
@@ -2287,6 +2287,9 @@ func update_confirm_button_state() -> void:
 func _set_player_order_exclusive_ui(is_open: bool) -> void:
 	if battle_hud != null:
 		battle_hud.visible = not is_open
+	for legacy_battle_control in [player_hp_bar, enemy_hp_bar, timer_label, message_label, player_win_marks, enemy_win_marks]:
+		if legacy_battle_control != null:
+			legacy_battle_control.visible = not is_open and legacy_battle_control in [player_hp_bar, enemy_hp_bar]
 	if _enemy_intro_panel != null:
 		_enemy_intro_panel.visible = false
 	if _progress_label != null:
@@ -2317,22 +2320,24 @@ func _apply_player_order_responsive_layout() -> void:
 
 	var usable_width := maxf(360.0, viewport_size.x - safe_margin.x - safe_margin.z)
 	var usable_height := maxf(260.0, viewport_size.y - safe_margin.y - safe_margin.w)
-	var card_gap := 8.0 if is_mobile_landscape else 12.0
-	var card_width := clampf((usable_width - card_gap * 2.0) / 3.0, 170.0, 230.0) if is_mobile_landscape else 250.0
-	var select_button_height := 40.0 if is_mobile_landscape else 46.0
-	var order_control_height := 36.0 if is_mobile_landscape else 32.0
-	var footer_button_height := 44.0 if is_mobile_landscape else 48.0
-	var footer_button_width := clampf(usable_width * 0.32, 170.0, 230.0) if is_mobile_landscape else 160.0
-	var reset_button_width := clampf(usable_width * 0.18, 96.0, 130.0) if is_mobile_landscape else 140.0
-	var header_height := clampf(usable_height * 0.14, 48.0, 64.0) if is_mobile_landscape else 76.0
-	var portrait_height := clampf(usable_height - header_height - footer_button_height - select_button_height - order_control_height - 30.0, 118.0, 230.0) if is_mobile_landscape else 250.0
-	var root_width := minf(usable_width, card_width * 3.0 + card_gap * 2.0)
-	var root_height := minf(usable_height, header_height + portrait_height + select_button_height + order_control_height + footer_button_height + 18.0)
+	var card_gap := 6.0 if is_mobile_landscape else 12.0
+	var root_width := usable_width
+	var root_height := usable_height
+	var header_height := clampf(usable_height * 0.13, 40.0, 58.0) if is_mobile_landscape else 76.0
+	var footer_button_height := clampf(usable_height * 0.13, 42.0, 52.0) if is_mobile_landscape else 48.0
+	var select_button_height := clampf(usable_height * 0.11, 38.0, 46.0) if is_mobile_landscape else 46.0
+	var order_control_height := clampf(usable_height * 0.095, 32.0, 40.0) if is_mobile_landscape else 32.0
+	var root_separation := 2.0 if is_mobile_landscape else 6.0
+	var card_width := (usable_width - card_gap * 2.0) / 3.0 if is_mobile_landscape else 250.0
+	var cards_area_height := maxf(120.0, usable_height - header_height - footer_button_height - root_separation * 2.0)
+	var portrait_height := maxf(86.0, cards_area_height - select_button_height - order_control_height - 10.0) if is_mobile_landscape else 250.0
+	var footer_button_width := clampf(usable_width * 0.34, 160.0, 260.0) if is_mobile_landscape else 160.0
+	var reset_button_width := clampf(usable_width * 0.16, 88.0, 130.0) if is_mobile_landscape else 140.0
 
 	_player_order_root.custom_minimum_size = Vector2(root_width, root_height)
-	_player_order_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL if is_mobile_landscape else Control.SIZE_SHRINK_CENTER
-	_player_order_root.size_flags_vertical = Control.SIZE_EXPAND_FILL if is_mobile_landscape else Control.SIZE_SHRINK_CENTER
-	_player_order_root.add_theme_constant_override("separation", 3 if is_mobile_landscape else 6)
+	_player_order_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_player_order_root.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_player_order_root.add_theme_constant_override("separation", int(root_separation))
 
 	if _player_order_header != null:
 		_player_order_header.custom_minimum_size = Vector2(root_width, header_height)
@@ -2341,14 +2346,18 @@ func _apply_player_order_responsive_layout() -> void:
 
 	if _player_order_character_list != null:
 		_player_order_character_list.add_theme_constant_override("separation", int(card_gap))
-		_player_order_character_list.size_flags_vertical = Control.SIZE_EXPAND_FILL if is_mobile_landscape else Control.SIZE_EXPAND_FILL
+		_player_order_character_list.custom_minimum_size = Vector2(root_width, cards_area_height)
+		_player_order_character_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_player_order_character_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
 	if _player_order_footer != null:
 		_player_order_footer.add_theme_constant_override("separation", 8 if is_mobile_landscape else 10)
 		_player_order_footer.custom_minimum_size = Vector2(root_width, footer_button_height)
+		_player_order_footer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_player_order_footer.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
 	if _player_order_title_label != null:
-		_player_order_title_label.add_theme_font_size_override("font_size", 18 if is_mobile_landscape else 22)
+		_player_order_title_label.add_theme_font_size_override("font_size", 17 if is_mobile_landscape else 22)
 	if _player_order_slots_label != null:
 		_player_order_slots_label.add_theme_font_size_override("font_size", 12 if is_mobile_landscape else 15)
 	if _player_order_back_button != null:
@@ -2360,17 +2369,17 @@ func _apply_player_order_responsive_layout() -> void:
 		var box := _player_order_card_boxes.get(character_id) as VBoxContainer
 		if box != null:
 			box.custom_minimum_size = Vector2(card_width, 0.0)
-			box.size_flags_horizontal = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
-			box.size_flags_vertical = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
-			box.add_theme_constant_override("separation", 3 if is_mobile_landscape else 4)
+			box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+			box.add_theme_constant_override("separation", 2 if is_mobile_landscape else 4)
 
 		var portrait_rect := _player_order_portrait_rects.get(character_id) as TextureRect
 		if portrait_rect != null:
 			portrait_rect.custom_minimum_size = Vector2(card_width, portrait_height)
 			portrait_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			portrait_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
+			portrait_rect.size_flags_vertical = Control.SIZE_EXPAND_FILL if is_mobile_landscape else Control.SIZE_EXPAND_FILL
 			portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED if is_mobile_landscape else TextureRect.STRETCH_KEEP_ASPECT_COVERED
 
 		var button := _player_order_character_buttons.get(character_id) as Button
 		if button != null:

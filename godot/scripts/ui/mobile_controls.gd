@@ -132,7 +132,6 @@ func _connect_touch_buttons() -> void:
 		_prepare_button(button)
 		button.button_down.connect(_on_hold_button_down.bind(button, action_name))
 		button.button_up.connect(_on_hold_button_up.bind(button, action_name))
-		button.mouse_exited.connect(_on_hold_button_up.bind(button, action_name))
 
 	for button_name in TAP_BUTTON_ACTIONS:
 		var button := get_node_or_null("LeftControls/%s" % button_name) as Button

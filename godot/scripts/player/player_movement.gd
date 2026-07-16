@@ -258,6 +258,10 @@ func apply_character_art(definition: Resource) -> void:
 			if placeholder_head != null:
 				placeholder_head.visible = not uses_animated_character_art
 
+	if animation_player != null:
+		animation_player.stop()
+		animation_player.active = not uses_official_character_art
+
 	var shadow_texture: Texture2D = definition.get("shadow_texture") if definition != null else null
 	if shadow_sprite != null:
 		shadow_sprite.texture = shadow_texture
@@ -1913,6 +1917,8 @@ func _spawn_movement_dust(effect_position: Vector2, dust_scale := 1.0) -> void:
 
 
 func _spawn_afterimage() -> void:
+	if uses_official_character_art:
+		return
 	var effect_root := _get_pooled_effect(afterimage_pool, "PooledAfterimage")
 	_prepare_character_effect_node(effect_root, "Afterimage", -1)
 	effect_root.global_position = global_position + Vector2(0.0, -54.0)

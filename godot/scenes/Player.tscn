@@ -40,12 +40,14 @@ visible = false
 z_index = 2
 
 [node name="CharacterSprite" type="Sprite2D" parent="VisualRoot"]
+visible = false
 z_index = 1
 
 [node name="CharacterVisualController" type="Node" parent="VisualRoot"]
 script = ExtResource("2_visual_controller")
 
 [node name="IdlePlaceholder" type="Node2D" parent="VisualRoot"]
+visible = false
 
 [node name="Body" type="Polygon2D" parent="VisualRoot/IdlePlaceholder"]
 color = Color(0.14902, 0.454902, 0.952941, 1)
@@ -122,6 +124,7 @@ monitoring = false
 shape = SubResource("RectangleShape2D_player_body")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+active = false
 libraries = {
 "": SubResource("AnimationLibrary_player")
 }
