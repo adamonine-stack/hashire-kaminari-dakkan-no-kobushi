@@ -171,6 +171,13 @@ var _player_order_up_buttons: Dictionary = {}
 var _player_order_down_buttons: Dictionary = {}
 var _player_order_remove_buttons: Dictionary = {}
 var _player_order_hud_label: Label
+var _player_order_margin: MarginContainer
+var _player_order_center: CenterContainer
+var _player_order_root: VBoxContainer
+var _player_order_character_list: HBoxContainer
+var _player_order_footer: HBoxContainer
+var _player_order_card_boxes: Dictionary = {}
+var _player_order_control_rows: Dictionary = {}
 var _last_spawned_player_id := ""
 var _last_pause_toggle_frame := -1
 
@@ -202,6 +209,8 @@ func _ready() -> void:
 	initialize_game_progress()
 	_create_flow_ui()
 	_initialize_battle_hud()
+	if not get_viewport().size_changed.is_connected(_apply_player_order_responsive_layout):
+		get_viewport().size_changed.connect(_apply_player_order_responsive_layout)
 	_set_battle_active(false)
 	_update_all_ui()
 	call_deferred("start_initial_player_selection")
@@ -370,6 +379,7 @@ func open_player_order_select() -> void:
 	_show_message("")
 	if _player_order_panel != null:
 		_player_order_panel.visible = true
+		_apply_player_order_responsive_layout()
 	update_order_select_ui()
 	player_order_select_opened.emit()
 	print("[DEV034] Player order select opened")
@@ -2027,29 +2037,39 @@ func _create_player_order_ui() -> void:
 	_player_order_panel.offset_bottom = -18.0
 	battle_ui_root.add_child(_player_order_panel)
 
-	var root := VBoxContainer.new()
-	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	root.add_theme_constant_override("separation", 6)
-	_player_order_panel.add_child(root)
+	_player_order_margin = MarginContainer.new()
+	_player_order_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_player_order_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_player_order_panel.add_child(_player_order_margin)
+
+	_player_order_center = CenterContainer.new()
+	_player_order_center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_player_order_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_player_order_margin.add_child(_player_order_center)
+
+	_player_order_root = VBoxContainer.new()
+	_player_order_root.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_player_order_root.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_player_order_root.add_theme_constant_override("separation", 6)
+	_player_order_center.add_child(_player_order_root)
 
 	_player_order_title_label = Label.new()
 	_player_order_title_label.text = "PLAYER ORDER"
 	_player_order_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_player_order_title_label.add_theme_font_size_override("font_size", 22)
-	root.add_child(_player_order_title_label)
+	_player_order_root.add_child(_player_order_title_label)
 
 	_player_order_slots_label = Label.new()
 	_player_order_slots_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_player_order_slots_label.add_theme_font_size_override("font_size", 15)
-	root.add_child(_player_order_slots_label)
+	_player_order_root.add_child(_player_order_slots_label)
 
-	var character_list := HBoxContainer.new()
-	character_list.alignment = BoxContainer.ALIGNMENT_CENTER
-	character_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	character_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	character_list.add_theme_constant_override("separation", 10)
-	root.add_child(character_list)
+	_player_order_character_list = HBoxContainer.new()
+	_player_order_character_list.alignment = BoxContainer.ALIGNMENT_CENTER
+	_player_order_character_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_player_order_character_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_player_order_character_list.add_theme_constant_override("separation", 10)
+	_player_order_root.add_child(_player_order_character_list)
 
 	for data in player_team:
 		var character_id := String(data["character_id"])
@@ -2058,7 +2078,8 @@ func _create_player_order_ui() -> void:
 		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		box.add_theme_constant_override("separation", 4)
-		character_list.add_child(box)
+		_player_order_character_list.add_child(box)
+		_player_order_card_boxes[character_id] = box
 
 		var portrait_rect := TextureRect.new()
 		portrait_rect.custom_minimum_size = Vector2(120.0, 120.0)
@@ -2081,6 +2102,7 @@ func _create_player_order_ui() -> void:
 		var controls := HBoxContainer.new()
 		controls.alignment = BoxContainer.ALIGNMENT_CENTER
 		box.add_child(controls)
+		_player_order_control_rows[character_id] = controls
 
 		var up_button := Button.new()
 		up_button.text = "UP"
@@ -2105,34 +2127,35 @@ func _create_player_order_ui() -> void:
 	_player_order_status_label = Label.new()
 	_player_order_status_label.visible = false
 	_player_order_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	root.add_child(_player_order_status_label)
+	_player_order_root.add_child(_player_order_status_label)
 
-	var footer := HBoxContainer.new()
-	footer.alignment = BoxContainer.ALIGNMENT_CENTER
-	footer.custom_minimum_size = Vector2(0.0, 50.0)
-	footer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	footer.add_theme_constant_override("separation", 10)
-	root.add_child(footer)
+	_player_order_footer = HBoxContainer.new()
+	_player_order_footer.alignment = BoxContainer.ALIGNMENT_CENTER
+	_player_order_footer.custom_minimum_size = Vector2(0.0, 50.0)
+	_player_order_footer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_player_order_footer.add_theme_constant_override("separation", 10)
+	_player_order_root.add_child(_player_order_footer)
 
 	_player_order_confirm_button = Button.new()
 	_player_order_confirm_button.text = "CONFIRM"
 	_player_order_confirm_button.visible = true
 	_player_order_confirm_button.custom_minimum_size = Vector2(160.0, 48.0)
 	_player_order_confirm_button.pressed.connect(confirm_player_order)
-	footer.add_child(_player_order_confirm_button)
+	_player_order_footer.add_child(_player_order_confirm_button)
 
 	_player_order_reset_button = Button.new()
 	_player_order_reset_button.text = "RESET"
 	_player_order_reset_button.custom_minimum_size = Vector2(140.0, 48.0)
 	_player_order_reset_button.pressed.connect(reset_order_selection)
-	footer.add_child(_player_order_reset_button)
+	_player_order_footer.add_child(_player_order_reset_button)
 
 	_player_order_back_button = Button.new()
 	_player_order_back_button.text = "TITLE"
 	_player_order_back_button.custom_minimum_size = Vector2(140.0, 48.0)
 	_player_order_back_button.pressed.connect(go_to_title)
-	footer.add_child(_player_order_back_button)
+	_player_order_footer.add_child(_player_order_back_button)
 
+	_apply_player_order_responsive_layout()
 	update_order_select_ui()
 
 
@@ -2181,6 +2204,105 @@ func update_confirm_button_state() -> void:
 		return
 	_player_order_confirm_button.visible = true
 	_player_order_confirm_button.disabled = not is_valid_player_order(selected_player_order) or is_battle_starting
+
+
+func _apply_player_order_responsive_layout() -> void:
+	if _player_order_panel == null or _player_order_root == null:
+		return
+
+	var viewport_size := get_viewport().get_visible_rect().size
+	var is_mobile_landscape := _is_mobile_landscape_viewport(viewport_size)
+	var safe_margin := _player_order_safe_margin(is_mobile_landscape)
+	_player_order_panel.offset_left = safe_margin.x
+	_player_order_panel.offset_top = safe_margin.y
+	_player_order_panel.offset_right = -safe_margin.z
+	_player_order_panel.offset_bottom = -safe_margin.w
+
+	if _player_order_margin != null:
+		var inner_margin := 0 if is_mobile_landscape else 8
+		_player_order_margin.add_theme_constant_override("margin_left", inner_margin)
+		_player_order_margin.add_theme_constant_override("margin_top", inner_margin)
+		_player_order_margin.add_theme_constant_override("margin_right", inner_margin)
+		_player_order_margin.add_theme_constant_override("margin_bottom", inner_margin)
+
+	var usable_width := maxf(360.0, viewport_size.x - safe_margin.x - safe_margin.z)
+	var usable_height := maxf(260.0, viewport_size.y - safe_margin.y - safe_margin.w)
+	var card_gap := 8.0 if is_mobile_landscape else 12.0
+	var card_width := clampf((usable_width - card_gap * 2.0) / 3.0, 142.0, 208.0) if is_mobile_landscape else 250.0
+	var portrait_height := clampf(usable_height * 0.34, 104.0, 132.0) if is_mobile_landscape else 250.0
+	var select_button_height := 34.0 if is_mobile_landscape else 46.0
+	var footer_button_height := 40.0 if is_mobile_landscape else 48.0
+	var footer_button_width := clampf(usable_width * 0.22, 120.0, 176.0) if is_mobile_landscape else 160.0
+	var root_width := minf(usable_width, card_width * 3.0 + card_gap * 2.0)
+	var root_height := minf(usable_height, portrait_height + select_button_height + footer_button_height + 66.0)
+
+	_player_order_root.custom_minimum_size = Vector2(root_width, root_height)
+	_player_order_root.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_player_order_root.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_player_order_root.add_theme_constant_override("separation", 3 if is_mobile_landscape else 6)
+
+	if _player_order_character_list != null:
+		_player_order_character_list.add_theme_constant_override("separation", int(card_gap))
+		_player_order_character_list.size_flags_vertical = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
+
+	if _player_order_footer != null:
+		_player_order_footer.add_theme_constant_override("separation", 8 if is_mobile_landscape else 10)
+		_player_order_footer.custom_minimum_size = Vector2(root_width, footer_button_height)
+
+	if _player_order_title_label != null:
+		_player_order_title_label.add_theme_font_size_override("font_size", 20 if is_mobile_landscape else 22)
+	if _player_order_slots_label != null:
+		_player_order_slots_label.add_theme_font_size_override("font_size", 13 if is_mobile_landscape else 15)
+
+	for data in player_team:
+		var character_id := String(data["character_id"])
+		var box := _player_order_card_boxes.get(character_id) as VBoxContainer
+		if box != null:
+			box.custom_minimum_size = Vector2(card_width, 0.0)
+			box.size_flags_horizontal = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
+			box.size_flags_vertical = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
+			box.add_theme_constant_override("separation", 3 if is_mobile_landscape else 4)
+
+		var portrait_rect := _player_order_portrait_rects.get(character_id) as TextureRect
+		if portrait_rect != null:
+			portrait_rect.custom_minimum_size = Vector2(card_width, portrait_height)
+			portrait_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			portrait_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER if is_mobile_landscape else Control.SIZE_EXPAND_FILL
+			portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+
+		var button := _player_order_character_buttons.get(character_id) as Button
+		if button != null:
+			button.custom_minimum_size = Vector2(card_width, select_button_height)
+			button.add_theme_font_size_override("font_size", 13 if is_mobile_landscape else 15)
+
+		var controls := _player_order_control_rows.get(character_id) as HBoxContainer
+		if controls != null:
+			controls.visible = not is_mobile_landscape
+		var remove_button := _player_order_remove_buttons.get(character_id) as Button
+		if remove_button != null:
+			remove_button.visible = not is_mobile_landscape
+
+	var footer_buttons := [
+		_player_order_confirm_button,
+		_player_order_reset_button,
+		_player_order_back_button,
+	]
+	for footer_button_variant in footer_buttons:
+		var footer_button := footer_button_variant as Button
+		if footer_button != null:
+			footer_button.custom_minimum_size = Vector2(footer_button_width, footer_button_height)
+			footer_button.add_theme_font_size_override("font_size", 13 if is_mobile_landscape else 15)
+
+
+func _is_mobile_landscape_viewport(viewport_size: Vector2) -> bool:
+	return viewport_size.x > viewport_size.y and viewport_size.y <= 560.0
+
+
+func _player_order_safe_margin(is_mobile_landscape: bool) -> Vector4:
+	if is_mobile_landscape:
+		return Vector4(24.0, 14.0, 24.0, 22.0)
+	return Vector4(20.0, 16.0, 20.0, 18.0)
 
 
 func update_player_order_hud() -> void:
