@@ -106,7 +106,9 @@ func _physics_process(delta: float) -> void:
 
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
-		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
+		jump_pressed_this_airtime = false
+		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
+			_prepare_jump_visual_state()
 			velocity.y = -jump_power
 			if direction != 0.0:
 				velocity.x = direction * jump_horizontal_speed

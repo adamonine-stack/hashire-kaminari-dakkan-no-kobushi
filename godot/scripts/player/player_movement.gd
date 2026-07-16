@@ -166,6 +166,7 @@ var base_shadow_scale := Vector2.ONE
 var uses_official_character_art := false
 var uses_animated_character_art := false
 var visual_sort_offset_y := 0.0
+var jump_pressed_this_airtime := false
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -338,7 +339,9 @@ func _physics_process(delta: float) -> void:
 
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
-		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
+		jump_pressed_this_airtime = false
+		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
+			_prepare_jump_visual_state()
 			velocity.y = -jump_power
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
@@ -2017,6 +2020,42 @@ func _set_visual_facing() -> void:
 		visual_root.scale.x = float(facing)
 
 
+func _sync_single_character_visual() -> void:
+	if not uses_animated_character_art:
+		return
+	if animated_character_sprite != null:
+		animated_character_sprite.visible = true
+	if character_sprite != null:
+		character_sprite.visible = false
+	if placeholder_body != null:
+		placeholder_body.visible = false
+	if placeholder_head != null:
+		placeholder_head.visible = false
+	if guard_visual != null:
+		guard_visual.visible = false
+	if crouch_visual != null:
+		crouch_visual.visible = false
+	if crouch_guard_visual != null:
+		crouch_guard_visual.visible = false
+	if visual_root != null:
+		visual_root.scale.y = 1.0
+
+
+func _prepare_jump_visual_state() -> void:
+	jump_pressed_this_airtime = true
+	is_crouching = false
+	is_crouch_guarding = false
+	is_guarding = false
+	is_guard_hit = false
+	guard_type = "none"
+	if animation_player != null and animation_player.is_playing():
+		animation_player.stop()
+	_set_punch_hitbox_active(false, false)
+	_set_kick_hitbox_active(false, false)
+	_sync_single_character_visual()
+	_play_visual_animation(&"jump_start", true)
+
+
 func _play_visual_animation(animation_name: StringName, force := false) -> void:
 	if not uses_animated_character_art:
 		return
@@ -2093,10 +2132,15 @@ func _is_knockdown_state(state_name: StringName) -> bool:
 
 func _update_visual_state() -> void:
 	_set_visual_facing()
+	_sync_single_character_visual()
 	_play_visual_animation(_get_current_visual_animation())
 
 	if not debug_state_label_enabled:
 		state_label.visible = false
+		if shadow_sprite != null and shadow_sprite.visible:
+			var airborne_scale_no_debug := 0.72 if not is_on_floor() else 1.0
+			shadow_sprite.scale = Vector2(base_shadow_scale.x * airborne_scale_no_debug, base_shadow_scale.y * airborne_scale_no_debug)
+			shadow_sprite.modulate.a = 0.28 if not is_on_floor() else 0.42
 		queue_redraw()
 		return
 
