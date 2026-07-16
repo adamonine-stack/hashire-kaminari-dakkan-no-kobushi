@@ -66,6 +66,9 @@ const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/charact
 const ALLY_BALANCE := preload("res://data/fighters/ally_balance.tres")
 const ALLY_POWER := preload("res://data/fighters/ally_power.tres")
 const ALLY_SPEED := preload("res://data/fighters/ally_speed.tres")
+const PLAYER_ORDER_PORTRAITS := {
+	"player_01_akky": preload("res://assets/characters/player01/selection_portrait.png"),
+}
 const ENEMY_DEFINITIONS: Array[Resource] = [
 	preload("res://data/enemies/enemy_01_standard.tres"),
 	preload("res://data/enemies/enemy_02_speed.tres"),
@@ -166,6 +169,7 @@ var _player_order_confirm_button: Button
 var _player_order_reset_button: Button
 var _player_order_back_button: Button
 var _player_order_character_buttons: Dictionary = {}
+var _player_order_portrait_rects: Dictionary = {}
 var _player_order_up_buttons: Dictionary = {}
 var _player_order_down_buttons: Dictionary = {}
 var _player_order_remove_buttons: Dictionary = {}
@@ -1720,6 +1724,22 @@ func _stats_text_for_definition(definition: Resource) -> String:
 	]
 
 
+func _order_portrait_texture(data: Dictionary) -> Texture2D:
+	var character_id := String(data.get("character_id", data.get("fighter_id", "")))
+	if PLAYER_ORDER_PORTRAITS.has(character_id):
+		return PLAYER_ORDER_PORTRAITS[character_id]
+	var definition: Resource = data.get("definition", null)
+	if definition == null:
+		return null
+	if definition.selection_portrait != null:
+		return definition.selection_portrait
+	if definition.portrait != null:
+		return definition.portrait
+	if definition.selection_icon != null:
+		return definition.selection_icon
+	return definition.icon
+
+
 func _attack_trait_text_for_definition(definition: Resource) -> String:
 	var combo_count := 0
 	var max_reach := 0.0
@@ -2028,11 +2048,20 @@ func _create_player_order_ui() -> void:
 	for data in player_team:
 		var character_id := String(data["character_id"])
 		var box := VBoxContainer.new()
-		box.custom_minimum_size = Vector2(240.0, 230.0)
+		box.custom_minimum_size = Vector2(240.0, 360.0)
 		character_list.add_child(box)
 
+		var portrait_rect := TextureRect.new()
+		portrait_rect.custom_minimum_size = Vector2(230.0, 170.0)
+		portrait_rect.expand_mode = TextureRect.EXPAND_FIT_HEIGHT_PROPORTIONAL
+		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait_rect.texture = _order_portrait_texture(data)
+		portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		box.add_child(portrait_rect)
+		_player_order_portrait_rects[character_id] = portrait_rect
+
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(230.0, 150.0)
+		button.custom_minimum_size = Vector2(230.0, 104.0)
 		button.pressed.connect(select_order_character.bind(character_id))
 		box.add_child(button)
 		_player_order_character_buttons[character_id] = button
@@ -2104,15 +2133,18 @@ func update_order_select_ui() -> void:
 		var selected := order_index != -1
 		var button: Button = _player_order_character_buttons.get(character_id)
 		if button != null:
-			button.text = "%s\nID: %s\nTYPE: %s\n%s\n%s" % [
+			button.text = "%s\nTYPE: %s\n%s" % [
 				data["display_name"],
-				character_id,
 				String(data["definition"].fighter_type).to_upper(),
-				_stats_text_for_definition(data["definition"]),
 				"ORDER %d" % (order_index + 1) if selected else "NOT SELECTED",
 			]
 			button.disabled = is_player_order_confirmed
 			button.modulate = Color(0.65, 0.85, 1.0, 1.0) if selected else Color.WHITE
+
+		var portrait_rect: TextureRect = _player_order_portrait_rects.get(character_id)
+		if portrait_rect != null:
+			portrait_rect.texture = _order_portrait_texture(data)
+			portrait_rect.modulate = Color(1.0, 1.0, 1.0, 1.0) if selected else Color(0.9, 0.9, 0.9, 1.0)
 
 		var up_button: Button = _player_order_up_buttons.get(character_id)
 		if up_button != null:
