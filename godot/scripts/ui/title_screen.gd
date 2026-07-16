@@ -23,12 +23,16 @@ var shake_button: Button
 var hitstop_button: Button
 var fullscreen_button: Button
 var transition_overlay: ColorRect
+var orientation_overlay: PanelContainer
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = false
 	_build_title_layout()
+	if not get_viewport().size_changed.is_connected(_refresh_orientation_overlay):
+		get_viewport().size_changed.connect(_refresh_orientation_overlay)
+	_refresh_orientation_overlay()
 	_play_bgm("title")
 	game_start_button.grab_focus()
 
@@ -48,6 +52,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func start_new_game() -> void:
 	if is_scene_transitioning:
+		return
+	if _is_portrait_viewport():
+		_refresh_orientation_overlay()
 		return
 	_play_ui_se("confirm")
 	is_scene_transitioning = true
@@ -163,7 +170,41 @@ func _build_title_layout() -> void:
 
 	_build_how_to_play_panel(center)
 	_build_options_panel(center)
+	_build_orientation_overlay()
 	_build_transition_overlay()
+
+
+func _build_orientation_overlay() -> void:
+	orientation_overlay = PanelContainer.new()
+	orientation_overlay.visible = false
+	orientation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	orientation_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(orientation_overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	orientation_overlay.add_child(center)
+
+	var label := Label.new()
+	label.text = "Rotate device to landscape"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 24)
+	center.add_child(label)
+
+
+func _refresh_orientation_overlay() -> void:
+	if orientation_overlay == null:
+		return
+	var is_portrait := _is_portrait_viewport()
+	orientation_overlay.visible = is_portrait
+	if title_menu != null:
+		title_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE if is_portrait else Control.MOUSE_FILTER_PASS
+
+
+func _is_portrait_viewport() -> bool:
+	var viewport_size := get_viewport_rect().size
+	return viewport_size.y > viewport_size.x
 
 
 func _build_how_to_play_panel(parent: Node) -> void:
