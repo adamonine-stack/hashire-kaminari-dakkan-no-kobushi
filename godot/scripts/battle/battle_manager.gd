@@ -2088,16 +2088,11 @@ func _create_player_order_ui() -> void:
 	_player_order_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_player_order_panel.add_child(_player_order_margin)
 
-	_player_order_center = CenterContainer.new()
-	_player_order_center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_player_order_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_player_order_margin.add_child(_player_order_center)
-
 	_player_order_root = VBoxContainer.new()
 	_player_order_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_player_order_root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_player_order_root.add_theme_constant_override("separation", 6)
-	_player_order_center.add_child(_player_order_root)
+	_player_order_margin.add_child(_player_order_root)
 
 	_player_order_header = HBoxContainer.new()
 	_player_order_header.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -2163,7 +2158,7 @@ func _create_player_order_ui() -> void:
 		portrait_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		portrait_rect.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		portrait_rect.texture = _order_portrait_texture(data)
 		portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		box.add_child(portrait_rect)
@@ -2379,7 +2374,7 @@ func _apply_player_order_responsive_layout() -> void:
 			portrait_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			portrait_rect.size_flags_vertical = Control.SIZE_EXPAND_FILL if is_mobile_landscape else Control.SIZE_EXPAND_FILL
 			portrait_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED if is_mobile_landscape else TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			portrait_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 
 		var button := _player_order_character_buttons.get(character_id) as Button
 		if button != null:

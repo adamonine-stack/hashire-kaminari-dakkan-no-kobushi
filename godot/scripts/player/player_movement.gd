@@ -32,6 +32,9 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var invincibility_time := 0.3
 @export var input_enabled := true
 @export var can_guard := true
+@export var facing_dead_zone := 8.0
+@export var input_threshold := 0.25
+@export var guard_input_threshold := 0.35
 @export var guard_damage_rate := 0.25
 @export var guard_hit_time := 0.15
 @export var guard_knockback_x := 80.0
@@ -317,7 +320,7 @@ func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
 
-	var direction := Input.get_axis("move_left", "move_right") if input_enabled else 0.0
+	var direction := _get_horizontal_movement_input()
 	var is_kicking := kick_active_timer > 0.0
 
 	_update_invincibility(delta)
@@ -333,13 +336,10 @@ func _physics_process(delta: float) -> void:
 		_update_defensive_state()
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
+	_face_opponent()
 
 	if is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy():
 		direction = 0.0
-
-	if direction != 0.0 and not is_hit and not _is_throw_busy():
-		facing_direction = signf(direction)
-		_set_visual_facing()
 
 	if not is_hit and not _is_throw_busy():
 		velocity.x = direction * get_current_move_speed()
@@ -347,7 +347,7 @@ func _physics_process(delta: float) -> void:
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
 		jump_pressed_this_airtime = false
-		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
+		if input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			_prepare_jump_visual_state()
 			var jump_direction := _get_horizontal_input_direction()
 			velocity.y = -jump_power
@@ -401,6 +401,7 @@ func _start_attack(is_combo_attack := false) -> void:
 func _update_defensive_state() -> void:
 	var down_pressed := Input.is_action_pressed("down")
 	var guard_pressed := Input.is_action_pressed("guard")
+	var holding_back := _is_holding_back_against_opponent()
 
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
@@ -408,11 +409,11 @@ func _update_defensive_state() -> void:
 			is_crouching = false
 		return
 
-	if guard_pressed:
+	if holding_back or guard_pressed:
 		is_guarding = true
 		is_crouch_guarding = down_pressed
 		is_crouching = false
-		guard_type = "crouch" if down_pressed else "stand"
+		guard_type = "low" if down_pressed else "high"
 		return
 
 	_clear_guard_state()
@@ -1012,7 +1013,7 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 func _get_punch_attack_data() -> Dictionary:
 	return {
 		"damage": punch_damage,
-		"attack_height": "middle",
+		"attack_height": "high",
 		"knockback_x": calculate_attack_knockback(Vector2(punch_knockback_x, punch_knockback_y)).x,
 		"knockback_y": calculate_attack_knockback(Vector2(punch_knockback_x, punch_knockback_y)).y,
 		"hit_stop_frames": 3,
@@ -1157,11 +1158,13 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 func _is_attack_height_guardable(attack_height: String) -> bool:
 	match attack_height:
 		"high":
-			return guard_type == "stand" or guard_type == "crouch"
+			return guard_type == "high" or guard_type == "stand"
 		"middle":
-			return guard_type == "stand"
+			return guard_type == "high" or guard_type == "stand"
 		"low":
-			return guard_type == "crouch"
+			return guard_type == "low" or guard_type == "crouch"
+		"throw":
+			return false
 		_:
 			return false
 
@@ -1229,8 +1232,8 @@ func _is_holding_back_against_opponent() -> bool:
 func _is_holding_back_against_attacker(attacker: Node) -> bool:
 	if attacker is Node2D and input_enabled:
 		var direction_to_attacker := signf(attacker.global_position.x - global_position.x)
-		var input_direction := Input.get_axis("move_left", "move_right")
-		return direction_to_attacker != 0.0 and input_direction != 0.0 and signf(input_direction) == -direction_to_attacker
+		var input_direction := _get_horizontal_movement_input()
+		return direction_to_attacker != 0.0 and absf(input_direction) >= guard_input_threshold and signf(input_direction) == -direction_to_attacker
 
 	return is_guarding
 
@@ -1311,7 +1314,7 @@ func _update_ai_guard(delta: float) -> void:
 		is_guarding = true
 		is_crouch_guarding = false
 		is_crouching = false
-		guard_type = "stand"
+		guard_type = "high"
 		_face_opponent()
 		return
 
@@ -1326,7 +1329,7 @@ func _update_ai_guard(delta: float) -> void:
 		is_guarding = true
 		is_crouch_guarding = false
 		is_crouching = false
-		guard_type = "stand"
+		guard_type = "high"
 		_face_opponent()
 
 
@@ -1338,7 +1341,7 @@ func _face_opponent() -> void:
 		return
 
 	var direction_to_opponent := signf(opponent.global_position.x - global_position.x)
-	if absf(opponent.global_position.x - global_position.x) < 12.0 or direction_to_opponent == 0.0:
+	if absf(opponent.global_position.x - global_position.x) < facing_dead_zone or direction_to_opponent == 0.0:
 		return
 	facing_direction = direction_to_opponent
 	_set_visual_facing()
@@ -2080,10 +2083,20 @@ func _clear_motion_ghosts() -> void:
 func _get_horizontal_input_direction() -> float:
 	if not input_enabled:
 		return 0.0
-	var input_value := Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	var input_value := _get_horizontal_movement_input()
 	if absf(input_value) < 0.1:
 		return 0.0
 	return signf(input_value)
+
+
+func _get_horizontal_movement_input() -> float:
+	if not input_enabled:
+		return 0.0
+	return Input.get_axis("move_left", "move_right")
+
+
+func _is_jump_input_just_pressed() -> bool:
+	return Input.is_action_just_pressed("jump")
 
 
 func _prepare_jump_visual_state() -> void:

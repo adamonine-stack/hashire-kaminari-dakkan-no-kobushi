@@ -6,17 +6,58 @@ enum TouchControlsMode {
 	OFF,
 }
 
-const HOLD_BUTTON_ACTIONS := {
-	"MoveLeftButton": "move_left",
-	"MoveRightButton": "move_right",
-	"CrouchButton": "down",
-	"GuardButton": "guard",
+const DIRECTION_BUTTONS := {
+	"UpLeftButton": {
+		"text": "↖",
+		"hold": ["move_left"],
+		"tap": ["jump"],
+	},
+	"UpButton": {
+		"text": "↑",
+		"hold": [],
+		"tap": ["jump"],
+	},
+	"UpRightButton": {
+		"text": "↗",
+		"hold": ["move_right"],
+		"tap": ["jump"],
+	},
+	"MoveLeftButton": {
+		"text": "←",
+		"hold": ["move_left"],
+		"tap": [],
+	},
+	"NeutralButton": {
+		"text": "•",
+		"hold": [],
+		"tap": [],
+	},
+	"MoveRightButton": {
+		"text": "→",
+		"hold": ["move_right"],
+		"tap": [],
+	},
+	"DownLeftButton": {
+		"text": "↙",
+		"hold": ["move_left", "down"],
+		"tap": [],
+	},
+	"CrouchButton": {
+		"text": "↓",
+		"hold": ["down"],
+		"tap": [],
+	},
+	"DownRightButton": {
+		"text": "↘",
+		"hold": ["move_right", "down"],
+		"tap": [],
+	},
 }
 
 const TAP_BUTTON_ACTIONS := {
 	"PunchButton": "attack",
 	"KickButton": "kick",
-	"JumpButton": "jump",
+	"ThrowButton": "throw_attack",
 	"SpecialButton": "special_attack",
 	"PauseButton": "pause",
 }
@@ -29,7 +70,7 @@ const TAP_BUTTON_ACTIONS := {
 @export var safe_margin := Vector2(28.0, 24.0)
 @export var show_rotate_hint := true
 
-var _held_actions: Array[String] = []
+var _held_action_counts: Dictionary = {}
 var _pressed_buttons: Dictionary = {}
 var _special_cooldown_remaining := 0.0
 var _special_cooldown_total := 0.0
@@ -48,6 +89,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	modulate.a = 1.0
+	_ensure_runtime_buttons()
 	_connect_touch_buttons()
 	_apply_touch_visibility()
 	_layout_controls()
@@ -69,9 +111,9 @@ func _notification(what: int) -> void:
 
 
 func release_all_touch_inputs() -> void:
-	for action_name in _held_actions:
+	for action_name in _held_action_counts.keys():
 		Input.action_release(action_name)
-	_held_actions.clear()
+	_held_action_counts.clear()
 	_pressed_buttons.clear()
 	_set_all_button_pressed_visuals(false)
 
@@ -122,16 +164,15 @@ func set_special_cooldown(remaining: float, total: float) -> void:
 
 
 func _connect_touch_buttons() -> void:
-	for button_name in HOLD_BUTTON_ACTIONS:
+	for button_name in DIRECTION_BUTTONS:
 		var button := get_node_or_null("LeftControls/%s" % button_name) as Button
 		if button == null:
-			button = get_node_or_null("RightControls/%s" % button_name) as Button
-		if button == null:
 			continue
-		var action_name := HOLD_BUTTON_ACTIONS[button_name] as String
+		var data: Dictionary = DIRECTION_BUTTONS[button_name]
 		_prepare_button(button)
-		button.button_down.connect(_on_hold_button_down.bind(button, action_name))
-		button.button_up.connect(_on_hold_button_up.bind(button, action_name))
+		button.text = String(data.get("text", ""))
+		button.button_down.connect(_on_direction_button_down.bind(button, data))
+		button.button_up.connect(_on_direction_button_up.bind(button, data))
 
 	for button_name in TAP_BUTTON_ACTIONS:
 		var button := get_node_or_null("LeftControls/%s" % button_name) as Button
@@ -143,7 +184,26 @@ func _connect_touch_buttons() -> void:
 			continue
 		var action_name := TAP_BUTTON_ACTIONS[button_name] as String
 		_prepare_button(button)
+		match button_name:
+			"PunchButton":
+				button.text = "P"
+			"KickButton":
+				button.text = "K"
+			"ThrowButton":
+				button.text = "T"
+			"SpecialButton":
+				button.text = "S"
+			"PauseButton":
+				button.text = "II"
 		button.button_down.connect(_on_tap_button_down.bind(button, action_name))
+	var legacy_jump_button := get_node_or_null("RightControls/JumpButton") as Button
+	if legacy_jump_button != null:
+		legacy_jump_button.visible = false
+		legacy_jump_button.disabled = true
+	var legacy_guard_button := get_node_or_null("RightControls/GuardButton") as Button
+	if legacy_guard_button != null:
+		legacy_guard_button.visible = false
+		legacy_guard_button.disabled = true
 
 
 func _prepare_button(button: Button) -> void:
@@ -153,23 +213,55 @@ func _prepare_button(button: Button) -> void:
 	button.custom_minimum_size = base_button_size
 
 
-func _on_hold_button_down(button: Button, action_name: String) -> void:
+func _ensure_runtime_buttons() -> void:
+	if left_controls != null:
+		for button_name in DIRECTION_BUTTONS:
+			if left_controls.get_node_or_null(button_name) != null:
+				continue
+			var button := Button.new()
+			button.name = button_name
+			left_controls.add_child(button)
+	if right_controls != null and right_controls.get_node_or_null("ThrowButton") == null:
+		var throw_button := Button.new()
+		throw_button.name = "ThrowButton"
+		throw_button.text = "T"
+		right_controls.add_child(throw_button)
+
+
+func _press_virtual_action(action_name: String) -> void:
+	var count := int(_held_action_counts.get(action_name, 0))
+	_held_action_counts[action_name] = count + 1
+	if count == 0:
+		Input.action_press(action_name)
+
+
+func _release_virtual_action(action_name: String) -> void:
+	var count := int(_held_action_counts.get(action_name, 0))
+	if count <= 1:
+		_held_action_counts.erase(action_name)
+		Input.action_release(action_name)
+	else:
+		_held_action_counts[action_name] = count - 1
+
+
+func _on_direction_button_down(button: Button, data: Dictionary) -> void:
 	if not visible:
 		return
 	_pressed_buttons[button] = true
-	if not _held_actions.has(action_name):
-		_held_actions.append(action_name)
-		Input.action_press(action_name)
+	for action_name in data.get("hold", []):
+		_press_virtual_action(String(action_name))
+	for action_name in data.get("tap", []):
+		Input.action_press(String(action_name))
+		_release_tap_action_deferred(String(action_name))
 	button.modulate.a = pressed_opacity
 
 
-func _on_hold_button_up(button: Button, action_name: String) -> void:
+func _on_direction_button_up(button: Button, data: Dictionary) -> void:
 	if not _pressed_buttons.has(button):
 		return
 	_pressed_buttons.erase(button)
-	if _held_actions.has(action_name):
-		_held_actions.erase(action_name)
-		Input.action_release(action_name)
+	for action_name in data.get("hold", []):
+		_release_virtual_action(String(action_name))
 	button.modulate.a = button_opacity
 
 
@@ -184,6 +276,10 @@ func _on_tap_button_down(button: Button, action_name: String) -> void:
 
 func _tap_action(action_name: String) -> void:
 	Input.action_press(action_name)
+	await _release_tap_action_deferred(action_name)
+
+
+func _release_tap_action_deferred(action_name: String) -> void:
 	await get_tree().physics_frame
 	await get_tree().process_frame
 	Input.action_release(action_name)
@@ -219,8 +315,10 @@ func _layout_controls() -> void:
 	var viewport_size := get_viewport_rect().size
 	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
 		return
-	position = Vector2.ZERO
-	size = viewport_size
+	offset_left = 0.0
+	offset_top = 0.0
+	offset_right = 0.0
+	offset_bottom = 0.0
 	var is_portrait := viewport_size.y > viewport_size.x
 	if left_controls != null:
 		left_controls.anchor_left = 0.0
@@ -241,24 +339,31 @@ func _layout_controls() -> void:
 	var gap := maxf(10.0, 16.0 * scale_factor)
 	var margin := Vector2(maxf(safe_margin.x * scale_factor, 18.0), maxf(safe_margin.y * scale_factor, 16.0))
 	var bottom_margin := margin.y + (8.0 if not is_portrait else 0.0)
-	var left_top_y := viewport_size.y - bottom_margin - button_size.y * 2.0 - gap
+	var dpad_button_size := button_size * 0.78
+	var action_button_size := button_size * 0.86
+	var left_top_y := viewport_size.y - bottom_margin - dpad_button_size.y * 3.0 - gap * 2.0
 	var right_top_y := viewport_size.y - bottom_margin - button_size.y * 2.0 - gap
 	var left_origin := Vector2(margin.x, left_top_y)
-	var right_origin := Vector2(viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0, right_top_y)
-	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 2.0 - gap))
-	left_origin.y = clampf(left_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap))
-	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - button_size.x * 3.0 - gap * 2.0))
+	var right_origin := Vector2(viewport_size.x - margin.x - action_button_size.x * 3.0 - gap * 2.0, right_top_y)
+	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - dpad_button_size.x * 3.0 - gap * 2.0))
+	left_origin.y = clampf(left_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - dpad_button_size.y * 3.0 - gap * 2.0))
+	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - action_button_size.x * 3.0 - gap * 2.0))
 	right_origin.y = clampf(right_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap))
 
-	_position_button($LeftControls/MoveLeftButton, left_origin + Vector2(0.0, button_size.y * 0.5 + gap * 0.5), button_size)
-	_position_button($LeftControls/MoveRightButton, left_origin + Vector2(button_size.x + gap, button_size.y * 0.5 + gap * 0.5), button_size)
-	_position_button($LeftControls/CrouchButton, left_origin + Vector2((button_size.x + gap) * 0.5, button_size.y + gap), button_size)
-	_position_button($RightControls/JumpButton, left_origin + Vector2((button_size.x + gap) * 0.5, 0.0), button_size)
+	_position_button($LeftControls/UpLeftButton, left_origin, dpad_button_size)
+	_position_button($LeftControls/UpButton, left_origin + Vector2(dpad_button_size.x + gap, 0.0), dpad_button_size)
+	_position_button($LeftControls/UpRightButton, left_origin + Vector2((dpad_button_size.x + gap) * 2.0, 0.0), dpad_button_size)
+	_position_button($LeftControls/MoveLeftButton, left_origin + Vector2(0.0, dpad_button_size.y + gap), dpad_button_size)
+	_position_button($LeftControls/NeutralButton, left_origin + Vector2(dpad_button_size.x + gap, dpad_button_size.y + gap), dpad_button_size)
+	_position_button($LeftControls/MoveRightButton, left_origin + Vector2((dpad_button_size.x + gap) * 2.0, dpad_button_size.y + gap), dpad_button_size)
+	_position_button($LeftControls/DownLeftButton, left_origin + Vector2(0.0, (dpad_button_size.y + gap) * 2.0), dpad_button_size)
+	_position_button($LeftControls/CrouchButton, left_origin + Vector2(dpad_button_size.x + gap, (dpad_button_size.y + gap) * 2.0), dpad_button_size)
+	_position_button($LeftControls/DownRightButton, left_origin + Vector2((dpad_button_size.x + gap) * 2.0, (dpad_button_size.y + gap) * 2.0), dpad_button_size)
 
-	_position_button($RightControls/GuardButton, right_origin + Vector2(0.0, button_size.y * 0.55), button_size)
-	_position_button($RightControls/PunchButton, right_origin + Vector2(button_size.x + gap, 0.0), button_size)
-	_position_button($RightControls/KickButton, right_origin + Vector2((button_size.x + gap) * 2.0, button_size.y * 0.55), button_size)
-	_position_button($RightControls/SpecialButton, right_origin + Vector2(button_size.x + gap, button_size.y + gap), button_size * 1.06)
+	_position_button($RightControls/ThrowButton, right_origin + Vector2(0.0, button_size.y * 0.55), action_button_size)
+	_position_button($RightControls/PunchButton, right_origin + Vector2(action_button_size.x + gap, 0.0), action_button_size)
+	_position_button($RightControls/KickButton, right_origin + Vector2((action_button_size.x + gap) * 2.0, button_size.y * 0.55), action_button_size)
+	_position_button($RightControls/SpecialButton, right_origin + Vector2(action_button_size.x + gap, button_size.y + gap), action_button_size * 1.06)
 	_position_button(pause_button, Vector2(viewport_size.x - margin.x - button_size.x * 0.78, margin.y), button_size * 0.78)
 
 	if rotate_hint != null:

@@ -698,7 +698,7 @@ func enter_guard() -> void:
 	is_guarding = true
 	is_crouch_guarding = false
 	is_crouching = false
-	guard_type = "stand"
+	guard_type = "high"
 	ai_guard_timer = randf_range(_profile_float(&"guard_time_min", 0.30), _profile_float(&"guard_time_max", 0.75))
 	ai_guard_minimum_timer = minf(ai_guard_timer, 0.20)
 	_face_opponent()
@@ -1239,7 +1239,7 @@ func _update_ai_guard_state(delta: float) -> void:
 	is_guarding = true
 	is_crouch_guarding = false
 	is_crouching = false
-	guard_type = "stand"
+	guard_type = "high"
 	if ai_guard_timer == 0.0 and ai_guard_minimum_timer == 0.0:
 		_clear_guard_state()
 		ai_action_finished.emit("guard")

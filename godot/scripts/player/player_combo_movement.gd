@@ -22,6 +22,7 @@ enum AttackPhase {
 enum CombatInput {
 	PUNCH,
 	KICK,
+	THROW,
 	SPECIAL,
 }
 
@@ -78,7 +79,7 @@ func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
 
-	var direction := Input.get_axis("move_left", "move_right") if input_enabled else 0.0
+	var direction := _get_horizontal_movement_input()
 	var is_kicking := kick_active_timer > 0.0
 
 	_update_invincibility(delta)
@@ -94,16 +95,13 @@ func _physics_process(delta: float) -> void:
 		_update_defensive_state()
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
+	_face_opponent()
 
 	var is_jump_kick_active := _is_air_kick_attack_active()
 	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy():
 		direction = 0.0
 		if is_jump_kick_active and input_enabled:
-			direction = Input.get_axis("move_left", "move_right") * jump_kick_air_control_multiplier
-
-	if direction != 0.0 and not is_hit and not _is_throw_busy() and not is_jump_kick_active:
-		facing_direction = signf(direction)
-		_set_visual_facing()
+			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
 
 	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
 		if is_on_floor():
@@ -115,7 +113,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		jump_pressed_this_airtime = false
 		has_used_air_attack = false
-		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
+		if input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
 			var jump_direction := _get_horizontal_input_direction()
@@ -128,9 +126,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y += gravity * delta
 
-	if input_enabled and _is_throw_input_pressed() and _can_start_throw() and not is_character_special_busy():
-		_start_throw()
 	var did_cancel_attack := try_continue_combo()
+	if input_enabled and not did_cancel_attack and _is_throw_input_pressed():
+		request_combat_input(CombatInput.THROW)
 	if not did_cancel_attack and _is_special_input_just_pressed():
 		request_combat_input(CombatInput.SPECIAL)
 	if not did_cancel_attack and Input.is_action_just_pressed("attack"):
@@ -239,6 +237,13 @@ func request_combat_input(combat_input: CombatInput, is_ai_request := false) -> 
 			return request_attack_input(&"Punch", is_ai_request)
 		CombatInput.KICK:
 			return request_attack_input(&"Kick", is_ai_request)
+		CombatInput.THROW:
+			if not is_ai_request and not input_enabled:
+				return false
+			if is_character_special_busy() or not _can_start_throw():
+				return false
+			_start_throw()
+			return true
 		CombatInput.SPECIAL:
 			return request_character_special(is_ai_request)
 		_:
@@ -938,9 +943,18 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 
 	var base_damage := kick_damage if attack_type == "Kick" else punch_damage
 	var final_knockback := calculate_attack_knockback(Vector2(absf(float(attack_data.knockback.x)), absf(float(attack_data.knockback.y))))
+	var default_attack_height := "middle"
+	if attack_type == "Punch":
+		default_attack_height = "high"
+	elif attack_type == "Kick" and String(current_attack_id).contains("crouch"):
+		default_attack_height = "low"
+	var attack_height := default_attack_height
+	var resource_height := String(attack_data.get("attack_height"))
+	if not resource_height.is_empty() and resource_height != "default":
+		attack_height = resource_height
 	return {
 		"damage": maxi(1, int(round(float(base_damage) * float(attack_data.base_damage)))),
-		"attack_height": "low" if attack_type == "Kick" else "middle",
+		"attack_height": attack_height,
 		"knockback_x": final_knockback.x,
 		"knockback_y": final_knockback.y,
 		"hit_stop_frames": maxi(6 if attack_type == "Kick" else 4, int(round(float(attack_data.hitstop_time) * 60.0))),

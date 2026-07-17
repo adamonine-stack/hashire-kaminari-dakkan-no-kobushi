@@ -37,6 +37,7 @@ class_name PlayerAttackData
 
 @export_group("Defense")
 @export var is_guardable: bool = true
+@export_enum("default", "high", "middle", "low", "throw") var attack_height: String = "default"
 @export var guard_damage_multiplier: float = 0.0
 @export var guard_hit_time: float = 0.15
 @export var guard_knockback: Vector2 = Vector2(80.0, 0.0)
