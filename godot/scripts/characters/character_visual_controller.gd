@@ -24,10 +24,11 @@ const REQUIRED_ANIMATION_ALIASES := {
 	&"walk_backward": &"walk",
 	&"jump_start": &"jump",
 	&"jump_air": &"jump",
+	&"jump_land": &"jump",
 	&"jump_up": &"jump",
 	&"jump_fall": &"jump",
 	&"fall": &"jump",
-	&"landing": &"land",
+	&"landing": &"jump",
 	&"crouch_idle": &"crouch",
 	&"punch_1": &"punch",
 	&"punch_2": &"punch",
@@ -692,10 +693,8 @@ func _resolve_animation_name(animation_name: StringName) -> StringName:
 	match animation_name:
 		&"walk_forward", &"walk_backward":
 			fallbacks = [&"walk", &"idle"]
-		&"jump_start", &"jump_air", &"jump_up", &"jump_fall", &"fall":
+		&"jump_start", &"jump_air", &"jump_land", &"jump_up", &"jump_fall", &"fall", &"landing", &"land":
 			fallbacks = [&"jump", &"idle"]
-		&"landing":
-			fallbacks = [&"land", &"idle"]
 		&"crouch_idle":
 			fallbacks = [&"crouch", &"idle"]
 		&"punch_1", &"punch_2", &"crouch_punch", &"jump_punch":
@@ -708,8 +707,6 @@ func _resolve_animation_name(animation_name: StringName) -> StringName:
 			fallbacks = [&"down", &"damage_heavy", &"damage_light", &"idle"]
 		&"getup", &"get_up", &"stand_up":
 			fallbacks = [&"stand_up", &"idle"]
-		&"land":
-			fallbacks = [&"land", &"idle"]
 		&"throw_start", &"throw_hold", &"throw_release":
 			fallbacks = [&"throw", &"special", &"punch", &"idle"]
 		&"thrown", &"grabbed":
