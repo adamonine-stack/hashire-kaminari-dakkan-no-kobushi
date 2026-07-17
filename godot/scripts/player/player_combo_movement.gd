@@ -68,6 +68,10 @@ var attack_forward_speed := 0.0
 var attack_startup_time_actual := 0.0
 var attack_active_time_actual := 0.0
 var attack_recovery_time_actual := 0.0
+var air_kick_attack_data: Resource
+var has_used_air_attack := false
+var is_air_attack_active := false
+var jump_kick_air_control_multiplier := 0.65
 
 
 func _physics_process(delta: float) -> void:
@@ -91,10 +95,13 @@ func _physics_process(delta: float) -> void:
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
 
+	var is_jump_kick_active := _is_air_kick_attack_active()
 	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy():
 		direction = 0.0
+		if is_jump_kick_active and input_enabled:
+			direction = Input.get_axis("move_left", "move_right") * jump_kick_air_control_multiplier
 
-	if direction != 0.0 and not is_hit and not _is_throw_busy():
+	if direction != 0.0 and not is_hit and not _is_throw_busy() and not is_jump_kick_active:
 		facing_direction = signf(direction)
 		_set_visual_facing()
 
@@ -107,7 +114,9 @@ func _physics_process(delta: float) -> void:
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
 		jump_pressed_this_airtime = false
+		has_used_air_attack = false
 		if input_enabled and current_attack_type == "" and Input.is_action_just_pressed("jump") and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
+			has_used_air_attack = false
 			_prepare_jump_visual_state()
 			var jump_direction := _get_horizontal_input_direction()
 			velocity.y = -jump_power
@@ -134,6 +143,8 @@ func _physics_process(delta: float) -> void:
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+	if not was_on_floor_before_move and is_on_floor() and _is_air_kick_attack_active():
+		_finish_air_attack_on_landing()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
@@ -188,6 +199,16 @@ func apply_attack_sequence(sequence: Array) -> void:
 	reset_attack_state()
 
 
+func set_air_kick_attack_data(data: Resource) -> void:
+	air_kick_attack_data = data
+	if air_kick_attack_data == null:
+		return
+	var attack_id := String(air_kick_attack_data.attack_id)
+	if attack_id.is_empty():
+		return
+	attack_data_by_id[attack_id] = air_kick_attack_data
+
+
 func request_punch_attack() -> void:
 	var attack_id := get_next_attack_id("punch")
 	if attack_id.is_empty():
@@ -200,6 +221,16 @@ func request_kick_attack() -> void:
 	if attack_id.is_empty():
 		attack_id = _ensure_fallback_attack_data("kick")
 	start_attack(attack_id)
+
+
+func request_air_kick_attack() -> void:
+	var attack_id := _ensure_air_kick_attack_data()
+	if attack_id.is_empty():
+		return
+	start_attack(attack_id)
+	if current_attack_id == attack_id:
+		is_air_attack_active = true
+		has_used_air_attack = true
 
 
 func request_combat_input(combat_input: CombatInput, is_ai_request := false) -> bool:
@@ -219,6 +250,9 @@ func request_attack_input(attack_type: StringName, is_ai_request := false) -> bo
 		return false
 	if not _can_accept_attack_input(is_ai_request):
 		return false
+	if attack_type == &"Kick" and _can_start_air_kick_attack(is_ai_request):
+		request_air_kick_attack()
+		return current_attack_type == "Kick"
 	if current_attack_type != "":
 		buffer_attack(attack_type)
 		return try_continue_combo()
@@ -247,6 +281,24 @@ func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) 
 	if attack_type == &"Punch":
 		return attack_cooldown_timer <= 0.0 and kick_active_timer <= 0.0
 	return kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0
+
+
+func _can_start_air_kick_attack(is_ai_request: bool) -> bool:
+	return current_attack_type == "" \
+		and not is_on_floor() \
+		and not has_used_air_attack \
+		and current_hp > 0 \
+		and is_round_active \
+		and not is_hit \
+		and not is_guard_hit \
+		and not is_guarding \
+		and not is_crouching \
+		and not is_crouch_guarding \
+		and not _is_throw_busy() \
+		and not is_character_special_busy() \
+		and kick_cooldown_timer <= 0.0 \
+		and attack_active_timer <= 0.0 \
+		and (is_ai_request or input_enabled)
 
 
 func start_attack(attack_id: String) -> void:
@@ -328,6 +380,7 @@ func finish_attack() -> void:
 	kick_active_timer = 0.0
 	attack_cooldown_timer = 0.0
 	kick_cooldown_timer = 0.0
+	is_air_attack_active = false
 	clear_attack_buffer()
 	close_combo_window()
 	if combo_count >= dev026_max_combo_hits:
@@ -457,6 +510,7 @@ func reset_attack_state(clear_combo_state := true) -> void:
 	attack_cooldown_timer = 0.0
 	kick_cooldown_timer = 0.0
 	current_attack_type = ""
+	is_air_attack_active = false
 	if clear_combo_state:
 		clear_attack_buffer()
 		close_combo_window()
@@ -898,6 +952,7 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		"screen_shake": 4.5 if attack_type == "Kick" else 2.8,
 		"se_type": "strong" if attack_type == "Kick" else "weak",
 		"attack_id": current_attack_id,
+		"attack_type": String(attack_data.attack_type),
 	}
 
 
@@ -936,6 +991,46 @@ func _ensure_fallback_attack_data(attack_type: String) -> String:
 	return fallback_id
 
 
+func _ensure_air_kick_attack_data() -> String:
+	if air_kick_attack_data != null:
+		var configured_id := String(air_kick_attack_data.attack_id)
+		if not configured_id.is_empty():
+			attack_data_by_id[configured_id] = air_kick_attack_data
+			return configured_id
+
+	var fallback_id := "fallback_jump_kick"
+	if attack_data_by_id.has(fallback_id):
+		return fallback_id
+
+	var fallback_data: Resource = PlayerAttackDataScript.new()
+	fallback_data.attack_id = fallback_id
+	fallback_data.display_name = "Jump Kick"
+	fallback_data.attack_type = "kick"
+	fallback_data.attack_category = "air"
+	fallback_data.base_damage = 1.10
+	fallback_data.startup_time = 0.214
+	fallback_data.active_time = 0.143
+	fallback_data.recovery_time = 0.214
+	fallback_data.combo_input_start = 0.0
+	fallback_data.combo_input_end = 0.0
+	fallback_data.hitbox_size = Vector2(90.0, 52.0)
+	fallback_data.hitbox_offset = Vector2(58.0, -50.0)
+	fallback_data.forward_move_distance = 0.0
+	fallback_data.forward_move_duration = 0.0
+	fallback_data.knockback = Vector2(250.0, -90.0)
+	fallback_data.hitstop_time = 0.09
+	fallback_data.hitstun_time = 0.30
+	fallback_data.guard_hit_time = 0.22
+	fallback_data.guard_knockback = Vector2(95.0, 0.0)
+	fallback_data.next_attack_ids = []
+	fallback_data.can_cancel_on_hit = false
+	fallback_data.can_cancel_on_whiff = false
+	fallback_data.animation_name = "jump_kick"
+	air_kick_attack_data = fallback_data
+	attack_data_by_id[fallback_id] = fallback_data
+	return fallback_id
+
+
 func _attack_type_to_state_name(attack_type: String) -> String:
 	return "Kick" if attack_type.to_lower() == "kick" else "Punch"
 
@@ -949,6 +1044,10 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
+	if attack_data != null and String(attack_data.animation_name) == "jump_kick":
+		return &"jump_kick"
+	if _is_air_kick_attack_active():
+		return &"jump_kick"
 	if String(current_attack_type) == "Kick" and combo_count <= 0 and not dev_starting_combo_attack:
 		return &"kick_1"
 	if String(current_attack_type) == "Kick" and dev_combo_step >= dev026_max_combo_hits:
@@ -960,6 +1059,8 @@ func _attack_animation_name(attack_data: Resource) -> StringName:
 
 func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) -> float:
 	if attack_type == "Kick":
+		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
+			return dev052_kick_1_hitstop_attacker
 		if dev_combo_step >= dev026_max_combo_hits or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
 			return dev052_finisher_hitstop_attacker
 		return dev052_kick_1_hitstop_attacker
@@ -970,6 +1071,8 @@ func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) ->
 
 func _get_attack_hitstop_defender(attack_data: Resource, attack_type: String) -> float:
 	if attack_type == "Kick":
+		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
+			return 0.09
 		if dev_combo_step >= dev026_max_combo_hits or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
 			return dev052_finisher_hitstop_defender
 		return dev052_kick_1_hitstop_defender
@@ -1007,6 +1110,16 @@ func _setup_attack_forward_movement(attack_data: Resource) -> void:
 		return
 	attack_forward_timer = duration
 	attack_forward_speed = (float(attack_data.forward_move_distance) / duration) * facing_direction
+
+
+func _is_air_kick_attack_active() -> bool:
+	return is_air_attack_active and current_attack_type == "Kick" and not is_on_floor()
+
+
+func _finish_air_attack_on_landing() -> void:
+	finish_attack()
+	has_used_air_attack = false
+	_play_visual_animation(&"jump_land", true)
 
 
 func _target_debug_name(target: Node) -> String:

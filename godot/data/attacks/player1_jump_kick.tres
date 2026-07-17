@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack_data"]
+
+[resource]
+script = ExtResource("1_attack_data")
+attack_id = "player1_jump_kick"
+display_name = "Jump Kick"
+attack_type = "kick"
+attack_category = "air"
+base_damage = 1.10
+startup_time = 0.214
+active_time = 0.143
+recovery_time = 0.214
+combo_input_start = 0.0
+combo_input_end = 0.0
+hitbox_size = Vector2(90, 52)
+hitbox_offset = Vector2(58, -50)
+forward_move_distance = 0.0
+forward_move_duration = 0.0
+knockback = Vector2(250, -90)
+hitstop_time = 0.09
+hitstun_time = 0.30
+is_guardable = true
+guard_damage_multiplier = 0.0
+guard_hit_time = 0.22
+guard_knockback = Vector2(95, 0)
+cooldown = 0.35
+next_attack_ids = Array[String]([])
+can_cancel_on_hit = false
+can_cancel_on_whiff = false
+animation_name = "jump_kick"

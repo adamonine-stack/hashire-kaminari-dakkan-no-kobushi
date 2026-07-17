@@ -244,6 +244,8 @@ func apply_attack_sequence_stats() -> void:
 	if has_method("apply_attack_sequence") and not fighter_definition.attack_sequence.is_empty():
 		apply_attack_sequence(fighter_definition.attack_sequence)
 		dev026_max_combo_hits = int(fighter_definition.max_attack_chain_count) if int(fighter_definition.max_attack_chain_count) > 0 else fighter_definition.attack_sequence.size()
+	if has_method("set_air_kick_attack_data"):
+		set_air_kick_attack_data(fighter_definition.air_kick_attack)
 
 
 func apply_character_special_stats() -> void:
