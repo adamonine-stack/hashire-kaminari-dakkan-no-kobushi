@@ -91,6 +91,11 @@ sprite_animation_speeds = {
 "ko": 8.0
 }
 sprite_animation_clips = {
+"guard": {
+"row": 7,
+"start": 3,
+"count": 3
+}
 }
 sprite_frame_origin = Vector2(0, 0)
 sprite_frame_step = Vector2(192, 192)

@@ -214,21 +214,39 @@ func _add_standard_192_animations(frames: SpriteFrames, sprite_sheet: Texture2D,
 		var frame_count := int(frame_counts.get(animation_key, STANDARD_192_COLUMNS))
 		_add_standard_192_animation(frames, sheet_image, animation_name, row_index, frame_count)
 
+	var clips: Dictionary = character_data.get("sprite_animation_clips")
+	for animation_key in clips.keys():
+		var animation_name := StringName(String(animation_key))
+		var clip: Dictionary = clips[animation_key]
+		var row_index := int(clip.get("row", -1))
+		var start_column := int(clip.get("start", 0))
+		var frame_count := int(clip.get("count", STANDARD_192_COLUMNS))
+		_add_standard_192_clip_animation(frames, sheet_image, animation_name, row_index, start_column, frame_count)
+
 	return frames.has_animation("idle") and frames.get_frame_count("idle") > 0
 
 
 func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, frame_count: int) -> void:
+	_add_standard_192_clip_animation(frames, sheet_image, animation_name, row_index, 0, frame_count)
+
+
+func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, start_column: int, frame_count: int) -> void:
 	if row_index < 0 or frame_count <= 0:
 		return
 
 	var clamped_count := clampi(frame_count, 1, STANDARD_192_COLUMNS)
+	if frames.has_animation(String(animation_name)):
+		frames.remove_animation(String(animation_name))
 	frames.add_animation(String(animation_name))
 	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
 	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
 
 	for column_index in range(clamped_count):
+		var source_column := start_column + column_index
+		if source_column < 0 or source_column >= STANDARD_192_COLUMNS:
+			continue
 		var frame_rect := Rect2i(
-			column_index * STANDARD_192_CELL_SIZE.x,
+			source_column * STANDARD_192_CELL_SIZE.x,
 			row_index * STANDARD_192_CELL_SIZE.y,
 			STANDARD_192_CELL_SIZE.x,
 			STANDARD_192_CELL_SIZE.y
