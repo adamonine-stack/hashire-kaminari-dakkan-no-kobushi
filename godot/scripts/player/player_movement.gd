@@ -361,9 +361,7 @@ func _physics_process(delta: float) -> void:
 		direction = 0.0
 
 	if not is_hit and not _is_throw_busy():
-		if is_on_floor() and _can_guard_back_walk():
-			velocity.x = _get_guard_back_walk_velocity()
-		elif is_on_floor() and (is_guarding or is_crouch_guarding):
+		if is_on_floor() and (is_guarding or is_crouch_guarding):
 			velocity.x = 0.0
 		else:
 			velocity.x = direction * get_current_move_speed()
@@ -423,8 +421,6 @@ func _start_attack(is_combo_attack := false) -> void:
 func _update_defensive_state() -> void:
 	var down_pressed := Input.is_action_pressed("down")
 	var guard_pressed := Input.is_action_pressed("guard")
-	var holding_back := _is_holding_back_against_opponent()
-	var jump_pressed := _is_jump_input_just_pressed()
 
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
@@ -432,19 +428,13 @@ func _update_defensive_state() -> void:
 			is_crouching = false
 		return
 
-	if holding_back and jump_pressed and not down_pressed:
-		_clear_guard_state()
-		is_crouching = false
-		return
-
-	if holding_back or guard_pressed:
+	if guard_pressed:
 		is_guarding = true
-		is_crouch_guarding = down_pressed
+		is_crouch_guarding = down_pressed and is_on_floor()
 		is_crouching = false
-		guard_type = "low" if down_pressed else "high"
+		guard_type = "low" if is_crouch_guarding else "high"
 		guard_motion_state = "hold"
-		if _can_guard_back_walk():
-			guard_motion_state = "back_walk"
+		velocity.x = 0.0
 		return
 
 	_clear_guard_state()
@@ -1190,9 +1180,9 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 func _is_attack_height_guardable(attack_height: String) -> bool:
 	match attack_height:
 		"high":
-			return guard_type == "high" or guard_type == "stand"
+			return guard_type == "high" or guard_type == "stand" or guard_type == "low" or guard_type == "crouch"
 		"middle":
-			return guard_type == "high" or guard_type == "stand"
+			return guard_type == "high" or guard_type == "stand" or guard_type == "low" or guard_type == "crouch"
 		"low":
 			return guard_type == "low" or guard_type == "crouch"
 		"throw":
@@ -1206,18 +1196,7 @@ func _can_start_guard_or_crouch() -> bool:
 
 
 func _can_guard_back_walk() -> bool:
-	return is_round_active \
-		and input_enabled \
-		and is_on_floor() \
-		and is_guarding \
-		and not is_crouch_guarding \
-		and guard_type == "high" \
-		and not is_guard_hit \
-		and current_attack_type == "" \
-		and attack_active_timer <= 0.0 \
-		and kick_active_timer <= 0.0 \
-		and not is_hit \
-		and not _is_throw_busy()
+	return false
 
 
 func _get_guard_back_walk_velocity() -> float:
@@ -2317,17 +2296,23 @@ func _get_current_visual_animation() -> StringName:
 		return &"guard_hit"
 	if is_hit:
 		return last_damage_animation
-	if is_crouch_guarding or is_guarding:
+	if is_crouch_guarding:
+		return &"crouch_guard"
+	if is_guarding:
 		return &"guard"
 	if is_crouching:
 		return &"crouch_idle"
 	if current_attack_type == "Punch":
+		if current_attack_data != null and String(current_attack_data.animation_name) == "jump_punch_down":
+			return &"jump_punch_down"
 		if not is_on_floor():
-			return &"jump_punch"
+			return &"jump_punch_down"
 		if is_crouching:
 			return &"crouch_punch"
 		return &"punch_2" if combo_step == 2 else &"punch_1"
 	if current_attack_type == "Kick":
+		if current_attack_data != null and String(current_attack_data.animation_name) == "crouch_kick_sweep":
+			return &"crouch_kick_sweep"
 		if not is_on_floor():
 			return &"jump_kick"
 		if is_crouching:

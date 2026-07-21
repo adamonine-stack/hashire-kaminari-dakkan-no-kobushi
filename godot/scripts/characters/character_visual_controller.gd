@@ -33,11 +33,11 @@ const REQUIRED_ANIMATION_ALIASES := {
 	&"punch_1": &"punch",
 	&"punch_2": &"punch",
 	&"crouch_punch": &"punch",
-	&"jump_punch": &"punch",
+	&"jump_punch": &"jump_punch_down",
 	&"light_attack": &"punch",
 	&"kick_1": &"kick",
 	&"kick_2": &"kick",
-	&"crouch_kick": &"kick",
+	&"crouch_kick": &"crouch_kick_sweep",
 	&"jump_kick": &"kick",
 	&"heavy_attack": &"kick",
 	&"combo_finisher": &"kick",
@@ -697,10 +697,16 @@ func _resolve_animation_name(animation_name: StringName) -> StringName:
 			fallbacks = [&"jump", &"idle"]
 		&"crouch_idle":
 			fallbacks = [&"crouch", &"idle"]
-		&"punch_1", &"punch_2", &"crouch_punch", &"jump_punch":
+		&"crouch_guard":
+			fallbacks = [&"guard", &"crouch", &"idle"]
+		&"punch_1", &"punch_2", &"crouch_punch":
 			fallbacks = [&"punch", &"idle"]
-		&"kick_1", &"kick_2", &"crouch_kick", &"jump_kick", &"combo_finisher":
+		&"jump_punch", &"jump_punch_down":
+			fallbacks = [&"jump_punch_down", &"punch", &"jump", &"idle"]
+		&"kick_1", &"kick_2", &"jump_kick", &"combo_finisher":
 			fallbacks = [&"kick", &"punch", &"idle"]
+		&"crouch_kick", &"crouch_kick_sweep":
+			fallbacks = [&"crouch_kick_sweep", &"kick", &"crouch", &"idle"]
 		&"damage_light", &"damage_heavy", &"guard_hit", &"knockback":
 			fallbacks = [&"damage_light", &"damage_heavy", &"damage", &"idle"]
 		&"knockdown":
@@ -754,13 +760,13 @@ func _animation_speed(animation_name: StringName) -> float:
 		if speeds.has(animation_name):
 			return float(speeds[animation_name])
 	match animation_name:
-		&"idle", &"guard", &"crouch", &"crouch_idle", &"victory":
+		&"idle", &"guard", &"crouch_guard", &"crouch", &"crouch_idle", &"victory":
 			return 6.0
 		&"walk", &"walk_forward", &"walk_backward", &"jump_start", &"jump_up", &"jump_fall", &"landing":
 			return 10.0
 		&"dash":
 			return 12.0
-		&"punch", &"punch_1", &"punch_2", &"kick", &"kick_1", &"kick_2", &"special":
+		&"punch", &"punch_1", &"punch_2", &"jump_punch_down", &"kick", &"kick_1", &"kick_2", &"crouch_kick_sweep", &"special":
 			return 14.0
 		&"damage", &"damage_light", &"damage_heavy", &"guard_hit", &"knockback":
 			return 12.0
@@ -773,7 +779,7 @@ func _animation_speed(animation_name: StringName) -> float:
 
 
 func _animation_should_loop(animation_name: StringName) -> bool:
-	return animation_name == &"idle" or animation_name == &"walk" or animation_name == &"walk_forward" or animation_name == &"walk_backward" or animation_name == &"dash" or animation_name == &"crouch" or animation_name == &"crouch_idle" or animation_name == &"guard" or animation_name == &"victory"
+	return animation_name == &"idle" or animation_name == &"walk" or animation_name == &"walk_forward" or animation_name == &"walk_backward" or animation_name == &"dash" or animation_name == &"crouch" or animation_name == &"crouch_idle" or animation_name == &"crouch_guard" or animation_name == &"guard" or animation_name == &"victory"
 
 
 func _fighter_id() -> String:

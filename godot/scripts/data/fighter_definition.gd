@@ -60,6 +60,8 @@ class_name FighterDefinition
 @export var received_knockback_multiplier: float = 1.0
 @export var attack_sequence: Array[Resource] = []
 @export var air_kick_attack: Resource
+@export var air_punch_down_attack: Resource
+@export var crouch_kick_sweep_attack: Resource
 @export var max_attack_chain_count: int = 0
 @export var special_attack_sequence: Array[Resource] = []
 

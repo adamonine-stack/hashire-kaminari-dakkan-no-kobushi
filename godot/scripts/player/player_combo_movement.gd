@@ -70,6 +70,8 @@ var attack_startup_time_actual := 0.0
 var attack_active_time_actual := 0.0
 var attack_recovery_time_actual := 0.0
 var air_kick_attack_data: Resource
+var air_punch_down_attack_data: Resource
+var crouch_kick_sweep_attack_data: Resource
 var has_used_air_attack := false
 var is_air_attack_active := false
 var jump_kick_air_control_multiplier := 0.65
@@ -97,19 +99,17 @@ func _physics_process(delta: float) -> void:
 		_update_ai_guard(delta)
 	_face_opponent()
 
-	var is_jump_kick_active := _is_air_kick_attack_active()
+	var is_air_attack_current := _is_air_attack_currently_active()
 	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy():
 		direction = 0.0
-		if is_jump_kick_active and input_enabled:
+		if is_air_attack_current and input_enabled:
 			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
 	elif is_guarding:
 		direction = 0.0
 
 	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
 		if is_on_floor():
-			if _can_guard_back_walk():
-				velocity.x = _get_guard_back_walk_velocity()
-			elif is_guarding or is_crouch_guarding:
+			if is_guarding or is_crouch_guarding:
 				velocity.x = 0.0
 			else:
 				velocity.x = direction * get_current_move_speed()
@@ -149,7 +149,7 @@ func _physics_process(delta: float) -> void:
 	_update_visual_state()
 	move_and_slide()
 	_apply_post_move_stabilization()
-	if not was_on_floor_before_move and is_on_floor() and _is_air_kick_attack_active():
+	if not was_on_floor_before_move and is_on_floor() and _is_air_attack_currently_active():
 		_finish_air_attack_on_landing()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
@@ -213,6 +213,26 @@ func set_air_kick_attack_data(data: Resource) -> void:
 	attack_data_by_id[attack_id] = air_kick_attack_data
 
 
+func set_air_punch_down_attack_data(data: Resource) -> void:
+	air_punch_down_attack_data = data
+	if air_punch_down_attack_data == null:
+		return
+	var attack_id := String(air_punch_down_attack_data.attack_id)
+	if attack_id.is_empty():
+		return
+	attack_data_by_id[attack_id] = air_punch_down_attack_data
+
+
+func set_crouch_kick_sweep_attack_data(data: Resource) -> void:
+	crouch_kick_sweep_attack_data = data
+	if crouch_kick_sweep_attack_data == null:
+		return
+	var attack_id := String(crouch_kick_sweep_attack_data.attack_id)
+	if attack_id.is_empty():
+		return
+	attack_data_by_id[attack_id] = crouch_kick_sweep_attack_data
+
+
 func request_punch_attack() -> void:
 	var attack_id := get_next_attack_id("punch")
 	if attack_id.is_empty():
@@ -235,6 +255,25 @@ func request_air_kick_attack() -> void:
 	if current_attack_id == attack_id:
 		is_air_attack_active = true
 		has_used_air_attack = true
+
+
+func request_air_punch_down_attack() -> void:
+	var attack_id := _ensure_air_punch_down_attack_data()
+	if attack_id.is_empty():
+		return
+	start_attack(attack_id)
+	if current_attack_id == attack_id:
+		is_air_attack_active = true
+		has_used_air_attack = true
+
+
+func request_crouch_kick_sweep_attack() -> void:
+	var attack_id := _ensure_crouch_kick_sweep_attack_data()
+	if attack_id.is_empty():
+		return
+	start_attack(attack_id)
+	if current_attack_id == attack_id:
+		is_crouching = true
 
 
 func request_combat_input(combat_input: CombatInput, is_ai_request := false) -> bool:
@@ -261,8 +300,14 @@ func request_attack_input(attack_type: StringName, is_ai_request := false) -> bo
 		return false
 	if not _can_accept_attack_input(is_ai_request):
 		return false
+	if attack_type == &"Punch" and _can_start_air_punch_down_attack(is_ai_request):
+		request_air_punch_down_attack()
+		return current_attack_type == "Punch"
 	if attack_type == &"Kick" and _can_start_air_kick_attack(is_ai_request):
 		request_air_kick_attack()
+		return current_attack_type == "Kick"
+	if attack_type == &"Kick" and _can_start_crouch_kick_sweep_attack(is_ai_request):
+		request_crouch_kick_sweep_attack()
 		return current_attack_type == "Kick"
 	if current_attack_type != "":
 		buffer_attack(attack_type)
@@ -305,6 +350,41 @@ func _can_start_air_kick_attack(is_ai_request: bool) -> bool:
 		and not is_guarding \
 		and not is_crouching \
 		and not is_crouch_guarding \
+		and not _is_throw_busy() \
+		and not is_character_special_busy() \
+		and kick_cooldown_timer <= 0.0 \
+		and attack_active_timer <= 0.0 \
+		and (is_ai_request or input_enabled)
+
+
+func _can_start_air_punch_down_attack(is_ai_request: bool) -> bool:
+	return current_attack_type == "" \
+		and not is_on_floor() \
+		and not has_used_air_attack \
+		and current_hp > 0 \
+		and is_round_active \
+		and not is_hit \
+		and not is_guard_hit \
+		and not is_guarding \
+		and not is_crouching \
+		and not is_crouch_guarding \
+		and not _is_throw_busy() \
+		and not is_character_special_busy() \
+		and attack_cooldown_timer <= 0.0 \
+		and kick_active_timer <= 0.0 \
+		and (is_ai_request or input_enabled)
+
+
+func _can_start_crouch_kick_sweep_attack(is_ai_request: bool) -> bool:
+	return current_attack_type == "" \
+		and is_on_floor() \
+		and is_crouching \
+		and not is_guarding \
+		and not is_crouch_guarding \
+		and current_hp > 0 \
+		and is_round_active \
+		and not is_hit \
+		and not is_guard_hit \
 		and not _is_throw_busy() \
 		and not is_character_special_busy() \
 		and kick_cooldown_timer <= 0.0 \
@@ -1051,6 +1131,88 @@ func _ensure_air_kick_attack_data() -> String:
 	return fallback_id
 
 
+func _ensure_air_punch_down_attack_data() -> String:
+	if air_punch_down_attack_data != null:
+		var configured_id := String(air_punch_down_attack_data.attack_id)
+		if not configured_id.is_empty():
+			attack_data_by_id[configured_id] = air_punch_down_attack_data
+			return configured_id
+
+	var fallback_id := "player1_jump_punch_down"
+	if attack_data_by_id.has(fallback_id):
+		return fallback_id
+
+	var fallback_data: Resource = PlayerAttackDataScript.new()
+	fallback_data.attack_id = fallback_id
+	fallback_data.display_name = "Jump Punch Down"
+	fallback_data.attack_type = "punch"
+	fallback_data.attack_category = "air"
+	fallback_data.base_damage = 0.95
+	fallback_data.startup_time = 0.25
+	fallback_data.active_time = 0.17
+	fallback_data.recovery_time = 0.25
+	fallback_data.combo_input_start = 0.0
+	fallback_data.combo_input_end = 0.0
+	fallback_data.hitbox_size = Vector2(68.0, 70.0)
+	fallback_data.hitbox_offset = Vector2(46.0, 32.0)
+	fallback_data.forward_move_distance = 0.0
+	fallback_data.forward_move_duration = 0.0
+	fallback_data.knockback = Vector2(190.0, 120.0)
+	fallback_data.hitstop_time = 0.07
+	fallback_data.hitstun_time = 0.25
+	fallback_data.guard_hit_time = 0.18
+	fallback_data.guard_knockback = Vector2(70.0, 0.0)
+	fallback_data.attack_height = "middle"
+	fallback_data.next_attack_ids = []
+	fallback_data.can_cancel_on_hit = false
+	fallback_data.can_cancel_on_whiff = false
+	fallback_data.animation_name = "jump_punch_down"
+	air_punch_down_attack_data = fallback_data
+	attack_data_by_id[fallback_id] = fallback_data
+	return fallback_id
+
+
+func _ensure_crouch_kick_sweep_attack_data() -> String:
+	if crouch_kick_sweep_attack_data != null:
+		var configured_id := String(crouch_kick_sweep_attack_data.attack_id)
+		if not configured_id.is_empty():
+			attack_data_by_id[configured_id] = crouch_kick_sweep_attack_data
+			return configured_id
+
+	var fallback_id := "player1_crouch_kick_sweep"
+	if attack_data_by_id.has(fallback_id):
+		return fallback_id
+
+	var fallback_data: Resource = PlayerAttackDataScript.new()
+	fallback_data.attack_id = fallback_id
+	fallback_data.display_name = "Crouch Sweep"
+	fallback_data.attack_type = "kick"
+	fallback_data.attack_category = "crouch"
+	fallback_data.base_damage = 0.90
+	fallback_data.startup_time = 0.22
+	fallback_data.active_time = 0.16
+	fallback_data.recovery_time = 0.28
+	fallback_data.combo_input_start = 0.0
+	fallback_data.combo_input_end = 0.0
+	fallback_data.hitbox_size = Vector2(86.0, 34.0)
+	fallback_data.hitbox_offset = Vector2(54.0, 42.0)
+	fallback_data.forward_move_distance = 0.0
+	fallback_data.forward_move_duration = 0.0
+	fallback_data.knockback = Vector2(210.0, 22.0)
+	fallback_data.hitstop_time = 0.07
+	fallback_data.hitstun_time = 0.28
+	fallback_data.guard_hit_time = 0.18
+	fallback_data.guard_knockback = Vector2(75.0, 0.0)
+	fallback_data.attack_height = "low"
+	fallback_data.next_attack_ids = []
+	fallback_data.can_cancel_on_hit = false
+	fallback_data.can_cancel_on_whiff = false
+	fallback_data.animation_name = "crouch_kick_sweep"
+	crouch_kick_sweep_attack_data = fallback_data
+	attack_data_by_id[fallback_id] = fallback_data
+	return fallback_id
+
+
 func _attack_type_to_state_name(attack_type: String) -> String:
 	return "Kick" if attack_type.to_lower() == "kick" else "Punch"
 
@@ -1064,8 +1226,10 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
-	if attack_data != null and String(attack_data.animation_name) == "jump_kick":
-		return &"jump_kick"
+	if attack_data != null:
+		var configured_animation := String(attack_data.animation_name)
+		if configured_animation == "jump_kick" or configured_animation == "jump_punch_down" or configured_animation == "crouch_kick_sweep":
+			return StringName(configured_animation)
 	if _is_air_kick_attack_active():
 		return &"jump_kick"
 	if String(current_attack_type) == "Kick" and combo_count <= 0 and not dev_starting_combo_attack:
@@ -1134,6 +1298,10 @@ func _setup_attack_forward_movement(attack_data: Resource) -> void:
 
 func _is_air_kick_attack_active() -> bool:
 	return is_air_attack_active and current_attack_type == "Kick" and not is_on_floor()
+
+
+func _is_air_attack_currently_active() -> bool:
+	return is_air_attack_active and current_attack_type != "" and not is_on_floor()
 
 
 func _finish_air_attack_on_landing() -> void:

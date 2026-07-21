@@ -62,6 +62,10 @@ const TAP_BUTTON_ACTIONS := {
 	"PauseButton": "pause",
 }
 
+const HOLD_BUTTON_ACTIONS := {
+	"GuardButton": "guard",
+}
+
 @export var touch_controls_mode: TouchControlsMode = TouchControlsMode.ON
 @export var button_opacity := 0.72
 @export var pressed_opacity := 0.96
@@ -196,14 +200,25 @@ func _connect_touch_buttons() -> void:
 			"PauseButton":
 				button.text = "II"
 		button.button_down.connect(_on_tap_button_down.bind(button, action_name))
+
+	for button_name in HOLD_BUTTON_ACTIONS:
+		var button := get_node_or_null("LeftControls/%s" % button_name) as Button
+		if button == null:
+			button = get_node_or_null("RightControls/%s" % button_name) as Button
+		if button == null:
+			continue
+		var action_name := HOLD_BUTTON_ACTIONS[button_name] as String
+		_prepare_button(button)
+		if button_name == "GuardButton":
+			button.text = "G"
+		button.visible = true
+		button.disabled = false
+		button.button_down.connect(_on_hold_button_down.bind(button, action_name))
+		button.button_up.connect(_on_hold_button_up.bind(button, action_name))
 	var legacy_jump_button := get_node_or_null("RightControls/JumpButton") as Button
 	if legacy_jump_button != null:
 		legacy_jump_button.visible = false
 		legacy_jump_button.disabled = true
-	var legacy_guard_button := get_node_or_null("RightControls/GuardButton") as Button
-	if legacy_guard_button != null:
-		legacy_guard_button.visible = false
-		legacy_guard_button.disabled = true
 
 
 func _prepare_button(button: Button) -> void:
@@ -270,6 +285,19 @@ func _on_tap_button_down(button: Button, action_name: String) -> void:
 		return
 	button.modulate.a = pressed_opacity
 	await _tap_action(action_name)
+	if is_instance_valid(button):
+		button.modulate.a = button_opacity
+
+
+func _on_hold_button_down(button: Button, action_name: String) -> void:
+	if not visible or button.disabled:
+		return
+	_press_virtual_action(action_name)
+	button.modulate.a = pressed_opacity
+
+
+func _on_hold_button_up(button: Button, action_name: String) -> void:
+	_release_virtual_action(action_name)
 	if is_instance_valid(button):
 		button.modulate.a = button_opacity
 
@@ -363,6 +391,7 @@ func _layout_controls() -> void:
 	_position_button($RightControls/ThrowButton, right_origin + Vector2(0.0, button_size.y * 0.55), action_button_size)
 	_position_button($RightControls/PunchButton, right_origin + Vector2(action_button_size.x + gap, 0.0), action_button_size)
 	_position_button($RightControls/KickButton, right_origin + Vector2((action_button_size.x + gap) * 2.0, button_size.y * 0.55), action_button_size)
+	_position_button($RightControls/GuardButton, right_origin + Vector2(0.0, button_size.y + gap), action_button_size)
 	_position_button($RightControls/SpecialButton, right_origin + Vector2(action_button_size.x + gap, button_size.y + gap), action_button_size * 1.06)
 	_position_button(pause_button, Vector2(viewport_size.x - margin.x - button_size.x * 0.78, margin.y), button_size * 0.78)
 

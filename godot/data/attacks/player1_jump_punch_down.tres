@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack_data"]
+
+[resource]
+script = ExtResource("1_attack_data")
+attack_id = "player1_jump_punch_down"
+display_name = "Jump Punch Down"
+attack_type = "punch"
+attack_category = "air"
+base_damage = 0.95
+startup_time = 0.25
+active_time = 0.17
+recovery_time = 0.25
+combo_input_start = 0.0
+combo_input_end = 0.0
+hitbox_size = Vector2(68, 70)
+hitbox_offset = Vector2(46, 32)
+forward_move_distance = 0.0
+forward_move_duration = 0.0
+knockback = Vector2(190, 120)
+hitstop_time = 0.07
+hitstun_time = 0.25
+is_guardable = true
+attack_height = "middle"
+guard_damage_multiplier = 0.0
+guard_hit_time = 0.18
+guard_knockback = Vector2(70, 0)
+cooldown = 0.35
+next_attack_ids = Array[String]([])
+can_cancel_on_hit = false
+can_cancel_on_whiff = false
+animation_name = "jump_punch_down"
