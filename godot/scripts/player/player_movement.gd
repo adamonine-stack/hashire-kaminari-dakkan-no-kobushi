@@ -35,10 +35,18 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var facing_dead_zone := 8.0
 @export var input_threshold := 0.25
 @export var guard_input_threshold := 0.35
+@export var guard_back_walk_speed_ratio := 0.35
 @export var guard_damage_rate := 0.25
 @export var guard_hit_time := 0.15
 @export var guard_knockback_x := 80.0
 @export var guard_hit_stop_time := 0.03
+@export_group("Stage Collision")
+@export var stage_left_limit := 0.0
+@export var stage_right_limit := 1280.0
+@export var stage_floor_y := 520.0
+@export var floor_safety_margin := 120.0
+@export var fighter_body_half_width := 43.0
+@export var minimum_fighter_distance := 42.0
 @export var throw_range := 55.0
 @export var throw_body_width := 72.0
 @export var throw_damage := 15
@@ -103,6 +111,7 @@ var is_guarding := false
 var is_crouching := false
 var is_crouch_guarding := false
 var guard_type := "none"
+var guard_motion_state := "none"
 var punch_hitbox_active := false
 var kick_hitbox_active := false
 var punch_hit_targets: Array[Node] = []
@@ -129,6 +138,7 @@ var pending_throw_damage := 0
 var pending_throw_hit_position := Vector2.ZERO
 var pending_throw_direction := 0.0
 var pending_throw_velocity := Vector2.ZERO
+var last_safe_ground_position := Vector2.ZERO
 var pending_throw_attacker: Node
 var pending_throw_ai_checked := false
 var throw_state := ""
@@ -194,6 +204,7 @@ var jump_pressed_this_airtime := false
 
 func _ready() -> void:
 	current_hp = max_hp
+	_configure_fighter_body_collision()
 	punch_area.area_entered.connect(_on_punch_hitbox_area_entered)
 	kick_area.area_entered.connect(_on_kick_hitbox_area_entered)
 	_setup_hit_audio()
@@ -203,7 +214,13 @@ func _ready() -> void:
 	_set_punch_hitbox_active(false, false)
 	_set_kick_hitbox_active(false, false)
 	was_on_floor_last_frame = is_on_floor()
+	last_safe_ground_position = global_position
 	hp_changed.emit(current_hp, max_hp)
+
+
+func _configure_fighter_body_collision() -> void:
+	collision_layer = 4 if name == "Enemy" else 2
+	collision_mask = 1
 
 
 func _ensure_official_animation_placeholders() -> void:
@@ -340,9 +357,16 @@ func _physics_process(delta: float) -> void:
 
 	if is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy():
 		direction = 0.0
+	elif is_guarding:
+		direction = 0.0
 
 	if not is_hit and not _is_throw_busy():
-		velocity.x = direction * get_current_move_speed()
+		if is_on_floor() and _can_guard_back_walk():
+			velocity.x = _get_guard_back_walk_velocity()
+		elif is_on_floor() and (is_guarding or is_crouch_guarding):
+			velocity.x = 0.0
+		else:
+			velocity.x = direction * get_current_move_speed()
 
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
@@ -372,14 +396,12 @@ func _physics_process(delta: float) -> void:
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+	_apply_post_move_stabilization()
 	_update_character_sort_order()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
-
-	var viewport_width := get_viewport_rect().size.x
-	position.x = clampf(position.x, screen_margin, viewport_width - screen_margin)
 
 
 func _start_attack(is_combo_attack := false) -> void:
@@ -402,6 +424,7 @@ func _update_defensive_state() -> void:
 	var down_pressed := Input.is_action_pressed("down")
 	var guard_pressed := Input.is_action_pressed("guard")
 	var holding_back := _is_holding_back_against_opponent()
+	var jump_pressed := _is_jump_input_just_pressed()
 
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
@@ -409,11 +432,19 @@ func _update_defensive_state() -> void:
 			is_crouching = false
 		return
 
+	if holding_back and jump_pressed and not down_pressed:
+		_clear_guard_state()
+		is_crouching = false
+		return
+
 	if holding_back or guard_pressed:
 		is_guarding = true
 		is_crouch_guarding = down_pressed
 		is_crouching = false
 		guard_type = "low" if down_pressed else "high"
+		guard_motion_state = "hold"
+		if _can_guard_back_walk():
+			guard_motion_state = "back_walk"
 		return
 
 	_clear_guard_state()
@@ -790,9 +821,9 @@ func _lock_throw_target_position(target: Node) -> void:
 		return
 
 	var hold_offset := Vector2(30.0 * facing_direction, -5.0)
-	var viewport_width := get_viewport_rect().size.x
 	var target_position := global_position + hold_offset
-	target_position.x = clampf(target_position.x, screen_margin, viewport_width - screen_margin)
+	target_position.x = clampf(target_position.x, _stage_min_x(), _stage_max_x())
+	target_position.y = minf(target_position.y, stage_floor_y)
 	target.global_position = target_position
 	target.velocity = Vector2.ZERO
 
@@ -1117,6 +1148,7 @@ func _enter_guard_hit_state() -> void:
 	is_guard_hit = true
 	is_hit = false
 	guard_hit_timer = guard_hit_time
+	guard_motion_state = "hit_stun"
 	_play_visual_animation(&"guard_hit", true)
 
 
@@ -1171,6 +1203,25 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 func _can_start_guard_or_crouch() -> bool:
 	return can_guard and is_round_active and is_on_floor() and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit
+
+
+func _can_guard_back_walk() -> bool:
+	return is_round_active \
+		and input_enabled \
+		and is_on_floor() \
+		and is_guarding \
+		and not is_crouch_guarding \
+		and guard_type == "high" \
+		and not is_guard_hit \
+		and current_attack_type == "" \
+		and attack_active_timer <= 0.0 \
+		and kick_active_timer <= 0.0 \
+		and not is_hit \
+		and not _is_throw_busy()
+
+
+func _get_guard_back_walk_velocity() -> float:
+	return -facing_direction * move_speed * clampf(guard_back_walk_speed_ratio, 0.0, 1.0)
 
 
 func get_current_move_speed() -> float:
@@ -1315,6 +1366,7 @@ func _update_ai_guard(delta: float) -> void:
 		is_crouch_guarding = false
 		is_crouching = false
 		guard_type = "high"
+		guard_motion_state = "hold"
 		_face_opponent()
 		return
 
@@ -1330,6 +1382,7 @@ func _update_ai_guard(delta: float) -> void:
 		is_crouch_guarding = false
 		is_crouching = false
 		guard_type = "high"
+		guard_motion_state = "hold"
 		_face_opponent()
 
 
@@ -1362,10 +1415,126 @@ func _get_opponent() -> Node:
 	return null
 
 
+func configure_stage_bounds(left_limit: float, right_limit: float, floor_y: float) -> void:
+	stage_left_limit = left_limit
+	stage_right_limit = right_limit
+	stage_floor_y = floor_y
+	last_safe_ground_position = global_position
+	_clamp_to_stage_bounds()
+
+
+func _apply_post_move_stabilization() -> void:
+	_resolve_fighter_horizontal_separation()
+	_clamp_to_stage_bounds()
+	_update_last_safe_ground_position()
+
+
+func _stage_min_x() -> float:
+	return stage_left_limit + fighter_body_half_width
+
+
+func _stage_max_x() -> float:
+	return stage_right_limit - fighter_body_half_width
+
+
+func _clamp_to_stage_bounds() -> void:
+	var min_x := _stage_min_x()
+	var max_x := _stage_max_x()
+	var previous_x := global_position.x
+	global_position.x = clampf(global_position.x, min_x, max_x)
+	if global_position.x <= min_x and velocity.x < 0.0:
+		velocity.x = 0.0
+	elif global_position.x >= max_x and velocity.x > 0.0:
+		velocity.x = 0.0
+	if is_nan(global_position.y) or is_inf(global_position.y) or global_position.y > stage_floor_y + floor_safety_margin:
+		if _is_position_inside_stage(last_safe_ground_position):
+			global_position = last_safe_ground_position
+		else:
+			global_position.y = stage_floor_y
+			global_position.x = clampf(global_position.x, min_x, max_x)
+		velocity = Vector2.ZERO
+	elif is_on_floor() and global_position.y > stage_floor_y:
+		global_position.y = stage_floor_y
+		velocity.y = 0.0
+	if previous_x != global_position.x:
+		_update_character_sort_order()
+
+
+func _is_position_inside_stage(value: Vector2) -> bool:
+	return value.x >= _stage_min_x() and value.x <= _stage_max_x() and value.y <= stage_floor_y + floor_safety_margin
+
+
+func _update_last_safe_ground_position() -> void:
+	if is_on_floor() and _is_position_inside_stage(global_position) and current_hp > 0 and not _is_throw_busy():
+		last_safe_ground_position = global_position
+
+
+func _resolve_fighter_horizontal_separation() -> void:
+	var opponent := _get_opponent()
+	if not (opponent is Node2D) or not is_instance_valid(opponent):
+		return
+	if get_instance_id() > opponent.get_instance_id():
+		return
+	var gap: float = float(opponent.global_position.x - global_position.x)
+	var distance: float = absf(gap)
+	var minimum_distance: float = minimum_fighter_distance
+	if opponent.has_method("_get_minimum_fighter_distance"):
+		minimum_distance = maxf(minimum_distance, float(opponent.call("_get_minimum_fighter_distance")))
+	if distance >= minimum_distance:
+		return
+	var direction: float = signf(gap)
+	if direction == 0.0:
+		direction = facing_direction if facing_direction != 0.0 else 1.0
+	var overlap: float = minimum_distance - distance
+	var self_movable: bool = not _is_locked_for_fighter_separation()
+	var opponent_movable := true
+	if opponent.has_method("_is_locked_for_fighter_separation"):
+		opponent_movable = not bool(opponent.call("_is_locked_for_fighter_separation"))
+	if not self_movable and not opponent_movable:
+		return
+	var self_push: float = -direction * overlap * 0.5
+	var opponent_push: float = direction * overlap * 0.5
+	if not self_movable:
+		self_push = 0.0
+		opponent_push = direction * overlap
+	elif not opponent_movable:
+		self_push = -direction * overlap
+		opponent_push = 0.0
+	_move_fighter_x(self, self_push)
+	_move_fighter_x(opponent, opponent_push)
+
+
+func _get_minimum_fighter_distance() -> float:
+	return minimum_fighter_distance
+
+
+func _is_locked_for_fighter_separation() -> bool:
+	return _is_throw_busy() or current_hp <= 0
+
+
+func _move_fighter_x(fighter: Node2D, amount: float) -> void:
+	if amount == 0.0 or fighter == null:
+		return
+	var min_x := _stage_min_x()
+	var max_x := _stage_max_x()
+	if fighter.has_method("_stage_min_x"):
+		min_x = float(fighter.call("_stage_min_x"))
+	if fighter.has_method("_stage_max_x"):
+		max_x = float(fighter.call("_stage_max_x"))
+	fighter.global_position.x = clampf(fighter.global_position.x + amount, min_x, max_x)
+	if fighter is CharacterBody2D:
+		var body := fighter as CharacterBody2D
+		if body.global_position.x <= min_x and body.velocity.x < 0.0:
+			body.velocity.x = 0.0
+		elif body.global_position.x >= max_x and body.velocity.x > 0.0:
+			body.velocity.x = 0.0
+
+
 func _clear_guard_state() -> void:
 	is_guarding = false
 	is_crouch_guarding = false
 	guard_type = "none"
+	guard_motion_state = "none"
 
 
 func _update_guard_hit(delta: float) -> void:

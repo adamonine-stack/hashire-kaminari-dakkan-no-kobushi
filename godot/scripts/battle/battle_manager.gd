@@ -89,6 +89,12 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var player_change_invincible_time := 1.5
 @export var player_defeat_display_time := 1.0
 @export var next_player_display_time := 1.0
+@export_group("Stage Bounds")
+@export var stage_left_limit := 0.0
+@export var stage_right_limit := 1280.0
+@export var stage_floor_y := 520.0
+@export var fighter_body_half_width := 43.0
+@export var minimum_fighter_distance := 42.0
 @export_group("DEV044 Debug")
 @export var dev044_debug_tools_enabled := false
 @export var dev044_debug_mode := Dev044DebugMode.NORMAL
@@ -203,6 +209,7 @@ func _ready() -> void:
 	_player_start_position = player.position
 	_enemy_start_position = enemy.position
 	current_player_instance = player
+	_configure_fighter_stage_constraints()
 	player.hp_depleted.connect(_on_player_hp_depleted)
 	enemy.hp_depleted.connect(_on_enemy_hp_depleted)
 	player.hp_changed.connect(_on_player_hp_changed)
@@ -986,6 +993,7 @@ func reset_active_fighter_state(
 	start_facing_direction := 1.0,
 	health := -1
 ) -> void:
+	_configure_single_fighter_stage_constraints(fighter)
 	fighter.position = start_position
 	fighter.velocity = Vector2.ZERO
 	if fighter.has_method("set_health"):
@@ -1002,6 +1010,7 @@ func reset_active_fighter_state(
 	fighter.is_crouching = false
 	fighter.is_crouch_guarding = false
 	fighter.guard_type = "none"
+	fighter.guard_motion_state = "none"
 	fighter.is_hit = false
 	fighter.is_invincible = false
 	fighter.is_guard_hit = false
@@ -1051,8 +1060,24 @@ func reset_active_fighter_state(
 		fighter.hurt_box.set_deferred("monitorable", fighter.current_hp > 0)
 	fighter.punch_hit_targets.clear()
 	fighter.kick_hit_targets.clear()
+	if fighter.has_method("configure_stage_bounds"):
+		fighter.configure_stage_bounds(stage_left_limit, stage_right_limit, stage_floor_y)
 	fighter.hp_changed.emit(fighter.current_hp, fighter.max_hp)
 	fighter._update_visual_state()
+
+
+func _configure_fighter_stage_constraints() -> void:
+	_configure_single_fighter_stage_constraints(player)
+	_configure_single_fighter_stage_constraints(enemy)
+
+
+func _configure_single_fighter_stage_constraints(fighter: Node) -> void:
+	if fighter == null:
+		return
+	if fighter.has_method("configure_stage_bounds"):
+		fighter.configure_stage_bounds(stage_left_limit, stage_right_limit, stage_floor_y)
+	fighter.set("fighter_body_half_width", fighter_body_half_width)
+	fighter.set("minimum_fighter_distance", minimum_fighter_distance)
 
 
 func create_progress_snapshot() -> Dictionary:

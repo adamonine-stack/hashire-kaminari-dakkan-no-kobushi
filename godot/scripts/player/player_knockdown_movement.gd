@@ -37,7 +37,7 @@ func _physics_process(delta: float) -> void:
 		_update_knockdown_flow(delta)
 		_update_visual_state()
 		move_and_slide()
-		_clamp_to_screen()
+		_apply_post_move_stabilization()
 		return
 
 	super._physics_process(delta)
@@ -402,8 +402,7 @@ func _spawn_knockdown_impact_effect(effect_position: Vector2) -> void:
 
 
 func _clamp_to_screen() -> void:
-	var viewport_width := get_viewport_rect().size.x
-	position.x = clampf(position.x, screen_margin, viewport_width - screen_margin)
+	_apply_post_move_stabilization()
 
 
 func _update_visual_state() -> void:

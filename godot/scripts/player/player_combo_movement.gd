@@ -102,10 +102,17 @@ func _physics_process(delta: float) -> void:
 		direction = 0.0
 		if is_jump_kick_active and input_enabled:
 			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
+	elif is_guarding:
+		direction = 0.0
 
 	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
 		if is_on_floor():
-			velocity.x = direction * get_current_move_speed()
+			if _can_guard_back_walk():
+				velocity.x = _get_guard_back_walk_velocity()
+			elif is_guarding or is_crouch_guarding:
+				velocity.x = 0.0
+			else:
+				velocity.x = direction * get_current_move_speed()
 		else:
 			_update_air_movement(direction, delta)
 
@@ -141,6 +148,7 @@ func _physics_process(delta: float) -> void:
 		_update_kick(delta)
 	_update_visual_state()
 	move_and_slide()
+	_apply_post_move_stabilization()
 	if not was_on_floor_before_move and is_on_floor() and _is_air_kick_attack_active():
 		_finish_air_attack_on_landing()
 	_update_movement_feedback(direction, was_on_floor_before_move)
@@ -148,8 +156,6 @@ func _physics_process(delta: float) -> void:
 	if is_guard_hit and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
 
-	var viewport_width := get_viewport_rect().size.x
-	position.x = clampf(position.x, screen_margin, viewport_width - screen_margin)
 
 
 func _update_air_movement(direction: float, delta: float) -> void:

@@ -12,9 +12,13 @@ size = Vector2(1280, 32)
 script = ExtResource("3_battle_controller")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
+collision_layer = 2
+collision_mask = 1
 position = Vector2(320, 520)
 
 [node name="Enemy" parent="." instance=ExtResource("2_player")]
+collision_layer = 4
+collision_mask = 1
 position = Vector2(960, 520)
 
 [node name="BattleCamera" type="Camera2D" parent="."]
