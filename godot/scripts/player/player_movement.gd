@@ -2331,10 +2331,6 @@ func _get_current_visual_animation() -> StringName:
 		return &"guard_hit"
 	if is_hit:
 		return last_damage_animation
-	if is_crouch_guarding:
-		return &"crouch_guard"
-	if is_guarding:
-		return &"guard"
 	if current_attack_type == "Punch":
 		if current_attack_data != null and String(current_attack_data.animation_name) == "jump_punch_down":
 			return &"jump_punch_down"
@@ -2351,10 +2347,14 @@ func _get_current_visual_animation() -> StringName:
 		if is_crouching:
 			return &"crouch_kick"
 		return &"kick_2" if combo_step >= max_combo_hits else &"kick_1"
-	if is_crouching:
-		return &"crouch_idle"
+	if is_crouch_guarding:
+		return &"crouch_guard"
+	if is_guarding:
+		return &"guard"
 	if not is_on_floor():
 		return &"jump"
+	if is_crouching:
+		return &"crouch_idle"
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
 	if absf(velocity.x) > 0.0:

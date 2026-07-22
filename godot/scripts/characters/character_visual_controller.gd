@@ -87,7 +87,16 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 		set_fallback_enabled(true)
 		return false
 
+	# Reused fighter nodes must never inherit visual state from the previous stage.
+	animated_sprite.stop()
 	animated_sprite.sprite_frames = frames
+	animated_sprite.animation = &""
+	animated_sprite.frame = 0
+	animated_sprite.speed_scale = 1.0
+	animated_sprite.scale = Vector2.ONE
+	animated_sprite.position = Vector2.ZERO
+	animated_sprite.offset = Vector2.ZERO
+	animated_sprite.flip_h = false
 	animated_sprite.centered = true
 	animated_sprite.visible = true
 	animated_sprite.z_index = 2
