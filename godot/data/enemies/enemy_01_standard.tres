@@ -23,6 +23,8 @@ icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy01/"
+battle_sprite_height = 280.0
+battle_sprite_offset = Vector2(0, 23.333333)
 sprite_sheet_format = &"standard_192"
 sprite_frame_size = Vector2i(192, 192)
 sprite_sheet_columns = 8
@@ -91,6 +93,12 @@ sprite_animation_speeds = {
 "crouch_punch": 12.0,
 "crouch_kick": 12.0,
 "crouch_kick_sweep": 12.0
+}
+sprite_animation_bottom_offsets = {
+"idle": 2,
+"walk": 2,
+"crouch_kick": 2,
+"crouch_kick_sweep": 2
 }
 sprite_frame_origin = Vector2(0, 0)
 sprite_frame_step = Vector2(192, 192)
