@@ -157,6 +157,7 @@ var current_attack_connected := false
 var combo_step := 0
 var can_cancel := false
 var cancel_window_timer := 0.0
+var current_attack_data: Resource
 var current_attack_type := ""
 var ai_guard_check_timer := 0.0
 var ai_guard_timer := 0.0

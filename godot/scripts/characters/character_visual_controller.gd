@@ -234,13 +234,21 @@ func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, anima
 func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, start_column: int, frame_count: int) -> void:
 	if row_index < 0 or frame_count <= 0:
 		return
+	if sheet_image == null:
+		return
+	if (row_index + 1) * STANDARD_192_CELL_SIZE.y > sheet_image.get_height():
+		push_warning("[SpriteSheet] Skipped animation outside sheet: character=%s animation=%s row=%d sheet=%dx%d" % [
+			_fighter_id(),
+			String(animation_name),
+			row_index,
+			sheet_image.get_width(),
+			sheet_image.get_height(),
+		])
+		return
 
 	var clamped_count := clampi(frame_count, 1, STANDARD_192_COLUMNS)
-	if frames.has_animation(String(animation_name)):
-		frames.remove_animation(String(animation_name))
-	frames.add_animation(String(animation_name))
-	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
-	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
+	var frame_images: Array[Image] = []
+	var content_rects: Array[Rect2i] = []
 
 	for column_index in range(clamped_count):
 		var source_column := start_column + column_index
@@ -254,14 +262,37 @@ func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, 
 		)
 		if frame_rect.position.x + frame_rect.size.x > sheet_image.get_width():
 			break
-		if frame_rect.position.y + frame_rect.size.y > sheet_image.get_height():
-			break
 		var frame_image := sheet_image.get_region(frame_rect)
 		frame_image.convert(Image.FORMAT_RGBA8)
 		_sanitize_standard_192_frame(frame_image)
 		if _is_blank_frame(frame_image):
 			continue
-		var frame_texture := ImageTexture.create_from_image(frame_image)
+		var content_rect := _get_visible_content_rect(frame_image)
+		if content_rect.size.x <= 0 or content_rect.size.y <= 0:
+			continue
+		frame_images.append(frame_image)
+		content_rects.append(content_rect)
+
+	if frame_images.is_empty():
+		push_warning("[SpriteSheet] Skipped blank animation: character=%s animation=%s row=%d" % [
+			_fighter_id(),
+			String(animation_name),
+			row_index,
+		])
+		return
+
+	var target_center_x := _standard_192_target_center_x(content_rects)
+	var target_bottom_y := _standard_192_target_bottom_y(content_rects)
+
+	if frames.has_animation(String(animation_name)):
+		frames.remove_animation(String(animation_name))
+	frames.add_animation(String(animation_name))
+	frames.set_animation_speed(String(animation_name), _animation_speed(animation_name))
+	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
+
+	for index in range(frame_images.size()):
+		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y)
+		var frame_texture := ImageTexture.create_from_image(normalized_frame)
 		if frame_texture != null:
 			frames.add_frame(String(animation_name), frame_texture)
 

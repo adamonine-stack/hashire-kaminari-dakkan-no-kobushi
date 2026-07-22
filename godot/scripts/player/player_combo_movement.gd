@@ -60,7 +60,6 @@ var dev_combo_step := 0
 var dev_starting_combo_attack := false
 var attack_data_sequence: Array[Resource] = []
 var attack_data_by_id: Dictionary = {}
-var current_attack_data: Resource
 var current_attack_id := ""
 var attack_phase := AttackPhase.NONE
 var attack_phase_timer := 0.0

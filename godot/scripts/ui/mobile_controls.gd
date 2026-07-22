@@ -362,21 +362,26 @@ func _layout_controls() -> void:
 		right_controls.anchor_bottom = 0.0
 		right_controls.position = Vector2.ZERO
 		right_controls.size = viewport_size
-	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.56, 0.92)
+	var is_compact_landscape := viewport_size.x > viewport_size.y and viewport_size.y <= 430.0
+	var scale_factor: float = clampf(viewport_size.y / 720.0, 0.50, 0.92)
+	if is_compact_landscape:
+		scale_factor = clampf(viewport_size.y / 720.0, 0.48, 0.62)
 	var button_size := base_button_size * scale_factor
 	var gap := maxf(10.0, 16.0 * scale_factor)
 	var margin := Vector2(maxf(safe_margin.x * scale_factor, 18.0), maxf(safe_margin.y * scale_factor, 16.0))
 	var bottom_margin := margin.y + (8.0 if not is_portrait else 0.0)
 	var dpad_button_size := button_size * 0.78
 	var action_button_size := button_size * 0.86
-	var left_top_y := viewport_size.y - bottom_margin - dpad_button_size.y * 3.0 - gap * 2.0
-	var right_top_y := viewport_size.y - bottom_margin - button_size.y * 2.0 - gap
+	var left_group_size := Vector2(dpad_button_size.x * 3.0 + gap * 2.0, dpad_button_size.y * 3.0 + gap * 2.0)
+	var right_group_size := Vector2(action_button_size.x * 3.0 + gap * 2.0, action_button_size.y * 2.0 + gap)
+	var left_top_y := viewport_size.y - bottom_margin - left_group_size.y
+	var right_top_y := viewport_size.y - bottom_margin - right_group_size.y
 	var left_origin := Vector2(margin.x, left_top_y)
-	var right_origin := Vector2(viewport_size.x - margin.x - action_button_size.x * 3.0 - gap * 2.0, right_top_y)
-	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - dpad_button_size.x * 3.0 - gap * 2.0))
-	left_origin.y = clampf(left_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - dpad_button_size.y * 3.0 - gap * 2.0))
-	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - action_button_size.x * 3.0 - gap * 2.0))
-	right_origin.y = clampf(right_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - button_size.y * 2.0 - gap))
+	var right_origin := Vector2(viewport_size.x - margin.x - right_group_size.x, right_top_y)
+	left_origin.x = clampf(left_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - left_group_size.x))
+	left_origin.y = clampf(left_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - left_group_size.y))
+	right_origin.x = clampf(right_origin.x, margin.x, maxf(margin.x, viewport_size.x - margin.x - right_group_size.x))
+	right_origin.y = clampf(right_origin.y, margin.y, maxf(margin.y, viewport_size.y - bottom_margin - right_group_size.y))
 
 	_position_button($LeftControls/UpLeftButton, left_origin, dpad_button_size)
 	_position_button($LeftControls/UpButton, left_origin + Vector2(dpad_button_size.x + gap, 0.0), dpad_button_size)
@@ -388,11 +393,11 @@ func _layout_controls() -> void:
 	_position_button($LeftControls/CrouchButton, left_origin + Vector2(dpad_button_size.x + gap, (dpad_button_size.y + gap) * 2.0), dpad_button_size)
 	_position_button($LeftControls/DownRightButton, left_origin + Vector2((dpad_button_size.x + gap) * 2.0, (dpad_button_size.y + gap) * 2.0), dpad_button_size)
 
-	_position_button($RightControls/ThrowButton, right_origin + Vector2(0.0, button_size.y * 0.55), action_button_size)
+	_position_button($RightControls/ThrowButton, right_origin, action_button_size)
 	_position_button($RightControls/PunchButton, right_origin + Vector2(action_button_size.x + gap, 0.0), action_button_size)
-	_position_button($RightControls/KickButton, right_origin + Vector2((action_button_size.x + gap) * 2.0, button_size.y * 0.55), action_button_size)
-	_position_button($RightControls/GuardButton, right_origin + Vector2(0.0, button_size.y + gap), action_button_size)
-	_position_button($RightControls/SpecialButton, right_origin + Vector2(action_button_size.x + gap, button_size.y + gap), action_button_size * 1.06)
+	_position_button($RightControls/KickButton, right_origin + Vector2((action_button_size.x + gap) * 2.0, 0.0), action_button_size)
+	_position_button($RightControls/GuardButton, right_origin + Vector2(0.0, action_button_size.y + gap), action_button_size)
+	_position_button($RightControls/SpecialButton, right_origin + Vector2(action_button_size.x + gap, action_button_size.y + gap), action_button_size)
 	_position_button(pause_button, Vector2(viewport_size.x - margin.x - button_size.x * 0.78, margin.y), button_size * 0.78)
 
 	if rotate_hint != null:
