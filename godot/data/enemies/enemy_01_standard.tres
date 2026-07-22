@@ -23,6 +23,80 @@ icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy01/"
+sprite_sheet_format = &"standard_192"
+sprite_frame_size = Vector2i(192, 192)
+sprite_sheet_columns = 8
+sprite_animation_rows = {
+"idle": 0,
+"walk": 0,
+"punch": 1,
+"punch_1": 1,
+"punch_2": 1,
+"kick": 2,
+"kick_1": 2,
+"kick_2": 2,
+"jump": 3,
+"jump_start": 3,
+"jump_air": 3,
+"jump_land": 3,
+"fall": 3,
+"land": 3,
+"guard": 4,
+"crouch": 5,
+"crouch_guard": 6,
+"crouch_punch": 7,
+"crouch_kick": 8,
+"crouch_kick_sweep": 8
+}
+sprite_animation_frame_counts = {
+"idle": 8,
+"walk": 8,
+"punch": 8,
+"punch_1": 8,
+"punch_2": 8,
+"kick": 8,
+"kick_1": 8,
+"kick_2": 8,
+"jump": 8,
+"jump_start": 8,
+"jump_air": 8,
+"jump_land": 8,
+"fall": 8,
+"land": 8,
+"guard": 8,
+"crouch": 8,
+"crouch_guard": 8,
+"crouch_punch": 8,
+"crouch_kick": 8,
+"crouch_kick_sweep": 8
+}
+sprite_animation_speeds = {
+"idle": 8.0,
+"walk": 10.0,
+"punch": 12.0,
+"punch_1": 12.0,
+"punch_2": 12.0,
+"kick": 12.0,
+"kick_1": 12.0,
+"kick_2": 12.0,
+"jump": 12.0,
+"jump_start": 12.0,
+"jump_air": 12.0,
+"jump_land": 12.0,
+"fall": 12.0,
+"land": 12.0,
+"guard": 8.0,
+"crouch": 8.0,
+"crouch_guard": 8.0,
+"crouch_punch": 12.0,
+"crouch_kick": 12.0,
+"crouch_kick_sweep": 12.0
+}
+sprite_frame_origin = Vector2(0, 0)
+sprite_frame_step = Vector2(192, 192)
+sprite_row_height = 192.0
+sprite_max_frames_per_animation = 8
+sprite_cleanup_background = false
 fighter_type = &"POWER"
 team_type = &"ENEMY"
 enemy_order = 1
