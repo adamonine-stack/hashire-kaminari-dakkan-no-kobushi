@@ -281,8 +281,8 @@ func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, 
 		])
 		return
 
-	var target_center_x := _standard_192_target_center_x(content_rects)
-	var target_bottom_y := _standard_192_target_bottom_y(content_rects)
+	var target_center_x := _standard_192_target_center_x(content_rects, animation_name)
+	var target_bottom_y := _standard_192_target_bottom_y(content_rects, animation_name)
 
 	if frames.has_animation(String(animation_name)):
 		frames.remove_animation(String(animation_name))
@@ -343,22 +343,52 @@ func _get_visible_content_rect(image: Image) -> Rect2i:
 	return Rect2i(min_x, min_y, max_x - min_x + 1, max_y - min_y + 1)
 
 
-func _standard_192_target_center_x(content_rects: Array[Rect2i]) -> int:
+func _standard_192_target_center_x(content_rects: Array[Rect2i], animation_name: StringName) -> int:
 	if content_rects.is_empty():
 		return STANDARD_192_CELL_SIZE.x / 2
 	var sum := 0.0
 	for rect in content_rects:
 		sum += float(rect.position.x) + float(rect.size.x) * 0.5
-	return clampi(roundi(sum / float(content_rects.size())), 0, STANDARD_192_CELL_SIZE.x)
+	return clampi(roundi(sum / float(content_rects.size())) + _animation_center_offset(animation_name), 0, STANDARD_192_CELL_SIZE.x)
 
 
-func _standard_192_target_bottom_y(content_rects: Array[Rect2i]) -> int:
+func _standard_192_target_bottom_y(content_rects: Array[Rect2i], animation_name: StringName) -> int:
 	if content_rects.is_empty():
 		return STANDARD_192_CELL_SIZE.y
-	var bottom_y := 0
+	var bottoms: Array[int] = []
+	var max_content_height := 1
 	for rect in content_rects:
-		bottom_y = maxi(bottom_y, rect.position.y + rect.size.y)
-	return clampi(bottom_y, 1, STANDARD_192_CELL_SIZE.y)
+		bottoms.append(rect.position.y + rect.size.y)
+		max_content_height = maxi(max_content_height, rect.size.y)
+	bottoms.sort()
+	var percentile_index := clampi(int(floor(float(bottoms.size() - 1) * 0.75)), 0, bottoms.size() - 1)
+	var bottom_y := bottoms[percentile_index] + _animation_bottom_offset(animation_name)
+	return clampi(bottom_y, max_content_height, STANDARD_192_CELL_SIZE.y)
+
+
+func _animation_center_offset(animation_name: StringName) -> int:
+	if definition == null:
+		return 0
+	var offsets: Dictionary = definition.get("sprite_animation_center_offsets")
+	return _animation_int_offset(offsets, animation_name)
+
+
+func _animation_bottom_offset(animation_name: StringName) -> int:
+	if definition == null:
+		return 0
+	var offsets: Dictionary = definition.get("sprite_animation_bottom_offsets")
+	return _animation_int_offset(offsets, animation_name)
+
+
+func _animation_int_offset(offsets: Dictionary, animation_name: StringName) -> int:
+	if offsets.is_empty():
+		return 0
+	var string_key := String(animation_name)
+	if offsets.has(string_key):
+		return roundi(float(offsets[string_key]))
+	if offsets.has(animation_name):
+		return roundi(float(offsets[animation_name]))
+	return 0
 
 
 func _normalize_standard_192_frame(source_image: Image, content_rect: Rect2i, target_center_x: int, target_bottom_y: int) -> Image:

@@ -25,6 +25,8 @@ class_name FighterDefinition
 @export var sprite_animation_frame_counts: Dictionary = {}
 @export var sprite_animation_speeds: Dictionary = {}
 @export var sprite_animation_clips: Dictionary = {}
+@export var sprite_animation_center_offsets: Dictionary = {}
+@export var sprite_animation_bottom_offsets: Dictionary = {}
 @export_group("Sprite Sheet Layout")
 @export var sprite_frame_origin: Vector2 = Vector2(-1.0, -1.0)
 @export var sprite_frame_step: Vector2 = Vector2(-1.0, -1.0)

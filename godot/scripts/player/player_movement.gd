@@ -181,6 +181,8 @@ var uses_official_character_art := false
 var uses_animated_character_art := false
 var visual_sort_offset_y := 0.0
 var jump_pressed_this_airtime := false
+var default_hurt_box_position := Vector2.ZERO
+var default_hurt_box_size := Vector2.ZERO
 
 @onready var visual_root := $VisualRoot
 @onready var state_label := $VisualRoot/IdlePlaceholder/IdleStateLabel
@@ -192,6 +194,7 @@ var jump_pressed_this_airtime := false
 @onready var kick_area := $KickHitBox
 @onready var kick_shape := $KickHitBox/CollisionShape2D
 @onready var hurt_box := $HurtBox
+@onready var hurt_shape := $HurtBox/CollisionShape2D
 @onready var animation_player := get_node_or_null("AnimationPlayer") as AnimationPlayer
 @onready var animated_character_sprite := get_node_or_null("VisualRoot/AnimatedCharacterSprite") as AnimatedSprite2D
 @onready var character_sprite := get_node_or_null("VisualRoot/CharacterSprite") as Sprite2D
@@ -206,6 +209,7 @@ var jump_pressed_this_airtime := false
 func _ready() -> void:
 	current_hp = max_hp
 	_configure_fighter_body_collision()
+	_capture_default_collision_pose()
 	punch_area.area_entered.connect(_on_punch_hitbox_area_entered)
 	kick_area.area_entered.connect(_on_kick_hitbox_area_entered)
 	_setup_hit_audio()
@@ -222,6 +226,14 @@ func _ready() -> void:
 func _configure_fighter_body_collision() -> void:
 	collision_layer = 4 if name == "Enemy" else 2
 	collision_mask = 1
+
+
+func _capture_default_collision_pose() -> void:
+	if hurt_box != null:
+		default_hurt_box_position = hurt_box.position
+	if hurt_shape != null and hurt_shape.shape is RectangleShape2D:
+		hurt_shape.shape = hurt_shape.shape.duplicate()
+		default_hurt_box_size = (hurt_shape.shape as RectangleShape2D).size
 
 
 func _ensure_official_animation_placeholders() -> void:
@@ -1193,7 +1205,7 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 
 func _can_start_guard_or_crouch() -> bool:
-	return can_guard and is_round_active and is_on_floor() and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit
+	return can_guard and is_round_active and is_on_floor() and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
 
 
 func _can_guard_back_walk() -> bool:
@@ -2301,8 +2313,6 @@ func _get_current_visual_animation() -> StringName:
 		return &"crouch_guard"
 	if is_guarding:
 		return &"guard"
-	if is_crouching:
-		return &"crouch_idle"
 	if current_attack_type == "Punch":
 		if current_attack_data != null and String(current_attack_data.animation_name) == "jump_punch_down":
 			return &"jump_punch_down"
@@ -2319,6 +2329,8 @@ func _get_current_visual_animation() -> StringName:
 		if is_crouching:
 			return &"crouch_kick"
 		return &"kick_2" if combo_step >= max_combo_hits else &"kick_1"
+	if is_crouching:
+		return &"crouch_idle"
 	if not is_on_floor():
 		return &"jump"
 	if absf(velocity.x) > move_speed * 1.05:
@@ -2353,6 +2365,7 @@ func _is_knockdown_state(state_name: StringName) -> bool:
 func _update_visual_state() -> void:
 	_set_visual_facing()
 	_sync_single_character_visual()
+	_update_pose_collision()
 	_play_visual_animation(_get_current_visual_animation())
 
 	if not debug_state_label_enabled:
@@ -2419,6 +2432,28 @@ func _update_visual_state() -> void:
 		shadow_sprite.scale = Vector2(base_shadow_scale.x * airborne_scale, base_shadow_scale.y * airborne_scale)
 		shadow_sprite.modulate.a = 0.28 if not is_on_floor() else 0.42
 	queue_redraw()
+
+
+func _update_pose_collision() -> void:
+	if hurt_shape == null or not (hurt_shape.shape is RectangleShape2D):
+		return
+	if default_hurt_box_size == Vector2.ZERO:
+		return
+	var shape := hurt_shape.shape as RectangleShape2D
+	var crouch_pose := is_crouching or is_crouch_guarding or _is_crouch_attack_visual_active()
+	if crouch_pose:
+		var crouch_height := default_hurt_box_size.y * 0.68
+		shape.size = Vector2(default_hurt_box_size.x, crouch_height)
+		if hurt_box != null:
+			hurt_box.position = default_hurt_box_position + Vector2(0.0, (default_hurt_box_size.y - crouch_height) * 0.5)
+		return
+	shape.size = default_hurt_box_size
+	if hurt_box != null:
+		hurt_box.position = default_hurt_box_position
+
+
+func _is_crouch_attack_visual_active() -> bool:
+	return current_attack_data != null and String(current_attack_data.get("animation_name")) == "crouch_kick_sweep"
 
 
 func _draw() -> void:

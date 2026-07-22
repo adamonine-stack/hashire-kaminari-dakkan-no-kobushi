@@ -111,6 +111,10 @@ sprite_animation_speeds = {
 "jump_punch_down": 14.0,
 "crouch_kick_sweep": 14.0
 }
+sprite_animation_bottom_offsets = {
+"crouch_guard": 11,
+"crouch_kick_sweep": 11
+}
 sprite_animation_clips = {
 "guard": {
 "row": 7,
