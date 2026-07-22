@@ -57,6 +57,7 @@ var animated_sprite: AnimatedSprite2D
 var fallback_sprite: Sprite2D
 var current_animation: StringName = &""
 var fallback_active := true
+var animated_art_active := false
 var definition: Resource
 var battle_visual_scale_multiplier := 1.2
 var missing_animation_warnings := {}
@@ -68,6 +69,7 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 	fallback_sprite = fallback_node
 	current_animation = &""
 	fallback_active = true
+	animated_art_active = false
 	missing_animation_warnings.clear()
 
 	if animated_sprite == null or definition == null:
@@ -89,8 +91,10 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 	animated_sprite.centered = true
 	animated_sprite.visible = true
 	animated_sprite.z_index = 2
+	animated_sprite.modulate = Color.WHITE
 	animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_apply_visual_transform(sprite_sheet)
+	animated_art_active = true
 	set_fallback_enabled(false)
 	play_animation(&"idle", true)
 	return true
@@ -112,11 +116,14 @@ func play_animation(animation_name: StringName, force := false) -> void:
 	if animated_sprite != null:
 		animated_sprite.visible = true
 		animated_sprite.centered = true
+		animated_sprite.modulate.a = 1.0
 
 	if resolved_name == &"":
 		return
 
 	if not force and current_animation == resolved_name:
+		if not animated_sprite.is_playing():
+			animated_sprite.play(String(resolved_name))
 		return
 
 	current_animation = resolved_name
@@ -159,7 +166,12 @@ func set_fallback_enabled(enabled: bool) -> void:
 	if animated_sprite != null:
 		animated_sprite.visible = not enabled
 	if fallback_sprite != null:
-		fallback_sprite.visible = enabled and fallback_sprite.texture != null
+		if enabled:
+			fallback_sprite.visible = fallback_sprite.texture != null
+		else:
+			fallback_sprite.visible = false
+			if animated_art_active:
+				fallback_sprite.texture = null
 
 
 func has_animation(animation_name: StringName) -> bool:
