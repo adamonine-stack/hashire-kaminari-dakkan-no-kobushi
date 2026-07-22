@@ -92,6 +92,7 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 	animated_sprite.visible = true
 	animated_sprite.z_index = 2
 	animated_sprite.modulate = Color.WHITE
+	animated_sprite.self_modulate = Color.WHITE
 	animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_apply_visual_transform(sprite_sheet)
 	animated_art_active = true
@@ -116,7 +117,11 @@ func play_animation(animation_name: StringName, force := false) -> void:
 	if animated_sprite != null:
 		animated_sprite.visible = true
 		animated_sprite.centered = true
-		animated_sprite.modulate.a = 1.0
+		if animated_sprite.modulate != Color.WHITE and not animated_sprite.is_playing():
+			animated_sprite.modulate = Color.WHITE
+		else:
+			animated_sprite.modulate.a = 1.0
+		animated_sprite.self_modulate = Color.WHITE
 
 	if resolved_name == &"":
 		return

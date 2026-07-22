@@ -194,7 +194,7 @@ func apply_character_data(data: Resource) -> void:
 		apply_boss_special_attack_data(fighter_definition.special_attack_sequence)
 	else:
 		apply_boss_special_attack_data([])
-	if fighter_definition.battle_texture == null:
+	if fighter_definition.battle_texture == null and fighter_definition.sprite_sheet == null:
 		apply_temporary_color(fighter_definition.temporary_color)
 	else:
 		apply_temporary_color(Color.WHITE)
@@ -326,6 +326,15 @@ func apply_ai_profile(profile: Resource) -> void:
 
 func apply_temporary_color(color: Color) -> void:
 	if visual_root == null:
+		return
+	if uses_official_character_art or uses_animated_character_art:
+		visual_root.modulate = Color.WHITE
+		if animated_character_sprite != null:
+			animated_character_sprite.modulate = Color.WHITE
+			animated_character_sprite.self_modulate = Color.WHITE
+		if character_sprite != null:
+			character_sprite.modulate = Color.WHITE
+			character_sprite.self_modulate = Color.WHITE
 		return
 	visual_root.modulate = color
 
