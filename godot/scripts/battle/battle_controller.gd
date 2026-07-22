@@ -12,6 +12,10 @@ extends Node2D
 @export var camera_zoom_smoothing := 4.5
 @export var camera_edge_margin := 64.0
 @export var stage_width := 1280.0
+@export var enable_damage_numbers := true
+@export var damage_number_lifetime := 0.62
+@export var damage_number_rise := 34.0
+@export var max_damage_number_pool := 14
 
 var shake_timer := 0.0
 var shake_strength := 0.0
@@ -20,6 +24,10 @@ var player_combo_hide_timer := 0.0
 var enemy_combo_hide_timer := 0.0
 var player_combo_tween: Tween
 var enemy_combo_tween: Tween
+var feedback_layer: Node2D
+var damage_number_pool: Array[Label] = []
+var damage_number_tweens: Dictionary = {}
+var damage_number_sequence := 0
 
 @onready var player := $Player
 @onready var enemy := $Enemy
@@ -35,6 +43,7 @@ func _ready() -> void:
 	camera.make_current()
 	camera_start_position = camera.position
 	camera.zoom = Vector2.ONE * camera_base_zoom
+	_setup_feedback_layer()
 	_connect_player_health(player, true)
 	_connect_combo(player, true)
 
@@ -69,7 +78,13 @@ func _connect_player_health(target: Node, is_player_bar: bool) -> void:
 		_on_enemy_hp_changed(target.get("current_hp"), target.get("max_hp"))
 
 	if target.has_signal("screen_shake_requested"):
-		target.connect("screen_shake_requested", Callable(self, "_on_screen_shake_requested"))
+		var shake_callable := Callable(self, "_on_screen_shake_requested")
+		if not target.is_connected("screen_shake_requested", shake_callable):
+			target.connect("screen_shake_requested", shake_callable)
+	if target.has_signal("damage_feedback_requested"):
+		var damage_callable := Callable(self, "_on_damage_feedback_requested")
+		if not target.is_connected("damage_feedback_requested", damage_callable):
+			target.connect("damage_feedback_requested", damage_callable)
 
 
 func _connect_combo(target: Node, is_player_combo: bool) -> void:
@@ -95,6 +110,85 @@ func _update_hp_bar(bar: ProgressBar, current_hp: int, max_hp: int) -> void:
 func _on_screen_shake_requested(strength: float) -> void:
 	shake_strength = maxf(shake_strength, strength * _screen_shake_multiplier())
 	shake_timer = shake_duration
+
+
+func _setup_feedback_layer() -> void:
+	if feedback_layer != null:
+		return
+	feedback_layer = Node2D.new()
+	feedback_layer.name = "CombatFeedbackLayer"
+	feedback_layer.z_index = 80
+	add_child(feedback_layer)
+
+
+func _on_damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_position: Vector2) -> void:
+	if not enable_damage_numbers:
+		return
+	var value := maxi(amount, 0)
+	if value <= 0 and not guarded:
+		return
+	var label := _take_damage_number_label()
+	var origin := hit_position
+	if origin == Vector2.ZERO and target != null:
+		origin = target.global_position + Vector2(0.0, -92.0)
+	label.text = "GUARD" if guarded and value <= 0 else ("%d" % value)
+	if guarded and value > 0:
+		label.text = "GUARD -%d" % value
+	label.modulate = Color(0.78, 0.92, 1.0, 1.0) if guarded else Color(1.0, 0.94, 0.56, 1.0)
+	label.scale = Vector2(0.92, 0.92) if guarded else Vector2.ONE
+	label.global_position = origin + Vector2(-34.0 + float(damage_number_sequence % 3) * 12.0, -110.0 - float(damage_number_sequence % 2) * 10.0)
+	label.visible = true
+	damage_number_sequence += 1
+	var tween := label.create_tween()
+	damage_number_tweens[label] = tween
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.tween_property(label, "global_position", label.global_position + Vector2(0.0, -damage_number_rise), damage_number_lifetime)
+	tween.parallel().tween_property(label, "modulate:a", 0.0, damage_number_lifetime)
+	tween.tween_callback(_recycle_damage_number_label.bind(label))
+
+
+func _take_damage_number_label() -> Label:
+	for label in damage_number_pool:
+		if label != null and is_instance_valid(label) and not label.visible:
+			_stop_damage_number_tween(label)
+			return label
+	if damage_number_pool.size() >= max_damage_number_pool:
+		var recycled := damage_number_pool[damage_number_sequence % damage_number_pool.size()]
+		if recycled != null and is_instance_valid(recycled):
+			_stop_damage_number_tween(recycled)
+			recycled.visible = false
+			recycled.modulate.a = 1.0
+			return recycled
+	var label := Label.new()
+	label.name = "DamageNumber"
+	label.visible = false
+	label.size = Vector2(96.0, 36.0)
+	label.pivot_offset = Vector2(48.0, 18.0)
+	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_color_override("font_outline_color", Color(0.04, 0.035, 0.03, 0.92))
+	label.add_theme_constant_override("outline_size", 4)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	feedback_layer.add_child(label)
+	damage_number_pool.append(label)
+	return label
+
+
+func _recycle_damage_number_label(label: Label) -> void:
+	if label == null or not is_instance_valid(label):
+		return
+	damage_number_tweens.erase(label)
+	label.visible = false
+	label.modulate.a = 1.0
+
+
+func _stop_damage_number_tween(label: Label) -> void:
+	if not damage_number_tweens.has(label):
+		return
+	var tween: Tween = damage_number_tweens[label]
+	if tween != null and tween.is_valid():
+		tween.kill()
+	damage_number_tweens.erase(label)
 
 
 func _create_combo_label(label_name: String, label_position: Vector2) -> Label:

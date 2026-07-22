@@ -2233,6 +2233,28 @@ func _sync_single_character_visual() -> void:
 	_clear_motion_ghosts()
 
 
+func _apply_character_visual_pose() -> void:
+	if visual_root == null:
+		return
+	if uses_official_character_art:
+		if guard_visual != null:
+			guard_visual.visible = false
+		if crouch_visual != null:
+			crouch_visual.visible = false
+		if crouch_guard_visual != null:
+			crouch_guard_visual.visible = false
+		visual_root.scale.y = 1.0
+		visual_root.rotation = 0.0
+		return
+	if guard_visual != null:
+		guard_visual.visible = is_guarding and not is_crouch_guarding
+	if crouch_visual != null:
+		crouch_visual.visible = is_crouching
+	if crouch_guard_visual != null:
+		crouch_guard_visual.visible = is_crouch_guarding
+	visual_root.scale.y = 0.7 if is_crouching or is_crouch_guarding else 1.0
+
+
 func _clear_motion_ghosts() -> void:
 	for ghost in afterimage_pool:
 		if ghost == null or not is_instance_valid(ghost):
@@ -2367,6 +2389,7 @@ func _update_visual_state() -> void:
 	_sync_single_character_visual()
 	_update_pose_collision()
 	_play_visual_animation(_get_current_visual_animation())
+	_apply_character_visual_pose()
 
 	if not debug_state_label_enabled:
 		state_label.visible = false
@@ -2417,16 +2440,7 @@ func _update_visual_state() -> void:
 	if uses_official_character_art and character_visual_controller != null and character_visual_controller.has_method("get_debug_source"):
 		state_label.text += "\nVISUAL: %s" % String(character_visual_controller.call("get_debug_source")).to_upper()
 
-	if uses_official_character_art:
-		guard_visual.visible = false
-		crouch_visual.visible = false
-		crouch_guard_visual.visible = false
-	else:
-		guard_visual.visible = is_guarding and not is_crouch_guarding
-		crouch_visual.visible = is_crouching
-		crouch_guard_visual.visible = is_crouch_guarding
-	var target_y_scale := 1.0 if uses_official_character_art else (0.7 if is_crouching or is_crouch_guarding else 1.0)
-	visual_root.scale.y = target_y_scale
+	_apply_character_visual_pose()
 	if shadow_sprite != null and shadow_sprite.visible:
 		var airborne_scale := 0.72 if not is_on_floor() else 1.0
 		shadow_sprite.scale = Vector2(base_shadow_scale.x * airborne_scale, base_shadow_scale.y * airborne_scale)
