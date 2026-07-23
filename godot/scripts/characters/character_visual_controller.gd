@@ -80,10 +80,6 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 		return false
 
 	var sprite_sheet: Texture2D = definition.get("sprite_sheet")
-	if sprite_sheet == null:
-		set_fallback_enabled(true)
-		return false
-
 	var frames := _build_sprite_frames(sprite_sheet, definition)
 	if frames == null or frames.get_animation_names().is_empty():
 		push_warning("[CharacterVisual] %s: sprite sheet frames unavailable. Fallback to battle texture." % _fighter_id())
@@ -198,12 +194,21 @@ func has_animation(animation_name: StringName) -> bool:
 
 
 func get_debug_source() -> String:
-	return "battle.png" if fallback_active else "sprite_sheet"
+	if fallback_active:
+		return "battle.png"
+	return "animation_definitions" if _has_animation_definitions(definition) else "sprite_sheet"
 
 
 func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> SpriteFrames:
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
+	if _add_animation_definition_strips(frames, character_data):
+		_add_required_aliases(frames)
+		return frames
+
+	if sprite_sheet == null:
+		return frames
+
 	if _uses_standard_192_sheet(character_data):
 		if _add_standard_192_animations(frames, sprite_sheet, character_data):
 			_add_required_aliases(frames)
@@ -218,6 +223,109 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		_add_player_animations(frames, sprite_sheet, character_data)
 	_add_required_aliases(frames)
 	return frames
+
+
+func _has_animation_definitions(character_data: Resource) -> bool:
+	if character_data == null:
+		return false
+	var definitions: Array = character_data.get("animation_definitions")
+	return not definitions.is_empty()
+
+
+func _add_animation_definition_strips(frames: SpriteFrames, character_data: Resource) -> bool:
+	if character_data == null:
+		return false
+	var definitions: Array = character_data.get("animation_definitions")
+	if definitions.is_empty():
+		return false
+
+	var added_any := false
+	for animation_definition in definitions:
+		if animation_definition == null:
+			continue
+		var animation_name := StringName(animation_definition.get("animation_name"))
+		var texture: Texture2D = animation_definition.get("texture")
+		if animation_name == &"" or texture == null:
+			continue
+		var cell_size: Vector2i = animation_definition.get("cell_size")
+		if cell_size.x <= 0 or cell_size.y <= 0:
+			cell_size = Vector2i(320, 480)
+		var available_columns := int(floor(float(texture.get_width()) / float(cell_size.x)))
+		if available_columns <= 0 or texture.get_height() < cell_size.y:
+			push_warning("[AnimationDefinition] Invalid strip: character=%s animation=%s texture=%dx%d cell=%dx%d" % [
+				_fighter_id(),
+				String(animation_name),
+				texture.get_width(),
+				texture.get_height(),
+				cell_size.x,
+				cell_size.y,
+			])
+			continue
+		var frame_count := int(animation_definition.get("frame_count"))
+		if frame_count <= 0:
+			frame_count = available_columns
+		frame_count = clampi(frame_count, 1, available_columns)
+		_add_animation_definition_strip(frames, animation_definition, animation_name, texture, cell_size, frame_count)
+		added_any = added_any or (frames.has_animation(String(animation_name)) and frames.get_frame_count(String(animation_name)) > 0)
+
+	return added_any and frames.has_animation("idle") and frames.get_frame_count("idle") > 0
+
+
+func _add_animation_definition_strip(
+	frames: SpriteFrames,
+	animation_definition: Resource,
+	animation_name: StringName,
+	texture: Texture2D,
+	cell_size: Vector2i,
+	frame_count: int
+) -> void:
+	var sheet_image := texture.get_image()
+	if sheet_image == null:
+		return
+
+	var frame_images: Array[Image] = []
+	var content_rects: Array[Rect2i] = []
+	for frame_index in range(frame_count):
+		var frame_rect := Rect2i(frame_index * cell_size.x, 0, cell_size.x, cell_size.y)
+		if frame_rect.position.x + frame_rect.size.x > sheet_image.get_width():
+			break
+		var frame_image := sheet_image.get_region(frame_rect)
+		frame_image.convert(Image.FORMAT_RGBA8)
+		if _is_blank_frame(frame_image):
+			continue
+		var content_rect := _get_visible_content_rect(frame_image)
+		if content_rect.size.x <= 0 or content_rect.size.y <= 0:
+			continue
+		frame_images.append(frame_image)
+		content_rects.append(content_rect)
+
+	if frame_images.is_empty():
+		push_warning("[AnimationDefinition] Skipped blank strip: character=%s animation=%s" % [_fighter_id(), String(animation_name)])
+		return
+
+	var target_center_x := _standard_192_target_center_x(content_rects, animation_name, cell_size)
+	var target_bottom_y := _standard_192_target_bottom_y(content_rects, animation_name, cell_size)
+	var foot_offset: Vector2 = animation_definition.get("foot_offset")
+	target_center_x = clampi(target_center_x + roundi(foot_offset.x), 0, cell_size.x)
+	target_bottom_y = clampi(target_bottom_y + roundi(foot_offset.y), 0, cell_size.y)
+
+	if frames.has_animation(String(animation_name)):
+		frames.remove_animation(String(animation_name))
+	frames.add_animation(String(animation_name))
+	var fps := float(animation_definition.get("fps"))
+	if fps <= 0.0:
+		fps = _animation_speed(animation_name)
+	frames.set_animation_speed(String(animation_name), fps)
+	frames.set_animation_loop(String(animation_name), bool(animation_definition.get("loop")))
+
+	for index in range(frame_images.size()):
+		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y, cell_size)
+		var frame_texture := ImageTexture.create_from_image(normalized_frame)
+		if frame_texture != null:
+			frames.add_frame(String(animation_name), frame_texture)
+
+	if frames.get_frame_count(String(animation_name)) == 0:
+		frames.remove_animation(String(animation_name))
 
 
 func _uses_standard_192_sheet(character_data: Resource) -> bool:
@@ -855,7 +963,7 @@ func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
 	visual_offset *= battle_visual_scale_multiplier
 
 	if _uses_height_linked_scale():
-		var cell_size := _standard_sheet_cell_size(definition)
+		var cell_size := _active_frame_cell_size()
 		var body_rect := _reference_body_rect_from_idle(cell_size)
 		var body_height_px := float(definition.get("sprite_body_height_px"))
 		if body_height_px <= 0.0:
@@ -880,6 +988,16 @@ func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
 
 func _uses_height_linked_scale() -> bool:
 	return definition != null and float(definition.get("sprite_body_height_px")) > 0.0
+
+
+func _active_frame_cell_size() -> Vector2i:
+	if animated_sprite != null and animated_sprite.sprite_frames != null:
+		var frames := animated_sprite.sprite_frames
+		if frames.has_animation("idle") and frames.get_frame_count("idle") > 0:
+			var texture := frames.get_frame_texture("idle", 0)
+			if texture != null:
+				return Vector2i(texture.get_width(), texture.get_height())
+	return _standard_sheet_cell_size(definition)
 
 
 func _reference_body_rect_from_idle(cell_size: Vector2i) -> Rect2i:

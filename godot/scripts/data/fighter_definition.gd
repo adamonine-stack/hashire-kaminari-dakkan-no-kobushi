@@ -22,6 +22,7 @@ class_name FighterDefinition
 @export var visual_scale_adjustment: float = 1.0
 @export var sprite_body_height_px: float = 0.0
 @export var foot_offset: Vector2 = Vector2.ZERO
+@export var animation_definitions: Array[FighterAnimationDefinition] = []
 @export var sprite_sheet_format: StringName = &"legacy"
 @export var sprite_frame_size: Vector2i = Vector2i(96, 96)
 @export var sprite_sheet_columns: int = 16
