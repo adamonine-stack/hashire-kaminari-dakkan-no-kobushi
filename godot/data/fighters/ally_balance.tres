@@ -30,6 +30,12 @@ icon = ExtResource("8_icon")
 sprite_sheet = ExtResource("10_sheet")
 shadow_texture = ExtResource("11_shadow")
 art_folder = "res://assets/characters/player01/"
+battle_sprite_height = 174.78516
+battle_sprite_offset = Vector2(0, 0)
+character_height_cm = 175.0
+visual_scale_adjustment = 1.0
+sprite_body_height_px = 172.1
+foot_offset = Vector2(0, 0)
 sprite_sheet_format = &"standard_192"
 sprite_frame_size = Vector2i(192, 192)
 sprite_sheet_columns = 8
@@ -87,19 +93,19 @@ sprite_animation_frame_counts = {
 }
 sprite_animation_speeds = {
 "idle": 8.0,
-"walk": 10.0,
+"walk": 16.0,
 "dash": 14.0,
-"jump": 12.0,
-"jump_start": 12.0,
-"jump_air": 12.0,
-"jump_land": 12.0,
-"jump_kick": 14.0,
-"fall": 12.0,
-"land": 12.0,
-"punch": 12.0,
-"kick": 12.0,
-"guard": 8.0,
-"crouch_guard": 8.0,
+"jump": 16.0,
+"jump_start": 16.0,
+"jump_air": 16.0,
+"jump_land": 16.0,
+"jump_kick": 18.0,
+"fall": 16.0,
+"land": 16.0,
+"punch": 24.0,
+"kick": 20.0,
+"guard": 12.0,
+"crouch_guard": 12.0,
 "guard_hit": 14.0,
 "damage_light": 12.0,
 "damage_heavy": 10.0,
@@ -108,8 +114,8 @@ sprite_animation_speeds = {
 "down": 2.0,
 "stand_up": 10.0,
 "ko": 8.0,
-"jump_punch_down": 14.0,
-"crouch_kick_sweep": 14.0
+"jump_punch_down": 20.0,
+"crouch_kick_sweep": 18.0
 }
 sprite_animation_bottom_offsets = {
 "crouch_guard": 11,

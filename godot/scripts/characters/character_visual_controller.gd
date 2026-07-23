@@ -18,6 +18,9 @@ const ENEMY_FRAME_STEP := 29.0
 const STANDARD_192_FORMAT := &"standard_192"
 const STANDARD_192_CELL_SIZE := Vector2i(192, 192)
 const STANDARD_192_COLUMNS := 8
+const AKKY_REFERENCE_HEIGHT_CM := 175.0
+const MAX_CHARACTER_HEIGHT_CM := 300.0
+const MIN_CHARACTER_HEIGHT_CM := 100.0
 
 const REQUIRED_ANIMATION_ALIASES := {
 	&"walk_forward": &"walk",
@@ -223,10 +226,27 @@ func _uses_standard_192_sheet(character_data: Resource) -> bool:
 	return StringName(character_data.get("sprite_sheet_format")) == STANDARD_192_FORMAT
 
 
+func _standard_sheet_cell_size(character_data: Resource) -> Vector2i:
+	if character_data == null:
+		return STANDARD_192_CELL_SIZE
+	var frame_size: Vector2i = character_data.get("sprite_frame_size")
+	if frame_size.x > 0 and frame_size.y > 0:
+		return frame_size
+	return STANDARD_192_CELL_SIZE
+
+
+func _standard_sheet_columns(character_data: Resource) -> int:
+	if character_data == null:
+		return STANDARD_192_COLUMNS
+	return maxi(int(character_data.get("sprite_sheet_columns")), 1)
+
+
 func _add_standard_192_animations(frames: SpriteFrames, sprite_sheet: Texture2D, character_data: Resource) -> bool:
 	if sprite_sheet == null:
 		return false
-	if sprite_sheet.get_width() < STANDARD_192_CELL_SIZE.x * STANDARD_192_COLUMNS:
+	var cell_size := _standard_sheet_cell_size(character_data)
+	var columns := _standard_sheet_columns(character_data)
+	if sprite_sheet.get_width() < cell_size.x * columns:
 		return false
 
 	var rows: Dictionary = character_data.get("sprite_animation_rows")
@@ -238,8 +258,8 @@ func _add_standard_192_animations(frames: SpriteFrames, sprite_sheet: Texture2D,
 	for animation_key in rows.keys():
 		var animation_name := StringName(String(animation_key))
 		var row_index := int(rows[animation_key])
-		var frame_count := int(frame_counts.get(animation_key, STANDARD_192_COLUMNS))
-		_add_standard_192_animation(frames, sheet_image, animation_name, row_index, frame_count)
+		var frame_count := int(frame_counts.get(animation_key, columns))
+		_add_standard_192_animation(frames, sheet_image, animation_name, row_index, frame_count, cell_size, columns)
 
 	var clips: Dictionary = character_data.get("sprite_animation_clips")
 	for animation_key in clips.keys():
@@ -247,22 +267,22 @@ func _add_standard_192_animations(frames: SpriteFrames, sprite_sheet: Texture2D,
 		var clip: Dictionary = clips[animation_key]
 		var row_index := int(clip.get("row", -1))
 		var start_column := int(clip.get("start", 0))
-		var frame_count := int(clip.get("count", STANDARD_192_COLUMNS))
-		_add_standard_192_clip_animation(frames, sheet_image, animation_name, row_index, start_column, frame_count)
+		var frame_count := int(clip.get("count", columns))
+		_add_standard_192_clip_animation(frames, sheet_image, animation_name, row_index, start_column, frame_count, cell_size, columns)
 
 	return frames.has_animation("idle") and frames.get_frame_count("idle") > 0
 
 
-func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, frame_count: int) -> void:
-	_add_standard_192_clip_animation(frames, sheet_image, animation_name, row_index, 0, frame_count)
+func _add_standard_192_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, frame_count: int, cell_size: Vector2i, columns: int) -> void:
+	_add_standard_192_clip_animation(frames, sheet_image, animation_name, row_index, 0, frame_count, cell_size, columns)
 
 
-func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, start_column: int, frame_count: int) -> void:
+func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, animation_name: StringName, row_index: int, start_column: int, frame_count: int, cell_size: Vector2i, columns: int) -> void:
 	if row_index < 0 or frame_count <= 0:
 		return
 	if sheet_image == null:
 		return
-	if (row_index + 1) * STANDARD_192_CELL_SIZE.y > sheet_image.get_height():
+	if (row_index + 1) * cell_size.y > sheet_image.get_height():
 		push_warning("[SpriteSheet] Skipped animation outside sheet: character=%s animation=%s row=%d sheet=%dx%d" % [
 			_fighter_id(),
 			String(animation_name),
@@ -272,19 +292,19 @@ func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, 
 		])
 		return
 
-	var clamped_count := clampi(frame_count, 1, STANDARD_192_COLUMNS)
+	var clamped_count := clampi(frame_count, 1, columns)
 	var frame_images: Array[Image] = []
 	var content_rects: Array[Rect2i] = []
 
 	for column_index in range(clamped_count):
 		var source_column := start_column + column_index
-		if source_column < 0 or source_column >= STANDARD_192_COLUMNS:
+		if source_column < 0 or source_column >= columns:
 			continue
 		var frame_rect := Rect2i(
-			source_column * STANDARD_192_CELL_SIZE.x,
-			row_index * STANDARD_192_CELL_SIZE.y,
-			STANDARD_192_CELL_SIZE.x,
-			STANDARD_192_CELL_SIZE.y
+			source_column * cell_size.x,
+			row_index * cell_size.y,
+			cell_size.x,
+			cell_size.y
 		)
 		if frame_rect.position.x + frame_rect.size.x > sheet_image.get_width():
 			break
@@ -307,8 +327,8 @@ func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, 
 		])
 		return
 
-	var target_center_x := _standard_192_target_center_x(content_rects, animation_name)
-	var target_bottom_y := _standard_192_target_bottom_y(content_rects, animation_name)
+	var target_center_x := _standard_192_target_center_x(content_rects, animation_name, cell_size)
+	var target_bottom_y := _standard_192_target_bottom_y(content_rects, animation_name, cell_size)
 
 	if frames.has_animation(String(animation_name)):
 		frames.remove_animation(String(animation_name))
@@ -317,7 +337,7 @@ func _add_standard_192_clip_animation(frames: SpriteFrames, sheet_image: Image, 
 	frames.set_animation_loop(String(animation_name), _animation_should_loop(animation_name))
 
 	for index in range(frame_images.size()):
-		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y)
+		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y, cell_size)
 		var frame_texture := ImageTexture.create_from_image(normalized_frame)
 		if frame_texture != null:
 			frames.add_frame(String(animation_name), frame_texture)
@@ -369,18 +389,18 @@ func _get_visible_content_rect(image: Image) -> Rect2i:
 	return Rect2i(min_x, min_y, max_x - min_x + 1, max_y - min_y + 1)
 
 
-func _standard_192_target_center_x(content_rects: Array[Rect2i], animation_name: StringName) -> int:
+func _standard_192_target_center_x(content_rects: Array[Rect2i], animation_name: StringName, cell_size: Vector2i) -> int:
 	if content_rects.is_empty():
-		return STANDARD_192_CELL_SIZE.x / 2
+		return cell_size.x / 2
 	var sum := 0.0
 	for rect in content_rects:
 		sum += float(rect.position.x) + float(rect.size.x) * 0.5
-	return clampi(roundi(sum / float(content_rects.size())) + _animation_center_offset(animation_name), 0, STANDARD_192_CELL_SIZE.x)
+	return clampi(roundi(sum / float(content_rects.size())) + _animation_center_offset(animation_name), 0, cell_size.x)
 
 
-func _standard_192_target_bottom_y(content_rects: Array[Rect2i], animation_name: StringName) -> int:
+func _standard_192_target_bottom_y(content_rects: Array[Rect2i], animation_name: StringName, cell_size: Vector2i) -> int:
 	if content_rects.is_empty():
-		return STANDARD_192_CELL_SIZE.y
+		return cell_size.y
 	var bottoms: Array[int] = []
 	var max_content_height := 1
 	for rect in content_rects:
@@ -389,7 +409,7 @@ func _standard_192_target_bottom_y(content_rects: Array[Rect2i], animation_name:
 	bottoms.sort()
 	var percentile_index := clampi(int(floor(float(bottoms.size() - 1) * 0.75)), 0, bottoms.size() - 1)
 	var bottom_y := bottoms[percentile_index] + _animation_bottom_offset(animation_name)
-	return clampi(bottom_y, max_content_height, STANDARD_192_CELL_SIZE.y)
+	return clampi(bottom_y, max_content_height, cell_size.y)
 
 
 func _animation_center_offset(animation_name: StringName) -> int:
@@ -417,8 +437,8 @@ func _animation_int_offset(offsets: Dictionary, animation_name: StringName) -> i
 	return 0
 
 
-func _normalize_standard_192_frame(source_image: Image, content_rect: Rect2i, target_center_x: int, target_bottom_y: int) -> Image:
-	var normalized := Image.create(STANDARD_192_CELL_SIZE.x, STANDARD_192_CELL_SIZE.y, false, Image.FORMAT_RGBA8)
+func _normalize_standard_192_frame(source_image: Image, content_rect: Rect2i, target_center_x: int, target_bottom_y: int, cell_size: Vector2i) -> Image:
+	var normalized := Image.create(cell_size.x, cell_size.y, false, Image.FORMAT_RGBA8)
 	normalized.fill(Color(0.0, 0.0, 0.0, 0.0))
 
 	var content_center_x := content_rect.position.x + int(round(float(content_rect.size.x) * 0.5))
@@ -435,10 +455,10 @@ func _normalize_standard_192_frame(source_image: Image, content_rect: Rect2i, ta
 		src_rect.position.y -= dst_position.y
 		src_rect.size.y += dst_position.y
 		dst_position.y = 0
-	if dst_position.x + src_rect.size.x > STANDARD_192_CELL_SIZE.x:
-		src_rect.size.x = STANDARD_192_CELL_SIZE.x - dst_position.x
-	if dst_position.y + src_rect.size.y > STANDARD_192_CELL_SIZE.y:
-		src_rect.size.y = STANDARD_192_CELL_SIZE.y - dst_position.y
+	if dst_position.x + src_rect.size.x > cell_size.x:
+		src_rect.size.x = cell_size.x - dst_position.x
+	if dst_position.y + src_rect.size.y > cell_size.y:
+		src_rect.size.y = cell_size.y - dst_position.y
 
 	if src_rect.size.x > 0 and src_rect.size.y > 0:
 		normalized.blit_rect(source_image, src_rect, dst_position)
@@ -833,10 +853,47 @@ func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
 		visual_offset = Vector2(definition.get("battle_sprite_offset"))
 	target_height *= battle_visual_scale_multiplier
 	visual_offset *= battle_visual_scale_multiplier
+
+	if _uses_height_linked_scale():
+		var cell_size := _standard_sheet_cell_size(definition)
+		var body_rect := _reference_body_rect_from_idle(cell_size)
+		var body_height_px := float(definition.get("sprite_body_height_px"))
+		if body_height_px <= 0.0:
+			body_height_px = float(body_rect.size.y)
+		var character_height_cm := clampf(float(definition.get("character_height_cm")), MIN_CHARACTER_HEIGHT_CM, MAX_CHARACTER_HEIGHT_CM)
+		var height_ratio := character_height_cm / AKKY_REFERENCE_HEIGHT_CM
+		var scale_adjustment := maxf(float(definition.get("visual_scale_adjustment")), 0.01)
+		var target_display_height_px := target_height * height_ratio * scale_adjustment
+		var sprite_scale := target_display_height_px / maxf(body_height_px, 1.0)
+		var body_bottom_y := float(body_rect.position.y + body_rect.size.y)
+		var body_bottom_local := (body_bottom_y - float(cell_size.y) * 0.5) * sprite_scale
+		var foot_offset: Vector2 = definition.get("foot_offset")
+		set_visual_scale(Vector2(sprite_scale, sprite_scale))
+		set_visual_offset(Vector2(visual_offset.x, visual_offset.y - body_bottom_local) + foot_offset * battle_visual_scale_multiplier)
+		return
+
 	var source_height := _layout_frame_height(definition != null and definition.get("team_type") == &"ENEMY")
 	var sprite_scale := target_height / maxf(source_height, 1.0)
 	set_visual_scale(Vector2(sprite_scale, sprite_scale))
 	set_visual_offset(Vector2(0.0, -target_height * 0.5) + visual_offset)
+
+
+func _uses_height_linked_scale() -> bool:
+	return definition != null and float(definition.get("sprite_body_height_px")) > 0.0
+
+
+func _reference_body_rect_from_idle(cell_size: Vector2i) -> Rect2i:
+	if animated_sprite != null and animated_sprite.sprite_frames != null:
+		var frames := animated_sprite.sprite_frames
+		if frames.has_animation("idle") and frames.get_frame_count("idle") > 0:
+			var texture := frames.get_frame_texture("idle", 0)
+			if texture != null:
+				var image := texture.get_image()
+				if image != null:
+					var rect := _get_visible_content_rect(image)
+					if rect.size.x > 0 and rect.size.y > 0:
+						return rect
+	return Rect2i(0, 0, cell_size.x, cell_size.y)
 
 
 func _animation_speed(animation_name: StringName) -> float:
