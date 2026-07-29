@@ -64,6 +64,8 @@ var animated_art_active := false
 var definition: Resource
 var battle_visual_scale_multiplier := 1.2
 var missing_animation_warnings := {}
+var base_visual_scale := Vector2.ONE
+var base_visual_position := Vector2.ZERO
 
 
 func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_node: Sprite2D) -> bool:
@@ -103,6 +105,8 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 	animated_sprite.self_modulate = Color.WHITE
 	animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_apply_visual_transform(sprite_sheet)
+	base_visual_scale = animated_sprite.scale
+	base_visual_position = animated_sprite.position
 	animated_art_active = true
 	set_fallback_enabled(false)
 	play_animation(&"idle_prebattle" if has_animation(&"idle_prebattle") else &"idle", true)
@@ -140,7 +144,20 @@ func play_animation(animation_name: StringName, force := false) -> void:
 		return
 
 	current_animation = resolved_name
+	_apply_animation_visual_transform(resolved_name)
 	animated_sprite.play(String(resolved_name))
+
+
+func _apply_animation_visual_transform(animation_name: StringName) -> void:
+	if animated_sprite == null:
+		return
+	var scale_multiplier := 1.0
+	if animation_name == &"idle_prebattle" and definition != null:
+		scale_multiplier = maxf(float(definition.get("prebattle_visual_scale")), 0.1)
+	animated_sprite.scale = base_visual_scale * scale_multiplier
+	# Scaling around the sprite center would move the boots. Scale the grounded
+	# vertical offset by the same amount so the contact point stays unchanged.
+	animated_sprite.position = Vector2(base_visual_position.x, base_visual_position.y * scale_multiplier)
 
 
 func set_facing(direction: int) -> void:
