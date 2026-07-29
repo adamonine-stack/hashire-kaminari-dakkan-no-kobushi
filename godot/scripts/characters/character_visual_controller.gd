@@ -151,13 +151,14 @@ func play_animation(animation_name: StringName, force := false) -> void:
 func _apply_animation_visual_transform(animation_name: StringName) -> void:
 	if animated_sprite == null:
 		return
-	var scale_multiplier := 1.0
+	var scale_multiplier := Vector2.ONE
 	if animation_name == &"idle_prebattle" and definition != null:
-		scale_multiplier = maxf(float(definition.get("prebattle_visual_scale")), 0.1)
+		var configured_scale: Vector2 = definition.get("prebattle_visual_scale")
+		scale_multiplier = Vector2(maxf(configured_scale.x, 0.1), maxf(configured_scale.y, 0.1))
 	animated_sprite.scale = base_visual_scale * scale_multiplier
 	# Scaling around the sprite center would move the boots. Scale the grounded
 	# vertical offset by the same amount so the contact point stays unchanged.
-	animated_sprite.position = Vector2(base_visual_position.x, base_visual_position.y * scale_multiplier)
+	animated_sprite.position = Vector2(base_visual_position.x, base_visual_position.y * scale_multiplier.y)
 
 
 func set_facing(direction: int) -> void:
