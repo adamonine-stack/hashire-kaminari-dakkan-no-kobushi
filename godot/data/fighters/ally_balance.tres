@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=17 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -16,6 +16,7 @@
 [ext_resource type="Resource" path="res://data/attacks/player1_jump_punch_down.tres" id="14_jump_punch_down"]
 [ext_resource type="Resource" path="res://data/attacks/player1_crouch_kick_sweep.tres" id="15_crouch_kick_sweep"]
 [ext_resource type="Texture2D" path="res://assets/characters/player01/akky_idle_pose.png" id="16_idle_pose"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/akky_prebattle_pose.png" id="17_prebattle_pose"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -31,6 +32,7 @@ icon = ExtResource("8_icon")
 sprite_sheet = ExtResource("10_sheet")
 shadow_texture = ExtResource("11_shadow")
 idle_pose_texture = ExtResource("16_idle_pose")
+prebattle_pose_texture = ExtResource("17_prebattle_pose")
 art_folder = "res://assets/characters/player01/"
 battle_sprite_height = 174.78516
 battle_sprite_offset = Vector2(0, 0)

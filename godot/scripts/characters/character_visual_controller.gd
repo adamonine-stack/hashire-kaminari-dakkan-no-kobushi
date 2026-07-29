@@ -105,7 +105,7 @@ func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_n
 	_apply_visual_transform(sprite_sheet)
 	animated_art_active = true
 	set_fallback_enabled(false)
-	play_animation(&"idle", true)
+	play_animation(&"idle_prebattle" if has_animation(&"idle_prebattle") else &"idle", true)
 	return true
 
 
@@ -203,7 +203,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
 	if _add_animation_definition_strips(frames, character_data):
-		_add_ready_idle_pose(frames, character_data)
+		_add_idle_pose_overrides(frames, character_data)
 		_add_required_aliases(frames)
 		return frames
 
@@ -212,7 +212,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 
 	if _uses_standard_192_sheet(character_data):
 		if _add_standard_192_animations(frames, sprite_sheet, character_data):
-			_add_ready_idle_pose(frames, character_data)
+			_add_idle_pose_overrides(frames, character_data)
 			_add_required_aliases(frames)
 			return frames
 		push_warning("[SpriteSheet] Invalid standard_192 sheet: character=%s" % _fighter_id())
@@ -227,14 +227,20 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	return frames
 
 
-func _add_ready_idle_pose(frames: SpriteFrames, character_data: Resource) -> void:
+func _add_idle_pose_overrides(frames: SpriteFrames, character_data: Resource) -> void:
 	var idle_pose := character_data.get("idle_pose_texture") as Texture2D
-	if idle_pose == null:
-		return
-	frames.add_animation("idle_ready")
-	frames.set_animation_speed("idle_ready", 1.0)
-	frames.set_animation_loop("idle_ready", true)
-	frames.add_frame("idle_ready", idle_pose)
+	if idle_pose != null:
+		frames.add_animation("idle_ready")
+		frames.set_animation_speed("idle_ready", 1.0)
+		frames.set_animation_loop("idle_ready", true)
+		frames.add_frame("idle_ready", idle_pose)
+
+	var prebattle_pose := character_data.get("prebattle_pose_texture") as Texture2D
+	if prebattle_pose != null:
+		frames.add_animation("idle_prebattle")
+		frames.set_animation_speed("idle_prebattle", 1.0)
+		frames.set_animation_loop("idle_prebattle", true)
+		frames.add_frame("idle_prebattle", prebattle_pose)
 
 
 func _has_animation_definitions(character_data: Resource) -> bool:

@@ -16,6 +16,7 @@ class_name FighterDefinition
 @export var sprite_sheet: Texture2D
 @export var shadow_texture: Texture2D
 @export var idle_pose_texture: Texture2D
+@export var prebattle_pose_texture: Texture2D
 @export var art_folder: String = ""
 @export var battle_sprite_height: float = 150.0
 @export var battle_sprite_offset: Vector2 = Vector2(0.0, 0.0)
