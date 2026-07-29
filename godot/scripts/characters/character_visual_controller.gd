@@ -220,16 +220,16 @@ func get_debug_source() -> String:
 func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> SpriteFrames:
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
-	if _add_animation_definition_strips(frames, character_data):
+
+	if sprite_sheet == null:
+		_add_animation_definition_strips(frames, character_data)
 		_add_idle_pose_overrides(frames, character_data)
 		_add_required_aliases(frames)
 		return frames
 
-	if sprite_sheet == null:
-		return frames
-
 	if _uses_standard_192_sheet(character_data):
 		if _add_standard_192_animations(frames, sprite_sheet, character_data):
+			_add_animation_definition_strips(frames, character_data)
 			_add_idle_pose_overrides(frames, character_data)
 			_add_required_aliases(frames)
 			return frames
@@ -241,6 +241,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		_add_enemy_animations(frames, sprite_sheet, character_data)
 	else:
 		_add_player_animations(frames, sprite_sheet, character_data)
+	_add_animation_definition_strips(frames, character_data)
 	_add_required_aliases(frames)
 	return frames
 
