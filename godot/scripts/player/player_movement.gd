@@ -2332,8 +2332,12 @@ func _get_current_visual_animation() -> StringName:
 	if is_hit:
 		return last_damage_animation
 	if current_attack_type == "Punch":
-		if current_attack_data != null and String(current_attack_data.animation_name) == "jump_punch_down":
-			return &"jump_punch_down"
+		if current_attack_data != null:
+			var configured_punch_animation := StringName(current_attack_data.animation_name)
+			if configured_punch_animation == &"jump_punch_down":
+				return &"jump_punch_down"
+			if configured_punch_animation == &"punch_1" or configured_punch_animation == &"punch_2":
+				return configured_punch_animation
 		if not is_on_floor():
 			return &"jump_punch_down"
 		if is_crouching:
