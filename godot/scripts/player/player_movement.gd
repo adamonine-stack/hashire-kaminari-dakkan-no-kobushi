@@ -2359,7 +2359,7 @@ func _get_current_visual_animation() -> StringName:
 		return &"dash"
 	if absf(velocity.x) > 0.0:
 		return &"walk_forward"
-	return &"idle"
+	return &"idle_ready" if input_enabled else &"idle"
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:

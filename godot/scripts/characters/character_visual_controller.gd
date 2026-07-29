@@ -203,6 +203,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
 	if _add_animation_definition_strips(frames, character_data):
+		_add_ready_idle_pose(frames, character_data)
 		_add_required_aliases(frames)
 		return frames
 
@@ -211,6 +212,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 
 	if _uses_standard_192_sheet(character_data):
 		if _add_standard_192_animations(frames, sprite_sheet, character_data):
+			_add_ready_idle_pose(frames, character_data)
 			_add_required_aliases(frames)
 			return frames
 		push_warning("[SpriteSheet] Invalid standard_192 sheet: character=%s" % _fighter_id())
@@ -223,6 +225,16 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		_add_player_animations(frames, sprite_sheet, character_data)
 	_add_required_aliases(frames)
 	return frames
+
+
+func _add_ready_idle_pose(frames: SpriteFrames, character_data: Resource) -> void:
+	var idle_pose := character_data.get("idle_pose_texture") as Texture2D
+	if idle_pose == null:
+		return
+	frames.add_animation("idle_ready")
+	frames.set_animation_speed("idle_ready", 1.0)
+	frames.set_animation_loop("idle_ready", true)
+	frames.add_frame("idle_ready", idle_pose)
 
 
 func _has_animation_definitions(character_data: Resource) -> bool:
