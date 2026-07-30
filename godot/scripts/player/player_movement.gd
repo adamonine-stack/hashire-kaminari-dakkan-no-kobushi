@@ -41,6 +41,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var guard_knockback_x := 80.0
 @export var guard_hit_stop_time := 0.03
 @export var guard_release_time := 0.10
+@export var crouch_release_time := 0.20
 @export_group("Stage Collision")
 @export var stage_left_limit := 0.0
 @export var stage_right_limit := 1280.0
@@ -130,6 +131,8 @@ var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var guard_motion_timer := 0.0
+var crouch_motion_state := "none"
+var crouch_motion_timer := 0.0
 var last_damage_animation: StringName = &"damage_light"
 var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
@@ -437,9 +440,12 @@ func _update_defensive_state(delta := 0.0) -> void:
 	var down_pressed := Input.is_action_pressed("down")
 	var guard_pressed := Input.is_action_pressed("guard")
 	guard_motion_timer = maxf(guard_motion_timer - delta, 0.0)
+	crouch_motion_timer = maxf(crouch_motion_timer - delta, 0.0)
 
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
+		crouch_motion_state = "none"
+		crouch_motion_timer = 0.0
 		if not is_on_floor():
 			is_crouching = false
 		return
@@ -449,6 +455,8 @@ func _update_defensive_state(delta := 0.0) -> void:
 		is_guarding = true
 		is_crouch_guarding = down_pressed and is_on_floor()
 		is_crouching = false
+		crouch_motion_state = "none"
+		crouch_motion_timer = 0.0
 		guard_type = "low" if is_crouch_guarding else "high"
 		if not was_guarding:
 			guard_motion_state = "enter"
@@ -467,9 +475,20 @@ func _update_defensive_state(delta := 0.0) -> void:
 		return
 	else:
 		_clear_guard_state()
-	is_crouching = down_pressed and is_on_floor()
-	if is_crouching:
+	if down_pressed and is_on_floor():
+		if not is_crouching:
+			crouch_motion_state = "enter"
+		is_crouching = true
 		velocity.x = 0.0
+	elif is_crouching:
+		is_crouching = false
+		crouch_motion_state = "release"
+		crouch_motion_timer = crouch_release_time
+	elif crouch_motion_state == "release" and crouch_motion_timer > 0.0:
+		return
+	else:
+		crouch_motion_state = "none"
+		crouch_motion_timer = 0.0
 
 
 func _start_kick(is_combo_attack := false) -> void:
@@ -2378,6 +2397,8 @@ func _get_current_visual_animation() -> StringName:
 		return &"jump"
 	if is_crouching:
 		return &"crouch_idle"
+	if crouch_motion_state == "release" and crouch_motion_timer > 0.0:
+		return &"crouch_release"
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
 	if absf(velocity.x) > 0.0:
