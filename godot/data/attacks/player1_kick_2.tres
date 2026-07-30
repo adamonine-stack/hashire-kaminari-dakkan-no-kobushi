@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack_data"]
+
+[resource]
+script = ExtResource("1_attack_data")
+attack_id = "player1_kick_2"
+display_name = "Kick 2"
+attack_type = "kick"
+base_damage = 1.30
+startup_time = 0.18
+active_time = 0.20
+recovery_time = 0.30
+combo_input_start = 0.08
+combo_input_end = 0.30
+hitbox_size = Vector2(96, 42)
+hitbox_offset = Vector2(72, -20)
+forward_move_distance = 12.0
+forward_move_duration = 0.16
+knockback = Vector2(290, -76)
+hitstop_time = 0.09
+hitstun_time = 0.31
+next_attack_ids = Array[String]([])
+animation_name = "kick_2"

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FighterAnimationDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_animation_definition.gd" id="1_animation"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/animations/kick_2_8frame/akky_kick2_strip.png" id="2_texture"]
+
+[resource]
+script = ExtResource("1_animation")
+animation_name = &"kick_2"
+texture = ExtResource("2_texture")
+cell_size = Vector2i(192, 192)
+frame_count = 8
+fps = 14.0
+loop = false

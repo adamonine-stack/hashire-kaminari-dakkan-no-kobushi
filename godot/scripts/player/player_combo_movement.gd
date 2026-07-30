@@ -198,7 +198,7 @@ func apply_attack_sequence(sequence: Array) -> void:
 			continue
 		attack_data_sequence.append(attack_data)
 		attack_data_by_id[attack_id] = attack_data
-	dev026_max_combo_hits = maxi(1, attack_data_sequence.size())
+	dev026_max_combo_hits = mini(3, maxi(1, attack_data_sequence.size()))
 	reset_attack_state()
 
 
@@ -853,6 +853,8 @@ func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bo
 		return next_attack == &"Punch" and not get_next_attack_id("punch").is_empty()
 	if current_attack == &"Punch" and combo_count == 2:
 		return next_attack == &"Kick" and not get_next_attack_id("kick").is_empty()
+	if current_attack == &"Kick" and combo_count <= 1:
+		return next_attack == &"Kick" and not get_next_attack_id("kick").is_empty()
 	return false
 
 
@@ -1007,6 +1009,10 @@ func _play_attack_animation(animation_name: StringName) -> void:
 func _get_attack_animation_name(attack_type: StringName) -> StringName:
 	if attack_type == &"Punch":
 		return &"punch_2" if dev_combo_step == 2 else &"punch_1"
+	if current_attack_data != null:
+		var configured_animation := StringName(current_attack_data.animation_name)
+		if configured_animation == &"kick_1" or configured_animation == &"kick_2":
+			return configured_animation
 	if dev_combo_step >= dev026_max_combo_hits:
 		return &"combo_finisher"
 	return &"kick_1"

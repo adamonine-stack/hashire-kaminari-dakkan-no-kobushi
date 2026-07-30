@@ -2380,8 +2380,12 @@ func _get_current_visual_animation() -> StringName:
 			return &"crouch_punch"
 		return &"punch_2" if combo_step == 2 else &"punch_1"
 	if current_attack_type == "Kick":
-		if current_attack_data != null and String(current_attack_data.animation_name) == "crouch_kick_sweep":
-			return &"crouch_kick_sweep"
+		if current_attack_data != null:
+			var configured_kick_animation := StringName(current_attack_data.animation_name)
+			if configured_kick_animation == &"crouch_kick_sweep":
+				return &"crouch_kick_sweep"
+			if configured_kick_animation == &"kick_1" or configured_kick_animation == &"kick_2":
+				return configured_kick_animation
 		if not is_on_floor():
 			return &"jump_kick"
 		if is_crouching:
