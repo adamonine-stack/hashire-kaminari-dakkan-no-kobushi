@@ -186,6 +186,7 @@ var uses_official_character_art := false
 var uses_animated_character_art := false
 var visual_sort_offset_y := 0.0
 var jump_pressed_this_airtime := false
+var jump_landing_visual_timer := 0.0
 var default_hurt_box_position := Vector2.ZERO
 var default_hurt_box_size := Vector2.ZERO
 
@@ -354,6 +355,7 @@ func _prepare_character_effect_node(effect_root: Node2D, effect_name: String, re
 func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
+	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
 	var is_kicking := kick_active_timer > 0.0
@@ -2170,6 +2172,8 @@ func _update_movement_feedback(direction: float, was_on_floor_before_move: bool)
 	was_moving_last_frame = moving_now
 
 	if not was_on_floor_before_move and is_on_floor():
+		jump_landing_visual_timer = 0.25
+		_play_visual_animation(&"jump_land", true)
 		_spawn_movement_dust(global_position + Vector2(0.0, -2.0), 1.0)
 		screen_shake_requested.emit(landing_shake_strength)
 	was_on_floor_last_frame = is_on_floor()
@@ -2320,6 +2324,7 @@ func _is_jump_input_just_pressed() -> bool:
 
 func _prepare_jump_visual_state() -> void:
 	jump_pressed_this_airtime = true
+	jump_landing_visual_timer = 0.0
 	is_crouching = false
 	is_crouch_guarding = false
 	is_guarding = false
@@ -2337,7 +2342,7 @@ func _prepare_jump_visual_state() -> void:
 		visual_root.rotation = 0.0
 		visual_root.scale.y = 1.0
 	_sync_single_character_visual()
-	_play_visual_animation(&"jump", true)
+	_play_visual_animation(&"jump_start", true)
 
 
 func _play_visual_animation(animation_name: StringName, force := false) -> void:
@@ -2398,7 +2403,9 @@ func _get_current_visual_animation() -> StringName:
 	if guard_motion_state == "release" and guard_motion_timer > 0.0:
 		return &"guard_release"
 	if not is_on_floor():
-		return &"jump"
+		return &"jump_start"
+	if jump_landing_visual_timer > 0.0:
+		return &"jump_land"
 	if is_crouching:
 		return &"crouch_idle"
 	if crouch_motion_state == "release" and crouch_motion_timer > 0.0:
