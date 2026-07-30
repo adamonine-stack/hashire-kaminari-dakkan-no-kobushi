@@ -101,7 +101,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		if attacker != null:
 			_end_attacker_combo_for_knockdown(attacker)
 		enter_knockback(attacker, _get_knockdown_force(attack_data, attacker, attack_direction))
-	else:
+	elif not bool(attack_data.get("allows_combo_followup", false)):
 		_start_invincibility()
 
 	return true

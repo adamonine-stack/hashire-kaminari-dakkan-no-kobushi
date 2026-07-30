@@ -639,7 +639,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		if current_hp == 0 and attacker.has_method("_finish_combo_after_ko"):
 			attacker._finish_combo_after_ko()
 	_apply_knockback(attack_data, attack_direction)
-	_start_invincibility()
+	if not bool(attack_data.get("allows_combo_followup", false)):
+		_start_invincibility()
 	_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
 	_spawn_hit_effect(hit_position, attack_data["effect_size"])
 	_play_hit_se(attack_data["se_type"])
@@ -906,6 +907,7 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 	scaled_attack_data["knockback_y"] = float(attack_data["knockback_y"]) * knockback_scale
 	scaled_attack_data["combo_hit_index"] = hit_index
 	scaled_attack_data["damage_scale"] = 1.0
+	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and not current_attack_data.next_attack_ids.is_empty()
 	return scaled_attack_data
 
 
