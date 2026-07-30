@@ -7,5 +7,6 @@ class_name FighterAnimationDefinition
 @export var frame_count: int = 0
 @export var fps: float = 12.0
 @export var loop: bool = false
+@export var reverse_frames: bool = false
 @export var body_height_px: float = 0.0
 @export var foot_offset: Vector2 = Vector2.ZERO

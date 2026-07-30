@@ -2362,7 +2362,7 @@ func _get_current_visual_animation() -> StringName:
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
 	if absf(velocity.x) > 0.0:
-		return &"walk_forward"
+		return &"walk_backward" if velocity.x * float(facing_direction) < 0.0 else &"walk_forward"
 	return &"idle_ready" if input_enabled else &"idle_prebattle"
 
 

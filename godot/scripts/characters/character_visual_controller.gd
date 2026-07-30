@@ -323,7 +323,8 @@ func _add_animation_definition_strip(
 	var frame_images: Array[Image] = []
 	var content_rects: Array[Rect2i] = []
 	for frame_index in range(frame_count):
-		var frame_rect := Rect2i(frame_index * cell_size.x, 0, cell_size.x, cell_size.y)
+		var source_index := frame_count - 1 - frame_index if bool(animation_definition.get("reverse_frames")) else frame_index
+		var frame_rect := Rect2i(source_index * cell_size.x, 0, cell_size.x, cell_size.y)
 		if frame_rect.position.x + frame_rect.size.x > sheet_image.get_width():
 			break
 		var frame_image := sheet_image.get_region(frame_rect)
