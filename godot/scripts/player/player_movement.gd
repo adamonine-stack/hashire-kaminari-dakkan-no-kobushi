@@ -40,6 +40,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var guard_hit_time := 0.15
 @export var guard_knockback_x := 80.0
 @export var guard_hit_stop_time := 0.03
+@export var guard_release_time := 0.10
 @export_group("Stage Collision")
 @export var stage_left_limit := 0.0
 @export var stage_right_limit := 1280.0
@@ -128,6 +129,7 @@ var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
+var guard_motion_timer := 0.0
 var last_damage_animation: StringName = &"damage_light"
 var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
@@ -363,7 +365,7 @@ func _physics_process(delta: float) -> void:
 	_update_ai_throw(delta)
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
-		_update_defensive_state()
+		_update_defensive_state(delta)
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
 	_face_opponent()
@@ -374,7 +376,7 @@ func _physics_process(delta: float) -> void:
 		direction = 0.0
 
 	if not is_hit and not _is_throw_busy():
-		if is_on_floor() and (is_guarding or is_crouch_guarding):
+		if is_on_floor() and (is_guarding or is_crouch_guarding) and not is_guard_hit:
 			velocity.x = 0.0
 		else:
 			velocity.x = direction * get_current_move_speed()
@@ -431,9 +433,10 @@ func _start_attack(is_combo_attack := false) -> void:
 	_set_punch_hitbox_active(true)
 
 
-func _update_defensive_state() -> void:
+func _update_defensive_state(delta := 0.0) -> void:
 	var down_pressed := Input.is_action_pressed("down")
 	var guard_pressed := Input.is_action_pressed("guard")
+	guard_motion_timer = maxf(guard_motion_timer - delta, 0.0)
 
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
@@ -442,15 +445,28 @@ func _update_defensive_state() -> void:
 		return
 
 	if guard_pressed:
+		var was_guarding := is_guarding
 		is_guarding = true
 		is_crouch_guarding = down_pressed and is_on_floor()
 		is_crouching = false
 		guard_type = "low" if is_crouch_guarding else "high"
-		guard_motion_state = "hold"
+		if not was_guarding:
+			guard_motion_state = "enter"
+		elif guard_motion_state != "enter":
+			guard_motion_state = "hold"
 		velocity.x = 0.0
 		return
 
-	_clear_guard_state()
+	if is_guarding:
+		is_guarding = false
+		is_crouch_guarding = false
+		guard_type = "none"
+		guard_motion_state = "release"
+		guard_motion_timer = guard_release_time
+	elif guard_motion_state == "release" and guard_motion_timer > 0.0:
+		return
+	else:
+		_clear_guard_state()
 	is_crouching = down_pressed and is_on_floor()
 	if is_crouching:
 		velocity.x = 0.0
@@ -1527,6 +1543,7 @@ func _clear_guard_state() -> void:
 	is_crouch_guarding = false
 	guard_type = "none"
 	guard_motion_state = "none"
+	guard_motion_timer = 0.0
 
 
 func _update_guard_hit(delta: float) -> void:
@@ -1540,7 +1557,7 @@ func _update_guard_hit(delta: float) -> void:
 	is_guard_hit = false
 	_clear_guard_state()
 	if input_enabled:
-		_update_defensive_state()
+		_update_defensive_state(0.0)
 
 
 func _start_invincibility() -> void:
@@ -2355,6 +2372,8 @@ func _get_current_visual_animation() -> StringName:
 		return &"crouch_guard"
 	if is_guarding:
 		return &"guard"
+	if guard_motion_state == "release" and guard_motion_timer > 0.0:
+		return &"guard_release"
 	if not is_on_floor():
 		return &"jump"
 	if is_crouching:

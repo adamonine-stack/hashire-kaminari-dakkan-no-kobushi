@@ -93,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	_update_ai_throw(delta)
 
 	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
-		_update_defensive_state()
+		_update_defensive_state(delta)
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
 	_face_opponent()
@@ -108,7 +108,7 @@ func _physics_process(delta: float) -> void:
 
 	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
 		if is_on_floor():
-			if is_guarding or is_crouch_guarding:
+			if (is_guarding or is_crouch_guarding) and not is_guard_hit:
 				velocity.x = 0.0
 			else:
 				velocity.x = direction * get_current_move_speed()
