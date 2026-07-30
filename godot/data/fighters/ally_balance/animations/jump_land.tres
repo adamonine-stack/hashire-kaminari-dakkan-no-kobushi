@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FighterAnimationDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_animation_definition.gd" id="1_animation"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/animations/jump_8frame/akky_jump_land_strip.png" id="2_texture"]
+
+[resource]
+script = ExtResource("1_animation")
+animation_name = &"jump_land"
+texture = ExtResource("2_texture")
+cell_size = Vector2i(192, 192)
+frame_count = 4
+fps = 16.0
+loop = false
