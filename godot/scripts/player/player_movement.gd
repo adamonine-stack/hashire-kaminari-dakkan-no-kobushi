@@ -28,6 +28,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var punch_knockback_y := 160.0
 @export var kick_knockback_x := 280.0
 @export var kick_knockback_y := 260.0
+@export var grounded_hit_reaction_slide_x := 115.0
 @export var hit_reaction_time := 0.25
 @export var invincibility_time := 0.3
 @export var input_enabled := true
@@ -1154,7 +1155,10 @@ func _enter_hit_state() -> void:
 
 func _apply_knockback(attack_data: Dictionary, attack_direction: float) -> void:
 	var received_knockback := calculate_received_knockback(Vector2(attack_data["knockback_x"], attack_data["knockback_y"]))
-	velocity.x = received_knockback.x * attack_direction
+	if is_on_floor() and _has_visual_animation(last_damage_animation):
+		velocity.x = minf(absf(received_knockback.x), grounded_hit_reaction_slide_x) * attack_direction
+	else:
+		velocity.x = received_knockback.x * attack_direction
 	if not is_on_floor():
 		velocity.y = -received_knockback.y
 
@@ -2437,6 +2441,10 @@ func _get_current_visual_animation() -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
+	var height_animation: StringName = &"damage_low" if attack_height == "low" else &"damage_high"
+	if _has_visual_animation(height_animation):
+		return height_animation
 	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	var damage_value := float(attack_data.get("damage", 0))
 	var knockback_x := absf(float(attack_data.get("knockback_x", 0.0)))
@@ -2452,6 +2460,14 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 	if knockback_x >= 240.0 or knockback_y >= 70.0:
 		return &"damage_heavy"
 	return &"damage_light"
+
+
+func _has_visual_animation(animation_name: StringName) -> bool:
+	if not uses_animated_character_art or character_visual_controller == null:
+		return false
+	if not character_visual_controller.has_method("has_animation"):
+		return false
+	return bool(character_visual_controller.call("has_animation", animation_name))
 
 
 func _is_knockdown_state(state_name: StringName) -> bool:
