@@ -30,6 +30,8 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var kick_knockback_y := 260.0
 @export var grounded_hit_reaction_slide_x := 115.0
 @export var hit_reaction_time := 0.25
+@export_range(0.1, 1.0, 0.05) var ko_slow_motion_scale := 0.35
+@export_range(0.1, 2.0, 0.05) var ko_slow_motion_duration := 0.75
 @export var invincibility_time := 0.3
 @export var input_enabled := true
 @export var can_guard := true
@@ -135,6 +137,8 @@ var guard_motion_timer := 0.0
 var crouch_motion_state := "none"
 var crouch_motion_timer := 0.0
 var last_damage_animation: StringName = &"damage_light"
+var last_knockdown_animation: StringName = &""
+var ko_slow_motion_active := false
 var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
 var throw_recovery_timer := 0.0
@@ -2211,12 +2215,29 @@ func _flash_guard() -> void:
 
 
 func _play_ko_feedback(hit_position: Vector2, attack_direction: float) -> void:
+	_start_ko_slow_motion()
 	_start_hit_stop(10)
 	_spawn_hit_effect(hit_position, 3.0)
 	_play_hit_se("ko")
 	screen_shake_requested.emit(ko_shake_strength)
 	velocity.x += attack_direction * 220.0
 	velocity.y = minf(velocity.y, -180.0)
+
+
+func _start_ko_slow_motion() -> void:
+	if ko_slow_motion_active:
+		return
+	ko_slow_motion_active = true
+	Engine.time_scale = minf(Engine.time_scale, ko_slow_motion_scale)
+	await get_tree().create_timer(ko_slow_motion_duration, true, false, true).timeout
+	Engine.time_scale = 1.0
+	ko_slow_motion_active = false
+
+
+func _exit_tree() -> void:
+	if ko_slow_motion_active:
+		Engine.time_scale = 1.0
+		ko_slow_motion_active = false
 
 
 func _hitstop_multiplier() -> float:
@@ -2378,12 +2399,18 @@ func _play_visual_animation(animation_name: StringName, force := false) -> void:
 
 func _get_current_visual_animation() -> StringName:
 	if current_hp <= 0:
+		if _has_visual_animation(last_knockdown_animation):
+			return last_knockdown_animation
 		return &"ko"
 	if _is_knockdown_state(&"KNOCKDOWN"):
+		if _has_visual_animation(last_knockdown_animation):
+			return last_knockdown_animation
 		return &"knockdown"
 	if _is_knockdown_state(&"GET_UP"):
 		return &"stand_up"
 	if _is_knockdown_state(&"KNOCKBACK"):
+		if _has_visual_animation(last_knockdown_animation):
+			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
 		return &"throw"
@@ -2460,6 +2487,12 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 	if knockback_x >= 240.0 or knockback_y >= 70.0:
 		return &"damage_heavy"
 	return &"damage_light"
+
+
+func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
+	var height_animation: StringName = &"knockdown_low" if attack_height == "low" else &"knockdown_high"
+	return height_animation if _has_visual_animation(height_animation) else &""
 
 
 func _has_visual_animation(animation_name: StringName) -> bool:
