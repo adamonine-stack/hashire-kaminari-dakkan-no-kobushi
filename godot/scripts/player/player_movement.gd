@@ -2462,9 +2462,16 @@ func _get_current_visual_animation() -> StringName:
 		return &"crouch_release"
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
+	var walk_input := _get_horizontal_movement_input()
+	if absf(walk_input) >= 0.1:
+		return _get_walk_animation_for_direction(walk_input)
 	if absf(velocity.x) > 0.0:
-		return &"walk_backward" if velocity.x * float(facing_direction) < 0.0 else &"walk_forward"
+		return _get_walk_animation_for_direction(velocity.x)
 	return &"idle_ready" if input_enabled else &"idle_prebattle"
+
+
+func _get_walk_animation_for_direction(direction: float) -> StringName:
+	return &"walk_backward" if direction * float(facing_direction) < 0.0 else &"walk_forward"
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
