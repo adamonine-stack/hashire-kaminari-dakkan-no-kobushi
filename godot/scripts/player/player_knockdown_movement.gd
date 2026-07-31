@@ -66,6 +66,10 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		float(final_damage),
 		int(attack_data.get("combo_hit_index", 1)) >= dev026_max_combo_hits
 	)
+	if causes_down or final_damage >= current_hp:
+		last_knockdown_animation = _get_knockdown_animation_from_attack(attack_data)
+	else:
+		last_knockdown_animation = &""
 
 	last_damage_animation = _get_damage_animation_from_attack(attack_data)
 	_enter_hit_state()
@@ -108,6 +112,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 
 
 func _complete_throw_hit() -> void:
+	last_knockdown_animation = &""
 	var attacker := pending_throw_attacker
 	var hit_position := pending_throw_hit_position
 	var damage := pending_throw_damage
@@ -240,6 +245,7 @@ func update_get_up(delta: float) -> void:
 
 
 func finish_get_up() -> void:
+	last_knockdown_animation = &""
 	knockdown_state = &""
 	knockdown_timer = 0.0
 	get_up_timer = 0.0
