@@ -374,6 +374,7 @@ func _physics_process(delta: float) -> void:
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
 	_face_opponent()
+	_prepare_walk_visual_state(direction)
 
 	if is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy():
 		direction = 0.0
@@ -2317,6 +2318,19 @@ func _get_horizontal_movement_input() -> float:
 	if not input_enabled:
 		return 0.0
 	return Input.get_axis("move_left", "move_right")
+
+
+func _prepare_walk_visual_state(direction: float) -> void:
+	if absf(direction) < 0.1 or not is_on_floor():
+		return
+	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
+		return
+	if is_crouching or is_crouch_guarding or is_guarding or is_hit or is_guard_hit or _is_throw_busy():
+		return
+	jump_landing_visual_timer = 0.0
+	if crouch_motion_state == "release":
+		crouch_motion_state = "none"
+		crouch_motion_timer = 0.0
 
 
 func _is_jump_input_just_pressed() -> bool:
