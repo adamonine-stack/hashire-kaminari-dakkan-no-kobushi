@@ -2456,15 +2456,15 @@ func _get_current_visual_animation() -> StringName:
 		return &"jump_start"
 	if is_crouching:
 		return &"crouch_idle"
+	var walk_input := _get_horizontal_movement_input()
+	if absf(walk_input) >= 0.1:
+		return _get_walk_animation_for_direction(walk_input)
 	if jump_landing_visual_timer > 0.0:
 		return &"jump_land"
 	if crouch_motion_state == "release" and crouch_motion_timer > 0.0:
 		return &"crouch_release"
 	if absf(velocity.x) > move_speed * 1.05:
 		return &"dash"
-	var walk_input := _get_horizontal_movement_input()
-	if absf(walk_input) >= 0.1:
-		return _get_walk_animation_for_direction(walk_input)
 	if absf(velocity.x) > 0.0:
 		return _get_walk_animation_for_direction(velocity.x)
 	return &"idle_ready" if input_enabled else &"idle_prebattle"
