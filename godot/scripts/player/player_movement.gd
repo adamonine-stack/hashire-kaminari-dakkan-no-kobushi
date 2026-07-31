@@ -439,7 +439,7 @@ func _start_attack(is_combo_attack := false) -> void:
 
 
 func _update_defensive_state(delta := 0.0) -> void:
-	var down_pressed := Input.is_action_pressed("down")
+	var down_pressed := _is_crouch_input_pressed()
 	var guard_pressed := Input.is_action_pressed("guard")
 	guard_motion_timer = maxf(guard_motion_timer - delta, 0.0)
 	crouch_motion_timer = maxf(crouch_motion_timer - delta, 0.0)
@@ -481,6 +481,7 @@ func _update_defensive_state(delta := 0.0) -> void:
 		if not is_crouching:
 			crouch_motion_state = "enter"
 		is_crouching = true
+		jump_landing_visual_timer = 0.0
 		velocity.x = 0.0
 	elif is_crouching:
 		is_crouching = false
@@ -2322,6 +2323,10 @@ func _is_jump_input_just_pressed() -> bool:
 	return Input.is_action_just_pressed("jump")
 
 
+func _is_crouch_input_pressed() -> bool:
+	return Input.is_action_pressed("down") or Input.is_action_pressed("crouch")
+
+
 func _prepare_jump_visual_state() -> void:
 	jump_pressed_this_airtime = true
 	jump_landing_visual_timer = 0.0
@@ -2404,10 +2409,10 @@ func _get_current_visual_animation() -> StringName:
 		return &"guard_release"
 	if not is_on_floor():
 		return &"jump_start"
-	if jump_landing_visual_timer > 0.0:
-		return &"jump_land"
 	if is_crouching:
 		return &"crouch_idle"
+	if jump_landing_visual_timer > 0.0:
+		return &"jump_land"
 	if crouch_motion_state == "release" and crouch_motion_timer > 0.0:
 		return &"crouch_release"
 	if absf(velocity.x) > move_speed * 1.05:
