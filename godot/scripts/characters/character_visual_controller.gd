@@ -138,7 +138,8 @@ func play_animation(animation_name: StringName, force := false) -> void:
 	if resolved_name == &"":
 		return
 
-	if not force and current_animation == resolved_name:
+	var sprite_animation_matches := StringName(animated_sprite.animation) == resolved_name
+	if not force and current_animation == resolved_name and sprite_animation_matches:
 		var frames := animated_sprite.sprite_frames
 		if not animated_sprite.is_playing() and frames.get_animation_loop(String(resolved_name)):
 			animated_sprite.play(String(resolved_name))
