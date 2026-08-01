@@ -79,6 +79,7 @@ var jump_kick_air_control_multiplier := 0.65
 func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
+	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
 	var is_kicking := kick_active_timer > 0.0
