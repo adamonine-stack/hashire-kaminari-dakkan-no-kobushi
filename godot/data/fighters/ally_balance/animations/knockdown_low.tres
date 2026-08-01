@@ -12,3 +12,5 @@ frame_count = 6
 fps = 8.0
 loop = false
 body_height_px = 169.0
+display_cell_size = Vector2i(288, 224)
+frame_visual_scales = PackedFloat32Array(1, 1.08, 1.2, 1.35, 1.5, 1.5)
