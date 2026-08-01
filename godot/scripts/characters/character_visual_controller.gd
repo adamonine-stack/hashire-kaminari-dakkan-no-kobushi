@@ -348,6 +348,12 @@ func _add_animation_definition_strip(
 	var foot_offset: Vector2 = animation_definition.get("foot_offset")
 	target_center_x = clampi(target_center_x + roundi(foot_offset.x), 0, cell_size.x)
 	target_bottom_y = clampi(target_bottom_y + roundi(foot_offset.y), 0, cell_size.y)
+	var display_cell_size: Vector2i = animation_definition.get("display_cell_size")
+	if display_cell_size.x <= 0 or display_cell_size.y <= 0:
+		display_cell_size = cell_size
+	var display_target_center_x := target_center_x + int(round(float(display_cell_size.x - cell_size.x) * 0.5))
+	var display_target_bottom_y := target_bottom_y + int(round(float(display_cell_size.y - cell_size.y) * 0.5))
+	var frame_visual_scales: PackedFloat32Array = animation_definition.get("frame_visual_scales")
 
 	if frames.has_animation(String(animation_name)):
 		frames.remove_animation(String(animation_name))
@@ -359,7 +365,15 @@ func _add_animation_definition_strip(
 	frames.set_animation_loop(String(animation_name), bool(animation_definition.get("loop")))
 
 	for index in range(frame_images.size()):
-		var normalized_frame := _normalize_standard_192_frame(frame_images[index], content_rects[index], target_center_x, target_bottom_y, cell_size)
+		var frame_visual_scale := frame_visual_scales[index] if index < frame_visual_scales.size() else 1.0
+		var normalized_frame := _normalize_animation_definition_frame(
+			frame_images[index],
+			content_rects[index],
+			display_target_center_x,
+			display_target_bottom_y,
+			display_cell_size,
+			frame_visual_scale
+		)
 		var frame_texture := ImageTexture.create_from_image(normalized_frame)
 		if frame_texture != null:
 			frames.add_frame(String(animation_name), frame_texture)
@@ -610,6 +624,47 @@ func _normalize_standard_192_frame(source_image: Image, content_rect: Rect2i, ta
 
 	if src_rect.size.x > 0 and src_rect.size.y > 0:
 		normalized.blit_rect(source_image, src_rect, dst_position)
+	return normalized
+
+
+func _normalize_animation_definition_frame(
+	source_image: Image,
+	content_rect: Rect2i,
+	target_center_x: int,
+	target_bottom_y: int,
+	display_cell_size: Vector2i,
+	visual_scale: float
+) -> Image:
+	var safe_scale := maxf(visual_scale, 0.01)
+	if is_equal_approx(safe_scale, 1.0) and source_image.get_size() == display_cell_size:
+		return _normalize_standard_192_frame(source_image, content_rect, target_center_x, target_bottom_y, display_cell_size)
+
+	var content_image := source_image.get_region(content_rect)
+	var scaled_size := Vector2i(
+		maxi(1, roundi(float(content_rect.size.x) * safe_scale)),
+		maxi(1, roundi(float(content_rect.size.y) * safe_scale))
+	)
+	if content_image.get_size() != scaled_size:
+		content_image.resize(scaled_size.x, scaled_size.y, Image.INTERPOLATE_BILINEAR)
+
+	var normalized := Image.create(display_cell_size.x, display_cell_size.y, false, Image.FORMAT_RGBA8)
+	normalized.fill(Color(0.0, 0.0, 0.0, 0.0))
+	var destination := Vector2i(target_center_x - int(round(float(scaled_size.x) * 0.5)), target_bottom_y - scaled_size.y)
+	var source_rect := Rect2i(Vector2i.ZERO, scaled_size)
+	if destination.x < 0:
+		source_rect.position.x = -destination.x
+		source_rect.size.x += destination.x
+		destination.x = 0
+	if destination.y < 0:
+		source_rect.position.y = -destination.y
+		source_rect.size.y += destination.y
+		destination.y = 0
+	if destination.x + source_rect.size.x > display_cell_size.x:
+		source_rect.size.x = display_cell_size.x - destination.x
+	if destination.y + source_rect.size.y > display_cell_size.y:
+		source_rect.size.y = display_cell_size.y - destination.y
+	if source_rect.size.x > 0 and source_rect.size.y > 0:
+		normalized.blit_rect(content_image, source_rect, destination)
 	return normalized
 
 

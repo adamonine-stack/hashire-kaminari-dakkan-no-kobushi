@@ -10,3 +10,5 @@ class_name FighterAnimationDefinition
 @export var reverse_frames: bool = false
 @export var body_height_px: float = 0.0
 @export var foot_offset: Vector2 = Vector2.ZERO
+@export var display_cell_size: Vector2i = Vector2i.ZERO
+@export var frame_visual_scales: PackedFloat32Array = PackedFloat32Array()
