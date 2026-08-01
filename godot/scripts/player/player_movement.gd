@@ -923,6 +923,7 @@ func _update_attack(delta: float) -> void:
 		if attack_cooldown_timer == 0.0 and current_attack_type == "Punch":
 			if combo_count > 0 and not current_attack_connected:
 				reset_combo()
+			_settle_crouch_state_after_action()
 			current_attack_type = ""
 			clear_attack_buffer()
 			close_combo_window()
@@ -944,6 +945,7 @@ func _update_kick(delta: float) -> void:
 		if kick_cooldown_timer == 0.0 and current_attack_type == "Kick":
 			if combo_count > 0 and not current_attack_connected:
 				reset_combo()
+			_settle_crouch_state_after_action()
 			current_attack_type = ""
 			clear_attack_buffer()
 			close_combo_window()
@@ -2364,6 +2366,17 @@ func _is_jump_input_just_pressed() -> bool:
 
 func _is_crouch_input_pressed() -> bool:
 	return Input.is_action_pressed("down") or Input.is_action_pressed("crouch")
+
+
+func _settle_crouch_state_after_action() -> void:
+	# A grounded crouch attack keeps is_crouching set while the action is active.
+	# If Down was released during that action, do not treat the action ending as a
+	# fresh crouch release; doing so flashes crouch_release for one frame.
+	is_crouching = _is_crouch_input_pressed() and is_on_floor()
+	if not is_crouching:
+		is_crouch_guarding = false
+	crouch_motion_state = "none"
+	crouch_motion_timer = 0.0
 
 
 func _prepare_jump_visual_state() -> void:
