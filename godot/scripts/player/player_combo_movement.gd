@@ -461,6 +461,7 @@ func finish_attack() -> void:
 	clear_attack_movement()
 	if combo_count > 0 and not dev_current_attack_connected:
 		reset_combo()
+	_settle_crouch_state_after_action()
 	current_attack_type = ""
 	current_attack_data = null
 	current_attack_id = ""
