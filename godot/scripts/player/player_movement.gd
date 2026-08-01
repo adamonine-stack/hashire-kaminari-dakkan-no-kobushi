@@ -45,6 +45,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var guard_hit_stop_time := 0.03
 @export var guard_release_time := 0.10
 @export var crouch_release_time := 0.20
+@export var crouch_guard_settle_time := 0.08
 @export_group("Stage Collision")
 @export var stage_left_limit := 0.0
 @export var stage_right_limit := 1280.0
@@ -460,6 +461,7 @@ func _update_defensive_state(delta := 0.0) -> void:
 
 	if guard_pressed:
 		var was_guarding := is_guarding
+		var was_crouch_guarding := is_crouch_guarding
 		is_guarding = true
 		is_crouch_guarding = down_pressed and is_on_floor()
 		is_crouching = false
@@ -470,19 +472,34 @@ func _update_defensive_state(delta := 0.0) -> void:
 			guard_motion_state = "enter"
 		elif guard_motion_state != "enter":
 			guard_motion_state = "hold"
+		if is_crouch_guarding and not was_crouch_guarding:
+			# A quick tap must still reach frame 2, which is the authored hold pose.
+			guard_motion_timer = maxf(guard_motion_timer, 0.10)
 		velocity.x = 0.0
 		return
 
 	if is_guarding:
+		if is_crouch_guarding and guard_motion_timer > 0.0:
+			velocity.x = 0.0
+			return
+		var released_crouch_guard := is_crouch_guarding
 		is_guarding = false
 		is_crouch_guarding = false
+		is_crouching = released_crouch_guard
 		guard_type = "none"
-		guard_motion_state = "release"
+		guard_motion_state = "crouch_release" if released_crouch_guard else "release"
 		guard_motion_timer = guard_release_time
-	elif guard_motion_state == "release" and guard_motion_timer > 0.0:
+		if released_crouch_guard:
+			crouch_motion_state = "guard_release_settle"
+			crouch_motion_timer = guard_release_time + crouch_guard_settle_time
+	elif (guard_motion_state == "release" or guard_motion_state == "crouch_release") and guard_motion_timer > 0.0:
 		return
 	else:
 		_clear_guard_state()
+	if crouch_motion_state == "guard_release_settle" and crouch_motion_timer > 0.0:
+		is_crouching = true
+		velocity.x = 0.0
+		return
 	if down_pressed and is_on_floor():
 		if not is_crouching:
 			crouch_motion_state = "enter"
@@ -2463,6 +2480,8 @@ func _get_current_visual_animation() -> StringName:
 		return &"crouch_guard"
 	if is_guarding:
 		return &"guard"
+	if guard_motion_state == "crouch_release" and guard_motion_timer > 0.0:
+		return &"crouch_guard_release"
 	if guard_motion_state == "release" and guard_motion_timer > 0.0:
 		return &"guard_release"
 	if not is_on_floor():
