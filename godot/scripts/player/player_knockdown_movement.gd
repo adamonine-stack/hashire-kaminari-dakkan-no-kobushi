@@ -184,7 +184,10 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 	if velocity.y > knockdown_vertical_force:
 		velocity.y = knockdown_vertical_force
 	set_hurtbox_enabled(false)
-	_play_state_animation(&"knockback", &"Throw")
+	if _has_visual_animation(last_knockdown_animation):
+		_play_state_animation(last_knockdown_animation, &"Throw")
+	else:
+		_play_state_animation(&"knockback", &"Throw")
 	knockdown_started.emit(self)
 
 
@@ -208,7 +211,10 @@ func enter_knockdown() -> void:
 	set_hurtbox_enabled(false)
 	close_combo_window()
 	clear_attack_buffer()
-	_play_state_animation(&"knockdown", &"Throw")
+	# The six-frame knockdown sequence starts during knockback. Do not force a
+	# second animation at ground contact or the sequence jumps back to frame 1.
+	if not _has_visual_animation(last_knockdown_animation):
+		_play_state_animation(&"knockdown", &"Throw")
 	_spawn_knockdown_impact_effect(global_position)
 	screen_shake_requested.emit(knockdown_camera_shake_strength)
 
