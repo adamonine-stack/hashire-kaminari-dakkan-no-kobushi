@@ -478,6 +478,8 @@ func finish_attack() -> void:
 	attack_cooldown_timer = 0.0
 	kick_cooldown_timer = 0.0
 	is_air_attack_active = false
+	if is_crouching:
+		_play_visual_animation(&"crouch_idle", true)
 	clear_attack_buffer()
 	close_combo_window()
 	if combo_count >= dev026_max_combo_hits:
