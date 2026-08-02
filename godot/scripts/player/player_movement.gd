@@ -2461,6 +2461,8 @@ func _get_current_visual_animation() -> StringName:
 			var configured_punch_animation := StringName(current_attack_data.animation_name)
 			if configured_punch_animation == &"jump_punch_down":
 				return &"jump_punch_down"
+			if is_on_floor() and is_crouching:
+				return &"crouch_punch"
 			if configured_punch_animation == &"punch_1" or configured_punch_animation == &"punch_2":
 				return configured_punch_animation
 		if not is_on_floor():

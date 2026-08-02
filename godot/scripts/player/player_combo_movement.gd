@@ -331,7 +331,7 @@ func _can_accept_attack_input(is_ai_request: bool) -> bool:
 
 
 func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) -> bool:
-	if current_attack_type != "" or is_guarding or is_crouching or is_crouch_guarding or is_character_special_busy():
+	if current_attack_type != "" or is_guarding or is_crouch_guarding or is_character_special_busy():
 		return false
 	if not is_ai_request and not input_enabled:
 		return false
