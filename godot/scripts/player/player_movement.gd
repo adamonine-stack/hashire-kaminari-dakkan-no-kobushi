@@ -411,7 +411,7 @@ func _physics_process(delta: float) -> void:
 	if input_enabled and _is_throw_input_pressed() and _can_start_throw():
 		_start_throw()
 	var did_cancel_attack := _try_cancel_attack_from_input()
-	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("attack") and attack_cooldown_timer <= 0.0:
+	if _can_start_punch_from_input(did_cancel_attack, is_kicking) and Input.is_action_just_pressed("attack"):
 		_start_attack()
 	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
 		_start_kick()
@@ -443,6 +443,10 @@ func _start_attack(is_combo_attack := false) -> void:
 	punch_area.position.x = facing_direction * attack_offset
 	_play_attack_animation(_get_attack_animation_name(&"Punch"))
 	_set_punch_hitbox_active(true)
+
+
+func _can_start_punch_from_input(did_cancel_attack: bool, is_kicking: bool) -> bool:
+	return input_enabled and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and attack_cooldown_timer <= 0.0
 
 
 func _update_defensive_state(delta := 0.0) -> void:
