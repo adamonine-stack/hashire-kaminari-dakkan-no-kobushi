@@ -1222,7 +1222,7 @@ func _enter_guard_hit_state() -> void:
 	is_hit = false
 	guard_hit_timer = guard_hit_time
 	guard_motion_state = "hit_stun"
-	_play_visual_animation(&"guard_hit", true)
+	_play_visual_animation(&"crouch_guard" if is_crouch_guarding else &"guard_hit", true)
 
 
 func _get_guard_damage(damage: int) -> int:
@@ -2453,7 +2453,7 @@ func _get_current_visual_animation() -> StringName:
 	if is_throw_escaping:
 		return &"getup"
 	if is_guard_hit:
-		return &"guard_hit"
+		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
 	if is_hit:
 		return last_damage_animation
 	if current_attack_type == "Punch":
