@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=39 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -38,6 +38,7 @@
 [ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_guard.tres" id="36_crouch_guard_animation"]
 [ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_guard_release.tres" id="37_crouch_guard_release_animation"]
 [ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_punch.tres" id="38_crouch_punch_animation"]
+[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_sweep_kick.tres" id="39_crouch_sweep_kick_animation"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -65,7 +66,7 @@ foot_offset = Vector2(0, 0)
 sprite_sheet_format = &"standard_192"
 sprite_frame_size = Vector2i(192, 192)
 sprite_sheet_columns = 8
-animation_definitions = Array[FighterAnimationDefinition]([ExtResource("18_punch_1_animation"), ExtResource("19_punch_2_animation"), ExtResource("20_walk_forward_animation"), ExtResource("21_walk_backward_animation"), ExtResource("22_guard_animation"), ExtResource("23_guard_hit_animation"), ExtResource("24_guard_release_animation"), ExtResource("25_crouch_animation"), ExtResource("26_crouch_release_animation"), ExtResource("27_kick_animation"), ExtResource("29_kick_2_animation"), ExtResource("30_jump_start_animation"), ExtResource("31_jump_land_animation"), ExtResource("32_damage_high_animation"), ExtResource("33_damage_low_animation"), ExtResource("34_knockdown_high_animation"), ExtResource("35_knockdown_low_animation"), ExtResource("36_crouch_guard_animation"), ExtResource("37_crouch_guard_release_animation"), ExtResource("38_crouch_punch_animation")])
+animation_definitions = Array[FighterAnimationDefinition]([ExtResource("18_punch_1_animation"), ExtResource("19_punch_2_animation"), ExtResource("20_walk_forward_animation"), ExtResource("21_walk_backward_animation"), ExtResource("22_guard_animation"), ExtResource("23_guard_hit_animation"), ExtResource("24_guard_release_animation"), ExtResource("25_crouch_animation"), ExtResource("26_crouch_release_animation"), ExtResource("27_kick_animation"), ExtResource("29_kick_2_animation"), ExtResource("30_jump_start_animation"), ExtResource("31_jump_land_animation"), ExtResource("32_damage_high_animation"), ExtResource("33_damage_low_animation"), ExtResource("34_knockdown_high_animation"), ExtResource("35_knockdown_low_animation"), ExtResource("36_crouch_guard_animation"), ExtResource("37_crouch_guard_release_animation"), ExtResource("38_crouch_punch_animation"), ExtResource("39_crouch_sweep_kick_animation")])
 sprite_animation_rows = {
 "idle": 0,
 "walk": 1,

@@ -68,6 +68,9 @@ var attack_forward_speed := 0.0
 var attack_startup_time_actual := 0.0
 var attack_active_time_actual := 0.0
 var attack_recovery_time_actual := 0.0
+var crouch_sweep_hurtbox_adjusted := false
+var crouch_sweep_hurtbox_restore_position := Vector2.ZERO
+var crouch_sweep_hurtbox_restore_size := Vector2.ZERO
 var air_kick_attack_data: Resource
 var air_punch_down_attack_data: Resource
 var crouch_kick_sweep_attack_data: Resource
@@ -407,6 +410,7 @@ func start_attack(attack_id: String) -> void:
 	current_attack_data = attack_data
 	current_attack_id = attack_id
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
+	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
 	dev_current_attack_connected = false
 	attack_startup_time_actual = float(attack_data.startup_time) * _get_attack_startup_multiplier(current_attack_type)
 	attack_active_time_actual = float(attack_data.active_time)
@@ -459,6 +463,7 @@ func finish_attack() -> void:
 	var missed := not dev_current_attack_connected
 	var whiff_chain_allowed := can_chain_on_whiff()
 	disable_attack_hitbox()
+	_restore_crouch_sweep_hurtbox()
 	clear_attack_movement()
 	if combo_count > 0 and not dev_current_attack_connected:
 		reset_combo()
@@ -588,6 +593,7 @@ func cancel_current_attack() -> void:
 
 func reset_attack_state(clear_combo_state := true) -> void:
 	disable_attack_hitbox()
+	_restore_crouch_sweep_hurtbox()
 	clear_attack_hit_targets()
 	clear_attack_movement()
 	current_attack_data = null
@@ -606,6 +612,26 @@ func reset_attack_state(clear_combo_state := true) -> void:
 	if clear_combo_state:
 		clear_attack_buffer()
 		close_combo_window()
+
+
+func _apply_crouch_sweep_hurtbox_if_needed(attack_data: Resource) -> void:
+	if attack_data == null or String(attack_data.animation_name) != "crouch_sweep_kick" or hurt_shape == null or not (hurt_shape.shape is RectangleShape2D):
+		return
+	crouch_sweep_hurtbox_restore_position = hurt_shape.position
+	crouch_sweep_hurtbox_restore_size = hurt_shape.shape.size
+	hurt_shape.shape = hurt_shape.shape.duplicate()
+	hurt_shape.position = Vector2(0.0, -39.0)
+	hurt_shape.shape.size = Vector2(86.0, 78.0)
+	crouch_sweep_hurtbox_adjusted = true
+
+
+func _restore_crouch_sweep_hurtbox() -> void:
+	if not crouch_sweep_hurtbox_adjusted or hurt_shape == null or not (hurt_shape.shape is RectangleShape2D):
+		return
+	hurt_shape.position = crouch_sweep_hurtbox_restore_position
+	hurt_shape.shape = hurt_shape.shape.duplicate()
+	hurt_shape.shape.size = crouch_sweep_hurtbox_restore_size
+	crouch_sweep_hurtbox_adjusted = false
 
 
 func request_character_special(_is_ai_request := false) -> bool:
@@ -1237,7 +1263,7 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 func _attack_animation_name(attack_data: Resource) -> StringName:
 	if attack_data != null:
 		var configured_animation := String(attack_data.animation_name)
-		if configured_animation == "jump_kick" or configured_animation == "jump_punch_down" or configured_animation == "crouch_kick_sweep":
+		if configured_animation == "jump_kick" or configured_animation == "jump_punch_down" or configured_animation == "crouch_sweep_kick" or configured_animation == "crouch_kick_sweep":
 			return StringName(configured_animation)
 	if _is_air_kick_attack_active():
 		return &"jump_kick"

@@ -2471,6 +2471,8 @@ func _get_current_visual_animation() -> StringName:
 	if current_attack_type == "Kick":
 		if current_attack_data != null:
 			var configured_kick_animation := StringName(current_attack_data.animation_name)
+			if configured_kick_animation == &"crouch_sweep_kick":
+				return &"crouch_sweep_kick"
 			if configured_kick_animation == &"crouch_kick_sweep":
 				return &"crouch_kick_sweep"
 			if configured_kick_animation == &"kick_1" or configured_kick_animation == &"kick_2":
@@ -2633,7 +2635,10 @@ func _update_pose_collision() -> void:
 
 
 func _is_crouch_attack_visual_active() -> bool:
-	return current_attack_data != null and String(current_attack_data.get("animation_name")) == "crouch_kick_sweep"
+	if current_attack_data == null:
+		return false
+	var animation_name := String(current_attack_data.get("animation_name"))
+	return animation_name == "crouch_sweep_kick" or animation_name == "crouch_kick_sweep"
 
 
 func _draw() -> void:
