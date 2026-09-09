@@ -3,9 +3,7 @@ class_name Stage1BattleManager
 
 ## Stage 1 completion slice.
 ## Keeps the existing battle systems intact while limiting the current playable
-## build to the first enemy (Crusher) and using an unlimited round timer.
-
-const STAGE_1_ENEMY_COUNT := 1
+## build to Crusher and using an unlimited round timer.
 
 
 func _process(_delta: float) -> void:
@@ -16,12 +14,37 @@ func _process(_delta: float) -> void:
 
 
 func initialize_enemy_team() -> void:
-	# Reuse the canonical definitions/validation, then expose only Stage 1.
-	super.initialize_enemy_team()
-	if enemy_team.size() > STAGE_1_ENEMY_COUNT:
-		enemy_team.resize(STAGE_1_ENEMY_COUNT)
-	if enemy_order.size() > STAGE_1_ENEMY_COUNT:
-		enemy_order.resize(STAGE_1_ENEMY_COUNT)
+	# Stage 1 must be independent from unfinished Stage 2-8 definitions.
+	# Validate and register Crusher only instead of validating the full gauntlet.
+	enemy_team.clear()
+	enemy_order.clear()
+
+	if ENEMY_DEFINITIONS.is_empty():
+		push_error("[Stage1] Crusher definition is missing.")
+		return
+
+	var definition: Resource = ENEMY_DEFINITIONS[0]
+	if definition == null:
+		push_error("[Stage1] Crusher definition is null.")
+		return
+	if definition.fighter_id != &"enemy_01_crusher":
+		push_error("[Stage1] Unexpected fighter id: %s" % definition.fighter_id)
+		return
+	if int(definition.enemy_order) != 1:
+		push_error("[Stage1] Crusher enemy_order must be 1.")
+		return
+	if definition.fighter_scene == null:
+		push_error("[Stage1] Crusher fighter scene is missing.")
+		return
+	if int(round(definition.max_health)) <= 0:
+		push_error("[Stage1] Crusher max health is invalid.")
+		return
+	if definition.ai_profile == null:
+		push_error("[Stage1] Crusher AI profile is missing.")
+		return
+
+	enemy_order.append(definition.fighter_id)
+	enemy_team.append(_create_progress_entry_from_definition(definition, 0))
 
 
 func enter_game_clear() -> void:
