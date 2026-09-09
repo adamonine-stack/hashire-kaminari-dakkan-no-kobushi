@@ -89,6 +89,7 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 @export var player_change_invincible_time := 1.5
 @export var player_defeat_display_time := 1.0
 @export var next_player_display_time := 1.0
+@export_range(0, 8, 1) var active_enemy_count_limit := 0
 @export_group("Stage Bounds")
 @export var stage_left_limit := 0.0
 @export var stage_right_limit := 1280.0
@@ -292,8 +293,9 @@ func initialize_game_progress() -> void:
 func initialize_enemy_team() -> void:
 	enemy_team.clear()
 	enemy_order.clear()
-	if not validate_enemy_definitions():
-		for index in range(8):
+	var active_enemy_count := _active_enemy_definition_count()
+	if not validate_enemy_definitions(active_enemy_count):
+		for index in range(active_enemy_count):
 			var fallback_id := StringName("enemy_%02d" % (index + 1))
 			enemy_order.append(fallback_id)
 			enemy_team.append(_create_progress_entry(
@@ -304,9 +306,15 @@ func initialize_enemy_team() -> void:
 			))
 		return
 
-	for index in range(ENEMY_DEFINITIONS.size()):
+	for index in range(active_enemy_count):
 		enemy_order.append(ENEMY_DEFINITIONS[index].fighter_id)
 		enemy_team.append(_create_progress_entry_from_definition(ENEMY_DEFINITIONS[index], index))
+
+
+func _active_enemy_definition_count() -> int:
+	if active_enemy_count_limit <= 0:
+		return ENEMY_DEFINITIONS.size()
+	return clampi(active_enemy_count_limit, 1, ENEMY_DEFINITIONS.size())
 
 
 func reset_player_roster() -> void:
@@ -327,10 +335,16 @@ func reset_player_order_data() -> void:
 	is_ordered_player_change_processing = false
 
 
-func validate_enemy_definitions() -> bool:
+func validate_enemy_definitions(required_count: int = -1) -> bool:
+	var count := ENEMY_DEFINITIONS.size() if required_count < 0 else clampi(required_count, 0, ENEMY_DEFINITIONS.size())
+	if count <= 0:
+		push_warning("No enemy definitions are enabled for this battle.")
+		return false
+
 	var seen_ids := {}
-	var expected_order := 1
-	for definition in ENEMY_DEFINITIONS:
+	for index in range(count):
+		var definition: Resource = ENEMY_DEFINITIONS[index]
+		var expected_order := index + 1
 		if definition == null:
 			push_warning("Enemy definition is missing.")
 			return false
@@ -350,8 +364,7 @@ func validate_enemy_definitions() -> bool:
 		if definition.ai_profile == null:
 			push_warning("Enemy AI profile is missing: %s" % definition.fighter_id)
 			return false
-		expected_order += 1
-	return ENEMY_DEFINITIONS.size() == 8
+	return true
 
 
 func start_initial_player_selection() -> void:
