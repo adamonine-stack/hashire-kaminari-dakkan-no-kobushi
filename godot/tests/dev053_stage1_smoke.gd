@@ -2,11 +2,18 @@ extends SceneTree
 
 
 func _initialize() -> void:
+	call_deferred("_run_stage1_smoke")
+
+
+func _run_stage1_smoke() -> void:
 	var battle_scene := load("res://scenes/Battle.tscn") as PackedScene
 	assert(battle_scene != null)
 
 	var battle := battle_scene.instantiate()
 	get_root().add_child(battle)
+	# SceneTree._initialize runs before child _ready callbacks are guaranteed to
+	# complete. Wait one frame so BattleManager has initialized teams and UI.
+	await process_frame
 
 	var manager := battle.get_node("BattleManager") as Stage1BattleManager
 	assert(manager != null)
