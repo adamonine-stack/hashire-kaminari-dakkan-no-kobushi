@@ -65,6 +65,12 @@ jobs:
       - name: Import project resources
         run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
 
+      - name: Verify Stage 1 battle slice
+        run: godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev053_stage1_smoke.gd
+
+      - name: Verify character animation contract
+        run: godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev052_visual_check.gd
+
       - name: Export Web build
         shell: bash
         run: |
