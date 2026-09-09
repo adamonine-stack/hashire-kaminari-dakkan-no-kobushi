@@ -37,7 +37,12 @@ func _run_stage1_smoke() -> void:
 	assert(manager._should_finish_game())
 	assert(manager.flow_state == BattleManager.BattleState.CLEAR)
 	assert(manager.isBattleFinished)
-	assert(manager.message_label.text == "STAGE 1 CLEAR")
+	# The legacy KO/message label is intentionally hidden by BattleManager.
+	# Verify the result UI that players actually see instead.
+	assert(manager._end_panel != null)
+	assert(manager._end_panel.visible)
+	assert(manager._end_title_label != null)
+	assert(manager._end_title_label.text == "STAGE 1 CLEAR")
 
 	print("DEV053_STAGE1_OK enemy=", manager.enemy_team[0]["fighter_id"], " round_time=", manager.roundTime)
 	quit()
