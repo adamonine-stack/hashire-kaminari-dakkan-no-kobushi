@@ -34,3 +34,4 @@ shape = SubResource("RectangleShape2D_floor")
 
 [node name="BattleManager" type="Node" parent="."]
 script = ExtResource("4_battle_manager")
+active_enemy_count_limit = 1
