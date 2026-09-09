@@ -10,8 +10,10 @@ func _initialize() -> void:
 	controller.add_child(animated)
 	controller.add_child(fallback)
 	assert(controller.setup(definition, animated, fallback))
-	assert(animated.scale.is_equal_approx(Vector2(1.75, 1.75)))
-	assert(animated.position.is_equal_approx(Vector2(0.0, -140.0)))
+	# Crusher's current 330 px battle height is rendered with the shared 1.2
+	# mobile battle multiplier (330 / 192 * 1.2 = 2.0625).
+	assert(animated.scale.is_equal_approx(Vector2(2.0625, 2.0625)))
+	assert(animated.position.is_equal_approx(Vector2(0.0, -165.0)))
 	assert(animated.offset == Vector2.ZERO)
 	assert(animated.centered)
 	assert(not animated.flip_h)
@@ -27,7 +29,7 @@ func _initialize() -> void:
 		assert(animated.animation == animation_name)
 	controller.set_facing(-1)
 	assert(animated.flip_h)
-	assert(animated.position.is_equal_approx(Vector2(0.0, -140.0)))
+	assert(animated.position.is_equal_approx(Vector2(0.0, -165.0)))
 	controller.set_facing(1)
 	assert(not animated.flip_h)
 	print("DEV052_OK scale=", animated.scale, " position=", animated.position, " offset=", animated.offset)
