@@ -316,6 +316,17 @@ func apply_character_art(definition: Resource) -> void:
 			var shadow_scale := 110.0 / shadow_width
 			base_shadow_scale = Vector2(shadow_scale, shadow_scale * 0.75)
 			shadow_sprite.scale = base_shadow_scale
+	# Keep the hurt region on the displayed body when switching fighters.
+	# The grounded collision remains unchanged so the floor contract is stable.
+	if uses_animated_character_art and hurt_shape != null:
+		var idle_texture := animated_character_sprite.sprite_frames.get_frame_texture("idle", 0)
+		var body_rect: Rect2i = character_visual_controller._get_visible_content_rect(idle_texture.get_image())
+		var body_height: float = float(body_rect.size.y) * character_visual_controller.base_visual_scale.y
+		var hurt_height := maxf(115.0, body_height * 0.88)
+		hurt_shape.shape = RectangleShape2D.new()
+		hurt_shape.shape.size = Vector2(86.0, hurt_height)
+		hurt_box.position = Vector2(0, -hurt_height * 0.5)
+		_capture_default_collision_pose()
 
 
 func _setup_character_layering() -> void:
@@ -1138,6 +1149,13 @@ func _get_kick_attack_data() -> Dictionary:
 
 
 func _get_hit_position(target: Node) -> Vector2:
+	# Contact belongs to the attacking area, not the midpoint between the feet.
+	var area := kick_area if current_attack_type == "Kick" else punch_area
+	if area != null and target is Node2D:
+		var target_hurt := target.get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+		if target_hurt != null and target_hurt.shape is RectangleShape2D:
+			var half_size := (target_hurt.shape as RectangleShape2D).size * 0.5
+			return area.global_position.clamp(target_hurt.global_position - half_size, target_hurt.global_position + half_size)
 	if target is Node2D:
 		return (global_position + target.global_position) * 0.5
 	return global_position
@@ -1659,6 +1677,8 @@ func _get_defender_hitstop_duration_from_data(attack_data: Dictionary) -> float:
 
 
 func _update_hit_stop(delta: float) -> bool:
+	if animated_character_sprite != null:
+		animated_character_sprite.speed_scale = 0.0 if hit_stop_timer > delta else 1.0
 	if hit_stop_timer <= 0.0:
 		return false
 
@@ -2258,6 +2278,10 @@ func _start_ko_slow_motion() -> void:
 
 
 func _exit_tree() -> void:
+	for audio_player in [weak_hit_se, strong_hit_se, guard_hit_se, throw_se, throw_escape_se, ko_hit_se, special_hit_se]:
+		if is_instance_valid(audio_player):
+			audio_player.stop()
+			audio_player.stream = null
 	if ko_slow_motion_active:
 		Engine.time_scale = 1.0
 		ko_slow_motion_active = false
@@ -2493,6 +2517,8 @@ func _get_current_visual_animation() -> StringName:
 	if guard_motion_state == "release" and guard_motion_timer > 0.0:
 		return &"guard_release"
 	if not is_on_floor():
+		if uses_animated_character_art and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_01_akky" and velocity.y >= -80.0:
+			return &"jump_fall"
 		return &"jump_start"
 	if is_crouching:
 		return &"crouch_idle"

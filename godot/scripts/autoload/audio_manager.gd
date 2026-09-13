@@ -119,3 +119,15 @@ func _linear_to_db(value: float) -> float:
 	if value <= 0.001:
 		return -80.0
 	return linear_to_db(value)
+
+
+func _exit_tree() -> void:
+	# Release playing generated WAVs before the audio server is torn down.
+	for player in se_players:
+		if is_instance_valid(player):
+			player.stop()
+			player.stream = null
+	if is_instance_valid(bgm_player):
+		bgm_player.stop()
+		bgm_player.stream = null
+	generated_streams.clear()

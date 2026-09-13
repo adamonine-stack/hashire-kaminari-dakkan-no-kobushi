@@ -66,9 +66,11 @@ var battle_visual_scale_multiplier := 1.2
 var missing_animation_warnings := {}
 var base_visual_scale := Vector2.ONE
 var base_visual_position := Vector2.ZERO
+var grounded_clip_offsets: Dictionary = {}
 
 
 func setup(character_data: Resource, animated_node: AnimatedSprite2D, fallback_node: Sprite2D) -> bool:
+	grounded_clip_offsets.clear()
 	definition = character_data
 	animated_sprite = animated_node
 	fallback_sprite = fallback_node
@@ -148,6 +150,8 @@ func play_animation(animation_name: StringName, force := false) -> void:
 	current_animation = resolved_name
 	_apply_animation_visual_transform(resolved_name)
 	animated_sprite.play(String(resolved_name))
+	if force:
+		animated_sprite.set_frame_and_progress(0, 0.0)
 
 
 func _apply_animation_visual_transform(animation_name: StringName) -> void:
@@ -161,6 +165,12 @@ func _apply_animation_visual_transform(animation_name: StringName) -> void:
 	# Scaling around the sprite center would move the boots. Scale the grounded
 	# vertical offset by the same amount so the contact point stays unchanged.
 	animated_sprite.position = Vector2(base_visual_position.x, base_visual_position.y * scale_multiplier.y)
+	if _fighter_id() == "player_01_akky":
+		if not grounded_clip_offsets.has(animation_name):
+			var texture := animated_sprite.sprite_frames.get_frame_texture(animation_name, 0)
+			var rect := _get_visible_content_rect(texture.get_image())
+			grounded_clip_offsets[animation_name] = float(rect.end.y) - float(texture.get_height()) * 0.5
+		animated_sprite.position.y = -float(grounded_clip_offsets[animation_name]) * animated_sprite.scale.y
 
 
 func set_facing(direction: int) -> void:
@@ -234,6 +244,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 			_add_animation_definition_strips(frames, character_data)
 			_add_idle_pose_overrides(frames, character_data)
 			_add_required_aliases(frames)
+			_add_akky_air_phases(frames)
 			return frames
 		push_warning("[SpriteSheet] Invalid standard_192 sheet: character=%s" % _fighter_id())
 		return frames
@@ -246,6 +257,25 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	_add_animation_definition_strips(frames, character_data)
 	_add_required_aliases(frames)
 	return frames
+
+
+func _add_akky_air_phases(frames: SpriteFrames) -> void:
+	if _fighter_id() != "player_01_akky" or not frames.has_animation("jump_land"):
+		return
+	# The first two landing-strip poses are airborne descent, not floor contact.
+	var descent: Array[Texture2D] = []
+	for index in range(2):
+		descent.append(frames.get_frame_texture("jump_land", index))
+	if frames.has_animation("jump_fall"):
+		frames.remove_animation("jump_fall")
+	frames.add_animation("jump_fall")
+	frames.set_animation_loop("jump_fall", false)
+	frames.set_animation_speed("jump_fall", 8.0)
+	for texture in descent:
+		frames.add_frame("jump_fall", texture)
+	frames.remove_frame("jump_land", 0)
+	frames.remove_frame("jump_land", 0)
+	frames.set_animation_speed("jump_land", 8.0)
 
 
 func _add_idle_pose_overrides(frames: SpriteFrames, character_data: Resource) -> void:

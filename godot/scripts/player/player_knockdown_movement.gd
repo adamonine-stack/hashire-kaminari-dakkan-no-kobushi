@@ -30,10 +30,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if _update_hit_stop(delta):
-		return
-
 	if _is_knockdown_busy():
+		if _update_hit_stop(delta):
+			return
 		_update_knockdown_flow(delta)
 		_update_visual_state()
 		move_and_slide()
@@ -391,8 +390,10 @@ func _play_state_animation(animation_name: StringName, fallback_name: StringName
 
 func _spawn_knockdown_impact_effect(effect_position: Vector2) -> void:
 	var effect_root := Node2D.new()
-	effect_root.global_position = effect_position
 	effect_root.name = "KnockdownImpactEffect"
+	effect_root.z_index = 20
+	_get_character_effect_parent().add_child(effect_root)
+	effect_root.global_position = effect_position
 
 	var dust := Polygon2D.new()
 	dust.color = Color(0.75, 0.72, 0.62, 0.65)
@@ -405,7 +406,6 @@ func _spawn_knockdown_impact_effect(effect_position: Vector2) -> void:
 		Vector2(-18, 7),
 	])
 	effect_root.add_child(dust)
-	get_tree().current_scene.add_child(effect_root)
 
 	var tween := effect_root.create_tween()
 	tween.tween_property(effect_root, "scale", Vector2(1.45, 1.25), 0.16)
