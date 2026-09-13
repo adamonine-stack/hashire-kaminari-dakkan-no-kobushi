@@ -43,6 +43,12 @@ func _run_stage1_smoke() -> void:
 	assert(manager._end_panel.visible)
 	assert(manager._end_title_label != null)
 	assert(manager._end_title_label.text == "STAGE 1 CLEAR")
+	assert(not manager.battle_hud.result_panel.visible)
 
 	print("DEV053_STAGE1_OK enemy=", manager.enemy_team[0]["fighter_id"], " round_time=", manager.roundTime)
+	manager.cleanup_battle_before_transition()
+	get_root().get_node("AudioManager").stop_bgm()
+	battle.queue_free()
+	await process_frame
+	await create_timer(0.25).timeout
 	quit()

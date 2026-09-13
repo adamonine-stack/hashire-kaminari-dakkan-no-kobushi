@@ -168,6 +168,34 @@ func _update_air_movement(direction: float, delta: float) -> void:
 	velocity.x = move_toward(velocity.x, 0.0, air_brake_acceleration * delta)
 
 
+func _sync_attack_visual_phase() -> void:
+	# These reviewed clips have an explicit contact pose. Drive them from the
+	# combat clock so hitstop and fighter speed modifiers cannot desynchronize it.
+	if current_attack_data == null or animated_character_sprite == null:
+		return
+	var contact_frames := {"player1_punch_1": Vector2i(2, 2), "player1_punch_2": Vector2i(2, 2), "player1_kick_finish": Vector2i(2, 3)}
+	if not contact_frames.has(current_attack_id) or is_crouching:
+		return
+	var contact: Vector2i = contact_frames[current_attack_id]
+	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)
+	var first := 0
+	var last := contact.x - 1
+	var duration := attack_startup_time_actual
+	if attack_phase == AttackPhase.ACTIVE:
+		first = contact.x
+		last = contact.y
+		duration = attack_active_time_actual
+	elif attack_phase == AttackPhase.RECOVERY:
+		first = contact.y + 1
+		last = count - 1
+		duration = attack_recovery_time_actual
+	var progress := clampf(1.0 - attack_phase_timer / maxf(duration, 0.001), 0.0, 0.9999)
+	animated_character_sprite.pause()
+	animated_character_sprite.set_frame_and_progress(clampi(first + int(progress * (last - first + 1)), 0, count - 1), 0.0)
+	if current_attack_id == "player1_kick_finish" and attack_phase == AttackPhase.ACTIVE:
+		kick_area.position.y = (-90.0 if animated_character_sprite.frame == 2 else -140.0) * battle_visual_scale_multiplier
+
+
 func _dev_start_attack() -> void:
 	request_attack_input(&"Punch", true)
 
@@ -514,6 +542,8 @@ func apply_attack_hitbox_data(data: Resource) -> void:
 	var target_shape := kick_shape if String(data.attack_type).to_lower() == "kick" else punch_shape
 	var scale_multiplier := battle_visual_scale_multiplier
 	target_area.position = Vector2(float(data.hitbox_offset.x) * scale_multiplier * facing_direction, float(data.hitbox_offset.y) * scale_multiplier)
+	if is_crouching and String(data.attack_type).to_lower() == "punch":
+		target_area.position.y = -65.0 * scale_multiplier
 	if target_shape != null:
 		if target_shape.shape == null or not (target_shape.shape is RectangleShape2D):
 			target_shape.shape = RectangleShape2D.new()
@@ -1122,7 +1152,7 @@ func _ensure_fallback_attack_data(attack_type: String) -> String:
 	fallback_data.knockback = Vector2(kick_knockback_x, -kick_knockback_y) if normalized_type == "kick" else Vector2(punch_knockback_x, -punch_knockback_y)
 	fallback_data.hitstop_time = 0.08 if normalized_type == "kick" else 0.05
 	fallback_data.hitstun_time = 0.28 if normalized_type == "kick" else 0.18
-	fallback_data.next_attack_ids = []
+	fallback_data.next_attack_ids.clear()
 	fallback_data.animation_name = "Kick" if normalized_type == "kick" else "Punch"
 	attack_data_by_id[fallback_id] = fallback_data
 	return fallback_id
@@ -1159,7 +1189,7 @@ func _ensure_air_kick_attack_data() -> String:
 	fallback_data.hitstun_time = 0.30
 	fallback_data.guard_hit_time = 0.22
 	fallback_data.guard_knockback = Vector2(95.0, 0.0)
-	fallback_data.next_attack_ids = []
+	fallback_data.next_attack_ids.clear()
 	fallback_data.can_cancel_on_hit = false
 	fallback_data.can_cancel_on_whiff = false
 	fallback_data.animation_name = "jump_kick"
@@ -1200,7 +1230,7 @@ func _ensure_air_punch_down_attack_data() -> String:
 	fallback_data.guard_hit_time = 0.18
 	fallback_data.guard_knockback = Vector2(70.0, 0.0)
 	fallback_data.attack_height = "middle"
-	fallback_data.next_attack_ids = []
+	fallback_data.next_attack_ids.clear()
 	fallback_data.can_cancel_on_hit = false
 	fallback_data.can_cancel_on_whiff = false
 	fallback_data.animation_name = "jump_punch_down"
@@ -1241,7 +1271,7 @@ func _ensure_crouch_kick_sweep_attack_data() -> String:
 	fallback_data.guard_hit_time = 0.18
 	fallback_data.guard_knockback = Vector2(75.0, 0.0)
 	fallback_data.attack_height = "low"
-	fallback_data.next_attack_ids = []
+	fallback_data.next_attack_ids.clear()
 	fallback_data.can_cancel_on_hit = false
 	fallback_data.can_cancel_on_whiff = false
 	fallback_data.animation_name = "crouch_kick_sweep"
@@ -1357,6 +1387,7 @@ func _target_debug_name(target: Node) -> String:
 
 func _update_visual_state() -> void:
 	super._update_visual_state()
+	_sync_attack_visual_phase()
 	if not debug_state_label_enabled:
 		return
 	if combo_count == 0 and not dev_combo_window_open and dev_buffered_attack == &"":

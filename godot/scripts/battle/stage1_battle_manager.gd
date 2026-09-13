@@ -6,6 +6,18 @@ class_name Stage1BattleManager
 ## Battle.tscn. This script keeps Stage 1's unlimited timer and clear presentation.
 
 
+func _ready() -> void:
+	super._ready()
+	# The Stage 1 flow owns its result panel. The generic HUD otherwise opens a
+	# second, eight-enemy result on top and steals the restart button's focus.
+	if battle_hud != null:
+		for binding in [["game_cleared", "show_game_clear"], ["game_over", "show_game_over"]]:
+			var callback := Callable(battle_hud, binding[1])
+			if is_connected(binding[0], callback):
+				disconnect(binding[0], callback)
+		battle_hud.hide_result_layer()
+
+
 func _process(_delta: float) -> void:
 	# The game design uses an unlimited timer. Keep pause/debug polling from the
 	# base manager, but deliberately skip BattleManager's countdown/time-up path.
