@@ -32,5 +32,22 @@ func _initialize() -> void:
 	assert(animated.position.is_equal_approx(Vector2(0.0, -165.0)))
 	controller.set_facing(1)
 	assert(not animated.flip_h)
+
+	# Akky's Walk is intentionally an eight-frame authored cycle. Keep both
+	# directions on the same source cycle so forward/backward cannot silently
+	# regress to the older five-frame strip.
+	var akky_definition := load("res://data/fighters/ally_balance.tres")
+	var akky_controller := CharacterVisualController.new()
+	var akky_animated := AnimatedSprite2D.new()
+	var akky_fallback := Sprite2D.new()
+	get_root().add_child(akky_controller)
+	akky_controller.add_child(akky_animated)
+	akky_controller.add_child(akky_fallback)
+	assert(akky_controller.setup(akky_definition, akky_animated, akky_fallback))
+	for walk_animation in [&"walk_forward", &"walk_backward"]:
+		assert(akky_controller.has_animation(walk_animation))
+		assert(akky_animated.sprite_frames.get_frame_count(walk_animation) == 8)
+	assert(akky_controller.has_animation(&"ko"))
+	assert(akky_animated.sprite_frames.get_frame_count(&"ko") == 6)
 	print("DEV052_OK scale=", animated.scale, " position=", animated.position, " offset=", animated.offset)
 	quit()
