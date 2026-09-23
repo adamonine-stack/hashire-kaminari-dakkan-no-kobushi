@@ -1,6 +1,12 @@
 name: Validate Akky motion PR
 
 on:
+  push:
+    branches:
+      - agent/akky-motion-redesign-20260923
+    paths:
+      - "godot/**"
+      - ".github/workflows/validate-akky-motion-pr.yml"
   pull_request:
     branches:
       - main
