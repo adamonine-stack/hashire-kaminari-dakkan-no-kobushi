@@ -38,6 +38,7 @@ jobs:
           GODOT_FILE="Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip"
           BASE_URL="https://github.com/godotengine/godot/releases/download/${GODOT_TAG}"
           curl --fail --location --retry 3 --output godot.zip "${BASE_URL}/${GODOT_FILE}"
+          mkdir -p "$HOME/.local/bin"
           unzip -q godot.zip -d "$HOME/.local/bin"
           GODOT_BINARY="$HOME/.local/bin/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64"
           chmod +x "$GODOT_BINARY"
