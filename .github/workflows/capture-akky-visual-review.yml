@@ -1,0 +1,60 @@
+name: Capture Akky visual review
+
+on:
+  push:
+    branches:
+      - agent/akky-motion-redesign-20260923
+    paths:
+      - ".github/workflows/capture-akky-visual-review.yml"
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: "4.7"
+  GODOT_STATUS: "stable"
+  GODOT_PROJECT_DIR: "godot"
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install display packages
+        run: sudo apt-get update && sudo apt-get install -y unzip xvfb
+
+      - name: Install Godot 4.7
+        shell: bash
+        run: |
+          set -euo pipefail
+          GODOT_TAG="${GODOT_VERSION}-${GODOT_STATUS}"
+          GODOT_FILE="Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip"
+          BASE_URL="https://github.com/godotengine/godot/releases/download/${GODOT_TAG}"
+          curl --fail --location --retry 3 --output godot.zip "${BASE_URL}/${GODOT_FILE}"
+          mkdir -p "$HOME/.local/bin"
+          unzip -q godot.zip -d "$HOME/.local/bin"
+          GODOT_BINARY="$HOME/.local/bin/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64"
+          chmod +x "$GODOT_BINARY"
+          ln -sf "$GODOT_BINARY" "$HOME/.local/bin/godot"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Import project resources
+        run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
+
+      - name: Capture rendered motion review
+        shell: bash
+        run: |
+          set -o pipefail
+          xvfb-run -a godot --path "$GODOT_PROJECT_DIR" --script res://tests/stage1_visual_review.gd 2>&1 | tee /tmp/visual-review.log
+          grep -q "STAGE1_VISUAL_EXPORT_OK" /tmp/visual-review.log
+          test -d audit_evidence
+          find audit_evidence -type f -name "*.png" | grep -q .
+
+      - name: Upload rendered frames
+        uses: actions/upload-artifact@v4
+        with:
+          name: akky-visual-review
+          path: audit_evidence
+          if-no-files-found: error
