@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=45 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
+[ext_resource type="Resource" path="res://assets/characters/player01/animations/akky_v3/motion_atlas.tres" id="45_motion_atlas"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
 [ext_resource type="Resource" path="res://data/attacks/player1_punch_1.tres" id="3_punch_1"]
 [ext_resource type="Resource" path="res://data/attacks/player1_punch_2.tres" id="4_punch_2"]
@@ -9,41 +10,12 @@
 [ext_resource type="Texture2D" path="res://assets/characters/player01/portrait.png" id="7_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/player01/icon.png" id="8_icon"]
 [ext_resource type="Texture2D" path="res://assets/characters/player01/battle.png" id="9_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/player01/sprite_sheet.png" id="10_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/player01/shadow.png" id="11_shadow"]
 [ext_resource type="Texture2D" path="res://assets/characters/player01/selection_portrait.png" id="12_selection_portrait"]
 [ext_resource type="Resource" path="res://data/attacks/player1_jump_kick.tres" id="13_jump_kick"]
 [ext_resource type="Resource" path="res://data/attacks/player1_jump_punch_down.tres" id="14_jump_punch_down"]
 [ext_resource type="Resource" path="res://data/attacks/player1_crouch_kick_sweep.tres" id="15_crouch_kick_sweep"]
-[ext_resource type="Texture2D" path="res://assets/characters/player01/akky_idle_pose.png" id="16_idle_pose"]
-[ext_resource type="Texture2D" path="res://assets/characters/player01/akky_prebattle_pose.png" id="17_prebattle_pose"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/punch_1.tres" id="18_punch_1_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/punch_2.tres" id="19_punch_2_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/walk_forward.tres" id="20_walk_forward_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/walk_backward.tres" id="21_walk_backward_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/guard.tres" id="22_guard_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/guard_hit.tres" id="23_guard_hit_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/guard_release.tres" id="24_guard_release_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_idle.tres" id="25_crouch_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_release.tres" id="26_crouch_release_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/kick_1.tres" id="27_kick_animation"]
 [ext_resource type="Resource" path="res://data/attacks/player1_kick_2.tres" id="28_kick_2"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/kick_2.tres" id="29_kick_2_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/jump_start.tres" id="30_jump_start_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/jump_land.tres" id="31_jump_land_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/damage_high.tres" id="32_damage_high_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/damage_low.tres" id="33_damage_low_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/knockdown_high.tres" id="34_knockdown_high_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/knockdown_low.tres" id="35_knockdown_low_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_guard.tres" id="36_crouch_guard_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_guard_release.tres" id="37_crouch_guard_release_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_punch.tres" id="38_crouch_punch_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/crouch_sweep_kick.tres" id="39_crouch_sweep_kick_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/ko.tres" id="40_ko_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/idle_v2.tres" id="41_idle_v2_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/dash_v2.tres" id="42_dash_v2_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/jump_kick_v2.tres" id="43_jump_kick_v2_animation"]
-[ext_resource type="Resource" path="res://data/fighters/ally_balance/animations/jump_punch_down_v2.tres" id="44_jump_punch_down_v2_animation"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -56,114 +28,22 @@ selection_icon = ExtResource("8_icon")
 portrait = ExtResource("7_portrait")
 battle_texture = ExtResource("9_battle")
 icon = ExtResource("8_icon")
-sprite_sheet = ExtResource("10_sheet")
+motion_atlas = ExtResource("45_motion_atlas")
 shadow_texture = ExtResource("11_shadow")
-idle_pose_texture = ExtResource("16_idle_pose")
-prebattle_pose_texture = ExtResource("17_prebattle_pose")
-prebattle_visual_scale = Vector2(1.17, 1.07)
+prebattle_visual_scale = Vector2(1, 1)
 art_folder = "res://assets/characters/player01/"
 battle_sprite_height = 174.78516
 battle_sprite_offset = Vector2(0, 0)
 character_height_cm = 175.0
 visual_scale_adjustment = 1.05
-sprite_body_height_px = 172.1
+sprite_body_height_px = 172.0
 foot_offset = Vector2(0, 0)
-sprite_sheet_format = &"standard_192"
-sprite_frame_size = Vector2i(192, 192)
-sprite_sheet_columns = 8
-animation_definitions = Array[FighterAnimationDefinition]([ExtResource("41_idle_v2_animation"), ExtResource("42_dash_v2_animation"), ExtResource("43_jump_kick_v2_animation"), ExtResource("44_jump_punch_down_v2_animation"), ExtResource("18_punch_1_animation"), ExtResource("19_punch_2_animation"), ExtResource("20_walk_forward_animation"), ExtResource("21_walk_backward_animation"), ExtResource("22_guard_animation"), ExtResource("23_guard_hit_animation"), ExtResource("24_guard_release_animation"), ExtResource("25_crouch_animation"), ExtResource("26_crouch_release_animation"), ExtResource("27_kick_animation"), ExtResource("29_kick_2_animation"), ExtResource("30_jump_start_animation"), ExtResource("31_jump_land_animation"), ExtResource("32_damage_high_animation"), ExtResource("33_damage_low_animation"), ExtResource("34_knockdown_high_animation"), ExtResource("35_knockdown_low_animation"), ExtResource("36_crouch_guard_animation"), ExtResource("37_crouch_guard_release_animation"), ExtResource("38_crouch_punch_animation"), ExtResource("39_crouch_sweep_kick_animation"), ExtResource("40_ko_animation")])
-sprite_animation_rows = {
-"idle": 0,
-"walk": 1,
-"dash": 2,
-"jump": 3,
-"jump_start": 3,
-"jump_air": 3,
-"jump_land": 3,
-"jump_kick": 16,
-"fall": 3,
-"land": 3,
-"punch": 5,
-"kick": 6,
-"guard": 7,
-"crouch_guard": 17,
-"guard_hit": 8,
-"damage_light": 9,
-"damage_heavy": 10,
-"knockback": 11,
-"knockdown": 12,
-"down": 13,
-"stand_up": 14,
-"ko": 15,
-"jump_punch_down": 18,
-"crouch_kick_sweep": 19
-}
-sprite_animation_frame_counts = {
-"idle": 8,
-"walk": 8,
-"dash": 8,
-"jump": 8,
-"jump_start": 8,
-"jump_air": 8,
-"jump_land": 8,
-"jump_kick": 8,
-"fall": 8,
-"land": 8,
-"punch": 8,
-"kick": 8,
-"guard": 4,
-"crouch_guard": 8,
-"guard_hit": 3,
-"damage_light": 4,
-"damage_heavy": 6,
-"knockback": 6,
-"knockdown": 6,
-"down": 2,
-"stand_up": 6,
-"ko": 8,
-"jump_punch_down": 8,
-"crouch_kick_sweep": 8
-}
-sprite_animation_speeds = {
-"idle": 8.0,
-"walk": 16.0,
-"dash": 14.0,
-"jump": 16.0,
-"jump_start": 16.0,
-"jump_air": 16.0,
-"jump_land": 16.0,
-"jump_kick": 18.0,
-"fall": 16.0,
-"land": 16.0,
-"punch": 24.0,
-"kick": 20.0,
-"guard": 12.0,
-"crouch_guard": 12.0,
-"guard_hit": 14.0,
-"damage_light": 12.0,
-"damage_heavy": 10.0,
-"knockback": 10.0,
-"knockdown": 10.0,
-"down": 2.0,
-"stand_up": 10.0,
-"ko": 8.0,
-"jump_punch_down": 20.0,
-"crouch_kick_sweep": 18.0
-}
-sprite_animation_bottom_offsets = {
-"crouch_guard": 11,
-"crouch_kick_sweep": 11
-}
-sprite_animation_clips = {
-"guard": {
-"row": 7,
-"start": 3,
-"count": 3
-}
-}
+sprite_sheet_format = &"authored_atlas"
+sprite_frame_size = Vector2i(320, 224)
+sprite_sheet_columns = 4
 sprite_frame_origin = Vector2(0, 0)
-sprite_frame_step = Vector2(192, 192)
-sprite_row_height = 192.0
+sprite_frame_step = Vector2(320, 224)
+sprite_row_height = 224.0
 sprite_max_frames_per_animation = 8
 sprite_cleanup_background = false
 fighter_type = &"balance"
