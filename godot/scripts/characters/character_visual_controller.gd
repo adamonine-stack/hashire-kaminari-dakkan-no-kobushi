@@ -165,7 +165,7 @@ func _apply_animation_visual_transform(animation_name: StringName) -> void:
 	# Scaling around the sprite center would move the boots. Scale the grounded
 	# vertical offset by the same amount so the contact point stays unchanged.
 	animated_sprite.position = Vector2(base_visual_position.x, base_visual_position.y * scale_multiplier.y)
-	if _fighter_id() == "player_01_akky":
+	if _fighter_id() == "player_01_akky" and definition.get("motion_atlas") == null:
 		if not grounded_clip_offsets.has(animation_name):
 			var texture := animated_sprite.sprite_frames.get_frame_texture(animation_name, 0)
 			var rect := _get_visible_content_rect(texture.get_image())
@@ -226,12 +226,19 @@ func has_animation(animation_name: StringName) -> bool:
 func get_debug_source() -> String:
 	if fallback_active:
 		return "battle.png"
+	if definition != null and definition.get("motion_atlas") != null:
+		return "motion_atlas"
 	return "animation_definitions" if _has_animation_definitions(definition) else "sprite_sheet"
 
 
 func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> SpriteFrames:
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
+	var motion_atlas: Resource = character_data.get("motion_atlas")
+	if motion_atlas != null:
+		# A complete atlas is authoritative: no legacy sheet, static idle override,
+		# content centering, phase extraction or per-pose scaling may modify it.
+		return _build_authored_motion_atlas(motion_atlas)
 
 	if sprite_sheet == null:
 		_add_animation_definition_strips(frames, character_data)
@@ -256,6 +263,36 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		_add_player_animations(frames, sprite_sheet, character_data)
 	_add_animation_definition_strips(frames, character_data)
 	_add_required_aliases(frames)
+	return frames
+
+
+func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	var texture: Texture2D = atlas.get("texture")
+	var cell: Vector2i = atlas.get("cell_size")
+	var columns := int(atlas.get("columns"))
+	var clips: Dictionary = atlas.get("clips")
+	if texture == null or cell.x <= 0 or cell.y <= 0 or columns <= 0:
+		push_error("Invalid authored motion atlas: %s" % _fighter_id())
+		return frames
+	for key in clips:
+		var clip: Dictionary = clips[key]
+		var name := String(key)
+		frames.add_animation(name)
+		frames.set_animation_speed(name, float(clip.get("fps", 12.0)))
+		frames.set_animation_loop(name, bool(clip.get("loop", false)))
+		for index in clip.get("frames", []):
+			var number := int(index)
+			var region := Rect2i((number % columns) * cell.x, int(number / columns) * cell.y, cell.x, cell.y)
+			if number < 0 or region.end.x > texture.get_width() or region.end.y > texture.get_height():
+				push_error("Motion atlas frame out of bounds: %s/%s/%d" % [_fighter_id(), name, number])
+				continue
+			var frame := AtlasTexture.new()
+			frame.atlas = texture
+			frame.region = Rect2(region)
+			frame.filter_clip = true
+			frames.add_frame(name, frame)
 	return frames
 
 
