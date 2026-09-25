@@ -38,6 +38,13 @@ jobs:
       - name: Parse and import project
         run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
 
+      - name: Audio runtime smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev_audio_smoke.gd 2>&1 | tee /tmp/audio.log || true
+          grep -q "DEV_AUDIO_OK" /tmp/audio.log
+
       - name: Stage 1 smoke
         shell: bash
         run: |
