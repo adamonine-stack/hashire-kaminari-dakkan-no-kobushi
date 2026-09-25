@@ -104,7 +104,8 @@ func play_se(se_id: String) -> void:
 	se_cursor = (se_cursor + 1) % se_players.size()
 	player.stop()
 	player.stream = _stream_for_id(se_id, false)
-	player.volume_db = _linear_to_db(se_volume)
+	player.pitch_scale = 1.0
+	player.volume_db = _linear_to_db(se_volume) + _se_gain_db(se_id)
 	player.play()
 	if se_id == "hit_ko":
 		_duck_bgm(0.18, 0.34)
