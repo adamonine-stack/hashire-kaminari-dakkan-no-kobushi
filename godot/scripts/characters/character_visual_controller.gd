@@ -276,8 +276,16 @@ func _resolve_motion_atlas_texture(atlas: Resource) -> Texture2D:
 	var direct_texture: Texture2D = atlas.get("texture")
 	if direct_texture != null:
 		return direct_texture
-	var chunks: Array = atlas.get("embedded_texture_chunks")
+	var chunks: Array = []
+	for index in range(8):
+		var explicit_chunk: Resource = atlas.get("embedded_texture_chunk_%d" % index)
+		if explicit_chunk != null:
+			chunks.append(explicit_chunk)
 	if chunks.is_empty():
+		var configured_chunks: Array = atlas.get("embedded_texture_chunks")
+		chunks.append_array(configured_chunks)
+	if chunks.is_empty():
+		push_error("Embedded motion texture chunks missing: %s" % _fighter_id())
 		return null
 	var encoded := ""
 	for chunk in chunks:

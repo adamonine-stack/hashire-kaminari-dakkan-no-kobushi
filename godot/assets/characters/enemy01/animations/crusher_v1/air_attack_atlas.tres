@@ -13,7 +13,14 @@
 [resource]
 script = ExtResource("1")
 embedded_texture_format = &"webp"
-embedded_texture_chunks = Array[Resource]([ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8"), ExtResource("9")])
+embedded_texture_chunk_0 = ExtResource("2")
+embedded_texture_chunk_1 = ExtResource("3")
+embedded_texture_chunk_2 = ExtResource("4")
+embedded_texture_chunk_3 = ExtResource("5")
+embedded_texture_chunk_4 = ExtResource("6")
+embedded_texture_chunk_5 = ExtResource("7")
+embedded_texture_chunk_6 = ExtResource("8")
+embedded_texture_chunk_7 = ExtResource("9")
 cell_size = Vector2i(400, 280)
 columns = 4
 clips = {
