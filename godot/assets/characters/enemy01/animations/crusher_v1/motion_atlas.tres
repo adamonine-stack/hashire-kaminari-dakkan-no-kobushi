@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(400, 280)
+columns = 4
+clips = {
+"idle": {"frames": [0], "fps": 5.0, "loop": true},
+"idle_ready": {"frames": [0], "fps": 5.0, "loop": true},
+"walk": {"frames": [1, 2, 3, 4], "fps": 8.0, "loop": true},
+"walk_forward": {"frames": [1, 2, 3, 4], "fps": 8.0, "loop": true},
+"walk_backward": {"frames": [4, 3, 2, 1], "fps": 8.0, "loop": true},
+"dash": {"frames": [7, 8], "fps": 10.0, "loop": true},
+"jump_start": {"frames": [9, 10], "fps": 8.0, "loop": false},
+"jump_air": {"frames": [10], "fps": 8.0, "loop": false},
+"jump_fall": {"frames": [11], "fps": 8.0, "loop": false},
+"jump_land": {"frames": [12, 0], "fps": 8.0, "loop": false},
+"jump": {"frames": [9, 10, 11], "fps": 8.0, "loop": false},
+"fall": {"frames": [11], "fps": 8.0, "loop": false},
+"land": {"frames": [12, 0], "fps": 8.0, "loop": false},
+"punch_1": {"frames": [0, 13, 0], "fps": 12.0, "loop": false},
+"punch_2": {"frames": [5, 6, 5, 0], "fps": 12.0, "loop": false},
+"punch": {"frames": [0, 13, 0], "fps": 12.0, "loop": false},
+"kick_1": {"frames": [0, 14, 0], "fps": 10.0, "loop": false},
+"kick_2": {"frames": [0, 14, 0], "fps": 10.0, "loop": false},
+"kick": {"frames": [0, 14, 0], "fps": 10.0, "loop": false},
+"guard": {"frames": [15], "fps": 5.0, "loop": true},
+"crouch_guard": {"frames": [16], "fps": 5.0, "loop": true},
+"crouch": {"frames": [16], "fps": 5.0, "loop": true},
+"crouch_idle": {"frames": [16], "fps": 5.0, "loop": true},
+"damage_high": {"frames": [17, 0], "fps": 8.0, "loop": false},
+"damage_light": {"frames": [17, 0], "fps": 8.0, "loop": false},
+"damage_heavy": {"frames": [17, 18], "fps": 8.0, "loop": false},
+"damage_low": {"frames": [16, 17], "fps": 8.0, "loop": false},
+"guard_hit": {"frames": [15, 17], "fps": 8.0, "loop": false},
+"knockdown": {"frames": [17, 18, 19], "fps": 8.0, "loop": false},
+"down": {"frames": [19], "fps": 4.0, "loop": false},
+"ko": {"frames": [18, 19], "fps": 4.0, "loop": false},
+"stand_up": {"frames": [19, 20, 16, 0], "fps": 8.0, "loop": false},
+"getup": {"frames": [19, 20, 16, 0], "fps": 8.0, "loop": false},
+"crouch_punch": {"frames": [16, 21, 16], "fps": 10.0, "loop": false},
+"crouch_kick_sweep": {"frames": [16, 22, 16], "fps": 10.0, "loop": false},
+"crouch_kick": {"frames": [16, 22, 16], "fps": 10.0, "loop": false},
+"throw": {"frames": [23, 24, 23, 0], "fps": 10.0, "loop": false},
+"throw_start": {"frames": [23, 24], "fps": 10.0, "loop": false},
+"throw_hold": {"frames": [24], "fps": 10.0, "loop": false},
+"throw_release": {"frames": [24, 23, 0], "fps": 10.0, "loop": false},
+"thrown": {"frames": [18, 19], "fps": 8.0, "loop": false},
+"grabbed": {"frames": [17], "fps": 8.0, "loop": false}
+}

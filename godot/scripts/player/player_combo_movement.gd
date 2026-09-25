@@ -174,6 +174,10 @@ func _sync_attack_visual_phase() -> void:
 	if current_attack_data == null or animated_character_sprite == null:
 		return
 	var contact_frames := {"player1_punch_1": Vector2i(2, 2), "player1_punch_2": Vector2i(2, 2), "player1_kick_finish": Vector2i(2, 3)}
+	var definition: Resource = get("fighter_definition")
+	if definition != null and String(definition.get("fighter_id")) == "enemy_01_crusher":
+		contact_frames["fallback_punch"] = Vector2i(1, 1)
+		contact_frames["fallback_kick"] = Vector2i(1, 1)
 	if not contact_frames.has(current_attack_id) or is_crouching:
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
@@ -1154,6 +1158,14 @@ func _ensure_fallback_attack_data(attack_type: String) -> String:
 	fallback_data.hitstun_time = 0.28 if normalized_type == "kick" else 0.18
 	fallback_data.next_attack_ids.clear()
 	fallback_data.animation_name = "Kick" if normalized_type == "kick" else "Punch"
+	var definition: Resource = get("fighter_definition")
+	if definition != null and String(definition.get("fighter_id")) == "enemy_01_crusher":
+		# Crusher's new sheet has an anticipation, contact and recovery pose.
+		# Keep the existing active duration and enable collision only at contact.
+		fallback_data.startup_time = 0.10 if normalized_type == "kick" else 0.08
+		fallback_data.animation_name = "kick_1" if normalized_type == "kick" else "punch_1"
+		fallback_data.hitbox_offset = Vector2(100, -112) if normalized_type == "kick" else Vector2(100, -145)
+		fallback_data.hitbox_size = Vector2(85, 48) if normalized_type == "kick" else Vector2(75, 52)
 	attack_data_by_id[fallback_id] = fallback_data
 	return fallback_id
 

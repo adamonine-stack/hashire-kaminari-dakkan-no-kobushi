@@ -39,7 +39,27 @@ func run() -> void:
 	await ticks(2)
 	var sprite: AnimatedSprite2D = player.animated_character_sprite
 	check(player.default_hurt_box_size.y > 180, "player upper body hurt region")
-	check(enemy.default_hurt_box_size.y > 260, "Crusher upper body hurt region")
+	check(enemy.default_hurt_box_size.y > player.default_hurt_box_size.y * 1.08, "Crusher upper body hurt region")
+	check(enemy.default_hurt_box_size.x > 100, "Crusher broad shoulder hurt region")
+	# Verify the enemy's real fallback attacks follow the contact frames.
+	for action in [&"Punch", &"Kick"]:
+		if action == &"Punch":
+			enemy.request_punch_attack()
+		else:
+			enemy.request_kick_attack()
+		check(enemy.attack_phase == enemy.AttackPhase.STARTUP, "Crusher %s startup" % action)
+		check(not enemy.punch_hitbox_active and not enemy.kick_hitbox_active, "Crusher %s startup has no hitbox" % action)
+		enemy._sync_attack_visual_phase()
+		check(enemy.animated_character_sprite.frame == 0, "Crusher %s startup frame" % action)
+		enemy.enter_attack_active()
+		enemy._sync_attack_visual_phase()
+		check(enemy.animated_character_sprite.frame == 1, "Crusher %s contact frame" % action)
+		check(enemy.kick_hitbox_active if action == &"Kick" else enemy.punch_hitbox_active, "Crusher %s contact hitbox" % action)
+		enemy.enter_attack_recovery()
+		enemy._sync_attack_visual_phase()
+		check(enemy.animated_character_sprite.frame == 2, "Crusher %s recovery frame" % action)
+		check(not enemy.punch_hitbox_active and not enemy.kick_hitbox_active, "Crusher %s recovery has no hitbox" % action)
+		enemy.finish_attack()
 	check(sprite.sprite_frames.get_frame_count("jump_land") == 2, "landing contains only ground poses")
 	check(sprite.sprite_frames.get_frame_count("jump_fall") == 2, "descent has dedicated airborne poses")
 	# Use the real input path and floor, not a manually assigned airborne flag.
