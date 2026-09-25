@@ -15,6 +15,7 @@ func _run() -> void:
 
 	var definition := load("res://data/enemies/enemy_01_standard.tres")
 	assert(definition != null)
+	assert(definition.supplemental_motion_atlas != null)
 	enemy.apply_character_data(definition)
 	enemy.input_enabled = false
 	enemy.is_round_active = true
@@ -30,6 +31,7 @@ func _run() -> void:
 	assert(enemy.has_used_air_attack)
 	enemy._update_visual_state()
 	assert(enemy.animated_character_sprite.animation == &"jump_kick")
+	assert(enemy.animated_character_sprite.sprite_frames.get_frame_count(&"jump_kick") == 4)
 	enemy.finish_attack()
 
 	enemy.has_used_air_attack = false
@@ -40,6 +42,7 @@ func _run() -> void:
 	assert(enemy.has_used_air_attack)
 	enemy._update_visual_state()
 	assert(enemy.animated_character_sprite.animation == &"jump_punch_down")
+	assert(enemy.animated_character_sprite.sprite_frames.get_frame_count(&"jump_punch_down") == 4)
 	enemy.finish_attack()
 
 	print("DEV056_ENEMY_AIR_ATTACK_OK")

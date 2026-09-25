@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=10 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/shadow.png" id="8_shadow"]
 [ext_resource type="Resource" path="res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.tres" id="9_motion"]
+[ext_resource type="Resource" path="res://assets/characters/enemy01/animations/crusher_v1/air_attack_atlas.tres" id="10_air_motion"]
 
 [resource]
 script = ExtResource("1_def")
@@ -23,6 +24,7 @@ battle_texture = ExtResource("6_battle")
 icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
 motion_atlas = ExtResource("9_motion")
+supplemental_motion_atlas = ExtResource("10_air_motion")
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy01/"
 battle_sprite_height = 174.78516
