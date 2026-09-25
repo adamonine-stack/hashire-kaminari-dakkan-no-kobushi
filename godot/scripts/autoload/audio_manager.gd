@@ -2,7 +2,37 @@ extends Node
 
 const SE_POOL_SIZE := 16
 const SAMPLE_RATE := 22050
-const BGM_GAIN := 0.52
+const BGM_GAIN := 0.62
+
+const BGM_FILE_PATHS := {
+	"title": "res://assets/audio/bgm/title.wav",
+	"battle": "res://assets/audio/bgm/battle.wav",
+	"final_boss": "res://assets/audio/bgm/final_boss.wav",
+	"clear": "res://assets/audio/bgm/clear.wav",
+	"game_over": "res://assets/audio/bgm/game_over.wav",
+}
+
+const SFX_FILE_PATHS := {
+	"punch_whiff": "res://assets/audio/sfx/punch_whiff.wav",
+	"kick_whiff": "res://assets/audio/sfx/kick_whiff.wav",
+	"jump": "res://assets/audio/sfx/jump.wav",
+	"land": "res://assets/audio/sfx/land.wav",
+	"dash": "res://assets/audio/sfx/dash.wav",
+	"guard": "res://assets/audio/sfx/guard.wav",
+	"throw": "res://assets/audio/sfx/throw.wav",
+	"throw_escape": "res://assets/audio/sfx/throw_escape.wav",
+	"hit_weak": "res://assets/audio/sfx/hit_weak.wav",
+	"hit_strong": "res://assets/audio/sfx/hit_strong.wav",
+	"hit_special": "res://assets/audio/sfx/hit_special.wav",
+	"hit_ko": "res://assets/audio/sfx/hit_ko.wav",
+	"special_start": "res://assets/audio/sfx/special_start.wav",
+	"special_attack": "res://assets/audio/sfx/special_attack.wav",
+	"ultimate_warning": "res://assets/audio/sfx/ultimate_warning.wav",
+	"ultimate_attack": "res://assets/audio/sfx/ultimate_attack.wav",
+	"ui_cursor": "res://assets/audio/sfx/ui_cursor.wav",
+	"ui_confirm": "res://assets/audio/sfx/ui_confirm.wav",
+	"ui_cancel": "res://assets/audio/sfx/ui_cancel.wav",
+}
 
 var bgm_volume := 0.80
 var se_volume := 0.90
