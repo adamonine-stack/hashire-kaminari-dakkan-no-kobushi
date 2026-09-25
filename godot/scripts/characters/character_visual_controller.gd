@@ -347,7 +347,7 @@ func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
 func _overlay_authored_motion_atlas(frames: SpriteFrames, atlas: Resource) -> void:
 	if frames == null or atlas == null:
 		return
-	var texture: Texture2D = atlas.get("texture")
+	var texture: Texture2D = _resolve_motion_atlas_texture(atlas)
 	var cell: Vector2i = atlas.get("cell_size")
 	var columns := int(atlas.get("columns"))
 	var clips: Dictionary = atlas.get("clips")
