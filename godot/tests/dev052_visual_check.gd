@@ -25,6 +25,7 @@ func _initialize() -> void:
 		&"idle": 1, &"walk": 4, &"dash": 2, &"punch": 3,
 		&"punch_2": 4, &"kick": 3, &"jump": 3,
 		&"jump_start": 2, &"jump_fall": 1, &"jump_land": 2,
+		&"jump_kick": 3, &"jump_punch": 3, &"jump_punch_down": 3,
 		&"guard": 1, &"crouch": 1, &"crouch_guard": 1,
 		&"crouch_punch": 3, &"crouch_kick": 3,
 		&"damage_high": 2, &"knockdown": 3,

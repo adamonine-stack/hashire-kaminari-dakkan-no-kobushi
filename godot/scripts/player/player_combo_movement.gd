@@ -186,6 +186,8 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_01_crusher":
 		contact_frames["fallback_punch"] = Vector2i(1, 1)
 		contact_frames["fallback_kick"] = Vector2i(1, 1)
+		contact_frames["fallback_jump_kick"] = Vector2i(1, 1)
+		contact_frames["player1_jump_punch_down"] = Vector2i(1, 1)
 	if not contact_frames.has(current_attack_id) or is_crouching:
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
