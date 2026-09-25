@@ -1383,6 +1383,7 @@ func cancel_current_ai_action(clear_guard := true) -> void:
 	ai_selected_attack_type = ""
 	ai_jump_attack_plan = &""
 	ai_jump_attack_used = false
+	ai_approach_jump_checked = false
 	ai_jump_launch_pending = false
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
@@ -1403,6 +1404,7 @@ func clear_ai_timers() -> void:
 	ai_jump_direction = 0.0
 	ai_jump_attack_plan = &""
 	ai_jump_attack_used = false
+	ai_approach_jump_checked = false
 	ai_jump_launch_pending = false
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
