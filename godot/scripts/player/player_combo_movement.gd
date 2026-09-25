@@ -77,6 +77,9 @@ var crouch_kick_sweep_attack_data: Resource
 var has_used_air_attack := false
 var is_air_attack_active := false
 var jump_kick_air_control_multiplier := 0.65
+var ai_jump_launch_pending := false
+var ai_jump_launch_direction := 0.0
+var ai_jump_launch_speed_multiplier := 1.0
 
 
 func _physics_process(delta: float) -> void:
@@ -123,14 +126,18 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		jump_pressed_this_airtime = false
 		has_used_air_attack = false
-		if input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
+		var ai_jump_requested := not input_enabled and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var player_jump_requested := input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		if player_jump_requested or ai_jump_requested:
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
 			_play_audio_manager_se("jump")
-			var jump_direction := _get_horizontal_input_direction()
+			var jump_direction := ai_jump_launch_direction if ai_jump_requested else _get_horizontal_input_direction()
 			velocity.y = -jump_power
 			if jump_direction != 0.0:
-				velocity.x = jump_direction * jump_horizontal_speed
+				velocity.x = jump_direction * jump_horizontal_speed * (ai_jump_launch_speed_multiplier if ai_jump_requested else 1.0)
+			if ai_jump_requested:
+				ai_jump_launch_pending = false
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 		elif not is_hit:
 			velocity.y = 0.0
