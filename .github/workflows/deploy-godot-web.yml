@@ -79,6 +79,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev053_stage1_smoke.gd 2>&1 | tee /tmp/dev053-stage1.log || true
           grep -q "DEV053_STAGE1_OK" /tmp/dev053-stage1.log
 
+      - name: Verify enemy air attacks
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev056_enemy_air_attack_smoke.gd 2>&1 | tee /tmp/dev056-air.log || true
+          grep -q "DEV056_ENEMY_AIR_ATTACK_OK" /tmp/dev056-air.log
+
       - name: Verify character animation contract
         shell: bash
         run: |
