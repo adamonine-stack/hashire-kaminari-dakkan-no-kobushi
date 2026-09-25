@@ -15,6 +15,7 @@ class_name FighterDefinition
 @export var icon: Texture2D
 @export var sprite_sheet: Texture2D
 @export var motion_atlas: Resource
+@export var supplemental_motion_atlas: Resource
 @export var shadow_texture: Texture2D
 @export var idle_pose_texture: Texture2D
 @export var prebattle_pose_texture: Texture2D
