@@ -238,7 +238,11 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	if motion_atlas != null:
 		# A complete atlas is authoritative: no legacy sheet, static idle override,
 		# content centering, phase extraction or per-pose scaling may modify it.
-		return _build_authored_motion_atlas(motion_atlas)
+		var authored_frames := _build_authored_motion_atlas(motion_atlas)
+		var supplemental_motion_atlas: Resource = character_data.get("supplemental_motion_atlas")
+		if supplemental_motion_atlas != null:
+			_overlay_authored_motion_atlas(authored_frames, supplemental_motion_atlas)
+		return authored_frames
 
 	if sprite_sheet == null:
 		_add_animation_definition_strips(frames, character_data)
@@ -294,6 +298,37 @@ func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
 			frame.filter_clip = true
 			frames.add_frame(name, frame)
 	return frames
+
+
+func _overlay_authored_motion_atlas(frames: SpriteFrames, atlas: Resource) -> void:
+	if frames == null or atlas == null:
+		return
+	var texture: Texture2D = atlas.get("texture")
+	var cell: Vector2i = atlas.get("cell_size")
+	var columns := int(atlas.get("columns"))
+	var clips: Dictionary = atlas.get("clips")
+	if texture == null or cell.x <= 0 or cell.y <= 0 or columns <= 0:
+		push_error("Invalid supplemental motion atlas: %s" % _fighter_id())
+		return
+	for key in clips:
+		var clip: Dictionary = clips[key]
+		var name := String(key)
+		if frames.has_animation(name):
+			frames.remove_animation(name)
+		frames.add_animation(name)
+		frames.set_animation_speed(name, float(clip.get("fps", 12.0)))
+		frames.set_animation_loop(name, bool(clip.get("loop", false)))
+		for index in clip.get("frames", []):
+			var number := int(index)
+			var region := Rect2i((number % columns) * cell.x, int(number / columns) * cell.y, cell.x, cell.y)
+			if number < 0 or region.end.x > texture.get_width() or region.end.y > texture.get_height():
+				push_error("Supplemental motion atlas frame out of bounds: %s/%s/%d" % [_fighter_id(), name, number])
+				continue
+			var frame := AtlasTexture.new()
+			frame.atlas = texture
+			frame.region = Rect2(region)
+			frame.filter_clip = true
+			frames.add_frame(name, frame)
 
 
 func _add_akky_air_phases(frames: SpriteFrames) -> void:
