@@ -324,7 +324,10 @@ func apply_character_art(definition: Resource) -> void:
 		var body_height: float = float(body_rect.size.y) * character_visual_controller.base_visual_scale.y
 		var hurt_height := maxf(115.0, body_height * 0.88)
 		hurt_shape.shape = RectangleShape2D.new()
-		hurt_shape.shape.size = Vector2(86.0, hurt_height)
+		var hurt_width := 86.0
+		if String(definition.get("fighter_id")) == "enemy_01_crusher":
+			hurt_width = maxf(hurt_width, float(body_rect.size.x) * character_visual_controller.base_visual_scale.x * 0.72)
+		hurt_shape.shape.size = Vector2(hurt_width, hurt_height)
 		hurt_box.position = Vector2(0, -hurt_height * 0.5)
 		_capture_default_collision_pose()
 

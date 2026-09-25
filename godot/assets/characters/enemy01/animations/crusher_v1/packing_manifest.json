@@ -1,0 +1,210 @@
+{
+  "cell": {
+    "width": 400,
+    "height": 280
+  },
+  "columns": 4,
+  "scale": 0.2,
+  "frames": [
+    {
+      "index": 0,
+      "source": "sources/idle_master.png",
+      "x": 75,
+      "y": 20,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 1,
+      "source": "sources/walk_near_leg_back.png",
+      "x": 75,
+      "y": 21,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 2,
+      "source": "sources/walk_transition_a.png",
+      "x": 75,
+      "y": 22,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 3,
+      "source": "sources/walk_near_leg_front.png",
+      "x": 75,
+      "y": 23,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 4,
+      "source": "sources/walk_transition_b.png",
+      "x": 75,
+      "y": 22,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 5,
+      "source": "sources/punch_startup_candidate.png",
+      "x": 75,
+      "y": 22,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 6,
+      "source": "sources/punch_contact_revised.png",
+      "x": 75,
+      "y": 22,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 7,
+      "source": "sources/dash_near_leg_back.png",
+      "x": 75,
+      "y": 28,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 8,
+      "source": "sources/dash_near_leg_front.png",
+      "x": 75,
+      "y": 27,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 9,
+      "source": "sources/jump_takeoff.png",
+      "x": 75,
+      "y": 22,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 10,
+      "source": "sources/jump_ascent.png",
+      "x": 75,
+      "y": 18,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 11,
+      "source": "sources/jump_descent.png",
+      "x": 75,
+      "y": 25,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 12,
+      "source": "sources/jump_landing.png",
+      "x": 75,
+      "y": 21,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 13,
+      "source": "sources/punch_jab.png",
+      "x": 75,
+      "y": 20,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 14,
+      "source": "sources/kick_contact.png",
+      "x": 75,
+      "y": 20,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 15,
+      "source": "sources/guard.png",
+      "x": 75,
+      "y": 20,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 16,
+      "source": "sources/crouch.png",
+      "x": 75,
+      "y": 27,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 17,
+      "source": "sources/damage.png",
+      "x": 75,
+      "y": 20,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 18,
+      "source": "sources/knockdown.png",
+      "x": 75,
+      "y": 46,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 19,
+      "source": "sources/ko.png",
+      "x": 23,
+      "y": 114,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 20,
+      "source": "sources/getup.png",
+      "x": 75,
+      "y": 37,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 21,
+      "source": "sources/crouch_punch.png",
+      "x": 75,
+      "y": 23,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 22,
+      "source": "sources/crouch_sweep.png",
+      "x": 75,
+      "y": 45,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 23,
+      "source": "sources/throw_grab.png",
+      "x": 75,
+      "y": 23,
+      "scale": 0.2,
+      "baseline": 260
+    },
+    {
+      "index": 24,
+      "source": "sources/throw_lift.png",
+      "x": 75,
+      "y": 16,
+      "scale": 0.2,
+      "baseline": 260
+    }
+  ]
+}

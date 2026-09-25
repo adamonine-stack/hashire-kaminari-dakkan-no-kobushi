@@ -10,26 +10,34 @@ func _initialize() -> void:
 	controller.add_child(animated)
 	controller.add_child(fallback)
 	assert(controller.setup(definition, animated, fallback))
-	# Crusher's current 330 px battle height is rendered with the shared 1.2
-	# mobile battle multiplier (330 / 192 * 1.2 = 2.0625).
-	assert(animated.scale.is_equal_approx(Vector2(2.0625, 2.0625)))
-	assert(animated.position.is_equal_approx(Vector2(0.0, -165.0)))
+	# Fixed 228px authored body, 198/175 height ratio relative to Akky.
+	var crusher_scale := 174.78516 * 1.2 * (198.0 / 175.0) * 1.05 / 228.0
+	assert(animated.scale.is_equal_approx(Vector2(crusher_scale, crusher_scale)))
+	var idle_rect := controller._reference_body_rect_from_idle(Vector2i(400, 280))
+	var boot_y := float(idle_rect.end.y - 140)
+	assert(absf(boot_y - 120.0) <= 2.0)
+	assert(animated.position.is_equal_approx(Vector2(0, -boot_y * crusher_scale)))
 	assert(animated.offset == Vector2.ZERO)
 	assert(animated.centered)
 	assert(not animated.flip_h)
 	assert(is_equal_approx(animated.speed_scale, 1.0))
-	var required := [
-		&"walk", &"punch", &"kick", &"jump", &"guard", &"crouch",
-		&"crouch_guard", &"crouch_punch", &"crouch_kick",
-	]
+	var required := {
+		&"idle": 1, &"walk": 4, &"dash": 2, &"punch": 3,
+		&"punch_2": 4, &"kick": 3, &"jump": 3,
+		&"jump_start": 2, &"jump_fall": 1, &"jump_land": 2,
+		&"guard": 1, &"crouch": 1, &"crouch_guard": 1,
+		&"crouch_punch": 3, &"crouch_kick": 3,
+		&"damage_high": 2, &"knockdown": 3,
+		&"stand_up": 4, &"ko": 2, &"throw": 4,
+	}
 	for animation_name in required:
 		assert(controller.has_animation(animation_name))
-		assert(animated.sprite_frames.get_frame_count(animation_name) == 8)
+		assert(animated.sprite_frames.get_frame_count(animation_name) == required[animation_name])
 		controller.play_animation(animation_name, true)
 		assert(animated.animation == animation_name)
 	controller.set_facing(-1)
 	assert(animated.flip_h)
-	assert(animated.position.is_equal_approx(Vector2(0.0, -165.0)))
+	assert(animated.position.is_equal_approx(Vector2(0, -boot_y * crusher_scale)))
 	controller.set_facing(1)
 	assert(not animated.flip_h)
 
