@@ -1,0 +1,48 @@
+name: Temporary Audio Impact Verify
+
+on:
+  push:
+    branches:
+      - agent/audio-impact-v3-20260925-chat
+    paths:
+      - "godot/**"
+      - ".github/workflows/audio-impact-verify-temp.yml"
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: "4.7"
+  GODOT_STATUS: "stable"
+  GODOT_PROJECT_DIR: "godot"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.7
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GODOT_VERSION}-${GODOT_STATUS}"
+          FILE="Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64.zip"
+          curl --fail --location --retry 3 -o godot.zip "https://github.com/godotengine/godot/releases/download/${TAG}/${FILE}"
+          unzip -q godot.zip -d /tmp/godot-bin
+          chmod +x "/tmp/godot-bin/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64"
+          ln -s "/tmp/godot-bin/Godot_v${GODOT_VERSION}-${GODOT_STATUS}_linux.x86_64" /tmp/godot-bin/godot
+          echo "/tmp/godot-bin" >> "$GITHUB_PATH"
+      - name: Parse project
+        run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
+      - name: Audio smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev_audio_smoke.gd 2>&1 | tee /tmp/audio.log || true
+          grep -q "DEV_AUDIO_OK" /tmp/audio.log
+      - name: Stage 1 smoke
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev053_stage1_smoke.gd 2>&1 | tee /tmp/stage1.log || true
+          grep -q "DEV053_STAGE1_OK" /tmp/stage1.log
