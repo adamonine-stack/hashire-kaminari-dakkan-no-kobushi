@@ -412,6 +412,7 @@ func _physics_process(delta: float) -> void:
 		jump_pressed_this_airtime = false
 		if input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			_prepare_jump_visual_state()
+			_play_audio_manager_se("jump")
 			var jump_direction := _get_horizontal_input_direction()
 			velocity.y = -jump_power
 			if jump_direction != 0.0:
@@ -456,6 +457,7 @@ func _start_attack(is_combo_attack := false) -> void:
 	punch_hit_targets.clear()
 	punch_area.position.x = facing_direction * attack_offset
 	_play_attack_animation(_get_attack_animation_name(&"Punch"))
+	_play_audio_manager_se("punch_whiff")
 	_set_punch_hitbox_active(true)
 
 
@@ -550,6 +552,7 @@ func _start_kick(is_combo_attack := false) -> void:
 	kick_hit_targets.clear()
 	kick_area.position.x = facing_direction * kick_offset
 	_play_attack_animation(_get_attack_animation_name(&"Kick"))
+	_play_audio_manager_se("kick_whiff")
 	_set_kick_hitbox_active(true)
 
 
@@ -2100,7 +2103,8 @@ func _create_hit_stream(frequency: float) -> AudioStreamWAV:
 
 
 func _play_hit_se(se_type: String) -> void:
-	_play_audio_manager_se("hit_%s" % se_type)
+	if _play_audio_manager_se("hit_%s" % se_type):
+		return
 	if se_type == "ko":
 		ko_hit_se.play()
 	elif se_type == "special":
@@ -2112,18 +2116,18 @@ func _play_hit_se(se_type: String) -> void:
 
 
 func _play_guard_se() -> void:
-	_play_audio_manager_se("guard")
-	guard_hit_se.play()
+	if not _play_audio_manager_se("guard"):
+		guard_hit_se.play()
 
 
 func _play_throw_se() -> void:
-	_play_audio_manager_se("throw")
-	throw_se.play()
+	if not _play_audio_manager_se("throw"):
+		throw_se.play()
 
 
 func _play_throw_escape_se() -> void:
-	_play_audio_manager_se("throw_escape")
-	throw_escape_se.play()
+	if not _play_audio_manager_se("throw_escape"):
+		throw_escape_se.play()
 
 
 func _spawn_guard_effect(hit_position: Vector2) -> void:
@@ -2230,6 +2234,7 @@ func _update_movement_feedback(direction: float, was_on_floor_before_move: bool)
 	if not was_on_floor_before_move and is_on_floor():
 		jump_landing_visual_timer = 0.25
 		_play_visual_animation(&"jump_land", true)
+		_play_audio_manager_se("land")
 		_spawn_movement_dust(global_position + Vector2(0.0, -2.0), 1.0)
 		screen_shake_requested.emit(landing_shake_strength)
 	was_on_floor_last_frame = is_on_floor()
@@ -2297,10 +2302,12 @@ func _hitstop_multiplier() -> float:
 	return 1.0
 
 
-func _play_audio_manager_se(se_id: String) -> void:
+func _play_audio_manager_se(se_id: String) -> bool:
 	var audio := get_node_or_null("/root/AudioManager")
 	if audio != null and audio.has_method("play_se"):
 		audio.call("play_se", se_id)
+		return true
+	return false
 
 
 func _is_speed_style_fighter() -> bool:
