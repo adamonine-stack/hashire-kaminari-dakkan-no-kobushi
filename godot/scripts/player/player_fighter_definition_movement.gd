@@ -104,6 +104,7 @@ var ai_jump_cooldown_timer := 0.0
 var ai_jump_direction := 0.0
 var ai_jump_attack_plan: StringName = &""
 var ai_jump_attack_used := false
+var ai_approach_jump_checked := false
 var ai_guard_minimum_timer := 0.0
 var ai_current_target_distance := 60.0
 var ai_selected_attack_type := ""
@@ -367,6 +368,7 @@ func reset_ai_state() -> void:
 	ai_jump_direction = 0.0
 	ai_jump_attack_plan = &""
 	ai_jump_attack_used = false
+	ai_approach_jump_checked = false
 	ai_jump_launch_pending = false
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
@@ -704,6 +706,7 @@ func enter_approach() -> void:
 	if not can_ai_act():
 		return
 	_set_ai_state(EnemyAIState.APPROACH)
+	ai_approach_jump_checked = false
 	ai_action_started.emit("approach")
 
 
@@ -815,7 +818,13 @@ func update_approach(delta: float) -> void:
 		disable_ai()
 		return
 	var distance := evaluate_distance()
-	if distance <= _profile_float(&"attack_distance", 55.0) or distance <= ai_current_target_distance:
+	var attack_distance := _profile_float(&"attack_distance", 55.0)
+	if not ai_approach_jump_checked and distance <= attack_distance + 78.0 and distance > attack_distance + 6.0:
+		ai_approach_jump_checked = true
+		if should_jump_player(distance, 1.35):
+			enter_jump()
+			return
+	if distance <= attack_distance or distance <= ai_current_target_distance:
 		choose_next_action()
 		return
 	_face_opponent()
@@ -966,7 +975,7 @@ func should_throw_player() -> bool:
 	return randf() <= chance
 
 
-func should_jump_player(distance: float) -> bool:
+func should_jump_player(distance: float, rate_multiplier := 1.0) -> bool:
 	if not _profile_bool(&"can_jump", true) or ai_jump_cooldown_timer > 0.0 or not is_on_floor():
 		return false
 	if last_ai_action == &"jump" and repeated_action_count >= 1:
@@ -979,7 +988,7 @@ func should_jump_player(distance: float) -> bool:
 	var max_distance := attack_distance + 120.0
 	if distance < min_distance or distance > max_distance:
 		return false
-	return randf() <= _profile_float(&"jump_rate", 0.12)
+	return randf() <= clampf(_profile_float(&"jump_rate", 0.12) * rate_multiplier, 0.0, 1.0)
 
 
 func should_attack_player() -> bool:
