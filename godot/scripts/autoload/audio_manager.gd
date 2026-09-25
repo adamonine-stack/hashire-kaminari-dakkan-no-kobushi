@@ -2,7 +2,7 @@ extends Node
 
 const SE_POOL_SIZE := 16
 const SAMPLE_RATE := 22050
-const BGM_GAIN := 0.52
+const BGM_GAIN := 0.68
 
 var bgm_volume := 0.80
 var se_volume := 0.90
@@ -74,7 +74,7 @@ func play_se(se_id: String) -> void:
 	se_cursor = (se_cursor + 1) % se_players.size()
 	player.stop()
 	player.stream = _stream_for_id(se_id, false)
-	player.volume_db = _linear_to_db(se_volume)
+	player.volume_db = _linear_to_db(se_volume) + _se_gain_db(se_id)
 	player.play()
 	if se_id == "hit_ko":
 		_duck_bgm(0.18, 0.34)
@@ -263,6 +263,21 @@ func _duck_bgm(duration: float, ratio: float) -> void:
 	bgm_duck_tween.tween_property(bgm_player, "volume_db", duck_db, 0.025)
 	bgm_duck_tween.tween_interval(duration)
 	bgm_duck_tween.tween_property(bgm_player, "volume_db", normal_db, 0.12)
+
+
+func _se_gain_db(se_id: String) -> float:
+	match se_id:
+		"hit_ko":
+			return 4.0
+		"hit_special":
+			return 3.5
+		"hit_strong":
+			return 3.0
+		"throw", "land":
+			return 2.0
+		"hit_weak", "guard":
+			return 1.0
+	return 0.0
 
 
 func _target_bgm_db() -> float:
