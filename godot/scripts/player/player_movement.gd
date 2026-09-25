@@ -185,6 +185,7 @@ var movement_dust_pool: Array[Node2D] = []
 var hit_effect_pool: Array[Node2D] = []
 var afterimage_pool: Array[Node2D] = []
 var was_moving_last_frame := false
+var was_dashing_last_frame := false
 var was_on_floor_last_frame := false
 var invincible_flash_timer := 0.0
 var base_shadow_scale := Vector2.ONE
@@ -2224,12 +2225,16 @@ func _circle_points(point_count: int, radius: float) -> PackedVector2Array:
 
 func _update_movement_feedback(direction: float, was_on_floor_before_move: bool) -> void:
 	var moving_now := absf(direction) > 0.0 and is_on_floor() and not is_hit and not _is_throw_busy()
+	var dashing_now := moving_now and absf(velocity.x) > move_speed * 1.05
 	if moving_now and not was_moving_last_frame:
 		_spawn_movement_dust(global_position + Vector2(-facing_direction * 18.0, -4.0), 0.8)
 		_spawn_afterimage()
 		if _is_speed_style_fighter():
 			_spawn_afterimage()
+	if dashing_now and not was_dashing_last_frame:
+		_play_audio_manager_se("dash")
 	was_moving_last_frame = moving_now
+	was_dashing_last_frame = dashing_now
 
 	if not was_on_floor_before_move and is_on_floor():
 		jump_landing_visual_timer = 0.25
