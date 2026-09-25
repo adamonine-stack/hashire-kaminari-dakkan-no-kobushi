@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "godot/**"
+      - "tools/generate_game_audio.py"
       - ".github/workflows/deploy-godot-web.yml"
   workflow_dispatch:
 
@@ -61,6 +62,9 @@ jobs:
 
       - name: Verify Godot installation
         run: godot --version
+
+      - name: Generate game audio assets
+        run: python3 tools/generate_game_audio.py
 
       - name: Import project resources
         run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
