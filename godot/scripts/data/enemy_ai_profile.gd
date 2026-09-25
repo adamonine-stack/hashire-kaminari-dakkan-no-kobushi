@@ -35,6 +35,9 @@ class_name EnemyAIProfile
 @export_range(0.0, 1.0, 0.01) var feint_rate: float = 0.00
 @export_range(0.0, 1.0, 0.01) var special_attack_rate: float = 0.00
 @export_range(0.0, 1.0, 0.01) var jump_rate: float = 0.12
+@export_range(0.0, 1.0, 0.01) var jump_attack_rate: float = 0.55
+@export_range(0.0, 1.0, 0.01) var jump_kick_weight: float = 0.65
+@export_range(0.0, 1.0, 0.01) var jump_punch_weight: float = 0.35
 
 @export_group("AI Timing")
 @export var reaction_time_min: float = 0.20
@@ -51,6 +54,8 @@ class_name EnemyAIProfile
 @export var feint_cooldown_max: float = 4.0
 @export var jump_cooldown: float = 2.20
 @export var jump_forward_speed_multiplier: float = 0.80
+@export var jump_kick_distance: float = 135.0
+@export var jump_punch_distance: float = 92.0
 
 @export_group("AI Movement")
 @export var ai_move_speed_multiplier: float = 1.0
