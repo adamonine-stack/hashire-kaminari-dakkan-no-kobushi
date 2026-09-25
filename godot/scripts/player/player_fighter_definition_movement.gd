@@ -35,6 +35,7 @@ enum EnemyAIState {
 	GUARD,
 	RETREAT,
 	FEINT,
+	JUMP,
 	HITSTUN,
 	KNOCKBACK,
 	DOWN,
@@ -99,6 +100,8 @@ var ai_retreat_timer := 0.0
 var ai_feint_timer := 0.0
 var ai_feint_phase: StringName = &""
 var ai_feint_cooldown_timer := 0.0
+var ai_jump_cooldown_timer := 0.0
+var ai_jump_direction := 0.0
 var ai_guard_minimum_timer := 0.0
 var ai_current_target_distance := 60.0
 var ai_selected_attack_type := ""
@@ -358,6 +361,8 @@ func reset_ai_state() -> void:
 	ai_feint_timer = 0.0
 	ai_feint_phase = &""
 	ai_feint_cooldown_timer = 0.0
+	ai_jump_cooldown_timer = 0.0
+	ai_jump_direction = 0.0
 	ai_guard_minimum_timer = 0.0
 	ai_current_target_distance = _randomized_preferred_distance()
 	ai_selected_attack_type = ""
@@ -539,6 +544,8 @@ func update_ai(delta: float) -> void:
 
 	ai_attack_cooldown_timer = maxf(ai_attack_cooldown_timer - delta, 0.0)
 	ai_feint_cooldown_timer = maxf(ai_feint_cooldown_timer - delta, 0.0)
+	ai_jump_cooldown_timer = maxf(ai_jump_cooldown_timer - delta, 0.0)
+	ai_throw_cooldown_timer = maxf(ai_throw_cooldown_timer - delta, 0.0)
 	ai_special_request_cooldown_timer = maxf(ai_special_request_cooldown_timer - delta, 0.0)
 	ai_reaction_timer = maxf(ai_reaction_timer - delta, 0.0)
 	if ai_reaction_timer > 0.0:
@@ -557,6 +564,8 @@ func update_ai(delta: float) -> void:
 			update_retreat(delta)
 		EnemyAIState.FEINT:
 			update_feint(delta)
+		EnemyAIState.JUMP:
+			update_jump(delta)
 		EnemyAIState.ATTACK:
 			_update_attack_wait()
 		EnemyAIState.SPECIAL_ATTACK_REQUEST:
@@ -577,6 +586,8 @@ func _update_ai_watchdog(delta: float) -> bool:
 		state_limit = maxf(ai_state_watchdog_limit, 4.5)
 	elif ai_state == EnemyAIState.FEINT:
 		state_limit = maxf(ai_state_watchdog_limit, 3.0)
+	elif ai_state == EnemyAIState.JUMP:
+		state_limit = maxf(ai_state_watchdog_limit, 2.5)
 
 	if ai_state_watchdog_timer < state_limit:
 		return false
@@ -636,6 +647,9 @@ func choose_next_action() -> void:
 	if not can_ai_act():
 		return
 	var distance := evaluate_distance()
+	if should_jump_player(distance):
+		enter_jump()
+		return
 	if distance > _profile_float(&"attack_distance", 55.0):
 		enter_approach()
 		return
@@ -647,6 +661,9 @@ func choose_next_action() -> void:
 		return
 	if should_use_feint():
 		enter_feint()
+		return
+	if should_throw_player():
+		enter_throw()
 		return
 	if should_use_character_special():
 		_set_ai_state(EnemyAIState.SPECIAL_ATTACK_REQUEST)
@@ -720,6 +737,44 @@ func enter_guard() -> void:
 	_register_ai_action(&"guard")
 
 
+func enter_throw() -> void:
+	if not can_ai_act() or not _can_start_throw() or _get_throw_target() == null:
+		enter_idle()
+		return
+	_set_ai_state(EnemyAIState.ATTACK)
+	ai_selected_attack_type = "throw"
+	_face_opponent()
+	ai_throw_cooldown_timer = _profile_float(&"throw_cooldown", 1.50)
+	ai_action_started.emit("throw")
+	_register_ai_action(&"throw")
+	_start_throw()
+	print("[DEV054][%s] Throw selected" % _debug_enemy_id())
+
+
+func enter_jump() -> void:
+	if not can_ai_act() or not is_on_floor() or not _profile_bool(&"can_jump", true):
+		enter_idle()
+		return
+	var opponent := _get_opponent()
+	if not (opponent is Node2D):
+		enter_idle()
+		return
+	_set_ai_state(EnemyAIState.JUMP)
+	_face_opponent()
+	ai_jump_direction = signf(opponent.global_position.x - global_position.x)
+	if ai_jump_direction == 0.0:
+		ai_jump_direction = facing_direction
+	_prepare_jump_visual_state()
+	_play_audio_manager_se("jump")
+	velocity.y = -jump_power
+	velocity.x = ai_jump_direction * jump_horizontal_speed * _profile_float(&"jump_forward_speed_multiplier", 0.80)
+	ai_jump_cooldown_timer = _profile_float(&"jump_cooldown", 2.20)
+	_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
+	ai_action_started.emit("jump")
+	_register_ai_action(&"jump")
+	print("[DEV054][%s] Jump selected" % _debug_enemy_id())
+
+
 func enter_retreat() -> void:
 	if not can_ai_act() or not _profile_bool(&"can_retreat", true):
 		enter_idle()
@@ -759,6 +814,20 @@ func update_approach(delta: float) -> void:
 	_face_opponent()
 	var direction := signf(opponent.global_position.x - global_position.x)
 	_move_ai(direction, _profile_float(&"approach_speed_multiplier", 1.0), delta)
+
+
+func update_jump(delta: float) -> void:
+	if current_hp <= 0 or not is_round_active:
+		return
+	if is_on_floor():
+		velocity.x = 0.0
+		ai_jump_direction = 0.0
+		ai_action_finished.emit("jump")
+		enter_idle()
+		return
+	var desired_speed := ai_jump_direction * jump_horizontal_speed * _profile_float(&"jump_forward_speed_multiplier", 0.80)
+	velocity.x = move_toward(velocity.x, desired_speed, air_control_acceleration * delta * 0.35)
+	_face_opponent()
 
 
 func update_retreat(delta: float) -> void:
@@ -816,12 +885,41 @@ func should_guard_against_player() -> bool:
 	if not _profile_bool(&"can_guard", true) or not can_choose_guard():
 		return false
 	var opponent := _get_opponent()
-	if not _is_player_attack_threatening(opponent):
+	var guard_rate := _profile_float(&"guard_rate", _profile_float(&"guard_weight", 0.15))
+	var is_threatening := _is_player_attack_threatening(opponent)
+	if not is_threatening:
+		var proactive_distance := _profile_float(&"attack_distance", 55.0) * 0.90
+		if evaluate_distance() > proactive_distance:
+			return false
+		guard_rate *= 0.30
+	if randf() > guard_rate:
 		return false
-	if randf() > _profile_float(&"guard_rate", _profile_float(&"guard_weight", 0.15)):
-		return false
-	print("[DEV037][%s] Guard selected" % _debug_enemy_id())
+	print("[DEV054][%s] Guard selected%s" % [_debug_enemy_id(), " (read)" if not is_threatening else ""])
 	return true
+
+
+func should_throw_player() -> bool:
+	if ai_throw_cooldown_timer > 0.0 or not _can_start_throw():
+		return false
+	if _get_throw_target() == null:
+		return false
+	var chance := _profile_float(&"throw_weight", 0.10)
+	if last_ai_action == &"throw":
+		chance *= 0.35
+	return randf() <= chance
+
+
+func should_jump_player(distance: float) -> bool:
+	if not _profile_bool(&"can_jump", true) or ai_jump_cooldown_timer > 0.0 or not is_on_floor():
+		return false
+	if last_ai_action == &"jump" and repeated_action_count >= 1:
+		return false
+	var attack_distance := _profile_float(&"attack_distance", 55.0)
+	var min_distance := maxf(_profile_float(&"retreat_distance", 35.0) + 18.0, attack_distance * 0.72)
+	var max_distance := attack_distance + 95.0
+	if distance < min_distance or distance > max_distance:
+		return false
+	return randf() <= _profile_float(&"jump_rate", 0.12)
 
 
 func should_attack_player() -> bool:
@@ -1227,6 +1325,8 @@ func clear_ai_timers() -> void:
 	ai_attack_cooldown_timer = 0.0
 	ai_retreat_timer = 0.0
 	ai_feint_timer = 0.0
+	ai_jump_cooldown_timer = 0.0
+	ai_jump_direction = 0.0
 	ai_guard_timer = 0.0
 	ai_guard_minimum_timer = 0.0
 
@@ -1260,6 +1360,8 @@ func _update_ai_guard_state(delta: float) -> void:
 
 
 func _update_attack_wait() -> void:
+	if _is_throw_busy():
+		return
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return
 	ai_action_finished.emit(ai_selected_attack_type)
