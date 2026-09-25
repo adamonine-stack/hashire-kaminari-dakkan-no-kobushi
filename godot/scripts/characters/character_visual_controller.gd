@@ -270,10 +270,46 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	return frames
 
 
+func _resolve_motion_atlas_texture(atlas: Resource) -> Texture2D:
+	if atlas == null:
+		return null
+	var direct_texture: Texture2D = atlas.get("texture")
+	if direct_texture != null:
+		return direct_texture
+	var chunks: Array = atlas.get("embedded_texture_chunks")
+	if chunks.is_empty():
+		return null
+	var encoded := ""
+	for chunk in chunks:
+		if chunk != null:
+			encoded += String(chunk.get("data"))
+	if encoded.is_empty():
+		return null
+	var raw := Marshalls.base64_to_raw(encoded)
+	if raw.is_empty():
+		push_error("Embedded motion texture base64 decode failed: %s" % _fighter_id())
+		return null
+	var image := Image.new()
+	var format := StringName(atlas.get("embedded_texture_format"))
+	var error := ERR_UNAVAILABLE
+	match format:
+		&"webp":
+			error = image.load_webp_from_buffer(raw)
+		&"png":
+			error = image.load_png_from_buffer(raw)
+		_:
+			push_error("Unsupported embedded motion texture format: %s/%s" % [_fighter_id(), String(format)])
+			return null
+	if error != OK:
+		push_error("Embedded motion texture decode failed: %s/%s error=%d" % [_fighter_id(), String(format), error])
+		return null
+	return ImageTexture.create_from_image(image)
+
+
 func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
-	var texture: Texture2D = atlas.get("texture")
+	var texture: Texture2D = _resolve_motion_atlas_texture(atlas)
 	var cell: Vector2i = atlas.get("cell_size")
 	var columns := int(atlas.get("columns"))
 	var clips: Dictionary = atlas.get("clips")
