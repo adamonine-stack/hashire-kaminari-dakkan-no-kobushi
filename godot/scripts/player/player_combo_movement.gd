@@ -126,6 +126,7 @@ func _physics_process(delta: float) -> void:
 		if input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy():
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
+			_play_audio_manager_se("jump")
 			var jump_direction := _get_horizontal_input_direction()
 			velocity.y = -jump_power
 			if jump_direction != 0.0:
@@ -442,6 +443,7 @@ func start_attack(attack_id: String) -> void:
 	current_attack_data = attack_data
 	current_attack_id = attack_id
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
+	_play_audio_manager_se("kick_whiff" if current_attack_type == "Kick" else "punch_whiff")
 	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
 	dev_current_attack_connected = false
 	attack_startup_time_actual = float(attack_data.startup_time) * _get_attack_startup_multiplier(current_attack_type)

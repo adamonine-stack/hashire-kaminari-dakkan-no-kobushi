@@ -2053,10 +2053,12 @@ func _debug_enemy_id() -> String:
 	return name
 
 
-func _play_audio_manager_se(se_id: String) -> void:
+func _play_audio_manager_se(se_id: String) -> bool:
 	var audio := get_node_or_null("/root/AudioManager")
 	if audio != null and audio.has_method("play_se"):
 		audio.call("play_se", se_id)
+		return true
+	return false
 
 
 func _update_visual_state() -> void:
