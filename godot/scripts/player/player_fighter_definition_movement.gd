@@ -102,6 +102,8 @@ var ai_feint_phase: StringName = &""
 var ai_feint_cooldown_timer := 0.0
 var ai_jump_cooldown_timer := 0.0
 var ai_jump_direction := 0.0
+var ai_jump_attack_plan: StringName = &""
+var ai_jump_attack_used := false
 var ai_guard_minimum_timer := 0.0
 var ai_current_target_distance := 60.0
 var ai_selected_attack_type := ""
@@ -363,6 +365,8 @@ func reset_ai_state() -> void:
 	ai_feint_cooldown_timer = 0.0
 	ai_jump_cooldown_timer = 0.0
 	ai_jump_direction = 0.0
+	ai_jump_attack_plan = &""
+	ai_jump_attack_used = false
 	ai_jump_launch_pending = false
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
@@ -770,6 +774,8 @@ func enter_jump() -> void:
 	ai_jump_launch_pending = true
 	ai_jump_launch_direction = ai_jump_direction
 	ai_jump_launch_speed_multiplier = _profile_float(&"jump_forward_speed_multiplier", 0.80)
+	ai_jump_attack_plan = _choose_jump_attack_plan()
+	ai_jump_attack_used = false
 	ai_jump_cooldown_timer = _profile_float(&"jump_cooldown", 2.20)
 	ai_action_started.emit("jump")
 	_register_ai_action(&"jump")
@@ -823,12 +829,53 @@ func update_jump(delta: float) -> void:
 	if is_on_floor():
 		velocity.x = 0.0
 		ai_jump_direction = 0.0
+		ai_jump_attack_plan = &""
+		ai_jump_attack_used = false
 		ai_action_finished.emit("jump")
 		enter_idle()
 		return
 	var desired_speed := ai_jump_direction * jump_horizontal_speed * _profile_float(&"jump_forward_speed_multiplier", 0.80)
 	velocity.x = move_toward(velocity.x, desired_speed, air_control_acceleration * delta * 0.35)
 	_face_opponent()
+	_try_ai_jump_attack()
+
+
+func _choose_jump_attack_plan() -> StringName:
+	if randf() > _profile_float(&"jump_attack_rate", 0.55):
+		return &""
+	var kick_weight := maxf(_profile_float(&"jump_kick_weight", 0.65), 0.0)
+	var punch_weight := maxf(_profile_float(&"jump_punch_weight", 0.35), 0.0)
+	var total := kick_weight + punch_weight
+	if total <= 0.0:
+		return &""
+	return &"kick" if randf() <= kick_weight / total else &"punch"
+
+
+func _try_ai_jump_attack() -> void:
+	if ai_jump_attack_used or ai_jump_attack_plan.is_empty() or current_attack_type != "":
+		return
+	if is_on_floor() or is_hit or is_guard_hit or _is_throw_busy() or is_character_special_busy():
+		return
+	var distance := evaluate_distance()
+	if ai_jump_attack_plan == &"kick":
+		if distance > _profile_float(&"jump_kick_distance", 135.0):
+			return
+		if velocity.y > jump_power * 0.35:
+			return
+		if request_attack_input(&"Kick", true):
+			ai_jump_attack_used = true
+			ai_action_started.emit("jump_kick")
+			_register_ai_action(&"jump_kick")
+			print("[DEV055][%s] Jump kick selected" % _debug_enemy_id())
+		return
+	if ai_jump_attack_plan == &"punch":
+		if velocity.y < 0.0 or distance > _profile_float(&"jump_punch_distance", 92.0):
+			return
+		if request_attack_input(&"Punch", true):
+			ai_jump_attack_used = true
+			ai_action_started.emit("jump_punch")
+			_register_ai_action(&"jump_punch")
+			print("[DEV055][%s] Jump punch selected" % _debug_enemy_id())
 
 
 func update_retreat(delta: float) -> void:
@@ -1313,6 +1360,8 @@ func cancel_current_ai_action(clear_guard := true) -> void:
 	ai_feint_phase = &""
 	ai_has_pending_action = false
 	ai_selected_attack_type = ""
+	ai_jump_attack_plan = &""
+	ai_jump_attack_used = false
 	ai_jump_launch_pending = false
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
@@ -1331,6 +1380,8 @@ func clear_ai_timers() -> void:
 	ai_feint_timer = 0.0
 	ai_jump_cooldown_timer = 0.0
 	ai_jump_direction = 0.0
+	ai_jump_attack_plan = &""
+	ai_jump_attack_used = false
 	ai_jump_launch_pending = false
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
