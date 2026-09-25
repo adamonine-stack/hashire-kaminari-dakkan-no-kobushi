@@ -151,7 +151,7 @@ func _make_music_loop(bpm: float, root_midi: int, pattern: Array, energy: float)
 		var phase := fmod(t, step_duration) / step_duration
 		var env := pow(maxf(0.0, 1.0 - phase), 0.55)
 		var lead_freq := _midi_to_hz(root_midi + int(pattern[step]))
-		var bass_freq := _midi_to_hz(root_midi - 12 + int(pattern[(step / 4) * 4]))
+		var bass_freq := _midi_to_hz(root_midi - 12 + int(pattern[step - (step % 4)]))
 		var lead := (1.0 if sin(TAU * lead_freq * t) >= 0.0 else -1.0) * env * 0.075
 		var bass := asin(sin(TAU * bass_freq * t)) * (2.0 / PI) * 0.11
 		noise_state = int((noise_state * 1103515245 + 12345) & 0x7fffffff)
