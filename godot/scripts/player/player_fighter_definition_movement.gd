@@ -363,6 +363,9 @@ func reset_ai_state() -> void:
 	ai_feint_cooldown_timer = 0.0
 	ai_jump_cooldown_timer = 0.0
 	ai_jump_direction = 0.0
+	ai_jump_launch_pending = false
+	ai_jump_launch_direction = 0.0
+	ai_jump_launch_speed_multiplier = 1.0
 	ai_guard_minimum_timer = 0.0
 	ai_current_target_distance = _randomized_preferred_distance()
 	ai_selected_attack_type = ""
@@ -764,12 +767,10 @@ func enter_jump() -> void:
 	ai_jump_direction = signf(opponent.global_position.x - global_position.x)
 	if ai_jump_direction == 0.0:
 		ai_jump_direction = facing_direction
-	_prepare_jump_visual_state()
-	_play_audio_manager_se("jump")
-	velocity.y = -jump_power
-	velocity.x = ai_jump_direction * jump_horizontal_speed * _profile_float(&"jump_forward_speed_multiplier", 0.80)
+	ai_jump_launch_pending = true
+	ai_jump_launch_direction = ai_jump_direction
+	ai_jump_launch_speed_multiplier = _profile_float(&"jump_forward_speed_multiplier", 0.80)
 	ai_jump_cooldown_timer = _profile_float(&"jump_cooldown", 2.20)
-	_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
 	ai_action_started.emit("jump")
 	_register_ai_action(&"jump")
 	print("[DEV054][%s] Jump selected" % _debug_enemy_id())
@@ -1312,6 +1313,9 @@ func cancel_current_ai_action(clear_guard := true) -> void:
 	ai_feint_phase = &""
 	ai_has_pending_action = false
 	ai_selected_attack_type = ""
+	ai_jump_launch_pending = false
+	ai_jump_launch_direction = 0.0
+	ai_jump_launch_speed_multiplier = 1.0
 	ai_state_watchdog_timer = 0.0
 	if clear_guard:
 		_clear_guard_state()
@@ -1327,6 +1331,9 @@ func clear_ai_timers() -> void:
 	ai_feint_timer = 0.0
 	ai_jump_cooldown_timer = 0.0
 	ai_jump_direction = 0.0
+	ai_jump_launch_pending = false
+	ai_jump_launch_direction = 0.0
+	ai_jump_launch_speed_multiplier = 1.0
 	ai_guard_timer = 0.0
 	ai_guard_minimum_timer = 0.0
 
