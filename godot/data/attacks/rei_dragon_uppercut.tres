@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1_attack"]
+
+[resource]
+script = ExtResource("1_attack")
+attack_id = "rei_dragon_uppercut"
+display_name = "竜巻昇龍拳"
+attack_type = "special"
+attack_category = "special"
+base_damage = 1.0
+damage_multiplier = 2.4
+startup_time = 0.42
+active_time = 0.18
+recovery_time = 0.40
+hitbox_size = Vector2(86, 130)
+hitbox_offset = Vector2(65, -145)
+move_distance = 42.0
+move_duration = 0.20
+move_speed_multiplier = 1.0
+knockback = Vector2(240, -240)
+hitstop_time = 0.13
+hitstun_time = 0.38
+is_guardable = true
+guard_damage_multiplier = 0.15
+guard_hit_time = 0.28
+guard_knockback = Vector2(95, 0)
+can_be_interrupted = true
+interruptible_until_active = true
+cooldown = 4.20
+animation_name = "rei_dragon_uppercut"
+warning_effect_name = "rei_charge"
+attack_effect_name = "rei_uppercut"

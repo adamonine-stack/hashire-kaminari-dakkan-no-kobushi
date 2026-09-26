@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+attack_id = "rei_sweep"
+display_name = "下段回し蹴り"
+attack_type = "kick"
+attack_category = "normal"
+base_damage = 1
+startup_time = 0.24
+active_time = 0.14
+recovery_time = 0.34
+combo_input_start = 0.08
+combo_input_end = 0.36
+hitbox_size = Vector2(95, 38)
+hitbox_offset = Vector2(90, -30)
+forward_move_distance = 0.0
+forward_move_duration = 0.14
+knockback = Vector2(220, -100)
+hitstop_time = 0.07
+hitstun_time = 0.26
+next_attack_ids = Array[String]([])
+animation_name = "crouch_kick_sweep"
