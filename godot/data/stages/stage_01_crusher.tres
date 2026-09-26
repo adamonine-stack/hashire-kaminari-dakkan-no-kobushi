@@ -11,3 +11,13 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "最初の壁を突破し、奪還への道を開け。"
 player_dialogue = "ここを突破する。道を開けろ。"
 enemy_dialogue = "小僧、俺の拳で止めてやる。"
+player_dialogues = {
+"player_01_akky": "ここを突破して、必ず先へ進む！",
+"player_02_gou": "デカいだけじゃ俺は止められねえぞ！",
+"player_03_seiya": "力任せなら、動きを読めば崩せる。"
+}
+enemy_dialogues = {
+"player_01_akky": "威勢だけで俺を倒せると思うな、小僧！",
+"player_02_gou": "面白え。どっちの拳が重いか決めようじゃねえか！",
+"player_03_seiya": "頭で考えてる暇があるなら、受けてみろ！"
+}
