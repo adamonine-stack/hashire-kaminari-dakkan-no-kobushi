@@ -206,10 +206,12 @@ func update_player_status(player_node: Node) -> void:
 	_connect_fighter_signals(current_player)
 	if current_player == null:
 		return
-	player_name_label.text = ""
-	player_name_label.visible = false
+	var definition := _active_fighter_definition(true)
+	player_name_label.text = _fighter_hud_name(definition, _fighter_display_name_from_node(current_player, "PLAYER"))
+	player_name_label.visible = true
 	if player_icon_rect != null:
 		player_icon_rect.texture = _fighter_icon_from_node(current_player, true)
+		player_icon_rect.visible = player_icon_rect.texture != null
 	update_player_hp(int(current_player.get("current_hp")), int(current_player.get("max_hp")), false)
 	if current_player.has_method("get_special_gauge") and current_player.has_method("get_max_special_gauge"):
 		update_player_special_gauge(float(current_player.get_special_gauge()), float(current_player.get_max_special_gauge()))
@@ -257,12 +259,14 @@ func update_enemy_status(enemy_node: Node) -> void:
 func update_enemy_information(enemy_data: Dictionary, enemy_index: int) -> void:
 	var enemy_name := String(enemy_data.get("display_name", "ENEMY %d" % (enemy_index + 1)))
 	var enemy_type := _enemy_type_label(enemy_data)
-	enemy_name_label.text = ""
-	enemy_name_label.visible = false
+	var definition: Resource = enemy_data.get("definition", null)
+	enemy_name_label.text = _fighter_hud_name(definition, enemy_name)
+	enemy_name_label.visible = true
 	enemy_type_label.text = ""
 	enemy_type_label.visible = false
 	if enemy_icon_rect != null:
-		enemy_icon_rect.texture = _definition_texture(enemy_data.get("definition", null), "icon", "selection_icon")
+		enemy_icon_rect.texture = _definition_texture(definition, "icon", "selection_icon")
+		enemy_icon_rect.visible = enemy_icon_rect.texture != null
 	update_enemy_progress(enemy_index + 1, _enemy_total_count())
 	if _is_boss_enemy(enemy_data, enemy_index):
 		show_boss_hud()
@@ -600,10 +604,12 @@ func refresh_from_manager() -> void:
 
 
 func _build_hud() -> void:
-	player_panel = _make_panel("PlayerStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 18.0), Vector2(386.0, 132.0))
+	player_panel = _make_panel("PlayerStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 18.0), Vector2(386.0, 166.0))
 	var player_box := _make_margin_vbox(player_panel)
 	player_icon_rect = _make_icon_rect(player_box)
-	player_name_label = _make_label(player_box, "PLAYER", 18)
+	player_icon_rect.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	player_name_label = _make_label(player_box, "PLAYER", 20)
+	player_name_label.add_theme_color_override("font_color", Color(1.0, 0.96, 0.78, 1.0))
 	player_hp_label = _make_label(player_box, "0 / 0", 15)
 	var player_hp_stack := _make_hp_stack(player_box)
 	player_delay_hp_bar = player_hp_stack["delay"]
@@ -617,17 +623,20 @@ func _build_hud() -> void:
 	player_low_hp_label.add_theme_color_override("font_color", Color(1.0, 0.22, 0.16, 1.0))
 	player_low_hp_label.visible = false
 
-	team_panel = _make_panel("TeamStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 154.0), Vector2(386.0, 238.0))
+	team_panel = _make_panel("TeamStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 178.0), Vector2(386.0, 262.0))
 	var team_box := _make_margin_vbox(team_panel)
 	team_box.name = "VBox"
 	for index in range(3):
 		var label := _make_label(team_box, "P%d READY" % (index + 1), 14)
 		team_labels.append(label)
 
-	enemy_panel = _make_panel("EnemyStatusPanel", Control.PRESET_TOP_RIGHT, Vector2(-410.0, 18.0), Vector2(-24.0, 150.0))
+	enemy_panel = _make_panel("EnemyStatusPanel", Control.PRESET_TOP_RIGHT, Vector2(-410.0, 18.0), Vector2(-24.0, 166.0))
 	var enemy_box := _make_margin_vbox(enemy_panel)
 	enemy_icon_rect = _make_icon_rect(enemy_box)
-	enemy_name_label = _make_label(enemy_box, "ENEMY", 18)
+	enemy_icon_rect.size_flags_horizontal = Control.SIZE_SHRINK_END
+	enemy_name_label = _make_label(enemy_box, "ENEMY", 20)
+	enemy_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	enemy_name_label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.80, 1.0))
 	enemy_type_label = _make_label(enemy_box, "", 14)
 	enemy_progress_label = _make_label(enemy_box, "ENEMY 1 / 8", 14)
 	enemy_hp_label = _make_label(enemy_box, "0 / 0", 15)
@@ -780,8 +789,8 @@ func _make_label(parent: Node, text: String, font_size: int) -> Label:
 
 func _make_icon_rect(parent: Node) -> TextureRect:
 	var rect := TextureRect.new()
-	rect.custom_minimum_size = Vector2(48.0, 48.0)
-	rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	rect.custom_minimum_size = Vector2(64.0, 64.0)
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(rect)
@@ -1073,8 +1082,8 @@ func _fighter_display_name_from_node(fighter: Node, fallback: String) -> String:
 	return fallback
 
 
-func _fighter_icon_from_node(fighter: Node, is_player: bool) -> Texture2D:
-	if battle_manager == null or fighter == null:
+func _active_fighter_definition(is_player: bool) -> Resource:
+	if battle_manager == null:
 		return null
 	var index_property := "current_player_index" if is_player else "current_enemy_index"
 	var team_property := "player_team" if is_player else "enemy_team"
@@ -1082,7 +1091,24 @@ func _fighter_icon_from_node(fighter: Node, is_player: bool) -> Texture2D:
 	var team: Array = battle_manager.get(team_property)
 	if fighter_index < 0 or fighter_index >= team.size():
 		return null
-	return _definition_texture(team[fighter_index].get("definition", null), "icon", "selection_icon")
+	return team[fighter_index].get("definition", null)
+
+
+func _fighter_icon_from_node(fighter: Node, is_player: bool) -> Texture2D:
+	if battle_manager == null or fighter == null:
+		return null
+	var definition := _active_fighter_definition(is_player)
+	return _definition_texture(definition, "icon", "selection_icon")
+
+
+func _fighter_hud_name(definition: Resource, fallback: String) -> String:
+	if definition == null:
+		return fallback
+	var hud_name := String(definition.get("hud_name_katakana")).strip_edges()
+	if not hud_name.is_empty():
+		return hud_name
+	var display_name := String(definition.get("display_name")).strip_edges()
+	return display_name if not display_name.is_empty() else fallback
 
 
 func _definition_texture(definition: Resource, primary_property: String, fallback_property: String) -> Texture2D:
@@ -1151,12 +1177,10 @@ func _hide_legacy_battle_labels() -> void:
 
 func _apply_minimal_battle_text_visibility() -> void:
 	var hidden_labels := [
-		player_name_label,
 		player_hp_label,
 		player_state_label,
 		player_special_label,
 		player_low_hp_label,
-		enemy_name_label,
 		enemy_type_label,
 		enemy_progress_label,
 		enemy_hp_label,
@@ -1169,6 +1193,14 @@ func _apply_minimal_battle_text_visibility() -> void:
 		if label != null:
 			label.text = ""
 			label.visible = false
+	if player_name_label != null:
+		player_name_label.visible = not player_name_label.text.is_empty()
+	if enemy_name_label != null:
+		enemy_name_label.visible = not enemy_name_label.text.is_empty()
+	if player_icon_rect != null:
+		player_icon_rect.visible = player_icon_rect.texture != null
+	if enemy_icon_rect != null:
+		enemy_icon_rect.visible = enemy_icon_rect.texture != null
 	if team_panel != null:
 		team_panel.visible = true
 	if show_battle_hp_bars:
