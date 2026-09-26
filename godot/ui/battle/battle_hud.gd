@@ -228,7 +228,7 @@ func update_team_status(team_data: Array, active_index: int = -1) -> void:
 		if index >= team_data.size():
 			team_labels[index].visible = false
 			continue
-		team_labels[index].visible = false
+		team_labels[index].visible = true
 		var data: Dictionary = team_data[index]
 		var status := "READY"
 		if bool(data.get("is_defeated", false)) or int(data.get("current_health", 0)) <= 0:
@@ -236,7 +236,11 @@ func update_team_status(team_data: Array, active_index: int = -1) -> void:
 		elif index == active_index:
 			status = "ACTIVE"
 		var hp_text := "%d/%d" % [int(data.get("current_health", 0)), int(data.get("max_health", 0))]
-		team_labels[index].text = ""
+		team_labels[index].text = "%s  %s  HP %s" % [
+			String(data.get("display_name", "ALLY")),
+			status,
+			hp_text,
+		]
 		team_labels[index].modulate = Color(1.0, 0.95, 0.55, 1.0) if status == "ACTIVE" else Color.WHITE
 		if status == "KO":
 			team_labels[index].modulate = Color(0.8, 0.35, 0.35, 1.0)
@@ -431,7 +435,7 @@ func show_game_clear() -> void:
 	hide_boss_warning()
 	clear_message_queue()
 	result_title_label.text = "GAME CLEAR"
-	result_body_label.text = "All 8 enemies defeated.\nBattle run complete."
+	result_body_label.text = "All 9 stages cleared.\nBattle run complete."
 	result_panel.visible = true
 	result_retry_button.text = "PLAY AGAIN"
 	result_retry_button.grab_focus()
@@ -613,7 +617,7 @@ func _build_hud() -> void:
 	player_low_hp_label.add_theme_color_override("font_color", Color(1.0, 0.22, 0.16, 1.0))
 	player_low_hp_label.visible = false
 
-	team_panel = _make_panel("TeamStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 154.0), Vector2(386.0, 94.0))
+	team_panel = _make_panel("TeamStatusPanel", Control.PRESET_TOP_LEFT, Vector2(24.0, 154.0), Vector2(386.0, 238.0))
 	var team_box := _make_margin_vbox(team_panel)
 	team_box.name = "VBox"
 	for index in range(3):
@@ -1166,7 +1170,7 @@ func _apply_minimal_battle_text_visibility() -> void:
 			label.text = ""
 			label.visible = false
 	if team_panel != null:
-		team_panel.visible = false
+		team_panel.visible = true
 	if show_battle_hp_bars:
 		if player_hp_bar != null:
 			player_hp_bar.visible = true

@@ -22,7 +22,7 @@ func setup(index: int, data: Dictionary) -> void:
 	var defeated := bool(data["is_defeated"])
 	var available := bool(data.get("is_available", true))
 	var current_health := int(data["current_health"])
-	var max_health := int(definition.max_health)
+	var max_health := int(data["max_health"])
 	var status := "DEFEATED" if defeated or not available else "AVAILABLE"
 
 	text = "%s\n%s\nHP %d / %d\n%s" % [

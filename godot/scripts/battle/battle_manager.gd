@@ -76,6 +76,22 @@ const ENEMY_DEFINITIONS: Array[Resource] = [
 	preload("res://data/enemies/enemy_07_tricky.tres"),
 	preload("res://data/enemies/enemy_08_boss.tres"),
 ]
+const STAGE_DEFINITIONS: Array[Resource] = [
+	preload("res://data/stages/stage_01_crusher.tres"),
+	preload("res://data/stages/stage_02_rei.tres"),
+	preload("res://data/stages/stage_03_masato.tres"),
+	preload("res://data/stages/stage_04_shadow.tres"),
+	preload("res://data/stages/stage_05_cross.tres"),
+	preload("res://data/stages/stage_06_rio.tres"),
+	preload("res://data/stages/stage_07_teki.tres"),
+	preload("res://data/stages/stage_08_leon.tres"),
+	preload("res://data/stages/stage_09_secret_boss.tres"),
+]
+const CAMPAIGN_STAGE_COUNT := 9
+const PLAYER_MAX_HEALTH_SCALE := 0.5
+const REST_RECOVERY_RATE := 0.2
+const RUN_SAVE_PATH := "user://save.cfg"
+const CONTINUE_REQUEST_META := &"st_action_continue_run"
 
 @export var round_time_limit := 99
 @export var ko_pause_duration := 1.5
@@ -227,7 +243,12 @@ func _ready() -> void:
 	_set_battle_active(false)
 	_update_all_ui()
 	call_deferred("refresh_mobile_controls_visibility")
-	call_deferred("start_initial_player_selection")
+	var continue_requested := _consume_continue_request()
+	if continue_requested and load_run_progress():
+		_selection_reason = "CONTINUE"
+		call_deferred("open_player_select")
+	else:
+		call_deferred("start_initial_player_selection")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -323,6 +344,10 @@ func reset_player_roster() -> void:
 		_create_progress_entry_from_definition(ALLY_POWER, 1),
 		_create_progress_entry_from_definition(ALLY_SPEED, 2),
 	]
+	for data in player_team:
+		var reduced_max := maxi(1, int(round(float(data["max_health"]) * PLAYER_MAX_HEALTH_SCALE)))
+		data["max_health"] = reduced_max
+		data["current_health"] = reduced_max
 	player_roster = player_team
 	current_player_id = ""
 
@@ -333,6 +358,107 @@ func reset_player_order_data() -> void:
 	is_player_order_confirmed = false
 	is_battle_starting = false
 	is_ordered_player_change_processing = false
+
+
+func _consume_continue_request() -> bool:
+	var root_node := get_tree().root
+	var requested := bool(root_node.get_meta(CONTINUE_REQUEST_META, false))
+	if root_node.has_meta(CONTINUE_REQUEST_META):
+		root_node.remove_meta(CONTINUE_REQUEST_META)
+	return requested
+
+
+func save_run_progress() -> bool:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return false
+	var config := ConfigFile.new()
+	config.set_value("run", "version", 1)
+	config.set_value("run", "current_enemy_index", current_enemy_index)
+	for index in range(player_team.size()):
+		var data := player_team[index]
+		var section := "player_%d" % index
+		config.set_value(section, "character_id", String(data["character_id"]))
+		config.set_value(section, "current_health", int(data["current_health"]))
+		config.set_value(section, "is_defeated", bool(data["is_defeated"]))
+		config.set_value(section, "is_available", bool(data.get("is_available", true)))
+		config.set_value(section, "special_gauge", float(data.get("special_gauge", 0.0)))
+	for index in range(enemy_team.size()):
+		var data := enemy_team[index]
+		var section := "enemy_%d" % index
+		config.set_value(section, "fighter_id", String(data["fighter_id"]))
+		config.set_value(section, "current_health", int(data["current_health"]))
+		config.set_value(section, "is_defeated", bool(data["is_defeated"]))
+	var error := config.save(RUN_SAVE_PATH)
+	if error != OK:
+		push_warning("Failed to save run progress: %s" % error)
+		return false
+	return true
+
+
+func load_run_progress() -> bool:
+	if not FileAccess.file_exists(RUN_SAVE_PATH):
+		return false
+	var config := ConfigFile.new()
+	var error := config.load(RUN_SAVE_PATH)
+	if error != OK:
+		push_warning("Failed to load run progress: %s" % error)
+		return false
+	var saved_enemy_index := int(config.get_value("run", "current_enemy_index", 0))
+	if enemy_team.is_empty():
+		return false
+	current_enemy_index = clampi(saved_enemy_index, 0, enemy_team.size() - 1)
+	defeated_player_ids.clear()
+	defeated_enemy_ids.clear()
+	for index in range(player_team.size()):
+		var data := player_team[index]
+		var section := "player_%d" % index
+		var saved_id := String(config.get_value(section, "character_id", String(data["character_id"])))
+		if saved_id != String(data["character_id"]):
+			continue
+		var defeated := bool(config.get_value(section, "is_defeated", false))
+		data["is_defeated"] = defeated
+		data["is_available"] = bool(config.get_value(section, "is_available", not defeated)) and not defeated
+		data["current_health"] = 0 if defeated else clampi(
+			int(config.get_value(section, "current_health", data["max_health"])),
+			1,
+			int(data["max_health"])
+		)
+		data["special_gauge"] = maxf(0.0, float(config.get_value(section, "special_gauge", 0.0)))
+		if defeated:
+			defeated_player_ids.append(StringName(data["fighter_id"]))
+	for index in range(enemy_team.size()):
+		var data := enemy_team[index]
+		var section := "enemy_%d" % index
+		var saved_id := String(config.get_value(section, "fighter_id", String(data["fighter_id"])))
+		if saved_id != String(data["fighter_id"]):
+			continue
+		var defeated := bool(config.get_value(section, "is_defeated", false))
+		data["is_defeated"] = defeated
+		data["current_health"] = 0 if defeated else clampi(
+			int(config.get_value(section, "current_health", data["max_health"])),
+			1,
+			int(data["max_health"])
+		)
+		if defeated:
+			defeated_enemy_ids.append(StringName(data["fighter_id"]))
+	current_player_index = -1
+	current_player_id = ""
+	selected_player_ids.clear()
+	_last_intro_enemy_index = -1
+	_last_recovery_enemy_index = current_enemy_index - 1
+	is_player_change_processing = (
+		not bool(enemy_team[current_enemy_index]["is_defeated"])
+		and int(enemy_team[current_enemy_index]["current_health"]) < int(enemy_team[current_enemy_index]["max_health"])
+	)
+	_set_battle_state(BattleState.READY)
+	_update_all_ui()
+	print("[SAVE] Continued from stage %d" % (current_enemy_index + 1))
+	return true
+
+
+func clear_run_save() -> void:
+	if FileAccess.file_exists(RUN_SAVE_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_SAVE_PATH))
 
 
 func validate_enemy_definitions(required_count: int = -1) -> bool:
@@ -370,11 +496,8 @@ func validate_enemy_definitions(required_count: int = -1) -> bool:
 func start_initial_player_selection() -> void:
 	if flow_state == BattleState.CLEAR or flow_state == BattleState.GAME_OVER:
 		return
-
-	if not is_player_order_confirmed:
-		open_player_order_select()
-	else:
-		open_player_select(_selection_reason == "GAME_START")
+	_selection_reason = "GAME_START"
+	open_player_select(true)
 
 
 func open_player_select(is_initial_select: bool = false) -> void:
@@ -383,7 +506,10 @@ func open_player_select(is_initial_select: bool = false) -> void:
 	_set_battle_state(BattleState.NEXT_PLAYER)
 	_set_battle_active(false)
 	_show_message("")
-	_selection_reason = "GAME_START" if is_initial_select else "PLAYER_DEFEATED"
+	if is_initial_select:
+		_selection_reason = "GAME_START"
+	elif _selection_reason not in ["PLAYER_DEFEATED", "NEXT_STAGE", "CONTINUE"]:
+		_selection_reason = "PLAYER_DEFEATED"
 	_show_player_selection()
 	player_select_opened.emit()
 	print("[DEV033] Player select opened")
@@ -579,22 +705,16 @@ func start_ordered_player_change() -> void:
 		return
 	is_ordered_player_change_processing = true
 	var defeated_id := String(_active_player_id())
-	print("[DEV034] Ordered player defeated: %s" % defeated_id)
-	var next_player_id := get_next_available_ordered_player_id()
-	if next_player_id == "":
-		print("[DEV034] No ordered players remaining")
-		print("[DEV034] GAME OVER")
+	print("[ROTATION] Fighter defeated: %s" % defeated_id)
+	if get_available_player_indices().is_empty():
 		is_ordered_player_change_processing = false
 		enter_game_over()
 		return
-	next_ordered_player_requested.emit(next_player_id)
-	print("[DEV034] Next ordered player: %s" % next_player_id)
-	print("[DEV034] Enemy HP retained: %d / %d" % [enemy.current_hp, enemy.max_hp])
-	await show_next_player_message(next_player_id)
-	spawn_ordered_player(next_player_id)
-	print("[DEV034] Player spawned: %s" % next_player_id)
+	_selection_reason = "PLAYER_DEFEATED"
+	_set_battle_state(BattleState.NEXT_PLAYER)
+	_show_message("")
+	open_player_select(false)
 	is_ordered_player_change_processing = false
-	await prepare_battle()
 
 
 func show_next_player_message(character_id: String) -> void:
@@ -647,8 +767,9 @@ func select_player_by_id(character_id: String) -> void:
 		selected_player_ids.append(player_id)
 	close_player_select()
 	player_selected.emit(character_id)
-	print("[DEV033] Player selected: %s" % character_id)
+	print("[ROTATION] Fighter selected for stage %d: %s" % [current_enemy_index + 1, character_id])
 	_set_battle_state(BattleState.READY)
+	save_run_progress()
 	await prepare_battle()
 
 
@@ -663,6 +784,7 @@ func spawn_active_player() -> void:
 		_store_player_special_gauge(previous_player_id)
 	if player.has_method("apply_fighter_definition"):
 		player.apply_fighter_definition(definition)
+	player.max_hp = int(data["max_health"])
 	if player.has_method("set_special_gauge"):
 		player.set_special_gauge(float(data.get("special_gauge", 0.0)))
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
@@ -712,6 +834,7 @@ func prepare_battle() -> void:
 	if _should_finish_game():
 		return
 
+	_apply_current_stage_definition()
 	_set_battle_state(BattleState.READY)
 	_flow_sequence_id += 1
 	var sequence_id := _flow_sequence_id
@@ -754,7 +877,7 @@ func start_enemy_intro(enemy_data: Dictionary) -> void:
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
 	_show_enemy_intro(enemy_data)
-	await get_tree().create_timer(1.35).timeout
+	await get_tree().create_timer(2.4).timeout
 	finish_enemy_intro()
 
 
@@ -867,17 +990,21 @@ func resolve_battle_result() -> void:
 		if current_enemy_index == -1:
 			enter_game_clear()
 		else:
+			save_run_progress()
+			_selection_reason = "NEXT_STAGE"
 			_set_battle_state(BattleState.NEXT_ENEMY)
 			await transition_to_next_enemy()
 	else:
+		save_run_progress()
 		await start_ordered_player_change()
 
 
 func handle_player_victory() -> void:
+	_store_active_fighter_health()
 	_mark_enemy_defeated()
 	hud_enemy_defeated.emit(enemy, current_enemy_index)
 	_notify_hud_enemy_defeated()
-	_heal_active_player_after_enemy_defeat()
+	_apply_rest_recovery_after_stage(String(_active_player_id()))
 	playerWinCount += 1
 	print("Enemy defeated: %s" % _active_enemy_id())
 
@@ -969,10 +1096,10 @@ func enter_game_clear() -> void:
 	_switch_bgm("WinBGM")
 	_show_message("GAME CLEAR")
 	_notify_hud_game_clear()
-	_show_end_panel("GAME CLEAR", "All 8 enemies defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
-		_order_text(),
+	clear_run_save()
+	_show_end_panel("GAME CLEAR", "Current campaign cleared.\nDEFEATED: %d  SURVIVED: %d" % [
 		defeated_player_ids.size(),
-		maxi(0, selected_player_order.size() - defeated_player_ids.size()),
+		maxi(0, player_team.size() - defeated_player_ids.size()),
 	])
 	game_clear_menu_opened.emit()
 	game_cleared.emit()
@@ -991,6 +1118,7 @@ func enter_game_over() -> void:
 	_switch_bgm("LoseBGM")
 	_show_message("GAME OVER")
 	_notify_hud_game_over()
+	clear_run_save()
 	_show_end_panel("GAME OVER", "All ally fighters defeated.")
 	game_over_menu_opened.emit()
 	all_players_defeated.emit()
@@ -1113,6 +1241,7 @@ func create_progress_snapshot() -> Dictionary:
 
 
 func reset_game_progress() -> void:
+	clear_run_save()
 	hud_retry_started.emit()
 	if battle_hud != null and battle_hud.has_method("reset_battle_hud"):
 		battle_hud.reset_battle_hud()
@@ -1131,18 +1260,14 @@ func restart_current_game() -> void:
 	is_scene_transitioning = true
 	restart_requested.emit()
 	print("[DEV041][GameFlow] Restart confirmed")
-	var preserved_order := selected_player_order.duplicate()
+	clear_run_save()
 	cleanup_battle_before_transition()
 	hud_retry_started.emit()
 	if battle_hud != null and battle_hud.has_method("reset_battle_hud"):
 		battle_hud.reset_battle_hud()
 	_hide_end_panel()
 	initialize_game_progress()
-	if preserved_order.size() == 3 and is_valid_player_order(preserved_order):
-		set_player_order(preserved_order)
-		await start_battle_with_first_player()
-	else:
-		start_initial_player_selection()
+	start_initial_player_selection()
 	is_scene_transitioning = false
 	refresh_mobile_controls_visibility()
 	scene_transition_finished.emit("restart")
@@ -1286,11 +1411,12 @@ func transition_to_next_enemy() -> void:
 	_set_battle_active(false)
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
+	player.visible = false
 	enemy.visible = false
 	await fade_out(0.4)
-	enemy.visible = true
 	await fade_in(0.4)
-	await prepare_battle()
+	_selection_reason = "NEXT_STAGE"
+	open_player_select(false)
 
 
 func spawn_selected_player(character_id: String) -> void:
@@ -1410,47 +1536,62 @@ func _store_player_special_gauge(character_id: String) -> void:
 	player_team[player_index]["special_gauge"] = float(player.get_special_gauge())
 
 
-func _heal_active_player_after_enemy_defeat() -> void:
-	var applied_heal := apply_enemy_defeat_recovery(String(_active_player_id()))
-	if applied_heal <= 0:
-		return
-	print("[DEV035] Enemy defeated by: %s" % current_player_id)
-	print("[DEV035] Recovery amount: %d" % applied_heal)
-	print("[DEV035] HP after recovery: %d / %d" % [player.current_hp, player.max_hp])
-	hud_healing_applied.emit(player, applied_heal)
-	_show_heal_effect(applied_heal)
+func _apply_rest_recovery_after_stage(active_character_id: String) -> Dictionary:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return {}
+	if _last_recovery_enemy_index == current_enemy_index:
+		return {}
+	_last_recovery_enemy_index = current_enemy_index
+	var recovered: Dictionary = {}
+	var recovery_lines: Array[String] = []
+	for index in range(player_team.size()):
+		var data := player_team[index]
+		var character_id := String(data["character_id"])
+		if character_id == active_character_id:
+			continue
+		if bool(data.get("is_defeated", false)) or int(data.get("current_health", 0)) <= 0:
+			continue
+		var max_health := int(data["max_health"])
+		var heal_amount := maxi(1, int(round(float(max_health) * REST_RECOVERY_RATE)))
+		var previous_hp := int(data["current_health"])
+		var healed_hp := clampi(previous_hp + heal_amount, 0, max_health)
+		var applied := healed_hp - previous_hp
+		data["current_health"] = healed_hp
+		if applied > 0:
+			recovered[character_id] = applied
+			recovery_lines.append("%s +%d HP" % [data["display_name"], applied])
+	if battle_hud != null and battle_hud.has_method("update_team_status"):
+		battle_hud.update_team_status(player_team, current_player_index)
+	if recovery_lines.is_empty():
+		recovery_lines.append("休養中の仲間はすでに最大HPです")
+	_show_rest_recovery_effect(recovery_lines)
+	return recovered
 
 
 func apply_enemy_defeat_recovery(character_id: String) -> int:
-	if current_player_index < 0 or current_player_index >= player_team.size():
-		return 0
-	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
-		return 0
-	if _last_recovery_enemy_index == current_enemy_index:
-		return 0
-	if String(_active_player_id()) != character_id:
-		return 0
-	var player_data := player_team[current_player_index]
-	var heal_amount := maxi(1, int(round(float(player.max_hp) * 0.2)))
-	var previous_hp: int = player.current_hp
-	var healed_hp := clampi(player.current_hp + heal_amount, 0, player.max_hp)
-	var applied_heal: int = healed_hp - previous_hp
-	_last_recovery_enemy_index = current_enemy_index
-	player_data["current_health"] = healed_hp
-	if player.has_method("set_health"):
-		player.set_health(healed_hp)
-	else:
-		player.current_hp = healed_hp
-		player.hp_changed.emit(player.current_hp, player.max_hp)
-	return applied_heal
+	# Legacy compatibility: the active fighter no longer heals after a stage win.
+	# Recovery now belongs only to non-participating, surviving allies.
+	return 0
+
+
+func _show_rest_recovery_effect(lines: Array[String]) -> void:
+	if _heal_effect_label == null:
+		return
+	_heal_effect_label.text = "REST RECOVERY 20%\n" + "\n".join(lines)
+	_heal_effect_label.visible = true
+	_heal_effect_label.modulate.a = 1.0
+	var tween := create_tween()
+	tween.tween_interval(1.4)
+	tween.tween_property(_heal_effect_label, "modulate:a", 0.0, 0.25)
+	await tween.finished
+	_heal_effect_label.visible = false
 
 
 func _show_heal_effect(heal_amount: int) -> void:
 	if _heal_effect_label == null:
 		return
-	_heal_effect_label.text = ""
-	_heal_effect_label.visible = false
-	return
+	_heal_effect_label.text = "+%d HP" % heal_amount
+	_heal_effect_label.visible = true
 	_heal_effect_label.modulate.a = 1.0
 	var tween := create_tween()
 	tween.tween_interval(1.0)
@@ -1642,6 +1783,9 @@ func _switch_bgm(bgm_name: String) -> void:
 func _bgm_id_for_name(bgm_name: String) -> String:
 	match bgm_name:
 		"BattleBGM":
+			var stage_definition := _stage_definition_for_enemy_index(current_enemy_index)
+			if stage_definition != null and not String(stage_definition.bgm_id).is_empty():
+				return String(stage_definition.bgm_id)
 			return "final_boss" if current_enemy_index >= 7 else "battle"
 		"WinBGM":
 			return "clear"
@@ -2002,10 +2146,10 @@ func _create_flow_ui() -> void:
 	_enemy_intro_panel.name = "EnemyIntroPanel"
 	_enemy_intro_panel.visible = false
 	_enemy_intro_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_enemy_intro_panel.offset_left = -220.0
-	_enemy_intro_panel.offset_top = -90.0
-	_enemy_intro_panel.offset_right = 220.0
-	_enemy_intro_panel.offset_bottom = 90.0
+	_enemy_intro_panel.offset_left = -320.0
+	_enemy_intro_panel.offset_top = -165.0
+	_enemy_intro_panel.offset_right = 320.0
+	_enemy_intro_panel.offset_bottom = 165.0
 	battle_ui_root.add_child(_enemy_intro_panel)
 
 	_enemy_intro_label = Label.new()
@@ -2013,7 +2157,7 @@ func _create_flow_ui() -> void:
 	_enemy_intro_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_enemy_intro_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_enemy_intro_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_enemy_intro_label.add_theme_font_size_override("font_size", 22)
+	_enemy_intro_label.add_theme_font_size_override("font_size", 20)
 	_enemy_intro_panel.add_child(_enemy_intro_label)
 
 	_end_panel = PanelContainer.new()
@@ -2077,8 +2221,8 @@ func _create_flow_ui() -> void:
 	_bgm_player.name = "BattleBGMPlayer"
 	add_child(_bgm_player)
 
-	_create_player_order_ui()
-
+	# The former three-fighter sortie-order UI is intentionally not constructed.
+	# Campaign flow now selects one fighter before every stage.
 	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
 	battle_ui_root.add_child(_character_selection_screen)
 	_character_selection_screen.fighter_selected.connect(select_player)
@@ -2628,11 +2772,25 @@ func _active_enemy_type() -> String:
 
 func _active_enemy_order_text() -> String:
 	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
-		return "- / 8"
-	var definition: Resource = enemy_team[current_enemy_index].get("definition", null)
-	if definition == null:
-		return "%d / 8" % (current_enemy_index + 1)
-	return "%d / 8" % int(definition.enemy_order)
+		return "- / %d" % CAMPAIGN_STAGE_COUNT
+	return "%d / %d" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT]
+
+
+func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
+	if enemy_index < 0 or enemy_index >= STAGE_DEFINITIONS.size():
+		return null
+	return STAGE_DEFINITIONS[enemy_index]
+
+
+func _apply_current_stage_definition() -> void:
+	var stage_definition := _stage_definition_for_enemy_index(current_enemy_index)
+	if stage_definition == null:
+		return
+	_player_start_position = Vector2(stage_definition.player_start_position)
+	_enemy_start_position = Vector2(stage_definition.enemy_start_position)
+	var camera := get_node_or_null("../BattleCamera") as Camera2D
+	if camera != null:
+		camera.position = Vector2(stage_definition.camera_position)
 
 
 func _should_show_enemy_intro() -> bool:
@@ -2644,26 +2802,37 @@ func _should_show_enemy_intro() -> bool:
 func _show_enemy_intro(enemy_data: Dictionary) -> void:
 	if _enemy_intro_panel == null or _enemy_intro_label == null:
 		return
-	_enemy_intro_label.text = ""
-	_enemy_intro_panel.visible = false
-	return
 	var definition: Resource = enemy_data.get("definition", null)
+	var stage_definition := _stage_definition_for_enemy_index(current_enemy_index)
+	var stage_name := ""
+	var stage_intro := ""
+	var player_dialogue := ""
+	var enemy_dialogue := ""
+	if stage_definition != null:
+		stage_name = String(stage_definition.stage_name)
+		stage_intro = String(stage_definition.intro_text)
+		player_dialogue = String(stage_definition.player_dialogue)
+		enemy_dialogue = String(stage_definition.enemy_dialogue)
 	var intro_title := "ENEMY"
 	var intro_description := ""
 	var enemy_type := ""
-	var order_text := "%d / 8" % (current_enemy_index + 1)
 	if definition != null:
 		intro_title = definition.intro_title
 		intro_description = definition.intro_description
 		enemy_type = String(definition.fighter_type)
-		order_text = "%d / 8" % int(definition.enemy_order)
-	_enemy_intro_label.text = "ENEMY %s\n%s\nTYPE: %s\n%s\n%s" % [
-		order_text,
-		enemy_data["display_name"],
-		enemy_type,
-		intro_title,
-		intro_description,
+	var lines: Array[String] = [
+		"STAGE %d / %d  %s" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT, stage_name],
+		"%s  [%s]" % [enemy_data["display_name"], enemy_type],
 	]
+	if not stage_intro.is_empty():
+		lines.append(stage_intro)
+	if not player_dialogue.is_empty():
+		lines.append("%s「%s」" % [_active_player_name(), player_dialogue])
+	if not enemy_dialogue.is_empty():
+		lines.append("%s「%s」" % [enemy_data["display_name"], enemy_dialogue])
+	if not intro_title.is_empty():
+		lines.append("%s — %s" % [intro_title, intro_description])
+	_enemy_intro_label.text = "\n".join(lines)
 	_enemy_intro_panel.visible = true
 
 

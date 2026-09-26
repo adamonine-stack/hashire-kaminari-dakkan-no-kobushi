@@ -17,9 +17,7 @@ func run() -> void:
 	current_scene = battle
 	await process_frame
 	var manager = battle.get_node("BattleManager")
-	for entry in manager.player_team:
-		manager.select_order_character(String(entry.fighter_id))
-	manager.confirm_player_order()
+	await manager.select_player_by_id(String(manager.player_team[0].fighter_id))
 	var player = battle.get_node("Player")
 	var enemy = battle.get_node("Enemy")
 	enemy.attack_started.connect(count_enemy_attack)
