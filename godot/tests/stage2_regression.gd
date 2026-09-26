@@ -56,6 +56,13 @@ func run() -> void:
 		if manager.isRoundActive:
 			break
 	check(manager.isRoundActive, "stage 1 starts")
+	# Clear any AI action chosen on the exact frame the round became active so
+	# this section measures rotation/recovery rather than a pending throw.
+	enemy.ai_enabled = false
+	enemy.ai_profile = null
+	enemy.reset_attack_state()
+	enemy.clear_ai_action_state()
+	enemy._clear_pending_throw()
 	player.set_health(35)
 	var active_hp_before_win: int = int(player.current_hp)
 	await defeat_with_punches()
