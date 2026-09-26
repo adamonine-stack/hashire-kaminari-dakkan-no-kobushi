@@ -779,6 +779,11 @@ func spawn_active_player() -> void:
 
 	var data := player_team[current_player_index]
 	var definition: Resource = data["definition"]
+	# Capture the selected fighter's saved state before applying a new definition.
+	# apply_fighter_definition() emits hp/special signals while the shared Player
+	# node can still contain the previous fighter's KO/low-HP values.
+	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	var current_special_gauge := float(data.get("special_gauge", 0.0))
 	var previous_player_id := _last_spawned_player_id
 	if previous_player_id != "":
 		_store_player_special_gauge(previous_player_id)
@@ -786,8 +791,7 @@ func spawn_active_player() -> void:
 		player.apply_fighter_definition(definition)
 	player.max_hp = int(data["max_health"])
 	if player.has_method("set_special_gauge"):
-		player.set_special_gauge(float(data.get("special_gauge", 0.0)))
-	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+		player.set_special_gauge(current_special_gauge)
 	player.visible = true
 	reset_active_fighter_state(player, _player_start_position, 1.0, current_health)
 	current_player_instance = player
@@ -819,6 +823,9 @@ func spawn_active_enemy(restore_full_health := true) -> void:
 		data["current_health"] = int(data["max_health"])
 		data["is_defeated"] = false
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+	# Stage transitions hide the shared Enemy node. Always reveal it again when
+	# the next enemy is spawned (or when the same enemy resumes after a player KO).
+	enemy.visible = true
 	reset_active_fighter_state(enemy, _enemy_start_position, -1.0, current_health)
 	if enemy.has_method("set_special_gauge"):
 		enemy.set_special_gauge(0.0)
