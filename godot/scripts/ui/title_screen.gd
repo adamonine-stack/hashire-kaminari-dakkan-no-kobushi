@@ -1,6 +1,8 @@
 extends Control
 
 const BATTLE_SCENE := "res://scenes/Battle.tscn"
+const RUN_SAVE_PATH := "user://save.cfg"
+const CONTINUE_REQUEST_META := &"st_action_continue_run"
 
 signal new_game_requested
 signal scene_transition_started(scene_path: String)
@@ -56,11 +58,29 @@ func start_new_game() -> void:
 	if _is_portrait_viewport():
 		_refresh_orientation_overlay()
 		return
+	if FileAccess.file_exists(RUN_SAVE_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_SAVE_PATH))
+	get_tree().root.set_meta(CONTINUE_REQUEST_META, false)
+	await _enter_battle_scene(false)
+
+
+func continue_game() -> void:
+	if is_scene_transitioning or not _has_continue_data():
+		return
+	if _is_portrait_viewport():
+		_refresh_orientation_overlay()
+		return
+	get_tree().root.set_meta(CONTINUE_REQUEST_META, true)
+	await _enter_battle_scene(true)
+
+
+func _enter_battle_scene(is_continue: bool) -> void:
 	_play_ui_se("confirm")
 	is_scene_transitioning = true
-	new_game_requested.emit()
+	if not is_continue:
+		new_game_requested.emit()
 	scene_transition_started.emit(BATTLE_SCENE)
-	print("[DEV041][GameFlow] TITLE -> SORTIE_ORDER")
+	print("[DEV041][GameFlow] TITLE -> %s" % ("CONTINUE" if is_continue else "FIGHTER_SELECT"))
 	await _fade_out(0.25)
 	get_tree().paused = false
 	get_tree().change_scene_to_file(BATTLE_SCENE)
@@ -153,7 +173,7 @@ func _build_title_layout() -> void:
 	continue_button = _make_menu_button("CONTINUE")
 	continue_button.disabled = not _has_continue_data()
 	continue_button.tooltip_text = "Save data is not available yet." if continue_button.disabled else ""
-	continue_button.pressed.connect(start_new_game)
+	continue_button.pressed.connect(continue_game)
 	title_menu.add_child(continue_button)
 
 	how_to_play_button = _make_menu_button("HOW TO PLAY")
@@ -347,8 +367,10 @@ func _input_help_text() -> String:
 		"Throw: %s" % _action_text("throw_attack"),
 		"Pause: %s" % _action_text("pause"),
 		"",
-		"Set the sortie order, defeat all 8 enemies, and clear the run.",
-		"Defeated fighters cannot be selected again in the same run.",
+		"Start with all 3 fighters. Choose one fighter before each stage.",
+		"The 2 fighters who sit out recover 20% of their maximum HP.",
+		"The fighter who battles does not recover after winning.",
+		"Stage 8: Leon Crow. Stage 9: secret boss.",
 	])
 
 
