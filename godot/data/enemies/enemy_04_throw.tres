@@ -22,6 +22,7 @@
 script = ExtResource("1_def")
 fighter_id = &"enemy_04_rei_kageyama"
 display_name = "レイ・カゲヤマ"
+hud_name_katakana = "レイ・カゲヤマ"
 description = "破壊の昇龍拳。長いリーチと荒々しい空手技で攻め込む。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
