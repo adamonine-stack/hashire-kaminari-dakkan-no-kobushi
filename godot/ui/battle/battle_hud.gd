@@ -435,7 +435,7 @@ func show_game_clear() -> void:
 	hide_boss_warning()
 	clear_message_queue()
 	result_title_label.text = "GAME CLEAR"
-	result_body_label.text = "All 8 enemies defeated.\nBattle run complete."
+	result_body_label.text = "All 9 stages cleared.\nBattle run complete."
 	result_panel.visible = true
 	result_retry_button.text = "PLAY AGAIN"
 	result_retry_button.grab_focus()
