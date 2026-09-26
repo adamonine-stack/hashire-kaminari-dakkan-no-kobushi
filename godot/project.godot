@@ -14,7 +14,7 @@ config/name="HashireIkazuchi"
 config/description="2D fighting action game project based on the GDD for Hashire Ikazuchi."
 run/main_scene="res://scenes/Title.tscn"
 config/features=PackedStringArray("4.7")
-config/icon="res://icon.png"
+config/icon="res://icon.svg"
 
 [autoload]
 
