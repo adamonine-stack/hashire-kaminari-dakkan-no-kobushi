@@ -11,3 +11,13 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "踏み込みと必殺の間合いを見切れ。"
 player_dialogue = "次はお前か。先へ進ませてもらう。"
 enemy_dialogue = "踏み込んだ瞬間に終わる。"
+player_dialogues = {
+"player_01_akky": "その間合い、正面から越えてみせる！",
+"player_02_gou": "細けえ技より、一発でぶち抜けばいい！",
+"player_03_seiya": "踏み込みが速い。でも起点は見えている。"
+}
+enemy_dialogues = {
+"player_01_akky": "踏み込んだ瞬間、お前は倒れている。",
+"player_02_gou": "その大振り、俺の間合いじゃ通用しない。",
+"player_03_seiya": "読めるものなら読んでみろ。次は外さない。"
+}
