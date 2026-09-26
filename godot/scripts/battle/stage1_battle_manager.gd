@@ -38,10 +38,10 @@ func enter_game_clear() -> void:
 	var title := "STAGE %d CLEAR" % enemy_team.size()
 	_show_message(title)
 	_notify_hud_game_clear()
-	_show_end_panel(title, "All opponents defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
-		_order_text(),
+	clear_run_save()
+	_show_end_panel(title, "All opponents in this published slice defeated.\nDEFEATED: %d  SURVIVED: %d" % [
 		defeated_player_ids.size(),
-		maxi(0, selected_player_order.size() - defeated_player_ids.size()),
+		maxi(0, player_team.size() - defeated_player_ids.size()),
 	])
 	game_clear_menu_opened.emit()
 	game_cleared.emit()
