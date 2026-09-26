@@ -21,7 +21,12 @@ func _initialize() -> void:
 func defeat_with_punches() -> void:
 	enemy.ai_enabled = false
 	enemy.ai_profile = null
-	enemy.set_physics_process(true)
+	enemy.reset_attack_state()
+	enemy.clear_ai_action_state()
+	enemy._clear_pending_throw()
+	# Keep Area2D collision active while preventing the enemy AI/physics loop
+	# from scheduling attacks during this deterministic defeat helper.
+	enemy.set_physics_process(false)
 	for attempt in range(35):
 		if not manager.isRoundActive:
 			return
