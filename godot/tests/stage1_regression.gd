@@ -21,6 +21,7 @@ func _initialize() -> void:
 func run() -> void:
 	seed(53)
 	battle = load("res://scenes/Battle.tscn").instantiate()
+	battle.get_node("BattleManager").active_enemy_count_limit = 1
 	root.add_child(battle)
 	await process_frame
 	manager = battle.get_node("BattleManager")
@@ -35,7 +36,8 @@ func run() -> void:
 	player = battle.get_node("Player")
 	enemy = battle.get_node("Enemy")
 	enemy.ai_enabled = false
-	enemy.set_physics_process(false)
+	enemy.ai_profile = null
+	# Keep hitstun, invincibility and floor recovery running while AI is disabled.
 	await ticks(2)
 	var sprite: AnimatedSprite2D = player.animated_character_sprite
 	check(player.default_hurt_box_size.y > 180, "player upper body hurt region")
@@ -87,7 +89,12 @@ func run() -> void:
 	await ticks(15)
 	check(sprite.speed_scale == 1.0, "hitstop restores sprite clock")
 	# Real Area2D collision must cause damage during ACTIVE only, on both facings.
+	enemy.set_physics_process(true)
+	enemy.input_enabled = true
 	for side in [1, -1]:
+		manager.reset_active_fighter_state(enemy, Vector2(640 + side * 100, 520), -side, enemy.current_hp)
+		enemy.is_round_active = true
+		enemy.input_enabled = true
 		player.position = Vector2(640, 520)
 		enemy.position = Vector2(640 + side * 100, 520)
 		enemy.is_invincible = false
@@ -109,7 +116,7 @@ func run() -> void:
 		check(player._get_hit_position(enemy).y < 420, "contact feedback is above the floor")
 		await ticks(20)
 	# Defeat through the collision/HP/KO path; do not call _mark_enemy_defeated.
-	for attempt in range(20):
+	for attempt in range(35):
 		if manager.isBattleFinished:
 			break
 		player.position = Vector2(560, 520)

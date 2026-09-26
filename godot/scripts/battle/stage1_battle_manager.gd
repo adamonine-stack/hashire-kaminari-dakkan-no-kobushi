@@ -1,7 +1,7 @@
 extends BattleManager
 class_name Stage1BattleManager
 
-## Stage 1 completion slice.
+## Published campaign slice (one or two stages).
 ## Enemy scoping is configured by BattleManager.active_enemy_count_limit on
 ## Battle.tscn. This script keeps Stage 1's unlimited timer and clear presentation.
 
@@ -35,13 +35,14 @@ func enter_game_clear() -> void:
 	_hide_player_selection()
 	close_player_order_select()
 	_switch_bgm("WinBGM")
-	_show_message("STAGE 1 CLEAR")
+	var title := "STAGE %d CLEAR" % enemy_team.size()
+	_show_message(title)
 	_notify_hud_game_clear()
-	_show_end_panel("STAGE 1 CLEAR", "Crusher defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
+	_show_end_panel(title, "All opponents defeated.\nORDER: %s\nDEFEATED: %d  SURVIVED: %d" % [
 		_order_text(),
 		defeated_player_ids.size(),
 		maxi(0, selected_player_order.size() - defeated_player_ids.size()),
 	])
 	game_clear_menu_opened.emit()
 	game_cleared.emit()
-	print("STAGE 1 CLEAR")
+	print(title)

@@ -10,6 +10,7 @@ func _run_stage1_smoke() -> void:
 	assert(battle_scene != null)
 
 	var battle := battle_scene.instantiate()
+	battle.get_node("BattleManager").active_enemy_count_limit = 1
 	get_root().add_child(battle)
 	# SceneTree._initialize runs before child _ready callbacks are guaranteed to
 	# complete. Wait one frame so BattleManager has initialized teams and UI.
