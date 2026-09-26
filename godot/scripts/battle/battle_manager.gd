@@ -2811,8 +2811,11 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 	if stage_definition != null:
 		stage_name = String(stage_definition.stage_name)
 		stage_intro = String(stage_definition.intro_text)
-		player_dialogue = String(stage_definition.player_dialogue)
-		enemy_dialogue = String(stage_definition.enemy_dialogue)
+		var active_player_id := String(_active_player_id())
+		var player_dialogue_map: Dictionary = stage_definition.player_dialogues
+		var enemy_dialogue_map: Dictionary = stage_definition.enemy_dialogues
+		player_dialogue = String(player_dialogue_map.get(active_player_id, stage_definition.player_dialogue))
+		enemy_dialogue = String(enemy_dialogue_map.get(active_player_id, stage_definition.enemy_dialogue))
 	var intro_title := "ENEMY"
 	var intro_description := ""
 	var enemy_type := ""
