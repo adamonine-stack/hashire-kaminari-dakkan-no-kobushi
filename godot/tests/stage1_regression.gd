@@ -25,14 +25,15 @@ func run() -> void:
 	root.add_child(battle)
 	await process_frame
 	manager = battle.get_node("BattleManager")
-	for entry in manager.player_team:
-		manager.select_order_character(String(entry.fighter_id))
-	manager.confirm_player_order()
+	check(int(manager.player_team[0]["max_health"]) == 50, "Akky campaign max HP is half of the legacy value")
+	check(int(manager.player_team[1]["max_health"]) == 65, "Gou campaign max HP is half of the legacy value")
+	check(int(manager.player_team[2]["max_health"]) == 46, "Seiya campaign max HP is half of the legacy value")
+	await manager.select_player_by_id(String(manager.player_team[0].fighter_id))
 	for i in range(360):
 		await physics_frame
 		if manager.isRoundActive:
 			break
-	check(manager.isRoundActive, "order selection must reach battle")
+	check(manager.isRoundActive, "fighter selection must reach battle")
 	player = battle.get_node("Player")
 	enemy = battle.get_node("Enemy")
 	enemy.ai_enabled = false
@@ -133,6 +134,7 @@ func run() -> void:
 	check(not manager.battle_hud.result_panel.visible, "clear result must not overlap legacy HUD result")
 	check(manager._end_title_label.text == "STAGE 1 CLEAR", "clear panel names Stage 1")
 	check(not player.is_round_active, "combat is disabled after clear")
+	manager.debug_auto_select_player = true
 	manager.restart_current_game()
 	for i in range(480):
 		await physics_frame
