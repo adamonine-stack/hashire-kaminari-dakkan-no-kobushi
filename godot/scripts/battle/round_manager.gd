@@ -897,8 +897,7 @@ func _update_progress_ui() -> void:
 
 func _update_debug_flow_label() -> void:
 	if _debug_flow_label == null:
-		return
-	_debug_flow_label.visible = debug_flow_label_enabled
+		return	_debug_flow_label.visible = debug_flow_label_enabled
 	if not debug_flow_label_enabled:
 		return
 
@@ -997,7 +996,8 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 		order_text,
 		enemy_data["display_name"],
 		enemy_type,
-		intro_title,		intro_description,
+		intro_title,
+		intro_description,
 	]
 	_enemy_intro_panel.visible = true
 
