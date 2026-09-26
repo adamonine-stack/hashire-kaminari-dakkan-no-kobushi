@@ -21,6 +21,7 @@
 script = ExtResource("1_definition")
 fighter_id = &"player_01_akky"
 display_name = "アッキー"
+hud_name_katakana = "アッキー"
 description = "冷静沈着で頭の切れる総合格闘ファイター。攻撃、防御、機動力のバランスに優れる。"
 fighter_scene = ExtResource("2_player")
 selection_portrait = ExtResource("12_selection_portrait")
