@@ -108,11 +108,18 @@ jobs:
           godot --headless --path "$GODOT_PROJECT_DIR" --export-release "Web" "../$WEB_BUILD_DIR/index.html"
           touch "$WEB_BUILD_DIR/.nojekyll"
 
+      - name: Force PNG web app icons
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PROJECT_DIR/icon.png" "$WEB_BUILD_DIR/index.apple-touch-icon.png"
+          cp "$PROJECT_DIR/icon.png" "$WEB_BUILD_DIR/index.icon.png"
+
       - name: Refresh Web icon cache key
         shell: bash
         run: |
           set -euo pipefail
-          sed -i 's|index.icon.png"|index.icon.png?v=20260926c"|g; s|index.apple-touch-icon.png"|index.apple-touch-icon.png?v=20260926c"|g' "$WEB_BUILD_DIR/index.html"
+          sed -i 's|index.icon.png"|index.icon.png?v=20260926d"|g; s|index.apple-touch-icon.png"|index.apple-touch-icon.png?v=20260926d"|g' "$WEB_BUILD_DIR/index.html"
 
       - name: Verify Web build
         shell: bash
