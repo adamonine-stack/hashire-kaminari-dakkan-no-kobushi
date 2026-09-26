@@ -3,6 +3,15 @@ extends Control
 const BATTLE_SCENE := "res://scenes/Battle.tscn"
 const RUN_SAVE_PATH := "user://save.cfg"
 const CONTINUE_REQUEST_META := &"st_action_continue_run"
+const TITLE_MAIN := "走れイカズチ"
+const TITLE_SUBTITLE := "奪還の拳"
+const TITLE_ENGLISH := "HASHIRE IKAZUCHI"
+const HERO_PORTRAITS := [
+	"res://assets/characters/player01/selection_portrait.png",
+	"res://assets/characters/player02/selection_portrait.png",
+	"res://assets/characters/player03/selection_portrait.png",
+]
+const THREAT_PORTRAIT := "res://assets/characters/enemy08/portrait.png"
 
 signal new_game_requested
 signal scene_transition_started(scene_path: String)
@@ -129,69 +138,267 @@ func _exit_game() -> void:
 
 
 func _build_title_layout() -> void:
-	var background := ColorRect.new()
-	background.color = Color(0.035, 0.045, 0.065, 1.0)
-	background.set_anchors_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
+	_build_story_background()
 
-	var haze := ColorRect.new()
-	haze.color = Color(0.18, 0.12, 0.04, 0.12)
-	haze.set_anchors_preset(Control.PRESET_FULL_RECT)
-	haze.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(haze)
+	var readability_scrim := ColorRect.new()
+	readability_scrim.color = Color(0.015, 0.02, 0.035, 0.36)
+	readability_scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	readability_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(readability_scrim)
 
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	center.offset_left = 32.0
-	center.offset_top = 24.0
+	center.offset_top = 22.0
 	center.offset_right = -32.0
-	center.offset_bottom = -24.0
+	center.offset_bottom = -22.0
 	add_child(center)
+
+	var title_plate := PanelContainer.new()
+	title_plate.custom_minimum_size = Vector2(470.0, 0.0)
+	var plate_style := StyleBoxFlat.new()
+	plate_style.bg_color = Color(0.02, 0.025, 0.045, 0.78)
+	plate_style.border_color = Color(0.92, 0.63, 0.12, 0.62)
+	plate_style.border_width_left = 2
+	plate_style.border_width_top = 2
+	plate_style.border_width_right = 2
+	plate_style.border_width_bottom = 2
+	plate_style.corner_radius_top_left = 14
+	plate_style.corner_radius_top_right = 14
+	plate_style.corner_radius_bottom_left = 14
+	plate_style.corner_radius_bottom_right = 14
+	plate_style.content_margin_left = 34.0
+	plate_style.content_margin_top = 24.0
+	plate_style.content_margin_right = 34.0
+	plate_style.content_margin_bottom = 26.0
+	title_plate.add_theme_stylebox_override("panel", plate_style)
+	center.add_child(title_plate)
 
 	title_menu = VBoxContainer.new()
 	title_menu.alignment = BoxContainer.ALIGNMENT_CENTER
-	title_menu.add_theme_constant_override("separation", 14)
-	center.add_child(title_menu)
+	title_menu.add_theme_constant_override("separation", 10)
+	title_plate.add_child(title_menu)
+
+	var eyebrow := Label.new()
+	eyebrow.text = TITLE_ENGLISH
+	eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	eyebrow.add_theme_font_size_override("font_size", 16)
+	eyebrow.add_theme_color_override("font_color", Color(1.0, 0.76, 0.28, 0.92))
+	title_menu.add_child(eyebrow)
 
 	var title_label := Label.new()
-	title_label.text = "走れ雷 奪還の拳"
+	title_label.text = TITLE_MAIN
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", 48)
+	title_label.add_theme_font_size_override("font_size", 58)
+	title_label.add_theme_color_override("font_color", Color(1.0, 0.94, 0.76, 1.0))
+	title_label.add_theme_color_override("font_outline_color", Color(0.08, 0.055, 0.025, 0.96))
+	title_label.add_theme_constant_override("outline_size", 9)
 	title_menu.add_child(title_label)
 
 	var subtitle_label := Label.new()
-	subtitle_label.text = "Hashire Ikazuchi: Dakkan no Ken"
+	subtitle_label.text = TITLE_SUBTITLE
 	subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle_label.add_theme_font_size_override("font_size", 18)
+	subtitle_label.add_theme_font_size_override("font_size", 31)
+	subtitle_label.add_theme_color_override("font_color", Color(1.0, 0.70, 0.18, 1.0))
+	subtitle_label.add_theme_color_override("font_outline_color", Color(0.08, 0.045, 0.02, 0.95))
+	subtitle_label.add_theme_constant_override("outline_size", 6)
 	title_menu.add_child(subtitle_label)
 
-	game_start_button = _make_menu_button("GAME START")
+	var divider := HSeparator.new()
+	divider.custom_minimum_size = Vector2(320.0, 8.0)
+	title_menu.add_child(divider)
+
+	game_start_button = _make_menu_button("スタート")
 	game_start_button.pressed.connect(start_new_game)
+	_style_title_button(game_start_button, true)
 	title_menu.add_child(game_start_button)
 
 	continue_button = _make_menu_button("CONTINUE")
 	continue_button.disabled = not _has_continue_data()
 	continue_button.tooltip_text = "Save data is not available yet." if continue_button.disabled else ""
 	continue_button.pressed.connect(continue_game)
+	_style_title_button(continue_button, false)
 	title_menu.add_child(continue_button)
 
 	how_to_play_button = _make_menu_button("HOW TO PLAY")
 	how_to_play_button.pressed.connect(_show_how_to_play)
+	_style_title_button(how_to_play_button, false)
 	title_menu.add_child(how_to_play_button)
 
 	options_button = _make_menu_button("OPTIONS")
 	options_button.pressed.connect(_show_options)
+	_style_title_button(options_button, false)
 	title_menu.add_child(options_button)
 
 	exit_button = _make_menu_button("QUIT")
 	exit_button.pressed.connect(_exit_game)
+	_style_title_button(exit_button, false)
 	title_menu.add_child(exit_button)
+
+	var flow_hint := Label.new()
+	flow_hint.text = "START  →  CHARACTER SELECT  →  BATTLE"
+	flow_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	flow_hint.add_theme_font_size_override("font_size", 12)
+	flow_hint.add_theme_color_override("font_color", Color(0.82, 0.84, 0.9, 0.68))
+	title_menu.add_child(flow_hint)
 
 	_build_how_to_play_panel(center)
 	_build_options_panel(center)
 	_build_orientation_overlay()
 	_build_transition_overlay()
+
+
+func _build_story_background() -> void:
+	var base := ColorRect.new()
+	base.color = Color(0.018, 0.026, 0.05, 1.0)
+	base.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base)
+
+	var upper_haze := ColorRect.new()
+	upper_haze.color = Color(0.08, 0.13, 0.22, 0.58)
+	upper_haze.anchor_right = 1.0
+	upper_haze.anchor_bottom = 0.52
+	upper_haze.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(upper_haze)
+
+	var horizon := ColorRect.new()
+	horizon.color = Color(0.42, 0.14, 0.04, 0.34)
+	horizon.anchor_top = 0.62
+	horizon.anchor_right = 1.0
+	horizon.anchor_bottom = 1.0
+	horizon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(horizon)
+
+	_build_city_silhouette()
+
+	# A single lightning slash visually ties the title "Ikazuchi" to the rescue story.
+	var lightning := Polygon2D.new()
+	lightning.polygon = PackedVector2Array([
+		Vector2(676.0, -20.0),
+		Vector2(610.0, 214.0),
+		Vector2(664.0, 197.0),
+		Vector2(604.0, 382.0),
+		Vector2(732.0, 158.0),
+		Vector2(674.0, 176.0),
+		Vector2(728.0, -20.0),
+	])
+	lightning.color = Color(1.0, 0.78, 0.22, 0.46)
+	add_child(lightning)
+
+	# The three playable heroes occupy the foreground; the stage-8 threat is kept
+	# in shadow so the title hints at the campaign without revealing later beats.
+	_add_story_portrait(HERO_PORTRAITS[1], -0.03, 0.25, 0.27, 1.05, Color(0.42, 0.49, 0.63, 0.58))
+	_add_story_portrait(HERO_PORTRAITS[2], 0.17, 0.27, 0.46, 1.05, Color(0.48, 0.54, 0.68, 0.62))
+	_add_story_portrait(HERO_PORTRAITS[0], 0.02, 0.15, 0.38, 1.05, Color(0.78, 0.82, 0.92, 0.76))
+	_add_story_portrait(THREAT_PORTRAIT, 0.71, 0.08, 1.04, 1.02, Color(0.52, 0.18, 0.16, 0.52))
+
+	var vignette_left := ColorRect.new()
+	vignette_left.color = Color(0.0, 0.0, 0.0, 0.26)
+	vignette_left.anchor_right = 0.18
+	vignette_left.anchor_bottom = 1.0
+	vignette_left.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(vignette_left)
+
+	var vignette_right := ColorRect.new()
+	vignette_right.color = Color(0.0, 0.0, 0.0, 0.32)
+	vignette_right.anchor_left = 0.82
+	vignette_right.anchor_right = 1.0
+	vignette_right.anchor_bottom = 1.0
+	vignette_right.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(vignette_right)
+
+
+func _build_city_silhouette() -> void:
+	var skyline := Control.new()
+	skyline.set_anchors_preset(Control.PRESET_FULL_RECT)
+	skyline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(skyline)
+
+	var building_data := [
+		[0.00, 0.54, 0.08, 1.00],
+		[0.07, 0.47, 0.15, 1.00],
+		[0.14, 0.60, 0.23, 1.00],
+		[0.22, 0.50, 0.30, 1.00],
+		[0.29, 0.64, 0.39, 1.00],
+		[0.38, 0.46, 0.47, 1.00],
+		[0.46, 0.58, 0.55, 1.00],
+		[0.54, 0.42, 0.63, 1.00],
+		[0.62, 0.61, 0.72, 1.00],
+		[0.71, 0.49, 0.80, 1.00],
+		[0.79, 0.57, 0.89, 1.00],
+		[0.88, 0.44, 1.00, 1.00],
+	]
+	for data in building_data:
+		var building := ColorRect.new()
+		building.color = Color(0.015, 0.02, 0.032, 0.86)
+		building.anchor_left = data[0]
+		building.anchor_top = data[1]
+		building.anchor_right = data[2]
+		building.anchor_bottom = data[3]
+		building.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		skyline.add_child(building)
+
+
+func _add_story_portrait(path: String, left: float, top: float, right: float, bottom: float, tint: Color) -> void:
+	var texture := load(path) as Texture2D
+	if texture == null:
+		return
+	var portrait := TextureRect.new()
+	portrait.texture = texture
+	portrait.anchor_left = left
+	portrait.anchor_top = top
+	portrait.anchor_right = right
+	portrait.anchor_bottom = bottom
+	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	portrait.modulate = tint
+	add_child(portrait)
+
+
+func _style_title_button(button: Button, primary: bool) -> void:
+	button.custom_minimum_size = Vector2(320.0, 58.0 if primary else 44.0)
+	button.add_theme_font_size_override("font_size", 22 if primary else 16)
+	button.add_theme_color_override("font_color", Color(0.08, 0.06, 0.025, 1.0) if primary else Color(0.93, 0.94, 0.98, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(0.04, 0.03, 0.015, 1.0) if primary else Color(1.0, 0.82, 0.36, 1.0))
+	button.add_theme_stylebox_override(
+		"normal",
+		_title_button_box(
+			Color(0.96, 0.67, 0.14, 0.96) if primary else Color(0.035, 0.045, 0.075, 0.86),
+			Color(1.0, 0.88, 0.48, 0.98) if primary else Color(0.46, 0.50, 0.62, 0.72)
+		)
+	)
+	button.add_theme_stylebox_override(
+		"hover",
+		_title_button_box(
+			Color(1.0, 0.79, 0.26, 1.0) if primary else Color(0.09, 0.075, 0.055, 0.96),
+			Color(1.0, 0.94, 0.68, 1.0) if primary else Color(1.0, 0.72, 0.24, 0.92)
+		)
+	)
+	button.add_theme_stylebox_override(
+		"focus",
+		_title_button_box(Color(0.99, 0.75, 0.22, 1.0), Color(1.0, 0.96, 0.78, 1.0))
+	)
+
+
+func _title_button_box(background: Color, border: Color) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = background
+	box.border_color = border
+	box.border_width_left = 2
+	box.border_width_top = 2
+	box.border_width_right = 2
+	box.border_width_bottom = 2
+	box.corner_radius_top_left = 8
+	box.corner_radius_top_right = 8
+	box.corner_radius_bottom_left = 8
+	box.corner_radius_bottom_right = 8
+	box.content_margin_left = 14.0
+	box.content_margin_top = 8.0
+	box.content_margin_right = 14.0
+	box.content_margin_bottom = 8.0
+	return box
 
 
 func _build_orientation_overlay() -> void:
