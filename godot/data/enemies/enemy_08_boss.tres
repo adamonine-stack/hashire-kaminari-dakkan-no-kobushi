@@ -16,6 +16,7 @@
 script = ExtResource("1_def")
 fighter_id = &"enemy_08_leon_crow"
 display_name = "レオン・クロウ"
+hud_name_katakana = "レオン・クロウ"
 description = "黒翼の舞踏家。華麗なステップと紫の必殺技で相手を翻弄する最終ボス。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("7_portrait")
