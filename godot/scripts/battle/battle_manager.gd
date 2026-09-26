@@ -897,7 +897,8 @@ func handle_player_defeated() -> void:
 	_selection_reason = "PLAYER_DEFEATED"
 	print("Player defeated: %s" % _active_player_id())
 	print("[DEV033] Enemy HP retained: %d / %d" % [enemy.current_hp, enemy.max_hp])
-	var available := get_available_players()	if available.is_empty():
+	var available := get_available_players()
+	if available.is_empty():
 		print("[DEV033] No available players")
 	else:
 		print("[DEV033] Available players: %s" % ", ".join(available))
@@ -1796,7 +1797,8 @@ func _short_order_name_for_id(character_id: String) -> String:
 
 func _definition_for_player_id(character_id: String) -> Resource:
 	var player_index := _find_player_index_by_id(character_id)
-	if player_index == -1:		return null
+	if player_index == -1:
+		return null
 	return player_team[player_index].get("definition", null)
 
 

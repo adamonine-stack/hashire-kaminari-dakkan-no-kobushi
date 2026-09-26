@@ -897,7 +897,8 @@ func _open_cancel_window() -> void:
 func _update_cancel_window(delta: float) -> void:
 	if not can_cancel and not dev_combo_window_open:
 		return
-	cancel_window_timer = maxf(cancel_window_timer - delta, 0.0)	if cancel_window_timer == 0.0:
+	cancel_window_timer = maxf(cancel_window_timer - delta, 0.0)
+	if cancel_window_timer == 0.0:
 		close_combo_window()
 
 

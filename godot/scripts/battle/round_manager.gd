@@ -897,7 +897,8 @@ func _update_progress_ui() -> void:
 
 func _update_debug_flow_label() -> void:
 	if _debug_flow_label == null:
-		return	_debug_flow_label.visible = debug_flow_label_enabled
+		return
+	_debug_flow_label.visible = debug_flow_label_enabled
 	if not debug_flow_label_enabled:
 		return
 

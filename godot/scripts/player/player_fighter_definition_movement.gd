@@ -897,7 +897,8 @@ func _try_ai_jump_attack() -> void:
 
 
 func update_retreat(delta: float) -> void:
-	if not can_ai_act():		return
+	if not can_ai_act():
+		return
 	var opponent := _get_opponent()
 	if not (opponent is Node2D):
 		disable_ai()
@@ -1796,7 +1797,8 @@ func show_attack_warning() -> void:
 	var warning_mark := Polygon2D.new()
 	warning_mark.polygon = PackedVector2Array([
 		Vector2(0.0, -24.0),
-		Vector2(22.0, 18.0),		Vector2(-22.0, 18.0),
+		Vector2(22.0, 18.0),
+		Vector2(-22.0, 18.0),
 	])
 	warning_mark.color = Color(1.0, 0.25, 0.15, 0.42) if _is_ultimate_state_or_data() else Color(1.0, 0.9, 0.15, 0.38)
 	warning_mark.position = Vector2(0.0, -176.0)
