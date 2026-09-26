@@ -11,3 +11,13 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "速い連打に飲まれず、一撃を通せ。"
 player_dialogue = "速さだけじゃ勝負は決まらない。"
 enemy_dialogue = "見えるなら、止めてみろ。"
+player_dialogues = {
+"player_01_akky": "速くても、見失わなければ追いつける！",
+"player_02_gou": "ちょこまか動くな！ 一発当てりゃ終わりだ！",
+"player_03_seiya": "リズムが一定だ。そこを崩せば止まる。"
+}
+enemy_dialogues = {
+"player_01_akky": "俺の影すら捉えられないさ。",
+"player_02_gou": "その拳が届く前に、三発入れてやる。",
+"player_03_seiya": "分析してる間に、次の一手は終わってる。"
+}
