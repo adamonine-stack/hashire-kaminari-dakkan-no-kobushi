@@ -665,6 +665,9 @@ func choose_next_action() -> void:
 	if distance < _profile_float(&"retreat_distance", 35.0) and should_retreat():
 		enter_retreat()
 		return
+	if should_sweep_player():
+		enter_crouch_sweep()
+		return
 	if should_guard_against_player():
 		enter_guard()
 		return
@@ -728,6 +731,25 @@ func enter_attack() -> void:
 	ai_attack_cooldown_timer = randf_range(_profile_float(&"attack_cooldown_min", 0.30), _profile_float(&"attack_cooldown_max", 0.60))
 	_register_ai_action(StringName(ai_selected_attack_type))
 	print("[DEV037][%s] Attack selected: %s" % [_debug_enemy_id(), ai_selected_attack_type])
+
+
+func enter_crouch_sweep() -> void:
+	if not can_ai_act() or crouch_kick_sweep_attack_data == null or ai_attack_cooldown_timer > 0.0:
+		enter_idle()
+		return
+	_set_ai_state(EnemyAIState.ATTACK)
+	ai_selected_attack_type = "sweep"
+	_face_opponent()
+	is_crouching = true
+	enemy_attack_requested.emit(ai_selected_attack_type)
+	ai_action_started.emit(ai_selected_attack_type)
+	if not request_attack_input(&"Kick", true):
+		is_crouching = false
+		enter_idle()
+		return
+	ai_attack_cooldown_timer = randf_range(_profile_float(&"attack_cooldown_min", 0.30), _profile_float(&"attack_cooldown_max", 0.60))
+	_register_ai_action(&"sweep")
+	print("[DEV060][%s] Sweep selected" % _debug_enemy_id())
 
 
 func enter_guard() -> void:
@@ -989,6 +1011,19 @@ func should_jump_player(distance: float, rate_multiplier := 1.0) -> bool:
 	if distance < min_distance or distance > max_distance:
 		return false
 	return randf() <= clampf(_profile_float(&"jump_rate", 0.12) * rate_multiplier, 0.0, 1.0)
+
+
+func should_sweep_player() -> bool:
+	if crouch_kick_sweep_attack_data == null or not is_on_floor() or ai_attack_cooldown_timer > 0.0:
+		return false
+	var rate := _profile_float(&"sweep_rate", 0.0)
+	if rate <= 0.0:
+		return false
+	if evaluate_distance() > _profile_float(&"attack_distance", 55.0) * 0.92:
+		return false
+	if last_ai_action == &"sweep":
+		rate *= 0.35
+	return randf() <= rate
 
 
 func should_attack_player() -> bool:

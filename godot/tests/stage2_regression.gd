@@ -60,6 +60,10 @@ func run() -> void:
 	check(not manager.isBattleFinished, "stage 1 no longer prematurely clears campaign")
 	check(enemy.fighter_definition.fighter_id == &"enemy_04_rei_kageyama", "active fighter is Rei")
 	check(enemy.character_visual_controller.get_debug_source() == "motion_atlas", "Rei uses authored atlas")
+	check(float(enemy.ai_profile.get("aggression_rate")) >= 0.85, "Rei Stage 2 aggression is raised")
+	check(float(enemy.ai_profile.get("sweep_rate")) >= 0.20, "Rei Stage 2 can choose low sweep")
+	check(float(enemy.ai_profile.get("attack_cooldown_max")) <= 0.40, "Rei Stage 2 attack cooldown is shortened")
+	check(float(enemy.ai_profile.get("idle_time_max")) <= 0.30, "Rei Stage 2 idle gap is shortened")
 	var sprite: AnimatedSprite2D = enemy.animated_character_sprite
 	for clip in ["idle", "walk", "walk_backward", "dash", "jump_start", "jump_air", "jump_fall", "jump_land", "guard", "crouch_guard", "damage_high", "knockdown", "ko", "getup", "throw", "jump_kick", "jump_punch_down", "special_startup", "special_attack"]:
 		check(sprite.sprite_frames.has_animation(clip), "authored clip: " + clip)
@@ -91,6 +95,12 @@ func run() -> void:
 			check(sprite.frame >= 2, "recovery frame " + id)
 			check(not enemy.punch_hitbox_active and not enemy.kick_hitbox_active, "recovery disables collision " + id)
 			enemy.finish_attack()
+	enemy.reset_attack_state()
+	enemy.ai_enabled = true
+	enemy.ai_attack_cooldown_timer = 0.0
+	enemy.enter_crouch_sweep()
+	check(enemy.current_attack_id == "rei_sweep", "Rei AI can initiate crouch sweep")
+	enemy.finish_attack()
 	enemy.reset_attack_state()
 	enemy.ai_enabled = true
 	enemy.set_special_gauge(100)
