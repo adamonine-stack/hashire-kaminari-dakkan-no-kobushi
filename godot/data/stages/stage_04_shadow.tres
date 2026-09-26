@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StageDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1_stage"]
+[ext_resource type="Resource" path="res://data/enemies/enemy_02_speed.tres" id="2_enemy"]
+
+[resource]
+script = ExtResource("1_stage")
+stage_number = 4
+stage_name = "影の連打"
+enemy_definition = ExtResource("2_enemy")
+intro_text = "速い連打に飲まれず、一撃を通せ。"
+player_dialogue = "速さだけじゃ勝負は決まらない。"
+enemy_dialogue = "見えるなら、止めてみろ。"
