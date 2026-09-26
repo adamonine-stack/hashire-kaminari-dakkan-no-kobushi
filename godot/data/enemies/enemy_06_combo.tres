@@ -13,6 +13,7 @@
 script = ExtResource("1_def")
 fighter_id = &"enemy_06_rio_flick_garcia"
 display_name = "リオ “フリック” ガルシア"
+hud_name_katakana = "リオ・ガルシア"
 description = "影のように絡みつくレスラー。素早いタックルと関節技で勝機をつかむ。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
