@@ -86,6 +86,9 @@ func run() -> void:
 			break
 	check(manager.current_enemy_index == 1 and manager.isRoundActive, "selected fighter starts Rei stage")
 	check(not manager.isBattleFinished, "stage 1 no longer prematurely clears campaign")
+	check(int(manager.player_team[1]["current_health"]) == 53, "fighter selection preserves Gou saved HP")
+	check(int(player.current_hp) == 53, "new fighter spawns with saved HP instead of previous fighter HP")
+	check(enemy.visible, "stage 2 enemy is visible after stage transition")
 	check(enemy.fighter_definition.fighter_id == &"enemy_04_rei_kageyama", "active fighter is Rei")
 	var hud := battle.get_node("UI/BattleUIRoot/BattleHUD")
 	check(hud.enemy_name_label.visible and hud.enemy_name_label.text == "レイ・カゲヤマ", "HUD switches enemy name to Rei")
