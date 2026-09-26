@@ -11,3 +11,13 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "掴まれる前に主導権を奪え。"
 player_dialogue = "近づくなら、こっちから仕掛ける。"
 enemy_dialogue = "一度掴めば、もう逃がさない。"
+player_dialogues = {
+"player_01_akky": "掴まれる前に、こっちから仕掛ける！",
+"player_02_gou": "組み合いなら望むところだ！",
+"player_03_seiya": "間合いに入らせない。それだけだ。"
+}
+enemy_dialogues = {
+"player_01_akky": "一度捕まえれば、もう逃がさない。",
+"player_02_gou": "力比べか。後悔するなよ。",
+"player_03_seiya": "距離を測っても無駄だ。最後は近づくしかない。"
+}

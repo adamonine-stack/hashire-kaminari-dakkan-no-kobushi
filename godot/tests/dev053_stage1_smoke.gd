@@ -35,6 +35,13 @@ func _run_stage1_smoke() -> void:
 	assert(hud.enemy_name_label.visible)
 	assert(hud.enemy_name_label.text == "クラッシャー")
 	assert(hud.enemy_icon_rect.texture != null)
+	var stage_1: Resource = manager.STAGE_DEFINITIONS[0]
+	assert(String(stage_1.player_dialogues.get("player_01_akky", "")) != "")
+	assert(String(stage_1.player_dialogues.get("player_02_gou", "")) != "")
+	assert(String(stage_1.player_dialogues.get("player_03_seiya", "")) != "")
+	assert(String(stage_1.enemy_dialogues.get("player_01_akky", "")) != "")
+	assert(String(stage_1.enemy_dialogues.get("player_02_gou", "")) != "")
+	assert(String(stage_1.enemy_dialogues.get("player_03_seiya", "")) != "")
 
 	# Stage 1 uses an unlimited timer: the Stage1 manager must not decrement it.
 	var initial_round_time := manager.roundTime

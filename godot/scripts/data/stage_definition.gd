@@ -7,6 +7,8 @@ class_name StageDefinition
 @export_multiline var intro_text: String = ""
 @export_multiline var player_dialogue: String = ""
 @export_multiline var enemy_dialogue: String = ""
+@export var player_dialogues: Dictionary = {}
+@export var enemy_dialogues: Dictionary = {}
 @export var backdrop_id: StringName = &"industrial"
 @export var bgm_id: StringName = &"battle"
 @export var player_start_position: Vector2 = Vector2(320.0, 520.0)

@@ -11,3 +11,13 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "長いリーチと組みを読み切れ。"
 player_dialogue = "あと少しだ。ここで止まるわけにはいかない。"
 enemy_dialogue = "その勢いごと、ここで封じる。"
+player_dialogues = {
+"player_01_akky": "ここまで来た。あと一歩も退かない！",
+"player_02_gou": "長い腕だろうが何だろうが、懐に入れば同じだ！",
+"player_03_seiya": "リーチは長い。でも死角も広い。"
+}
+enemy_dialogues = {
+"player_01_akky": "その勢い、ここで完全に止める。",
+"player_02_gou": "懐に入る前に、地面に沈めてやる。",
+"player_03_seiya": "死角を狙うつもりか。そこも読んでいる。"
+}

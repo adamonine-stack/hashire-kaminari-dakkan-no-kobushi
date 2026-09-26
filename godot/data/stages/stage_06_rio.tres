@@ -11,3 +11,13 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "速度と連携を耐え、流れを切れ。"
 player_dialogue = "捕まる前に、止める。"
 enemy_dialogue = "俺の流れに入ったら終わりだ。"
+player_dialogues = {
+"player_01_akky": "流れに乗る前に、止める！",
+"player_02_gou": "勢いごとまとめて受け止めてやる！",
+"player_03_seiya": "連携の切れ目はある。そこを狙う。"
+}
+enemy_dialogues = {
+"player_01_akky": "止められるなら止めてみろ。俺は加速する！",
+"player_02_gou": "真正面から来るか。ならスピードで抜く！",
+"player_03_seiya": "切れ目を探してる間に、次へつながってるぜ。"
+}
