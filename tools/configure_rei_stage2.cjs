@@ -19,7 +19,7 @@ clip('guard',[21],6,true);clip('crouch crouch_idle crouch_guard',[22],6,true);
 clip('crouch_punch',[22,34,22],10);clip('crouch_kick crouch_kick_sweep crouch_sweep_kick',[22,23,22],10);
 clip('damage damage_high damage_low damage_light guard_hit',[24,0],9);clip('damage_heavy knockback',[24,25],9);
 clip('knockdown',[24,25,26],8);clip('down',[26],4);clip('ko defeat',[25,26],5);
-clip('stand_up getup get_up',[26,27,22,0],8);clip('throw',[28,29,0],9);clip('throw_start',[28],8);clip('throw_hold',[28],8,true);clip('throw_release',[29,0],9);clip('grabbed',[24],6);clip('thrown',[25,26],8);
+clip('stand_up getup get_up',[26,27,22,0],8);clip('throw',[28,29],9);clip('throw_start',[28],8);clip('throw_hold',[28],8,true);clip('throw_release',[29],9);clip('grabbed',[24],6);clip('thrown',[25,26],8);
 clip('jump_punch jump_punch_down',[9,30,10],10);clip('jump_kick',[9,31,10],10);
 clip('special_startup',[32],6);clip('special special_attack rei_dragon_uppercut',[16],8);clip('special_recovery',[17],8);
 const entries=Object.entries(clips).map(([k,v])=>`"${k}": {"frames": [${v.frames}], "fps": ${v.fps}.0, "loop": ${v.loop}}`).join(',\n');
