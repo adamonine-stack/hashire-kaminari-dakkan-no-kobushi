@@ -18,6 +18,7 @@
 script = ExtResource("1_definition")
 fighter_id = &"player_03_seiya"
 display_name = "せいや"
+hud_name_katakana = "セイヤ"
 description = "冷静な判断と確かな技術で戦うオールラウンド型。反応速度と連続攻撃に優れる。"
 fighter_scene = ExtResource("2_player")
 selection_portrait = ExtResource("13_selection_portrait")

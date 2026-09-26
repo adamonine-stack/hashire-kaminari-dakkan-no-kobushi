@@ -17,6 +17,7 @@
 script = ExtResource("1_definition")
 fighter_id = &"player_02_gou"
 display_name = "ごう"
+hud_name_katakana = "ゴウ"
 description = "圧倒的な拳と脚力を持つパワーファイター。一撃が重く、正面から押し切る。"
 fighter_scene = ExtResource("2_player")
 selection_portrait = ExtResource("12_selection_portrait")

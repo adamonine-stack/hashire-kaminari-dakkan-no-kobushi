@@ -13,6 +13,7 @@
 script = ExtResource("1_def")
 fighter_id = &"enemy_07_teki_fighter"
 display_name = "テキ・ファイター"
+hud_name_katakana = "テキ・ファイター"
 description = "その手から逃げられると思うなよ。長いリーチと強い握力で相手を封じる。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")

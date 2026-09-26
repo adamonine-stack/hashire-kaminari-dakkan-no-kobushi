@@ -3,6 +3,7 @@ class_name FighterDefinition
 
 @export var fighter_id: StringName
 @export var display_name: String
+@export var hud_name_katakana: String
 @export_multiline var description: String
 
 @export var fighter_scene: PackedScene

@@ -13,6 +13,7 @@
 script = ExtResource("1_def")
 fighter_id = &"enemy_03_masato_takahashi"
 display_name = "マサト・タカハシ"
+hud_name_katakana = "マサト・タカハシ"
 description = "静の投げ師。小柄ながら、柔道の投げと突進で流れを変える。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")

@@ -15,6 +15,7 @@
 script = ExtResource("1_def")
 fighter_id = &"enemy_01_crusher"
 display_name = "クラッシャー"
+hud_name_katakana = "クラッシャー"
 description = "鉄塊の暴将。巨大な体と怪力で押し切る重量級ファイター。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
