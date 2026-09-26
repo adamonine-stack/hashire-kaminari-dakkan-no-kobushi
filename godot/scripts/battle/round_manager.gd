@@ -997,7 +997,8 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 		order_text,
 		enemy_data["display_name"],
 		enemy_type,
-		intro_title,		intro_description,
+		intro_title,
+		intro_description,
 	]
 	_enemy_intro_panel.visible = true
 
