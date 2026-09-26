@@ -834,6 +834,7 @@ func prepare_battle() -> void:
 	if _should_finish_game():
 		return
 
+	_apply_current_stage_definition()
 	_set_battle_state(BattleState.READY)
 	_flow_sequence_id += 1
 	var sequence_id := _flow_sequence_id
@@ -2779,6 +2780,17 @@ func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
 	if enemy_index < 0 or enemy_index >= STAGE_DEFINITIONS.size():
 		return null
 	return STAGE_DEFINITIONS[enemy_index]
+
+
+func _apply_current_stage_definition() -> void:
+	var stage_definition := _stage_definition_for_enemy_index(current_enemy_index)
+	if stage_definition == null:
+		return
+	_player_start_position = Vector2(stage_definition.player_start_position)
+	_enemy_start_position = Vector2(stage_definition.enemy_start_position)
+	var camera := get_node_or_null("../BattleCamera") as Camera2D
+	if camera != null:
+		camera.position = Vector2(stage_definition.camera_position)
 
 
 func _should_show_enemy_intro() -> bool:
