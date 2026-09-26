@@ -20,6 +20,7 @@ func _initialize() -> void:
 
 func defeat_with_punches() -> void:
 	enemy.ai_enabled = false
+	enemy.ai_profile = null
 	enemy.set_physics_process(true)
 	for attempt in range(35):
 		if not manager.isRoundActive:
