@@ -150,12 +150,19 @@ func _build_layout() -> void:
 func _update_title_for_reason() -> void:
 	if title_label == null:
 		return
-	if selection_reason == "PLAYER_DEFEATED":
-		title_label.text = "SELECT NEXT FIGHTER"
-		guide_label.text = "Defeated fighters cannot be selected"
-	else:
-		title_label.text = "SELECT FIRST FIGHTER"
-		guide_label.text = "Left / Right: Select    Enter: Confirm"
+	match selection_reason:
+		"PLAYER_DEFEATED":
+			title_label.text = "SELECT NEXT FIGHTER"
+			guide_label.text = "K.O. fighters cannot return in this run"
+		"NEXT_STAGE":
+			title_label.text = "SELECT FIGHTER FOR NEXT STAGE"
+			guide_label.text = "Fighters who sat out recover 20% of their maximum HP"
+		"CONTINUE":
+			title_label.text = "CONTINUE — SELECT FIGHTER"
+			guide_label.text = "Resume from the last checkpoint"
+		_:
+			title_label.text = "SELECT FIGHTER"
+			guide_label.text = "Choose one of the three fighters for this stage"
 
 
 func _refresh_cards() -> void:
@@ -224,7 +231,7 @@ func _update_details() -> void:
 		definition.display_name,
 		String(definition.fighter_type).to_upper(),
 		int(data["current_health"]),
-		int(definition.max_health),
+		int(data["max_health"]),
 		status,
 		definition.description,
 	]
