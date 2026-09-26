@@ -23,6 +23,19 @@ func _run_stage1_smoke() -> void:
 	assert(String(manager.enemy_team[0]["fighter_id"]) == "enemy_01_crusher")
 	assert(manager.current_enemy_index == 0)
 
+	await manager.select_player_by_id(String(manager.player_team[0]["fighter_id"]))
+	for i in range(360):
+		await physics_frame
+		if manager.isRoundActive:
+			break
+	var hud := battle.get_node("UI/BattleUIRoot/BattleHUD")
+	assert(hud.player_name_label.visible)
+	assert(hud.player_name_label.text == "アッキー")
+	assert(hud.player_icon_rect.texture != null)
+	assert(hud.enemy_name_label.visible)
+	assert(hud.enemy_name_label.text == "クラッシャー")
+	assert(hud.enemy_icon_rect.texture != null)
+
 	# Stage 1 uses an unlimited timer: the Stage1 manager must not decrement it.
 	var initial_round_time := manager.roundTime
 	manager.flow_state = BattleManager.BattleState.BATTLE
