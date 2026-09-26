@@ -62,8 +62,30 @@ jobs:
       - name: Verify Godot installation
         run: godot --version
 
+      - name: Fetch Japanese UI font
+        shell: bash
+        run: |
+          set -euo pipefail
+          FONT_DIR="$GODOT_PROJECT_DIR/assets/fonts"
+          mkdir -p "$FONT_DIR"
+          curl --fail --location --retry 3 \
+            --output "$FONT_DIR/NotoSansJP-Regular.otf" \
+            "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf"
+          curl --fail --location --retry 3 \
+            --output "$FONT_DIR/OFL.txt" \
+            "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/LICENSE"
+          test -s "$FONT_DIR/NotoSansJP-Regular.otf"
+          test -s "$FONT_DIR/OFL.txt"
+
       - name: Import project resources
         run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
+
+      - name: Verify Japanese UI font
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/japanese_font_smoke.gd 2>&1 | tee /tmp/japanese-font.log || true
+          grep -q "JAPANESE_FONT_OK" /tmp/japanese-font.log
 
       - name: Verify audio runtime
         shell: bash
@@ -107,6 +129,7 @@ jobs:
           mkdir -p "$WEB_BUILD_DIR"
           godot --headless --path "$GODOT_PROJECT_DIR" --export-release "Web" "../$WEB_BUILD_DIR/index.html"
           touch "$WEB_BUILD_DIR/.nojekyll"
+          cp "$GODOT_PROJECT_DIR/assets/fonts/OFL.txt" "$WEB_BUILD_DIR/OFL-NotoSansJP.txt"
 
       - name: Force PNG web app icons
         shell: bash

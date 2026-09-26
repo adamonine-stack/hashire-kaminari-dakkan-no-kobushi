@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 SettingsManager="*res://scripts/autoload/settings_manager.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
+GlobalFontManager="*res://scripts/autoload/global_font_manager.gd"
 
 [display]
 
