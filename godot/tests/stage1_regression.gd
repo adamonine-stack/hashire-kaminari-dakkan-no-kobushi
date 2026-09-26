@@ -113,6 +113,7 @@ func run() -> void:
 				check(sprite.frame == 2, "active hitbox holds contact frame")
 		check(saw_contact and enemy.current_hp < initial_hp, "actual punch overlap hits on each facing")
 		check(enemy.current_hp == initial_hp - 11, "single punch cannot damage twice")
+		check(not enemy._is_knockdown_busy(), "ordinary single punch does not knock Crusher down")
 		check(player._get_hit_position(enemy).y < 420, "contact feedback is above the floor")
 		await ticks(20)
 	# Defeat through the collision/HP/KO path; do not call _mark_enemy_defeated.

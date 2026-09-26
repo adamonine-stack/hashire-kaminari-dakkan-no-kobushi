@@ -60,10 +60,16 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	interrupt_combo()
 	_cancel_current_action()
 	var final_damage := int(attack_data["damage"])
+	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
+	var combo_hit_max := int(attack_data.get("combo_hit_max", 0))
+	# A one-hit attack is not a combo finisher. Use the attacker's combo length so
+	# fighters with a one-step local attack table (such as Stage 1 Crusher) do not
+	# fall down from every ordinary hit they receive.
+	var is_combo_finisher := combo_hit_max > 1 and combo_hit_index >= combo_hit_max
 	var causes_down := should_cause_knockdown(
 		attack_data,
 		float(final_damage),
-		int(attack_data.get("combo_hit_index", 1)) >= dev026_max_combo_hits
+		is_combo_finisher
 	)
 	if causes_down or final_damage >= current_hp:
 		last_knockdown_animation = _get_knockdown_animation_from_attack(attack_data)

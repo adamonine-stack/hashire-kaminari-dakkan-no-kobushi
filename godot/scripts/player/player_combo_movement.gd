@@ -986,6 +986,8 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 	scaled_attack_data["knockback_x"] = float(attack_data["knockback_x"]) * knockback_scale
 	scaled_attack_data["knockback_y"] = float(attack_data["knockback_y"]) * knockback_scale
 	scaled_attack_data["combo_hit_index"] = hit_index
+	# The receiver must judge finishers from the attacker's combo definition, not its own.
+	scaled_attack_data["combo_hit_max"] = dev026_max_combo_hits
 	scaled_attack_data["damage_scale"] = 1.0
 	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and not current_attack_data.next_attack_ids.is_empty()
 	return scaled_attack_data
