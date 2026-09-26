@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+attack_id = "rei_straight"
+display_name = "直突き"
+attack_type = "punch"
+attack_category = "normal"
+base_damage = 1
+startup_time = 0.18
+active_time = 0.12
+recovery_time = 0.24
+combo_input_start = 0.08
+combo_input_end = 0.36
+hitbox_size = Vector2(64, 44)
+hitbox_offset = Vector2(92, -145)
+forward_move_distance = 12.0
+forward_move_duration = 0.14
+knockback = Vector2(180, -40)
+hitstop_time = 0.07
+hitstun_time = 0.26
+next_attack_ids = Array[String](["rei_uppercut", "rei_roundhouse"])
+animation_name = "punch_1"
