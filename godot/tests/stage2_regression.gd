@@ -57,7 +57,7 @@ func run() -> void:
 			break
 	check(manager.isRoundActive, "stage 1 starts")
 	player.set_health(35)
-	var active_hp_before_win := player.current_hp
+	var active_hp_before_win: int = int(player.current_hp)
 	await defeat_with_punches()
 	for i in range(900):
 		await physics_frame
