@@ -11,5 +11,15 @@ enemy_definition = ExtResource("2_enemy")
 intro_text = "レオン・クロウとの決戦。ここまでの全てをぶつけろ。"
 player_dialogue = "レオン・クロウ。ここで決着だ。"
 enemy_dialogue = "八戦目まで来たか。だが、ここが終点だ。"
+player_dialogues = {
+"player_01_akky": "レオン・クロウ！ ここで全部終わらせる！",
+"player_02_gou": "ようやくボスのお出ましか。派手にいこうぜ！",
+"player_03_seiya": "ここまでの相手とは違う。最初から全力で行く。"
+}
+enemy_dialogues = {
+"player_01_akky": "ここまで来たことは認めよう。だが、物語はここで終わる。",
+"player_02_gou": "力だけで王座は奪えない。格の違いを教えてやる。",
+"player_03_seiya": "冷静さは悪くない。だが、私には一手足りない。"
+}
 bgm_id = &"final_boss"
 is_boss_stage = true
