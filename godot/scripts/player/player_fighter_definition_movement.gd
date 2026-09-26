@@ -997,7 +997,8 @@ func should_attack_player() -> bool:
 	return randf() <= _profile_float(&"aggression_rate", 0.60)
 
 
-func should_retreat() -> bool:	if not _profile_bool(&"can_retreat", true):
+func should_retreat() -> bool:
+	if not _profile_bool(&"can_retreat", true):
 		return false
 	return randf() <= _profile_float(&"retreat_rate", 0.20)
 
@@ -1996,7 +1997,8 @@ func reset_special_attack_state(reset_ultimate_state := true) -> void:
 	boss_attack_state = BossAttackState.NONE
 	boss_current_attack_data = null
 	boss_current_attack_id = ""
-	boss_attack_timer = 0.0	disable_ultimate_interrupt_resistance()
+	boss_attack_timer = 0.0
+	disable_ultimate_interrupt_resistance()
 	if reset_ultimate_state:
 		ultimate_used = false
 		ultimate_pending = false

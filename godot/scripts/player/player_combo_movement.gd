@@ -997,7 +997,8 @@ func _get_next_combo_hit_index(target: Node) -> int:
 	return mini(combo_count + 1, dev026_max_combo_hits)
 
 
-func get_combo_damage_scale() -> float:	return _get_combo_damage_scale_for_hit(maxi(combo_count, 1))
+func get_combo_damage_scale() -> float:
+	return _get_combo_damage_scale_for_hit(maxi(combo_count, 1))
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
