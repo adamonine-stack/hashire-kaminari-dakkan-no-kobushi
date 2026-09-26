@@ -2221,8 +2221,8 @@ func _create_flow_ui() -> void:
 	_bgm_player.name = "BattleBGMPlayer"
 	add_child(_bgm_player)
 
-	_create_player_order_ui()
-
+	# The former three-fighter sortie-order UI is intentionally not constructed.
+	# Campaign flow now selects one fighter before every stage.
 	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
 	battle_ui_root.add_child(_character_selection_screen)
 	_character_selection_screen.fighter_selected.connect(select_player)
