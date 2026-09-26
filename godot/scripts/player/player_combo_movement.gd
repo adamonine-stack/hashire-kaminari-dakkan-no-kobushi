@@ -897,8 +897,7 @@ func _open_cancel_window() -> void:
 func _update_cancel_window(delta: float) -> void:
 	if not can_cancel and not dev_combo_window_open:
 		return
-	cancel_window_timer = maxf(cancel_window_timer - delta, 0.0)
-	if cancel_window_timer == 0.0:
+	cancel_window_timer = maxf(cancel_window_timer - delta, 0.0)	if cancel_window_timer == 0.0:
 		close_combo_window()
 
 
@@ -997,7 +996,8 @@ func _get_next_combo_hit_index(target: Node) -> int:
 	return mini(combo_count + 1, dev026_max_combo_hits)
 
 
-func get_combo_damage_scale() -> float:	return _get_combo_damage_scale_for_hit(maxi(combo_count, 1))
+func get_combo_damage_scale() -> float:
+	return _get_combo_damage_scale_for_hit(maxi(combo_count, 1))
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
