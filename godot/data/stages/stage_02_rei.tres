@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StageDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1_stage"]
+[ext_resource type="Resource" path="res://data/enemies/enemy_04_throw.tres" id="2_enemy"]
+
+[resource]
+script = ExtResource("1_stage")
+stage_number = 2
+stage_name = "紫電の間合い"
+enemy_definition = ExtResource("2_enemy")
+intro_text = "踏み込みと必殺の間合いを見切れ。"
+player_dialogue = "次はお前か。先へ進ませてもらう。"
+enemy_dialogue = "踏み込んだ瞬間に終わる。"
