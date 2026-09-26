@@ -997,4 +997,35 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 		order_text,
 		enemy_data["display_name"],
 		enemy_type,
-		intro_title,
+		intro_title,		intro_description,
+	]
+	_enemy_intro_panel.visible = true
+
+
+func _enemy_ai_debug_lines() -> Array[String]:
+	if enemy == null or not enemy.has_method("get_ai_debug_lines"):
+		return []
+	return enemy.get_ai_debug_lines()
+
+
+func _show_end_panel(title: String, body: String) -> void:
+	if _end_panel == null:
+		return
+	_end_title_label.text = title
+	_end_body_label.text = body
+	_end_panel.visible = true
+	_restart_button.grab_focus()
+
+
+func _hide_end_panel() -> void:
+	if _end_panel != null:
+		_end_panel.visible = false
+
+
+func _ids_to_text(ids: Array[StringName]) -> String:
+	if ids.is_empty():
+		return "NONE"
+	var text_ids: Array[String] = []
+	for id in ids:
+		text_ids.append(String(id))
+	return ", ".join(text_ids)
