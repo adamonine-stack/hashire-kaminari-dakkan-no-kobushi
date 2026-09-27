@@ -1523,9 +1523,11 @@ func _update_special_request() -> void:
 
 
 func _is_power_fighter() -> bool:
-	return fighter_definition != null \
-		and fighter_definition.team_type == &"ENEMY" \
+	return (
+		fighter_definition != null
+		and fighter_definition.team_type == &"ENEMY"
 		and String(fighter_definition.fighter_type).to_upper() == "POWER"
+	)
 
 
 func _has_active_power_armor(attack_data: Dictionary, _attacker: Node) -> bool:
