@@ -2163,8 +2163,13 @@ func _attack_forces_power_armor_break(attack_data: Dictionary, damage: int) -> b
 		return true
 	if power_armor_break_on_throw and str(attack_data.get("attack_type", "")) == "throw":
 		return true
-	if power_armor_break_on_knockdown and bool(attack_data.get("causes_knockdown", false)):
-		return true
+	if power_armor_break_on_knockdown:
+		if bool(attack_data.get("causes_knockdown", false)):
+			return true
+		var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
+		var combo_hit_max := int(attack_data.get("combo_hit_max", 0))
+		if combo_hit_max > 1 and combo_hit_index >= combo_hit_max:
+			return true
 	return false
 
 
