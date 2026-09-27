@@ -70,6 +70,18 @@ func _run() -> void:
 	assert(is_equal_approx(technical._get_combo_damage_scale_for_hit(2), 0.85))
 	assert(is_equal_approx(technical._get_combo_damage_scale_for_hit(3), 0.70))
 	assert(is_equal_approx(technical._get_combo_damage_scale_for_hit(4), 0.58))
+	technical.combo_timer = 1.0
+	technical.combo_count = 2
+	technical.dev_combo_target = defender
+	var scaled_third_hit := technical._build_combo_scaled_attack_data({
+		"damage": 10,
+		"knockback_x": 0.0,
+		"knockback_y": 0.0,
+	}, defender)
+	assert(int(scaled_third_hit["combo_hit_index"]) == 3)
+	assert(int(scaled_third_hit["damage"]) == 7)
+	assert(is_equal_approx(float(scaled_third_hit["damage_scale"]), 0.70))
+	technical.reset_combo()
 
 	# The actual knockdown-aware receive path gives the defender a gap after
 	# technical hit 2 instead of forcing the old ~0.30 second combo stun.
@@ -121,11 +133,10 @@ func _run() -> void:
 	assert(power.guard_recoil_timer > defender.guard_hit_timer)
 
 	# Recoil is a real action lock, not only a visual pause.
-	power.ai_enabled = true
-	power.input_enabled = false
-	power.name = "Enemy"
-	assert(not power.can_ai_act())
+	power.input_enabled = true
+	assert(not power._can_accept_attack_input(false))
 	power.guard_recoil_timer = 0.0
+	assert(power._can_accept_attack_input(false))
 
 	print("DEV064_ARCHETYPE_BALANCE_OK")
 	arena.queue_free()
