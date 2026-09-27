@@ -55,6 +55,12 @@ func _run_stage1_smoke() -> void:
 	# Crusher is the POWER archetype. While already attacking, an ordinary hit
 	# must damage him without cancelling the attack or entering normal hitstun.
 	var enemy := battle.get_node("Enemy")
+	enemy.disable_ai()
+	enemy.reset_attack_state(false)
+	enemy.reset_knockdown_state()
+	enemy._clear_guard_state()
+	enemy.is_hit = false
+	enemy.is_guard_hit = false
 	assert(enemy._is_power_fighter())
 	assert(enemy.ai_profile.pressure_attack_rate >= 0.50)
 	assert(enemy.ai_profile.counter_attack_rate >= 0.75)
