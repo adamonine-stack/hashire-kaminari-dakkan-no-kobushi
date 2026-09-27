@@ -130,6 +130,7 @@ var is_throw_locked := false
 var is_throw_escape_pending := false
 var is_throw_escaping := false
 var is_round_active := false
+var victory_pose_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
@@ -2470,11 +2471,31 @@ func _play_visual_animation(animation_name: StringName, force := false) -> void:
 	character_visual_controller.call("play_animation", animation_name, force)
 
 
+func show_victory_pose() -> bool:
+	if current_hp <= 0 or not _has_visual_animation(&"victory"):
+		victory_pose_active = false
+		return false
+	victory_pose_active = true
+	velocity.x = 0.0
+	_play_visual_animation(&"victory", true)
+	return true
+
+
+func clear_victory_pose() -> void:
+	if not victory_pose_active:
+		return
+	victory_pose_active = false
+	if current_hp > 0:
+		_play_visual_animation(&"idle", true)
+
+
 func _get_current_visual_animation() -> StringName:
 	if current_hp <= 0:
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"ko"
+	if victory_pose_active and _has_visual_animation(&"victory"):
+		return &"victory"
 	if _is_knockdown_state(&"KNOCKDOWN"):
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
