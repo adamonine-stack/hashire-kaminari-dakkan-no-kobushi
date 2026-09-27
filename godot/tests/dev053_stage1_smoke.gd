@@ -52,12 +52,20 @@ func _run_stage1_smoke() -> void:
 	manager._process(120.0)
 	assert(manager.roundTime == initial_round_time)
 
-	# Defeating Crusher must immediately resolve the one-enemy slice as Stage 1 clear.
-	manager._mark_enemy_defeated()
+	# Defeating Crusher through the normal player-win result path must show the
+	# active fighter's victory pose before resolving the one-enemy slice as clear.
+	manager._pending_player_ko = false
+	manager._pending_enemy_ko = true
+	manager.battle_result_locked = true
+	manager.result_display_duration = 0.01
+	await manager.resolve_battle_result()
 	assert(manager.are_all_enemies_defeated())
-	assert(manager._should_finish_game())
 	assert(manager.flow_state == BattleManager.BattleState.CLEAR)
 	assert(manager.isBattleFinished)
+	assert(manager.player.victory_pose_active)
+	assert(manager.player._get_current_visual_animation() == &"victory")
+	if manager.player.uses_animated_character_art:
+		assert(String(manager.player.animated_character_sprite.animation) == "victory")
 	# The legacy KO/message label is intentionally hidden by BattleManager.
 	# Verify the result UI that players actually see instead.
 	assert(manager._end_panel != null)
