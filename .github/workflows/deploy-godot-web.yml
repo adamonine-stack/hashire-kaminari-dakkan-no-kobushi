@@ -115,6 +115,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev061_enemy_pressure_smoke.gd 2>&1 | tee /tmp/dev061-enemy-pressure.log || true
           grep -q "DEV061_ENEMY_PRESSURE_OK" /tmp/dev061-enemy-pressure.log
 
+      - name: Verify guard counterplay
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev062_guard_counterplay_smoke.gd 2>&1 | tee /tmp/dev062-guard-counterplay.log || true
+          grep -q "DEV062_GUARD_COUNTERPLAY_OK" /tmp/dev062-guard-counterplay.log
+
       - name: Verify Stage 2 campaign and Rei motion
         shell: bash
         run: |
