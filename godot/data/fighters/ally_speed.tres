@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=14 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" path="res://assets/characters/player03/shadow.png" id="12_shadow"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/selection_portrait.png" id="13_selection_portrait"]
 
+[ext_resource type="Resource" path="res://assets/characters/player03/animations/seiya_v1/motion_atlas.tres" id="14_seiya_motion"]
+
 [resource]
 script = ExtResource("1_definition")
 fighter_id = &"player_03_seiya"
@@ -27,6 +29,12 @@ portrait = ExtResource("8_portrait")
 battle_texture = ExtResource("10_battle")
 icon = ExtResource("9_icon")
 sprite_sheet = ExtResource("11_sheet")
+motion_atlas = ExtResource("14_seiya_motion")
+sprite_sheet_format = &"authored_atlas"
+sprite_body_height_px = 195.0
+character_height_cm = 175.0
+battle_sprite_height = 174.78516
+visual_scale_adjustment = 1.05
 shadow_texture = ExtResource("12_shadow")
 art_folder = "res://assets/characters/player03/"
 sprite_frame_size = Vector2i(96, 128)
