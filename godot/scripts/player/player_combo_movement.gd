@@ -129,8 +129,8 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		jump_pressed_this_airtime = false
 		has_used_air_attack = false
-		var ai_jump_requested := not input_enabled and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
-		var player_jump_requested := input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var ai_jump_requested := not input_enabled and guard_recoil_timer <= 0.0 and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var player_jump_requested := input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
 		if player_jump_requested or ai_jump_requested:
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
