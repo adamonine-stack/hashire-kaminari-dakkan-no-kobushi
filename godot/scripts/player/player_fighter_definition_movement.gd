@@ -26,6 +26,8 @@ signal character_special_hit(attack_id, target)
 signal character_special_blocked(attack_id, target)
 signal character_special_interrupted(attack_id)
 signal character_special_finished(attack_id)
+signal power_armor_changed(accumulated_damage: int, damage_threshold: int)
+signal power_armor_broken
 
 enum EnemyAIState {
 	DISABLED,
@@ -146,6 +148,11 @@ var max_special_gauge := 100.0
 var special_gauge_cost := 100.0
 var special_ai_use_chance := 0.35
 var special_has_armor := false
+var power_armor_enabled := false
+var power_armor_damage_threshold := 0
+var power_armor_damage_accumulated := 0
+var power_armor_break_on_knockdown := true
+var power_armor_break_on_throw := true
 
 @onready var special_area := get_node_or_null("SpecialHitBox") as Area2D
 @onready var special_shape := get_node_or_null("SpecialHitBox/CollisionShape2D") as CollisionShape2D
@@ -186,6 +193,7 @@ func apply_character_data(data: Resource) -> void:
 	apply_attack_stats()
 	apply_attack_sequence_stats()
 	apply_character_special_stats()
+	apply_power_armor_stats()
 	apply_guard_stats()
 	apply_knockback_stats()
 	second_hit_damage_scale = base_second_hit_damage_scale * float(fighter_definition.combo_damage_scale)
@@ -267,6 +275,15 @@ func apply_character_special_stats() -> void:
 	special_ai_use_chance = clampf(_definition_float("special_ai_use_chance", 0.35), 0.0, 1.0)
 	special_has_armor = bool(fighter_definition.get("special_has_armor")) if fighter_definition != null else false
 	set_special_gauge(clampf(special_gauge, 0.0, max_special_gauge))
+
+
+func apply_power_armor_stats() -> void:
+	power_armor_enabled = bool(fighter_definition.get("power_armor_enabled")) if fighter_definition != null else false
+	power_armor_damage_threshold = maxi(0, int(round(_definition_float("power_armor_damage_threshold", 0.0))))
+	power_armor_break_on_knockdown = bool(fighter_definition.get("power_armor_break_on_knockdown")) if fighter_definition != null else true
+	power_armor_break_on_throw = bool(fighter_definition.get("power_armor_break_on_throw")) if fighter_definition != null else true
+	power_armor_damage_accumulated = 0
+	power_armor_changed.emit(power_armor_damage_accumulated, power_armor_damage_threshold)
 
 
 func apply_guard_stats() -> void:
@@ -467,6 +484,11 @@ func _restore_base_stats() -> void:
 	guard_stamina_multiplier = base_guard_stamina_multiplier
 	attack_knockback_multiplier = base_attack_knockback_multiplier
 	received_knockback_multiplier = base_received_knockback_multiplier
+	power_armor_enabled = false
+	power_armor_damage_threshold = 0
+	power_armor_damage_accumulated = 0
+	power_armor_break_on_knockdown = true
+	power_armor_break_on_throw = true
 	second_hit_damage_scale = base_second_hit_damage_scale
 	third_hit_damage_scale = base_third_hit_damage_scale
 	dev026_second_hit_damage_scale = base_second_hit_damage_scale
@@ -2077,6 +2099,11 @@ func update_boss_special_attack(delta: float) -> void:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	if _should_break_power_armor(attack_data, attacker):
+		_break_power_armor()
+	elif _should_absorb_with_power_armor(attack_data, attacker):
+		return _receive_power_armor_hit(attack_data, hit_position, attacker)
+
 	var was_character_special := is_character_special_busy()
 	if was_character_special and not special_has_armor:
 		interrupt_character_special()
@@ -2099,6 +2126,89 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if was_boss_special and current_hp <= 0:
 		reset_special_attack_state(false)
 	return did_hit
+
+
+func _should_absorb_with_power_armor(attack_data: Dictionary, attacker: Node) -> bool:
+	if not _power_armor_can_process_hit(attack_data, attacker):
+		return false
+	var damage := maxi(0, int(attack_data.get("damage", 0)))
+	if _attack_forces_power_armor_break(attack_data, damage):
+		return false
+	return power_armor_damage_accumulated + damage < power_armor_damage_threshold
+
+
+func _should_break_power_armor(attack_data: Dictionary, attacker: Node) -> bool:
+	if not _power_armor_can_process_hit(attack_data, attacker):
+		return false
+	var damage := maxi(0, int(attack_data.get("damage", 0)))
+	if _attack_forces_power_armor_break(attack_data, damage):
+		return true
+	return power_armor_damage_accumulated + damage >= power_armor_damage_threshold
+
+
+func _power_armor_can_process_hit(attack_data: Dictionary, attacker: Node) -> bool:
+	if not power_armor_enabled or power_armor_damage_threshold <= 0 or current_hp <= 0:
+		return false
+	if not can_receive_attack():
+		return false
+	if _can_guard_attack(attack_data, attacker):
+		return false
+	return int(attack_data.get("damage", 0)) > 0
+
+
+func _attack_forces_power_armor_break(attack_data: Dictionary, damage: int) -> bool:
+	if damage >= current_hp:
+		return true
+	if bool(attack_data.get("power_armor_break", false)):
+		return true
+	if power_armor_break_on_throw and str(attack_data.get("attack_type", "")) == "throw":
+		return true
+	if power_armor_break_on_knockdown and bool(attack_data.get("causes_knockdown", false)):
+		return true
+	return false
+
+
+func _receive_power_armor_hit(attack_data: Dictionary, hit_position: Vector2, attacker: Node) -> bool:
+	var damage := maxi(0, int(attack_data.get("damage", 0)))
+	power_armor_damage_accumulated += damage
+	apply_damage(damage)
+	if has_method("gain_special_gauge_from_damage"):
+		call("gain_special_gauge_from_damage", damage, attack_data)
+	damage_feedback_requested.emit(self, damage, false, hit_position)
+	_flash_damage()
+	if attacker != null and attacker.has_method("register_combo_hit"):
+		attacker.register_combo_hit(self)
+	_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
+	_spawn_hit_effect(hit_position, float(attack_data.get("effect_size", 1.0)))
+	_play_hit_se(str(attack_data.get("se_type", "weak")))
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(_get_attacker_hitstop_duration(attack_data))
+	screen_shake_requested.emit(float(attack_data.get("screen_shake", 0.0)) * 0.5)
+	power_armor_changed.emit(power_armor_damage_accumulated, power_armor_damage_threshold)
+	print("[POWER ARMOR] %s absorbed hit: %d / %d" % [
+		_debug_enemy_id(),
+		power_armor_damage_accumulated,
+		power_armor_damage_threshold,
+	])
+	return true
+
+
+func _break_power_armor() -> void:
+	if power_armor_damage_accumulated > 0:
+		print("[POWER ARMOR] %s broken at %d / %d" % [
+			_debug_enemy_id(),
+			power_armor_damage_accumulated,
+			power_armor_damage_threshold,
+		])
+	power_armor_damage_accumulated = 0
+	power_armor_changed.emit(power_armor_damage_accumulated, power_armor_damage_threshold)
+	power_armor_broken.emit()
+
+
+func _complete_throw_hit() -> void:
+	if power_armor_enabled and power_armor_damage_accumulated > 0:
+		_break_power_armor()
+	super._complete_throw_hit()
 
 
 func is_boss_special_busy() -> bool:
