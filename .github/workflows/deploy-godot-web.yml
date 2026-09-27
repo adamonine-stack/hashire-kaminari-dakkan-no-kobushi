@@ -115,6 +115,13 @@ jobs:
           timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage2_regression.gd 2>&1 | tee /tmp/stage2-regression.log || true
           grep -q "STAGE2_REGRESSION failures=\[\]" /tmp/stage2-regression.log
 
+      - name: Verify Gou authored motion and contact frames
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 45s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/gou_motion_atlas.gd 2>&1 | tee /tmp/gou-motion.log
+          grep -q "GOU_MOTION_ATLAS_OK.*failures=\[\]" /tmp/gou-motion.log
+
       - name: Verify character animation contract
         shell: bash
         run: |

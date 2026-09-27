@@ -183,6 +183,12 @@ func _sync_attack_visual_phase() -> void:
 		return
 	var contact_frames := {"player1_punch_1": Vector2i(2, 2), "player1_punch_2": Vector2i(2, 2), "player1_kick_finish": Vector2i(2, 3)}
 	var definition: Resource = get("fighter_definition")
+	var is_gou := definition != null and String(definition.get("fighter_id")) == "player_02_gou" and definition.get("motion_atlas") != null
+	if is_gou:
+		for id in ["player2_punch_1", "player2_punch_2", "player2_kick_finish", "player1_crouch_kick_sweep"]:
+			contact_frames[id] = Vector2i(3, 3)
+		contact_frames["fallback_jump_kick"] = Vector2i(1, 1)
+		contact_frames["player1_jump_punch_down"] = Vector2i(1, 1)
 	if definition != null and String(definition.get("fighter_id")) == "enemy_01_crusher":
 		contact_frames["fallback_punch"] = Vector2i(1, 1)
 		contact_frames["fallback_kick"] = Vector2i(1, 1)
@@ -191,7 +197,7 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_04_rei_kageyama":
 		for id in ["rei_straight", "rei_uppercut", "rei_roundhouse", "rei_air_kick", "rei_air_punch", "rei_sweep"]:
 			contact_frames[id] = Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep"):
+	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and not is_gou):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)
@@ -562,6 +568,20 @@ func apply_attack_hitbox_data(data: Resource) -> void:
 	target_area.position = Vector2(float(data.hitbox_offset.x) * scale_multiplier * facing_direction, float(data.hitbox_offset.y) * scale_multiplier)
 	if is_crouching and String(data.attack_type).to_lower() == "punch":
 		target_area.position.y = -65.0 * scale_multiplier
+	# Gou's new art uses a feet origin. Keep damage/timing unchanged, but place
+	# legacy air/low hitboxes on the authored fists and geta instead of the floor.
+	var definition: Resource = get("fighter_definition")
+	if definition != null and String(definition.get("fighter_id")) == "player_02_gou" and definition.get("motion_atlas") != null:
+		var offset := Vector2(data.hitbox_offset)
+		if is_crouching and String(data.attack_type).to_lower() == "punch":
+			offset = Vector2(95, -95)
+		elif String(data.animation_name) == "jump_kick":
+			offset = Vector2(82, -82)
+		elif String(data.animation_name) == "jump_punch_down":
+			offset = Vector2(76, -120)
+		elif String(data.animation_name) in ["crouch_kick_sweep", "crouch_sweep_kick"]:
+			offset = Vector2(100, -24)
+		target_area.position = Vector2(offset.x * facing_direction, offset.y) * scale_multiplier
 	if target_shape != null:
 		if target_shape.shape == null or not (target_shape.shape is RectangleShape2D):
 			target_shape.shape = RectangleShape2D.new()
