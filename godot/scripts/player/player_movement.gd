@@ -1253,8 +1253,12 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker._clear_cancel_window()
 	if attacker != null and attacker.has_method("clear_attack_buffer"):
 		attacker.clear_attack_buffer()
+	if attacker != null and attacker.has_method("apply_guard_recoil"):
+		attacker.apply_guard_recoil(attack_data)
 	_enter_guard_hit_state()
-	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
+	var authored_guard_time := float(attack_data.get("guard_hit_time", guard_hit_timer))
+	var guarded_attack_type := String(attack_data.get("attack_type", "")).to_lower()
+	guard_hit_timer = authored_guard_time if guarded_attack_type == "special" or guarded_attack_type == "ultimate" else minf(authored_guard_time, 0.09)
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
 	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
