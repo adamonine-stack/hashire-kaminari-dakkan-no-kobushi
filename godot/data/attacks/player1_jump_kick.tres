@@ -8,6 +8,7 @@ attack_id = "player1_jump_kick"
 display_name = "Jump Kick"
 attack_type = "kick"
 attack_category = "air"
+attack_height = "overhead"
 base_damage = 1.10
 startup_time = 0.214
 active_time = 0.143

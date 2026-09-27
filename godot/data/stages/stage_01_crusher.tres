@@ -7,6 +7,7 @@
 script = ExtResource("1_stage")
 stage_number = 1
 stage_name = "鉄塊の門"
+backdrop_id = &"downtown_street"
 enemy_definition = ExtResource("2_enemy")
 intro_text = "最初の壁を突破し、奪還への道を開け。"
 player_dialogue = "ここを突破する。道を開けろ。"

@@ -36,6 +36,15 @@ func _run_stage1_smoke() -> void:
 	assert(hud.enemy_name_label.text == "クラッシャー")
 	assert(hud.enemy_icon_rect.texture != null)
 	var stage_1: Resource = manager.STAGE_DEFINITIONS[0]
+	var stage_2: Resource = manager.STAGE_DEFINITIONS[1]
+	assert(stage_1.backdrop_id == &"downtown_street")
+	assert(stage_2.backdrop_id == &"back_alley")
+	var backdrop := battle.get_node("Stage1Backdrop")
+	assert(backdrop != null)
+	assert(backdrop.get_backdrop_id() == &"downtown_street")
+	backdrop.set_backdrop_id(&"back_alley")
+	assert(backdrop.get_backdrop_id() == &"back_alley")
+	backdrop.set_backdrop_id(stage_1.backdrop_id)
 	assert(String(stage_1.player_dialogues.get("player_01_akky", "")) != "")
 	assert(String(stage_1.player_dialogues.get("player_02_gou", "")) != "")
 	assert(String(stage_1.player_dialogues.get("player_03_seiya", "")) != "")
@@ -52,12 +61,55 @@ func _run_stage1_smoke() -> void:
 	manager._process(120.0)
 	assert(manager.roundTime == initial_round_time)
 
-	# Defeating Crusher must immediately resolve the one-enemy slice as Stage 1 clear.
-	manager._mark_enemy_defeated()
+	# Crusher is the POWER archetype. While already attacking, an ordinary hit
+	# must damage him without cancelling the attack or entering normal hitstun.
+	var enemy := battle.get_node("Enemy")
+	enemy.disable_ai()
+	enemy.reset_attack_state(false)
+	enemy.reset_knockdown_state()
+	enemy._clear_guard_state()
+	enemy.is_hit = false
+	enemy.is_guard_hit = false
+	assert(enemy._is_power_fighter())
+	assert(enemy.ai_profile.pressure_attack_rate >= 0.50)
+	assert(enemy.ai_profile.counter_attack_rate >= 0.75)
+	var armor_hp: int = enemy.current_hp
+	enemy.current_attack_type = "Punch"
+	var armor_test_hit := {
+		"damage": 5,
+		"combo_hit_index": 1,
+		"combo_hit_max": 0,
+		"attack_type": "punch",
+		"causes_knockdown": false,
+		"hitstun_time": 0.30,
+		"effect_size": 1.0,
+		"se_type": "strong",
+		"screen_shake": 0.0,
+	}
+	assert(enemy._has_active_power_armor(armor_test_hit, null))
+	assert(not enemy._has_active_power_armor({"attack_type": "throw"}, null))
+	assert(enemy.receive_attack(armor_test_hit, 1.0, enemy.global_position, null))
+	assert(enemy.current_hp == armor_hp - 5)
+	assert(enemy.current_attack_type == "Punch")
+	assert(not enemy.is_hit)
+	enemy.reset_attack_state(false)
+	enemy.hit_stop_timer = 0.0
+	enemy.set_health(enemy.max_hp)
+
+	# Defeating Crusher through the normal player-win result path must show the
+	# active fighter's victory pose before resolving the one-enemy slice as clear.
+	manager._pending_player_ko = false
+	manager._pending_enemy_ko = true
+	manager.battle_result_locked = true
+	manager.result_display_duration = 0.01
+	await manager.resolve_battle_result()
 	assert(manager.are_all_enemies_defeated())
-	assert(manager._should_finish_game())
 	assert(manager.flow_state == BattleManager.BattleState.CLEAR)
 	assert(manager.isBattleFinished)
+	assert(manager.player.victory_pose_active)
+	assert(manager.player._get_current_visual_animation() == &"victory")
+	if manager.player.uses_animated_character_art:
+		assert(String(manager.player.animated_character_sprite.animation) == "victory")
 	# The legacy KO/message label is intentionally hidden by BattleManager.
 	# Verify the result UI that players actually see instead.
 	assert(manager._end_panel != null)

@@ -35,6 +35,7 @@ signal scene_transition_started(scene_path)
 signal scene_transition_finished(scene_path)
 signal game_over_menu_opened
 signal game_clear_menu_opened
+signal enemy_intro_finished
 
 enum BattleState {
 	READY,
@@ -88,6 +89,9 @@ const STAGE_DEFINITIONS: Array[Resource] = [
 	preload("res://data/stages/stage_09_secret_boss.tres"),
 ]
 const CAMPAIGN_STAGE_COUNT := 9
+const INTRO_TYPEWRITER_CHARS_PER_SECOND := 44.0
+const INTRO_DIALOGUE_CHUNK_CHARS := 56
+const INTRO_TAP_DEBOUNCE_MSEC := 180
 const PLAYER_MAX_HEALTH_SCALE := 0.5
 const REST_RECOVERY_RATE := 0.2
 const RUN_SAVE_PATH := "user://save.cfg"
@@ -171,6 +175,13 @@ var _character_selection_screen: Control
 var _selection_reason := "GAME_START"
 var _enemy_intro_panel: PanelContainer
 var _enemy_intro_label: Label
+var _enemy_intro_hint_label: Label
+var _enemy_intro_pages: Array[String] = []
+var _enemy_intro_page_index := -1
+var _enemy_intro_typing := false
+var _enemy_intro_elapsed := 0.0
+var _enemy_intro_initial_visible_chars := 0
+var _enemy_intro_last_advance_msec := -1000
 var _last_intro_enemy_index := -1
 var _end_panel: PanelContainer
 var _end_title_label: Label
@@ -252,6 +263,10 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _enemy_intro_panel != null and _enemy_intro_panel.visible and event.is_action_pressed("ui_accept"):
+		_advance_enemy_intro()
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("pause"):
 		_toggle_pause_from_input()
 		get_viewport().set_input_as_handled()
@@ -260,6 +275,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	_poll_pause_action()
 	_update_debug_flow_label()
+	_update_enemy_intro_typewriter(delta)
 
 	if flow_state != BattleState.BATTLE or not isRoundActive or isBattleFinished:
 		return
@@ -884,13 +900,26 @@ func start_enemy_intro(enemy_data: Dictionary) -> void:
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
 	_show_enemy_intro(enemy_data)
-	await get_tree().create_timer(2.4).timeout
+	if DisplayServer.get_name() == "headless":
+		finish_enemy_intro()
+		return
+	if _enemy_intro_panel != null and _enemy_intro_panel.visible:
+		await enemy_intro_finished
+	else:
+		await get_tree().create_timer(2.4).timeout
 	finish_enemy_intro()
 
 
 func finish_enemy_intro() -> void:
 	if _enemy_intro_panel != null:
 		_enemy_intro_panel.visible = false
+	if _enemy_intro_label != null:
+		_enemy_intro_label.visible_characters = -1
+	_enemy_intro_pages.clear()
+	_enemy_intro_page_index = -1
+	_enemy_intro_typing = false
+	_enemy_intro_elapsed = 0.0
+	_enemy_intro_initial_visible_chars = 0
 
 
 func start_battle_countdown(sequence_id: int = -1) -> void:
@@ -914,6 +943,7 @@ func begin_battle(sequence_id: int = -1) -> void:
 	if sequence_id != -1 and sequence_id != _flow_sequence_id:
 		return
 
+	_clear_player_victory_pose()
 	_set_battle_state(BattleState.BATTLE)
 	isBattleFinished = false
 	isRoundActive = true
@@ -975,6 +1005,7 @@ func resolve_battle_result() -> void:
 	match result:
 		BattleOutcome.PLAYER_WIN:
 			handle_player_victory()
+			_show_player_victory_pose()
 			_show_message("PLAYER WIN")
 			_notify_hud_message("PLAYER WIN", 2, 1.0)
 		BattleOutcome.ENEMY_WIN:
@@ -997,6 +1028,7 @@ func resolve_battle_result() -> void:
 		if current_enemy_index == -1:
 			enter_game_clear()
 		else:
+			_clear_player_victory_pose()
 			save_run_progress()
 			_selection_reason = "NEXT_STAGE"
 			_set_battle_state(BattleState.NEXT_ENEMY)
@@ -1014,6 +1046,18 @@ func handle_player_victory() -> void:
 	_apply_rest_recovery_after_stage(String(_active_player_id()))
 	playerWinCount += 1
 	print("Enemy defeated: %s" % _active_enemy_id())
+
+
+func _show_player_victory_pose() -> void:
+	if player == null or player.current_hp <= 0:
+		return
+	if player.has_method("show_victory_pose"):
+		player.call("show_victory_pose")
+
+
+func _clear_player_victory_pose() -> void:
+	if player != null and player.has_method("clear_victory_pose"):
+		player.call("clear_victory_pose")
 
 
 func handle_player_defeat() -> void:
@@ -2152,20 +2196,48 @@ func _create_flow_ui() -> void:
 	_enemy_intro_panel = PanelContainer.new()
 	_enemy_intro_panel.name = "EnemyIntroPanel"
 	_enemy_intro_panel.visible = false
-	_enemy_intro_panel.set_anchors_preset(Control.PRESET_CENTER)
-	_enemy_intro_panel.offset_left = -320.0
-	_enemy_intro_panel.offset_top = -165.0
-	_enemy_intro_panel.offset_right = 320.0
-	_enemy_intro_panel.offset_bottom = 165.0
+	_enemy_intro_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	_enemy_intro_panel.offset_left = 32.0
+	_enemy_intro_panel.offset_top = -224.0
+	_enemy_intro_panel.offset_right = -32.0
+	_enemy_intro_panel.offset_bottom = -20.0
+	_enemy_intro_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_enemy_intro_panel.gui_input.connect(_on_enemy_intro_gui_input)
 	battle_ui_root.add_child(_enemy_intro_panel)
+
+	var intro_margin := MarginContainer.new()
+	intro_margin.add_theme_constant_override("margin_left", 30)
+	intro_margin.add_theme_constant_override("margin_top", 14)
+	intro_margin.add_theme_constant_override("margin_right", 30)
+	intro_margin.add_theme_constant_override("margin_bottom", 12)
+	intro_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_enemy_intro_panel.add_child(intro_margin)
+
+	var intro_box := VBoxContainer.new()
+	intro_box.add_theme_constant_override("separation", 4)
+	intro_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	intro_margin.add_child(intro_box)
 
 	_enemy_intro_label = Label.new()
 	_enemy_intro_label.name = "EnemyIntroLabel"
-	_enemy_intro_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_enemy_intro_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_enemy_intro_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_enemy_intro_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_enemy_intro_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_enemy_intro_label.add_theme_font_size_override("font_size", 20)
-	_enemy_intro_panel.add_child(_enemy_intro_label)
+	_enemy_intro_label.add_theme_font_size_override("font_size", 28)
+	_enemy_intro_label.add_theme_constant_override("outline_size", 4)
+	_enemy_intro_label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.9))
+	_enemy_intro_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	intro_box.add_child(_enemy_intro_label)
+
+	_enemy_intro_hint_label = Label.new()
+	_enemy_intro_hint_label.name = "EnemyIntroHintLabel"
+	_enemy_intro_hint_label.text = "タップで全文表示"
+	_enemy_intro_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_enemy_intro_hint_label.add_theme_font_size_override("font_size", 18)
+	_enemy_intro_hint_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.55, 1.0))
+	_enemy_intro_hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	intro_box.add_child(_enemy_intro_hint_label)
 
 	_end_panel = PanelContainer.new()
 	_end_panel.name = "RunEndPanel"
@@ -2798,6 +2870,9 @@ func _apply_current_stage_definition() -> void:
 	var camera := get_node_or_null("../BattleCamera") as Camera2D
 	if camera != null:
 		camera.position = Vector2(stage_definition.camera_position)
+	var backdrop := get_node_or_null("../Stage1Backdrop")
+	if backdrop != null and backdrop.has_method("set_backdrop_id"):
+		backdrop.call("set_backdrop_id", stage_definition.backdrop_id)
 
 
 func _should_show_enemy_intro() -> bool:
@@ -2830,20 +2905,128 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 		intro_title = definition.intro_title
 		intro_description = definition.intro_description
 		enemy_type = String(definition.fighter_type)
-	var lines: Array[String] = [
+
+	_enemy_intro_pages.clear()
+	var stage_lines: Array[String] = [
 		"STAGE %d / %d  %s" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT, stage_name],
 		"%s  [%s]" % [enemy_data["display_name"], enemy_type],
 	]
 	if not stage_intro.is_empty():
-		lines.append(stage_intro)
-	if not player_dialogue.is_empty():
-		lines.append("%s「%s」" % [_active_player_name(), player_dialogue])
-	if not enemy_dialogue.is_empty():
-		lines.append("%s「%s」" % [enemy_data["display_name"], enemy_dialogue])
-	if not intro_title.is_empty():
-		lines.append("%s — %s" % [intro_title, intro_description])
-	_enemy_intro_label.text = "\n".join(lines)
-	_enemy_intro_panel.visible = true
+		stage_lines.append(stage_intro)
+	_enemy_intro_pages.append("\n".join(stage_lines))
+	_append_enemy_intro_dialogue_pages(_active_player_name(), player_dialogue)
+	_append_enemy_intro_dialogue_pages(String(enemy_data["display_name"]), enemy_dialogue)
+	if not intro_title.is_empty() or not intro_description.is_empty():
+		var final_lines: Array[String] = []
+		if not intro_title.is_empty():
+			final_lines.append(intro_title)
+		if not intro_description.is_empty():
+			final_lines.append(intro_description)
+		_enemy_intro_pages.append("\n".join(final_lines))
+
+	_enemy_intro_panel.visible = not _enemy_intro_pages.is_empty()
+	if _enemy_intro_panel.visible:
+		_show_enemy_intro_page(0)
+
+
+func _append_enemy_intro_dialogue_pages(speaker: String, dialogue: String) -> void:
+	if dialogue.is_empty():
+		return
+	var chunks := _split_enemy_intro_text(dialogue, INTRO_DIALOGUE_CHUNK_CHARS)
+	for chunk in chunks:
+		_enemy_intro_pages.append("%s\n「%s」" % [speaker, chunk])
+
+
+func _split_enemy_intro_text(text: String, max_chars: int) -> Array[String]:
+	var chunks: Array[String] = []
+	var remaining := text.strip_edges()
+	var safe_max := maxi(1, max_chars)
+	while remaining.length() > safe_max:
+		var split_at := safe_max
+		var lower_bound := maxi(1, int(safe_max * 0.55))
+		for index in range(safe_max - 1, lower_bound - 1, -1):
+			var character := remaining.substr(index, 1)
+			if character in ["。", "！", "？", "、", " ", "!", "?", ","]:
+				split_at = index + 1
+				break
+		chunks.append(remaining.substr(0, split_at).strip_edges())
+		remaining = remaining.substr(split_at).strip_edges()
+	if not remaining.is_empty():
+		chunks.append(remaining)
+	return chunks
+
+
+func _show_enemy_intro_page(page_index: int) -> void:
+	if page_index < 0 or page_index >= _enemy_intro_pages.size():
+		return
+	_enemy_intro_page_index = page_index
+	_enemy_intro_elapsed = 0.0
+	_enemy_intro_typing = true
+	var page_text := _enemy_intro_pages[page_index]
+	_enemy_intro_label.text = page_text
+	_enemy_intro_initial_visible_chars = _enemy_intro_initial_visible_count(page_text)
+	_enemy_intro_label.visible_characters = _enemy_intro_initial_visible_chars
+	if _enemy_intro_hint_label != null:
+		_enemy_intro_hint_label.text = "タップで全文表示"
+
+
+func _enemy_intro_initial_visible_count(page_text: String) -> int:
+	if page_text.is_empty():
+		return 0
+	var first_line_break := page_text.find("\n")
+	if first_line_break >= 0:
+		return mini(page_text.length(), first_line_break + 1)
+	return mini(page_text.length(), maxi(1, mini(12, page_text.length())))
+
+
+func _update_enemy_intro_typewriter(delta: float) -> void:
+	if _enemy_intro_panel == null or not _enemy_intro_panel.visible:
+		return
+	if not _enemy_intro_typing or _enemy_intro_label == null:
+		return
+	if _enemy_intro_page_index < 0 or _enemy_intro_page_index >= _enemy_intro_pages.size():
+		return
+	_enemy_intro_elapsed += delta
+	var page_text := _enemy_intro_pages[_enemy_intro_page_index]
+	var typed_chars := int(floor(_enemy_intro_elapsed * INTRO_TYPEWRITER_CHARS_PER_SECOND))
+	var visible_count := mini(page_text.length(), _enemy_intro_initial_visible_chars + typed_chars)
+	_enemy_intro_label.visible_characters = visible_count
+	if visible_count >= page_text.length():
+		_enemy_intro_typing = false
+		if _enemy_intro_hint_label != null:
+			_enemy_intro_hint_label.text = "▼ タップで次へ"
+
+
+func _on_enemy_intro_gui_input(event: InputEvent) -> void:
+	var should_advance := false
+	if event is InputEventScreenTouch:
+		should_advance = event.pressed
+	elif event is InputEventMouseButton:
+		should_advance = event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+	if should_advance:
+		_advance_enemy_intro()
+		_enemy_intro_panel.accept_event()
+
+
+func _advance_enemy_intro() -> void:
+	var now_msec := Time.get_ticks_msec()
+	if now_msec - _enemy_intro_last_advance_msec < INTRO_TAP_DEBOUNCE_MSEC:
+		return
+	_enemy_intro_last_advance_msec = now_msec
+	if _enemy_intro_page_index < 0 or _enemy_intro_page_index >= _enemy_intro_pages.size():
+		return
+	if _enemy_intro_typing:
+		_enemy_intro_typing = false
+		_enemy_intro_label.visible_characters = -1
+		if _enemy_intro_hint_label != null:
+			_enemy_intro_hint_label.text = "▼ タップで次へ"
+		return
+	var next_page := _enemy_intro_page_index + 1
+	if next_page < _enemy_intro_pages.size():
+		_show_enemy_intro_page(next_page)
+		return
+	_enemy_intro_panel.visible = false
+	enemy_intro_finished.emit()
 
 
 func _enemy_ai_debug_lines() -> Array[String]:

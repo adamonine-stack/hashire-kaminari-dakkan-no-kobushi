@@ -106,6 +106,8 @@ var ai_jump_attack_plan: StringName = &""
 var ai_jump_attack_used := false
 var ai_approach_jump_checked := false
 var ai_guard_minimum_timer := 0.0
+var ai_guard_type := "high"
+var ai_guard_counter_pending := false
 var ai_current_target_distance := 60.0
 var ai_selected_attack_type := ""
 var ai_special_request_cooldown_timer := 0.0
@@ -373,6 +375,8 @@ func reset_ai_state() -> void:
 	ai_jump_launch_direction = 0.0
 	ai_jump_launch_speed_multiplier = 1.0
 	ai_guard_minimum_timer = 0.0
+	ai_guard_type = "high"
+	ai_guard_counter_pending = false
 	ai_current_target_distance = _randomized_preferred_distance()
 	ai_selected_attack_type = ""
 	ai_special_request_cooldown_timer = 0.0
@@ -656,6 +660,14 @@ func choose_next_action() -> void:
 	if not can_ai_act():
 		return
 	var distance := evaluate_distance()
+	# When the player is already attacking, let defense compete before raw
+	# counter-punching so guard actually becomes part of the neutral game.
+	if _is_player_attack_threatening(_get_opponent()) and should_guard_against_player():
+		enter_guard()
+		return
+	if should_counter_attack_player(distance):
+		enter_attack()
+		return
 	if should_jump_player(distance):
 		enter_jump()
 		return
@@ -757,10 +769,11 @@ func enter_guard() -> void:
 		enter_idle()
 		return
 	_set_ai_state(EnemyAIState.GUARD)
+	ai_guard_type = _choose_ai_guard_type_against_player()
 	is_guarding = true
-	is_crouch_guarding = false
+	is_crouch_guarding = ai_guard_type == "low"
 	is_crouching = false
-	guard_type = "high"
+	guard_type = ai_guard_type
 	ai_guard_timer = randf_range(_profile_float(&"guard_time_min", 0.30), _profile_float(&"guard_time_max", 0.75))
 	ai_guard_minimum_timer = minf(ai_guard_timer, 0.20)
 	_face_opponent()
@@ -975,15 +988,40 @@ func should_guard_against_player() -> bool:
 	var opponent := _get_opponent()
 	var guard_rate := _profile_float(&"guard_rate", _profile_float(&"guard_weight", 0.15))
 	var is_threatening := _is_player_attack_threatening(opponent)
-	if not is_threatening:
+	if is_threatening:
+		guard_rate = maxf(guard_rate, _profile_float(&"reactive_guard_rate", 0.45))
+	else:
 		var proactive_distance := _profile_float(&"attack_distance", 55.0) * 0.90
 		if evaluate_distance() > proactive_distance:
 			return false
 		guard_rate *= 0.30
+	if last_ai_action == &"guard" and repeated_action_count >= 2:
+		guard_rate *= 0.45
 	if randf() > guard_rate:
 		return false
-	print("[DEV054][%s] Guard selected%s" % [_debug_enemy_id(), " (read)" if not is_threatening else ""])
+	print("[DEV062][%s] Guard selected type=%s%s" % [_debug_enemy_id(), _choose_ai_guard_type_against_player(), " threat" if is_threatening else " read"])
 	return true
+
+
+func _choose_ai_guard_type_against_player() -> String:
+	var opponent := _get_opponent()
+	if opponent == null:
+		return "high"
+	var attack_data = opponent.get("current_attack_data")
+	if attack_data != null:
+		var category := String(attack_data.get("attack_category")).to_lower()
+		var height := String(attack_data.get("attack_height")).to_lower()
+		if category == "air" or height == "overhead":
+			return "high"
+		if height == "low" or category == "crouch":
+			return "low"
+	# Legacy/fallback attacks may not expose a Resource. A crouch state is an
+	# explicit low read; jump startup clears crouch before the fighter becomes airborne.
+	if bool(opponent.get("is_crouching")) and not String(opponent.get("current_attack_type")).is_empty():
+		return "low"
+	if opponent is CharacterBody2D and not opponent.is_on_floor() and not String(opponent.get("current_attack_type")).is_empty():
+		return "high"
+	return "high"
 
 
 func should_throw_player() -> bool:
@@ -1026,10 +1064,26 @@ func should_sweep_player() -> bool:
 	return randf() <= rate
 
 
+func should_counter_attack_player(distance: float) -> bool:
+	if ai_attack_cooldown_timer > 0.0 or distance > _profile_float(&"attack_distance", 55.0):
+		return false
+	var opponent := _get_opponent()
+	if not _is_player_attack_threatening(opponent):
+		return false
+	var counter_rate := _profile_float(&"counter_attack_rate", 0.20)
+	if _is_power_fighter():
+		counter_rate = maxf(counter_rate, 0.75)
+	return randf() <= counter_rate
+
+
 func should_attack_player() -> bool:
 	if ai_attack_cooldown_timer > 0.0 or evaluate_distance() > _profile_float(&"attack_distance", 55.0):
 		return false
-	return randf() <= _profile_float(&"aggression_rate", 0.60)
+	var aggression := clampf(_profile_float(&"aggression_rate", 0.60), 0.0, 1.0)
+	var pressure := clampf(_profile_float(&"pressure_attack_rate", 0.30), 0.0, 1.0)
+	# Keep each enemy's personality but make "do damage now" the default goal.
+	var combined_attack_chance := 1.0 - ((1.0 - aggression) * (1.0 - pressure))
+	return randf() <= combined_attack_chance
 
 
 func should_retreat() -> bool:
@@ -1466,9 +1520,9 @@ func _update_ai_guard_state(delta: float) -> void:
 	ai_guard_timer = maxf(ai_guard_timer - delta, 0.0)
 	ai_guard_minimum_timer = maxf(ai_guard_minimum_timer - delta, 0.0)
 	is_guarding = true
-	is_crouch_guarding = false
+	is_crouch_guarding = ai_guard_type == "low"
 	is_crouching = false
-	guard_type = "high"
+	guard_type = ai_guard_type
 	if ai_guard_timer == 0.0 and ai_guard_minimum_timer == 0.0:
 		_clear_guard_state()
 		ai_action_finished.emit("guard")
@@ -1481,6 +1535,15 @@ func _update_attack_wait() -> void:
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return
 	ai_action_finished.emit(ai_selected_attack_type)
+	var distance := evaluate_distance()
+	var attack_distance := _profile_float(&"attack_distance", 55.0)
+	if ai_attack_cooldown_timer <= 0.0 and distance <= attack_distance * 1.05:
+		if randf() <= _profile_float(&"post_attack_pressure_rate", 0.30):
+			enter_attack()
+			return
+	if distance > attack_distance * 1.10:
+		enter_approach()
+		return
 	if should_retreat():
 		enter_retreat()
 	else:
@@ -1490,6 +1553,31 @@ func _update_attack_wait() -> void:
 func _update_special_request() -> void:
 	if current_attack_type == "":
 		enter_idle()
+
+
+func _is_power_fighter() -> bool:
+	return (
+		fighter_definition != null
+		and fighter_definition.team_type == &"ENEMY"
+		and String(fighter_definition.fighter_type).to_upper() == "POWER"
+	)
+
+
+func _has_active_power_armor(attack_data: Dictionary, _attacker: Node) -> bool:
+	if not _is_power_fighter() or current_attack_type.is_empty():
+		return false
+	if is_guarding or is_crouch_guarding or _is_knockdown_busy():
+		return false
+	var incoming_type := String(attack_data.get("attack_type", "")).to_lower()
+	# Throws and special/ultimate attacks remain reliable counters to armor.
+	return incoming_type != "throw" and incoming_type != "special" and incoming_type != "ultimate"
+
+
+func _on_successful_guard(_attack_data: Dictionary, _attacker: Node) -> void:
+	if name != "Enemy" or input_enabled or ai_profile == null:
+		return
+	ai_guard_counter_pending = true
+	print("[DEV062][%s] Guard success -> counter armed" % _debug_enemy_id())
 
 
 func _sync_ai_locked_state() -> bool:
@@ -1510,9 +1598,20 @@ func _sync_ai_locked_state() -> bool:
 	if is_hit or is_guard_hit:
 		if is_hit:
 			reset_character_special_state(false)
+			ai_guard_counter_pending = false
 		cancel_current_ai_action(not is_guard_hit)
 		_set_ai_state(EnemyAIState.HITSTUN)
 		return true
+	if ai_guard_counter_pending:
+		ai_guard_counter_pending = false
+		var counter_distance := evaluate_distance()
+		var counter_reach := _profile_float(&"attack_distance", 55.0) * 1.15
+		if counter_distance <= counter_reach and randf() <= _profile_float(&"guard_counter_rate", 0.75):
+			ai_attack_cooldown_timer = 0.0
+			_clear_guard_state()
+			print("[DEV062][%s] Guard counter" % _debug_enemy_id())
+			enter_attack()
+			return true
 	return false
 
 
@@ -2129,6 +2228,7 @@ func _get_boss_attack_dictionary() -> Dictionary:
 		"damage": maxi(1, int(round(float(base_damage) * multiplier))),
 		"base_damage": maxi(1, int(round(float(base_damage) * multiplier))),
 		"attack_height": "high",
+		"attack_type": "ultimate" if _is_ultimate_attack_id(boss_current_attack_id) else "special",
 		"is_guardable": bool(boss_current_attack_data.is_guardable),
 		"guard_damage_multiplier": float(boss_current_attack_data.guard_damage_multiplier),
 		"guard_hit_time": float(boss_current_attack_data.guard_hit_time),

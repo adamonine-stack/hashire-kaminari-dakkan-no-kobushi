@@ -130,6 +130,7 @@ var is_throw_locked := false
 var is_throw_escape_pending := false
 var is_throw_escaping := false
 var is_round_active := false
+var victory_pose_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
@@ -1238,6 +1239,8 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
 		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hitstop_attacker", attack_data.get("guard_hit_stop_time", guard_hit_stop_time))))
+	if has_method("_on_successful_guard"):
+		call("_on_successful_guard", attack_data, attacker)
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
 
@@ -1255,10 +1258,15 @@ func _get_guard_damage(damage: int) -> int:
 
 
 func _get_guard_damage_from_attack_data(attack_data: Dictionary) -> int:
+	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
+	# A successful guard fully negates normal attacks. Only special/ultimate
+	# attacks may deal authored chip damage through guard.
+	if attack_type != "special" and attack_type != "ultimate":
+		return 0
 	var base_damage := int(attack_data.get("base_damage", attack_data["damage"]))
 	if attack_data.has("guard_damage_multiplier"):
-		return maxi(1, int(round(float(base_damage) * float(attack_data["guard_damage_multiplier"]))))
-	return _get_guard_damage(base_damage)
+		return maxi(0, int(round(float(base_damage) * float(attack_data["guard_damage_multiplier"]))))
+	return maxi(0, int(round(float(base_damage) * get_guard_damage_multiplier())))
 
 
 func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) -> void:
@@ -1286,12 +1294,16 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 
 
 func _is_attack_height_guardable(attack_height: String) -> bool:
-	match attack_height:
+	match attack_height.to_lower():
+		"overhead":
+			# Jump/overhead attacks beat crouch guard.
+			return guard_type == "high" or guard_type == "stand"
 		"high":
 			return guard_type == "high" or guard_type == "stand" or guard_type == "low" or guard_type == "crouch"
 		"middle":
 			return guard_type == "high" or guard_type == "stand" or guard_type == "low" or guard_type == "crouch"
 		"low":
+			# Crouching/low attacks beat standing guard.
 			return guard_type == "low" or guard_type == "crouch"
 		"throw":
 			return false
@@ -2470,11 +2482,31 @@ func _play_visual_animation(animation_name: StringName, force := false) -> void:
 	character_visual_controller.call("play_animation", animation_name, force)
 
 
+func show_victory_pose() -> bool:
+	if current_hp <= 0 or not _has_visual_animation(&"victory"):
+		victory_pose_active = false
+		return false
+	victory_pose_active = true
+	velocity.x = 0.0
+	_play_visual_animation(&"victory", true)
+	return true
+
+
+func clear_victory_pose() -> void:
+	if not victory_pose_active:
+		return
+	victory_pose_active = false
+	if current_hp > 0:
+		_play_visual_animation(&"idle", true)
+
+
 func _get_current_visual_animation() -> StringName:
 	if current_hp <= 0:
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"ko"
+	if victory_pose_active and _has_visual_animation(&"victory"):
+		return &"victory"
 	if _is_knockdown_state(&"KNOCKDOWN"):
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
