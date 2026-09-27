@@ -180,6 +180,7 @@ var _enemy_intro_pages: Array[String] = []
 var _enemy_intro_page_index := -1
 var _enemy_intro_typing := false
 var _enemy_intro_elapsed := 0.0
+var _enemy_intro_initial_visible_chars := 0
 var _enemy_intro_last_advance_msec := -1000
 var _last_intro_enemy_index := -1
 var _end_panel: PanelContainer
@@ -918,6 +919,7 @@ func finish_enemy_intro() -> void:
 	_enemy_intro_page_index = -1
 	_enemy_intro_typing = false
 	_enemy_intro_elapsed = 0.0
+	_enemy_intro_initial_visible_chars = 0
 
 
 func start_battle_countdown(sequence_id: int = -1) -> void:
@@ -2942,10 +2944,21 @@ func _show_enemy_intro_page(page_index: int) -> void:
 	_enemy_intro_page_index = page_index
 	_enemy_intro_elapsed = 0.0
 	_enemy_intro_typing = true
-	_enemy_intro_label.text = _enemy_intro_pages[page_index]
-	_enemy_intro_label.visible_characters = 0
+	var page_text := _enemy_intro_pages[page_index]
+	_enemy_intro_label.text = page_text
+	_enemy_intro_initial_visible_chars = _enemy_intro_initial_visible_count(page_text)
+	_enemy_intro_label.visible_characters = _enemy_intro_initial_visible_chars
 	if _enemy_intro_hint_label != null:
 		_enemy_intro_hint_label.text = "タップで全文表示"
+
+
+func _enemy_intro_initial_visible_count(page_text: String) -> int:
+	if page_text.is_empty():
+		return 0
+	var first_line_break := page_text.find("\n")
+	if first_line_break >= 0:
+		return mini(page_text.length(), first_line_break + 1)
+	return mini(page_text.length(), maxi(1, mini(12, page_text.length())))
 
 
 func _update_enemy_intro_typewriter(delta: float) -> void:
@@ -2957,7 +2970,8 @@ func _update_enemy_intro_typewriter(delta: float) -> void:
 		return
 	_enemy_intro_elapsed += delta
 	var page_text := _enemy_intro_pages[_enemy_intro_page_index]
-	var visible_count := mini(page_text.length(), int(floor(_enemy_intro_elapsed * INTRO_TYPEWRITER_CHARS_PER_SECOND)))
+	var typed_chars := int(floor(_enemy_intro_elapsed * INTRO_TYPEWRITER_CHARS_PER_SECOND))
+	var visible_count := mini(page_text.length(), _enemy_intro_initial_visible_chars + typed_chars)
 	_enemy_intro_label.visible_characters = visible_count
 	if visible_count >= page_text.length():
 		_enemy_intro_typing = false
