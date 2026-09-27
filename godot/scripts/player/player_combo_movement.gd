@@ -49,6 +49,8 @@ enum CombatInput {
 @export var dev052_finisher_hitstop_defender := 0.100
 @export var dev052_guard_hitstop_attacker := 0.035
 @export var dev052_guard_hitstop_defender := 0.050
+@export var technical_combo_escape_hitstun := 0.10
+@export_range(0.0, 1.0, 0.05) var technical_ai_guard_escape_rate := 0.70
 
 var dev_combo_window_open := false
 var dev_buffered_attack: StringName = &""
@@ -85,6 +87,7 @@ var ai_jump_launch_speed_multiplier := 1.0
 func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
+	_update_guard_recoil(delta)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
@@ -106,7 +109,7 @@ func _physics_process(delta: float) -> void:
 	_face_opponent()
 
 	var is_air_attack_current := _is_air_attack_currently_active()
-	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy():
+	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0:
 		direction = 0.0
 		if is_air_attack_current and input_enabled:
 			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
@@ -384,7 +387,7 @@ func request_attack_input(attack_type: StringName, is_ai_request := false) -> bo
 func _can_accept_attack_input(is_ai_request: bool) -> bool:
 	if not is_ai_request and not input_enabled:
 		return false
-	return current_hp > 0 and is_round_active and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
+	return current_hp > 0 and is_round_active and guard_recoil_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
 
 
 func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) -> bool:
@@ -736,6 +739,8 @@ func _is_special_input_just_pressed() -> bool:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	if _try_guard_technical_combo_escape(attack_data, attack_direction, hit_position, attacker):
+		return false
 	if _can_guard_attack(attack_data, attacker):
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
 		return false
@@ -744,7 +749,12 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	reset_attack_state()
 	_cancel_current_action()
 	_enter_hit_state()
-	if int(attack_data.get("combo_hit_index", 1)) < dev026_max_combo_hits:
+	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
+	if _is_technical_combo_attack(attack_data) and combo_hit_index >= 2:
+		# The first two hits may confirm, but the defender recovers before later
+		# technical hits so holding guard or countering can break the sequence.
+		hit_reaction_timer = minf(hit_reaction_timer, technical_combo_escape_hitstun)
+	elif combo_hit_index < dev026_max_combo_hits:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(attack_data["damage"])
 	damage_feedback_requested.emit(self, int(attack_data["damage"]), false, hit_position)
@@ -791,6 +801,8 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 		attacker._clear_cancel_window()
 	if attacker != null and attacker.has_method("clear_attack_buffer"):
 		attacker.clear_attack_buffer()
+	if attacker != null and attacker.has_method("apply_guard_recoil"):
+		attacker.apply_guard_recoil(attack_data)
 	if attacker != null and attacker.has_method("gain_special_gauge_for_guarded_attack"):
 		attacker.gain_special_gauge_for_guarded_attack(attack_data)
 	_enter_guard_hit_state()
@@ -1021,13 +1033,15 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 	var scaled_attack_data := attack_data.duplicate()
 	var hit_index := _get_next_combo_hit_index(target)
 	var knockback_scale := _get_combo_knockback_scale_for_hit(hit_index)
+	var damage_scale := _get_combo_damage_scale_for_hit(hit_index)
 	scaled_attack_data["base_damage"] = attack_data["damage"]
+	scaled_attack_data["damage"] = maxi(1, int(round(float(attack_data["damage"]) * damage_scale)))
 	scaled_attack_data["knockback_x"] = float(attack_data["knockback_x"]) * knockback_scale
 	scaled_attack_data["knockback_y"] = float(attack_data["knockback_y"]) * knockback_scale
 	scaled_attack_data["combo_hit_index"] = hit_index
 	# The receiver must judge finishers from the attacker's combo definition, not its own.
 	scaled_attack_data["combo_hit_max"] = dev026_max_combo_hits
-	scaled_attack_data["damage_scale"] = 1.0
+	scaled_attack_data["damage_scale"] = damage_scale
 	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and not current_attack_data.next_attack_ids.is_empty()
 	return scaled_attack_data
 
@@ -1043,6 +1057,25 @@ func get_combo_damage_scale() -> float:
 
 
 func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
+	var archetype := _get_combat_archetype()
+	if archetype == &"technical":
+		if hit_index <= 1:
+			return 1.0
+		if hit_index == 2:
+			return 0.85
+		if hit_index == 3:
+			return 0.70
+		if hit_index == 4:
+			return 0.58
+		return 0.50
+	if archetype == &"power":
+		return 1.0 if hit_index <= 1 else 0.95
+	if archetype == &"balance":
+		if hit_index <= 1:
+			return 1.0
+		if hit_index == 2:
+			return 0.90
+		return 0.80
 	if hit_index <= 2:
 		return 1.0
 	if hit_index <= 4:
@@ -1052,6 +1085,58 @@ func _get_combo_damage_scale_for_hit(hit_index: int) -> float:
 	if hit_index <= 8:
 		return 0.70
 	return 0.60
+
+
+func _get_combat_archetype() -> StringName:
+	var definition: Resource = get("fighter_definition")
+	if definition == null:
+		return &"other"
+	var fighter_type := String(definition.get("fighter_type")).to_upper()
+	if fighter_type.contains("POWER"):
+		return &"power"
+	if fighter_type == "BALANCE":
+		return &"balance"
+	if fighter_type.contains("TECHNICAL") or fighter_type.contains("SPEED"):
+		return &"technical"
+	return &"other"
+
+
+func _is_technical_combo_attack(attack_data: Dictionary) -> bool:
+	return String(attack_data.get("attacker_archetype", "")).to_lower() == "technical"
+
+
+func _try_guard_technical_combo_escape(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	if not _is_technical_combo_attack(attack_data):
+		return false
+	if int(attack_data.get("combo_hit_index", 1)) < 3:
+		return false
+	if not bool(attack_data.get("is_guardable", true)) or current_hp <= 0 or not is_round_active or not is_on_floor():
+		return false
+	if String(attack_data.get("attack_height", "middle")).to_lower() == "throw":
+		return false
+
+	var wants_guard := is_guarding or is_crouch_guarding
+	if input_enabled:
+		wants_guard = Input.is_action_pressed("guard")
+		if wants_guard:
+			is_crouch_guarding = _is_crouch_input_pressed()
+			is_guarding = true
+			guard_type = "low" if is_crouch_guarding else "high"
+	elif name == "Enemy":
+		wants_guard = randf() <= technical_ai_guard_escape_rate
+		if wants_guard:
+			var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
+			is_crouch_guarding = attack_height == "low"
+			is_guarding = true
+			guard_type = "low" if is_crouch_guarding else "high"
+
+	if not wants_guard or not _is_facing_attacker(attacker) or not _is_attack_height_guardable(String(attack_data.get("attack_height", "middle"))):
+		return false
+
+	is_hit = false
+	hit_reaction_timer = 0.0
+	_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
+	return true
 
 
 func get_combo_knockback_scale() -> float:
@@ -1173,6 +1258,7 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		attack_height = "overhead"
 	return {
 		"damage": maxi(1, int(round(float(base_damage) * float(attack_data.base_damage)))),
+		"attacker_archetype": String(_get_combat_archetype()),
 		"attack_height": attack_height,
 		"attack_category": String(attack_data.get("attack_category")),
 		"knockback_x": final_knockback.x,
