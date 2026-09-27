@@ -33,6 +33,8 @@ class_name EnemyAIProfile
 @export_range(0.0, 1.0, 0.01) var counter_attack_rate: float = 0.20
 @export_range(0.0, 1.0, 0.01) var post_attack_pressure_rate: float = 0.30
 @export_range(0.0, 1.0, 0.01) var guard_rate: float = 0.20
+@export_range(0.0, 1.0, 0.01) var reactive_guard_rate: float = 0.45
+@export_range(0.0, 1.0, 0.01) var guard_counter_rate: float = 0.75
 @export_range(0.0, 1.0, 0.01) var retreat_rate: float = 0.20
 @export_range(0.0, 1.0, 0.01) var combo_rate: float = 0.20
 @export_range(0.0, 1.0, 0.01) var sweep_rate: float = 0.00
