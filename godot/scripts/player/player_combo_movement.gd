@@ -184,6 +184,12 @@ func _sync_attack_visual_phase() -> void:
 	var contact_frames := {"player1_punch_1": Vector2i(2, 2), "player1_punch_2": Vector2i(2, 2), "player1_kick_finish": Vector2i(2, 3)}
 	var definition: Resource = get("fighter_definition")
 	var is_gou := definition != null and String(definition.get("fighter_id")) == "player_02_gou" and definition.get("motion_atlas") != null
+	var is_seiya := definition != null and String(definition.get("fighter_id")) == "player_03_seiya" and definition.get("motion_atlas") != null
+	if is_seiya:
+		for id in ["player3_punch_1", "player3_punch_2", "player3_punch_3", "player3_kick_finish", "player1_crouch_kick_sweep"]:
+			contact_frames[id] = Vector2i(3, 3)
+		contact_frames["fallback_jump_kick"] = Vector2i(1, 1)
+		contact_frames["player1_jump_punch_down"] = Vector2i(1, 1)
 	if is_gou:
 		for id in ["player2_punch_1", "player2_punch_2", "player2_kick_finish", "player1_crouch_kick_sweep"]:
 			contact_frames[id] = Vector2i(3, 3)
@@ -197,7 +203,7 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_04_rei_kageyama":
 		for id in ["rei_straight", "rei_uppercut", "rei_roundhouse", "rei_air_kick", "rei_air_punch", "rei_sweep"]:
 			contact_frames[id] = Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and not is_gou):
+	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and not is_gou and not is_seiya):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)
@@ -581,6 +587,17 @@ func apply_attack_hitbox_data(data: Resource) -> void:
 			offset = Vector2(76, -120)
 		elif String(data.animation_name) in ["crouch_kick_sweep", "crouch_sweep_kick"]:
 			offset = Vector2(100, -24)
+		target_area.position = Vector2(offset.x * facing_direction, offset.y) * scale_multiplier
+	if definition != null and String(definition.get("fighter_id")) == "player_03_seiya" and definition.get("motion_atlas") != null:
+		var offset := Vector2(data.hitbox_offset)
+		if is_crouching and String(data.attack_type).to_lower() == "punch":
+			offset = Vector2(86, -72)
+		elif String(data.animation_name) == "jump_kick":
+			offset = Vector2(90, -85)
+		elif String(data.animation_name) == "jump_punch_down":
+			offset = Vector2(85, -90)
+		elif String(data.animation_name) in ["crouch_kick_sweep", "crouch_sweep_kick"]:
+			offset = Vector2(96, -24)
 		target_area.position = Vector2(offset.x * facing_direction, offset.y) * scale_multiplier
 	if target_shape != null:
 		if target_shape.shape == null or not (target_shape.shape is RectangleShape2D):

@@ -143,6 +143,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev052_visual_check.gd 2>&1 | tee /tmp/dev052-visual.log || true
           grep -q "DEV052_OK" /tmp/dev052-visual.log
 
+      - name: Verify Seiya authored motion
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/seiya_motion_atlas.gd 2>&1 | tee /tmp/seiya-motion.log
+          grep -q "SEIYA_MOTION_ATLAS_OK.*failures=\[\]" /tmp/seiya-motion.log
+
       - name: Export Web build
         shell: bash
         run: |
