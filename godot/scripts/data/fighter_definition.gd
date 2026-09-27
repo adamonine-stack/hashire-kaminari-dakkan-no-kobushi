@@ -84,6 +84,12 @@ class_name FighterDefinition
 @export var special_ai_use_chance: float = 0.35
 @export var special_has_armor: bool = false
 
+@export_group("Power Armor")
+@export var power_armor_enabled: bool = false
+@export var power_armor_damage_threshold: float = 0.0
+@export var power_armor_break_on_knockdown: bool = true
+@export var power_armor_break_on_throw: bool = true
+
 @export_group("Legacy Scales")
 @export var punch_damage_scale: float = 1.0
 @export var kick_damage_scale: float = 1.0
