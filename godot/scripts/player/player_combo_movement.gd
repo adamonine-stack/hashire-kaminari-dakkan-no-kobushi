@@ -49,7 +49,7 @@ enum CombatInput {
 @export var dev052_finisher_hitstop_defender := 0.100
 @export var dev052_guard_hitstop_attacker := 0.035
 @export var dev052_guard_hitstop_defender := 0.050
-@export var technical_combo_escape_hitstun := 0.10
+@export var technical_combo_escape_hitstun := 0.06
 @export_range(0.0, 1.0, 0.05) var technical_ai_guard_escape_rate := 0.70
 
 var dev_combo_window_open := false
@@ -806,7 +806,9 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	if attacker != null and attacker.has_method("gain_special_gauge_for_guarded_attack"):
 		attacker.gain_special_gauge_for_guarded_attack(attack_data)
 	_enter_guard_hit_state()
-	guard_hit_timer = float(attack_data.get("guard_hit_time", guard_hit_timer))
+	var authored_guard_time := float(attack_data.get("guard_hit_time", guard_hit_timer))
+	var guarded_attack_type := String(attack_data.get("attack_type", "")).to_lower()
+	guard_hit_timer = authored_guard_time if guarded_attack_type == "special" or guarded_attack_type == "ultimate" else minf(authored_guard_time, 0.09)
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
 	if has_method("gain_special_gauge_from_damage"):
