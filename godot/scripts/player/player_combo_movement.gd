@@ -1147,8 +1147,9 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 	var resource_height := String(attack_data.get("attack_height"))
 	if not resource_height.is_empty() and resource_height != "default":
 		attack_height = resource_height
-	# Any grounded attack performed from crouch is a low. Standing guard loses.
-	if is_crouching and is_on_floor():
+	# Any attack performed from the crouch state is a low. Jump startup clears
+	# crouch, so airborne attacks still resolve as overheads below.
+	if is_crouching:
 		attack_height = "low"
 	# Air attacks are overheads: standing guard blocks them, crouch guard does not.
 	if String(attack_data.get("attack_category")).to_lower() == "air":
