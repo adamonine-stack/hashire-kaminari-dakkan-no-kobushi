@@ -8,6 +8,7 @@ attack_id = "rei_air_kick"
 display_name = "飛び蹴り"
 attack_type = "kick"
 attack_category = "air"
+attack_height = "overhead"
 base_damage = 1.05
 startup_time = 0.16
 active_time = 0.18
