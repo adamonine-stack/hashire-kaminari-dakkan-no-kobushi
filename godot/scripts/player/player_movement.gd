@@ -1177,6 +1177,7 @@ func _get_hit_position(target: Node) -> Vector2:
 func _cancel_current_action() -> void:
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
+	guard_recoil_timer = 0.0
 	_clear_guard_state()
 	is_crouching = false
 	is_guard_hit = false
