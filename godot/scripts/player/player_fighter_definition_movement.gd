@@ -149,6 +149,19 @@ var special_gauge_cost := 100.0
 var special_ai_use_chance := 0.35
 var special_has_armor := false
 
+@export_group("Special Gauge Gain")
+@export var special_gauge_passive_per_second := 0.40
+@export var special_gauge_guard_success_gain := 8.0
+@export var special_gauge_hit_gain := 8.0
+@export var special_gauge_kick_hit_gain := 10.0
+@export var special_gauge_combo_hit_gain := 9.0
+@export var special_gauge_finisher_hit_gain := 14.0
+@export var special_gauge_guarded_attack_gain := 3.0
+@export var special_gauge_guarded_kick_gain := 4.0
+@export var special_gauge_damage_light_gain := 6.0
+@export var special_gauge_damage_heavy_gain := 9.0
+@export var special_gauge_damage_knockdown_gain := 12.0
+
 @onready var special_area := get_node_or_null("SpecialHitBox") as Area2D
 @onready var special_shape := get_node_or_null("SpecialHitBox/CollisionShape2D") as CollisionShape2D
 
@@ -165,6 +178,7 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if hit_stop_timer > 0.0:
 		return
+	update_special_gauge_generation(delta)
 	update_character_special(delta)
 	if _should_start_player_special():
 		request_character_special(false)
@@ -1272,6 +1286,18 @@ func add_special_gauge(amount: float) -> void:
 	print("[Special] gauge_changed=%d" % int(round(special_gauge)))
 
 
+func update_special_gauge_generation(delta: float) -> void:
+	if delta <= 0.0 or not is_round_active or current_hp <= 0:
+		return
+	if special_gauge >= max_special_gauge:
+		return
+	if character_special_state != CharacterSpecialState.NONE or is_boss_special_busy():
+		return
+	# Passive charge runs every physics frame. Update silently so the debug log
+	# remains useful for event-driven gains such as hits, guards and damage.
+	set_special_gauge(special_gauge + special_gauge_passive_per_second * delta)
+
+
 func get_special_gauge() -> float:
 	return special_gauge
 
@@ -1419,31 +1445,31 @@ func gain_special_gauge_for_attack_hit(attack_data: Dictionary) -> void:
 	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
 		return
 	if combo_index >= dev026_max_combo_hits:
-		add_special_gauge(12.0)
+		add_special_gauge(special_gauge_finisher_hit_gain)
 	elif combo_index >= 2:
-		add_special_gauge(7.0)
+		add_special_gauge(special_gauge_combo_hit_gain)
 	elif attack_type == "kick" or current_attack_type == "Kick":
-		add_special_gauge(8.0)
+		add_special_gauge(special_gauge_kick_hit_gain)
 	else:
-		add_special_gauge(6.0)
+		add_special_gauge(special_gauge_hit_gain)
 
 
 func gain_special_gauge_for_guarded_attack(attack_data: Dictionary) -> void:
 	var attack_type := String(attack_data.get("attack_type", current_attack_type)).to_lower()
 	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
 		return
-	add_special_gauge(3.0 if attack_type == "kick" or current_attack_type == "Kick" else 2.0)
+	add_special_gauge(special_gauge_guarded_kick_gain if attack_type == "kick" or current_attack_type == "Kick" else special_gauge_guarded_attack_gain)
 
 
 func gain_special_gauge_from_damage(amount: int, attack_data: Dictionary) -> void:
 	if amount <= 0:
 		return
 	if bool(attack_data.get("causes_knockdown", false)):
-		add_special_gauge(10.0)
+		add_special_gauge(special_gauge_damage_knockdown_gain)
 	elif String(attack_data.get("attack_type", "")).to_lower() == "kick" or amount >= maxi(kick_damage, punch_damage + 4):
-		add_special_gauge(8.0)
+		add_special_gauge(special_gauge_damage_heavy_gain)
 	else:
-		add_special_gauge(5.0)
+		add_special_gauge(special_gauge_damage_light_gain)
 
 
 func request_special_attack() -> bool:
@@ -1574,6 +1600,7 @@ func _has_active_power_armor(attack_data: Dictionary, _attacker: Node) -> bool:
 
 
 func _on_successful_guard(_attack_data: Dictionary, _attacker: Node) -> void:
+	add_special_gauge(special_gauge_guard_success_gain)
 	if name != "Enemy" or input_enabled or ai_profile == null:
 		return
 	ai_guard_counter_pending = true
