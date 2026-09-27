@@ -108,6 +108,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev056_enemy_air_attack_smoke.gd 2>&1 | tee /tmp/dev056-air.log || true
           grep -q "DEV056_ENEMY_AIR_ATTACK_OK" /tmp/dev056-air.log
 
+      - name: Verify enemy pressure profiles
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev061_enemy_pressure_smoke.gd 2>&1 | tee /tmp/dev061-enemy-pressure.log || true
+          grep -q "DEV061_ENEMY_PRESSURE_OK" /tmp/dev061-enemy-pressure.log
+
       - name: Verify Stage 2 campaign and Rei motion
         shell: bash
         run: |

@@ -57,8 +57,6 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
 		return false
 
-	interrupt_combo()
-	_cancel_current_action()
 	var final_damage := int(attack_data["damage"])
 	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
 	var combo_hit_max := int(attack_data.get("combo_hit_max", 0))
@@ -71,6 +69,15 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		float(final_damage),
 		is_combo_finisher
 	)
+	# Power armor is checked before normal hitstun/action cancellation. Damage is
+	# still applied, but ordinary non-finishing strikes cannot stop an armored
+	# attack that is already in progress.
+	if not causes_down and final_damage < current_hp and _has_active_power_armor(attack_data, attacker):
+		_receive_power_armor_hit(attack_data, final_damage, hit_position, attacker)
+		return true
+
+	interrupt_combo()
+	_cancel_current_action()
 	if causes_down or final_damage >= current_hp:
 		last_knockdown_animation = _get_knockdown_animation_from_attack(attack_data)
 	else:
@@ -114,6 +121,28 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		_start_invincibility()
 
 	return true
+
+
+func _has_active_power_armor(_attack_data: Dictionary, _attacker: Node) -> bool:
+	return false
+
+
+func _receive_power_armor_hit(attack_data: Dictionary, final_damage: int, hit_position: Vector2, attacker: Node) -> void:
+	last_knockdown_animation = &""
+	apply_damage(final_damage)
+	if has_method("gain_special_gauge_from_damage"):
+		call("gain_special_gauge_from_damage", final_damage, attack_data)
+	damage_feedback_requested.emit(self, final_damage, false, hit_position)
+	_flash_damage()
+	if attacker != null and attacker.has_method("register_combo_hit"):
+		attacker.register_combo_hit(self)
+	# Preserve attack state/animation while retaining a short readable impact.
+	_start_hit_stop_seconds(0.035)
+	_spawn_hit_effect(hit_position, float(attack_data.get("effect_size", 1.0)))
+	_play_hit_se(String(attack_data.get("se_type", "strong")))
+	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
+		attacker.start_hit_stop_seconds(0.04)
+	screen_shake_requested.emit(float(attack_data.get("screen_shake", 0.0)) * 0.65)
 
 
 func _complete_throw_hit() -> void:
