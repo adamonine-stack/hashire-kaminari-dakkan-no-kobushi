@@ -40,7 +40,7 @@ func run() -> void:
 	check(frames.get_frame_texture("ko", 2).region == frames.get_frame_texture("down", 0).region, "KO holds prone pose")
 	check(frames.get_frame_count("walk") == 6 and frames.get_frame_count("dash") == 6, "complete movement cycles")
 	check(fighter.character_height_cm == 170.0, "reference stature")
-	check(fighter.max_health == 130.0 and fighter.move_speed == 175.0 and fighter.punch_damage == 17.0, "combat balance preserved")
+	check(fighter.max_health == 130.0 and fighter.move_speed == 175.0 and fighter.punch_damage == 18.0 and fighter.kick_damage == 25.0, "combat balance preserved")
 	controller.queue_free()
 	sprite.queue_free()
 	fallback.queue_free()
