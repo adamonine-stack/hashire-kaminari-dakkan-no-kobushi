@@ -1015,12 +1015,12 @@ func _choose_ai_guard_type_against_player() -> String:
 			return "high"
 		if height == "low" or category == "crouch":
 			return "low"
-	# Legacy/fallback attacks may not expose a Resource. Airborne attacks are
-	# still treated as overheads; grounded crouch attacks are treated as lows.
-	if opponent is CharacterBody2D and not opponent.is_on_floor() and not String(opponent.get("current_attack_type")).is_empty():
-		return "high"
+	# Legacy/fallback attacks may not expose a Resource. A crouch state is an
+	# explicit low read; jump startup clears crouch before the fighter becomes airborne.
 	if bool(opponent.get("is_crouching")) and not String(opponent.get("current_attack_type")).is_empty():
 		return "low"
+	if opponent is CharacterBody2D and not opponent.is_on_floor() and not String(opponent.get("current_attack_type")).is_empty():
+		return "high"
 	return "high"
 
 

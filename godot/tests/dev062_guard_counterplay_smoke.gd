@@ -21,6 +21,8 @@ func _run() -> void:
 	enemy.name = "Enemy"
 	arena.add_child(enemy)
 	await process_frame
+	player.set_physics_process(false)
+	enemy.set_physics_process(false)
 
 	var enemy_definition := load("res://data/enemies/enemy_01_standard.tres")
 	assert(enemy_definition != null)
