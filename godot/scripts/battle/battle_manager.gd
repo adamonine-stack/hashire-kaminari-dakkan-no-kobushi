@@ -899,6 +899,9 @@ func start_enemy_intro(enemy_data: Dictionary) -> void:
 	_clear_active_fighter_actions(player)
 	_clear_active_fighter_actions(enemy)
 	_show_enemy_intro(enemy_data)
+	if DisplayServer.get_name() == "headless":
+		finish_enemy_intro()
+		return
 	if _enemy_intro_panel != null and _enemy_intro_panel.visible:
 		await enemy_intro_finished
 	else:
