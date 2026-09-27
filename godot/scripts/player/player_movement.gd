@@ -1220,8 +1220,8 @@ func apply_guard_recoil(attack_data: Dictionary) -> void:
 	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
 		return
 	var recoil_time := guard_recoil_kick_time if attack_type == "kick" else guard_recoil_punch_time
-	var attacker_type := String(attack_data.get("attacker_fighter_type", "")).to_upper()
-	if attacker_type.contains("POWER"):
+	var attacker_type := String(attack_data.get("attacker_archetype", "")).to_lower()
+	if attacker_type == "power":
 		recoil_time += guard_recoil_power_bonus
 	if has_method("reset_attack_state"):
 		call("reset_attack_state", false)
