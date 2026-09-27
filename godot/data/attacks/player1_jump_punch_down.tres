@@ -8,6 +8,7 @@ attack_id = "player1_jump_punch_down"
 display_name = "Jump Punch Down"
 attack_type = "punch"
 attack_category = "air"
+attack_height = "overhead"
 base_damage = 0.95
 startup_time = 0.25
 active_time = 0.17
