@@ -656,11 +656,13 @@ func choose_next_action() -> void:
 	if not can_ai_act():
 		return
 	var distance := evaluate_distance()
-	if should_jump_player(distance):
-		enter_jump()
-		return
+	# Counter first: an aggressive enemy should challenge the player's startup
+	# instead of randomly hopping away from a valid punish/counter window.
 	if should_counter_attack_player(distance):
 		enter_attack()
+		return
+	if should_jump_player(distance):
+		enter_jump()
 		return
 	if distance > _profile_float(&"attack_distance", 55.0):
 		enter_approach()
