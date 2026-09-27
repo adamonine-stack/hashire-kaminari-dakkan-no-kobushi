@@ -74,6 +74,16 @@ func _run() -> void:
 	player.current_attack_type = "Kick"
 	assert(enemy._choose_ai_guard_type_against_player() == "low")
 
+	# A crouching punch is also a low even when its normal resource is authored high.
+	player.current_attack_data = load("res://data/attacks/player1_punch_1.tres")
+	player.current_attack_id = "player1_punch_1"
+	player.current_attack_type = "Punch"
+	player.is_crouching = true
+	var crouch_punch_data: Dictionary = player._get_attack_data_dictionary("Punch")
+	assert(String(crouch_punch_data["attack_height"]) == "low")
+	assert(enemy._choose_ai_guard_type_against_player() == "low")
+	player.is_crouching = false
+
 	# Guard success arms the dedicated retaliation path.
 	enemy.ai_profile.guard_counter_rate = 1.0
 	enemy.ai_guard_counter_pending = false
