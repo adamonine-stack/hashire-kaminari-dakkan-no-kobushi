@@ -45,6 +45,9 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var guard_hit_stop_time := 0.03
 @export var guard_release_time := 0.10
 @export var crouch_release_time := 0.20
+@export var guard_recoil_punch_time := 0.12
+@export var guard_recoil_kick_time := 0.16
+@export var guard_recoil_power_bonus := 0.04
 @export var crouch_guard_settle_time := 0.08
 @export_group("Stage Collision")
 @export var stage_left_limit := 0.0
@@ -136,6 +139,7 @@ var invincibility_timer := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var guard_motion_timer := 0.0
+var guard_recoil_timer := 0.0
 var crouch_motion_state := "none"
 var crouch_motion_timer := 0.0
 var last_damage_animation: StringName = &"damage_light"
@@ -377,6 +381,7 @@ func _prepare_character_effect_node(effect_root: Node2D, effect_name: String, re
 func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
+	_update_guard_recoil(delta)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
@@ -398,7 +403,7 @@ func _physics_process(delta: float) -> void:
 	_face_opponent()
 	_prepare_walk_visual_state(direction)
 
-	if is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy():
+	if is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or guard_recoil_timer > 0.0:
 		direction = 0.0
 	elif is_guarding:
 		direction = 0.0
@@ -412,7 +417,7 @@ func _physics_process(delta: float) -> void:
 	var was_on_floor_before_move := is_on_floor()
 	if is_on_floor():
 		jump_pressed_this_airtime = false
-		if input_enabled and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
+		if input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy():
 			_prepare_jump_visual_state()
 			_play_audio_manager_se("jump")
 			var jump_direction := _get_horizontal_input_direction()
@@ -430,7 +435,7 @@ func _physics_process(delta: float) -> void:
 	var did_cancel_attack := _try_cancel_attack_from_input()
 	if _can_start_punch_from_input(did_cancel_attack, is_kicking) and Input.is_action_just_pressed("attack"):
 		_start_attack()
-	if input_enabled and not did_cancel_attack and current_attack_type == "" and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
+	if input_enabled and guard_recoil_timer <= 0.0 and not did_cancel_attack and current_attack_type == "" and not is_guarding and not is_crouching and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and Input.is_action_just_pressed("kick") and kick_cooldown_timer <= 0.0 and attack_active_timer <= 0.0:
 		_start_kick()
 
 	if not is_hit and not is_guard_hit and not _is_throw_busy():
@@ -464,7 +469,7 @@ func _start_attack(is_combo_attack := false) -> void:
 
 
 func _can_start_punch_from_input(did_cancel_attack: bool, is_kicking: bool) -> bool:
-	return input_enabled and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and attack_cooldown_timer <= 0.0
+	return input_enabled and guard_recoil_timer <= 0.0 and not did_cancel_attack and current_attack_type == "" and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not _is_throw_input_held() and attack_cooldown_timer <= 0.0
 
 
 func _update_defensive_state(delta := 0.0) -> void:
@@ -626,7 +631,7 @@ func _get_throw_target() -> Node:
 
 
 func _can_start_throw() -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	return is_round_active and current_hp > 0 and is_on_floor() and guard_recoil_timer <= 0.0 and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
 
 
 func can_be_thrown(attacker: Node) -> bool:
@@ -1206,6 +1211,27 @@ func _enter_hit_state() -> void:
 	hit_reaction_timer = hit_reaction_time
 
 
+func _update_guard_recoil(delta: float) -> void:
+	guard_recoil_timer = maxf(guard_recoil_timer - delta, 0.0)
+
+
+func apply_guard_recoil(attack_data: Dictionary) -> void:
+	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
+	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
+		return
+	var recoil_time := guard_recoil_kick_time if attack_type == "kick" else guard_recoil_punch_time
+	var attacker_type := String(attack_data.get("attacker_fighter_type", "")).to_upper()
+	if attacker_type.contains("POWER"):
+		recoil_time += guard_recoil_power_bonus
+	if has_method("reset_attack_state"):
+		call("reset_attack_state", false)
+	else:
+		_cancel_current_action()
+	guard_recoil_timer = maxf(guard_recoil_timer, recoil_time)
+	attack_cooldown_timer = maxf(attack_cooldown_timer, recoil_time)
+	kick_cooldown_timer = maxf(kick_cooldown_timer, recoil_time)
+
+
 func _apply_knockback(attack_data: Dictionary, attack_direction: float) -> void:
 	var received_knockback := calculate_received_knockback(Vector2(attack_data["knockback_x"], attack_data["knockback_y"]))
 	if is_on_floor() and _has_visual_animation(last_damage_animation):
@@ -1312,7 +1338,7 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 
 func _can_start_guard_or_crouch() -> bool:
-	return can_guard and is_round_active and is_on_floor() and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
+	return can_guard and is_round_active and is_on_floor() and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
 
 
 func _can_guard_back_walk() -> bool:
