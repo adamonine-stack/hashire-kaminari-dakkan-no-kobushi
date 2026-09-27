@@ -1239,6 +1239,8 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
 		attacker.start_hit_stop_seconds(float(attack_data.get("guard_hitstop_attacker", attack_data.get("guard_hit_stop_time", guard_hit_stop_time))))
+	if has_method("_on_successful_guard"):
+		call("_on_successful_guard", attack_data, attacker)
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
 
