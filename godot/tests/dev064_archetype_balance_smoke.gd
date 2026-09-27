@@ -73,7 +73,7 @@ func _run() -> void:
 	technical.combo_timer = 1.0
 	technical.combo_count = 2
 	technical.dev_combo_target = defender
-	var scaled_third_hit := technical._build_combo_scaled_attack_data({
+	var scaled_third_hit: Dictionary = technical._build_combo_scaled_attack_data({
 		"damage": 10,
 		"knockback_x": 0.0,
 		"knockback_y": 0.0,
