@@ -790,6 +790,8 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	_play_guard_se()
 	if attacker != null and attacker.has_method("start_hit_stop_seconds"):
 		attacker.start_hit_stop_seconds(_get_guard_attacker_hitstop_duration(attack_data))
+	if has_method("_on_successful_guard"):
+		call("_on_successful_guard", attack_data, attacker)
 	if current_hp <= 0:
 		_play_ko_feedback(hit_position, attack_direction)
 
@@ -1145,9 +1147,13 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 	var resource_height := String(attack_data.get("attack_height"))
 	if not resource_height.is_empty() and resource_height != "default":
 		attack_height = resource_height
+	# Air attacks are overheads: standing guard blocks them, crouch guard does not.
+	if String(attack_data.get("attack_category")).to_lower() == "air":
+		attack_height = "overhead"
 	return {
 		"damage": maxi(1, int(round(float(base_damage) * float(attack_data.base_damage)))),
 		"attack_height": attack_height,
+		"attack_category": String(attack_data.get("attack_category")),
 		"knockback_x": final_knockback.x,
 		"knockback_y": final_knockback.y,
 		"hit_stop_frames": maxi(6 if attack_type == "Kick" else 4, int(round(float(attack_data.hitstop_time) * 60.0))),
