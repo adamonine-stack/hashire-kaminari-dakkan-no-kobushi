@@ -943,6 +943,7 @@ func begin_battle(sequence_id: int = -1) -> void:
 	if sequence_id != -1 and sequence_id != _flow_sequence_id:
 		return
 
+	_clear_player_victory_pose()
 	_set_battle_state(BattleState.BATTLE)
 	isBattleFinished = false
 	isRoundActive = true
@@ -1004,6 +1005,7 @@ func resolve_battle_result() -> void:
 	match result:
 		BattleOutcome.PLAYER_WIN:
 			handle_player_victory()
+			_show_player_victory_pose()
 			_show_message("PLAYER WIN")
 			_notify_hud_message("PLAYER WIN", 2, 1.0)
 		BattleOutcome.ENEMY_WIN:
@@ -1026,6 +1028,7 @@ func resolve_battle_result() -> void:
 		if current_enemy_index == -1:
 			enter_game_clear()
 		else:
+			_clear_player_victory_pose()
 			save_run_progress()
 			_selection_reason = "NEXT_STAGE"
 			_set_battle_state(BattleState.NEXT_ENEMY)
@@ -1043,6 +1046,18 @@ func handle_player_victory() -> void:
 	_apply_rest_recovery_after_stage(String(_active_player_id()))
 	playerWinCount += 1
 	print("Enemy defeated: %s" % _active_enemy_id())
+
+
+func _show_player_victory_pose() -> void:
+	if player == null or player.current_hp <= 0:
+		return
+	if player.has_method("show_victory_pose"):
+		player.call("show_victory_pose")
+
+
+func _clear_player_victory_pose() -> void:
+	if player != null and player.has_method("clear_victory_pose"):
+		player.call("clear_victory_pose")
 
 
 func handle_player_defeat() -> void:
