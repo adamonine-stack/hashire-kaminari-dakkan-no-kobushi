@@ -136,6 +136,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev063_special_gauge_balance_smoke.gd 2>&1 | tee /tmp/dev063-special-gauge.log || true
           grep -q "DEV063_SPECIAL_GAUGE_BALANCE_OK" /tmp/dev063-special-gauge.log
 
+      - name: Verify archetype combat balance
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev064_archetype_balance_smoke.gd 2>&1 | tee /tmp/dev064-archetype-balance.log || true
+          grep -q "DEV064_ARCHETYPE_BALANCE_OK" /tmp/dev064-archetype-balance.log
+
       - name: Verify Gou authored motion and contact frames
         shell: bash
         run: |
