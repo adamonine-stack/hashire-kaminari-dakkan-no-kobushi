@@ -33,4 +33,3 @@ Prompt set:
 3. **Extras**: request 4 x 4, nominal 1024 square, same cell/body/baseline dimensions. Rows: reach/clinch/pivot/throw release; Iron Breaker stance/coil/full right punch/recover; arms-folded pride/head raise/raised fist/shout and settle; falling/supine/push to knee/stand. No opponent is drawn into the throw frames.
 
 ImageGen returned 1254-square images. Packing uses measured sprites instead of assuming the requested grid dimensions. Original outputs are retained for reproducibility.
-

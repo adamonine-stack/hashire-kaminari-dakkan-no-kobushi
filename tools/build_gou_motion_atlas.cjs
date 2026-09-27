@@ -53,4 +53,3 @@ async function main(){
   console.log(`GOU_PACK_OK poses=${manifest.length}`);
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});
-

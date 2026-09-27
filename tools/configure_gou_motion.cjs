@@ -56,4 +56,3 @@ if(!s.includes('13_gou_motion')){
   fs.writeFileSync(file,s);
 }
 console.log(`GOU_CLIPS_OK clips=${Object.keys(clips).length}`);
-
