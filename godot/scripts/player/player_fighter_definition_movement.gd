@@ -554,7 +554,7 @@ func can_ai_act() -> bool:
 		return false
 	if _get_opponent() == null:
 		return false
-	if hit_stop_timer > 0.0 or is_hit or is_guard_hit:
+	if hit_stop_timer > 0.0 or is_hit or is_guard_hit or guard_recoil_timer > 0.0:
 		return false
 	if _is_throw_busy() or _is_knockdown_busy():
 		return false
@@ -1161,7 +1161,7 @@ func can_start_character_special(is_ai_request := false) -> bool:
 		return false
 	if character_special_state != CharacterSpecialState.NONE or is_boss_special_busy():
 		return false
-	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or _is_throw_busy():
+	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or guard_recoil_timer > 0.0 or _is_throw_busy():
 		return false
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return false
