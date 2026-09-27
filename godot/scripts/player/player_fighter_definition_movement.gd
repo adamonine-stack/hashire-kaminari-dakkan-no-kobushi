@@ -1293,7 +1293,9 @@ func update_special_gauge_generation(delta: float) -> void:
 		return
 	if character_special_state != CharacterSpecialState.NONE or is_boss_special_busy():
 		return
-	add_special_gauge(special_gauge_passive_per_second * delta)
+	# Passive charge runs every physics frame. Update silently so the debug log
+	# remains useful for event-driven gains such as hits, guards and damage.
+	set_special_gauge(special_gauge + special_gauge_passive_per_second * delta)
 
 
 func get_special_gauge() -> float:
