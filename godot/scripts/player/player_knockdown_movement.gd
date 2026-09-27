@@ -53,6 +53,8 @@ func can_be_thrown(attacker: Node) -> bool:
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
 	if not can_receive_attack():
 		return false
+	if _try_guard_technical_combo_escape(attack_data, attack_direction, hit_position, attacker):
+		return false
 	if _can_guard_attack(attack_data, attacker):
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
 		return false
@@ -87,7 +89,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
-	if causes_down:
+	if _is_technical_combo_attack(attack_data) and combo_hit_index >= 2 and not causes_down:
+		hit_reaction_timer = minf(hit_reaction_timer, technical_combo_escape_hitstun)
+	elif causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(final_damage)
 	if has_method("gain_special_gauge_from_damage"):

@@ -1215,6 +1215,7 @@ func reset_active_fighter_state(
 	fighter.invincibility_timer = 0.0
 	fighter.hit_stop_timer = 0.0
 	fighter.guard_hit_timer = 0.0
+	fighter.guard_recoil_timer = 0.0
 	fighter.throw_startup_timer = 0.0
 	fighter.throw_hold_timer = 0.0
 	fighter.throw_recovery_timer = 0.0
