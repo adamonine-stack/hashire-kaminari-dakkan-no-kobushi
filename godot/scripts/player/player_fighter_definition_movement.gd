@@ -659,6 +659,9 @@ func choose_next_action() -> void:
 	if should_jump_player(distance):
 		enter_jump()
 		return
+	if should_counter_attack_player(distance):
+		enter_attack()
+		return
 	if distance > _profile_float(&"attack_distance", 55.0):
 		enter_approach()
 		return
@@ -1026,10 +1029,26 @@ func should_sweep_player() -> bool:
 	return randf() <= rate
 
 
+func should_counter_attack_player(distance: float) -> bool:
+	if ai_attack_cooldown_timer > 0.0 or distance > _profile_float(&"attack_distance", 55.0):
+		return false
+	var opponent := _get_opponent()
+	if not _is_player_attack_threatening(opponent):
+		return false
+	var counter_rate := _profile_float(&"counter_attack_rate", 0.20)
+	if _is_power_fighter():
+		counter_rate = maxf(counter_rate, 0.75)
+	return randf() <= counter_rate
+
+
 func should_attack_player() -> bool:
 	if ai_attack_cooldown_timer > 0.0 or evaluate_distance() > _profile_float(&"attack_distance", 55.0):
 		return false
-	return randf() <= _profile_float(&"aggression_rate", 0.60)
+	var aggression := clampf(_profile_float(&"aggression_rate", 0.60), 0.0, 1.0)
+	var pressure := clampf(_profile_float(&"pressure_attack_rate", 0.30), 0.0, 1.0)
+	# Keep each enemy's personality but make "do damage now" the default goal.
+	var combined_attack_chance := 1.0 - ((1.0 - aggression) * (1.0 - pressure))
+	return randf() <= combined_attack_chance
 
 
 func should_retreat() -> bool:
@@ -1481,6 +1500,15 @@ func _update_attack_wait() -> void:
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return
 	ai_action_finished.emit(ai_selected_attack_type)
+	var distance := evaluate_distance()
+	var attack_distance := _profile_float(&"attack_distance", 55.0)
+	if ai_attack_cooldown_timer <= 0.0 and distance <= attack_distance * 1.05:
+		if randf() <= _profile_float(&"post_attack_pressure_rate", 0.30):
+			enter_attack()
+			return
+	if distance > attack_distance * 1.10:
+		enter_approach()
+		return
 	if should_retreat():
 		enter_retreat()
 	else:
@@ -1490,6 +1518,20 @@ func _update_attack_wait() -> void:
 func _update_special_request() -> void:
 	if current_attack_type == "":
 		enter_idle()
+
+
+func _is_power_fighter() -> bool:
+	return fighter_definition != null and String(fighter_definition.fighter_type).to_upper() == "POWER"
+
+
+func _has_active_power_armor(attack_data: Dictionary, _attacker: Node) -> bool:
+	if not _is_power_fighter() or current_attack_type.is_empty():
+		return false
+	if is_guarding or is_crouch_guarding or _is_knockdown_busy():
+		return false
+	var incoming_type := String(attack_data.get("attack_type", "")).to_lower()
+	# Throws and special/ultimate attacks remain reliable counters to armor.
+	return incoming_type != "throw" and incoming_type != "special" and incoming_type != "ultimate"
 
 
 func _sync_ai_locked_state() -> bool:
