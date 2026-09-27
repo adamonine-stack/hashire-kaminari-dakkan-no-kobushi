@@ -2870,6 +2870,9 @@ func _apply_current_stage_definition() -> void:
 	var camera := get_node_or_null("../BattleCamera") as Camera2D
 	if camera != null:
 		camera.position = Vector2(stage_definition.camera_position)
+	var backdrop := get_node_or_null("../Stage1Backdrop")
+	if backdrop != null and backdrop.has_method("set_backdrop_id"):
+		backdrop.call("set_backdrop_id", stage_definition.backdrop_id)
 
 
 func _should_show_enemy_intro() -> bool:

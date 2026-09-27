@@ -7,6 +7,7 @@
 script = ExtResource("1_stage")
 stage_number = 2
 stage_name = "紫電の間合い"
+backdrop_id = &"back_alley"
 enemy_definition = ExtResource("2_enemy")
 intro_text = "踏み込みと必殺の間合いを見切れ。"
 player_dialogue = "次はお前か。先へ進ませてもらう。"

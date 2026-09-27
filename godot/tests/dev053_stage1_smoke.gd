@@ -36,6 +36,15 @@ func _run_stage1_smoke() -> void:
 	assert(hud.enemy_name_label.text == "クラッシャー")
 	assert(hud.enemy_icon_rect.texture != null)
 	var stage_1: Resource = manager.STAGE_DEFINITIONS[0]
+	var stage_2: Resource = manager.STAGE_DEFINITIONS[1]
+	assert(stage_1.backdrop_id == &"downtown_street")
+	assert(stage_2.backdrop_id == &"back_alley")
+	var backdrop := battle.get_node("Stage1Backdrop")
+	assert(backdrop != null)
+	assert(backdrop.get_backdrop_id() == &"downtown_street")
+	backdrop.set_backdrop_id(&"back_alley")
+	assert(backdrop.get_backdrop_id() == &"back_alley")
+	backdrop.set_backdrop_id(stage_1.backdrop_id)
 	assert(String(stage_1.player_dialogues.get("player_01_akky", "")) != "")
 	assert(String(stage_1.player_dialogues.get("player_02_gou", "")) != "")
 	assert(String(stage_1.player_dialogues.get("player_03_seiya", "")) != "")
