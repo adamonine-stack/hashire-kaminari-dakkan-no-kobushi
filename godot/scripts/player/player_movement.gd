@@ -1256,10 +1256,15 @@ func _get_guard_damage(damage: int) -> int:
 
 
 func _get_guard_damage_from_attack_data(attack_data: Dictionary) -> int:
+	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
+	# A successful guard fully negates normal attacks. Only special/ultimate
+	# attacks may deal authored chip damage through guard.
+	if attack_type != "special" and attack_type != "ultimate":
+		return 0
 	var base_damage := int(attack_data.get("base_damage", attack_data["damage"]))
 	if attack_data.has("guard_damage_multiplier"):
-		return maxi(1, int(round(float(base_damage) * float(attack_data["guard_damage_multiplier"]))))
-	return _get_guard_damage(base_damage)
+		return maxi(0, int(round(float(base_damage) * float(attack_data["guard_damage_multiplier"]))))
+	return maxi(0, int(round(float(base_damage) * get_guard_damage_multiplier())))
 
 
 func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) -> void:
@@ -1287,12 +1292,16 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 
 
 func _is_attack_height_guardable(attack_height: String) -> bool:
-	match attack_height:
+	match attack_height.to_lower():
+		"overhead":
+			# Jump/overhead attacks beat crouch guard.
+			return guard_type == "high" or guard_type == "stand"
 		"high":
 			return guard_type == "high" or guard_type == "stand" or guard_type == "low" or guard_type == "crouch"
 		"middle":
 			return guard_type == "high" or guard_type == "stand" or guard_type == "low" or guard_type == "crouch"
 		"low":
+			# Crouching/low attacks beat standing guard.
 			return guard_type == "low" or guard_type == "crouch"
 		"throw":
 			return false
