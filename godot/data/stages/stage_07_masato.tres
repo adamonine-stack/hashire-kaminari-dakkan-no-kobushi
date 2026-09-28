@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StageDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1_stage"]
+[ext_resource type="Resource" path="res://data/enemies/enemy_03_guard.tres" id="2_enemy"]
+
+[resource]
+script = ExtResource("1_stage")
+stage_number = 7
+stage_name = "静の投げ場"
+enemy_definition = ExtResource("2_enemy")
+intro_text = "守りを崩し、投げの間合いを越えろ。"
+player_dialogue = "守っているだけじゃ、俺たちは止められない。"
+enemy_dialogue = "焦った方が先に崩れる。"
+player_dialogues = {
+"player_01_akky": "守ってても、道は譲ってもらう！",
+"player_02_gou": "固い守りか。なら正面から壊す！",
+"player_03_seiya": "待ちの構え……焦らせるのが狙いか。"
+}
+enemy_dialogues = {
+"player_01_akky": "焦った一歩が命取りになる。",
+"player_02_gou": "力だけで崩せるほど、俺の守りは甘くない。",
+"player_03_seiya": "考えすぎれば遅れる。先に動いた方が負けだ。"
+}

@@ -563,7 +563,14 @@ func _start_kick(is_combo_attack := false) -> void:
 	_set_kick_hitbox_active(true)
 
 
+var teki_throw_variant := 0
+var teki_throw_sequence := 0
+
+
 func _start_throw() -> void:
+	if _is_teki_grappler():
+		teki_throw_variant = 3 if is_crouching else teki_throw_sequence % 4
+		teki_throw_sequence += 1
 	interrupt_combo()
 	is_throwing = true
 	throw_state = "THROW_STARTUP"
@@ -612,7 +619,8 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	velocity = Vector2.ZERO
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
-	_play_throw_animation("thrown")
+	var held_by_teki: bool = attacker.has_method("_is_teki_grappler") and attacker._is_teki_grappler()
+	_play_throw_animation("grabbed" if held_by_teki else "thrown")
 
 
 func _get_throw_target() -> Node:
@@ -913,6 +921,9 @@ func _lock_throw_target_position(target: Node) -> void:
 		return
 
 	var hold_offset := Vector2(30.0 * facing_direction, -5.0)
+	if _is_teki_grappler():
+		var grip_distance: float = [50.0, 85.0, 35.0, 50.0][teki_throw_variant]
+		hold_offset = Vector2(grip_distance * facing_direction, 0.0)
 	var target_position := global_position + hold_offset
 	target_position.x = clampf(target_position.x, _stage_min_x(), _stage_max_x())
 	target_position.y = minf(target_position.y, stage_floor_y)
@@ -925,6 +936,7 @@ func _is_valid_throw_target(target: Node) -> bool:
 
 
 func _play_throw_animation(animation_name := "Throw") -> void:
+	animation_name = _teki_throw_animation(animation_name)
 	_play_visual_animation(StringName(animation_name), true)
 	if uses_animated_character_art:
 		if animation_player != null and animation_player.is_playing():
@@ -936,6 +948,18 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 		animation_player.play(animation_name)
 	elif animation_player.has_animation("Throw"):
 		animation_player.play("Throw")
+
+
+func _teki_throw_animation(animation_name: String) -> String:
+	if _is_teki_grappler() and animation_name in ["throw_start", "throw_hold", "throw_release"]:
+		var prefix: String = ["throw", "teki_face_grab", "teki_headlock", "teki_low_grab"][teki_throw_variant]
+		return prefix + animation_name.trim_prefix("throw")
+	return animation_name
+
+
+func _is_teki_grappler() -> bool:
+	var definition: Resource = get("fighter_definition")
+	return definition != null and String(definition.get("fighter_id")) == "enemy_07_teki_fighter"
 
 
 func _play_attack_animation(animation_name: StringName) -> void:
@@ -2549,8 +2573,13 @@ func _get_current_visual_animation() -> StringName:
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
+		if _is_teki_grappler():
+			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
+			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_teki_grappler") and pending_throw_attacker._is_teki_grappler():
+			return &"grabbed"
 		return &"thrown"
 	if is_throw_escaping:
 		return &"getup"

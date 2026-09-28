@@ -41,6 +41,7 @@ func defeat_with_punches() -> void:
 func run() -> void:
 	seed(26)
 	battle = load("res://scenes/Battle.tscn").instantiate()
+	battle.get_node("BattleManager").active_enemy_count_limit = 2
 	root.add_child(battle)
 	await process_frame
 	manager = battle.get_node("BattleManager")
