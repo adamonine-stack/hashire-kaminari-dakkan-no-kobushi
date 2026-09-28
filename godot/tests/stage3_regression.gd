@@ -28,6 +28,9 @@ func reset_grab_pair() -> void:
 func run() -> void:
 	seed(28)
 	battle = load("res://scenes/Battle.tscn").instantiate()
+	# Keep this regression scoped to the original three-stage slice even though
+	# the published campaign now continues into Stage 4.
+	battle.get_node("BattleManager").active_enemy_count_limit = 3
 	root.add_child(battle)
 	current_scene = battle
 	await process_frame
