@@ -21,3 +21,4 @@ enemy_dialogues = {
 "player_02_gou": "懐に入る前に、地面に沈めてやる。",
 "player_03_seiya": "死角を狙うつもりか。そこも読んでいる。"
 }
+backdrop_id = &"harbor_warehouse"
