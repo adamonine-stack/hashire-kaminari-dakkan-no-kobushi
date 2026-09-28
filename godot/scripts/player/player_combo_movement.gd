@@ -209,7 +209,10 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_07_teki_fighter":
 		for id in ["teki_straight", "teki_elbow", "teki_high_kick", "teki_sweep", "teki_air_punch", "teki_air_kick"]:
 			contact_frames[id] = Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and not is_gou and not is_seiya):
+	if definition != null and String(definition.get("fighter_id")) == "enemy_05_cross_murasame":
+		for id in ["cross_punch","cross_chop","cross_wrist_finish","cross_kick","cross_knee","cross_joint_finish","cross_sweep","cross_air_punch","cross_air_kick"]:
+			contact_frames[id] = Vector2i(2, 2) if id.ends_with("finish") else Vector2i(1, 1)
+	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)
@@ -1217,6 +1220,8 @@ func _play_attack_animation(animation_name: StringName) -> void:
 
 
 func _get_attack_animation_name(attack_type: StringName) -> StringName:
+	if _is_cross_grappler() and current_attack_data != null:
+		return StringName(current_attack_data.animation_name)
 	if attack_type == &"Punch":
 		return &"punch_2" if dev_combo_step == 2 else &"punch_1"
 	if current_attack_data != null:
@@ -1460,6 +1465,8 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
+	if _is_cross_grappler() and attack_data != null:
+		return StringName(attack_data.animation_name)
 	if attack_data != null:
 		var configured_animation := String(attack_data.animation_name)
 		if configured_animation == "jump_kick" or configured_animation == "jump_punch_down" or configured_animation == "crouch_sweep_kick" or configured_animation == "crouch_kick_sweep":

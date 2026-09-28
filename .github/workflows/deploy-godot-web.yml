@@ -150,6 +150,15 @@ jobs:
           timeout 150s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage3_regression.gd 2>&1 | tee /tmp/stage3-regression.log
           grep -q "STAGE3_REGRESSION failures=\[\]" /tmp/stage3-regression.log
 
+      - name: Verify Stage 4 and ally grapple reactions
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --fixed-fps 60 --script res://tests/stage4_regression.gd 2>&1 | tee /tmp/stage4.log
+          grep -q "STAGE4_REGRESSION failures=\[\]" /tmp/stage4.log
+          timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --fixed-fps 60 --script res://tests/cross_reactions.gd 2>&1 | tee /tmp/cross-reactions.log
+          grep -q "CROSS_REACTIONS failures=\[\]" /tmp/cross-reactions.log
+
       - name: Verify Gou authored motion and contact frames
         shell: bash
         run: |

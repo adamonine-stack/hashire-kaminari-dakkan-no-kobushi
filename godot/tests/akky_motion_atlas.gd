@@ -37,7 +37,8 @@ func run() -> void:
 		check(frames.get_frame_count(clip) > 0, clip + ": not empty")
 		for index in range(frames.get_frame_count(clip)):
 			var texture := frames.get_frame_texture(clip, index)
-			check(texture is AtlasTexture and texture.atlas == fighter.motion_atlas.texture, clip + ": no legacy texture")
+			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
+			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == Vector2(320, 224), clip + ": common cell")
 			var rect := texture.get_image().get_used_rect()
 			check(rect.has_area() and rect.position.x >= 3 and rect.position.y >= 3 and rect.end.x <= 317 and rect.end.y <= 221, clip + ": unclipped body")

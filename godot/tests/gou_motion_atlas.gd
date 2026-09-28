@@ -29,7 +29,8 @@ func run() -> void:
 		check(sprite.position.is_equal_approx(position_before), clip + ": fixed origin")
 		for index in range(frames.get_frame_count(clip)):
 			var texture := frames.get_frame_texture(clip, index)
-			check(texture is AtlasTexture and texture.atlas == fighter.motion_atlas.texture, clip + ": uses new art")
+			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
+			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == Vector2(384, 288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
 			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
