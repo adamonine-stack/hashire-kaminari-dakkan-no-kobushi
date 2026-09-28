@@ -161,6 +161,11 @@ func _complete_throw_hit() -> void:
 	throw_escape_timer = 0.0
 	_clear_pending_throw()
 	last_damage_animation = &"damage_heavy"
+	if is_instance_valid(attacker) and attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler():
+		var reaction: StringName = &"cross_react_shoulder" if attacker.cross_throw_variant in [0, 4, 5] else &"cross_react_reap"
+		if _has_visual_animation(reaction):
+			last_damage_animation = reaction
+			last_knockdown_animation = StringName(String(reaction) + "_down")
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)

@@ -1,13 +1,25 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_05_power_ai.tres" id="3_ai"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy05/portrait.png" id="4_portrait"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy05/icon.png" id="5_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/cross_v1/portrait.tres" id="4_portrait"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/cross_v1/portrait.tres" id="5_icon"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy05/battle.png" id="6_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy05/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy05/shadow.png" id="8_shadow"]
+
+[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/cross_v1/motion_atlas.tres" id="9_motion"]
+[ext_resource type="Resource" path="res://data/attacks/cross_punch.tres" id="cross_punch"]
+[ext_resource type="Resource" path="res://data/attacks/cross_chop.tres" id="cross_chop"]
+[ext_resource type="Resource" path="res://data/attacks/cross_wrist_finish.tres" id="cross_wrist_finish"]
+[ext_resource type="Resource" path="res://data/attacks/cross_kick.tres" id="cross_kick"]
+[ext_resource type="Resource" path="res://data/attacks/cross_knee.tres" id="cross_knee"]
+[ext_resource type="Resource" path="res://data/attacks/cross_joint_finish.tres" id="cross_joint_finish"]
+[ext_resource type="Resource" path="res://data/attacks/cross_sweep.tres" id="cross_sweep"]
+[ext_resource type="Resource" path="res://data/attacks/cross_air_punch.tres" id="cross_air_punch"]
+[ext_resource type="Resource" path="res://data/attacks/cross_air_kick.tres" id="cross_air_kick"]
+[ext_resource type="Resource" path="res://data/attacks/cross_muei.tres" id="cross_muei"]
 
 [resource]
 script = ExtResource("1_def")
@@ -22,11 +34,25 @@ portrait = ExtResource("4_portrait")
 battle_texture = ExtResource("6_battle")
 icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
+motion_atlas = ExtResource("9_motion")
+sprite_sheet_format = &"authored_atlas"
+sprite_body_height_px = 220.0
+character_height_cm = 185.0
+battle_sprite_height = 168.7
+visual_scale_adjustment = 1.05
+attack_sequence = Array[Resource]([ExtResource("cross_punch"), ExtResource("cross_chop"), ExtResource("cross_wrist_finish"), ExtResource("cross_kick"), ExtResource("cross_knee"), ExtResource("cross_joint_finish")])
+max_attack_chain_count = 3
+air_kick_attack = ExtResource("cross_air_kick")
+air_punch_down_attack = ExtResource("cross_air_punch")
+crouch_kick_sweep_attack = ExtResource("cross_sweep")
+special_attack_sequence = Array[Resource]([ExtResource("cross_muei")])
+special_move_name = "無影連投"
+special_ai_use_chance = 0.4
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy05/"
 fighter_type = &"JUJUTSU"
 team_type = &"ENEMY"
-enemy_order = 5
+enemy_order = 4
 ai_profile = ExtResource("3_ai")
 intro_title = "闇に舞う柔術使い"
 intro_description = "近距離での連続投げが危険。静かに詰めて、つかんだら離さない。"

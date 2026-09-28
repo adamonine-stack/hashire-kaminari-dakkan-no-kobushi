@@ -1376,13 +1376,17 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 		return
 	# Deadly Hand enters the existing escapeable grab pipeline on contact.
 	# A miss keeps the special recovery; no unrelated fighter changes behavior.
-	if character_special_id == "teki_deadly_hand":
+	if character_special_id in ["teki_deadly_hand", "cross_muei"]:
+		var cross_special := character_special_id == "cross_muei"
 		if not target.has_method("can_be_thrown") or not target.can_be_thrown(self):
 			return
 		character_special_hit.emit(character_special_id, target)
 		finish_character_special()
 		_start_throw()
-		teki_throw_variant = 1
+		if cross_special:
+			cross_throw_variant = 5
+		else:
+			teki_throw_variant = 1
 		_connect_throw(target)
 		_spawn_throw_effect(_get_hit_position(target), "teki_claw", Color(0.62, 0.25, 1.0), 40.0)
 		return

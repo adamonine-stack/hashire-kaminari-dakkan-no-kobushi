@@ -563,11 +563,18 @@ func _start_kick(is_combo_attack := false) -> void:
 	_set_kick_hitbox_active(true)
 
 
+var cross_throw_variant := 0
+var cross_throw_sequence := 0
+const CROSS_THROW_NAMES := ["seoi", "osoto", "harai", "uchimata", "sode", "rotate"]
+
 var teki_throw_variant := 0
 var teki_throw_sequence := 0
 
 
 func _start_throw() -> void:
+	if _is_cross_grappler():
+		cross_throw_variant = cross_throw_sequence % CROSS_THROW_NAMES.size()
+		cross_throw_sequence += 1
 	if _is_teki_grappler():
 		teki_throw_variant = 3 if is_crouching else teki_throw_sequence % 4
 		teki_throw_sequence += 1
@@ -619,8 +626,9 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	velocity = Vector2.ZERO
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
-	var held_by_teki: bool = attacker.has_method("_is_teki_grappler") and attacker._is_teki_grappler()
-	_play_throw_animation("grabbed" if held_by_teki else "thrown")
+	var held_by_teki: bool = attacker.has_method("_is_authored_grappler") and attacker._is_authored_grappler()
+	var held_by_cross: bool = attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler()
+	_play_throw_animation("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown"))
 
 
 func _get_throw_target() -> Node:
@@ -924,6 +932,8 @@ func _lock_throw_target_position(target: Node) -> void:
 	if _is_teki_grappler():
 		var grip_distance: float = [50.0, 85.0, 35.0, 50.0][teki_throw_variant]
 		hold_offset = Vector2(grip_distance * facing_direction, 0.0)
+	if _is_cross_grappler():
+		hold_offset = Vector2(52.0 * facing_direction, 0.0)
 	var target_position := global_position + hold_offset
 	target_position.x = clampf(target_position.x, _stage_min_x(), _stage_max_x())
 	target_position.y = minf(target_position.y, stage_floor_y)
@@ -951,10 +961,21 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 
 
 func _teki_throw_animation(animation_name: String) -> String:
+	if _is_cross_grappler() and animation_name in ["throw_start", "throw_hold", "throw_release"]:
+		return "cross_" + CROSS_THROW_NAMES[cross_throw_variant] + animation_name.trim_prefix("throw")
 	if _is_teki_grappler() and animation_name in ["throw_start", "throw_hold", "throw_release"]:
 		var prefix: String = ["throw", "teki_face_grab", "teki_headlock", "teki_low_grab"][teki_throw_variant]
 		return prefix + animation_name.trim_prefix("throw")
 	return animation_name
+
+
+func _is_cross_grappler() -> bool:
+	var definition: Resource = get("fighter_definition")
+	return definition != null and String(definition.get("fighter_id")) == "enemy_05_cross_murasame"
+
+
+func _is_authored_grappler() -> bool:
+	return _is_teki_grappler() or _is_cross_grappler()
 
 
 func _is_teki_grappler() -> bool:
@@ -2573,12 +2594,14 @@ func _get_current_visual_animation() -> StringName:
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
-		if _is_teki_grappler():
+		if _is_authored_grappler():
 			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
-		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_teki_grappler") and pending_throw_attacker._is_teki_grappler():
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_grappler") and pending_throw_attacker._is_cross_grappler() and _has_visual_animation(&"cross_react_pull"):
+			return &"cross_react_pull"
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_authored_grappler") and pending_throw_attacker._is_authored_grappler():
 			return &"grabbed"
 		return &"thrown"
 	if is_throw_escaping:
@@ -2587,6 +2610,8 @@ func _get_current_visual_animation() -> StringName:
 		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
 	if is_hit:
 		return last_damage_animation
+	if _is_cross_grappler() and current_attack_data != null and current_attack_type in ["Punch", "Kick"]:
+		return StringName(current_attack_data.animation_name)
 	if current_attack_type == "Punch":
 		if current_attack_data != null:
 			var configured_punch_animation := StringName(current_attack_data.animation_name)
@@ -2648,6 +2673,9 @@ func _get_walk_animation_for_direction(direction: float) -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var cross_reaction := _cross_reaction_for_attack(String(attack_data.get("attack_id", "")))
+	if _has_visual_animation(cross_reaction):
+		return cross_reaction
 	var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
 	var height_animation: StringName = &"damage_low" if attack_height == "low" else &"damage_high"
 	if _has_visual_animation(height_animation):
@@ -2670,9 +2698,22 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 
 
 func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var cross_reaction := _cross_reaction_for_attack(String(attack_data.get("attack_id", "")))
+	var cross_down := StringName(String(cross_reaction) + "_down")
+	if _has_visual_animation(cross_down):
+		return cross_down
 	var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
 	var height_animation: StringName = &"knockdown_low" if attack_height == "low" else &"knockdown_high"
 	return height_animation if _has_visual_animation(height_animation) else &""
+
+
+func _cross_reaction_for_attack(attack_id: String) -> StringName:
+	match attack_id:
+		"cross_punch", "cross_air_punch": return &"cross_react_pull"
+		"cross_chop": return &"cross_react_shoulder"
+		"cross_kick", "cross_knee", "cross_sweep", "cross_air_kick": return &"cross_react_reap"
+		"cross_wrist_finish", "cross_joint_finish": return &"cross_react_joint"
+	return &""
 
 
 func _has_visual_animation(animation_name: StringName) -> bool:
