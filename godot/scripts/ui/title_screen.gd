@@ -577,7 +577,7 @@ func _input_help_text() -> String:
 		"Start with all 3 fighters. Choose one fighter before each stage.",
 		"The 2 fighters who sit out recover 20% of their maximum HP.",
 		"The fighter who battles does not recover after winning.",
-		"Stage 8: Leon Crow. Stage 9: secret boss.",
+		"Manage all 3 fighters carefully and keep pushing through the campaign.",
 	])
 
 
