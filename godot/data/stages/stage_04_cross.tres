@@ -7,6 +7,7 @@
 script = ExtResource("1_stage")
 stage_number = 4
 stage_name = "闇の組み手"
+backdrop_id = &"ship_deck"
 enemy_definition = ExtResource("2_enemy")
 intro_text = "掴まれる前に主導権を奪え。"
 player_dialogue = "近づくなら、こっちから仕掛ける。"

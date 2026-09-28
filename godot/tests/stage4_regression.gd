@@ -40,6 +40,7 @@ func run() -> void:
 	check(manager.enemy_order[3] == &"enemy_05_cross_murasame", "Cross stage 3")
 	check(manager.STAGE_DEFINITIONS[3].enemy_definition.fighter_id == &"enemy_05_cross_murasame", "intro uses Cross")
 	check(manager.STAGE_DEFINITIONS[3].stage_number == 4, "stage number 3")
+	check(manager.STAGE_DEFINITIONS[3].backdrop_id == &"ship_deck", "Cross preserves the Stage 4 ship deck")
 	await start_selected()
 	await clear_stage()
 	check(manager.current_enemy_index == 1, "Crusher KO advances to Rei")

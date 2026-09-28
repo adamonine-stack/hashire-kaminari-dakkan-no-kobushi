@@ -68,7 +68,10 @@ func run() -> void:
 				attack["damage"] = 1
 				attack["combo_hit_index"] = 1
 				attack["combo_hit_max"] = 3
-				check(player.receive_attack(attack, side, player.position, enemy), actor + " receives " + id)
+				# Real Area2D overlap must deliver the hit; do not invoke the receiver.
+				var before_hp: int = player.current_hp
+				await ticks(4)
+				check(player.current_hp < before_hp, actor + " collision receives " + id)
 				check(String(player.last_damage_animation) == REACTIONS[i], actor + " reaction " + id)
 				player._update_visual_state()
 				check(String(player.animated_character_sprite.animation) == REACTIONS[i], "reaction survives update")
