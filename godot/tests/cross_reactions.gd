@@ -53,6 +53,8 @@ func run() -> void:
 	await start_selected()
 	manager.current_enemy_index = 3
 	manager.spawn_active_enemy()
+	manager._apply_current_stage_definition()
+	check(battle.get_node("Stage1Backdrop").get_backdrop_id() == &"ship_deck", "Stage 4 ship deck is active")
 	battle.get_node("BattleCamera").position = Vector2(640, 360)
 	battle.get_node("BattleCamera").zoom = Vector2.ONE
 	for actor in ["ally_balance", "ally_power", "ally_speed"]:

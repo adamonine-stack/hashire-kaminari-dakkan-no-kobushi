@@ -35,6 +35,7 @@ func review() -> void:
         return
     manager.current_enemy_index = 3
     manager.spawn_active_enemy()
+    manager._apply_current_stage_definition()
     var player: Node = battle.get_node("Player")
     var enemy: Node = battle.get_node("Enemy")
     player.set_physics_process(false)

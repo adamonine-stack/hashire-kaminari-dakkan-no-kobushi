@@ -52,6 +52,7 @@ func run() -> void:
 	check(manager.current_enemy_index == 3, "Teki KO opens Cross selection")
 	await start_selected()
 	check(enemy.fighter_definition.fighter_id == &"enemy_05_cross_murasame", "Cross spawned")
+	check(battle.get_node("Stage1Backdrop").get_backdrop_id() == &"ship_deck", "real progression loads ship deck")
 	check(enemy.character_visual_controller.get_debug_source() == "motion_atlas", "Cross authored art")
 	check(battle.get_node("UI/BattleUIRoot/BattleHUD").enemy_name_label.text == "クロス・ムラサメ", "Cross HUD")
 	enemy.ai_enabled = false
