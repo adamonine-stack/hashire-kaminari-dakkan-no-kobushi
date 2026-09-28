@@ -5,12 +5,32 @@ extends Node2D
 ## exposing empty canvas around the 1280x720 playfield.
 const STAGE_1_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_01_downtown.webp")
 const STAGE_2_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_02_back_alley.webp")
-const STAGE_3_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_03_harbor_warehouse.webp")
-const STAGE_4_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_04_ship_deck.webp")
+const STAGE_3_TEXTURE_PARTS := [
+	"res://assets/backgrounds/generated/stage_03_harbor_warehouse_00.b64",
+	"res://assets/backgrounds/generated/stage_03_harbor_warehouse_01.b64",
+	"res://assets/backgrounds/generated/stage_03_harbor_warehouse_02.b64",
+	"res://assets/backgrounds/generated/stage_03_harbor_warehouse_03.b64",
+	"res://assets/backgrounds/generated/stage_03_harbor_warehouse_04.b64",
+]
+const STAGE_4_TEXTURE_PARTS := [
+	"res://assets/backgrounds/generated/stage_04_ship_deck_00.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_01.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_02.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_03.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_04.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_05a.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_05b.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_05c.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_05d.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_06.b64",
+	"res://assets/backgrounds/generated/stage_04_ship_deck_07.b64",
+]
 const BACKDROP_RECT := Rect2(-112.0, -63.0, 1504.0, 846.0)
 const COVER_RECT := Rect2(-900.0, -600.0, 3100.0, 1800.0)
 
 var _backdrop_id: StringName = &"downtown_street"
+var _stage_3_texture: Texture2D
+var _stage_4_texture: Texture2D
 
 
 func _ready() -> void:
@@ -24,6 +44,7 @@ func set_backdrop_id(backdrop_id: StringName) -> void:
 		normalized = &"downtown_street"
 	if normalized == _backdrop_id:
 		return
+	_prepare_backdrop_texture(normalized)
 	_backdrop_id = normalized
 	queue_redraw()
 
@@ -42,16 +63,51 @@ func _draw() -> void:
 	draw_rect(BACKDROP_RECT, Color(0.01, 0.018, 0.03, shade_alpha))
 
 
+func _prepare_backdrop_texture(backdrop_id: StringName) -> void:
+	match backdrop_id:
+		&"harbor_warehouse":
+			if _stage_3_texture == null:
+				_stage_3_texture = _load_base64_webp(STAGE_3_TEXTURE_PARTS)
+		&"ship_deck":
+			if _stage_4_texture == null:
+				_stage_4_texture = _load_base64_webp(STAGE_4_TEXTURE_PARTS)
+
+
 func _texture_for_backdrop(backdrop_id: StringName) -> Texture2D:
 	match backdrop_id:
 		&"back_alley":
 			return STAGE_2_TEXTURE
 		&"harbor_warehouse":
-			return STAGE_3_TEXTURE
+			if _stage_3_texture == null:
+				_stage_3_texture = _load_base64_webp(STAGE_3_TEXTURE_PARTS)
+			return _stage_3_texture if _stage_3_texture != null else STAGE_1_TEXTURE
 		&"ship_deck":
-			return STAGE_4_TEXTURE
+			if _stage_4_texture == null:
+				_stage_4_texture = _load_base64_webp(STAGE_4_TEXTURE_PARTS)
+			return _stage_4_texture if _stage_4_texture != null else STAGE_1_TEXTURE
 		_:
 			return STAGE_1_TEXTURE
+
+
+func _load_base64_webp(parts: Array) -> Texture2D:
+	var encoded := ""
+	for path in parts:
+		if not FileAccess.file_exists(path):
+			push_error("Missing background data: %s" % path)
+			return null
+		encoded += FileAccess.get_file_as_string(path).strip_edges()
+
+	var raw := Marshalls.base64_to_raw(encoded)
+	if raw.is_empty():
+		push_error("Failed to decode background image data.")
+		return null
+
+	var image := Image.new()
+	var error := image.load_webp_from_buffer(raw)
+	if error != OK:
+		push_error("Failed to load background WebP: %s" % error)
+		return null
+	return ImageTexture.create_from_image(image)
 
 
 func _shade_alpha_for_backdrop(backdrop_id: StringName) -> float:
