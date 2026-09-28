@@ -21,3 +21,4 @@ enemy_dialogues = {
 "player_02_gou": "その拳が届く前に、三発入れてやる。",
 "player_03_seiya": "分析してる間に、次の一手は終わってる。"
 }
+backdrop_id = &"ship_deck"
