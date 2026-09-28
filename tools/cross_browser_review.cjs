@@ -19,6 +19,10 @@ async function main(){
  page.on('console',m=>logs.push(m.text()));page.on('pageerror',e=>logs.push('PAGE_ERROR '+e.message));
  await page.goto(url,{waitUntil:'load',timeout:120000});await page.waitForTimeout(18000);
  await page.screenshot({path:path.join(out,process.argv[2]?'public-title.png':'local-title.png')});
+ if(process.argv[3]==='start'){
+  await page.mouse.click(640,340);await page.waitForTimeout(2000);
+  await page.screenshot({path:path.join(out,'selection.png')});
+ }
  fs.writeFileSync(path.join(out,'console.log'),logs.join('\n'));
  console.log(JSON.stringify({url,title:await page.title(),canvas:await page.locator('canvas').count(),errors:logs.filter(x=>/error/i.test(x)).slice(-8)}));
  await browser.close();if(server)server.close();
