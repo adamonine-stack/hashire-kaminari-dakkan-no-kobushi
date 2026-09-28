@@ -88,7 +88,8 @@ const STAGE_DEFINITIONS: Array[Resource] = [
 	preload("res://data/stages/stage_08_leon.tres"),
 	preload("res://data/stages/stage_09_secret_boss.tres"),
 ]
-const CAMPAIGN_STAGE_COUNT := 9
+const NORMAL_STAGE_COUNT := 8
+const SECRET_STAGE_ENEMY_PATH := "res://data/enemies/enemy_09_secret_boss.tres"
 const INTRO_TYPEWRITER_CHARS_PER_SECOND := 44.0
 const INTRO_DIALOGUE_CHUNK_CHARS := 56
 const INTRO_TAP_DEBOUNCE_MSEC := 180
@@ -151,6 +152,7 @@ var player_team: Array[Dictionary] = []
 var enemy_team: Array[Dictionary] = []
 var current_player_index := -1
 var current_enemy_index := 0
+var _secret_stage_unlocked := false
 var battle_result_locked := false
 
 var _time_accumulator := 0.0
@@ -305,6 +307,7 @@ func initialize_game_progress() -> void:
 	_pending_enemy_ko = false
 	current_player_index = -1
 	current_enemy_index = 0
+	_secret_stage_unlocked = false
 	_last_intro_enemy_index = -1
 	_last_recovery_enemy_index = -1
 	_current_battle_start_time_msec = 0
@@ -390,6 +393,7 @@ func save_run_progress() -> bool:
 	var config := ConfigFile.new()
 	config.set_value("run", "version", 1)
 	config.set_value("run", "current_enemy_index", current_enemy_index)
+	config.set_value("run", "secret_stage_unlocked", _secret_stage_unlocked)
 	for index in range(player_team.size()):
 		var data := player_team[index]
 		var section := "player_%d" % index
@@ -420,6 +424,9 @@ func load_run_progress() -> bool:
 		push_warning("Failed to load run progress: %s" % error)
 		return false
 	var saved_enemy_index := int(config.get_value("run", "current_enemy_index", 0))
+	_secret_stage_unlocked = bool(config.get_value("run", "secret_stage_unlocked", false))
+	if _secret_stage_unlocked:
+		_append_secret_stage_enemy_if_available()
 	if enemy_team.is_empty():
 		return false
 	current_enemy_index = clampi(saved_enemy_index, 0, enemy_team.size() - 1)
@@ -1119,6 +1126,44 @@ func get_next_enemy_index() -> int:
 		if not enemy_team[index]["is_defeated"]:
 			return index
 	return -1
+
+
+func _can_unlock_secret_stage() -> bool:
+	if current_enemy_index != NORMAL_STAGE_COUNT - 1:
+		return false
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return false
+	if not bool(enemy_team[current_enemy_index]["is_defeated"]):
+		return false
+	for data in player_team:
+		if bool(data.get("is_defeated", false)) or int(data.get("current_health", 0)) <= 0:
+			return false
+	return true
+
+
+func _append_secret_stage_enemy_if_available() -> bool:
+	if enemy_team.size() > NORMAL_STAGE_COUNT:
+		return true
+	if not ResourceLoader.exists(SECRET_STAGE_ENEMY_PATH):
+		return false
+	var secret_definition := load(SECRET_STAGE_ENEMY_PATH) as Resource
+	if secret_definition == null:
+		return false
+	enemy_order.append(secret_definition.fighter_id)
+	enemy_team.append(_create_progress_entry_from_definition(secret_definition, NORMAL_STAGE_COUNT))
+	return true
+
+
+func _try_unlock_secret_stage() -> bool:
+	if _secret_stage_unlocked:
+		return _append_secret_stage_enemy_if_available()
+	if not _can_unlock_secret_stage():
+		return false
+	if not _append_secret_stage_enemy_if_available():
+		push_warning("Secret stage conditions were met, but the secret boss definition is not available yet.")
+		return false
+	_secret_stage_unlocked = true
+	return true
 
 
 func are_all_players_defeated() -> bool:
@@ -1890,6 +1935,8 @@ func _should_finish_game() -> bool:
 	if are_all_players_defeated():
 		enter_game_over()
 		return true
+	if _try_unlock_secret_stage():
+		return false
 	if are_all_enemies_defeated():
 		enter_game_clear()
 		return true
@@ -2852,8 +2899,10 @@ func _active_enemy_type() -> String:
 
 func _active_enemy_order_text() -> String:
 	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
-		return "- / %d" % CAMPAIGN_STAGE_COUNT
-	return "%d / %d" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT]
+		return "-"
+	if current_enemy_index >= NORMAL_STAGE_COUNT:
+		return "SECRET"
+	return "%d" % [current_enemy_index + 1]
 
 
 func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
@@ -2908,8 +2957,9 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 		enemy_type = String(definition.fighter_type)
 
 	_enemy_intro_pages.clear()
+	var stage_heading := "SECRET STAGE" if current_enemy_index >= NORMAL_STAGE_COUNT else "STAGE %d" % [current_enemy_index + 1]
 	var stage_lines: Array[String] = [
-		"STAGE %d / %d  %s" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT, stage_name],
+		"%s  %s" % [stage_heading, stage_name],
 		"%s  [%s]" % [enemy_data["display_name"], enemy_type],
 	]
 	if not stage_intro.is_empty():
