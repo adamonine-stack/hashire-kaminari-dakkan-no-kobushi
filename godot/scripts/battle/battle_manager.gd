@@ -70,21 +70,21 @@ const ALLY_SPEED := preload("res://data/fighters/ally_speed.tres")
 const ENEMY_DEFINITIONS: Array[Resource] = [
 	preload("res://data/enemies/enemy_01_standard.tres"),
 	preload("res://data/enemies/enemy_04_throw.tres"),
-	preload("res://data/enemies/enemy_03_guard.tres"),
+	preload("res://data/enemies/enemy_07_tricky.tres"),
 	preload("res://data/enemies/enemy_02_speed.tres"),
 	preload("res://data/enemies/enemy_05_power.tres"),
 	preload("res://data/enemies/enemy_06_combo.tres"),
-	preload("res://data/enemies/enemy_07_tricky.tres"),
+	preload("res://data/enemies/enemy_03_guard.tres"),
 	preload("res://data/enemies/enemy_08_boss.tres"),
 ]
 const STAGE_DEFINITIONS: Array[Resource] = [
 	preload("res://data/stages/stage_01_crusher.tres"),
 	preload("res://data/stages/stage_02_rei.tres"),
-	preload("res://data/stages/stage_03_masato.tres"),
+	preload("res://data/stages/stage_03_teki.tres"),
 	preload("res://data/stages/stage_04_shadow.tres"),
 	preload("res://data/stages/stage_05_cross.tres"),
 	preload("res://data/stages/stage_06_rio.tres"),
-	preload("res://data/stages/stage_07_teki.tres"),
+	preload("res://data/stages/stage_07_masato.tres"),
 	preload("res://data/stages/stage_08_leon.tres"),
 	preload("res://data/stages/stage_09_secret_boss.tres"),
 ]

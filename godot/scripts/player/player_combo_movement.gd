@@ -206,7 +206,10 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_04_rei_kageyama":
 		for id in ["rei_straight", "rei_uppercut", "rei_roundhouse", "rei_air_kick", "rei_air_punch", "rei_sweep"]:
 			contact_frames[id] = Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and not is_gou and not is_seiya):
+	if definition != null and String(definition.get("fighter_id")) == "enemy_07_teki_fighter":
+		for id in ["teki_straight", "teki_elbow", "teki_high_kick", "teki_sweep", "teki_air_punch", "teki_air_kick"]:
+			contact_frames[id] = Vector2i(1, 1)
+	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and not is_gou and not is_seiya):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)

@@ -1,0 +1,42 @@
+const fs=require('fs'),path=require('path');
+const root=path.resolve(__dirname,'../godot');
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const write=(f,s)=>fs.writeFileSync(path.join(root,f),s);
+const edit=(f,fn)=>write(f,fn(read(f)));
+if(read('data/enemies/enemy_07_tricky.tres').includes('teki_v1'))throw Error('Already configured');
+for(const f of ['scripts/battle/battle_manager.gd','scripts/battle/round_manager.gd'])edit(f,s=>s.replaceAll('enemy_03_guard.tres','SWAP').replaceAll('enemy_07_tricky.tres','enemy_03_guard.tres').replaceAll('SWAP','enemy_07_tricky.tres'));
+edit('scripts/battle/battle_manager.gd',s=>s.replaceAll('stage_03_masato.tres','stage_03_teki.tres').replaceAll('stage_07_teki.tres','stage_07_masato.tres'));
+write('data/stages/stage_03_teki.tres',read('data/stages/stage_07_teki.tres').replace('stage_number = 7','stage_number = 3').replace('あと少しだ。ここで止まるわけにはいかない。','その手を振りほどいて、先へ進む。').replace('ここまで来た。あと一歩も退かない！','掴まれる前に、その構えを崩す！'));
+write('data/stages/stage_07_masato.tres',read('data/stages/stage_03_masato.tres').replace('stage_number = 3','stage_number = 7'));
+edit('data/enemies/enemy_03_guard.tres',s=>s.replace('enemy_order = 3','enemy_order = 7'));
+edit('scenes/Battle.tscn',s=>s.replace('active_enemy_count_limit = 2','active_enemy_count_limit = 3'));
+// Keep the existing two-stage test isolated; the new test checks the live three-stage campaign.
+edit('tests/stage2_regression.gd',s=>s.replace('\troot.add_child(battle)','\tbattle.get_node("BattleManager").active_enemy_count_limit = 2\n\troot.add_child(battle)'));
+const clips={};
+function clip(names,frames,fps=10,loop=false){for(const name of names.split(' '))clips[name]={frames,fps,loop};}
+clip('idle idle_ready',[0,1,0,1],4,true);clip('idle_prebattle',[35,0],4);
+clip('walk walk_forward',[2,3,4,5],9,true);clip('walk_backward',[5,4,3,2],8,true);clip('dash',[6,7],12,true);
+clip('jump jump_start',[8,9],10);clip('jump_air jump_up',[9],8);clip('jump_fall fall',[10],8);clip('jump_land land landing',[11,0],10);
+clip('punch punch_1 light_attack',[12,13,14],12);clip('punch_2',[15,16,17],12);clip('kick kick_1 kick_2 combo_finisher heavy_attack',[18,19,20],10);
+clip('guard',[23],6,true);clip('crouch crouch_idle crouch_guard',[22],6,true);clip('crouch_punch',[22,50,22],10);clip('crouch_kick crouch_kick_sweep crouch_sweep_kick',[22,21,22],10);
+clip('damage damage_high damage_low damage_light guard_hit',[30,0],9);clip('damage_heavy knockback',[30,31],9);clip('knockdown',[30,31,32],8);clip('down',[32],4);clip('ko defeat',[31,32],5);clip('stand_up getup get_up',[32,33,22,0],8);
+clip('throw grab',[44,45,46,47],10);clip('throw_start',[44],8);clip('throw_hold',[45],8,true);clip('throw_release',[46,47],10);clip('grabbed',[30],6);clip('thrown',[31,32],8);
+clip('teki_face_grab_start',[36],8);clip('teki_face_grab_hold',[37,38],8);clip('teki_face_grab_release',[39],8);
+clip('teki_headlock_start',[40],8);clip('teki_headlock_hold',[41,42],8);clip('teki_headlock_release',[43],8);
+clip('teki_low_grab_start',[27],8);clip('teki_low_grab_hold',[51],8,true);clip('teki_low_grab_release',[26],8);
+clip('jump_punch jump_punch_down',[9,48,10],10);clip('jump_kick',[9,49,10],10);
+clip('special_startup',[0,34,36],7);clip('special special_attack teki_deadly_hand',[37,38],8);clip('special_recovery',[39,27,0],8);clip('victory',[0,35],4);
+const entries=Object.entries(clips).map(([k,v])=>`"${k}": {"frames": [${v.frames}], "fps": ${v.fps}.0, "loop": ${v.loop}}`).join(',\n');
+write('assets/characters/enemy07/animations/teki_v1/motion_atlas.tres',`[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]\n[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]\n[ext_resource type="Texture2D" path="res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png" id="2"]\n[resource]\nscript = ExtResource("1")\ntexture = ExtResource("2")\ncell_size = Vector2i(384, 288)\ncolumns = 8\nclips = {\n${entries}\n}\n`);
+write('assets/characters/enemy07/animations/teki_v1/sources/.gdignore','\n');
+const attacks=[['teki_straight','掌拳','punch','punch_1',92,-143,68,44,.22,.12,.27,['teki_elbow','teki_high_kick']],['teki_elbow','肘打ち','punch','punch_2',62,-141,62,48,.20,.13,.29,['teki_high_kick']],['teki_high_kick','ハイキック','kick','kick_1',72,-164,74,64,.30,.14,.40,[]],['teki_sweep','ローキック','kick','crouch_kick_sweep',101,-28,92,40,.28,.14,.36,[]],['teki_air_punch','ジャンプパンチ','punch','jump_punch_down',40,-90,62,66,.20,.16,.30,[]],['teki_air_kick','ジャンプキック','kick','jump_kick',70,-148,80,50,.22,.17,.32,[]]];
+for(const [id,name,type,anim,x,y,w,h,start,active,recovery,next] of attacks)write(`data/attacks/${id}.tres`,`[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]\n[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]\n[resource]\nscript = ExtResource("1")\nattack_id = "${id}"\ndisplay_name = "${name}"\nattack_type = "${type}"\nattack_category = "${id.includes('air')?'air':'normal'}"\nbase_damage = 1.0\nstartup_time = ${start}\nactive_time = ${active}\nrecovery_time = ${recovery}\ncombo_input_start = 0.08\ncombo_input_end = 0.36\nhitbox_size = Vector2(${w}, ${h})\nhitbox_offset = Vector2(${x}, ${y})\nforward_move_distance = 8.0\nforward_move_duration = 0.14\nknockback = Vector2(175, -65)\nhitstop_time = 0.07\nhitstun_time = 0.26\nnext_attack_ids = Array[String]([${next.map(n=>`"${n}"`).join(', ')}])\nanimation_name = "${anim}"\n`);
+write('data/attacks/teki_deadly_hand.tres',read('data/attacks/rei_dragon_uppercut.tres').replaceAll('rei_dragon_uppercut','teki_deadly_hand').replace('竜巻昇龍拳','デッドリーハンド').replace('startup_time = 0.42','startup_time = 0.52').replace('active_time = 0.18','active_time = 0.18').replace('recovery_time = 0.40','recovery_time = 0.55').replace('Vector2(86, 130)','Vector2(70, 66)').replace('Vector2(65, -145)','Vector2(84, -142)').replace('move_distance = 42.0','move_distance = 24.0').replace('rei_charge','teki_claw_charge').replace('rei_uppercut','teki_claw'));
+edit('data/enemies/enemy_07_tricky.tres',s=>{
+ let refs='[ext_resource type="Resource" path="res://assets/characters/enemy07/animations/teki_v1/motion_atlas.tres" id="9_motion"]\n';
+ for(const id of [...attacks.map(a=>a[0]),'teki_deadly_hand'])refs+=`[ext_resource type="Resource" path="res://data/attacks/${id}.tres" id="${id}"]\n`;
+ return s.replace('load_steps=9','load_steps=17').replace('[resource]',refs+'\n[resource]').replace('enemy_order = 7','enemy_order = 3').replace('sprite_sheet = ExtResource("7_sheet")','sprite_sheet = ExtResource("7_sheet")\nmotion_atlas = ExtResource("9_motion")\nsprite_sheet_format = &"authored_atlas"\nsprite_body_height_px = 205.0\ncharacter_height_cm = 182.0\nbattle_sprite_height = 166.0\nvisual_scale_adjustment = 1.05\nattack_sequence = Array[Resource]([ExtResource("teki_straight"), ExtResource("teki_elbow"), ExtResource("teki_high_kick")])\nmax_attack_chain_count = 3\nair_kick_attack = ExtResource("teki_air_kick")\nair_punch_down_attack = ExtResource("teki_air_punch")\ncrouch_kick_sweep_attack = ExtResource("teki_sweep")\nspecial_attack_sequence = Array[Resource]([ExtResource("teki_deadly_hand")])\nspecial_move_name = "デッドリーハンド"\nspecial_ai_use_chance = 0.4');
+});
+edit('data/enemy_ai/enemy_07_tricky_ai.tres',s=>s.replace('can_request_special_attack = false','can_request_special_attack = true').replace('preferred_distance = 74.0','preferred_distance = 48.0').replace('preferred_distance_min = 62.0','preferred_distance_min = 35.0').replace('preferred_distance_max = 92.0','preferred_distance_max = 64.0').replace('jump_rate = 0.24','jump_rate = 0.12'));
+edit('scripts/player/player_combo_movement.gd',s=>s.replace('\tif not contact_frames.has(current_attack_id)', '\tif definition != null and String(definition.get("fighter_id")) == "enemy_07_teki_fighter":\n\t\tfor id in ["teki_straight", "teki_elbow", "teki_high_kick", "teki_sweep", "teki_air_punch", "teki_air_kick"]:\n\t\t\tcontact_frames[id] = Vector2i(1, 1)\n\tif not contact_frames.has(current_attack_id)').replace('current_attack_id != "rei_sweep"','current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep"'));
+console.log(`TEKI_CONFIG_OK clips=${Object.keys(clips).length}`);

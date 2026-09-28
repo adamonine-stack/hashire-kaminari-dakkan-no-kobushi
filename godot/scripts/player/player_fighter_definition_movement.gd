@@ -1374,6 +1374,18 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 	var target := _get_valid_hurtbox_target(area)
 	if target == null or character_special_hit_targets.has(target):
 		return
+	# Deadly Hand enters the existing escapeable grab pipeline on contact.
+	# A miss keeps the special recovery; no unrelated fighter changes behavior.
+	if character_special_id == "teki_deadly_hand":
+		if not target.has_method("can_be_thrown") or not target.can_be_thrown(self):
+			return
+		character_special_hit.emit(character_special_id, target)
+		finish_character_special()
+		_start_throw()
+		teki_throw_variant = 1
+		_connect_throw(target)
+		_spawn_throw_effect(_get_hit_position(target), "teki_claw", Color(0.62, 0.25, 1.0), 40.0)
+		return
 	character_special_hit_targets.append(target)
 	var attack_data := _get_character_special_attack_dictionary()
 	var did_hit: bool = bool(target.receive_attack(attack_data, character_special_direction, _get_hit_position(target), self))

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StageDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1_stage"]
+[ext_resource type="Resource" path="res://data/enemies/enemy_07_tricky.tres" id="2_enemy"]
+
+[resource]
+script = ExtResource("1_stage")
+stage_number = 3
+stage_name = "封殺の間"
+enemy_definition = ExtResource("2_enemy")
+intro_text = "長いリーチと組みを読み切れ。"
+player_dialogue = "その手を振りほどいて、先へ進む。"
+enemy_dialogue = "その勢いごと、ここで封じる。"
+player_dialogues = {
+"player_01_akky": "掴まれる前に、その構えを崩す！",
+"player_02_gou": "長い腕だろうが何だろうが、懐に入れば同じだ！",
+"player_03_seiya": "リーチは長い。でも死角も広い。"
+}
+enemy_dialogues = {
+"player_01_akky": "その勢い、ここで完全に止める。",
+"player_02_gou": "懐に入る前に、地面に沈めてやる。",
+"player_03_seiya": "死角を狙うつもりか。そこも読んでいる。"
+}

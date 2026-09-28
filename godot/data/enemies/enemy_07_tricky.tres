@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -8,6 +8,15 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy07/battle.png" id="6_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy07/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy07/shadow.png" id="8_shadow"]
+
+[ext_resource type="Resource" path="res://assets/characters/enemy07/animations/teki_v1/motion_atlas.tres" id="9_motion"]
+[ext_resource type="Resource" path="res://data/attacks/teki_straight.tres" id="teki_straight"]
+[ext_resource type="Resource" path="res://data/attacks/teki_elbow.tres" id="teki_elbow"]
+[ext_resource type="Resource" path="res://data/attacks/teki_high_kick.tres" id="teki_high_kick"]
+[ext_resource type="Resource" path="res://data/attacks/teki_sweep.tres" id="teki_sweep"]
+[ext_resource type="Resource" path="res://data/attacks/teki_air_punch.tres" id="teki_air_punch"]
+[ext_resource type="Resource" path="res://data/attacks/teki_air_kick.tres" id="teki_air_kick"]
+[ext_resource type="Resource" path="res://data/attacks/teki_deadly_hand.tres" id="teki_deadly_hand"]
 
 [resource]
 script = ExtResource("1_def")
@@ -22,6 +31,20 @@ portrait = ExtResource("4_portrait")
 battle_texture = ExtResource("6_battle")
 icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
+motion_atlas = ExtResource("9_motion")
+sprite_sheet_format = &"authored_atlas"
+sprite_body_height_px = 205.0
+character_height_cm = 182.0
+battle_sprite_height = 166.0
+visual_scale_adjustment = 1.05
+attack_sequence = Array[Resource]([ExtResource("teki_straight"), ExtResource("teki_elbow"), ExtResource("teki_high_kick")])
+max_attack_chain_count = 3
+air_kick_attack = ExtResource("teki_air_kick")
+air_punch_down_attack = ExtResource("teki_air_punch")
+crouch_kick_sweep_attack = ExtResource("teki_sweep")
+special_attack_sequence = Array[Resource]([ExtResource("teki_deadly_hand")])
+special_move_name = "デッドリーハンド"
+special_ai_use_chance = 0.4
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy07/"
 sprite_frame_size = Vector2i(80, 107)
@@ -161,7 +184,7 @@ sprite_background_brightness_limit = 0.9
 sprite_background_color_tolerance = 0.32
 fighter_type = &"TECHNICAL_GRAPPLER"
 team_type = &"ENEMY"
-enemy_order = 7
+enemy_order = 3
 ai_profile = ExtResource("3_ai")
 intro_title = "組みのスペシャリスト"
 intro_description = "掴み、顔面掴み、チョークで行動を縛る。近距離の読み合いが厳しい。"

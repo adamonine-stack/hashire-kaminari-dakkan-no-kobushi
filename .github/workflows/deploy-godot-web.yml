@@ -143,6 +143,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev064_archetype_balance_smoke.gd 2>&1 | tee /tmp/dev064-archetype-balance.log || true
           grep -q "DEV064_ARCHETYPE_BALANCE_OK" /tmp/dev064-archetype-balance.log
 
+      - name: Verify Stage 3 campaign and Teki grappling
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 150s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage3_regression.gd 2>&1 | tee /tmp/stage3-regression.log
+          grep -q "STAGE3_REGRESSION failures=\[\]" /tmp/stage3-regression.log
+
       - name: Verify Gou authored motion and contact frames
         shell: bash
         run: |
