@@ -101,6 +101,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev053_stage1_smoke.gd 2>&1 | tee /tmp/dev053-stage1.log || true
           grep -q "DEV053_STAGE1_OK" /tmp/dev053-stage1.log
 
+      - name: Verify hidden secret-stage rule
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/secret_stage_rule_smoke.gd 2>&1 | tee /tmp/secret-stage-rule.log || true
+          grep -q "SECRET_STAGE_RULE_OK failures=\\[\\]" /tmp/secret-stage-rule.log
+
       - name: Verify enemy air attacks
         shell: bash
         run: |
