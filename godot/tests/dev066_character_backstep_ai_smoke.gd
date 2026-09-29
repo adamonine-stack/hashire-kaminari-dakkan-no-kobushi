@@ -124,7 +124,7 @@ func _run() -> void:
 			enemy.ai_profile.can_backstep = true
 			var battle_distance: float = absf(float(player.global_position.x) - float(enemy.global_position.x))
 			check(enemy.should_backstep_player(battle_distance, true), "battle AI selects reactive backstep when configured")
-			var away_direction := -signf(player.global_position.x - enemy.global_position.x)
+			var away_direction: float = -signf(float(player.global_position.x) - float(enemy.global_position.x))
 			enemy.enter_backstep()
 			check(String(enemy._debug_ai_action_text()) == "BACKSTEP", "enemy enters BACKSTEP AI state")
 			check(enemy.is_backstepping, "enemy backstep movement starts")
