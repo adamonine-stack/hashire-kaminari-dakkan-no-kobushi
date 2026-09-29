@@ -38,14 +38,50 @@ func _run() -> void:
 	player.is_round_active = true
 	player.current_hp = player.max_hp
 
-	var frames: SpriteFrames = player.animated_character_sprite.sprite_frames
-	check(frames != null, "Akky authored SpriteFrames load")
-	if frames != null:
-		check(frames.has_animation("dash"), "dash clip exists")
-		check(frames.has_animation("backstep"), "backstep clip exists")
-		if frames.has_animation("backstep"):
-			check(frames.get_frame_count("backstep") == 4, "backstep has four authored frames")
-			check(not frames.get_animation_loop("backstep"), "backstep does not loop")
+	var playable_definitions := [
+		load("res://data/fighters/ally_balance.tres"),
+		load("res://data/fighters/ally_power.tres"),
+		load("res://data/fighters/ally_speed.tres"),
+	]
+	var backstep_signatures: Array[String] = []
+	for definition in playable_definitions:
+		check(definition != null, "playable fighter definition loads")
+		if definition == null:
+			continue
+		var probe := fighter_scene.instantiate()
+		probe.name = "Probe"
+		get_root().add_child(probe)
+		await process_frame
+		probe.set_physics_process(false)
+		probe.apply_character_data(definition)
+		var frames: SpriteFrames = probe.animated_character_sprite.sprite_frames
+		var fighter_id := String(definition.fighter_id)
+		check(frames != null, fighter_id + ": authored SpriteFrames load")
+		if frames != null:
+			check(frames.has_animation("dash"), fighter_id + ": dash clip exists")
+			check(frames.has_animation("backstep"), fighter_id + ": dedicated backstep clip exists")
+			if frames.has_animation("backstep"):
+				check(frames.get_frame_count("backstep") >= 4, fighter_id + ": backstep has multi-pose motion")
+				check(not frames.get_animation_loop("backstep"), fighter_id + ": backstep does not loop")
+				var backstep_regions: Array[String] = []
+				for index in range(frames.get_frame_count("backstep")):
+					var texture := frames.get_frame_texture("backstep", index)
+					if texture is AtlasTexture:
+						backstep_regions.append(str((texture as AtlasTexture).region))
+				var dash_regions: Array[String] = []
+				for index in range(frames.get_frame_count("dash")):
+					var texture := frames.get_frame_texture("dash", index)
+					if texture is AtlasTexture:
+						dash_regions.append(str((texture as AtlasTexture).region))
+				check(backstep_regions != dash_regions.duplicate().reversed(), fighter_id + ": backstep is not reversed dash playback")
+				backstep_signatures.append(fighter_id + ":" + "|".join(backstep_regions))
+		probe.queue_free()
+		await process_frame
+	check(backstep_signatures.size() == 3, "all three playable fighters expose backstep signatures")
+	if backstep_signatures.size() == 3:
+		check(backstep_signatures[0] != backstep_signatures[1], "Akky and Gou use different backstep poses")
+		check(backstep_signatures[0] != backstep_signatures[2], "Akky and Seiya use different backstep poses")
+		check(backstep_signatures[1] != backstep_signatures[2], "Gou and Seiya use different backstep poses")
 
 	player.facing_direction = 1.0
 	check(player._consume_horizontal_tap(1.0, 1000) == &"", "first forward tap only arms dash")
