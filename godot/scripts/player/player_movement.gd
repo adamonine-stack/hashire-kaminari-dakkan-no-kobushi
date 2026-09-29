@@ -52,7 +52,7 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export_group("Double Tap Movement")
 @export_range(0.12, 0.40, 0.01) var double_tap_window := 0.23
 @export_range(1.0, 2.5, 0.05) var dash_speed_multiplier := 1.65
-@export_range(1.0, 2.5, 0.05) var backstep_speed_multiplier := 1.45
+@export_range(1.0, 2.5, 0.05) var backstep_speed_multiplier := 1.55
 @export_range(0.12, 0.50, 0.01) var backstep_duration := 0.28
 @export_group("Stage Collision")
 @export var stage_left_limit := 0.0
