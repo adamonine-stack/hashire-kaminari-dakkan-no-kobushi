@@ -2612,6 +2612,7 @@ func _start_backstep(direction: float) -> void:
 	velocity.y = 0.0
 	jump_landing_visual_timer = 0.0
 	_play_visual_animation(&"backstep", true)
+	_play_audio_manager_se("dash")
 	_spawn_movement_dust(global_position + Vector2(facing_direction * 18.0, -4.0), 0.9)
 	_spawn_afterimage()
 
@@ -2664,6 +2665,7 @@ func _settle_crouch_state_after_action() -> void:
 
 
 func _prepare_jump_visual_state() -> void:
+	_cancel_mobility_burst()
 	jump_pressed_this_airtime = true
 	jump_landing_visual_timer = 0.0
 	is_crouching = false
