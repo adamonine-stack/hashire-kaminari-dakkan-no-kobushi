@@ -241,6 +241,7 @@ func apply_movement_stats() -> void:
 	move_speed = float(fighter_definition.move_speed)
 	air_move_speed = _definition_float("air_move_speed", move_speed) if _uses_direct_character_stats() else move_speed
 	jump_power = absf(float(fighter_definition.jump_force))
+	backstep_speed_multiplier = _definition_float("backstep_speed_multiplier", 1.55)
 
 
 func apply_attack_stats() -> void:
