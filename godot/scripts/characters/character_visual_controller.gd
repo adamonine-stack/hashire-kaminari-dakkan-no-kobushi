@@ -25,6 +25,7 @@ const MIN_CHARACTER_HEIGHT_CM := 100.0
 const REQUIRED_ANIMATION_ALIASES := {
 	&"walk_forward": &"walk",
 	&"walk_backward": &"walk",
+	&"backstep": &"dash",
 	&"jump_start": &"jump",
 	&"jump_air": &"jump",
 	&"jump_land": &"jump",
@@ -1149,6 +1150,8 @@ func _resolve_animation_name(animation_name: StringName) -> StringName:
 	match animation_name:
 		&"walk_forward", &"walk_backward":
 			fallbacks = [&"walk", &"idle"]
+		&"backstep":
+			fallbacks = [&"dash", &"walk_backward", &"walk", &"idle"]
 		&"jump_start", &"jump_air", &"jump_land", &"jump_up", &"jump_fall", &"fall", &"landing", &"land":
 			fallbacks = [&"jump", &"idle"]
 		&"crouch_idle":

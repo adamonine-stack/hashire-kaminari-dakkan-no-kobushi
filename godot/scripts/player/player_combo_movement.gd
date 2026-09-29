@@ -102,14 +102,16 @@ func _physics_process(delta: float) -> void:
 	_update_attack_buffer(delta)
 	_update_ai_throw(delta)
 
-	if input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy():
+	if input_enabled and not is_backstepping and not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_defensive_state(delta)
 	elif _uses_ai_guard():
 		_update_ai_guard(delta)
-	_face_opponent()
+	if not is_backstepping:
+		_face_opponent()
+	_update_double_tap_movement(delta)
 
 	var is_air_attack_current := _is_air_attack_currently_active()
-	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0:
+	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0 or is_backstepping:
 		direction = 0.0
 		if is_air_attack_current and input_enabled:
 			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
@@ -118,7 +120,9 @@ func _physics_process(delta: float) -> void:
 
 	if not is_hit and not _is_throw_busy() and not is_character_special_busy():
 		if is_on_floor():
-			if (is_guarding or is_crouch_guarding) and not is_guard_hit:
+			if is_backstepping:
+				velocity.x = backstep_direction * move_speed * backstep_speed_multiplier
+			elif (is_guarding or is_crouch_guarding) and not is_guard_hit:
 				velocity.x = 0.0
 			else:
 				velocity.x = direction * get_current_move_speed()
@@ -130,7 +134,7 @@ func _physics_process(delta: float) -> void:
 		jump_pressed_this_airtime = false
 		has_used_air_attack = false
 		var ai_jump_requested := not input_enabled and guard_recoil_timer <= 0.0 and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
-		var player_jump_requested := input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var player_jump_requested := input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_backstepping and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
 		if player_jump_requested or ai_jump_requested:
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
@@ -346,6 +350,8 @@ func request_crouch_kick_sweep_attack() -> void:
 
 
 func request_combat_input(combat_input: CombatInput, is_ai_request := false) -> bool:
+	if not is_ai_request and is_backstepping:
+		return false
 	match combat_input:
 		CombatInput.PUNCH:
 			return request_attack_input(&"Punch", is_ai_request)

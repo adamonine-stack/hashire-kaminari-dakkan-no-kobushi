@@ -122,6 +122,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev062_guard_counterplay_smoke.gd 2>&1 | tee /tmp/dev062-guard-counterplay.log || true
           grep -q "DEV062_GUARD_COUNTERPLAY_OK" /tmp/dev062-guard-counterplay.log
 
+      - name: Verify double-tap dash and backstep
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev065_double_tap_mobility_smoke.gd 2>&1 | tee /tmp/dev065-double-tap.log
+          grep -q "DEV065_DOUBLE_TAP_MOBILITY_OK failures=\[\]" /tmp/dev065-double-tap.log
+
       - name: Verify Stage 2 campaign and Rei motion
         shell: bash
         run: |
