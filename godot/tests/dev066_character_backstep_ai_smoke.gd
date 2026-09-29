@@ -126,11 +126,22 @@ func _run() -> void:
 			enemy.ai_backstep_cooldown_timer = 0.0
 			enemy.ai_profile.reactive_backstep_rate = 1.0
 			enemy.ai_profile.can_backstep = true
+
+			# Put the fighters inside attack-threat range and make the player face
+			# the enemy with an active punch. The normal AI decision path must
+			# choose BACKSTEP; this is not a direct enter_backstep() test.
+			var enemy_y: float = float(enemy.global_position.y)
+			var player_y: float = float(player.global_position.y)
+			player.global_position = Vector2(420.0, player_y)
+			enemy.global_position = Vector2(470.0, enemy_y)
+			player.facing_direction = 1.0
+			enemy.facing_direction = -1.0
+			player.current_attack_type = "Punch"
 			var battle_distance: float = absf(float(player.global_position.x) - float(enemy.global_position.x))
 			check(enemy.should_backstep_player(battle_distance, true), "battle AI selects reactive backstep when configured")
 			var away_direction: float = -signf(float(player.global_position.x) - float(enemy.global_position.x))
-			enemy.enter_backstep()
-			check(String(enemy._debug_ai_action_text()) == "BACKSTEP", "enemy enters BACKSTEP AI state")
+			enemy.choose_next_action()
+			check(String(enemy._debug_ai_action_text()) == "BACKSTEP", "enemy decision path enters BACKSTEP AI state")
 			check(enemy.is_backstepping, "enemy backstep movement starts")
 			check(signf(enemy.velocity.x) == away_direction, "enemy launches away from player")
 			enemy._update_visual_state()
