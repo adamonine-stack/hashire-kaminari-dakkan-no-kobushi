@@ -226,6 +226,61 @@ func _prepare_button(button: Button) -> void:
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
 	button.modulate.a = button_opacity
 	button.custom_minimum_size = base_button_size
+	_apply_touch_button_style(button)
+
+
+func _apply_touch_button_style(button: Button) -> void:
+	var accent := _touch_button_accent(button.name)
+	button.add_theme_font_size_override("font_size", 28 if button.name != "PauseButton" else 20)
+	button.add_theme_constant_override("outline_size", 3)
+	button.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+	button.add_theme_color_override("font_color", Color(0.97, 0.98, 1.0, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(1.0, 0.92, 0.62, 1.0))
+	button.add_theme_color_override("font_disabled_color", Color(0.56, 0.58, 0.63, 0.86))
+	button.add_theme_stylebox_override("normal", _touch_button_box(Color(0.035, 0.045, 0.065, 0.94), accent, 5))
+	button.add_theme_stylebox_override("hover", _touch_button_box(Color(0.075, 0.078, 0.085, 0.98), accent.lightened(0.18), 5))
+	button.add_theme_stylebox_override("pressed", _touch_button_box(Color(0.018, 0.022, 0.03, 0.99), accent.lightened(0.26), 2))
+	button.add_theme_stylebox_override("disabled", _touch_button_box(Color(0.025, 0.028, 0.036, 0.82), Color(0.25, 0.27, 0.31, 0.76), 3))
+
+
+func _touch_button_accent(button_name: StringName) -> Color:
+	match String(button_name):
+		"PunchButton":
+			return Color(0.92, 0.24, 0.12, 1.0)
+		"KickButton":
+			return Color(0.96, 0.52, 0.10, 1.0)
+		"ThrowButton":
+			return Color(0.70, 0.30, 0.88, 1.0)
+		"SpecialButton":
+			return Color(1.0, 0.72, 0.12, 1.0)
+		"GuardButton":
+			return Color(0.18, 0.58, 0.92, 1.0)
+		"PauseButton":
+			return Color(0.62, 0.66, 0.74, 1.0)
+		_:
+			return Color(0.48, 0.54, 0.66, 1.0)
+
+
+func _touch_button_box(background: Color, border: Color, bottom_depth: int) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = background
+	box.border_color = border
+	box.border_width_left = 3
+	box.border_width_top = 3
+	box.border_width_right = 3
+	box.border_width_bottom = bottom_depth
+	box.corner_radius_top_left = 12
+	box.corner_radius_top_right = 12
+	box.corner_radius_bottom_left = 12
+	box.corner_radius_bottom_right = 12
+	box.content_margin_left = 8.0
+	box.content_margin_top = 8.0
+	box.content_margin_right = 8.0
+	box.content_margin_bottom = 10.0
+	box.shadow_color = Color(0.0, 0.0, 0.0, 0.68)
+	box.shadow_size = 5
+	box.shadow_offset = Vector2(0.0, 4.0 if bottom_depth >= 4 else 2.0)
+	return box
 
 
 func _ensure_runtime_buttons() -> void:

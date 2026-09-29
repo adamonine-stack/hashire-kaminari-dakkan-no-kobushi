@@ -2266,15 +2266,17 @@ func _create_flow_ui() -> void:
 
 	_restart_button = Button.new()
 	_restart_button.text = "RESTART"
-	_restart_button.custom_minimum_size = Vector2(260.0, 42.0)
+	_restart_button.custom_minimum_size = Vector2(280.0, 54.0)
 	_restart_button.pressed.connect(reset_game_progress)
+	_style_flow_button(_restart_button, true)
 	end_box.add_child(_restart_button)
 
 	_title_button = Button.new()
 	_title_button.text = "TITLE"
 	_title_button.disabled = false
-	_title_button.custom_minimum_size = Vector2(260.0, 42.0)
+	_title_button.custom_minimum_size = Vector2(280.0, 50.0)
 	_title_button.pressed.connect(go_to_title)
+	_style_flow_button(_title_button, false)
 	end_box.add_child(_title_button)
 
 	_heal_effect_label = Label.new()
@@ -2306,6 +2308,57 @@ func _create_flow_ui() -> void:
 	_character_selection_screen = CHARACTER_SELECTION_SCENE.instantiate()
 	battle_ui_root.add_child(_character_selection_screen)
 	_character_selection_screen.fighter_selected.connect(select_player)
+
+
+func _style_flow_button(button: Button, primary: bool = false) -> void:
+	button.add_theme_font_size_override("font_size", 20 if primary else 17)
+	button.add_theme_constant_override("outline_size", 2)
+	button.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.80))
+	button.add_theme_color_override("font_color", Color(0.09, 0.05, 0.01, 1.0) if primary else Color(0.96, 0.97, 1.0, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(0.035, 0.02, 0.01, 1.0) if primary else Color(1.0, 0.84, 0.38, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(0.035, 0.02, 0.01, 1.0) if primary else Color(1.0, 0.76, 0.22, 1.0))
+	button.add_theme_stylebox_override("normal", _flow_button_box(
+		Color(0.94, 0.58, 0.08, 0.98) if primary else Color(0.025, 0.032, 0.052, 0.98),
+		Color(1.0, 0.84, 0.34, 1.0) if primary else Color(0.43, 0.47, 0.58, 0.96),
+		5
+	))
+	button.add_theme_stylebox_override("hover", _flow_button_box(
+		Color(1.0, 0.72, 0.18, 1.0) if primary else Color(0.07, 0.06, 0.055, 1.0),
+		Color(1.0, 0.95, 0.66, 1.0) if primary else Color(1.0, 0.68, 0.18, 1.0),
+		5
+	))
+	button.add_theme_stylebox_override("pressed", _flow_button_box(
+		Color(0.76, 0.40, 0.04, 1.0) if primary else Color(0.016, 0.021, 0.034, 1.0),
+		Color(1.0, 0.74, 0.20, 1.0),
+		2
+	))
+	button.add_theme_stylebox_override("focus", _flow_button_box(
+		Color(1.0, 0.69, 0.14, 1.0) if primary else Color(0.075, 0.06, 0.045, 1.0),
+		Color(1.0, 0.96, 0.72, 1.0),
+		5
+	))
+
+
+func _flow_button_box(background: Color, border: Color, bottom_depth: int) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = background
+	box.border_color = border
+	box.border_width_left = 3
+	box.border_width_top = 3
+	box.border_width_right = 3
+	box.border_width_bottom = bottom_depth
+	box.corner_radius_top_left = 7
+	box.corner_radius_top_right = 7
+	box.corner_radius_bottom_left = 7
+	box.corner_radius_bottom_right = 7
+	box.content_margin_left = 18.0
+	box.content_margin_top = 9.0
+	box.content_margin_right = 18.0
+	box.content_margin_bottom = 10.0
+	box.shadow_color = Color(0.0, 0.0, 0.0, 0.64)
+	box.shadow_size = 5
+	box.shadow_offset = Vector2(0.0, 4.0 if bottom_depth >= 4 else 2.0)
+	return box
 
 
 func _show_player_selection() -> void:

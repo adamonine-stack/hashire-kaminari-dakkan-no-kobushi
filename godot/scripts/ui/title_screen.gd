@@ -358,48 +358,62 @@ func _add_story_portrait(path: String, left: float, top: float, right: float, bo
 
 
 func _style_title_button(button: Button, primary: bool) -> void:
-	button.custom_minimum_size = Vector2(320.0, 58.0 if primary else 44.0)
-	button.add_theme_font_size_override("font_size", 22 if primary else 16)
-	button.add_theme_color_override("font_color", Color(0.08, 0.06, 0.025, 1.0) if primary else Color(0.93, 0.94, 0.98, 1.0))
-	button.add_theme_color_override("font_hover_color", Color(0.04, 0.03, 0.015, 1.0) if primary else Color(1.0, 0.82, 0.36, 1.0))
-	button.add_theme_stylebox_override(
-		"normal",
-		_title_button_box(
-			Color(0.96, 0.67, 0.14, 0.96) if primary else Color(0.035, 0.045, 0.075, 0.86),
-			Color(1.0, 0.88, 0.48, 0.98) if primary else Color(0.46, 0.50, 0.62, 0.72)
-		)
-	)
-	button.add_theme_stylebox_override(
-		"hover",
-		_title_button_box(
-			Color(1.0, 0.79, 0.26, 1.0) if primary else Color(0.09, 0.075, 0.055, 0.96),
-			Color(1.0, 0.94, 0.68, 1.0) if primary else Color(1.0, 0.72, 0.24, 0.92)
-		)
-	)
-	button.add_theme_stylebox_override(
-		"focus",
-		_title_button_box(Color(0.99, 0.75, 0.22, 1.0), Color(1.0, 0.96, 0.78, 1.0))
-	)
+	button.custom_minimum_size = Vector2(332.0, 64.0 if primary else 52.0)
+	button.add_theme_font_size_override("font_size", 23 if primary else 17)
+	button.add_theme_constant_override("outline_size", 2)
+	button.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.72))
+	button.add_theme_color_override("font_color", Color(0.10, 0.065, 0.015, 1.0) if primary else Color(0.96, 0.97, 1.0, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(0.035, 0.025, 0.01, 1.0) if primary else Color(1.0, 0.84, 0.38, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(0.04, 0.025, 0.01, 1.0) if primary else Color(1.0, 0.76, 0.24, 1.0))
+	button.add_theme_color_override("font_focus_color", Color(0.04, 0.025, 0.01, 1.0) if primary else Color(1.0, 0.88, 0.48, 1.0))
+	button.add_theme_color_override("font_disabled_color", Color(0.42, 0.43, 0.48, 0.88))
+	button.add_theme_stylebox_override("normal", _title_button_box(
+		Color(0.94, 0.60, 0.10, 0.98) if primary else Color(0.025, 0.032, 0.052, 0.97),
+		Color(1.0, 0.84, 0.34, 1.0) if primary else Color(0.43, 0.47, 0.58, 0.95),
+		5
+	))
+	button.add_theme_stylebox_override("hover", _title_button_box(
+		Color(1.0, 0.73, 0.18, 1.0) if primary else Color(0.065, 0.060, 0.060, 0.99),
+		Color(1.0, 0.95, 0.66, 1.0) if primary else Color(1.0, 0.68, 0.18, 1.0),
+		5
+	))
+	button.add_theme_stylebox_override("pressed", _title_button_box(
+		Color(0.78, 0.43, 0.055, 1.0) if primary else Color(0.018, 0.022, 0.034, 1.0),
+		Color(1.0, 0.76, 0.22, 1.0),
+		2
+	))
+	button.add_theme_stylebox_override("focus", _title_button_box(
+		Color(1.0, 0.70, 0.15, 1.0) if primary else Color(0.075, 0.06, 0.045, 1.0),
+		Color(1.0, 0.96, 0.72, 1.0),
+		5
+	))
+	button.add_theme_stylebox_override("disabled", _title_button_box(
+		Color(0.026, 0.03, 0.042, 0.78),
+		Color(0.24, 0.25, 0.29, 0.72),
+		3
+	))
 
 
-func _title_button_box(background: Color, border: Color) -> StyleBoxFlat:
+func _title_button_box(background: Color, border: Color, bottom_depth: int = 4) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
 	box.bg_color = background
 	box.border_color = border
-	box.border_width_left = 2
-	box.border_width_top = 2
-	box.border_width_right = 2
-	box.border_width_bottom = 2
-	box.corner_radius_top_left = 8
-	box.corner_radius_top_right = 8
-	box.corner_radius_bottom_left = 8
-	box.corner_radius_bottom_right = 8
-	box.content_margin_left = 14.0
-	box.content_margin_top = 8.0
-	box.content_margin_right = 14.0
-	box.content_margin_bottom = 8.0
+	box.border_width_left = 3
+	box.border_width_top = 3
+	box.border_width_right = 3
+	box.border_width_bottom = bottom_depth
+	box.corner_radius_top_left = 7
+	box.corner_radius_top_right = 7
+	box.corner_radius_bottom_left = 7
+	box.corner_radius_bottom_right = 7
+	box.content_margin_left = 18.0
+	box.content_margin_top = 9.0
+	box.content_margin_right = 18.0
+	box.content_margin_bottom = 10.0
+	box.shadow_color = Color(0.0, 0.0, 0.0, 0.62)
+	box.shadow_size = 5
+	box.shadow_offset = Vector2(0.0, 4.0 if bottom_depth >= 4 else 2.0)
 	return box
-
 
 func _build_orientation_overlay() -> void:
 	orientation_overlay = PanelContainer.new()
@@ -625,11 +639,11 @@ func _make_label(text: String, font_size: int) -> Label:
 func _make_menu_button(text: String) -> Button:
 	var button := Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(300.0, 48.0)
+	button.custom_minimum_size = Vector2(320.0, 52.0)
 	button.focus_mode = Control.FOCUS_ALL
 	button.focus_entered.connect(_play_ui_se.bind("cursor"))
+	_style_title_button(button, false)
 	return button
-
 
 func _has_continue_data() -> bool:
 	return FileAccess.file_exists("user://save.cfg")

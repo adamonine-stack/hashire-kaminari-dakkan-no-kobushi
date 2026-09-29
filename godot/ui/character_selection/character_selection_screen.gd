@@ -133,8 +133,9 @@ func _build_layout() -> void:
 
 	confirm_button = Button.new()
 	confirm_button.text = "CONFIRM"
-	confirm_button.custom_minimum_size = Vector2(240.0, 46.0)
+	confirm_button.custom_minimum_size = Vector2(280.0, 56.0)
 	confirm_button.pressed.connect(confirm_selection)
+	_style_selection_button(confirm_button, true)
 	root.add_child(confirm_button)
 
 	guide_label = Label.new()
@@ -145,6 +146,62 @@ func _build_layout() -> void:
 	debug_label = Label.new()
 	debug_label.add_theme_font_size_override("font_size", 13)
 	root.add_child(debug_label)
+
+
+func _style_selection_button(button: Button, primary: bool = false) -> void:
+	button.add_theme_font_size_override("font_size", 20 if primary else 17)
+	button.add_theme_constant_override("outline_size", 2)
+	button.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.78))
+	button.add_theme_color_override("font_color", Color(0.10, 0.055, 0.01, 1.0) if primary else Color(0.96, 0.97, 1.0, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(0.04, 0.025, 0.01, 1.0) if primary else Color(1.0, 0.84, 0.38, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(0.04, 0.025, 0.01, 1.0) if primary else Color(1.0, 0.76, 0.24, 1.0))
+	button.add_theme_stylebox_override("normal", _selection_button_box(
+		Color(0.94, 0.58, 0.08, 0.98) if primary else Color(0.026, 0.034, 0.055, 0.98),
+		Color(1.0, 0.84, 0.34, 1.0) if primary else Color(0.43, 0.47, 0.58, 0.96),
+		5
+	))
+	button.add_theme_stylebox_override("hover", _selection_button_box(
+		Color(1.0, 0.72, 0.18, 1.0) if primary else Color(0.07, 0.06, 0.055, 1.0),
+		Color(1.0, 0.95, 0.66, 1.0) if primary else Color(1.0, 0.68, 0.18, 1.0),
+		5
+	))
+	button.add_theme_stylebox_override("pressed", _selection_button_box(
+		Color(0.76, 0.40, 0.04, 1.0) if primary else Color(0.016, 0.021, 0.034, 1.0),
+		Color(1.0, 0.74, 0.20, 1.0),
+		2
+	))
+	button.add_theme_stylebox_override("focus", _selection_button_box(
+		Color(1.0, 0.69, 0.14, 1.0) if primary else Color(0.075, 0.06, 0.045, 1.0),
+		Color(1.0, 0.96, 0.72, 1.0),
+		5
+	))
+	button.add_theme_stylebox_override("disabled", _selection_button_box(
+		Color(0.025, 0.03, 0.04, 0.82),
+		Color(0.22, 0.23, 0.28, 0.74),
+		3
+	))
+
+
+func _selection_button_box(background: Color, border: Color, bottom_depth: int) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = background
+	box.border_color = border
+	box.border_width_left = 3
+	box.border_width_top = 3
+	box.border_width_right = 3
+	box.border_width_bottom = bottom_depth
+	box.corner_radius_top_left = 7
+	box.corner_radius_top_right = 7
+	box.corner_radius_bottom_left = 7
+	box.corner_radius_bottom_right = 7
+	box.content_margin_left = 18.0
+	box.content_margin_top = 9.0
+	box.content_margin_right = 18.0
+	box.content_margin_bottom = 10.0
+	box.shadow_color = Color(0.0, 0.0, 0.0, 0.62)
+	box.shadow_size = 5
+	box.shadow_offset = Vector2(0.0, 4.0 if bottom_depth >= 4 else 2.0)
+	return box
 
 
 func _update_title_for_reason() -> void:
