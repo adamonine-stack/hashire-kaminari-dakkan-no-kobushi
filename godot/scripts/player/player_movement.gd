@@ -2569,7 +2569,7 @@ func _can_continue_mobility_burst() -> bool:
 		return false
 	if has_method("is_character_special_busy") and bool(call("is_character_special_busy")):
 		return false
-	return current_hp > 0 and not victory_pose_active
+	return input_enabled and is_round_active and current_hp > 0 and not victory_pose_active
 
 
 func _is_horizontal_direction_held(direction: float) -> bool:
