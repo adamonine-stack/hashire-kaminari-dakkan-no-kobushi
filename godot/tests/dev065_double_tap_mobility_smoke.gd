@@ -73,8 +73,10 @@ func _run() -> void:
 					var texture := frames.get_frame_texture("dash", index)
 					if texture is AtlasTexture:
 						dash_regions.append(str((texture as AtlasTexture).region))
-				check(backstep_regions != dash_regions.duplicate().reversed(), fighter_id + ": backstep is not reversed dash playback")
-				backstep_signatures.append(fighter_id + ":" + "|".join(backstep_regions))
+				var reversed_dash_regions: Array[String] = dash_regions.duplicate()
+				reversed_dash_regions.reverse()
+				check(backstep_regions != reversed_dash_regions, fighter_id + ": backstep is not reversed dash playback")
+				backstep_signatures.append(fighter_id + ":" + str(backstep_regions))
 		probe.queue_free()
 		await process_frame
 	check(backstep_signatures.size() == 3, "all three playable fighters expose backstep signatures")
