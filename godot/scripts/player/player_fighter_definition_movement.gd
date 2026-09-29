@@ -66,6 +66,7 @@ var base_max_hp := 100
 var base_move_speed := 300.0
 var base_air_move_speed := 300.0
 var base_jump_power := 500.0
+var base_backstep_speed_multiplier := 1.55
 var base_punch_damage := 5
 var base_kick_damage := 8
 var base_throw_damage := 15
@@ -448,6 +449,7 @@ func _capture_base_stats() -> void:
 	base_move_speed = move_speed
 	base_air_move_speed = air_move_speed
 	base_jump_power = jump_power
+	base_backstep_speed_multiplier = backstep_speed_multiplier
 	base_punch_damage = punch_damage
 	base_kick_damage = kick_damage
 	base_throw_damage = throw_damage
@@ -474,6 +476,7 @@ func _restore_base_stats() -> void:
 	move_speed = base_move_speed
 	air_move_speed = base_air_move_speed
 	jump_power = base_jump_power
+	backstep_speed_multiplier = base_backstep_speed_multiplier
 	punch_damage = base_punch_damage
 	kick_damage = base_kick_damage
 	throw_damage = base_throw_damage
@@ -875,6 +878,7 @@ func enter_backstep() -> void:
 	var direction := -signf(opponent.global_position.x - global_position.x)
 	if direction == 0.0:
 		direction = -facing_direction
+	_face_opponent()
 	_set_ai_state(EnemyAIState.BACKSTEP)
 	_start_backstep(direction)
 	ai_backstep_cooldown_timer = maxf(_profile_float(&"backstep_cooldown", 1.60), backstep_duration + 0.10)
@@ -1568,6 +1572,8 @@ func request_special_attack() -> bool:
 
 
 func cancel_current_ai_action(clear_guard := true) -> void:
+	if is_backstepping:
+		_stop_backstep()
 	ai_movement_timer = 0.0
 	ai_movement_direction = 0.0
 	ai_idle_timer = 0.0
@@ -1650,6 +1656,9 @@ func _update_attack_wait() -> void:
 			return
 	if distance > attack_distance * 1.10:
 		enter_approach()
+		return
+	if should_backstep_player(distance):
+		enter_backstep()
 		return
 	if should_retreat():
 		enter_retreat()
