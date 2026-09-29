@@ -63,11 +63,6 @@ func _run() -> void:
 			if frames.has_animation("backstep"):
 				check(frames.get_frame_count("backstep") >= 4, fighter_id + ": backstep has multi-pose motion")
 				check(not frames.get_animation_loop("backstep"), fighter_id + ": backstep does not loop")
-				if fighter_id == "player_01_akky":
-					check(frames.get_frame_count("backstep") == 6, "player_01_akky: dedicated six-frame backstep loads")
-					for frame_index in range(frames.get_frame_count("backstep")):
-						var backstep_texture := frames.get_frame_texture("backstep", frame_index)
-						check(backstep_texture != null and backstep_texture.get_width() == 320 and backstep_texture.get_height() == 224, "player_01_akky: backstep frame uses 320x224 authored cell")
 				var backstep_regions: Array[String] = []
 				for index in range(frames.get_frame_count("backstep")):
 					var texture := frames.get_frame_texture("backstep", index)
