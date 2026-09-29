@@ -243,9 +243,6 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		var supplemental_motion_atlas: Resource = character_data.get("supplemental_motion_atlas")
 		if supplemental_motion_atlas != null:
 			_overlay_authored_motion_atlas(authored_frames, supplemental_motion_atlas)
-		var backstep_motion_atlas: Resource = character_data.get("backstep_motion_atlas")
-		if backstep_motion_atlas != null:
-			_overlay_authored_motion_atlas(authored_frames, backstep_motion_atlas)
 		return authored_frames
 
 	if sprite_sheet == null:
