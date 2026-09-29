@@ -49,6 +49,11 @@ signal damage_feedback_requested(target: Node, amount: int, guarded: bool, hit_p
 @export var guard_recoil_kick_time := 0.16
 @export var guard_recoil_power_bonus := 0.04
 @export var crouch_guard_settle_time := 0.08
+@export_group("Double Tap Movement")
+@export_range(0.12, 0.40, 0.01) var double_tap_window := 0.23
+@export_range(1.0, 2.5, 0.05) var dash_speed_multiplier := 1.65
+@export_range(1.0, 2.5, 0.05) var backstep_speed_multiplier := 1.45
+@export_range(0.12, 0.50, 0.01) var backstep_duration := 0.28
 @export_group("Stage Collision")
 @export var stage_left_limit := 0.0
 @export var stage_right_limit := 1280.0
@@ -192,6 +197,13 @@ var afterimage_pool: Array[Node2D] = []
 var was_moving_last_frame := false
 var was_dashing_last_frame := false
 var was_on_floor_last_frame := false
+var is_dashing := false
+var is_backstepping := false
+var dash_direction := 0.0
+var backstep_direction := 0.0
+var backstep_timer := 0.0
+var last_horizontal_tap_direction := 0.0
+var last_horizontal_tap_time_msec := -1000000
 var invincible_flash_timer := 0.0
 var base_shadow_scale := Vector2.ONE
 var uses_official_character_art := false
@@ -262,7 +274,7 @@ func _ensure_official_animation_placeholders() -> void:
 		library = AnimationLibrary.new()
 		animation_player.add_animation_library("", library)
 	var animation_names := [
-		"idle", "walk", "dash", "jump", "jump_start", "jump_air", "fall", "land",
+		"idle", "walk", "dash", "backstep", "jump", "jump_start", "jump_air", "fall", "land",
 		"punch1", "punch2", "kick1", "kick2", "guard",
 		"damage", "down", "getup", "special", "ko", "victory",
 		"Punch", "Kick", "Throw",
@@ -1220,6 +1232,7 @@ func _get_hit_position(target: Node) -> Vector2:
 
 
 func _cancel_current_action() -> void:
+	_cancel_mobility_burst()
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
 	guard_recoil_timer = 0.0
@@ -1400,6 +1413,8 @@ func _get_guard_back_walk_velocity() -> float:
 
 
 func get_current_move_speed() -> float:
+	if is_on_floor() and is_dashing:
+		return move_speed * dash_speed_multiplier
 	return move_speed if is_on_floor() else air_move_speed
 
 
@@ -2495,6 +2510,127 @@ func _get_horizontal_movement_input() -> float:
 	return Input.get_axis("move_left", "move_right")
 
 
+func _update_double_tap_movement(delta: float) -> void:
+	if is_backstepping:
+		backstep_timer = maxf(backstep_timer - delta, 0.0)
+		if backstep_timer <= 0.0 or not _can_continue_mobility_burst():
+			_stop_backstep()
+		return
+
+	if is_dashing and (not _is_horizontal_direction_held(dash_direction) or not _can_continue_mobility_burst()):
+		_stop_dash()
+
+	if not _can_start_double_tap_movement():
+		return
+
+	var tap_direction := 0.0
+	if Input.is_action_just_pressed("move_left"):
+		tap_direction = -1.0
+	elif Input.is_action_just_pressed("move_right"):
+		tap_direction = 1.0
+	if tap_direction == 0.0:
+		return
+
+	var action := _consume_horizontal_tap(tap_direction, Time.get_ticks_msec())
+	if action == &"dash":
+		_start_dash(tap_direction)
+	elif action == &"backstep":
+		_start_backstep(tap_direction)
+
+
+func _consume_horizontal_tap(tap_direction: float, now_msec: int) -> StringName:
+	var normalized_direction := signf(tap_direction)
+	if normalized_direction == 0.0:
+		return &""
+
+	var window_msec := maxi(1, int(round(double_tap_window * 1000.0)))
+	var elapsed_msec := now_msec - last_horizontal_tap_time_msec
+	var is_double_tap := normalized_direction == last_horizontal_tap_direction and elapsed_msec >= 0 and elapsed_msec <= window_msec
+	last_horizontal_tap_direction = normalized_direction
+	last_horizontal_tap_time_msec = now_msec
+	if not is_double_tap:
+		return &""
+
+	last_horizontal_tap_direction = 0.0
+	last_horizontal_tap_time_msec = -1000000
+	return &"dash" if normalized_direction == signf(facing_direction) else &"backstep"
+
+
+func _can_start_double_tap_movement() -> bool:
+	if not input_enabled or not is_round_active or current_hp <= 0 or victory_pose_active or not is_on_floor():
+		return false
+	return _can_continue_mobility_burst()
+
+
+func _can_continue_mobility_burst() -> bool:
+	if not is_on_floor() or is_hit or is_guard_hit or is_guarding or is_crouching or is_crouch_guarding or _is_throw_busy():
+		return false
+	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0 or guard_recoil_timer > 0.0:
+		return false
+	if has_method("is_character_special_busy") and bool(call("is_character_special_busy")):
+		return false
+	return current_hp > 0 and not victory_pose_active
+
+
+func _is_horizontal_direction_held(direction: float) -> bool:
+	if direction > 0.0:
+		return Input.is_action_pressed("move_right")
+	if direction < 0.0:
+		return Input.is_action_pressed("move_left")
+	return false
+
+
+func _start_dash(direction: float) -> void:
+	var normalized_direction := signf(direction)
+	if normalized_direction == 0.0:
+		return
+	is_backstepping = false
+	backstep_timer = 0.0
+	backstep_direction = 0.0
+	is_dashing = true
+	dash_direction = normalized_direction
+	jump_landing_visual_timer = 0.0
+	_play_visual_animation(&"dash", true)
+	_spawn_movement_dust(global_position + Vector2(-normalized_direction * 18.0, -4.0), 0.9)
+	_spawn_afterimage()
+
+
+func _stop_dash() -> void:
+	is_dashing = false
+	dash_direction = 0.0
+
+
+func _start_backstep(direction: float) -> void:
+	var normalized_direction := signf(direction)
+	if normalized_direction == 0.0:
+		return
+	_stop_dash()
+	is_backstepping = true
+	backstep_direction = normalized_direction
+	backstep_timer = backstep_duration
+	velocity.x = backstep_direction * move_speed * backstep_speed_multiplier
+	velocity.y = 0.0
+	jump_landing_visual_timer = 0.0
+	_play_visual_animation(&"backstep", true)
+	_spawn_movement_dust(global_position + Vector2(facing_direction * 18.0, -4.0), 0.9)
+	_spawn_afterimage()
+
+
+func _stop_backstep() -> void:
+	if not is_backstepping:
+		return
+	is_backstepping = false
+	backstep_timer = 0.0
+	backstep_direction = 0.0
+	if not is_hit and is_on_floor():
+		velocity.x = 0.0
+
+
+func _cancel_mobility_burst() -> void:
+	_stop_dash()
+	_stop_backstep()
+
+
 func _prepare_walk_visual_state(direction: float) -> void:
 	if absf(direction) < 0.1 or not is_on_floor():
 		return
@@ -2654,6 +2790,10 @@ func _get_current_visual_animation() -> StringName:
 		return &"jump_start"
 	if is_crouching:
 		return &"crouch_idle"
+	if is_backstepping:
+		return &"backstep"
+	if is_dashing:
+		return &"dash"
 	var walk_input := _get_horizontal_movement_input()
 	if absf(walk_input) >= 0.1:
 		return _get_walk_animation_for_direction(walk_input)
