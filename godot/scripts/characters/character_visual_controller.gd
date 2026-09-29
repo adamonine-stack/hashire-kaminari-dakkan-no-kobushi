@@ -267,6 +267,8 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 	else:
 		_add_player_animations(frames, sprite_sheet, character_data)
 	_add_animation_definition_strips(frames, character_data)
+	if is_enemy:
+		_add_enemy_backstep_motion(frames)
 	_add_required_aliases(frames)
 	return frames
 
@@ -971,6 +973,48 @@ func _add_row_animation(frames: SpriteFrames, sprite_sheet: Texture2D, animation
 
 	if frames.get_frame_count(String(animation_name)) == 0:
 		frames.remove_animation(String(animation_name))
+
+
+func _add_enemy_backstep_motion(frames: SpriteFrames) -> void:
+	if frames == null or frames.has_animation("backstep"):
+		return
+	if definition == null or definition.get("team_type") != &"ENEMY":
+		return
+
+	var recipe: Array = []
+	var fps := 15.0
+	match _fighter_id():
+		"enemy_02_shadow_boxer":
+			recipe = [[&"idle", 0], [&"guard", 0], [&"walk", 7], [&"walk", 5], [&"idle", 0]]
+			fps = 18.0
+		"enemy_03_masato_takahashi":
+			recipe = [[&"idle", 0], [&"guard", 0], [&"walk", 6], [&"walk", 4], [&"idle", 0]]
+			fps = 13.0
+		"enemy_06_rio_flick_garcia":
+			recipe = [[&"idle", 0], [&"crouch", 0], [&"walk", 7], [&"walk", 5], [&"idle", 0]]
+			fps = 19.0
+		"enemy_08_leon_crow":
+			recipe = [[&"idle", 0], [&"guard", 0], [&"walk", 7], [&"walk", 4], [&"idle", 0]]
+			fps = 17.0
+		_:
+			return
+
+	frames.add_animation("backstep")
+	frames.set_animation_speed("backstep", fps)
+	frames.set_animation_loop("backstep", false)
+	for item in recipe:
+		var source_name := StringName(item[0])
+		if not frames.has_animation(String(source_name)):
+			continue
+		var source_count := frames.get_frame_count(String(source_name))
+		if source_count <= 0:
+			continue
+		var source_index := clampi(int(item[1]), 0, source_count - 1)
+		var texture := frames.get_frame_texture(String(source_name), source_index)
+		if texture != null:
+			frames.add_frame("backstep", texture)
+	if frames.get_frame_count("backstep") < 4:
+		frames.remove_animation("backstep")
 
 
 func _add_required_aliases(frames: SpriteFrames) -> void:

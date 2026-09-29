@@ -36,6 +36,8 @@ class_name EnemyAIProfile
 @export_range(0.0, 1.0, 0.01) var reactive_guard_rate: float = 0.45
 @export_range(0.0, 1.0, 0.01) var guard_counter_rate: float = 0.75
 @export_range(0.0, 1.0, 0.01) var retreat_rate: float = 0.20
+@export_range(0.0, 1.0, 0.01) var backstep_rate: float = 0.12
+@export_range(0.0, 1.0, 0.01) var reactive_backstep_rate: float = 0.28
 @export_range(0.0, 1.0, 0.01) var combo_rate: float = 0.20
 @export_range(0.0, 1.0, 0.01) var sweep_rate: float = 0.00
 @export_range(0.0, 1.0, 0.01) var feint_rate: float = 0.00
@@ -56,6 +58,7 @@ class_name EnemyAIProfile
 @export var guard_time_max: float = 0.75
 @export var retreat_time_min: float = 0.35
 @export var retreat_time_max: float = 0.80
+@export var backstep_cooldown: float = 1.60
 @export var feint_cooldown_min: float = 2.0
 @export var feint_cooldown_max: float = 4.0
 @export var jump_cooldown: float = 2.20
@@ -71,6 +74,7 @@ class_name EnemyAIProfile
 @export_group("AI Options")
 @export var can_guard: bool = true
 @export var can_retreat: bool = true
+@export var can_backstep: bool = true
 @export var can_combo: bool = false
 @export var can_feint: bool = false
 @export var can_request_special_attack: bool = false

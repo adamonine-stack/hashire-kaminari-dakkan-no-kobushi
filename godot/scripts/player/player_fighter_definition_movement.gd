@@ -34,6 +34,7 @@ enum EnemyAIState {
 	ATTACK,
 	GUARD,
 	RETREAT,
+	BACKSTEP,
 	FEINT,
 	JUMP,
 	HITSTUN,
@@ -65,6 +66,7 @@ var base_max_hp := 100
 var base_move_speed := 300.0
 var base_air_move_speed := 300.0
 var base_jump_power := 500.0
+var base_backstep_speed_multiplier := 1.55
 var base_punch_damage := 5
 var base_kick_damage := 8
 var base_throw_damage := 15
@@ -97,6 +99,7 @@ var ai_reaction_timer := 0.0
 var ai_idle_timer := 0.0
 var ai_attack_cooldown_timer := 0.0
 var ai_retreat_timer := 0.0
+var ai_backstep_cooldown_timer := 0.0
 var ai_feint_timer := 0.0
 var ai_feint_phase: StringName = &""
 var ai_feint_cooldown_timer := 0.0
@@ -241,6 +244,7 @@ func apply_movement_stats() -> void:
 	move_speed = float(fighter_definition.move_speed)
 	air_move_speed = _definition_float("air_move_speed", move_speed) if _uses_direct_character_stats() else move_speed
 	jump_power = absf(float(fighter_definition.jump_force))
+	backstep_speed_multiplier = _definition_float("backstep_speed_multiplier", 1.55)
 
 
 func apply_attack_stats() -> void:
@@ -377,6 +381,7 @@ func reset_ai_state() -> void:
 	ai_idle_timer = 0.0
 	ai_attack_cooldown_timer = 0.0
 	ai_retreat_timer = 0.0
+	ai_backstep_cooldown_timer = 0.0
 	ai_feint_timer = 0.0
 	ai_feint_phase = &""
 	ai_feint_cooldown_timer = 0.0
@@ -425,6 +430,8 @@ func get_ai_debug_lines() -> Array[String]:
 	lines.append("AGGRESSION: %.2f" % [_profile_float(&"aggression_rate", 0.0)])
 	lines.append("GUARD RATE: %.2f" % [_profile_float(&"guard_rate", 0.0)])
 	lines.append("RETREAT RATE: %.2f" % [_profile_float(&"retreat_rate", 0.0)])
+	lines.append("BACKSTEP RATE: %.2f" % [_profile_float(&"backstep_rate", 0.0)])
+	lines.append("BACKSTEP CD: %.2f" % [ai_backstep_cooldown_timer])
 	lines.append("COMBO RATE: %d%%" % [int(round(_profile_float(&"combo_rate", 0.0) * 100.0))])
 	lines.append("THROW ESCAPE: %d%%" % [int(round(_profile_float(&"throw_escape_probability", 0.0) * 100.0))])
 	if _is_enemy8():
@@ -442,6 +449,7 @@ func _capture_base_stats() -> void:
 	base_move_speed = move_speed
 	base_air_move_speed = air_move_speed
 	base_jump_power = jump_power
+	base_backstep_speed_multiplier = backstep_speed_multiplier
 	base_punch_damage = punch_damage
 	base_kick_damage = kick_damage
 	base_throw_damage = throw_damage
@@ -468,6 +476,7 @@ func _restore_base_stats() -> void:
 	move_speed = base_move_speed
 	air_move_speed = base_air_move_speed
 	jump_power = base_jump_power
+	backstep_speed_multiplier = base_backstep_speed_multiplier
 	punch_damage = base_punch_damage
 	kick_damage = base_kick_damage
 	throw_damage = base_throw_damage
@@ -570,6 +579,7 @@ func update_ai(delta: float) -> void:
 		return
 
 	ai_attack_cooldown_timer = maxf(ai_attack_cooldown_timer - delta, 0.0)
+	ai_backstep_cooldown_timer = maxf(ai_backstep_cooldown_timer - delta, 0.0)
 	ai_feint_cooldown_timer = maxf(ai_feint_cooldown_timer - delta, 0.0)
 	ai_jump_cooldown_timer = maxf(ai_jump_cooldown_timer - delta, 0.0)
 	ai_throw_cooldown_timer = maxf(ai_throw_cooldown_timer - delta, 0.0)
@@ -589,6 +599,8 @@ func update_ai(delta: float) -> void:
 			_update_ai_guard_state(delta)
 		EnemyAIState.RETREAT:
 			update_retreat(delta)
+		EnemyAIState.BACKSTEP:
+			update_backstep(delta)
 		EnemyAIState.FEINT:
 			update_feint(delta)
 		EnemyAIState.JUMP:
@@ -674,9 +686,15 @@ func choose_next_action() -> void:
 	if not can_ai_act():
 		return
 	var distance := evaluate_distance()
+	var player_threatening := _is_player_attack_threatening(_get_opponent())
+	# Fast evasive enemies can create space instead of always blocking. Each
+	# profile controls how often this happens so heavy fighters stay planted.
+	if player_threatening and should_backstep_player(distance, true):
+		enter_backstep()
+		return
 	# When the player is already attacking, let defense compete before raw
 	# counter-punching so guard actually becomes part of the neutral game.
-	if _is_player_attack_threatening(_get_opponent()) and should_guard_against_player():
+	if player_threatening and should_guard_against_player():
 		enter_guard()
 		return
 	if should_counter_attack_player(distance):
@@ -688,9 +706,13 @@ func choose_next_action() -> void:
 	if distance > _profile_float(&"attack_distance", 55.0):
 		enter_approach()
 		return
-	if distance < _profile_float(&"retreat_distance", 35.0) and should_retreat():
-		enter_retreat()
-		return
+	if distance < _profile_float(&"retreat_distance", 35.0):
+		if should_backstep_player(distance):
+			enter_backstep()
+			return
+		if should_retreat():
+			enter_retreat()
+			return
 	if should_sweep_player():
 		enter_crouch_sweep()
 		return
@@ -843,6 +865,37 @@ func enter_retreat() -> void:
 	enemy_retreat_started.emit()
 	ai_action_started.emit("retreat")
 	_register_ai_action(&"retreat")
+
+
+func enter_backstep() -> void:
+	if not can_ai_act() or not _profile_bool(&"can_backstep", true) or ai_backstep_cooldown_timer > 0.0 or not is_on_floor():
+		enter_idle()
+		return
+	var opponent := _get_opponent()
+	if not (opponent is Node2D):
+		enter_idle()
+		return
+	var direction := -signf(opponent.global_position.x - global_position.x)
+	if direction == 0.0:
+		direction = -facing_direction
+	_face_opponent()
+	_set_ai_state(EnemyAIState.BACKSTEP)
+	_start_backstep(direction)
+	ai_backstep_cooldown_timer = maxf(_profile_float(&"backstep_cooldown", 1.60), backstep_duration + 0.10)
+	enemy_retreat_started.emit()
+	ai_action_started.emit("backstep")
+	_register_ai_action(&"backstep")
+	print("[DEV066][%s] Backstep selected" % _debug_enemy_id())
+
+
+func update_backstep(_delta: float) -> void:
+	if current_hp <= 0 or not is_round_active:
+		_stop_backstep()
+		return
+	if is_backstepping:
+		return
+	ai_action_finished.emit("backstep")
+	enter_idle()
 
 
 func enter_feint() -> void:
@@ -1104,6 +1157,21 @@ func should_retreat() -> bool:
 	if not _profile_bool(&"can_retreat", true):
 		return false
 	return randf() <= _profile_float(&"retreat_rate", 0.20)
+
+
+func should_backstep_player(distance: float, reactive := false) -> bool:
+	if not _profile_bool(&"can_backstep", true) or ai_backstep_cooldown_timer > 0.0:
+		return false
+	if not is_on_floor() or is_backstepping or is_guarding or is_crouching or is_crouch_guarding:
+		return false
+	var retreat_distance := _profile_float(&"retreat_distance", 35.0)
+	if reactive:
+		if distance > maxf(_profile_float(&"attack_distance", 55.0) * 1.25, retreat_distance + 36.0):
+			return false
+		return randf() <= _profile_float(&"reactive_backstep_rate", 0.28)
+	if distance > retreat_distance * 1.20:
+		return false
+	return randf() <= _profile_float(&"backstep_rate", 0.12)
 
 
 func should_use_feint() -> bool:
@@ -1504,6 +1572,8 @@ func request_special_attack() -> bool:
 
 
 func cancel_current_ai_action(clear_guard := true) -> void:
+	if is_backstepping:
+		_stop_backstep()
 	ai_movement_timer = 0.0
 	ai_movement_direction = 0.0
 	ai_idle_timer = 0.0
@@ -1530,6 +1600,7 @@ func clear_ai_timers() -> void:
 	ai_idle_timer = 0.0
 	ai_attack_cooldown_timer = 0.0
 	ai_retreat_timer = 0.0
+	ai_backstep_cooldown_timer = 0.0
 	ai_feint_timer = 0.0
 	ai_jump_cooldown_timer = 0.0
 	ai_jump_direction = 0.0
@@ -1585,6 +1656,9 @@ func _update_attack_wait() -> void:
 			return
 	if distance > attack_distance * 1.10:
 		enter_approach()
+		return
+	if should_backstep_player(distance):
+		enter_backstep()
 		return
 	if should_retreat():
 		enter_retreat()

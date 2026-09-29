@@ -129,6 +129,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev065_double_tap_mobility_smoke.gd 2>&1 | tee /tmp/dev065-double-tap.log
           grep -q "DEV065_DOUBLE_TAP_MOBILITY_OK failures=\[\]" /tmp/dev065-double-tap.log
 
+      - name: Verify character backstep traits and enemy AI
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --fixed-fps 60 --script res://tests/dev066_character_backstep_ai_smoke.gd 2>&1 | tee /tmp/dev066-backstep-ai.log
+          grep -q "DEV066_CHARACTER_BACKSTEP_AI_OK failures=\[\]" /tmp/dev066-backstep-ai.log
+
       - name: Verify Stage 2 campaign and Rei motion
         shell: bash
         run: |

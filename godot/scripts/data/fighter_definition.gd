@@ -59,6 +59,7 @@ class_name FighterDefinition
 @export var move_speed: float = 300.0
 @export var air_move_speed: float = 300.0
 @export var jump_force: float = 500.0
+@export_range(1.0, 2.5, 0.05) var backstep_speed_multiplier: float = 1.55
 
 @export_group("Direct Character Stats")
 @export var punch_damage: float = 0.0

@@ -34,6 +34,7 @@ temporary_color = Color(0.18, 0.13, 0.34, 1.00)
 max_health = 88.0
 move_speed = 335.0
 jump_force = 520.0
+backstep_speed_multiplier = 1.75
 punch_damage_scale = 0.92
 kick_damage_scale = 0.82
 throw_damage_scale = 0.65

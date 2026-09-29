@@ -170,6 +170,7 @@ max_health = 130.0
 move_speed = 175.0
 air_move_speed = 145.0
 jump_force = 410.0
+backstep_speed_multiplier = 1.35
 punch_damage = 18.0
 kick_damage = 25.0
 punch_startup_multiplier = 1.2
