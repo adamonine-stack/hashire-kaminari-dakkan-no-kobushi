@@ -118,6 +118,10 @@ func _run() -> void:
 			enemy._clear_guard_state()
 			enemy.is_hit = false
 			enemy.is_guard_hit = false
+			# Put both fighters in a real close-range exchange so the reactive
+			# backstep distance gate is exercised instead of the stage spawn gap.
+			enemy.global_position = Vector2(player.global_position.x + 54.0, player.global_position.y)
+			await physics_frame
 			enemy.enable_ai()
 			enemy.ai_backstep_cooldown_timer = 0.0
 			enemy.ai_profile.reactive_backstep_rate = 1.0
