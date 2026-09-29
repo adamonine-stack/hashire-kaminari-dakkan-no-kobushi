@@ -118,7 +118,7 @@ func _run() -> void:
 	player._cancel_current_action()
 	check(not player.is_dashing, "action cancellation clears dash")
 
-	print("DEV065_DOUBLE_TAP_MOBILITY_OK failures=%s" % failures)
+	print("DEV065_DOUBLE_TAP_MOBILITY_OK failures=%s" % [failures])
 	player.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)
