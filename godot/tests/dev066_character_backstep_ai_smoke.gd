@@ -50,7 +50,7 @@ func _run() -> void:
 		await process_frame
 		probe.set_physics_process(false)
 		probe.apply_character_data(definition)
-		var distance := probe.move_speed * probe.backstep_speed_multiplier * probe.backstep_duration
+		var distance: float = float(probe.move_speed) * float(probe.backstep_speed_multiplier) * float(probe.backstep_duration)
 		ally_distances[String(definition.fighter_id)] = distance
 		probe.queue_free()
 		await process_frame
@@ -122,16 +122,16 @@ func _run() -> void:
 			enemy.ai_backstep_cooldown_timer = 0.0
 			enemy.ai_profile.reactive_backstep_rate = 1.0
 			enemy.ai_profile.can_backstep = true
-			var distance := absf(player.global_position.x - enemy.global_position.x)
-			check(enemy.should_backstep_player(distance, true), "battle AI selects reactive backstep when configured")
-			var away_direction := -signf(player.global_position.x - enemy.global_position.x)
+			var battle_distance: float = absf(float(player.global_position.x) - float(enemy.global_position.x))
+			check(enemy.should_backstep_player(battle_distance, true), "battle AI selects reactive backstep when configured")
+			var away_direction: float = -signf(float(player.global_position.x) - float(enemy.global_position.x))
 			enemy.enter_backstep()
 			check(String(enemy._debug_ai_action_text()) == "BACKSTEP", "enemy enters BACKSTEP AI state")
 			check(enemy.is_backstepping, "enemy backstep movement starts")
 			check(signf(enemy.velocity.x) == away_direction, "enemy launches away from player")
 			enemy._update_visual_state()
 			check(String(enemy.animated_character_sprite.animation) == "backstep", "enemy displays backstep animation")
-			var start_x := enemy.global_position.x
+			var start_x: float = float(enemy.global_position.x)
 			for i in range(3):
 				await physics_frame
 			check(absf(enemy.global_position.x - start_x) > 1.0, "enemy moves during battle backstep")
