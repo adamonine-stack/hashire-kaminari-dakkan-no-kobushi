@@ -19,6 +19,7 @@ clips = {
 "walk": {"frames": [8, 9, 10, 11, 12, 13, 14, 15], "fps": 9.0, "loop": true},
 "walk_forward": {"frames": [8, 9, 10, 11, 12, 13, 14, 15], "fps": 9.0, "loop": true},
 "walk_backward": {"frames": [15, 14, 13, 12, 11, 10, 9, 8], "fps": 9.0, "loop": true},
+"backstep": {"frames": [15, 14, 13, 12], "fps": 14.0, "loop": false},
 "dash": {"frames": [16, 17, 18, 19, 20, 21, 22, 23], "fps": 12.0, "loop": true},
 "jump_start": {"frames": [16, 18], "fps": 9.0, "loop": false},
 "jump_air": {"frames": [19, 20, 21], "fps": 8.0, "loop": false},
