@@ -194,6 +194,13 @@ jobs:
           timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/seiya_motion_atlas.gd 2>&1 | tee /tmp/seiya-motion.log
           grep -q "SEIYA_MOTION_ATLAS_OK.*failures=\[\]" /tmp/seiya-motion.log
 
+      - name: Verify Stage 7 and 8 character motion and backdrops
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage7_8_motion_atlas.gd 2>&1 | tee /tmp/stage7-8-motion.log
+          grep -q "STAGE7_8_MOTION_ATLAS_OK.*fixed_scale=true night_backdrops=true" /tmp/stage7-8-motion.log
+
       - name: Export Web build
         shell: bash
         run: |
