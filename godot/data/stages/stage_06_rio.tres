@@ -21,3 +21,4 @@ enemy_dialogues = {
 "player_02_gou": "真正面から来るか。ならスピードで抜く！",
 "player_03_seiya": "切れ目を探してる間に、次へつながってるぜ。"
 }
+backdrop_id = &"secret_base_gate"
