@@ -12,12 +12,12 @@ func _initialize() -> void:
 
 func run() -> void:
 	seed(5305)
-	var battle := load("res://scenes/Battle.tscn").instantiate()
+	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
 	root.add_child(battle)
 	await process_frame
 
-	var manager := battle.get_node("BattleManager")
-	var enemy := battle.get_node("Enemy")
+	var manager: Variant = battle.get_node("BattleManager")
+	var enemy: Variant = battle.get_node("Enemy")
 	var definition: Resource = load("res://data/enemies/enemy_02_speed.tres")
 	var stage: Resource = load("res://data/stages/stage_05_shadow.tres")
 
