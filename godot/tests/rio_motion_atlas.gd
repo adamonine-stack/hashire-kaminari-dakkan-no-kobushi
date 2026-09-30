@@ -21,8 +21,9 @@ func run() -> void:
 	check(fighter.motion_atlas != null, "Rio authored motion atlas assigned")
 	check(String(fighter.sprite_sheet_format) == "authored_atlas", "legacy per-pose fitting disabled")
 	check(is_equal_approx(fighter.character_height_cm, 178.0), "Rio official height is 178cm")
-	check(is_equal_approx(fighter.sprite_body_height_px, 128.0), "Rio reference body height fixed")
-	check(is_equal_approx(fighter.visual_scale_adjustment, 1.0), "Rio has no per-pose scale adjustment")
+	check(is_equal_approx(fighter.sprite_body_height_px, 121.0), "Rio standing reference body height fixed")
+	check(is_equal_approx(fighter.battle_sprite_height, 174.78516), "Rio battle height matches the standard fighter scale")
+	check(is_equal_approx(fighter.visual_scale_adjustment, 1.05), "Rio uses one shared visual scale adjustment")
 
 	var controller = load("res://scripts/characters/character_visual_controller.gd").new()
 	var sprite := AnimatedSprite2D.new()
