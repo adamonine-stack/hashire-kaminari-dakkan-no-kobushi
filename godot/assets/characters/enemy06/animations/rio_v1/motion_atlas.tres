@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_00.tres" id="2"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_01.tres" id="3"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_02.tres" id="4"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_03.tres" id="5"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_04.tres" id="6"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_05.tres" id="7"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_06.tres" id="8"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/chunk_07.tres" id="9"]
+
+[resource]
+script = ExtResource("1")
+embedded_texture_format = &"png"
+embedded_texture_chunk_0 = ExtResource("2")
+embedded_texture_chunk_1 = ExtResource("3")
+embedded_texture_chunk_2 = ExtResource("4")
+embedded_texture_chunk_3 = ExtResource("5")
+embedded_texture_chunk_4 = ExtResource("6")
+embedded_texture_chunk_5 = ExtResource("7")
+embedded_texture_chunk_6 = ExtResource("8")
+embedded_texture_chunk_7 = ExtResource("9")
+cell_size = Vector2i(256, 192)
+columns = 4
+clips = {
+"idle": {"frames": [0, 0], "fps": 4.0, "loop": true},
+"idle_ready": {"frames": [0, 0], "fps": 4.0, "loop": true},
+"idle_prebattle": {"frames": [0, 7, 0], "fps": 5.0, "loop": false},
+"walk": {"frames": [0, 1, 0, 1], "fps": 9.0, "loop": true},
+"walk_forward": {"frames": [0, 1, 0, 1], "fps": 9.0, "loop": true},
+"walk_backward": {"frames": [1, 0, 1, 0], "fps": 8.0, "loop": true},
+"dash": {"frames": [1, 2, 1, 2], "fps": 13.0, "loop": true},
+"backstep": {"frames": [0, 6, 1, 0], "fps": 15.0, "loop": false},
+"jump": {"frames": [0, 3], "fps": 10.0, "loop": false},
+"jump_start": {"frames": [0, 3], "fps": 10.0, "loop": false},
+"jump_air": {"frames": [3, 4], "fps": 8.0, "loop": false},
+"jump_up": {"frames": [3, 4], "fps": 8.0, "loop": false},
+"jump_fall": {"frames": [4, 5], "fps": 8.0, "loop": false},
+"fall": {"frames": [4, 5], "fps": 8.0, "loop": false},
+"jump_land": {"frames": [6, 0], "fps": 10.0, "loop": false},
+"land": {"frames": [6, 0], "fps": 10.0, "loop": false},
+"landing": {"frames": [6, 0], "fps": 10.0, "loop": false},
+"guard": {"frames": [7], "fps": 6.0, "loop": true},
+"crouch": {"frames": [6], "fps": 6.0, "loop": true},
+"crouch_idle": {"frames": [6], "fps": 6.0, "loop": true},
+"crouch_guard": {"frames": [6, 7], "fps": 6.0, "loop": true},
+"punch": {"frames": [8, 9, 0], "fps": 12.0, "loop": false},
+"punch_1": {"frames": [8, 9, 0], "fps": 12.0, "loop": false},
+"light_attack": {"frames": [8, 9, 0], "fps": 12.0, "loop": false},
+"punch_2": {"frames": [8, 13, 0], "fps": 12.0, "loop": false},
+"crouch_punch": {"frames": [6, 9, 6], "fps": 11.0, "loop": false},
+"jump_punch": {"frames": [3, 9, 4], "fps": 10.0, "loop": false},
+"jump_punch_down": {"frames": [3, 9, 4], "fps": 10.0, "loop": false},
+"kick": {"frames": [8, 10, 0], "fps": 11.0, "loop": false},
+"kick_1": {"frames": [8, 10, 0], "fps": 11.0, "loop": false},
+"heavy_attack": {"frames": [8, 10, 0], "fps": 11.0, "loop": false},
+"kick_2": {"frames": [8, 11, 0], "fps": 10.0, "loop": false},
+"crouch_kick": {"frames": [6, 10, 6], "fps": 10.0, "loop": false},
+"crouch_kick_sweep": {"frames": [6, 10, 6], "fps": 10.0, "loop": false},
+"crouch_sweep_kick": {"frames": [6, 10, 6], "fps": 10.0, "loop": false},
+"jump_kick": {"frames": [3, 11, 4], "fps": 10.0, "loop": false},
+"grab": {"frames": [6, 12, 13], "fps": 10.0, "loop": false},
+"throw": {"frames": [12, 13, 14, 0], "fps": 10.0, "loop": false},
+"throw_start": {"frames": [12], "fps": 8.0, "loop": false},
+"throw_hold": {"frames": [13], "fps": 8.0, "loop": true},
+"throw_release": {"frames": [14, 0], "fps": 9.0, "loop": false},
+"combo_finisher": {"frames": [12, 14, 0], "fps": 10.0, "loop": false},
+"damage": {"frames": [7, 6, 0], "fps": 9.0, "loop": false},
+"damage_high": {"frames": [7, 6, 0], "fps": 9.0, "loop": false},
+"damage_low": {"frames": [6, 7, 0], "fps": 9.0, "loop": false},
+"damage_light": {"frames": [7, 6, 0], "fps": 9.0, "loop": false},
+"guard_hit": {"frames": [7, 6, 0], "fps": 9.0, "loop": false},
+"damage_heavy": {"frames": [7, 15], "fps": 8.0, "loop": false},
+"knockback": {"frames": [7, 15], "fps": 8.0, "loop": false},
+"knockdown": {"frames": [7, 15], "fps": 8.0, "loop": false},
+"down": {"frames": [15], "fps": 4.0, "loop": false},
+"ko": {"frames": [15], "fps": 4.0, "loop": false},
+"defeat": {"frames": [15], "fps": 4.0, "loop": false},
+"stand_up": {"frames": [15, 6, 0], "fps": 8.0, "loop": false},
+"getup": {"frames": [15, 6, 0], "fps": 8.0, "loop": false},
+"get_up": {"frames": [15, 6, 0], "fps": 8.0, "loop": false},
+"grabbed": {"frames": [7], "fps": 6.0, "loop": false},
+"thrown": {"frames": [15], "fps": 6.0, "loop": false},
+"special_startup": {"frames": [6, 12], "fps": 8.0, "loop": false},
+"special": {"frames": [12, 13, 14], "fps": 11.0, "loop": false},
+"special_attack": {"frames": [12, 13, 14], "fps": 11.0, "loop": false},
+"special_01": {"frames": [12, 13, 14], "fps": 11.0, "loop": false},
+"special_02": {"frames": [6, 12, 14, 0], "fps": 10.0, "loop": false},
+"ultimate_startup": {"frames": [6, 12], "fps": 8.0, "loop": false},
+"ultimate_attack": {"frames": [12, 13, 14], "fps": 11.0, "loop": false},
+"ultimate_recovery": {"frames": [14, 0], "fps": 8.0, "loop": false},
+"special_recovery": {"frames": [14, 0], "fps": 8.0, "loop": false},
+"victory": {"frames": [0, 8, 0], "fps": 4.0, "loop": false}
+}

@@ -1,0 +1,72 @@
+name: Verify Stage 6 Rio Motion
+
+on:
+  pull_request:
+    paths:
+      - "godot/assets/characters/enemy06/animations/rio_v1/**"
+      - "godot/data/enemies/enemy_06_combo.tres"
+      - "godot/tests/rio_motion_atlas.gd"
+      - ".github/workflows/rio-stage6-check.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "godot/assets/characters/enemy06/animations/rio_v1/**"
+      - "godot/data/enemies/enemy_06_combo.tres"
+      - "godot/tests/rio_motion_atlas.gd"
+      - ".github/workflows/rio-stage6-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rio-motion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Godot 4.7
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          GODOT_FILE="Godot_v4.7-stable_linux.x86_64.zip"
+          curl --fail --location --retry 3 \
+            --output godot.zip \
+            "https://github.com/godotengine/godot/releases/download/4.7-stable/${GODOT_FILE}"
+          mkdir -p "$HOME/.local/bin"
+          unzip -q godot.zip -d "$HOME/.local/bin"
+          chmod +x "$HOME/.local/bin/Godot_v4.7-stable_linux.x86_64"
+          ln -sf "$HOME/.local/bin/Godot_v4.7-stable_linux.x86_64" "$HOME/.local/bin/godot"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Verify Godot
+        run: godot --version
+
+      - name: Fetch Noto Sans JP deployment font
+        shell: bash
+        run: |
+          set -euo pipefail
+          FONT_PATH="godot/assets/fonts/NotoSansJP-Regular.otf"
+          FONT_URL="https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf"
+          if [ ! -s "$FONT_PATH" ]; then
+            mkdir -p "$(dirname "$FONT_PATH")"
+            curl --fail --location --retry 3 \
+              --output "$FONT_PATH" \
+              "$FONT_URL"
+          fi
+          test -s "$FONT_PATH"
+          echo "Font bytes: $(wc -c < "$FONT_PATH")"
+
+      - name: Import project resources
+        run: godot --headless --path godot --editor --quit
+
+      - name: Verify Rio fixed-scale authored atlas
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 60s godot --headless --path godot --script res://tests/rio_motion_atlas.gd 2>&1 | tee /tmp/rio-motion.log
+          grep -q "RIO_MOTION_ATLAS_RESULT.*failures=0" /tmp/rio-motion.log
