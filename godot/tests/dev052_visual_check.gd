@@ -81,7 +81,7 @@ func _initialize() -> void:
 	assert(is_equal_approx(float(shadow_definition.character_height_cm), 190.0))
 	assert(shadow_controller.setup(shadow_definition, shadow_animated, shadow_fallback))
 	assert(shadow_controller.get_debug_source() == "sprite_sheet")
-	for shadow_animation in [&"idle", &"walk", &"dash", &"backstep", &"jump", &"punch", &"kick", &"guard", &"damage", &"down", &"stand_up", &"ko"]:
+	for shadow_animation in [&"idle", &"walk", &"dash", &"backstep", &"jump", &"punch", &"kick", &"guard", &"damage", &"down", &"getup", &"ko"]:
 		assert(shadow_controller.has_animation(shadow_animation))
 	shadow_controller.set_facing(-1)
 	assert(shadow_animated.flip_h)
