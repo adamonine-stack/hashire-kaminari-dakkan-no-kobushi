@@ -21,3 +21,4 @@ enemy_dialogues = {
 "player_02_gou": "力比べか。後悔するなよ。",
 "player_03_seiya": "距離を測っても無駄だ。最後は近づくしかない。"
 }
+backdrop_id = &"island_pier"
