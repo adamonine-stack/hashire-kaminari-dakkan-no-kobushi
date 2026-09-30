@@ -46,6 +46,21 @@ jobs:
       - name: Verify Godot
         run: godot --version
 
+      - name: Fetch Noto Sans JP deployment font
+        shell: bash
+        run: |
+          set -euo pipefail
+          FONT_PATH="godot/assets/fonts/NotoSansJP-Regular.otf"
+          FONT_URL="https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf"
+          if [ ! -s "$FONT_PATH" ]; then
+            mkdir -p "$(dirname "$FONT_PATH")"
+            curl --fail --location --retry 3 \
+              --output "$FONT_PATH" \
+              "$FONT_URL"
+          fi
+          test -s "$FONT_PATH"
+          echo "Font bytes: $(wc -c < "$FONT_PATH")"
+
       - name: Import project resources
         run: godot --headless --path godot --editor --quit
 
