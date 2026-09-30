@@ -43,7 +43,7 @@ func run() -> void:
 	check(enemy.backstep_speed_multiplier >= 1.85, "runtime backstep speed is strengthened")
 
 	var sprite: AnimatedSprite2D = enemy.animated_character_sprite
-	for clip in ["idle", "walk", "dash", "backstep", "jump", "punch", "kick", "guard", "damage", "down", "stand_up", "ko"]:
+	for clip in ["idle", "walk", "dash", "backstep", "jump", "punch", "kick", "guard", "damage", "down", "getup", "ko"]:
 		check(sprite.sprite_frames.has_animation(clip), "existing action clip: " + clip)
 	check(not sprite.sprite_frames.get_animation_loop("ko"), "KO animation does not loop")
 
