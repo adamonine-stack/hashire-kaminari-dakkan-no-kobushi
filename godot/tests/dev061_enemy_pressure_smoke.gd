@@ -34,14 +34,14 @@ func _run() -> void:
 	assert(crusher.ai_profile.counter_attack_rate >= 0.75)
 	assert(crusher.ai_profile.retreat_rate <= 0.05)
 
-	# Stage 5 Shadow Boxer keeps the existing art/motion pipeline but gains
-	# a distinct out-boxer decision profile: long range, feints, reactive
+	# Stage 5 Shadow Boxer uses the fixed-cell authored motion atlas and a
+	# distinct out-boxer decision profile: long range, feints, reactive
 	# backsteps, guard counters and punch-heavy rapid combinations.
 	var shadow = load("res://data/enemies/enemy_02_speed.tres")
 	assert(shadow != null)
 	assert(String(shadow.fighter_id) == "enemy_02_shadow_boxer")
 	assert(is_equal_approx(float(shadow.character_height_cm), 190.0))
-	assert(shadow.motion_atlas == null)
+	assert(shadow.motion_atlas != null)
 	assert(shadow.sprite_sheet != null)
 	assert(shadow.backstep_speed_multiplier >= 1.85)
 	assert(shadow.attack_speed_scale >= 1.20)
