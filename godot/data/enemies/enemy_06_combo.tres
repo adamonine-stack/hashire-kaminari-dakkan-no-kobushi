@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/battle.png" id="6_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/shadow.png" id="8_shadow"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_v1/motion_atlas.tres" id="9_motion"]
 
 [resource]
 script = ExtResource("1_def")
@@ -22,136 +23,43 @@ portrait = ExtResource("4_portrait")
 battle_texture = ExtResource("6_battle")
 icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
+motion_atlas = ExtResource("9_motion")
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy06/"
+sprite_sheet_format = &"authored_atlas"
+character_height_cm = 178.0
+sprite_body_height_px = 121.0
+battle_sprite_height = 174.78516
+visual_scale_adjustment = 1.05
+foot_offset = Vector2(0, 0)
 sprite_frame_size = Vector2i(80, 107)
 sprite_sheet_columns = 16
 sprite_animation_clips = {
-"idle": {
-"row": 1,
-"start": 0,
-"count": 4
-},
-"walk": {
-"row": 1,
-"start": 2,
-"count": 8
-},
-"dash": {
-"row": 2,
-"start": 0,
-"count": 7
-},
-"jump": {
-"row": 2,
-"start": 8,
-"count": 6
-},
-"jump_attack": {
-"row": 3,
-"start": 10,
-"count": 5
-},
-"crouch": {
-"row": 6,
-"start": 5,
-"count": 6
-},
-"crouch_punch": {
-"row": 6,
-"start": 7,
-"count": 5
-},
-"crouch_kick": {
-"row": 4,
-"start": 12,
-"count": 3
-},
-"punch": {
-"row": 3,
-"start": 4,
-"count": 5
-},
-"punch_1": {
-"row": 3,
-"start": 4,
-"count": 5
-},
-"punch_2": {
-"row": 3,
-"start": 7,
-"count": 5
-},
-"kick": {
-"row": 4,
-"start": 0,
-"count": 6
-},
-"kick_1": {
-"row": 4,
-"start": 0,
-"count": 6
-},
-"kick_2": {
-"row": 4,
-"start": 4,
-"count": 6
-},
-"guard": {
-"row": 3,
-"start": 0,
-"count": 4
-},
-"grab": {
-"row": 6,
-"start": 0,
-"count": 5
-},
-"throw": {
-"row": 7,
-"start": 5,
-"count": 8
-},
-"damage": {
-"row": 5,
-"start": 0,
-"count": 6
-},
-"damage_light": {
-"row": 5,
-"start": 0,
-"count": 6
-},
-"damage_heavy": {
-"row": 5,
-"start": 0,
-"count": 6
-},
-"down": {
-"row": 5,
-"start": 6,
-"count": 8
-},
-"getup": {
-"row": 6,
-"start": 0,
-"count": 5
-},
-"ko": {
-"row": 5,
-"start": 8,
-"count": 6
-},
-"special": {
-"row": 8,
-"start": 4,
-"count": 9
-},
-"victory": {
-"row": 8,
-"start": 14,
-"count": 2
-}
+"idle": {"row": 1, "start": 0, "count": 4},
+"walk": {"row": 1, "start": 2, "count": 8},
+"dash": {"row": 2, "start": 0, "count": 7},
+"jump": {"row": 2, "start": 8, "count": 6},
+"jump_attack": {"row": 3, "start": 10, "count": 5},
+"crouch": {"row": 6, "start": 5, "count": 6},
+"crouch_punch": {"row": 6, "start": 7, "count": 5},
+"crouch_kick": {"row": 4, "start": 12, "count": 3},
+"punch": {"row": 3, "start": 4, "count": 5},
+"punch_1": {"row": 3, "start": 4, "count": 5},
+"punch_2": {"row": 3, "start": 7, "count": 5},
+"kick": {"row": 4, "start": 0, "count": 6},
+"kick_1": {"row": 4, "start": 0, "count": 6},
+"kick_2": {"row": 4, "start": 4, "count": 6},
+"guard": {"row": 3, "start": 0, "count": 4},
+"grab": {"row": 6, "start": 0, "count": 5},
+"throw": {"row": 7, "start": 5, "count": 8},
+"damage": {"row": 5, "start": 0, "count": 6},
+"damage_light": {"row": 5, "start": 0, "count": 6},
+"damage_heavy": {"row": 5, "start": 0, "count": 6},
+"down": {"row": 5, "start": 6, "count": 8},
+"getup": {"row": 6, "start": 0, "count": 5},
+"ko": {"row": 5, "start": 8, "count": 6},
+"special": {"row": 8, "start": 4, "count": 9},
+"victory": {"row": 8, "start": 14, "count": 2}
 }
 sprite_frame_origin = Vector2(0, 0)
 sprite_frame_step = Vector2(80, 107)
