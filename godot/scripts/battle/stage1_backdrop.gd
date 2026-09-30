@@ -25,6 +25,8 @@ const STAGE_4_TEXTURE_PARTS := [
 	"res://assets/backgrounds/generated/stage_04_ship_deck_06.b64",
 	"res://assets/backgrounds/generated/stage_04_ship_deck_07.b64",
 ]
+const STAGE_5_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_05_island_pier.svg")
+const STAGE_6_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_06_secret_base_gate.svg")
 const BACKDROP_RECT := Rect2(-112.0, -63.0, 1504.0, 846.0)
 const COVER_RECT := Rect2(-900.0, -600.0, 3100.0, 1800.0)
 
@@ -40,7 +42,7 @@ func _ready() -> void:
 
 func set_backdrop_id(backdrop_id: StringName) -> void:
 	var normalized := backdrop_id
-	if normalized not in [&"downtown_street", &"back_alley", &"harbor_warehouse", &"ship_deck"]:
+	if normalized not in [&"downtown_street", &"back_alley", &"harbor_warehouse", &"ship_deck", &"island_pier", &"secret_base_gate"]:
 		normalized = &"downtown_street"
 	if normalized == _backdrop_id:
 		return
@@ -85,6 +87,10 @@ func _texture_for_backdrop(backdrop_id: StringName) -> Texture2D:
 			if _stage_4_texture == null:
 				_stage_4_texture = _load_base64_webp(STAGE_4_TEXTURE_PARTS)
 			return _stage_4_texture if _stage_4_texture != null else STAGE_1_TEXTURE
+		&"island_pier":
+			return STAGE_5_TEXTURE
+		&"secret_base_gate":
+			return STAGE_6_TEXTURE
 		_:
 			return STAGE_1_TEXTURE
 
@@ -118,5 +124,9 @@ func _shade_alpha_for_backdrop(backdrop_id: StringName) -> float:
 			return 0.07
 		&"ship_deck":
 			return 0.08
+		&"island_pier":
+			return 0.05
+		&"secret_base_gate":
+			return 0.06
 		_:
 			return 0.09
