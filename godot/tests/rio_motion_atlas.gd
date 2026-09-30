@@ -2,10 +2,27 @@ extends SceneTree
 
 var failures: Array[String] = []
 
+const EXPECTED_CHUNK_SHA256 := [
+	"425767b388f4a56d3676f56eeff6eb2bf5ff31a949c74cb2da837c71392ab71c",
+	"b926422d9708c209a26ed4ee87e4e723fe745eed464c9edf54a7b6d2330cf99d",
+	"8afc32eda818b79f7e981546eacee83a9dd3d9931cf9d3ae6444ed86f36fedbf",
+	"c923aa1557525c177d5cd4157aa644a4dfe147564f1b4cbf4afb632660e8b580",
+	"3cc89748a07ceb76f3868f421f1ce661a55ac8e83deb5db6a4f1d5f8e160d237",
+	"d7c9999c9e7c8b04ff5408aa521ce22249976606281a76fc539466efaa8f97db",
+	"0daf37526be3e641d48ab64551fe41e58b734aaa6ca1d935ced3814ff08f2c57",
+	"4f10280b13dfeb4297c6c9f0bd2972c0f033fb16059176483f0ca18adc178ac0",
+]
+
 func check(ok: bool, label: String) -> void:
 	if not ok:
 		failures.append(label)
 		push_error(label)
+
+func sha256_text(value: String) -> String:
+	var context := HashingContext.new()
+	context.start(HashingContext.HASH_SHA256)
+	context.update(value.to_utf8_buffer())
+	return context.finish().hex_encode()
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -25,6 +42,18 @@ func run() -> void:
 	check(is_equal_approx(fighter.battle_sprite_height, 174.78516), "Rio battle height matches the standard fighter scale")
 	check(is_equal_approx(fighter.visual_scale_adjustment, 1.05), "Rio uses one shared visual scale adjustment")
 
+	var combined := ""
+	for index in range(8):
+		var chunk: Resource = fighter.motion_atlas.get("embedded_texture_chunk_%d" % index)
+		check(chunk != null, "embedded chunk %d exists" % index)
+		if chunk != null:
+			var data := String(chunk.get("data"))
+			var digest := sha256_text(data)
+			print("RIO_CHUNK_%02d length=%d sha256=%s" % [index, data.length(), digest])
+			check(digest == EXPECTED_CHUNK_SHA256[index], "embedded chunk %d matches source PNG" % index)
+			combined += data
+	print("RIO_EMBEDDED_BASE64 length=%d sha256=%s" % [combined.length(), sha256_text(combined)])
+
 	var controller = load("res://scripts/characters/character_visual_controller.gd").new()
 	var sprite := AnimatedSprite2D.new()
 	var fallback := Sprite2D.new()
@@ -33,6 +62,7 @@ func run() -> void:
 	root.add_child(fallback)
 	check(controller.setup(fighter, sprite, fallback), "Rio embedded motion atlas decodes")
 	if sprite.sprite_frames == null:
+		print("RIO_MOTION_ATLAS_RESULT clips=0 frames=0 failures=%d" % failures.size())
 		quit(1)
 		return
 
@@ -46,8 +76,8 @@ func run() -> void:
 		check(sprite.scale.is_equal_approx(scale_before), clip + ": scale never changes")
 		check(sprite.position.is_equal_approx(position_before), clip + ": common origin never changes")
 		check(frames.get_frame_count(clip) > 0, clip + ": not empty")
-		for index in range(frames.get_frame_count(clip)):
-			var texture := frames.get_frame_texture(clip, index)
+		for frame_index in range(frames.get_frame_count(clip)):
+			var texture := frames.get_frame_texture(clip, frame_index)
 			check(texture is AtlasTexture, clip + ": authored atlas texture")
 			check(texture.get_size() == Vector2(256, 192), clip + ": fixed 256x192 cell")
 			checked += 1
