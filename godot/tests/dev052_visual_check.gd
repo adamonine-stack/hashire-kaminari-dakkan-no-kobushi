@@ -66,5 +66,27 @@ func _initialize() -> void:
 	assert(akky_animated.sprite_frames.get_frame_count(&"jump_kick") == 4)
 	assert(akky_controller.has_animation(&"jump_punch_down"))
 	assert(akky_animated.sprite_frames.get_frame_count(&"jump_punch_down") == 4)
+
+	# Stage 5 deliberately reuses the existing Shadow Boxer sprite sheet.
+	# Verify the legacy sheet still supplies the common combat actions after
+	# scaling the character to the reference height of 190 cm.
+	var shadow_definition := load("res://data/enemies/enemy_02_speed.tres")
+	var shadow_controller := CharacterVisualController.new()
+	var shadow_animated := AnimatedSprite2D.new()
+	var shadow_fallback := Sprite2D.new()
+	get_root().add_child(shadow_controller)
+	shadow_controller.add_child(shadow_animated)
+	shadow_controller.add_child(shadow_fallback)
+	assert(shadow_definition.motion_atlas == null)
+	assert(is_equal_approx(float(shadow_definition.character_height_cm), 190.0))
+	assert(shadow_controller.setup(shadow_definition, shadow_animated, shadow_fallback))
+	assert(shadow_controller.get_debug_source() == "sprite_sheet")
+	for shadow_animation in [&"idle", &"walk", &"dash", &"backstep", &"jump", &"punch", &"kick", &"guard", &"damage", &"down", &"getup", &"ko"]:
+		assert(shadow_controller.has_animation(shadow_animation))
+	shadow_controller.set_facing(-1)
+	assert(shadow_animated.flip_h)
+	shadow_controller.set_facing(1)
+	assert(not shadow_animated.flip_h)
+
 	print("DEV052_OK scale=", animated.scale, " position=", animated.position, " offset=", animated.offset)
 	quit()
