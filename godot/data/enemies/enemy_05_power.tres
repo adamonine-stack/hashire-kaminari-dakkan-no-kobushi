@@ -3,13 +3,13 @@
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_05_power_ai.tres" id="3_ai"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy02/portrait.png" id="4_portrait"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy02/icon.png" id="5_icon"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy02/battle.png" id="6_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.png" id="7_sheet"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy02/shadow.png" id="8_shadow"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/cross_v1/portrait.tres" id="4_portrait"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/cross_v1/portrait.tres" id="5_icon"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/battle.png" id="6_battle"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/sprite_sheet.png" id="7_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/shadow.png" id="8_shadow"]
 
-[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.tres" id="9_motion"]
+[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/cross_v1/motion_atlas.tres" id="9_motion"]
 [ext_resource type="Resource" path="res://data/attacks/cross_punch.tres" id="cross_punch"]
 [ext_resource type="Resource" path="res://data/attacks/cross_chop.tres" id="cross_chop"]
 [ext_resource type="Resource" path="res://data/attacks/cross_wrist_finish.tres" id="cross_wrist_finish"]
@@ -24,9 +24,9 @@
 [resource]
 script = ExtResource("1_def")
 fighter_id = &"enemy_05_cross_murasame"
-display_name = "シャドウボクサー"
-hud_name_katakana = "シャドウボクサー"
-description = "長いリーチと素早いジャブを武器にするアウトボクサー。フェイントから一瞬のカウンターを狙う。"
+display_name = "クロス・ムラサメ"
+hud_name_katakana = "クロス・ムラサメ"
+description = "闇に舞う柔術使い。投げ、関節技、連続技で逃げ道を奪う。"
 fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
 selection_icon = ExtResource("5_icon")
@@ -36,40 +36,40 @@ icon = ExtResource("5_icon")
 sprite_sheet = ExtResource("7_sheet")
 motion_atlas = ExtResource("9_motion")
 sprite_sheet_format = &"authored_atlas"
-sprite_body_height_px = 132.0
-character_height_cm = 190.0
+sprite_body_height_px = 220.0
+character_height_cm = 185.0
 battle_sprite_height = 168.7
-visual_scale_adjustment = 1.0
-attack_sequence = Array[Resource]([ExtResource("cross_punch"), ExtResource("cross_chop"), ExtResource("cross_punch"), ExtResource("cross_kick"), ExtResource("cross_knee"), ExtResource("cross_punch")])
+visual_scale_adjustment = 1.05
+attack_sequence = Array[Resource]([ExtResource("cross_punch"), ExtResource("cross_chop"), ExtResource("cross_wrist_finish"), ExtResource("cross_kick"), ExtResource("cross_knee"), ExtResource("cross_joint_finish")])
 max_attack_chain_count = 3
 air_kick_attack = ExtResource("cross_air_kick")
 air_punch_down_attack = ExtResource("cross_air_punch")
 crouch_kick_sweep_attack = ExtResource("cross_sweep")
 special_attack_sequence = Array[Resource]([ExtResource("cross_muei")])
-special_move_name = "シャドウジャブ"
+special_move_name = "無影連投"
 special_ai_use_chance = 0.4
 shadow_texture = ExtResource("8_shadow")
-art_folder = "res://assets/characters/enemy02/"
-fighter_type = &"BOXER"
+art_folder = "res://assets/characters/enemy05/"
+fighter_type = &"JUJUTSU"
 team_type = &"ENEMY"
 enemy_order = 4
 ai_profile = ExtResource("3_ai")
-intro_title = "影のジャブマスター"
-intro_description = "長いリーチと速いジャブで間合いを支配する。踏み込みに合わせたカウンターに注意。"
+intro_title = "闇に舞う柔術使い"
+intro_description = "近距離での連続投げが危険。静かに詰めて、つかんだら離さない。"
 temporary_color = Color(0.18, 0.15, 0.23, 1.00)
 max_health = 108.0
-move_speed = 335.0
+move_speed = 305.0
 jump_force = 505.0
 backstep_speed_multiplier = 1.50
 punch_damage_scale = 0.95
 kick_damage_scale = 0.90
-throw_damage_scale = 0.65
-knockback_scale = 0.90
-attack_speed_scale = 1.18
+throw_damage_scale = 1.45
+knockback_scale = 1.05
+attack_speed_scale = 1.08
 combo_damage_scale = 1.15
 guard_damage_scale = 1.00
 power_rating = 3
 speed_rating = 3
 health_rating = 3
-throw_rating = 1
+throw_rating = 5
 combo_rating = 4

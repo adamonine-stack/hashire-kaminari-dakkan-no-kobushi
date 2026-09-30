@@ -6,19 +6,19 @@
 [resource]
 script = ExtResource("1_stage")
 stage_number = 5
-stage_name = "影のジャブマスター"
+stage_name = "闇の組み手"
 enemy_definition = ExtResource("2_enemy")
-intro_text = "長いリーチと素早いジャブに注意。踏み込みに合わせたカウンターを狙う。"
-player_dialogue = "間合いを詰めて、あのジャブを封じる。"
-enemy_dialogue = "長いリーチが武器だ。踏み込んだ瞬間を打つ。"
+intro_text = "掴まれる前に主導権を奪え。"
+player_dialogue = "近づくなら、こっちから仕掛ける。"
+enemy_dialogue = "一度掴めば、もう逃がさない。"
 player_dialogues = {
-"player_01_akky": "フェイントに惑わされず、ジャブの外から攻める！",
-"player_02_gou": "遠い間合いを崩して、一気に決める！",
-"player_03_seiya": "リーチの差は踏み込むタイミングで越える。"
+"player_01_akky": "掴まれる前に、こっちから仕掛ける！",
+"player_02_gou": "組み合いなら望むところだ！",
+"player_03_seiya": "間合いに入らせない。それだけだ。"
 }
 enemy_dialogues = {
-"player_01_akky": "速いジャブで、近づく隙は与えない。",
-"player_02_gou": "踏み込んだところを一発で止める。",
-"player_03_seiya": "距離を支配する。それが俺の戦い方だ。"
+"player_01_akky": "一度捕まえれば、もう逃がさない。",
+"player_02_gou": "力比べか。後悔するなよ。",
+"player_03_seiya": "距離を測っても無駄だ。最後は近づくしかない。"
 }
 backdrop_id = &"island_pier"

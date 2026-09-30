@@ -3,9 +3,9 @@ extends SceneTree
 const CASES := [
 	{
 		"label": "stage5_shadow_boxer",
-		"fighter_path": "res://data/enemies/enemy_05_power.tres",
-		"stage_path": "res://data/stages/stage_05_cross.tres",
-		"fighter_id": &"enemy_05_cross_murasame",
+		"fighter_path": "res://data/enemies/enemy_02_speed.tres",
+		"stage_path": "res://data/stages/stage_05_shadow.tres",
+		"fighter_id": &"enemy_02_shadow_boxer",
 		"display_name": "シャドウボクサー",
 		"atlas_path": "res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.tres",
 		"cell": Vector2i(153, 159),
