@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_stage")
 stage_number = 8
+backdrop_id = &"island_hideout_boss_room"
 stage_name = "黒翼決戦"
 enemy_definition = ExtResource("2_enemy")
 intro_text = "レオン・クロウとの決戦。ここまでの全てをぶつけろ。"

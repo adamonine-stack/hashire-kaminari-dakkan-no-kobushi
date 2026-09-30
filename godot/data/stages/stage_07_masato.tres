@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_stage")
 stage_number = 7
+backdrop_id = &"island_hideout_entrance"
 stage_name = "静の投げ場"
 enemy_definition = ExtResource("2_enemy")
 intro_text = "守りを崩し、投げの間合いを越えろ。"

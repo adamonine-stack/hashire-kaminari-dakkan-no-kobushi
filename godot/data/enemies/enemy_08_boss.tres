@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=12 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/battle.png" id="9_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/sprite_sheet.png" id="10_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/shadow.png" id="11_shadow"]
+[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v1/motion_atlas.tres" id="12_motion"]
 
 [resource]
 script = ExtResource("1_def")
@@ -25,11 +26,14 @@ portrait = ExtResource("7_portrait")
 battle_texture = ExtResource("9_battle")
 icon = ExtResource("8_icon")
 sprite_sheet = ExtResource("10_sheet")
+motion_atlas = ExtResource("12_motion")
 shadow_texture = ExtResource("11_shadow")
 art_folder = "res://assets/characters/enemy08/"
 fighter_type = &"BOSS"
 team_type = &"ENEMY"
 enemy_order = 8
+character_height_cm = 188.0
+sprite_body_height_px = 260.0
 ai_profile = ExtResource("3_ai")
 intro_title = "黒翼の舞踏家"
 intro_description = "すべての基本能力が高く、HP低下で衝撃波フィニッシュを狙う。最後まで隙を見逃せない。"

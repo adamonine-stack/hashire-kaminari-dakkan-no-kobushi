@@ -27,6 +27,8 @@ const STAGE_4_TEXTURE_PARTS := [
 ]
 const STAGE_5_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_05_island_pier.svg")
 const STAGE_6_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_06_secret_base_gate.svg")
+const STAGE_7_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_07_hideout_entrance.webp")
+const STAGE_8_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_08_hideout_boss_room.webp")
 const BACKDROP_RECT := Rect2(-112.0, -63.0, 1504.0, 846.0)
 const COVER_RECT := Rect2(-900.0, -600.0, 3100.0, 1800.0)
 
@@ -42,7 +44,7 @@ func _ready() -> void:
 
 func set_backdrop_id(backdrop_id: StringName) -> void:
 	var normalized := backdrop_id
-	if normalized not in [&"downtown_street", &"back_alley", &"harbor_warehouse", &"ship_deck", &"island_pier", &"secret_base_gate"]:
+	if normalized not in [&"downtown_street", &"back_alley", &"harbor_warehouse", &"ship_deck", &"island_pier", &"secret_base_gate", &"island_hideout_entrance", &"island_hideout_boss_room"]:
 		normalized = &"downtown_street"
 	if normalized == _backdrop_id:
 		return
@@ -91,6 +93,10 @@ func _texture_for_backdrop(backdrop_id: StringName) -> Texture2D:
 			return STAGE_5_TEXTURE
 		&"secret_base_gate":
 			return STAGE_6_TEXTURE
+		&"island_hideout_entrance":
+			return STAGE_7_TEXTURE
+		&"island_hideout_boss_room":
+			return STAGE_8_TEXTURE
 		_:
 			return STAGE_1_TEXTURE
 
@@ -128,5 +134,9 @@ func _shade_alpha_for_backdrop(backdrop_id: StringName) -> float:
 			return 0.05
 		&"secret_base_gate":
 			return 0.06
+		&"island_hideout_entrance":
+			return 0.02
+		&"island_hideout_boss_room":
+			return 0.015
 		_:
 			return 0.09
