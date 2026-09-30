@@ -12,6 +12,7 @@ func _initialize() -> void:
 
 func run() -> void:
 	seed(5305)
+	# Explicit types keep this regression compatible with Godot 4.7 strict inference.
 	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
 	root.add_child(battle)
 	await process_frame
