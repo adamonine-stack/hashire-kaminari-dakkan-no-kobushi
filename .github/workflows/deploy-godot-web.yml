@@ -279,7 +279,7 @@ jobs:
               html = html.replace(f'{icon}"', f'{icon}?v={version}"')
           html = html.replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\"><meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\"><meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">")
           html_path.write_text(html, encoding="utf-8")
-          for extension in ("js", "wasm", "pck"):
+          for extension in ("js", "wasm", "pck", "audio.worklet.js", "audio.position.worklet.js"):
               source = output / f"index.{extension}"
               target = output / f"{runtime}.{extension}"
               if not source.is_file():
@@ -298,6 +298,8 @@ jobs:
           find "$WEB_BUILD_DIR" -maxdepth 1 -type f -name "*.pck" | grep -q .
           grep -q "game-${GITHUB_SHA:0:12}.js?v=${GITHUB_SHA:0:12}" "$WEB_BUILD_DIR/index.html"
           grep -q '"executable":"game-' "$WEB_BUILD_DIR/index.html"
+          test -s "$WEB_BUILD_DIR/game-${GITHUB_SHA:0:12}.audio.worklet.js"
+          test -s "$WEB_BUILD_DIR/game-${GITHUB_SHA:0:12}.audio.position.worklet.js"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
