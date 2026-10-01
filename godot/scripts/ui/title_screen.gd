@@ -85,15 +85,20 @@ func continue_game() -> void:
 
 
 func _enter_battle_scene(is_continue: bool) -> void:
+	var target_scene := BATTLE_SCENE
+	if is_continue:
+		var cfg := ConfigFile.new()
+		if cfg.load(RUN_SAVE_PATH) == OK and cfg.get_value("run", "scene", "") == "res://scenes/TrueBattle.tscn":
+			target_scene = "res://scenes/TrueBattle.tscn"
 	_play_ui_se("confirm")
 	is_scene_transitioning = true
 	if not is_continue:
 		new_game_requested.emit()
-	scene_transition_started.emit(BATTLE_SCENE)
+	scene_transition_started.emit(target_scene)
 	print("[DEV041][GameFlow] TITLE -> %s" % ("CONTINUE" if is_continue else "FIGHTER_SELECT"))
 	await _fade_out(0.25)
 	get_tree().paused = false
-	get_tree().change_scene_to_file(BATTLE_SCENE)
+	get_tree().change_scene_to_file(target_scene)
 
 
 func enter_opening_scene() -> void:

@@ -34,6 +34,24 @@ func enter_game_clear() -> void:
 	_set_battle_active(false)
 	_hide_player_selection()
 	close_player_order_select()
+	if enemy_team.size() == 8:
+		_clear_active_fighter_actions(player)
+		_clear_active_fighter_actions(enemy)
+		_hide_end_panel()
+		if battle_hud != null: battle_hud.hide_result_layer()
+		var snapshot: Array = []
+		for data in player_team:
+			snapshot.append({"character_id":String(data["character_id"]), "current_health":int(data["current_health"]), "max_health":int(data["max_health"]), "is_defeated":bool(data["is_defeated"]), "special_gauge":float(data.get("special_gauge", 0.0))})
+		get_tree().root.set_meta(&"stage8_ending_snapshot", snapshot)
+		clear_run_save()
+		_show_message("STAGE 8 CLEAR")
+		_switch_bgm("WinBGM")
+		_flow_sequence_id += 1
+		var sequence := _flow_sequence_id
+		await get_tree().create_timer(2.5).timeout
+		if sequence != _flow_sequence_id or not is_inside_tree(): return
+		get_tree().change_scene_to_file("res://scenes/Stage8Ending.tscn")
+		return
 	_switch_bgm("WinBGM")
 	var title := "STAGE %d CLEAR" % enemy_team.size()
 	_show_message(title)
