@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StageDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/enemy_09_seiya.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+stage_number = 9
+stage_name = "TRUE FINAL BATTLE"
+backdrop_id = &"island_hideout_boss_room"
+enemy_definition = ExtResource("2")
+bgm_id = &"secret_boss"
+is_boss_stage = true
+is_secret_boss_stage = true

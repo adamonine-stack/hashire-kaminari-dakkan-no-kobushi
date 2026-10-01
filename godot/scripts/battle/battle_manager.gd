@@ -389,6 +389,7 @@ func save_run_progress() -> bool:
 		return false
 	var config := ConfigFile.new()
 	config.set_value("run", "version", 1)
+	config.set_value("run", "scene", get_parent().scene_file_path)
 	config.set_value("run", "current_enemy_index", current_enemy_index)
 	for index in range(player_team.size()):
 		var data := player_team[index]
@@ -827,6 +828,9 @@ func spawn_active_enemy(restore_full_health := true) -> void:
 		return
 
 	var data := enemy_team[current_enemy_index]
+	# Applying a definition emits HP signals from the reused Enemy. Preserve the
+	# checkpoint before those signals update its progress dictionary.
+	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
 	var definition: Resource = data.get("definition", null)
 	if definition != null and enemy.has_method("apply_fighter_definition"):
 		enemy.apply_fighter_definition(definition)
@@ -838,7 +842,7 @@ func spawn_active_enemy(restore_full_health := true) -> void:
 	if restore_full_health:
 		data["current_health"] = int(data["max_health"])
 		data["is_defeated"] = false
-	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
+		current_health = int(data["max_health"])
 	# Stage transitions hide the shared Enemy node. Always reveal it again when
 	# the next enemy is spawned (or when the same enemy resumes after a player KO).
 	enemy.visible = true
@@ -2905,8 +2909,12 @@ func _active_enemy_type() -> String:
 
 func _active_enemy_order_text() -> String:
 	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
-		return "- / %d" % CAMPAIGN_STAGE_COUNT
-	return "%d / %d" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT]
+		return "- / %d" % _campaign_stage_count_for_ui()
+	return "%d / %d" % [current_enemy_index + 1, _campaign_stage_count_for_ui()]
+
+
+func _campaign_stage_count_for_ui() -> int:
+	return 8 if enemy_team.size() == 8 else CAMPAIGN_STAGE_COUNT
 
 
 func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
@@ -2962,7 +2970,7 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 
 	_enemy_intro_pages.clear()
 	var stage_lines: Array[String] = [
-		"STAGE %d / %d  %s" % [current_enemy_index + 1, CAMPAIGN_STAGE_COUNT, stage_name],
+		"STAGE %d / %d  %s" % [current_enemy_index + 1, _campaign_stage_count_for_ui(), stage_name],
 		"%s  [%s]" % [enemy_data["display_name"], enemy_type],
 	]
 	if not stage_intro.is_empty():

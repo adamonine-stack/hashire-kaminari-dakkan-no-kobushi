@@ -119,6 +119,17 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev056_enemy_air_attack_smoke.gd 2>&1 | tee /tmp/dev056-air.log || true
           grep -q "DEV056_ENEMY_AIR_ATTACK_OK" /tmp/dev056-air.log
 
+      - name: Verify Stage 8 endings and true Seiya battle
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage8_ending_check.gd 2>&1 | tee /tmp/stage8-ending.log
+          grep -Fq 'STAGE8_ENDING_CHECK failures=[]' /tmp/stage8-ending.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/stage8-ending.log; then exit 1; fi
+          timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/true_seiya_combat_check.gd 2>&1 | tee /tmp/true-seiya-combat.log
+          grep -Fq 'TRUE_SEIYA_COMBAT_CHECK failures=[]' /tmp/true-seiya-combat.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-seiya-combat.log; then exit 1; fi
+
       - name: Verify enemy pressure profiles
         shell: bash
         run: |
