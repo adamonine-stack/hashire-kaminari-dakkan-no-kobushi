@@ -2,9 +2,9 @@ extends Control
 
 const BATTLE_SCENE := "res://scenes/Battle.tscn"
 const PORTRAIT_PATHS := [
-	"res://assets/characters/player01/portrait.png",
-	"res://assets/characters/player02/portrait.png",
-	"res://assets/characters/player03/portrait.png",
+	"res://assets/characters/player01/selection_portrait.png",
+	"res://assets/characters/player02/selection_portrait.png",
+	"res://assets/characters/player03/selection_portrait.png",
 ]
 const SPEAKER_INDEX := {"アッキー": 0, "ごう": 1, "せいや": 2}
 const PAGES: Array[Dictionary] = [
@@ -120,8 +120,11 @@ func _build_backdrop() -> void:
 	horizon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(horizon)
 
-	var moon := ColorRect.new()
-	moon.color = Color(0.95, 0.77, 0.48, 0.78)
+	var moon := Panel.new()
+	var moon_style := StyleBoxFlat.new()
+	moon_style.bg_color = Color(0.95, 0.77, 0.48, 0.78)
+	moon_style.set_corner_radius_all(32)
+	moon.add_theme_stylebox_override("panel", moon_style)
 	moon.anchor_left = 0.78
 	moon.anchor_top = 0.12
 	moon.anchor_right = 0.82
