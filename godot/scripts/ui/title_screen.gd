@@ -1,6 +1,7 @@
 extends Control
 
 const BATTLE_SCENE := "res://scenes/Battle.tscn"
+const STORY_SCENE := "res://scenes/StoryEvent.tscn"
 
 signal new_game_requested
 signal scene_transition_started(scene_path: String)
@@ -57,10 +58,28 @@ func start_new_game() -> void:
 		_refresh_orientation_overlay()
 		return
 	_play_ui_se("confirm")
+	var story_flow := get_node_or_null("/root/StoryFlow")
+	if story_flow != null and story_flow.has_method("start_new_game"):
+		story_flow.call("start_new_game")
+	is_scene_transitioning = true
+	new_game_requested.emit()
+	scene_transition_started.emit(STORY_SCENE)
+	print("[DEV041][GameFlow] TITLE -> SORTIE_ORDER")
+	await _fade_out(0.25)
+	get_tree().paused = false
+	get_tree().change_scene_to_file(STORY_SCENE)
+
+
+func start_continue_game() -> void:
+	if is_scene_transitioning or _is_portrait_viewport():
+		return
+	_play_ui_se("confirm")
+	var story_flow := get_node_or_null("/root/StoryFlow")
+	if story_flow != null:
+		story_flow.set("opening_lines", [])
 	is_scene_transitioning = true
 	new_game_requested.emit()
 	scene_transition_started.emit(BATTLE_SCENE)
-	print("[DEV041][GameFlow] TITLE -> SORTIE_ORDER")
 	await _fade_out(0.25)
 	get_tree().paused = false
 	get_tree().change_scene_to_file(BATTLE_SCENE)
@@ -153,7 +172,7 @@ func _build_title_layout() -> void:
 	continue_button = _make_menu_button("CONTINUE")
 	continue_button.disabled = not _has_continue_data()
 	continue_button.tooltip_text = "Save data is not available yet." if continue_button.disabled else ""
-	continue_button.pressed.connect(start_new_game)
+	continue_button.pressed.connect(start_continue_game)
 	title_menu.add_child(continue_button)
 
 	how_to_play_button = _make_menu_button("HOW TO PLAY")

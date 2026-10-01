@@ -964,6 +964,15 @@ func enter_game_clear() -> void:
 	game_clear_menu_opened.emit()
 	game_cleared.emit()
 	print("GAME CLEAR")
+	var living_ids: Array[String] = []
+	for fighter_data in player_team:
+		if not bool(fighter_data.get("is_defeated", false)) and int(fighter_data.get("current_health", 0)) > 0:
+			living_ids.append(String(fighter_data.get("character_id", "")))
+	var story_flow := get_node_or_null("/root/StoryFlow")
+	if story_flow != null:
+		story_flow.call("prepare_ending", living_ids)
+		await get_tree().create_timer(2.5).timeout
+		get_tree().change_scene_to_file("res://scenes/StoryEvent.tscn")
 
 
 func enter_game_over() -> void:

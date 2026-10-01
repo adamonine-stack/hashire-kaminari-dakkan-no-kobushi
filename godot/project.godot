@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7")
 
 SettingsManager="*res://scripts/autoload/settings_manager.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
+StoryFlow="*res://scripts/autoload/story_flow.gd"
 
 [display]
 
