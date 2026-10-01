@@ -1,6 +1,7 @@
 extends Control
 
 const BATTLE_SCENE := "res://scenes/Battle.tscn"
+const OPENING_SCENE := "res://scenes/Opening.tscn"
 const RUN_SAVE_PATH := "user://save.cfg"
 const CONTINUE_REQUEST_META := &"st_action_continue_run"
 const TITLE_MAIN := "走れイカズチ"
@@ -70,7 +71,7 @@ func start_new_game() -> void:
 	if FileAccess.file_exists(RUN_SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_SAVE_PATH))
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, false)
-	await _enter_battle_scene(false)
+	await _enter_opening_scene()
 
 
 func continue_game() -> void:
@@ -93,6 +94,20 @@ func _enter_battle_scene(is_continue: bool) -> void:
 	await _fade_out(0.25)
 	get_tree().paused = false
 	get_tree().change_scene_to_file(BATTLE_SCENE)
+
+
+func _enter_opening_scene() -> void:
+	_play_ui_se("confirm")
+	is_scene_transitioning = true
+	new_game_requested.emit()
+	scene_transition_started.emit(OPENING_SCENE)
+	print("[GameFlow] TITLE -> OPENING")
+	await _fade_out(0.25)
+	get_tree().paused = false
+	var error := get_tree().change_scene_to_file(OPENING_SCENE)
+	if error != OK:
+		is_scene_transitioning = false
+		push_error("[GameFlow] Could not open %s (error %d)." % [OPENING_SCENE, error])
 
 
 func _show_how_to_play() -> void:

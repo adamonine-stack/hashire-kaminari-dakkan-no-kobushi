@@ -101,6 +101,13 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev053_stage1_smoke.gd 2>&1 | tee /tmp/dev053-stage1.log || true
           grep -q "DEV053_STAGE1_OK" /tmp/dev053-stage1.log
 
+      - name: Verify title to opening to fighter selection flow
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/opening_flow_smoke.gd 2>&1 | tee /tmp/opening-flow.log
+          grep -q "OPENING_FLOW_OK" /tmp/opening-flow.log
+
       - name: Verify enemy air attacks
         shell: bash
         run: |
@@ -236,11 +243,35 @@ jobs:
           print(f"Decoded web icon: {len(data)} bytes")
           PY
 
-      - name: Refresh Web icon cache key
+      - name: Version Web runtime files for mobile cache refresh
         shell: bash
         run: |
           set -euo pipefail
-          sed -i 's|index.icon.png"|index.icon.png?v=20260926h"|g; s|index.apple-touch-icon.png"|index.apple-touch-icon.png?v=20260926h"|g' "$WEB_BUILD_DIR/index.html"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          output = Path(os.environ["WEB_BUILD_DIR"])
+          version = os.environ["GITHUB_SHA"][:12]
+          runtime = f"game-{version}"
+          html_path = output / "index.html"
+          html = html_path.read_text(encoding="utf-8")
+          html = html.replace('<script src="index.js">', f'<script src="{runtime}.js?v={version}">')
+          html = html.replace('"executable":"index"', f'"executable":"{runtime}"')
+          for extension in ("wasm", "pck"):
+              html = html.replace(f'"index.{extension}"', f'"{runtime}.{extension}"')
+          for icon in ("index.icon.png", "index.apple-touch-icon.png"):
+              html = html.replace(f'{icon}"', f'{icon}?v={version}"')
+          html = html.replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\"><meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\"><meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">")
+          html_path.write_text(html, encoding="utf-8")
+          for extension in ("js", "wasm", "pck"):
+              source = output / f"index.{extension}"
+              target = output / f"{runtime}.{extension}"
+              if not source.is_file():
+                  raise SystemExit(f"Missing Web runtime file: {source.name}")
+              source.rename(target)
+          print(f"Versioned Web runtime: {runtime}")
+          PY
 
       - name: Verify Web build
         shell: bash
@@ -250,6 +281,8 @@ jobs:
           find "$WEB_BUILD_DIR" -maxdepth 1 -type f -print
           find "$WEB_BUILD_DIR" -maxdepth 1 -type f -name "*.wasm" | grep -q .
           find "$WEB_BUILD_DIR" -maxdepth 1 -type f -name "*.pck" | grep -q .
+          grep -q "game-${GITHUB_SHA:0:12}.js?v=${GITHUB_SHA:0:12}" "$WEB_BUILD_DIR/index.html"
+          grep -q '"executable":"game-' "$WEB_BUILD_DIR/index.html"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
