@@ -85,6 +85,7 @@ var base_guard_stamina_multiplier := 1.0
 var base_attack_knockback_multiplier := 1.0
 var base_received_knockback_multiplier := 1.0
 var base_second_hit_damage_scale := 0.90
+var aura_controller: Node2D
 var base_third_hit_damage_scale := 0.80
 var ai_profile: Resource
 var ai_decision_timer := 0.0
@@ -178,6 +179,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_instance_valid(aura_controller) and aura_controller.busy():
+		aura_controller.advance(delta)
+		return
 	super._physics_process(delta)
 	if hit_stop_timer > 0.0:
 		return
@@ -224,6 +228,14 @@ func apply_character_data(data: Resource) -> void:
 	else:
 		apply_temporary_color(Color.WHITE)
 	update_character_status_ui()
+	if is_instance_valid(aura_controller):
+		aura_controller.cancel()
+		aura_controller.queue_free()
+		aura_controller = null
+	if fighter_definition.aura_attack != null:
+		aura_controller = load("res://scripts/combat/dark_aura_controller.gd").new()
+		add_child(aura_controller)
+		aura_controller.setup(self, fighter_definition.aura_attack)
 
 
 func validate_character_data(data: Resource) -> bool:
@@ -512,7 +524,7 @@ func _definition_float(property_name: String, fallback: float) -> float:
 
 
 func _uses_direct_character_stats() -> bool:
-	return fighter_definition != null and fighter_definition.team_type == &"ALLY"
+	return fighter_definition != null and (fighter_definition.team_type == &"ALLY" or fighter_definition.use_direct_combat_stats)
 
 
 func _display_type_text() -> String:
@@ -525,6 +537,8 @@ func _display_type_text() -> String:
 
 
 func _update_profile_ai(delta: float) -> void:
+	if is_instance_valid(aura_controller) and aura_controller.choose_distance_action(delta):
+		return
 	if ai_profile == null or name != "Enemy" or input_enabled:
 		return
 	if hit_stop_timer > 0.0:
@@ -1398,6 +1412,9 @@ func apply_character_special_hitbox_data() -> void:
 		else:
 			special_shape.shape = special_shape.shape.duplicate()
 		special_shape.shape.size = character_special_data.hitbox_size * scale_multiplier
+	if fighter_definition != null:
+		special_area.position *= fighter_definition.combat_geometry_scale
+		special_shape.shape.size *= fighter_definition.combat_geometry_scale
 
 
 func _set_character_special_hitbox_active(is_active: bool) -> void:
@@ -2293,6 +2310,8 @@ func update_boss_special_attack(delta: float) -> void:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	if is_instance_valid(aura_controller) and aura_controller.busy() and can_receive_attack():
+		aura_controller.cancel()
 	var was_character_special := is_character_special_busy()
 	if was_character_special and not special_has_armor:
 		interrupt_character_special()

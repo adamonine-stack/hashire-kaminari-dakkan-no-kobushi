@@ -26,6 +26,13 @@ class_name FighterDefinition
 @export var battle_sprite_offset: Vector2 = Vector2(0.0, 0.0)
 @export var character_height_cm: float = 175.0
 @export var visual_scale_adjustment: float = 1.0
+## Feet-anchored proportions shared by the visual and combat geometry.
+@export var combat_geometry_scale: float = 1.0
+@export var body_width_scale: float = 1.0
+@export var head_scale: float = 1.0
+@export var extra_motion_atlases: Array[Resource] = []
+@export var aura_attack: Resource
+@export var use_direct_combat_stats: bool = false
 @export var sprite_body_height_px: float = 0.0
 @export var foot_offset: Vector2 = Vector2.ZERO
 @export var animation_definitions: Array[FighterAnimationDefinition] = []

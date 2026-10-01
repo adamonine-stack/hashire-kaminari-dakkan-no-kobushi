@@ -21,9 +21,11 @@ func review() -> void:
     root.add_child(battle)
     await process_frame
     var manager: Node = battle.get_node("BattleManager")
-    await manager.select_player_by_id("player_03_seiya")
+    manager.select_player_by_id("player_03_seiya")
     for i in range(360):
         await physics_frame
+        if manager._enemy_intro_panel != null and manager._enemy_intro_panel.visible:
+            manager._advance_enemy_intro()
         if manager.isRoundActive:
             break
     if not manager.isRoundActive:

@@ -130,6 +130,14 @@ jobs:
           grep -Fq 'TRUE_SEIYA_COMBAT_CHECK failures=[]' /tmp/true-seiya-combat.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-seiya-combat.log; then exit 1; fi
 
+      - name: Verify dark Seiya proportions and aura combat
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dark_seiya_combat_check.gd 2>&1 | tee /tmp/dark-seiya.log
+          grep -Fq 'DARK_SEIYA_COMBAT_CHECK failures=[]' /tmp/dark-seiya.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/dark-seiya.log; then exit 1; fi
+
       - name: Verify enemy pressure profiles
         shell: bash
         run: |

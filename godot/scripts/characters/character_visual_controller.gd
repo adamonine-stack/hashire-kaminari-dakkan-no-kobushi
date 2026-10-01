@@ -243,6 +243,8 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		var supplemental_motion_atlas: Resource = character_data.get("supplemental_motion_atlas")
 		if supplemental_motion_atlas != null:
 			_overlay_authored_motion_atlas(authored_frames, supplemental_motion_atlas)
+		for extra_atlas in character_data.extra_motion_atlases:
+			_overlay_authored_motion_atlas(authored_frames, extra_atlas)
 		return authored_frames
 
 	if sprite_sheet == null:
@@ -1264,7 +1266,7 @@ func _apply_visual_transform(sprite_sheet: Texture2D) -> void:
 		var body_bottom_y := float(body_rect.position.y + body_rect.size.y)
 		var body_bottom_local := (body_bottom_y - float(cell_size.y) * 0.5) * sprite_scale
 		var foot_offset: Vector2 = definition.get("foot_offset")
-		set_visual_scale(Vector2(sprite_scale, sprite_scale))
+		set_visual_scale(Vector2(sprite_scale * float(definition.body_width_scale), sprite_scale))
 		set_visual_offset(Vector2(visual_offset.x, visual_offset.y - body_bottom_local) + foot_offset * battle_visual_scale_multiplier)
 		return
 
