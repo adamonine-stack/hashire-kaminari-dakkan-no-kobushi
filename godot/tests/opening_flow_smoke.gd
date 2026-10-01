@@ -16,10 +16,14 @@ func _run() -> void:
 		return
 	await process_frame
 	var title := current_scene
-	if title == null or not title.has_method("enter_opening_scene"):
-		_fail("title does not expose the new-game opening transition")
+	if title == null:
+		_fail("title scene did not become current")
 		return
-	title.call("enter_opening_scene")
+	var start_button := title.get("game_start_button") as Button
+	if start_button == null:
+		_fail("title game-start button was not created")
+		return
+	start_button.pressed.emit()
 	await create_timer(0.7).timeout
 	if current_scene == null or current_scene.scene_file_path != OPENING_SCENE:
 		_fail("new game did not open the opening scene")
