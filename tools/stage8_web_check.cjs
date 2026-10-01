@@ -6,9 +6,10 @@ const fs=require('fs'),path=require('path'),http=require('http');
 const base=process.argv[2]||'http://127.0.0.1:8139/';
 const routes=process.argv[3]||'A';
 const mobile=process.argv[4]==='mobile';
+const webFolder=process.env.WEB_QA_BUILD_DIR || path.join(__dirname,'../tmp/web');
 let server;
 if(base.includes('127.0.0.1')) server=http.createServer((req,res)=>{
- const file=path.join(__dirname,'../tmp/web',req.url.split('?')[0].replace(/^\//,'')||'index.html');
+ const file=path.join(webFolder,req.url.split('?')[0].replace(/^\//,'')||'index.html');
  res.writeHead(200,{'Content-Type':{'.html':'text/html','.js':'application/javascript','.wasm':'application/wasm'}[path.extname(file)]||'application/octet-stream'});fs.createReadStream(file).pipe(res);
 }).listen(Number(new URL(base).port),'127.0.0.1');
 const masks={A:1,B:2,C:4,D:3,E:5,F:6,G:7};
@@ -45,7 +46,7 @@ function fixture(route){let s='[run]\nversion=1\nscene="res://scenes/Battle.tscn
   await page.waitForTimeout(1500);await page.screenshot({path:out('end')});
   if(route==='G'&&!logs.some(t=>t.includes('VS enemy_09_seiya')))throw new Error('G true battle missing');
   if(route!=='G'&&!logs.some(t=>t.includes('END_CARD route='+route)))throw new Error(route+' end card missing');
-  if(logs.some(t=>/^SCRIPT ERROR:|^ERROR:|PAGEERROR/.test(t)))throw new Error(route+' runtime error');
+  if(logs.some(t=>/^SCRIPT ERROR:|^ERROR:|PAGEERROR/.test(t))){console.log(logs.filter(t=>/^SCRIPT ERROR:|^ERROR:|PAGEERROR/.test(t)).join('\n'));fs.writeFileSync(path.join(__dirname,'../logs',"web_runtime_errors.log"),logs.join('\n'));throw new Error(route+' runtime error');}
   fs.writeFileSync(path.join(__dirname,'../logs',`web_fixture_${base.includes('127')?'local':'public'}_${route}.log`),logs.join('\n'));
   console.log('WEB_FIXTURE_OK '+route+' '+base);await context.close();
  }
