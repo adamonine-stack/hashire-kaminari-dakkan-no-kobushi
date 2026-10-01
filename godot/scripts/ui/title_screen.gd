@@ -71,7 +71,7 @@ func start_new_game() -> void:
 	if FileAccess.file_exists(RUN_SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_SAVE_PATH))
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, false)
-	await _enter_opening_scene()
+	await enter_opening_scene()
 
 
 func continue_game() -> void:
@@ -96,7 +96,7 @@ func _enter_battle_scene(is_continue: bool) -> void:
 	get_tree().change_scene_to_file(BATTLE_SCENE)
 
 
-func _enter_opening_scene() -> void:
+func enter_opening_scene() -> void:
 	_play_ui_se("confirm")
 	is_scene_transitioning = true
 	new_game_requested.emit()
