@@ -7,6 +7,10 @@ on:
     paths:
       - "godot/**"
       - ".github/workflows/deploy-godot-web.yml"
+  pull_request:
+    paths:
+      - "godot/**"
+      - ".github/workflows/deploy-godot-web.yml"
   workflow_dispatch:
 
 permissions:
@@ -293,6 +297,7 @@ jobs:
           path: build/web
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
