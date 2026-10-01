@@ -35,6 +35,8 @@ func _run() -> void:
 	if requested_scenes.is_empty() or requested_scenes[0] != OPENING_SCENE:
 		_fail("new game did not request the opening scene")
 		return
+	title.free()
+	await process_frame
 	var opening_packed := load(OPENING_SCENE) as PackedScene
 	if opening_packed == null:
 		_fail("opening scene resource is missing")
@@ -42,15 +44,37 @@ func _run() -> void:
 	var opening := opening_packed.instantiate()
 	root.add_child(opening)
 	await process_frame
-	var pages: Array = opening.get_script().get_script_constant_map().get("PAGES", [])
-	if pages.size() < 5:
-		_fail("opening dialogue pages are missing")
+	var backdrop := opening.get_child(0) as ColorRect
+	if backdrop == null or backdrop.color == Color.BLACK:
+		_fail("opening night backdrop was not created")
 		return
-	for _page in range(pages.size()):
+	var pages: Array = opening.get_script().get_script_constant_map().get("PAGES", [])
+	if pages.size() != 26:
+		_fail("opening dialogue must contain the original 26 lines")
+		return
+	if pages[0].get("text") != "来てくれたか。二人とも、話がある。" or pages[11].get("text") != "ブラックスパロウだ。" or pages[25].get("text") != "行こう。":
+		_fail("opening dialogue does not match the planned story")
+		return
+	var portraits: Array = opening.get("character_portraits")
+	if portraits.size() != 3:
+		_fail("opening character portraits are missing")
+		return
+	for portrait in portraits:
+		if portrait.texture == null:
+			_fail("an opening character portrait did not load")
+			return
+	var safe_content := opening.get("safe_content") as Control
+	if safe_content == null or safe_content.offset_left < 72.0 or safe_content.offset_top < 80.0:
+		_fail("opening controls are not inset from mobile camera cutouts")
+		return
+	for _page in range(pages.size() - 1):
 		opening.call("advance")
 		await process_frame
-	if not bool(opening.get("is_transitioning")):
-		_fail("opening did not continue to fighter selection")
+	if int(opening.get("page_index")) != pages.size() - 1 or opening.get("story_label").text != "行こう。":
+		_fail("the final planned dialogue line was not displayed")
+		return
+	if opening.get("next_button").text != "ゲームを始める":
+		_fail("the final opening action was not presented")
 		return
 	print("OPENING_FLOW_OK pages=%d next=%s" % [pages.size(), BATTLE_SCENE])
 	quit(0)
