@@ -620,6 +620,10 @@ func apply_attack_hitbox_data(data: Resource) -> void:
 		else:
 			target_shape.shape = target_shape.shape.duplicate()
 		target_shape.shape.size = data.hitbox_size * scale_multiplier
+	if definition != null:
+		var geometry_scale: float = definition.combat_geometry_scale
+		target_area.position *= geometry_scale
+		target_shape.shape.size *= geometry_scale
 
 
 func register_attack_hit(target: Node) -> void:

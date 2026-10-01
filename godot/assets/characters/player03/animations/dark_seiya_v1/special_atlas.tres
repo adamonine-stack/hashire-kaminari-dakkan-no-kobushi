@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/dark_seiya_v1/special_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384,288)
+columns = 8
+clips = {
+"aura_charge": {"frames": [0,1], "fps": 3.0, "loop": false},
+"aura_charge_max": {"frames": [1], "fps": 5.0, "loop": true},
+"aura_slam": {"frames": [1,2,7], "fps": 18.75, "loop": false},
+"aura_contact": {"frames": [7], "fps": 5.0, "loop": true},
+"aura_recovery": {"frames": [7,4,5,6], "fps": 7.0, "loop": false}
+}

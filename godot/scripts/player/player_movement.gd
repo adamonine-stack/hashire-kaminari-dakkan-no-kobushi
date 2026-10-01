@@ -289,6 +289,11 @@ func _ensure_official_animation_placeholders() -> void:
 
 
 func apply_character_art(definition: Resource) -> void:
+	var previous_proportions := get_node_or_null("SeiyaProportions")
+	if previous_proportions != null:
+		previous_proportions.free()
+	if animated_character_sprite != null:
+		animated_character_sprite.material = null
 	var battle_texture: Texture2D = definition.get("battle_texture") if definition != null else null
 	uses_animated_character_art = false
 	if visual_root != null:
@@ -347,6 +352,24 @@ func apply_character_art(definition: Resource) -> void:
 			hurt_width = maxf(hurt_width, float(body_rect.size.x) * character_visual_controller.base_visual_scale.x * 0.72)
 		hurt_shape.shape.size = Vector2(hurt_width, hurt_height)
 		hurt_box.position = Vector2(0, -hurt_height * 0.5)
+		_capture_default_collision_pose()
+		if float(definition.head_scale) < 1.0 and uses_animated_character_art:
+			var proportions: Node = load("res://scripts/characters/seiya_proportions.gd").new()
+			proportions.name = "SeiyaProportions"
+			add_child(proportions)
+			proportions.setup(animated_character_sprite, definition)
+	# Apply absolute geometry from the shared feet origin, never accumulated scale.
+	if definition != null:
+		var geometry_scale: float = definition.combat_geometry_scale
+		var width_scale: float = definition.body_width_scale
+		var contact := get_node("GroundContactShape") as CollisionShape2D
+		contact.shape = RectangleShape2D.new()
+		contact.shape.size = Vector2(86 * geometry_scale * width_scale, 115 * geometry_scale)
+		contact.position = Vector2(0, -contact.shape.size.y * 0.5)
+		hurt_shape.shape.size.x *= geometry_scale * width_scale
+		hurt_box.position.x = 0
+		base_shadow_scale *= Vector2(geometry_scale * width_scale, geometry_scale)
+		shadow_sprite.scale = base_shadow_scale
 		_capture_default_collision_pose()
 
 
