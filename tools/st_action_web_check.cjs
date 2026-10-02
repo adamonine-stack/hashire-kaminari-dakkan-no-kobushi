@@ -63,8 +63,13 @@ function fixture(stage){
    await page.keyboard.down('ArrowRight');await page.waitForTimeout(240);await snap('walk');await page.keyboard.up('ArrowRight');
    await page.keyboard.press('ArrowUp',{delay:65});await page.waitForTimeout(130);await snap('jump');
    await page.waitForTimeout(500);await page.keyboard.press('j',{delay:50});await page.waitForTimeout(100);await snap('attack');
-   await page.keyboard.press('u',{delay:50});await page.waitForTimeout(100);await snap('special');
+   const usedSpecial=()=>logs.some(t=>t.includes('[Special] started id=player1_special'));
+   for(let i=0;i<12&&!usedSpecial();i++){
+    await page.waitForTimeout(350);await page.keyboard.press('l',{delay:70});
+   }
+   await page.waitForTimeout(100);await snap('special');
    fs.writeFileSync(path.join(out,`stage${stage}.log`),logs.join('\n'));
+   if(!usedSpecial())throw Error('player special did not consume MAX gauge on stage '+stage);
    const runtime=logs.filter(t=>/^SCRIPT ERROR:|^ERROR:/.test(t));
    if(errors.length||runtime.length)throw Error(JSON.stringify({errors,runtime}));
    console.log('ST_ACTION_WEB_STAGE_OK '+stage+' '+tag+' '+build);
