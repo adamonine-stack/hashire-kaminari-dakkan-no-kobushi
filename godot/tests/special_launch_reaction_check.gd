@@ -3,6 +3,12 @@ extends SceneTree
 var failures: Array[String] = []
 var output := ""
 var screenshots := 0
+var attacker_definition := "ally_balance"
+var victim_definitions := ["enemy_01_standard","enemy_02_speed","enemy_03_guard","enemy_04_throw",
+	"enemy_05_power","enemy_06_combo","enemy_07_tricky","enemy_08_boss","enemy_09_seiya"]
+var reaction_prefix := "received_akky_elbow"
+var evidence_folder := "special_launch"
+var dedicated_attack_clips: Array[String] = []
 
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
@@ -49,7 +55,7 @@ func reset(manager: Node, actor: Node, point: Vector2, facing: int) -> void:
 	for i in range(3): await physics_frame
 
 func run() -> void:
-	output = ProjectSettings.globalize_path("res://").path_join("../evidence/special_launch").simplify_path()
+	output = ProjectSettings.globalize_path("res://").path_join("../evidence/" + evidence_folder).simplify_path()
 	DirAccess.make_dir_recursive_absolute(output)
 	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
 	root.add_child(battle)
@@ -60,10 +66,27 @@ func run() -> void:
 	paused = false
 	var attacker: Node = battle.get_node("Player")
 	var target: Node = battle.get_node("Enemy")
-	attacker.apply_character_data(load("res://data/fighters/ally_balance.tres"))
-	var definitions := ["enemy_01_standard","enemy_02_speed","enemy_03_guard","enemy_04_throw",
-		"enemy_05_power","enemy_06_combo","enemy_07_tricky","enemy_08_boss","enemy_09_seiya"]
-	for definition in definitions:
+	attacker.apply_character_data(load("res://data/fighters/%s.tres" % attacker_definition))
+	var attack_sprite: AnimatedSprite2D = attacker.animated_character_sprite
+	var attack_scale := attack_sprite.scale
+	var attack_pivot := attack_sprite.position
+	for clip in dedicated_attack_clips:
+		check(attack_sprite.sprite_frames.has_animation(clip),"dedicated attack clip " + clip)
+		for frame in range(attack_sprite.sprite_frames.get_frame_count(clip)):
+			var texture := attack_sprite.sprite_frames.get_frame_texture(clip,frame) as AtlasTexture
+			check(texture != null and texture.atlas.resource_path.contains("reversal_v1"),"dedicated original " + clip)
+			for direction in [1,-1]:
+				attacker.set_physics_process(false)
+				attacker.position = Vector2(520,520)
+				attacker.facing_direction = direction
+				attacker._set_visual_facing()
+				attack_sprite.play(clip)
+				attack_sprite.pause()
+				attack_sprite.frame = frame
+				check(attack_sprite.scale.is_equal_approx(attack_scale) and attack_sprite.position.is_equal_approx(attack_pivot),"authored frame scale/pivot " + clip)
+				check_visible_art(attack_sprite,"authored frame " + clip)
+				await capture("attack_%s_%d_%s" % [clip,frame,"R" if direction > 0 else "L"])
+	for definition in victim_definitions:
 		target.apply_character_data(load("res://data/enemies/%s.tres" % definition))
 		for direction in [1,-1]:
 			var label: String = definition + ("_R" if direction == 1 else "_L")
@@ -75,19 +98,23 @@ func run() -> void:
 			var pivot_before := sprite.position
 			var packet: Dictionary = attacker._get_character_special_attack_dictionary()
 			check(packet.causes_knockdown, label + " special always launches on hit")
-			check(target._get_damage_animation_from_attack(packet) == &"received_akky_elbow_hit", label + " attack-specific victim hit")
-			check(target._get_knockdown_animation_from_attack(packet) == &"received_akky_elbow_down", label + " attack-specific victim down")
+			check(target._get_damage_animation_from_attack(packet) == StringName(reaction_prefix + "_hit"), label + " attack-specific victim hit")
+			check(target._get_knockdown_animation_from_attack(packet) == StringName(reaction_prefix + "_down"), label + " attack-specific victim down")
 			var ordinary := packet.duplicate()
 			ordinary.is_special = false
 			ordinary.attack_id = "ordinary_punch"
-			check(target._get_damage_animation_from_attack(ordinary) != &"received_akky_elbow_hit", label + " ordinary hit remains ordinary")
+			check(target._get_damage_animation_from_attack(ordinary) != StringName(reaction_prefix + "_hit"), label + " ordinary hit remains ordinary")
 			attacker.set_special_gauge(100)
 			attacker.input_enabled = true
 			attacker.start_character_special()
 			attacker._update_visual_state()
+			if not dedicated_attack_clips.is_empty():
+				check(attack_sprite.animation == StringName(dedicated_attack_clips[0]),label + " actual startup clip")
 			await capture(label + "_startup")
 			attacker.enter_character_special_active()
 			attacker._update_visual_state()
+			if not dedicated_attack_clips.is_empty():
+				check(attack_sprite.animation == StringName(dedicated_attack_clips[1]),label + " actual active clip")
 			attacker.input_enabled = false
 			attacker.set_physics_process(true)
 			var start: Vector2 = target.position
@@ -96,7 +123,7 @@ func run() -> void:
 			await process_frame
 			await process_frame
 			check(target.knockdown_state == &"KNOCKBACK", label + " actual contact enters flight")
-			check(target.last_special_knockback_animation == &"received_akky_elbow_air", label + " victim airborne selection")
+			check(target.last_special_knockback_animation == StringName(reaction_prefix + "_air"), label + " victim airborne selection")
 			check(target.velocity.x * direction > 500, label + " large outward velocity")
 			await capture(label + "_impact")
 			var apex := start.y
@@ -110,6 +137,7 @@ func run() -> void:
 				distance = maxf(distance,(target.position.x - start.x) * direction)
 				check(sprite.scale.is_equal_approx(scale_before), label + " constant sprite scale")
 				check(sprite.position.is_equal_approx(pivot_before), label + " constant sprite pivot")
+				check(attack_sprite.scale.is_equal_approx(attack_scale) and attack_sprite.position.is_equal_approx(attack_pivot),label + " constant attacker scale and pivot")
 				if not captured_air and start.y-target.position.y > 55:
 					check_visible_art(sprite,label + " airborne")
 					await capture(label + "_air")
@@ -119,10 +147,16 @@ func run() -> void:
 			check(distance > 200, label + " flies over 200 pixels")
 			check(target.knockdown_state == &"KNOCKDOWN", label + " lands in down state")
 			target._update_visual_state()
-			check(sprite.animation == &"received_akky_elbow_down", label + " grounded victim pose")
+			check(sprite.animation == StringName(reaction_prefix + "_down"), label + " grounded victim pose")
 			check_visible_art(sprite,label + " down")
 			await capture(label + "_down")
 			print("SPECIAL_FLIGHT %s distance=%.1f height=%.1f" % [label,distance,start.y-apex])
+			if not dedicated_attack_clips.is_empty():
+				attacker.set_physics_process(false)
+				attacker.enter_character_special_recovery()
+				attacker._update_visual_state()
+				check(attack_sprite.animation == StringName(dedicated_attack_clips[2]),label + " actual recovery clip")
+				await capture(label + "_finish")
 			attacker.finish_character_special()
 			await reset(manager, target, Vector2(640,520), -direction)
 			target.set_physics_process(false)

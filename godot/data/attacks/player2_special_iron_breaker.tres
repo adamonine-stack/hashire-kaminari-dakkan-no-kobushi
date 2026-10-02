@@ -28,7 +28,7 @@ guard_knockback = Vector2(120, 0)
 can_be_interrupted = true
 interruptible_until_active = true
 cooldown = 5.20
-animation_name = "special_iron_breaker"
+animation_name = "gou_reversal_breaker"
 warning_effect_name = "player2_special_warning"
 attack_effect_name = "player2_iron_breaker"
 
@@ -41,3 +41,6 @@ startup_invulnerability = 0.10
 ai_special_tags = Array[String](["reversal", "counter"])
 
 camera_shake = 6.0
+
+special_startup_animation = &"gou_reversal_startup"
+special_finish_animation = &"gou_reversal_finish"

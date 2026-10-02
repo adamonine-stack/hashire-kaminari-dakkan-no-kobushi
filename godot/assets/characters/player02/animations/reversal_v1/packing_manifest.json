@@ -1,0 +1,57 @@
+{
+  "cell": [
+    384,
+    288
+  ],
+  "baseline": 270,
+  "frames": [
+    {
+      "source": "art_sources\\gou_reversal_v1\\startup.png",
+      "scale": 0.24764553750060997,
+      "source_anchor_x": 750,
+      "support": [
+        69,
+        82,
+        298,
+        270
+      ],
+      "sha256": "080e033c1439390fdc41a8e44ebae645b349a1d776593caf77d2541778ab77b0"
+    },
+    {
+      "source": "art_sources\\gou_reversal_v1\\step.png",
+      "scale": 0.24764553750060997,
+      "source_anchor_x": 780,
+      "support": [
+        52,
+        81,
+        306,
+        270
+      ],
+      "sha256": "07ab0f46002865f07b41a836bb622734bf3ba0cdc554ca2a68761a9515960065"
+    },
+    {
+      "source": "art_sources\\gou_reversal_v1\\active.png",
+      "scale": 0.24764553750060997,
+      "source_anchor_x": 780,
+      "support": [
+        25,
+        87,
+        341,
+        270
+      ],
+      "sha256": "21457194084355443bb6599ae93aebf18fcb1a87e279fb4c3317a218d38b8a67"
+    },
+    {
+      "source": "art_sources\\gou_reversal_v1\\finish.png",
+      "scale": 0.24764553750060997,
+      "source_anchor_x": 835,
+      "support": [
+        39,
+        61,
+        304,
+        270
+      ],
+      "sha256": "cbbfd9399af0de512d3144ceaf95b54fce37e4e4a5f3e168fdff30115ff28586"
+    }
+  ]
+}

@@ -10,6 +10,20 @@ func check(ok: bool, label: String) -> void:
 func _initialize() -> void:
 	call_deferred("run")
 
+func solid_bounds(image: Image) -> Rect2i:
+	var left := image.get_width()
+	var top := image.get_height()
+	var right := 0
+	var bottom := 0
+	for y in range(image.get_height()):
+		for x in range(image.get_width()):
+			if image.get_pixel(x,y).a < 0.5: continue
+			left = mini(left,x)
+			top = mini(top,y)
+			right = maxi(right,x+1)
+			bottom = maxi(bottom,y+1)
+	return Rect2i(left,top,right-left,bottom-top)
+
 func run() -> void:
 	var fighter = load("res://data/fighters/ally_power.tres")
 	var controller = load("res://scripts/characters/character_visual_controller.gd").new()
@@ -30,10 +44,19 @@ func run() -> void:
 		for index in range(frames.get_frame_count(clip)):
 			var texture := frames.get_frame_texture(clip, index)
 			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
+			if String(clip).begins_with("gou_reversal_"):
+				expected = load("res://assets/characters/player02/animations/reversal_v1/motion_atlas.tres").texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == Vector2(384, 288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
-			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
+			if String(clip).begins_with("gou_reversal_"):
+				# Measure solid sandals against the same 270px baseline; separately
+				# require all generated soft alpha to remain inside the display cell.
+				var solid := solid_bounds(texture.get_image())
+				check(solid.has_area() and solid.position.x >= 2 and solid.position.y >= 2 and solid.end.x < 382 and solid.end.y <= 270,clip + ": solid body baseline")
+				check(rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y < 288,clip + ": soft edge unclipped")
+			else:
+				check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
 			checked += 1
 	for required in ["idle_prebattle", "walk_forward", "walk_backward", "dash", "jump_start", "jump_air", "jump_fall", "jump_land", "guard", "crouch_guard", "punch_1", "punch_2", "kick_1", "crouch_punch", "crouch_kick_sweep", "jump_punch_down", "jump_kick", "throw", "special_iron_breaker", "victory", "stand_up", "ko"]:
 		check(frames.has_animation(required), required + ": explicit motion")
@@ -99,14 +122,18 @@ func run() -> void:
 			player.is_crouching = false
 	player.set_special_gauge(100)
 	check(player.request_character_special(false), "Gou special starts through real gauge path")
-	check(player.animated_character_sprite.animation == &"special_startup", "Iron Breaker windup")
+	check(player.animated_character_sprite.animation == &"gou_reversal_startup", "Iron Breaker windup")
 	player.enter_character_special_active()
-	check(player.animated_character_sprite.animation == &"special_iron_breaker", "Iron Breaker contact")
+	check(player.animated_character_sprite.animation == &"gou_reversal_breaker", "Iron Breaker contact")
 	player.enter_character_special_recovery()
-	check(player.animated_character_sprite.animation == &"special_recovery", "Iron Breaker recovery")
+	check(player.animated_character_sprite.animation == &"gou_reversal_finish", "Iron Breaker recovery")
 	player.finish_character_special()
 	print("GOU_MOTION_ATLAS_OK clips=%d frames=%d failures=%s" % [frames.get_animation_names().size(), checked, failures])
+	for audio in root.find_children("*","AudioStreamPlayer",true,false): audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false): audio.stop()
+	OS.delay_msec(200)
 	manager.cleanup_battle_before_transition()
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)

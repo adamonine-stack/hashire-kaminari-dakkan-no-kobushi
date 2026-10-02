@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -14,6 +14,8 @@
 [ext_resource type="Resource" path="res://data/attacks/crusher_fault_break.tres" id="reversal"]
 
 [ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres" id="received_akky"]
+
+[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres" id="received_gou"]
 
 [resource]
 script = ExtResource("1_def")
@@ -143,5 +145,5 @@ combo_rating = 1
 
 reversal_attack = ExtResource("reversal")
 
-extra_motion_atlases = Array[Resource]([ExtResource("received_akky")])
-special_damage_reactions = {"player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down"}}
+extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou")])
+special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down"}}
