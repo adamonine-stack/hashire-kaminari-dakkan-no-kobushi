@@ -1,0 +1,45 @@
+{
+  "cell": [
+    320,
+    256
+  ],
+  "baseline": 239,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_06_combo\\hit.png",
+      "scale": 0.22988539013660567,
+      "source_anchor_x": 801.0,
+      "support": [
+        91,
+        97,
+        229,
+        239
+      ],
+      "sha256": "26c508ebc5573cf3628b077a0c3f33642eaf6d8903fb2ec39fbd77c5f8ebf296"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_06_combo\\air.png",
+      "scale": 0.22988539013660567,
+      "source_anchor_x": 907.5,
+      "support": [
+        83,
+        74,
+        237,
+        239
+      ],
+      "sha256": "27d32eec4ad1f71f5f3b0fa0634f1fa8df3596d9c4686e32b3cc2db6b59dcd0d"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_06_combo\\down.png",
+      "scale": 0.22988539013660567,
+      "source_anchor_x": 718.0,
+      "support": [
+        21,
+        141,
+        299,
+        239
+      ],
+      "sha256": "2898d7f2eb08c514f03f1823b12fc6a1df9cdb4d5e5d5adaaefdce16021e7ac9"
+    }
+  ]
+}

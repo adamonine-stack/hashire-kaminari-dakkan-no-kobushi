@@ -10,4 +10,7 @@ clips = {
 "received_akky_elbow_hit": {"frames": [0], "fps": 8.0, "loop": false},
 "received_akky_elbow_air": {"frames": [0,1], "fps": 10.0, "loop": false},
 "received_akky_elbow_down": {"frames": [2], "fps": 5.0, "loop": false}
+,
+"received_akky_elbow_wall": {"frames": [1], "fps": 8.0, "loop": false},
+"received_akky_elbow_fall": {"frames": [0], "fps": 10.0, "loop": false}
 }

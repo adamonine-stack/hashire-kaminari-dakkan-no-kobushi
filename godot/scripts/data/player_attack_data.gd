@@ -70,6 +70,9 @@ class_name PlayerAttackData
 @export var special_guard_reaction: StringName = &"special_guard"
 @export var special_startup_animation: StringName = &"special_startup"
 @export var special_finish_animation: StringName = &"special_recovery"
+@export var wall_slam := false
+@export var special_launch_speed_cap := Vector2.ZERO
+@export var backflip_on_launch := false
 @export var effect_scene: PackedScene
 @export var hit_effect_scene: PackedScene
 @export var camera_shake: float = 3.0

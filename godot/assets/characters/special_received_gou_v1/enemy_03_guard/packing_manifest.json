@@ -1,0 +1,45 @@
+{
+  "cell": [
+    320,
+    320
+  ],
+  "baseline": 318,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_03_guard\\hit.png",
+      "scale": 0.24684873949579828,
+      "source_anchor_x": 723.0,
+      "support": [
+        66,
+        75,
+        255,
+        318
+      ],
+      "sha256": "df62930210ac1c93eca91ea329906c23a2afa79845963022260144ffcf23b704"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_03_guard\\air.png",
+      "scale": 0.24684873949579828,
+      "source_anchor_x": 762.0,
+      "support": [
+        51,
+        77,
+        269,
+        318
+      ],
+      "sha256": "417337348ea2d74d1fb46f1577d0e0c0276c089884147daa3b5ec185654b3089"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_03_guard\\down.png",
+      "scale": 0.24684873949579828,
+      "source_anchor_x": 627.0,
+      "support": [
+        20,
+        203,
+        299,
+        318
+      ],
+      "sha256": "e1a58fe52e033d949c3006aeeba97b08e692c8ead75bbaf769301fa29dbb771b"
+    }
+  ]
+}

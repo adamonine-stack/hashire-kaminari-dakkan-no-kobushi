@@ -9,6 +9,8 @@ var victim_definitions := ["enemy_01_standard","enemy_02_speed","enemy_03_guard"
 var reaction_prefix := "received_akky_elbow"
 var evidence_folder := "special_launch"
 var dedicated_attack_clips: Array[String] = []
+var minimum_launch_velocity := 500.0
+var maximum_flight_distance := 0.0
 
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
@@ -25,6 +27,7 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var screen := root.get_visible_rect().size
 	for point in [Vector2(left,top),Vector2(right,top),Vector2(left,bottom),Vector2(right,bottom)]:
 		var actual: Vector2 = transform * point
+		if actual.x < 0 or actual.x > screen.x or actual.y < 0 or actual.y > screen.y: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
 		check(actual.x >= 0 and actual.x <= screen.x and actual.y >= 0 and actual.y <= screen.y,label + " art inside rendered viewport")
 
 func _initialize() -> void:
@@ -105,6 +108,7 @@ func run() -> void:
 			ordinary.attack_id = "ordinary_punch"
 			check(target._get_damage_animation_from_attack(ordinary) != StringName(reaction_prefix + "_hit"), label + " ordinary hit remains ordinary")
 			attacker.set_special_gauge(100)
+			await capture(label + "_before")
 			attacker.input_enabled = true
 			attacker.start_character_special()
 			attacker._update_visual_state()
@@ -119,18 +123,50 @@ func run() -> void:
 			attacker.set_physics_process(true)
 			var start: Vector2 = target.position
 			check(attacker._get_character_special_hit_position(target).y < start.y-80.0,label + " effect at special contact height")
+			var camera_zoom_before: Vector2 = root.get_camera_2d().zoom
 			attacker._on_character_special_hitbox_area_entered(target.get_node("HurtBox"))
 			await process_frame
 			await process_frame
 			check(target.knockdown_state == &"KNOCKBACK", label + " actual contact enters flight")
 			check(target.last_special_knockback_animation == StringName(reaction_prefix + "_air"), label + " victim airborne selection")
-			check(target.velocity.x * direction > 500, label + " large outward velocity")
+			check(target.velocity.x * direction > minimum_launch_velocity, label + " outward launch velocity")
+			var wall_launch := bool(packet.get("wall_slam",false))
+			if wall_launch: check(target.velocity.x * direction >= 1800,label + " faster wall launch")
 			await capture(label + "_impact")
 			var apex := start.y
 			var distance := 0.0
 			var captured_air := false
+			var captured_wall := false
+			var captured_fall := false
+			var backflip := bool(packet.get("backflip_on_launch",false))
+			var previous_turn := 0.0
+			var captured_spin := false
 			for frame in range(150):
 				await physics_frame
+				check(root.get_camera_2d().zoom.is_equal_approx(camera_zoom_before),label + " no camera enlargement during flight")
+				if backflip and target.knockdown_state == &"KNOCKBACK":
+					check(target.special_backflip_turn >= previous_turn and target.special_backflip_turn <= TAU+0.001,label + " one continuous backward turn")
+					check(is_equal_approx(sprite.rotation,target.special_backflip_turn*direction),label + " backward rotation about body center")
+					previous_turn = target.special_backflip_turn
+					if not captured_spin and target.special_backflip_turn > PI:
+						check_visible_art(sprite,label + " rotating body")
+						await capture(label + "_spin")
+						captured_spin = true
+				if wall_launch and target.special_wall_phase == "impact":
+					check(target.velocity == Vector2.ZERO,label + " wall contact stops motion")
+					if not captured_wall:
+						target._update_visual_state()
+						check(sprite.animation == &"received_akky_elbow_wall",label + " wall recoil pose")
+						check_visible_art(sprite,label + " wall")
+						await capture(label + "_wall")
+						captured_wall = true
+				if wall_launch and target.special_wall_phase == "fall" and target.knockdown_state == &"KNOCKBACK":
+					check(captured_wall and is_zero_approx(target.velocity.x),label + " drops after wall contact")
+					if not captured_fall:
+						target._update_visual_state()
+						check(sprite.animation == &"received_akky_elbow_fall",label + " falling pose")
+						await capture(label + "_fall")
+						captured_fall = true
 				if definition == "enemy_01_standard" and direction == 1 and frame % 4 == 0:
 					await capture("preview_%03d" % frame)
 				apex = minf(apex,target.position.y)
@@ -144,7 +180,14 @@ func run() -> void:
 					captured_air = true
 				if target.knockdown_state == &"KNOCKDOWN": break
 			check(captured_air and start.y-apex > 55, label + " visible upward arc")
+			if wall_launch: check(captured_wall and captured_fall and target.special_wall_contacts == 1,label + " wall then fall exactly once")
 			check(distance > 200, label + " flies over 200 pixels")
+			if maximum_flight_distance > 0:
+				check(distance < maximum_flight_distance,label + " short ground launch")
+				check(target.special_wall_contacts == 0,label + " Gou lands without wall slam")
+			if backflip:
+				check(captured_spin and is_equal_approx(target.special_backflip_turn,TAU),label + " completes exactly one backflip")
+				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")
 			check(target.knockdown_state == &"KNOCKDOWN", label + " lands in down state")
 			target._update_visual_state()
 			check(sprite.animation == StringName(reaction_prefix + "_down"), label + " grounded victim pose")
@@ -164,6 +207,7 @@ func run() -> void:
 			target.guard_type = "high"
 			check(not target.receive_attack(packet,direction,target.global_position,attacker),label + " guard succeeds")
 			check(target.knockdown_state == &"" and target.is_guard_hit,label + " guard never launches")
+	await extra_checks(manager,attacker,target)
 	# A lethal special must still fly, land, and remain defeated without getting up.
 	await reset(manager, attacker, Vector2(520,520),1)
 	await reset(manager, target, Vector2(640,520),-1)
@@ -187,3 +231,6 @@ func run() -> void:
 	await process_frame
 	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
+
+func extra_checks(_manager: Node, _attacker: Node, _target: Node) -> void:
+	pass

@@ -59,9 +59,13 @@ func run() -> void:
 		var data: Dictionary = player._get_character_special_attack_dictionary()
 		check(data.damage == roundi(maxi(player.punch_damage, player.kick_damage) * 1.5), definition + " 1.5 damage")
 		check(data.is_guardable and data.can_interrupt_attack, definition + " guard/interrupt contract")
-		check(data.causes_knockdown and player.character_special_data.knockback.x >= 560.0 and absf(player.character_special_data.knockback.y) >= 430.0, definition + " authored large special launch")
 		var launch: Vector2 = enemy._get_knockdown_force(data, player, 1.0)
-		check(absf(launch.x) >= 600.0 and launch.y <= -400.0, definition + " received large special launch after stat modifiers")
+		if definition == "fighters/ally_power":
+			check(data.causes_knockdown and not data.wall_slam and player.character_special_data.special_launch_speed_cap == Vector2(420,400),definition + " authored short ground launch")
+			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-400.0),definition + " bounded launch after stat modifiers")
+		else:
+			check(data.causes_knockdown and player.character_special_data.knockback.x >= 560.0 and absf(player.character_special_data.knockback.y) >= 430.0, definition + " authored large special launch")
+			check(absf(launch.x) >= 600.0 and launch.y <= -400.0, definition + " received large special launch after stat modifiers")
 		var expected_chip := 0.0 if definition in ["enemies/enemy_01_standard", "enemies/enemy_02_speed", "enemies/enemy_03_guard", "enemies/enemy_06_combo", "enemies/enemy_08_boss", "enemies/enemy_09_seiya"] else 0.15
 		check(is_equal_approx(float(data.guard_damage_multiplier), expected_chip), definition + " independent authored chip contract")
 		print("SPECIAL_DAMAGE %s=%d" % [definition, data.damage])

@@ -1,10 +1,11 @@
 """Pack independently authored Iron Breaker poses with a single anatomical density."""
 from pathlib import Path
 from PIL import Image
-import json, re, hashlib
+import json, re, hashlib, runpy
 
 ROOT = Path(__file__).resolve().parents[1]
 GODOT = ROOT / 'godot'
+runpy.run_path(str(ROOT/'tools/prepare_special_reaction_refs.py'))
 REFS = ROOT/'evidence/gou_references'
 REFS.mkdir(parents=True,exist_ok=True)
 for name,atlas in [('gou','assets/characters/player02/animations/gou_v1/motion_atlas.tres'),
@@ -14,7 +15,7 @@ for name,atlas in [('gou','assets/characters/player02/animations/gou_v1/motion_a
     width,height = map(int,re.search(r'cell_size = Vector2i\((\d+),\s*(\d+)\)',text).groups())
     Image.open(GODOT/texture).crop((0,0,width,height)).save(REFS/(name+'.png'))
 
-def pack(source_folder, destination, reference, names, clips, calibration=1.0, anchors=None):
+def pack(source_folder, destination, reference, names, clips, calibration=1.0, anchors=None, density_adjustment=1.0):
     reference = Image.open(reference).convert('RGBA')
     rb = reference.getchannel('A').point(lambda a: 255 if a >= 128 else 0).getbbox()
     poses = []
@@ -24,7 +25,7 @@ def pack(source_folder, destination, reference, names, clips, calibration=1.0, a
         bounds = im.getchannel('A').point(lambda a: 255 if a >= 128 else 0).getbbox()
         poses.append((im, bounds, path))
     initial = poses[0][1]
-    density = (rb[3]-rb[1]) / ((initial[3]-initial[1])*calibration)
+    density = (rb[3]-rb[1]) / ((initial[3]-initial[1])*calibration)*density_adjustment
     width = max(reference.width, int((max((b[2]-b[0])*density for _,b,_ in poses)+31)//32)*32+32)
     if anchors:
         width = max(width, int((2*max(max(x-b[0],b[2]-x)*density for x,(_,b,_) in zip(anchors,poses))+31)//32)*32+32)
@@ -69,7 +70,7 @@ path = pack(ROOT/'art_sources/gou_reversal_v1',GODOT/'assets/characters/player02
 attach(GODOT/'data/fighters/ally_power.tres',path,'gou_reversal')
 path = pack(ROOT/'art_sources/gou_received_v1/enemy_01_standard',GODOT/'assets/characters/special_received_gou_v1/enemy_01_standard',
     REFS/'crusher.png',['hit','air','down'],
-    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1],10),'received_gou_breaker_down':([2],5)},1.12)
+    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1],10),'received_gou_breaker_down':([2],5)},1.12,density_adjustment=0.94)
 fighter = GODOT/'data/enemies/enemy_01_standard.tres'
 attach(fighter,path,'received_gou')
 text = fighter.read_text(encoding='utf-8')
@@ -82,3 +83,23 @@ if 'special_startup_animation =' not in text:
     text += '\nspecial_startup_animation = &"gou_reversal_startup"\nspecial_finish_animation = &"gou_reversal_finish"\n'
 attack.write_text(text,encoding='utf-8')
 print('GOU_REVERSAL_PACK_OK attacker_poses=4 victim_poses=3')
+reference_manifest = ROOT/'evidence/special_reaction_refs/manifest.json'
+if reference_manifest.exists():
+    for ref in json.loads(reference_manifest.read_text()):
+        name = ref['name']
+        if name == 'enemy_01_standard': continue
+        source = ROOT/'art_sources/gou_received_v1'/name
+        if not all((source/(phase+'.png')).exists() for phase in ['hit','air','down']):
+            raise FileNotFoundError(f'Missing dedicated Gou reactions: {name}')
+        path = pack(source,GODOT/'assets/characters/special_received_gou_v1'/name,
+            Path(ref['reference']),['hit','air','down'],
+            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1],10),'received_gou_breaker_down':([2],5)},1.12,density_adjustment=0.94)
+        fighter = GODOT/ref['fighter']
+        attach(fighter,path,'received_gou')
+        text = fighter.read_text(encoding='utf-8')
+        match = re.search(r'^special_damage_reactions = (.+)$',text,re.M)
+        reactions = json.loads(match[1])
+        reactions['player2_special_iron_breaker'] = dict(hit='received_gou_breaker_hit',airborne='received_gou_breaker_air',down='received_gou_breaker_down')
+        text = text[:match.start(1)] + json.dumps(reactions) + text[match.end(1):]
+        fighter.write_text(text,encoding='utf-8')
+    print('GOU_ALL_ENEMY_REACTIONS_OK enemies=9 original_poses=27')

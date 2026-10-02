@@ -1,0 +1,45 @@
+{
+  "cell": [
+    320,
+    300
+  ],
+  "baseline": 269,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_04_throw\\hit.png",
+      "scale": 0.23351094470046077,
+      "source_anchor_x": 701.5,
+      "support": [
+        92,
+        95,
+        228,
+        269
+      ],
+      "sha256": "57d2bf098a9a7b3b06cce168fcbe0d3ede847bc9548c9bc418c3a379b2e727f5"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_04_throw\\air.png",
+      "scale": 0.23351094470046077,
+      "source_anchor_x": 828.5,
+      "support": [
+        61,
+        68,
+        260,
+        269
+      ],
+      "sha256": "3856a84fc44b185d18c4489ee9d1337dbac8aa7cd3dc62fa0c8cecb85bb294e8"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_04_throw\\down.png",
+      "scale": 0.23351094470046077,
+      "source_anchor_x": 822.0,
+      "support": [
+        19,
+        154,
+        301,
+        269
+      ],
+      "sha256": "05ad5cf71db74837f9889e716845fc1e289fbb35bc2681dd568d74c313dfcbcb"
+    }
+  ]
+}

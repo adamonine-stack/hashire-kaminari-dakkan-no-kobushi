@@ -1,7 +1,7 @@
 """Pack each receiving enemy's original poses at one anatomical density."""
 from pathlib import Path
 from PIL import Image
-import json, re, hashlib, shutil, math
+import json, re, hashlib, shutil, math, runpy
 ROOT = Path(__file__).resolve().parents[1]
 GODOT = ROOT / 'godot'
 refs = json.loads((ROOT/'evidence/special_reaction_refs/manifest.json').read_text())
@@ -19,7 +19,7 @@ for ref in refs:
     poses = []
     for phase in ['hit','air','down']:
         target = source_folder/f'{phase}.png'
-        if name in sources:
+        if not target.exists() and name in sources:
             original = Path(sources[name][phase])
             if original.exists(): shutil.copy2(original,target)
         image = Image.open(target).convert('RGBA')
@@ -28,7 +28,9 @@ for ref in refs:
     # Calibrate once against the initial impact's slightly arched silhouette.
     # Air/down reuse this exact density, regardless of their bounding boxes.
     initial_bounds = poses[0][2]
-    density = (bounds[3]-bounds[1])/((initial_bounds[3]-initial_bounds[1])*1.05)
+    # A common 6% anatomical correction avoids an inflated flying body.
+    # The same density is used for hit, wall, air, fall and grounded down.
+    density = (bounds[3]-bounds[1])/((initial_bounds[3]-initial_bounds[1])*1.05)*0.94
     width = max(ref['cell'][0],math.ceil((max((b[2]-b[0])*density for _,_,b,_ in poses)+24)/32)*32)
     atlas = Image.new('RGBA',(width*3,height))
     manifest=[]
@@ -65,3 +67,4 @@ for ref in refs:
         text+='special_damage_reactions = {"player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down"}}\n'
         fighter.write_text(text,encoding='utf-8')
 print('AKKY_ENEMY_REACTIONS_PACK_OK enemies=9 original_poses=27')
+runpy.run_path(str(ROOT/'tools/configure_akky_wall_reactions.py'))

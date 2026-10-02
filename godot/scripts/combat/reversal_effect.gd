@@ -48,6 +48,11 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
+	if phase == "wall":
+		_draw_special_impact()
+		draw_line(Vector2(0,-90),Vector2(0,90),Color(tint,0.4),14.0)
+		draw_line(Vector2(0,-75),Vector2(0,75),Color.WHITE,3.0)
+		return
 	if phase == "impact":
 		_draw_special_impact()
 	else:

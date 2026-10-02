@@ -3,7 +3,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 # Horizontal drive, upward launch and power slam retain distinct trajectories.
 profiles = {
- 'player1_special_thunder_drive': (760,460), 'player2_special_iron_breaker': (820,500),
+ 'player1_special_thunder_drive': (2200,460), 'player2_special_iron_breaker': (460,400),
  'player3_special_clear_counter': (720,440), 'crusher_fault_break': (820,520),
  'shadow_slip_counter': (700,430), 'masato_palm_reversal': (740,450),
  'rei_dragon_uppercut': (560,700), 'cross_muei': (730,480),

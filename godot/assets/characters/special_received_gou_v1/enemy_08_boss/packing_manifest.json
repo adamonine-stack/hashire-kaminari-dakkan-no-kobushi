@@ -1,0 +1,45 @@
+{
+  "cell": [
+    448,
+    320
+  ],
+  "baseline": 309,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_08_boss\\hit.png",
+      "scale": 0.2810277957336781,
+      "source_anchor_x": 737.0,
+      "support": [
+        133,
+        61,
+        316,
+        309
+      ],
+      "sha256": "f5286579e9d6901cc8353bc60c11ae57b6872ab6e9bf0bfd7b1cfde064a252a6"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_08_boss\\air.png",
+      "scale": 0.2810277957336781,
+      "source_anchor_x": 807.0,
+      "support": [
+        109,
+        67,
+        338,
+        309
+      ],
+      "sha256": "d76c5d68676054ec5a756edb27e0461c49c27a172e3c2e7da3bb0306a1991aba"
+    },
+    {
+      "source": "art_sources\\gou_received_v1\\enemy_08_boss\\down.png",
+      "scale": 0.2810277957336781,
+      "source_anchor_x": 882.5,
+      "support": [
+        18,
+        160,
+        430,
+        309
+      ],
+      "sha256": "0020a0e86fc9d3a8727c25f0c6c3ce2796714b8a3362e6f6dc23fdbc9c0f0400"
+    }
+  ]
+}

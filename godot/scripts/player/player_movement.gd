@@ -2740,6 +2740,12 @@ func clear_victory_pose() -> void:
 
 
 func _get_current_visual_animation() -> StringName:
+	if _is_knockdown_state(&"KNOCKBACK") and String(get("special_wall_phase")) == "impact":
+		var wall_clip := StringName(get("last_special_wall_animation"))
+		if _has_visual_animation(wall_clip): return wall_clip
+	if _is_knockdown_state(&"KNOCKBACK") and String(get("special_wall_phase")) == "fall":
+		var fall_clip := StringName(get("last_special_wall_fall_animation"))
+		if _has_visual_animation(fall_clip): return fall_clip
 	if current_hp <= 0:
 		if _is_knockdown_state(&"KNOCKBACK"):
 			if _has_visual_animation(last_special_knockback_animation): return last_special_knockback_animation

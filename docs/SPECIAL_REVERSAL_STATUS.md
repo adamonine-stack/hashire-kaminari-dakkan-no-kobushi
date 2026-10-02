@@ -1,5 +1,7 @@
 # ST_action 必殺技追加 作業報告 2026-10-02
 
+最新追加: ゴウの技を受ける敵9種の専用反応、アッキーの表示画面端への高速壁衝突→落下、反応素材とカメラのサイズ補正、ゴウの短距離着地。詳細はENEMY_REACTIONS_AND_WALL_LAUNCH_UPDATE.md。以下は各工程時点の記録。
+
 **全体は未完成。共通戦闘処理、アッキー専用切り返し、登録12技の豪華Effect/大きな吹き飛び、アッキーの肘打ちを受ける敵9種の専用反応を実装。次工程でゴウの専用攻撃原画4枚と、重打撃を受けるクラッシャーの専用反応3枚も追加。詳細はSPECIAL_PRESENTATION_UPDATE.mdとGOU_REVERSAL_PRESENTATION_UPDATE.md。他10技の専用原画・全受け手反応・方向Attack/Throw/Combo統合・指定12戦闘ケースの完成条件は未達。公開変更なし。**
 
 作業ツリー: `.special_reversal_20261002`。ブランチ: `feat/special-reversal-20261002`。基点: `4636dbc6a03395a3bcda66340fb7e08aea204270`。親フォルダーの空の`.git`ではGitが動作しないため、公開作業に使用された`.st_action_publish_20261002`から独立したworktreeを作成した。既存の制作物を上書きしていない。
