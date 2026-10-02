@@ -2936,7 +2936,6 @@ func _update_visual_state() -> void:
 	_sync_single_character_visual()
 	_update_pose_collision()
 	_play_visual_animation(_get_current_visual_animation())
-	if has_method("_update_special_air_pose"): call("_update_special_air_pose")
 	_apply_character_visual_pose()
 
 	if not debug_state_label_enabled:

@@ -73,6 +73,7 @@ class_name PlayerAttackData
 @export var wall_slam := false
 @export var special_launch_speed_cap := Vector2.ZERO
 @export var backflip_on_launch := false
+@export var special_launch_gravity := 0.0
 @export var effect_scene: PackedScene
 @export var hit_effect_scene: PackedScene
 @export var camera_shake: float = 3.0

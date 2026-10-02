@@ -36,8 +36,7 @@ var special_backflip_duration := 0.0
 var special_backflip_direction := 1.0
 var special_backflip_turn := 0.0
 var special_prone_alignment := Vector2.ZERO
-var special_pose_material: ShaderMaterial
-var special_previous_material: Material
+var special_flight_gravity := 0.0
 var knockdown_timer := 0.0
 var get_up_timer := 0.0
 var get_up_invincible_timer := 0.0
@@ -300,8 +299,8 @@ func update_knockback(delta: float) -> void:
 				# At 270 degrees the head already points toward Gou. Match the
 				# prone drawing's body center, then lower it smoothly to ground.
 				animated_character_sprite.rotation = 0.0
-				var settling_time := maxf(0.01,special_backflip_duration/0.85-special_backflip_duration)
-				var settling := clampf((special_backflip_elapsed-special_backflip_duration)/settling_time,0.0,1.0)
+				var settling_time := maxf(0.01,special_backflip_duration/0.60-special_backflip_duration)
+				var settling := smoothstep(0.0,1.0,clampf((special_backflip_elapsed-special_backflip_duration)/settling_time,0.0,1.0))
 				animated_character_sprite.offset = -special_prone_alignment*(1.0-settling)
 	if special_wall_phase == "fly":
 		velocity.x = special_wall_speed * special_wall_direction
@@ -321,49 +320,11 @@ func update_knockback(delta: float) -> void:
 	if special_wall_phase == "fall":
 		velocity.x = 0.0
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		velocity.y += (special_flight_gravity if special_flight_gravity > 0.0 else gravity) * delta
 	velocity.x = move_toward(velocity.x, 0.0, move_speed * 0.35 * delta)
 
 	if is_on_floor() and velocity.y >= -ground_landing_velocity_threshold:
 		enter_knockdown()
-
-
-func _update_special_air_pose() -> void:
-	var sprite := animated_character_sprite
-	if sprite == null: return
-	if not special_backflip_enabled or knockdown_state != &"KNOCKBACK" or special_backflip_turn >= PI*1.5 or sprite.animation != last_special_knockback_animation:
-		_clear_special_pose_blend()
-		return
-	if sprite.sprite_frames.get_frame_count(sprite.animation) < 3: return
-	var progress := clampf(special_backflip_elapsed/special_backflip_duration,0.0,1.0)
-	var pose := 0
-	var previous := 0
-	var blend := 1.0
-	if progress >= 0.15 and progress < 0.58:
-		pose = 1
-		blend = smoothstep(0.15,0.30,progress)
-	elif progress >= 0.58:
-		pose = 2
-		previous = 1
-		blend = smoothstep(0.58,0.78,progress)
-	sprite.pause()
-	sprite.frame = pose
-	var current_texture := sprite.sprite_frames.get_frame_texture(sprite.animation,pose) as AtlasTexture
-	var previous_texture := sprite.sprite_frames.get_frame_texture(sprite.animation,previous) as AtlasTexture
-	if current_texture == null or previous_texture == null: return
-	if special_pose_material == null:
-		special_pose_material = ShaderMaterial.new()
-		special_pose_material.shader = load("res://shaders/gou_pose_blend.gdshader")
-	if sprite.material != special_pose_material:
-		special_previous_material = sprite.material
-		sprite.material = special_pose_material
-	var atlas_size := current_texture.atlas.get_size()
-	special_pose_material.set_shader_parameter("previous_shift",(previous_texture.region.position-current_texture.region.position)/atlas_size)
-	special_pose_material.set_shader_parameter("pose_blend",blend)
-
-func _clear_special_pose_blend() -> void:
-	if animated_character_sprite != null and animated_character_sprite.material == special_pose_material:
-		animated_character_sprite.material = special_previous_material
 
 
 func _start_special_flight_trail() -> void:
@@ -387,7 +348,6 @@ func enter_knockdown() -> void:
 		return
 
 	knockdown_state = &"KNOCKDOWN"
-	_clear_special_pose_blend()
 	if special_backflip_enabled and animated_character_sprite != null:
 		animated_character_sprite.rotation = 0.0
 		animated_character_sprite.offset = Vector2.ZERO
@@ -446,6 +406,7 @@ func update_get_up(delta: float) -> void:
 
 func finish_get_up() -> void:
 	special_backflip_enabled = false
+	special_flight_gravity = 0.0
 	special_wall_phase = ""
 	last_special_wall_animation = &""
 	last_special_wall_fall_animation = &""
@@ -472,7 +433,6 @@ func set_hurtbox_enabled(enabled: bool) -> void:
 
 
 func restore_sprite_transform() -> void:
-	_clear_special_pose_blend()
 	if animated_character_sprite != null:
 		animated_character_sprite.rotation = 0.0
 		animated_character_sprite.offset = Vector2.ZERO
@@ -483,6 +443,7 @@ func restore_sprite_transform() -> void:
 
 func reset_knockdown_state() -> void:
 	special_backflip_enabled = false
+	special_flight_gravity = 0.0
 	special_backflip_elapsed = 0.0
 	special_backflip_turn = 0.0
 	special_wall_phase = ""
@@ -559,15 +520,26 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 	special_backflip_elapsed = 0.0
 	special_backflip_turn = 0.0
 	special_prone_alignment = Vector2.ZERO
+	special_flight_gravity = float(attack_data.get("special_launch_gravity",0.0)) if bool(attack_data.get("is_special",false)) else 0.0
 	if special_backflip_enabled:
+		# Reapply the authored low launch after the ordinary knockdown minimum.
+		var requested_cap: Vector2 = attack_data.get("special_launch_speed_cap",Vector2.ZERO)
+		if requested_cap.y > 0.0: velocity.y = maxf(velocity.y,-requested_cap.y)
 		special_backflip_direction = signf(velocity.x)
 		if _has_visual_animation(last_knockdown_animation):
 			var prone_texture := animated_character_sprite.sprite_frames.get_frame_texture(last_knockdown_animation,0)
 			var prone_bounds := prone_texture.get_image().get_used_rect()
-			special_prone_alignment.y = prone_bounds.get_center().y-prone_texture.get_height()*0.5
+			var prone_center := Vector2(prone_bounds.get_center())-prone_texture.get_size()*0.5
+			var air_texture := animated_character_sprite.sprite_frames.get_frame_texture(last_special_knockback_animation,0)
+			var air_center := Vector2(air_texture.get_image().get_used_rect().get_center())-air_texture.get_size()*0.5
+			if animated_character_sprite.flip_h:
+				prone_center.x = -prone_center.x
+				air_center.x = -air_center.x
+			var rotated_air_center := (air_center*animated_character_sprite.scale).rotated(special_backflip_direction*PI*1.5)/animated_character_sprite.scale
+			special_prone_alignment = prone_center-rotated_air_center
 		# Rotate backward 270 degrees into a head-toward-Gou prone landing.
 		# Rotate the Sprite about its body center, never the ground/feet origin.
-		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(gravity,1.0)*0.85)
+		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(special_flight_gravity if special_flight_gravity > 0.0 else gravity,1.0)*0.60)
 	if not bool(attack_data.get("is_special",false)) or not bool(attack_data.get("wall_slam",false)): return
 	special_wall_phase = "fly"
 	special_wall_contacts = 0

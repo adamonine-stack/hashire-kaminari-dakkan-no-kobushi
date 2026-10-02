@@ -18,18 +18,6 @@
       "sha256": "daa9a72118a4f854fba35752dfc3de2c87da4cf230e926f1c756a619a6959f3f"
     },
     {
-      "source": "art_sources\\gou_received_v2\\enemy_02_speed\\tuck.png",
-      "scale": 0.18795626968222157,
-      "source_anchor_x": 726.5,
-      "support": [
-        121,
-        129,
-        199,
-        223
-      ],
-      "sha256": "14309c7f3b3cdee5099e85595a0cd85e5edf925c6521debd5e2480bb22cf3c39"
-    },
-    {
       "source": "art_sources\\gou_received_v2\\enemy_02_speed\\down.png",
       "scale": 0.09561941964285713,
       "source_anchor_x": 881.0,
