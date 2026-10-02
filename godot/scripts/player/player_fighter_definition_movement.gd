@@ -1582,6 +1582,8 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"can_interrupt_attack": character_special_data.can_interrupt_attack,
 		"can_break_combo": character_special_data.can_break_combo,
 		"special_hit_reaction": character_special_data.special_hit_reaction,
+		"special_knockback_reaction": character_special_data.special_knockback_reaction,
+		"special_knockdown_reaction": character_special_data.special_knockdown_reaction,
 		"special_guard_reaction": character_special_data.special_guard_reaction,
 		"guard_hit_time": float(character_special_data.guard_hit_time) if character_special_data != null else 0.28,
 		"guard_hitstop_attacker": 0.06,

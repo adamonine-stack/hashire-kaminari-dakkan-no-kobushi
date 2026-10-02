@@ -150,6 +150,7 @@ var crouch_motion_state := "none"
 var crouch_motion_timer := 0.0
 var last_damage_animation: StringName = &"damage_light"
 var last_knockdown_animation: StringName = &""
+var last_special_knockback_animation: StringName = &""
 var ko_slow_motion_active := false
 var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
@@ -2752,6 +2753,8 @@ func _get_current_visual_animation() -> StringName:
 	if _is_knockdown_state(&"GET_UP"):
 		return &"stand_up"
 	if _is_knockdown_state(&"KNOCKBACK"):
+		if _has_visual_animation(last_special_knockback_animation):
+			return last_special_knockback_animation
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"knockback"
@@ -2872,6 +2875,9 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 
 
 func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName:
+	if bool(attack_data.get("is_special", false)):
+		var special_down := StringName(attack_data.get("special_knockdown_reaction", &"special_knockdown"))
+		if _has_visual_animation(special_down): return special_down
 	var cross_reaction := _cross_reaction_for_attack(String(attack_data.get("attack_id", "")))
 	var cross_down := StringName(String(cross_reaction) + "_down")
 	if _has_visual_animation(cross_down):

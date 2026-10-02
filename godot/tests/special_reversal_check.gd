@@ -59,6 +59,8 @@ func run() -> void:
 		var data: Dictionary = player._get_character_special_attack_dictionary()
 		check(data.damage == roundi(maxi(player.punch_damage, player.kick_damage) * 1.5), definition + " 1.5 damage")
 		check(data.is_guardable and data.can_interrupt_attack, definition + " guard/interrupt contract")
+		var expected_chip := 0.0 if definition in ["enemies/enemy_01_standard", "enemies/enemy_02_speed", "enemies/enemy_03_guard", "enemies/enemy_06_combo", "enemies/enemy_08_boss", "enemies/enemy_09_seiya"] else 0.15
+		check(is_equal_approx(float(data.guard_damage_multiplier), expected_chip), definition + " independent authored chip contract")
 		print("SPECIAL_DAMAGE %s=%d" % [definition, data.damage])
 	player.apply_character_data(load("res://data/fighters/ally_balance.tres"))
 	enemy.apply_character_data(load("res://data/enemies/enemy_04_throw.tres"))
@@ -103,6 +105,7 @@ func run() -> void:
 	check(not enemy.receive_attack(packet, 1.0, enemy.global_position, player), "special guarded")
 	check(enemy.is_guard_hit and not enemy.is_hit, "guard uses guard reaction")
 	check(hp - enemy.current_hp == enemy._get_guard_damage_from_attack_data(packet), "authored chip only")
+	check(hp - enemy.current_hp < int(packet.damage) / 2, "guard damage is strictly below half the hit damage")
 	# Exercise the real Area2D entry callbacks for a simultaneous special trade.
 	reset_pair()
 	player.start_character_special()

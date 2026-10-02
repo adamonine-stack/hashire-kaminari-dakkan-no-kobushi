@@ -1,0 +1,244 @@
+{
+  "cell": [
+    320,
+    224
+  ],
+  "scale": 0.13,
+  "baseline": 208,
+  "frames": [
+    {
+      "index": 0,
+      "source": "startup_key",
+      "sha256": "7a3ff9512891bc01731eb2e4c9969c8dff35f4f1760cc6c87cae86111b4ef582",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        113,
+        140,
+        960,
+        1442
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        21
+      ],
+      "cell_opaque_bounds": [
+        108,
+        39,
+        218,
+        208
+      ]
+    },
+    {
+      "index": 1,
+      "source": "transition",
+      "sha256": "af2725bc692bc9247a2a7c669e3ea31ac565d6ff9ccffa4f697585bc5ddf12b4",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        80,
+        172,
+        982,
+        1407
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        25
+      ],
+      "cell_opaque_bounds": [
+        103,
+        47,
+        221,
+        208
+      ]
+    },
+    {
+      "index": 2,
+      "source": "active_key",
+      "sha256": "c1bb1eebb4dcd9764d55f5eff2b9f00443c383bf0c7eac045d04d3f03b576d29",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        20,
+        183,
+        1004,
+        1347
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        33
+      ],
+      "cell_opaque_bounds": [
+        96,
+        57,
+        224,
+        208
+      ]
+    },
+    {
+      "index": 3,
+      "source": "finish_key",
+      "sha256": "cbad1bac087a452a5681ebb7881933e6de3ce3899050a761141f9331577dd587",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        128,
+        146,
+        994,
+        1430
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        22
+      ],
+      "cell_opaque_bounds": [
+        110,
+        41,
+        222,
+        208
+      ]
+    },
+    {
+      "index": 4,
+      "source": "special_hit",
+      "sha256": "3e6f95d697ad2d28efcf9b7952583ce9aac52e94ba5396927beac25e815b935e",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        48,
+        122,
+        985,
+        1443
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        20
+      ],
+      "cell_opaque_bounds": [
+        99,
+        36,
+        221,
+        208
+      ]
+    },
+    {
+      "index": 5,
+      "source": "special_knockback",
+      "sha256": "c009a37dcb55f7e8680c2411b3ab711a4ff3676503ef4913e000c9ff6e249408",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        15,
+        123,
+        987,
+        1438
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        21
+      ],
+      "cell_opaque_bounds": [
+        95,
+        37,
+        221,
+        208
+      ]
+    },
+    {
+      "index": 6,
+      "source": "special_knockdown",
+      "sha256": "888bfbd5689d0aa63d7b948865c9670f1e4c332c7a7146353c7227b20956601a",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_opaque_bounds": [
+        25,
+        332,
+        1519,
+        866
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        60,
+        95
+      ],
+      "cell_opaque_bounds": [
+        63,
+        138,
+        257,
+        208
+      ]
+    },
+    {
+      "index": 7,
+      "source": "special_guard_impact",
+      "sha256": "7b6b64a71870fe1813b5ff601386cd9814eadb2fd1af2b37044b23363f08bd8c",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        112,
+        140,
+        969,
+        1442
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        21
+      ],
+      "cell_opaque_bounds": [
+        108,
+        39,
+        219,
+        208
+      ]
+    },
+    {
+      "index": 8,
+      "source": "special_guard_hold",
+      "sha256": "a6a3e10e905765ef274e8d7c861e0f526407411e86012e25aae41869916a2f4f",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_opaque_bounds": [
+        80,
+        141,
+        998,
+        1445
+      ],
+      "fixed_scale": 0.13,
+      "offset": [
+        93,
+        20
+      ],
+      "cell_opaque_bounds": [
+        103,
+        38,
+        223,
+        208
+      ]
+    }
+  ]
+}

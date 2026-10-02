@@ -1,6 +1,6 @@
 # ST_action 必殺技追加 作業報告 2026-10-02
 
-**未完成。共通戦闘処理の第一段階を実装した状態。全キャラクター専用原画・方向Attack/Throw/Combo統合・12戦闘ケースの完成条件は満たしていない。公開変更は行っていない。**
+**全体は未完成。共通戦闘処理とアッキー専用切り返しモーションを実装した状態。残り11定義の専用原画・方向Attack/Throw/Combo統合・12戦闘ケースの完成条件は満たしていない。公開変更は行っていない。**
 
 作業ツリー: `.special_reversal_20261002`。ブランチ: `feat/special-reversal-20261002`。基点: `4636dbc6a03395a3bcda66340fb7e08aea204270`。親フォルダーの空の`.git`ではGitが動作しないため、公開作業に使用された`.st_action_publish_20261002`から独立したworktreeを作成した。既存の制作物を上書きしていない。
 
@@ -87,9 +87,9 @@ HitStun中の必殺技受付をデータで許可。開始0.10秒だけ接触を
 
 ## 12–13. Attack Motion / Damage Motion
 
-専用Startup/Attack/FinishおよびSpecial Hit/GuardのClip指定構造を追加。既存Clipがない場合の表示は従来反応に戻る。**新規専用Sprite/Atlas Motionの制作は未完了。** 特に通常Poseを共有したSpecial、Special Hit/Knockback/Knockdown/Guardの専用原画が不足している。
+専用Startup/Attack/FinishおよびSpecial Hit/Guard/Knockback/KnockdownのClip指定構造を追加。既存Clipがない場合の表示は従来反応に戻る。実装前の12定義の既存Clip一覧はSPECIAL_REVERSAL_MOTION_INVENTORY.mdに保存。
 
-実装前に12定義の既存Clip一覧をSPECIAL_REVERSAL_MOTION_INVENTORY.mdへ保存。アッキーのStartup Key Poseを1枚だけimagegenで生成しevidence/keypose_candidatesへ保存した。正式素材への採用・中間Frame制作・Atlas化は行っていない。
+アッキーは既存battle.pngの黒髪・茶色ジャケット・黒い服とブーツを参照し、1枚ずつ9原画を制作。開始2枚、前進肘打ち1枚、終了1枚、被弾/吹き飛び2枚、地上ダウン1枚、ガード2枚をreversal_v1へ統合。全原画を同一倍率0.13で320×224セル、足基準208へ配置し、原画のSHA-256と配置値をpacking_manifest.jsonに記録。通常のspecial_thunder_driveは互換性のため従来Clipを保持し、今回の技はakky_reversal_elbowを使う。空中はspecial_knockback、着地後はspecial_knockdownへ切り替え、Throw/通常被弾では専用状態をクリアする。被弾と吹き飛びは専用2枚を共有しており、別々の全中間Frame制作まで完了したという意味ではない。残り11定義の制作は未完了。
 
 ## 14. Effect
 
@@ -113,11 +113,17 @@ Godot非headlessのBattle描画で12定義×開始/Active/Hit/Finishを48枚保�
 
 ## 18. 発見・修正
 
+継続作業で、前段階の倍率置換がguard_damage_multiplierにも誤って適用され、既存6技のガード削りが1.5になっていた問題を発見。6技を0.15へ修正し、新規6技の0.0も含めた独立した期待値と、実ガードDamageが通常Hitの半分未満である検証を追加。前段階の報告だけではこの誤設定を検出できていなかった。
+
+継続作業の最終回帰は既存25テスト全件成功。追加のakky_reversal_motion_checkとspecial_reversal_checkも成功。新アトラス追加時に旧akky_motion_atlasが全Clipを旧アトラス参照と仮定して失敗したため、登録済みextra_motion_atlasesのClipを正しい参照先として検証するよう更新した。専用テスト終了時のAudioStream残存警告は、固定FPSが実音声より速く進むため発生し、テスト終了で音声停止とミキサー待機を追加して解消した。
+
+Godot非headlessでアッキー全11表示Frameを左右反転し22枚保存。全FrameでSpriteのScale=(1.280403,1.280403)、Pivot=(0,-122.9187)を検証し、描画画像でも足位置・向き・切れ・ポーズを確認。実receive_attackによる被弾/空中/着地/Guardの遷移も検証。画像はevidence/akky_reversal、連結画像はcontact.jpg。制御された実描画であり、手動Play Testや指定12戦闘ケース完了の証拠ではない。
+
 HitStun発動禁止、AI被弾中の候補停止、過大倍率、最低20%Guard削り、無敵中でもSpecialを先に中断する順序、同フレームSpecial処理順依存、空振り硬直不足を修正。既存被弾無敵の持ち越しとSpecial中AI競合を修正。検証で使用した誤ったDOWN状態名を既存KNOCKDOWNへ修正。AudioStream終了前のテスト終了で出たObjectDB警告は、再現ログで音声終了待ちの問題と確認し、新規テストの終了待ちを修正した。
 
 ## 19. 未解決
 
-- 全12キャラクターの専用Attack/Start/Finish/被Damage/Guard原画、中間Frame、Atlas制作と正式デザイン比較。
+- 残り11定義の専用Attack/Start/Finish/被Damage/Guard原画、中間Frame、Atlas制作と正式デザイン比較。アッキーも長い実戦中の同期と必要な追加中間Frameを継続確認する。
 - 方向P/K/Throw、派生Comboの既存実装を全キャラクターで詳細照合し、不足を制作・統合する作業。
 - Boss既存special/ultimateと新切り返しの全ルール統合。
 - ユーザー指定12戦闘ケースの実進行、全フレーム、HitBox/HurtBox/Effect同期、左右反転、足位置、Wall、複数Enemy、Airborne/Knockdown/Bossの検証。

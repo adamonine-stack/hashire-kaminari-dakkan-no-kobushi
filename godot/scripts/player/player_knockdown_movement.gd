@@ -80,6 +80,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 
 	interrupt_combo()
 	_cancel_current_action()
+	last_special_knockback_animation = StringName(attack_data.get("special_knockback_reaction", &"")) if bool(attack_data.get("is_special", false)) else &""
 	if causes_down or final_damage >= current_hp:
 		last_knockdown_animation = _get_knockdown_animation_from_attack(attack_data)
 	else:
@@ -150,6 +151,7 @@ func _receive_power_armor_hit(attack_data: Dictionary, final_damage: int, hit_po
 
 
 func _complete_throw_hit() -> void:
+	last_special_knockback_animation = &""
 	last_knockdown_animation = &""
 	var attacker := pending_throw_attacker
 	var hit_position := pending_throw_hit_position
@@ -227,7 +229,9 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 	if velocity.y > knockdown_vertical_force:
 		velocity.y = knockdown_vertical_force
 	set_hurtbox_enabled(false)
-	if _has_visual_animation(last_knockdown_animation):
+	if _has_visual_animation(last_special_knockback_animation):
+		_play_state_animation(last_special_knockback_animation, &"Throw")
+	elif _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(last_knockdown_animation, &"Throw")
 	else:
 		_play_state_animation(&"knockback", &"Throw")
@@ -256,7 +260,9 @@ func enter_knockdown() -> void:
 	clear_attack_buffer()
 	# The six-frame knockdown sequence starts during knockback. Do not force a
 	# second animation at ground contact or the sequence jumps back to frame 1.
-	if not _has_visual_animation(last_knockdown_animation):
+	if _has_visual_animation(last_special_knockback_animation) and _has_visual_animation(last_knockdown_animation):
+		_play_state_animation(last_knockdown_animation, &"Throw")
+	elif not _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(&"knockdown", &"Throw")
 	_spawn_knockdown_impact_effect(global_position)
 	screen_shake_requested.emit(knockdown_camera_shake_strength)
@@ -323,6 +329,7 @@ func restore_sprite_transform() -> void:
 
 
 func reset_knockdown_state() -> void:
+	last_special_knockback_animation = &""
 	knockdown_state = &""
 	knockdown_timer = 0.0
 	get_up_timer = 0.0

@@ -22,13 +22,13 @@ knockback = Vector2(360, -96)
 hitstop_time = 0.13
 hitstun_time = 0.38
 is_guardable = true
-guard_damage_multiplier = 1.5
+guard_damage_multiplier = 0.15
 guard_hit_time = 0.28
 guard_knockback = Vector2(95, 0)
 can_be_interrupted = true
 interruptible_until_active = true
 cooldown = 4.20
-animation_name = "special_thunder_drive"
+animation_name = "akky_reversal_elbow"
 warning_effect_name = "player1_special_warning"
 attack_effect_name = "player1_thunder_drive"
 
@@ -39,3 +39,6 @@ can_use_during_hitstun = true
 startup_invulnerability = 0.10
 
 ai_special_tags = Array[String](["reversal", "counter"])
+
+special_startup_animation = &"akky_reversal_startup"
+special_finish_animation = &"akky_reversal_finish"
