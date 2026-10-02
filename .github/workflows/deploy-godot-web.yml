@@ -91,7 +91,11 @@ jobs:
           python3 tools/build_crusher_web_qa.py
           timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/crusher_web_qa.tscn 2>&1 | tee /tmp/crusher-web-qa.log
           grep -Fq 'SPECIAL_LAUNCH_REACTION_CHECK failures=[]' /tmp/crusher-web-qa.log
-          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/crusher-web-qa.log; then exit 1; fi
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/crusher-web-qa.log; then exit 1; fi
+            python3 tools/build_leon_web_qa.py
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/leon_web_qa.tscn 2>&1 | tee /tmp/leon-web-qa.log
+            grep -q 'LEON_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/leon-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/leon-web-qa.log; then exit 1; fi
 
       - name: Verify Japanese UI font
         shell: bash

@@ -2661,6 +2661,12 @@ func _play_audio_manager_se(se_id: String) -> bool:
 
 
 func _update_visual_state() -> void:
+	# Base movement selects its ordinary clip first. Preserve Leon's authored
+	# special progress when that temporary base clip is replaced in this update.
+	var preserve_leon_special := _is_enemy8() and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
+	var previous_animation: StringName = animated_character_sprite.animation if preserve_leon_special else &""
+	var previous_frame: int = animated_character_sprite.frame if preserve_leon_special else 0
+	var previous_progress: float = animated_character_sprite.frame_progress if preserve_leon_special else 0.0
 	super._update_visual_state()
 	if is_character_special_busy():
 		match character_special_state:
@@ -2673,6 +2679,13 @@ func _update_visual_state() -> void:
 		_update_seiya_somersault_visual()
 	if is_boss_special_busy():
 		match boss_attack_state:
+			BossAttackState.SPECIAL_STARTUP:
+				_play_visual_animation(&"special_startup" if _is_enemy8() else &"special")
+			BossAttackState.SPECIAL_ACTIVE:
+				var attack_clip := StringName(boss_current_attack_data.animation_name) if _is_enemy8() and boss_current_attack_data != null else &"special"
+				_play_visual_animation(attack_clip)
+			BossAttackState.SPECIAL_RECOVERY:
+				_play_visual_animation(&"special_recovery" if _is_enemy8() else &"special")
 			BossAttackState.ULTIMATE_STARTUP:
 				_play_visual_animation(&"ultimate_startup")
 			BossAttackState.ULTIMATE_ACTIVE:
@@ -2681,6 +2694,8 @@ func _update_visual_state() -> void:
 				_play_visual_animation(&"ultimate_recovery")
 			_:
 				_play_visual_animation(&"special")
+	if preserve_leon_special and animated_character_sprite.animation == previous_animation:
+		animated_character_sprite.set_frame_and_progress(previous_frame,previous_progress)
 	if name != "Enemy" or ai_profile == null or not debug_state_label_enabled or state_label == null:
 		return
 	state_label.text += "\nAI: %s\nDIST: %.0f\nCD: %.2f" % [

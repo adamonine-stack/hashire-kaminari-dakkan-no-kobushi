@@ -11,15 +11,15 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/battle.png" id="9_battle"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/sprite_sheet.png" id="10_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/shadow.png" id="11_shadow"]
-[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v1/motion_atlas.tres" id="12_motion"]
+[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v2/motion_atlas.tres" id="12_motion"]
 
 [ext_resource type="Resource" path="res://data/attacks/leon_crow_reversal.tres" id="reversal"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_08_boss/motion_atlas.tres" id="received_akky"]
+[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v2/special_received_v1/motion_atlas.tres" id="received_akky"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_08_boss/motion_atlas.tres" id="received_gou"]
+[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v2/special_received_gou_v1/motion_atlas.tres" id="received_gou"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_08_boss/motion_atlas.tres" id="received_seiya"]
+[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v2/special_received_seiya_v1/motion_atlas.tres" id="received_seiya"]
 
 [resource]
 script = ExtResource("1_def")
