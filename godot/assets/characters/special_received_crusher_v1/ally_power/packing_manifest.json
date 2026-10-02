@@ -1,0 +1,73 @@
+{
+  "reference": "art_sources/crusher_reversal_v1/references/gou.png",
+  "sheet_sha256": "15d10a43da1694238a0602527f2d4787792d9a117acfaad109ba1a62cbba83a0",
+  "method": "corrected idle opaque anatomical body area; common canvas and baseline; constant runtime scale",
+  "baseline": 318,
+  "frames": [
+    {
+      "pose": "hit",
+      "density": 0.4364529410256323,
+      "origin": [
+        180,
+        141
+      ],
+      "size": [
+        152,
+        177
+      ],
+      "relative_body_area": 0.997169143665959
+    },
+    {
+      "pose": "air",
+      "density": 0.4543767286868684,
+      "origin": [
+        149,
+        155
+      ],
+      "size": [
+        214,
+        163
+      ],
+      "relative_body_area": 0.999174333569238
+    },
+    {
+      "pose": "down",
+      "density": 0.4480546856687467,
+      "origin": [
+        112,
+        240
+      ],
+      "size": [
+        289,
+        78
+      ],
+      "relative_body_area": 0.9969332389714556
+    },
+    {
+      "pose": "guard_impact",
+      "density": 0.4240907761463111,
+      "origin": [
+        189,
+        113
+      ],
+      "size": [
+        134,
+        205
+      ],
+      "relative_body_area": 0.9954588346308092
+    },
+    {
+      "pose": "guard_hold",
+      "density": 0.42644944973202054,
+      "origin": [
+        194,
+        98
+      ],
+      "size": [
+        125,
+        220
+      ],
+      "relative_body_area": 0.9962845010615711
+    }
+  ]
+}

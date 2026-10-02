@@ -71,6 +71,7 @@ class_name PlayerAttackData
 @export var special_startup_animation: StringName = &"special_startup"
 @export var special_finish_animation: StringName = &"special_recovery"
 @export var wall_slam := false
+@export var keep_special_flight_in_view := false
 @export var special_launch_speed_cap := Vector2.ZERO
 @export var backflip_on_launch := false
 @export var headfirst_on_launch := false

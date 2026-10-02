@@ -34,10 +34,13 @@ func run() -> void:
 			if String(clip).begins_with("seiya_somersault_"):
 				for extra_atlas in fighter.extra_motion_atlases:
 					if extra_atlas.resource_path.contains("somersault_v1"): expected = extra_atlas.texture
+			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
+			if crusher_reaction:
+				expected = load("res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.tres").texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
-			check(texture.get_size() == Vector2(384, 288), clip + ": cell size")
+			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
-			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
+			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < (510 if crusher_reaction else 382) and rect.end.y <= (318 if crusher_reaction else 270), clip + ": unclipped body and baseline")
 			checked += 1
 	for required in ["idle_prebattle", "walk_forward", "walk_backward", "dash", "jump_start", "jump_air", "jump_fall", "jump_land", "guard", "crouch_guard", "punch_1", "punch_2", "kick_1", "crouch_punch", "crouch_kick_sweep", "jump_punch_down", "jump_kick", "throw", "special_clear_counter", "victory", "stand_up", "ko"]:
 		check(frames.has_animation(required), required + ": explicit motion")

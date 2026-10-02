@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(512, 384)
+columns = 5
+clips = {"received_crusher_hammer_hit": {"frames": [0], "fps": 8, "loop": false}, "received_crusher_hammer_air": {"frames": [1], "fps": 8, "loop": false}, "received_crusher_hammer_down": {"frames": [2], "fps": 5, "loop": false}, "received_crusher_hammer_guard": {"frames": [3, 4], "fps": 9.090909090909092, "loop": false}}

@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "reference_policy": "Corrected runtime idle frames from main b45e184, exact hair, clothing and body build retained.",
+  "attack_prompt": "Four Crusher poses: joined-fist anticipation, overhead windup, downward-forward two-fist hammer to opponent torso, recovery. Same reference identity, transparent alpha, consistent anatomical scale.",
+  "reaction_prompt": "Create a transparent production sprite sheet depicting this EXACT referenced fighter receiving Crusher's heavy two-handed downward-forward hammer strike. Preserve facial identity, hair, outfit colors, boots or footwear, muscle build and existing detailed pixel-art drawing style. ONE horizontal row with FIVE equal cells and transparent margins. All facing LEFT (toward attacker), identical anatomical scale and head size in all poses. Cell1 HIT: head dips forward, torso folds at waist from a heavy shoulder/upper torso impact, hands thrown forward, both feet near floor. Cell2 AIR: airborne knocked backward to screen right, shoulders hunched and torso bent forward, arms loose ahead, legs trailing, NO rotation, full body visible. Cell3 DOWN: lying on side/back horizontally with head to LEFT, feet RIGHT, recognizable full-length body at SAME anatomical size. Cell4 GUARD IMPACT: grounded knees slightly bent, crossed forearms held high in front of face resisting downward strike, same scale. Cell5 GUARD HOLD: straightening slightly with forearms still guarding head, feet aligned same floor baseline. Only one character in each cell, no attacker, no effects, no floor, no text, actual transparent alpha. Do not miniaturize lying or airborne poses, do not change body proportions, do not add new clothing. Entire character clear and unclipped.",
+  "source_files": [
+    "crusher_sheet.png",
+    "akky_sheet.png",
+    "gou_sheet.png",
+    "seiya_sheet.png"
+  ],
+  "packing": "Separate measured connected poses; preserve alpha; normalize opaque anatomical mass to corrected idle; fixed cell/baseline and unchanged runtime scale."
+}

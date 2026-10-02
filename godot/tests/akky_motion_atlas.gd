@@ -42,9 +42,10 @@ func run() -> void:
 				if extra.clips.has(String(clip)):
 					expected = extra.texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
-			check(texture.get_size() == Vector2(320, 224), clip + ": common cell")
+			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
+			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(320,224)), clip + ": common cell")
 			var rect := texture.get_image().get_used_rect()
-			check(rect.has_area() and rect.position.x >= 3 and rect.position.y >= 3 and rect.end.x <= 317 and rect.end.y <= 221, clip + ": unclipped body")
+			check(rect.has_area() and rect.position.x >= 3 and rect.position.y >= 3 and rect.end.x <= (509 if crusher_reaction else 317) and rect.end.y <= (288 if crusher_reaction else 221), clip + ": unclipped body")
 			checked += 1
 	for required in ["idle_ready", "idle_prebattle", "dash", "jump_start", "jump_fall", "jump_land", "throw", "special_thunder_drive", "stand_up", "ko"]:
 		check(frames.has_animation(required), required + ": explicit clip")

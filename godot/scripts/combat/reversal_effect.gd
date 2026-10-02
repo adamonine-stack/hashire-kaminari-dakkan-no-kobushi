@@ -85,6 +85,12 @@ func _draw() -> void:
 			draw_arc(Vector2(0,-55),105.0,sweep,sweep+PI*1.25,48,Color.WHITE,3.0,true)
 		"enemy_01_crusher":
 			draw_polyline(PackedVector2Array([Vector2(-65,60),Vector2(-30,45),Vector2(0,60),Vector2(30,40),Vector2(65,60)]), Color(1,0.6,0.3), 5)
+			if phase == "active":
+				# Follow the two fists from the overhead windup down toward the target.
+				var progress := elapsed/duration
+				var end_angle := lerpf(-PI*0.70,PI*0.15,progress)
+				draw_arc(Vector2(0,-25),100.0,-PI*0.70,end_angle,32,Color(tint,0.28),14.0,true)
+				draw_arc(Vector2(0,-25),100.0,-PI*0.70,end_angle,32,Color.WHITE,3.0,true)
 		"enemy_02_shadow_boxer":
 			for i in range(3): draw_arc(Vector2(-30-i*18,0), r*0.5, -PI/2, PI/2, 20, tint, 2)
 		"enemy_03_masato_takahashi":

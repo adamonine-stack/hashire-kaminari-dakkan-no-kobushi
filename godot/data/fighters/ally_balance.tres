@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=19 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="Resource" path="res://assets/characters/player01/animations/akky_v3/motion_atlas.tres" id="45_motion_atlas"]
@@ -20,6 +20,8 @@
 [ext_resource type="Resource" path="res://assets/characters/player01/animations/cross_reactions/reactions.tres" id="cross_reactions"]
 
 [ext_resource type="Resource" path="res://assets/characters/player01/animations/reversal_v1/motion_atlas.tres" id="akky_reversal"]
+
+[ext_resource type="Resource" path="res://assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.tres" id="received_crusher"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -87,4 +89,6 @@ health_rating = 3
 throw_rating = 3
 combo_rating = 3
 
-extra_motion_atlases = Array[Resource]([ExtResource("akky_reversal")])
+extra_motion_atlases = Array[Resource]([ExtResource("akky_reversal"), ExtResource("received_crusher")])
+
+special_damage_reactions = {"crusher_fault_break": {"hit": "received_crusher_hammer_hit", "airborne": "received_crusher_hammer_air", "down": "received_crusher_hammer_down"}}

@@ -1599,6 +1599,7 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"is_special": true,
 		"special_effect_color": load("res://scripts/combat/reversal_effect.gd").color_for_style(String(fighter_definition.fighter_id)),
 		"wall_slam": character_special_data.wall_slam,
+		"keep_special_flight_in_view": character_special_data.keep_special_flight_in_view,
 		"special_launch_speed_cap": character_special_data.special_launch_speed_cap,
 		"backflip_on_launch": character_special_data.backflip_on_launch,
 		"headfirst_on_launch": character_special_data.headfirst_on_launch,

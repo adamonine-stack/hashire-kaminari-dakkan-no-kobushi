@@ -1,0 +1,73 @@
+{
+  "reference": "art_sources/crusher_reversal_v1/references/akky.png",
+  "sheet_sha256": "fd15341eac9cea07edfe3d284c914559ae7b997c16d8e27330fb65bdd1b659b9",
+  "method": "corrected idle opaque anatomical body area; common canvas and baseline; constant runtime scale",
+  "baseline": 287,
+  "frames": [
+    {
+      "pose": "hit",
+      "density": 0.30579217054405805,
+      "origin": [
+        202,
+        154
+      ],
+      "size": [
+        109,
+        133
+      ],
+      "relative_body_area": 0.9951456310679612
+    },
+    {
+      "pose": "air",
+      "density": 0.3093909133552782,
+      "origin": [
+        195,
+        145
+      ],
+      "size": [
+        122,
+        142
+      ],
+      "relative_body_area": 1.0013023916646933
+    },
+    {
+      "pose": "down",
+      "density": 0.33303335549720026,
+      "origin": [
+        146,
+        229
+      ],
+      "size": [
+        220,
+        58
+      ],
+      "relative_body_area": 0.9944352356144921
+    },
+    {
+      "pose": "guard_impact",
+      "density": 0.32205940618293766,
+      "origin": [
+        204,
+        126
+      ],
+      "size": [
+        105,
+        161
+      ],
+      "relative_body_area": 0.9953824295524508
+    },
+    {
+      "pose": "guard_hold",
+      "density": 0.3196368360694183,
+      "origin": [
+        206,
+        116
+      ],
+      "size": [
+        101,
+        171
+      ],
+      "relative_body_area": 1.0056831636277528
+    }
+  ]
+}

@@ -4,6 +4,10 @@ var failures: Array[String] = []
 var output := ""
 var screenshots := 0
 var attacker_definition := "ally_balance"
+var attacker_definition_folder := "fighters"
+var victim_definition_folder := "enemies"
+var attacker_node_name := "Player"
+var victim_node_name := "Enemy"
 var victim_definitions := ["enemy_01_standard","enemy_02_speed","enemy_03_guard","enemy_04_throw",
 	"enemy_05_power","enemy_06_combo","enemy_07_tricky","enemy_08_boss","enemy_09_seiya"]
 var reaction_prefix := "received_akky_elbow"
@@ -15,6 +19,7 @@ var minimum_flight_distance := 200.0
 var attack_original_folder := "reversal_v1"
 var minimum_flight_height := 55.0
 var maximum_flight_height := 0.0
+var minimum_contact_height := 80.0
 var visible_outline_cache: Dictionary = {}
 
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
@@ -111,9 +116,9 @@ func run() -> void:
 	manager._hide_player_selection()
 	manager._set_battle_active(true)
 	paused = false
-	var attacker: Node = battle.get_node("Player")
-	var target: Node = battle.get_node("Enemy")
-	attacker.apply_character_data(load("res://data/fighters/%s.tres" % attacker_definition))
+	var attacker: Node = battle.get_node(attacker_node_name)
+	var target: Node = battle.get_node(victim_node_name)
+	attacker.apply_character_data(load("res://data/%s/%s.tres" % [attacker_definition_folder,attacker_definition]))
 	var attack_sprite: AnimatedSprite2D = attacker.animated_character_sprite
 	var attack_scale := attack_sprite.scale
 	var attack_pivot := attack_sprite.position
@@ -134,7 +139,7 @@ func run() -> void:
 				check_visible_art(attack_sprite,"authored frame " + clip)
 				await capture("attack_%s_%d_%s" % [clip,frame,"R" if direction > 0 else "L"])
 	for definition in victim_definitions:
-		target.apply_character_data(load("res://data/enemies/%s.tres" % definition))
+		target.apply_character_data(load("res://data/%s/%s.tres" % [victim_definition_folder,definition]))
 		for direction in [1,-1]:
 			var label: String = definition + ("_R" if direction == 1 else "_L")
 			await reset(manager, attacker, Vector2(640 - 120 * direction,520), direction)
@@ -166,7 +171,7 @@ func run() -> void:
 			attacker.input_enabled = false
 			attacker.set_physics_process(true)
 			var start: Vector2 = target.position
-			check(attacker._get_character_special_hit_position(target).y < start.y-80.0,label + " effect at special contact height")
+			check(attacker._get_character_special_hit_position(target).y < start.y-minimum_contact_height,label + " effect at special contact height")
 			var camera_zoom_before: Vector2 = root.get_camera_2d().zoom
 			attacker._on_character_special_hitbox_area_entered(target.get_node("HurtBox"))
 			await process_frame

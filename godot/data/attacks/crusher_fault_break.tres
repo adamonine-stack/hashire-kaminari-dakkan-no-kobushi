@@ -27,7 +27,14 @@ guard_damage_multiplier = 0.0
 guard_hit_time = 0.22
 guard_knockback = Vector2(95, 0)
 cooldown = 6.0
-animation_name = "special_attack"
+animation_name = "crusher_hammer_active"
 ai_special_tags = Array[String](["reversal", "counter"])
 
 camera_shake = 6.0
+keep_special_flight_in_view = true
+
+special_startup_animation = &"crusher_hammer_startup"
+
+special_finish_animation = &"crusher_hammer_finish"
+
+special_guard_reaction = &"received_crusher_hammer_guard"
