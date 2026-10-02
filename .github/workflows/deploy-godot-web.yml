@@ -182,6 +182,16 @@ jobs:
           timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage2_regression.gd 2>&1 | tee /tmp/stage2-regression.log || true
           grep -q "STAGE2_REGRESSION failures=\[\]" /tmp/stage2-regression.log
 
+      - name: Verify reversal specials and enemy launch reactions
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in special_reversal_check akky_reversal_motion_check akky_wall_launch_check gou_reversal_presentation_check; do
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/$test.log"
+            grep -Fq 'failures=[]' "/tmp/$test.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/$test.log"; then exit 1; fi
+          done
+
       - name: Verify special gauge balance
         shell: bash
         run: |
