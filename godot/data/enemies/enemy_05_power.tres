@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=20 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -20,6 +20,8 @@
 [ext_resource type="Resource" path="res://data/attacks/cross_air_punch.tres" id="cross_air_punch"]
 [ext_resource type="Resource" path="res://data/attacks/cross_air_kick.tres" id="cross_air_kick"]
 [ext_resource type="Resource" path="res://data/attacks/cross_muei.tres" id="cross_muei"]
+
+[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_05_power/motion_atlas.tres" id="received_akky"]
 
 [resource]
 script = ExtResource("1_def")
@@ -73,3 +75,6 @@ speed_rating = 3
 health_rating = 3
 throw_rating = 5
 combo_rating = 4
+
+extra_motion_atlases = Array[Resource]([ExtResource("received_akky")])
+special_damage_reactions = {"player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down"}}

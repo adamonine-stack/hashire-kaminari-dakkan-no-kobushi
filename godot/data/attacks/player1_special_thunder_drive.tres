@@ -18,7 +18,7 @@ hitbox_offset = Vector2(75, -55)
 move_distance = 90.0
 move_duration = 0.20
 move_speed_multiplier = 1.0
-knockback = Vector2(360, -96)
+knockback = Vector2(760, -460)
 hitstop_time = 0.13
 hitstun_time = 0.38
 is_guardable = true
@@ -42,3 +42,5 @@ ai_special_tags = Array[String](["reversal", "counter"])
 
 special_startup_animation = &"akky_reversal_startup"
 special_finish_animation = &"akky_reversal_finish"
+
+camera_shake = 6.0

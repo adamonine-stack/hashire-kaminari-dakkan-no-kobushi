@@ -19,7 +19,7 @@ hitbox_size = Vector2(110, 68)
 hitbox_offset = Vector2(55, 0)
 move_distance = 35.0
 move_duration = 0.14
-knockback = Vector2(380, -100)
+knockback = Vector2(820, -520)
 hitstun_time = 0.38
 hitstop_time = 0.10
 is_guardable = true
@@ -29,3 +29,5 @@ guard_knockback = Vector2(95, 0)
 cooldown = 6.0
 animation_name = "special_attack"
 ai_special_tags = Array[String](["reversal", "counter"])
+
+camera_shake = 6.0

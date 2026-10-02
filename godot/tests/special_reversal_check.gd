@@ -59,6 +59,9 @@ func run() -> void:
 		var data: Dictionary = player._get_character_special_attack_dictionary()
 		check(data.damage == roundi(maxi(player.punch_damage, player.kick_damage) * 1.5), definition + " 1.5 damage")
 		check(data.is_guardable and data.can_interrupt_attack, definition + " guard/interrupt contract")
+		check(data.causes_knockdown and player.character_special_data.knockback.x >= 560.0 and absf(player.character_special_data.knockback.y) >= 430.0, definition + " authored large special launch")
+		var launch: Vector2 = enemy._get_knockdown_force(data, player, 1.0)
+		check(absf(launch.x) >= 600.0 and launch.y <= -400.0, definition + " received large special launch after stat modifiers")
 		var expected_chip := 0.0 if definition in ["enemies/enemy_01_standard", "enemies/enemy_02_speed", "enemies/enemy_03_guard", "enemies/enemy_06_combo", "enemies/enemy_08_boss", "enemies/enemy_09_seiya"] else 0.15
 		check(is_equal_approx(float(data.guard_damage_multiplier), expected_chip), definition + " independent authored chip contract")
 		print("SPECIAL_DAMAGE %s=%d" % [definition, data.damage])
@@ -97,7 +100,7 @@ func run() -> void:
 	var packet: Dictionary = player._get_character_special_attack_dictionary()
 	enemy.request_punch_attack()
 	check(enemy.receive_attack(packet, 1.0, enemy.global_position, player), "special hits attacking enemy")
-	check(enemy.current_attack_type.is_empty() and enemy.is_hit, "hit interrupts attack")
+	check(enemy.current_attack_type.is_empty() and enemy.knockdown_state == &"KNOCKBACK", "hit interrupts attack and launches")
 	reset_pair()
 	enemy.is_guarding = true
 	enemy.guard_type = "high"
@@ -133,6 +136,10 @@ func run() -> void:
 	check(enemy.is_character_special_busy(), "AI breaks observed hitstun without input reading")
 	print("SPECIAL_REVERSAL_CHECK failures=%s" % [failures])
 	await create_timer(1.5).timeout
+	for audio in root.find_children("*", "AudioStreamPlayer", true, false): audio.stop()
+	for audio in root.find_children("*", "AudioStreamPlayer2D", true, false): audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)

@@ -1,5 +1,8 @@
 extends Node2D
 
+const AURA_TEXTURE = preload("res://assets/effects/special_v1/aura.png")
+const IMPACT_TEXTURE = preload("res://assets/effects/special_v1/impact.png")
+
 var style := ""
 var phase := "startup"
 var elapsed := 0.0
@@ -19,7 +22,10 @@ func setup(actor: Node, event: String, seconds: float) -> void:
 	queue_redraw()
 
 func _style_color() -> Color:
-	match style:
+	return color_for_style(style)
+
+static func color_for_style(fighter_style: String) -> Color:
+	match fighter_style:
 		"player_02_gou", "enemy_01_crusher", "enemy_03_masato_takahashi": return Color(1.0, 0.65, 0.18)
 		"enemy_05_cross_murasame", "enemy_07_teki_fighter", "enemy_09_seiya": return Color(0.8, 0.35, 1.0)
 		"enemy_06_rio_flick_garcia", "enemy_08_leon_crow": return Color(1.0, 0.35, 0.18)
@@ -95,6 +101,8 @@ func _draw() -> void:
 
 func _draw_body_aura() -> void:
 	var progress := elapsed / duration
+	var pulse := 1.0 + 0.04 * sin(progress * TAU * 2.0)
+	draw_texture_rect(AURA_TEXTURE,Rect2(Vector2(-95,-170)*pulse,Vector2(190,245)*pulse),false,Color(tint,0.8))
 	var strength := 1.15 if phase == "active" else 1.0
 	if phase == "finish": strength = 0.85
 	var contour := PackedVector2Array()
@@ -105,7 +113,7 @@ func _draw_body_aura() -> void:
 	# Transparent interior keeps the character pose legible; the bright rim signals the special.
 	draw_colored_polygon(contour, Color(tint, 0.10))
 	draw_polyline(contour, Color(tint, 0.20), 15.0, true)
-	draw_polyline(contour, Color(tint, 0.75), 4.0, true)
+	draw_polyline(contour, Color(tint, 0.18), 2.0, true)
 	for i in range(9):
 		var x := -64.0 + i * 16.0
 		var y := 50.0 - fmod(progress * 125.0 + i * 23.0, 150.0)
@@ -116,12 +124,18 @@ func _draw_body_aura() -> void:
 		ring.append(Vector2(cos(angle) * (68.0 + progress * 15.0), sin(angle) * 13.0 + 62.0))
 	draw_polyline(ring, Color(tint,0.8), 3.0, true)
 	if phase == "active":
+		draw_circle(Vector2(65,-20), 25.0, Color(tint,0.22))
+		draw_circle(Vector2(65,-20), 10.0, Color(1,1,1,0.9))
+		for i in range(5):
+			var y := -60.0 + i * 20.0
+			draw_line(Vector2(-52,y),Vector2(95,y-12),Color(tint,0.5),3.0,true)
 		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(tint,0.25), 18.0, true)
 		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(1,1,1,0.9), 4.0, true)
 
 func _draw_special_impact() -> void:
 	var progress := elapsed / duration
 	var radius := 42.0 + progress * 65.0
+	draw_texture_rect(IMPACT_TEXTURE,Rect2(Vector2.ONE*-radius*1.35,Vector2.ONE*radius*2.7),false,Color(tint,0.9))
 	draw_circle(Vector2.ZERO, radius * 0.65, Color(tint,0.16))
 	draw_arc(Vector2.ZERO, radius, 0, TAU, 48, Color(tint,0.3), 14.0, true)
 	draw_arc(Vector2.ZERO, radius, 0, TAU, 48, tint, 4.0, true)

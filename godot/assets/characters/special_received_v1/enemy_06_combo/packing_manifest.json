@@ -1,0 +1,54 @@
+{
+  "cell": [
+    320,
+    256
+  ],
+  "baseline": 240,
+  "frames": [
+    {
+      "phase": "hit",
+      "scale": 0.17511520737327188,
+      "offset": [
+        39,
+        43
+      ],
+      "support": [
+        95,
+        77,
+        224,
+        240
+      ],
+      "sha256": "2dd7f0a76ba8da3fcae61f12eff76ab8c75b0015fc7ee108e14030a75c505bc4"
+    },
+    {
+      "phase": "air",
+      "scale": 0.17511520737327188,
+      "offset": [
+        20,
+        100
+      ],
+      "support": [
+        41,
+        126,
+        279,
+        240
+      ],
+      "sha256": "c09a54138db13daf39f7ffdc01f08517a1ea154b760938e7066dc89a5b980be3"
+    },
+    {
+      "phase": "down",
+      "scale": 0.17511520737327188,
+      "offset": [
+        5,
+        96
+      ],
+      "support": [
+        24,
+        157,
+        296,
+        240
+      ],
+      "sha256": "14134195548f7ae62dbad4cf1538363ce80b69bbf0f4cb0b548117c8e84598ee"
+    }
+  ]
+}

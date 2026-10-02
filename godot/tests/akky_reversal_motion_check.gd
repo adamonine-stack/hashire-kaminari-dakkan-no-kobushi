@@ -95,6 +95,8 @@ func run() -> void:
 	check(sprite.animation == &"akky_reversal_finish", "runtime finish")
 	reset_actor()
 	var packet: Dictionary = enemy._get_character_special_attack_dictionary()
+	# Exercise the non-launch reaction selector separately from the actual launch.
+	packet.causes_knockdown = false
 	check(actor.receive_attack(packet, -1.0, actor.global_position, enemy), "runtime special damage")
 	actor._update_visual_state()
 	check(sprite.animation == &"special_hit", "runtime special hit reaction")

@@ -1550,7 +1550,16 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 		resolver = load("res://scripts/combat/special_contact_resolver.gd").new()
 		resolver.name = "SpecialContactResolver"
 		get_tree().root.add_child(resolver)
-	resolver.enqueue(self, target, attack_data, character_special_direction, _get_hit_position(target))
+	resolver.enqueue(self, target, attack_data, character_special_direction, _get_character_special_hit_position(target))
+
+func _get_character_special_hit_position(target: Node) -> Vector2:
+	# Special contacts must use their own area rather than the ordinary punch area.
+	if special_area == null: return _get_hit_position(target)
+	var hurt := target.get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+	if hurt != null and hurt.shape is RectangleShape2D:
+		var half_size: Vector2 = hurt.shape.size * hurt.global_scale.abs() * 0.5
+		return special_area.global_position.clamp(hurt.global_position-half_size,hurt.global_position+half_size)
+	return special_area.global_position
 
 
 func _complete_special_contact(target: Node, attack_data: Dictionary, point: Vector2, did_hit: bool) -> void:
@@ -1579,6 +1588,7 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"is_guardable": true,
 		"guard_damage_multiplier": float(character_special_data.guard_damage_multiplier) if character_special_data != null else 0.0,
 		"is_special": true,
+		"special_effect_color": load("res://scripts/combat/reversal_effect.gd").color_for_style(String(fighter_definition.fighter_id)),
 		"can_interrupt_attack": character_special_data.can_interrupt_attack,
 		"can_break_combo": character_special_data.can_break_combo,
 		"special_hit_reaction": character_special_data.special_hit_reaction,
@@ -1598,8 +1608,8 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"effect_size": 1.85,
 		"screen_shake": character_special_data.camera_shake,
 		"se_type": "special",
-		"attack_id": character_special_id,
-		"causes_knockdown": String(fighter_definition.fighter_type) == "power" if fighter_definition != null else false,
+		"attack_id": String(character_special_data.attack_id),
+		"causes_knockdown": true,
 	}
 
 

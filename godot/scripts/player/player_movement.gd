@@ -2741,6 +2741,9 @@ func clear_victory_pose() -> void:
 
 func _get_current_visual_animation() -> StringName:
 	if current_hp <= 0:
+		if _is_knockdown_state(&"KNOCKBACK"):
+			if _has_visual_animation(last_special_knockback_animation): return last_special_knockback_animation
+			return &"knockback"
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"ko"
@@ -2844,6 +2847,8 @@ func _get_walk_animation_for_direction(direction: float) -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var authored_special := _get_special_received_animation(attack_data, "hit")
+	if authored_special != &"": return authored_special
 	if bool(attack_data.get("is_special", false)):
 		var special_reaction := StringName(attack_data.get("special_hit_reaction", &"special_hit"))
 		if _has_visual_animation(special_reaction):
@@ -2875,6 +2880,8 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 
 
 func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var authored_special := _get_special_received_animation(attack_data, "down")
+	if authored_special != &"": return authored_special
 	if bool(attack_data.get("is_special", false)):
 		var special_down := StringName(attack_data.get("special_knockdown_reaction", &"special_knockdown"))
 		if _has_visual_animation(special_down): return special_down
@@ -2886,6 +2893,14 @@ func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName
 	var height_animation: StringName = &"knockdown_low" if attack_height == "low" else &"knockdown_high"
 	return height_animation if _has_visual_animation(height_animation) else &""
 
+
+func _get_special_received_animation(attack_data: Dictionary, reaction_phase: String) -> StringName:
+	if not bool(attack_data.get("is_special", false)): return &""
+	var definition: Resource = get("fighter_definition")
+	if definition == null: return &""
+	var reactions: Dictionary = definition.special_damage_reactions.get(String(attack_data.get("attack_id", "")), {})
+	var clip := StringName(reactions.get(reaction_phase, ""))
+	return clip if clip != &"" and _has_visual_animation(clip) else &""
 
 func _cross_reaction_for_attack(attack_id: String) -> StringName:
 	match attack_id:

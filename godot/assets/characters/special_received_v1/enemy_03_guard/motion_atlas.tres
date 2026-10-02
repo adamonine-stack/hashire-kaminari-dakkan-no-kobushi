@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/special_received_v1/enemy_03_guard/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(480, 320)
+columns = 3
+clips = {
+"received_akky_elbow_hit": {"frames": [0], "fps": 8.0, "loop": false},
+"received_akky_elbow_air": {"frames": [0,1], "fps": 10.0, "loop": false},
+"received_akky_elbow_down": {"frames": [2], "fps": 5.0, "loop": false}
+}

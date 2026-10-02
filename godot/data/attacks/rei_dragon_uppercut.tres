@@ -18,7 +18,7 @@ hitbox_offset = Vector2(65, -145)
 move_distance = 42.0
 move_duration = 0.20
 move_speed_multiplier = 1.0
-knockback = Vector2(240, -240)
+knockback = Vector2(560, -700)
 hitstop_time = 0.13
 hitstun_time = 0.38
 is_guardable = true
@@ -38,3 +38,5 @@ can_use_during_hitstun = true
 startup_invulnerability = 0.10
 
 ai_special_tags = Array[String](["reversal", "counter"])
+
+camera_shake = 6.0
