@@ -38,6 +38,8 @@ func extra_checks(manager: Node, attacker: Node, target: Node) -> void:
 				var ratio := opaque_body_area(sprite.sprite_frames.get_frame_texture(clip,frame))/idle_area
 				check(ratio > 0.90 and ratio < 1.10,definition+" retains anatomical body mass "+clip)
 		for direction in [1,-1]:
+			await reset(manager,attacker,Vector2(640-180*direction,520),direction)
+			attacker.set_physics_process(false)
 			await reset(manager,target,Vector2(640,520),-direction)
 			target.set_physics_process(false)
 			target.is_guarding = true
