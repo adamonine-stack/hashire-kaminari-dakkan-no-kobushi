@@ -64,6 +64,10 @@ func run() -> void:
 			check(data.causes_knockdown and not data.wall_slam and player.character_special_data.special_launch_speed_cap == Vector2(420,120),definition + " authored short ground launch")
 			check(is_equal_approx(float(data.special_launch_gravity),300.0),definition + " independent low gravity preserves airtime")
 			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-120.0),definition + " bounded launch after stat modifiers")
+		elif definition == "fighters/ally_speed":
+			check(data.headfirst_on_launch and data.special_launch_gravity == 850.0,definition + " dedicated high headfirst launch")
+			check(is_equal_approx(absf(launch.x),180.0) and is_equal_approx(launch.y,-550.0),definition + " upward launch with short horizontal distance")
+			check(player.character_special_data.somersault_on_special and player.character_special_data.move_distance == 0.0,definition + " in-place somersault contract")
 		else:
 			check(data.causes_knockdown and player.character_special_data.knockback.x >= 560.0 and absf(player.character_special_data.knockback.y) >= 430.0, definition + " authored large special launch")
 			check(absf(launch.x) >= 600.0 and launch.y <= -400.0, definition + " received large special launch after stat modifiers")

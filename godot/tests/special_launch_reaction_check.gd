@@ -11,8 +11,11 @@ var evidence_folder := "special_launch"
 var dedicated_attack_clips: Array[String] = []
 var minimum_launch_velocity := 500.0
 var maximum_flight_distance := 0.0
+var minimum_flight_distance := 200.0
+var attack_original_folder := "reversal_v1"
 var minimum_flight_height := 55.0
 var maximum_flight_height := 0.0
+var visible_outline_cache: Dictionary = {}
 
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
@@ -27,7 +30,31 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var bottom := float(used.end.y)-texture.get_height()*0.5
 	var transform := sprite.get_global_transform_with_canvas()
 	var screen := root.get_visible_rect().size
-	for point in [Vector2(left,top),Vector2(right,top),Vector2(left,bottom),Vector2(right,bottom)]:
+	var points: Array = [Vector2(left,top),Vector2(right,top),Vector2(left,bottom),Vector2(right,bottom)]
+	if not is_zero_approx(sprite.rotation):
+		# A rotated opaque bounding rectangle includes empty corners. Validate
+		# the convex hull of actual visible pixels instead of transparent padding.
+		var id := texture.get_instance_id()
+		if not visible_outline_cache.has(id):
+			var image := texture.get_image()
+			var outline := PackedVector2Array()
+			for y in range(used.position.y,used.end.y):
+				var first := -1
+				var last := -1
+				for x in range(used.position.x,used.end.x):
+					if image.get_pixel(x,y).a >= 0.5:
+						if first == -1: first = x
+						last = x
+				if first != -1:
+					outline.append(Vector2(first,y)-texture.get_size()*0.5)
+					outline.append(Vector2(last+1,y+1)-texture.get_size()*0.5)
+			visible_outline_cache[id] = Geometry2D.convex_hull(outline)
+		points.clear()
+		for original_point in visible_outline_cache[id]:
+			var point: Vector2 = original_point
+			if sprite.flip_h: point.x = -point.x
+			points.append(point)
+	for point in points:
 		var actual: Vector2 = transform * (point+sprite.offset)
 		if actual.x < 0 or actual.x > screen.x or actual.y < 0 or actual.y > screen.y: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
 		check(actual.x >= 0 and actual.x <= screen.x and actual.y >= 0 and actual.y <= screen.y,label + " art inside rendered viewport")
@@ -94,7 +121,7 @@ func run() -> void:
 		check(attack_sprite.sprite_frames.has_animation(clip),"dedicated attack clip " + clip)
 		for frame in range(attack_sprite.sprite_frames.get_frame_count(clip)):
 			var texture := attack_sprite.sprite_frames.get_frame_texture(clip,frame) as AtlasTexture
-			check(texture != null and texture.atlas.resource_path.contains("reversal_v1"),"dedicated original " + clip)
+			check(texture != null and texture.atlas.resource_path.contains(attack_original_folder),"dedicated original " + clip)
 			for direction in [1,-1]:
 				attacker.set_physics_process(false)
 				attacker.position = Vector2(520,520)
@@ -158,8 +185,13 @@ func run() -> void:
 			var backflip := bool(packet.get("backflip_on_launch",false))
 			var previous_turn := 0.0
 			var previous_body_y := visible_body_center_y(sprite)
+			var previous_body_frame := Engine.get_physics_frames()
 			var captured_spin := false
 			var captured_prone := false
+			var headfirst := bool(packet.get("headfirst_on_launch",false))
+			var captured_head_impact := false
+			var captured_collapse := false
+			var captured_head_fall := false
 			if backflip:
 				check(sprite.sprite_frames.get_frame_count(target.last_special_knockback_animation) == 1,label + " arched lightly bent-knee pose throughout flight")
 				var idle_area := opaque_body_area(sprite.sprite_frames.get_frame_texture(&"idle",0))
@@ -191,6 +223,29 @@ func run() -> void:
 						check_visible_art(sprite,label + " rotating body")
 						await capture(label + "_spin")
 						captured_spin = true
+				if headfirst and target.knockdown_state == &"KNOCKBACK":
+					var body_y := visible_body_center_y(sprite)
+					var sampled_frames := maxi(1,Engine.get_physics_frames()-previous_body_frame)
+					check(absf(body_y-previous_body_y) < 30.0*sampled_frames+5.0,label + " continuous headfirst body position")
+					previous_body_frame = Engine.get_physics_frames()
+					previous_body_y = body_y
+					check(sprite.flip_h == (direction > 0),label + " victim facing stays toward Seiya")
+					if target.special_headfirst_phase == "fall" and not captured_head_fall:
+						target._update_visual_state()
+						check(is_equal_approx(absf(sprite.rotation),PI),label + " head points down during descent")
+						check_visible_art(sprite,label + " high headfirst fall")
+						await capture(label + "_head_fall")
+						captured_head_fall = true
+					if target.special_headfirst_phase == "head_impact":
+						var head_point: Vector2 = sprite.global_transform*(target.special_headfirst_tip+sprite.offset)
+						check(absf(head_point.y-target.global_position.y)<1.0,label + " head contacts floor before body")
+						if not captured_head_impact:
+							await capture(label + "_head_impact")
+							captured_head_impact = true
+					if target.special_headfirst_phase == "collapse" and target.special_headfirst_timer < 0.10 and not captured_collapse:
+						check(captured_head_impact,label + " body collapses after head contact")
+						await capture(label + "_collapse")
+						captured_collapse = true
 				if wall_launch and target.special_wall_phase == "impact":
 					check(target.velocity == Vector2.ZERO,label + " wall contact stops motion")
 					if not captured_wall:
@@ -228,10 +283,14 @@ func run() -> void:
 			if maximum_flight_height > 0:
 				check(start.y-apex < maximum_flight_height,label + " stays close to contact height")
 			if wall_launch: check(captured_wall and captured_fall and target.special_wall_contacts == 1,label + " wall then fall exactly once")
-			check(distance > 200, label + " flies over 200 pixels")
+			check(distance > minimum_flight_distance, label + " visible outward flight distance")
 			if maximum_flight_distance > 0:
 				check(distance < maximum_flight_distance,label + " short ground launch")
 				check(target.special_wall_contacts == 0,label + " Gou lands without wall slam")
+			if headfirst:
+				check(captured_head_fall and captured_head_impact and captured_collapse,label + " headfirst descent impact and collapse sequence")
+				check(is_zero_approx(sprite.rotation) and sprite.offset.is_zero_approx(),label + " headfirst grounded transform restored")
+				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no size or body-position jump into prone pose")
 			if backflip:
 				check(captured_spin and captured_prone and is_equal_approx(target.special_backflip_turn,PI*1.5),label + " completes backward 270-degree prone rotation")
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")

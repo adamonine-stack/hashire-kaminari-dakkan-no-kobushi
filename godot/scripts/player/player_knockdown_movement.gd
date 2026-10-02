@@ -37,6 +37,18 @@ var special_backflip_direction := 1.0
 var special_backflip_turn := 0.0
 var special_prone_alignment := Vector2.ZERO
 var special_flight_gravity := 0.0
+var special_headfirst_enabled := false
+var special_headfirst_phase := ""
+var special_headfirst_elapsed := 0.0
+var special_headfirst_apex_time := 0.0
+var special_headfirst_timer := 0.0
+var special_headfirst_direction := 1.0
+var special_headfirst_anchor := Vector2.ZERO
+var special_headfirst_tip := Vector2.ZERO
+var special_headfirst_contact := Vector2.ZERO
+var special_headfirst_root_x := 0.0
+var special_headfirst_prone_root_x := 0.0
+var last_special_headfirst_fall_animation: StringName = &""
 var knockdown_timer := 0.0
 var get_up_timer := 0.0
 var get_up_invincible_timer := 0.0
@@ -118,7 +130,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		last_knockdown_animation = &""
 
 	last_damage_animation = _get_damage_animation_from_attack(attack_data)
-	if bool(attack_data.get("backflip_on_launch",false)):
+	if bool(attack_data.get("backflip_on_launch",false)) or bool(attack_data.get("headfirst_on_launch",false)):
 		# All Gou reaction originals face right; lock the victim toward Gou.
 		var toward_gou := -signf(attack_direction)
 		if attacker != null: toward_gou = signf(attacker.global_position.x-global_position.x)
@@ -292,6 +304,15 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 
 
 func update_knockback(delta: float) -> void:
+	if special_headfirst_enabled:
+		if special_headfirst_phase in ["head_impact","collapse"]:
+			_update_special_headfirst_ground(delta)
+			return
+		special_headfirst_elapsed += delta
+		var turn := smoothstep(0.30,0.95,special_headfirst_elapsed/special_headfirst_apex_time)*PI
+		animated_character_sprite.rotation = special_headfirst_direction*turn
+		animated_character_sprite.offset = (special_headfirst_anchor*animated_character_sprite.scale).rotated(-animated_character_sprite.rotation)/animated_character_sprite.scale-special_headfirst_anchor
+		if velocity.y >= 0.0: special_headfirst_phase = "fall"
 	if special_backflip_enabled:
 		special_backflip_elapsed += delta
 		# Stay in the rotating pose until physical floor contact; there is no
@@ -332,7 +353,8 @@ func update_knockback(delta: float) -> void:
 	velocity.x = move_toward(velocity.x, 0.0, move_speed * 0.35 * delta)
 
 	if is_on_floor() and velocity.y >= -ground_landing_velocity_threshold:
-		enter_knockdown()
+		if special_headfirst_enabled: _begin_special_headfirst_impact()
+		else: enter_knockdown()
 
 
 func _start_special_flight_trail() -> void:
@@ -356,7 +378,7 @@ func enter_knockdown() -> void:
 		return
 
 	knockdown_state = &"KNOCKDOWN"
-	if special_backflip_enabled and animated_character_sprite != null:
+	if (special_backflip_enabled or special_headfirst_enabled) and animated_character_sprite != null:
 		animated_character_sprite.rotation = 0.0
 		animated_character_sprite.offset = Vector2.ZERO
 	knockdown_timer = knockdown_duration
@@ -414,6 +436,8 @@ func update_get_up(delta: float) -> void:
 
 func finish_get_up() -> void:
 	special_backflip_enabled = false
+	special_headfirst_enabled = false
+	special_headfirst_phase = ""
 	special_flight_gravity = 0.0
 	special_wall_phase = ""
 	last_special_wall_animation = &""
@@ -451,6 +475,8 @@ func restore_sprite_transform() -> void:
 
 func reset_knockdown_state() -> void:
 	special_backflip_enabled = false
+	special_headfirst_enabled = false
+	special_headfirst_phase = ""
 	special_flight_gravity = 0.0
 	special_backflip_elapsed = 0.0
 	special_backflip_turn = 0.0
@@ -529,6 +555,33 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 	special_backflip_turn = 0.0
 	special_prone_alignment = Vector2.ZERO
 	special_flight_gravity = float(attack_data.get("special_launch_gravity",0.0)) if bool(attack_data.get("is_special",false)) else 0.0
+	special_headfirst_enabled = bool(attack_data.get("is_special",false)) and bool(attack_data.get("headfirst_on_launch",false))
+	special_headfirst_elapsed = 0.0
+	special_headfirst_phase = "rise" if special_headfirst_enabled else ""
+	if special_headfirst_enabled:
+		special_headfirst_direction = signf(velocity.x)
+		special_headfirst_apex_time = maxf(0.1,absf(velocity.y)/maxf(special_flight_gravity,1.0))
+		var texture := animated_character_sprite.sprite_frames.get_frame_texture(last_special_knockback_animation,0)
+		var bounds := texture.get_image().get_used_rect()
+		special_headfirst_anchor = Vector2(bounds.get_center())-texture.get_size()*0.5
+		# Anchor the actual topmost opaque head pixel, not an empty AABB corner.
+		var image := texture.get_image()
+		var head_point := Vector2(bounds.get_center().x,bounds.position.y)
+		for y in range(bounds.position.y,mini(bounds.position.y+20,bounds.end.y)):
+			var first := -1
+			var last := -1
+			for x in range(bounds.position.x,bounds.end.x):
+				if image.get_pixel(x,y).a >= 0.5:
+					if first == -1: first = x
+					last = x
+			if first != -1:
+				head_point = Vector2((first+last)*0.5,y+0.5)
+				break
+		special_headfirst_tip = head_point-texture.get_size()*0.5
+		if animated_character_sprite.flip_h:
+			special_headfirst_anchor.x = -special_headfirst_anchor.x
+			special_headfirst_tip.x = -special_headfirst_tip.x
+		last_special_headfirst_fall_animation = _get_special_received_animation(attack_data,"fall")
 	if special_backflip_enabled:
 		# Reapply the authored low launch after the ordinary knockdown minimum.
 		var requested_cap: Vector2 = attack_data.get("special_launch_speed_cap",Vector2.ZERO)
@@ -593,7 +646,7 @@ func _get_knockdown_force(attack_data: Dictionary, attacker: Node, fallback_dire
 			force.x = maxf(absf(force.x),1800.0) * direction
 		var cap: Vector2 = attack_data.get("special_launch_speed_cap",Vector2.ZERO)
 		if cap.x > 0: force.x = minf(absf(force.x),cap.x)*direction
-		if cap.y > 0: force.y = maxf(force.y,-cap.y)
+		if cap.y > 0: force.y = -cap.y if bool(attack_data.get("headfirst_on_launch",false)) else maxf(force.y,-cap.y)
 	return force
 
 
@@ -724,3 +777,51 @@ func _update_visual_state() -> void:
 		str(is_invincible).to_upper(),
 		"ENABLED" if hurt_box.get("monitorable") else "DISABLED",
 	]
+
+func _begin_special_headfirst_impact() -> void:
+	special_headfirst_phase = "head_impact"
+	special_headfirst_timer = 0.09
+	velocity = Vector2.ZERO
+	var sprite := animated_character_sprite
+	sprite.rotation = special_headfirst_direction*PI
+	var head := sprite.global_transform*(special_headfirst_tip+sprite.offset)
+	special_headfirst_contact = Vector2(head.x,global_position.y)
+	sprite.offset = sprite.to_local(special_headfirst_contact)-special_headfirst_tip
+	special_headfirst_root_x = global_position.x
+	var texture := sprite.sprite_frames.get_frame_texture(last_knockdown_animation,0)
+	var bounds := texture.get_image().get_used_rect()
+	var down_head := Vector2(bounds.end.x-bounds.size.x*0.18,bounds.get_center().y)-texture.get_size()*0.5
+	if sprite.flip_h: down_head.x = -down_head.x
+	special_headfirst_prone_root_x = special_headfirst_contact.x-(sprite.global_position.x-global_position.x+down_head.x*sprite.scale.x)
+	var impact: Node2D = load("res://scripts/combat/reversal_effect.gd").new()
+	add_child(impact)
+	impact.setup(self,"impact",0.22)
+	impact.position = special_headfirst_contact-global_position
+	impact.tint = special_landing_color
+	screen_shake_requested.emit(knockdown_camera_shake_strength)
+
+func _update_special_headfirst_ground(delta: float) -> void:
+	velocity = Vector2.ZERO
+	special_headfirst_timer = maxf(0.0,special_headfirst_timer-delta)
+	if special_headfirst_phase == "head_impact":
+		if special_headfirst_timer == 0.0:
+			special_headfirst_phase = "collapse"
+			special_headfirst_timer = 0.18
+		return
+	var progress := clampf(1.0-special_headfirst_timer/0.18,0.0,1.0)
+	var eased := smoothstep(0.0,1.0,progress)
+	global_position.x = lerpf(special_headfirst_root_x,special_headfirst_prone_root_x,eased)
+	var sprite := animated_character_sprite
+	sprite.rotation = special_headfirst_direction*(PI+PI*0.5*eased)
+	sprite.offset = sprite.to_local(special_headfirst_contact)-special_headfirst_tip
+	# Let the head roll over as the torso settles into the final prone drawing.
+	var texture := sprite.sprite_frames.get_frame_texture(last_knockdown_animation,0)
+	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	if sprite.flip_h: center.x = -center.x
+	var goal := sprite.global_position+center*sprite.scale
+	var actual := sprite.global_transform*(special_headfirst_anchor+sprite.offset)
+	var shift := (goal-actual)*smoothstep(0.65,1.0,progress)
+	sprite.offset += sprite.global_transform.basis_xform_inv(shift)
+	if special_headfirst_timer == 0.0:
+		special_headfirst_phase = "down"
+		enter_knockdown()

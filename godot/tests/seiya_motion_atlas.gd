@@ -31,6 +31,9 @@ func run() -> void:
 		for index in range(frames.get_frame_count(clip)):
 			var texture := frames.get_frame_texture(clip, index)
 			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
+			if String(clip).begins_with("seiya_somersault_"):
+				for extra_atlas in fighter.extra_motion_atlases:
+					if extra_atlas.resource_path.contains("somersault_v1"): expected = extra_atlas.texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == Vector2(384, 288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
@@ -100,14 +103,20 @@ func run() -> void:
 			player.is_crouching = false
 	player.set_special_gauge(100)
 	check(player.request_character_special(false), "Seiya special starts through real gauge path")
-	check(player.animated_character_sprite.animation == &"special_startup", "Clear Counter windup")
+	check(player.animated_character_sprite.animation == &"seiya_somersault_startup", "Somersault windup")
 	player.enter_character_special_active()
-	check(player.animated_character_sprite.animation == &"special_clear_counter", "Clear Counter contact")
+	check(player.animated_character_sprite.animation == &"seiya_somersault_kick", "Somersault contact")
 	player.enter_character_special_recovery()
-	check(player.animated_character_sprite.animation == &"special_recovery", "Clear Counter recovery")
+	check(player.animated_character_sprite.animation == &"seiya_somersault_landing", "Somersault recovery")
 	player.finish_character_special()
 	print("SEIYA_MOTION_ATLAS_OK clips=%d frames=%d failures=%s" % [frames.get_animation_names().size(), checked, failures])
+	frames = null
+	for audio in root.find_children("*","AudioStreamPlayer",true,false): audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false): audio.stop()
+	OS.delay_msec(200)
 	manager.cleanup_battle_before_transition()
 	battle.queue_free()
 	await process_frame
+	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
