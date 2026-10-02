@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player02/animations/reversal_v1/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384, 288)
+columns = 4
+clips = {
+"gou_reversal_startup": {"frames": [0, 1], "fps": 14.285714285714285, "loop": false},
+"gou_reversal_breaker": {"frames": [2], "fps": 5.0, "loop": false},
+"gou_reversal_finish": {"frames": [3], "fps": 1.7241379310344829, "loop": false}
+}

@@ -1,0 +1,33 @@
+{
+  "cell": [
+    384,
+    288
+  ],
+  "baseline": 269,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v2\\enemy_05_power\\hit.png",
+      "scale": 0.2135997256045275,
+      "source_anchor_x": 748.0,
+      "support": [
+        138,
+        91,
+        246,
+        269
+      ],
+      "sha256": "17a130f37494838b6c3e181157cc35d872eaf565f4886b7dba50d7e7bae00d3a"
+    },
+    {
+      "source": "art_sources\\gou_received_v2\\enemy_05_power\\down.png",
+      "scale": 0.12100405508152402,
+      "source_anchor_x": 934.5,
+      "support": [
+        90,
+        233,
+        294,
+        269
+      ],
+      "sha256": "2da59c811052a980ee75d34fb4f94b9a7c8093e8b038c8d0fce2069581c30bcc"
+    }
+  ]
+}

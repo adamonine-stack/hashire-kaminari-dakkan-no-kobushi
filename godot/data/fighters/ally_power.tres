@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=15 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -16,6 +16,8 @@
 [ext_resource type="Resource" path="res://assets/characters/player02/animations/gou_v1/motion_atlas.tres" id="13_gou_motion"]
 
 [ext_resource type="Resource" path="res://assets/characters/player02/animations/cross_reactions/reactions.tres" id="cross_reactions"]
+
+[ext_resource type="Resource" path="res://assets/characters/player02/animations/reversal_v1/motion_atlas.tres" id="gou_reversal"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -196,3 +198,5 @@ speed_rating = 2
 health_rating = 5
 throw_rating = 5
 combo_rating = 2
+
+extra_motion_atlases = Array[Resource]([ExtResource("gou_reversal")])

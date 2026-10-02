@@ -1,0 +1,115 @@
+{
+  "mode": "built-in image_gen",
+  "canonical_facing": "right",
+  "down_head_side": "right",
+  "assets": [
+    {
+      "name": "enemy_01_standard",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_01_standard.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_01_standard hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_01_standard",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_01_standard.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_01_standard down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_02_speed",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_02_speed.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_02_speed hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_02_speed",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_02_speed.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_02_speed down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_03_guard",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_03_guard.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_03_guard hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_03_guard",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_03_guard.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_03_guard down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_04_throw",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_04_throw.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_04_throw hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_04_throw",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_04_throw.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_04_throw down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_05_power",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_05_power.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_05_power hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_05_power",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_05_power.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_05_power down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_06_combo",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_06_combo.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_06_combo hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_06_combo",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_06_combo.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_06_combo down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_07_tricky",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_07_tricky.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_07_tricky hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_07_tricky",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_07_tricky.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_07_tricky down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_08_boss",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_08_boss.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_08_boss hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_08_boss",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_08_boss.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_08_boss down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_09_seiya",
+      "phase": "hit",
+      "reference": "evidence/special_reaction_refs/enemy_09_seiya.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_09_seiya hit v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body reaction pose, UPRIGHT at the start of a backward somersault. Canonical facing RIGHT toward the unseen attacker on the RIGHT. His chest faces RIGHT, his head and chin lift upward and tip slightly BACKWARD toward LEFT, away from the attacker; shoulders arch slightly backward LEFT. Legs hang almost straight below the hips, knees only gently bent, both arms recoil loosely. Head stays above shoulders, NOT bent forward, NOT crouching, NOT curled into a ball, NOT already upside down. Show a readable vertical anatomical silhouette that can be smoothly rotated as one rigid body in a game. No attack, no punch, no effect. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_09_seiya",
+      "phase": "down",
+      "reference": "evidence/special_reaction_refs/enemy_09_seiya.png",
+      "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_09_seiya down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    }
+  ]
+}

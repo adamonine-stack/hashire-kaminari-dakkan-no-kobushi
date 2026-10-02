@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=10 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -9,6 +9,12 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/shadow.png" id="8_shadow"]
 [ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.tres" id="9_motion"]
+
+[ext_resource type="Resource" path="res://data/attacks/shadow_slip_counter.tres" id="reversal"]
+
+[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_02_speed/motion_atlas.tres" id="received_akky"]
+
+[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_02_speed/motion_atlas.tres" id="received_gou"]
 
 [resource]
 script = ExtResource("1_def")
@@ -56,3 +62,8 @@ speed_rating = 5
 health_rating = 2
 throw_rating = 1
 combo_rating = 4
+
+reversal_attack = ExtResource("reversal")
+
+extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou")])
+special_damage_reactions = {"player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "received_akky_elbow_wall", "fall": "received_akky_elbow_fall"}, "player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}}

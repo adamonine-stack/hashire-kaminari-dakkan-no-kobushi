@@ -38,6 +38,9 @@ func run() -> void:
 		for index in range(frames.get_frame_count(clip)):
 			var texture := frames.get_frame_texture(clip, index)
 			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
+			for extra in fighter.extra_motion_atlases:
+				if extra.clips.has(String(clip)):
+					expected = extra.texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == Vector2(320, 224), clip + ": common cell")
 			var rect := texture.get_image().get_used_rect()

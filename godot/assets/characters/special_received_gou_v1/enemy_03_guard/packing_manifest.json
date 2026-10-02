@@ -1,0 +1,33 @@
+{
+  "cell": [
+    320,
+    320
+  ],
+  "baseline": 318,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v2\\enemy_03_guard\\hit.png",
+      "scale": 0.22453215603584603,
+      "source_anchor_x": 675.5,
+      "support": [
+        89,
+        75,
+        231,
+        318
+      ],
+      "sha256": "7c25bc3bcd7accfa7af2106c3c1e4b49b706adcb2354693ca4a72324d591e325"
+    },
+    {
+      "source": "art_sources\\gou_received_v2\\enemy_03_guard\\down.png",
+      "scale": 0.16821020776098897,
+      "source_anchor_x": 889.0,
+      "support": [
+        20,
+        266,
+        299,
+        318
+      ],
+      "sha256": "12aa9008aa40d349eb35f4f2fcfe713b9f68da9592a65963b42453c0c2c2c21f"
+    }
+  ]
+}

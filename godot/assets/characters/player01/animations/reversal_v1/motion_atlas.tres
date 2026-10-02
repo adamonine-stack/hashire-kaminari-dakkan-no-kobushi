@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/animations/reversal_v1/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(320, 224)
+columns = 4
+clips = {
+"akky_reversal_startup": {"frames": [0, 1], "fps": 14.28571429, "loop": false},
+"akky_reversal_elbow": {"frames": [2], "fps": 5.55555556, "loop": false},
+"akky_reversal_finish": {"frames": [3], "fps": 2.50000000, "loop": false},
+"special_hit": {"frames": [4, 5], "fps": 8.00000000, "loop": false},
+"special_knockback": {"frames": [4, 5], "fps": 10.00000000, "loop": false},
+"special_knockdown": {"frames": [6], "fps": 5.00000000, "loop": false},
+"special_guard": {"frames": [7, 8], "fps": 7.14285714, "loop": false}
+}

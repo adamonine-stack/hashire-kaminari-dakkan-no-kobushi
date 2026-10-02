@@ -17,6 +17,24 @@ signal get_up_finished(character: Node)
 @export var knockdown_camera_shake_strength := 2.0
 
 var knockdown_state: StringName = &""
+var special_landing_feedback := false
+var special_ko_flight := false
+var special_landing_color := Color(0.35,0.8,1.0)
+var special_reaction_edge_padding := Vector2.ZERO
+var special_wall_phase := ""
+var special_wall_timer := 0.0
+var special_wall_direction := 1.0
+var special_wall_speed := 0.0
+var special_wall_start_y := 0.0
+var special_wall_contacts := 0
+var last_special_wall_animation: StringName = &""
+var last_special_wall_fall_animation: StringName = &""
+var special_wall_screen_limits := Vector2.ZERO
+var special_backflip_enabled := false
+var special_backflip_elapsed := 0.0
+var special_backflip_duration := 0.0
+var special_backflip_direction := 1.0
+var special_backflip_turn := 0.0
 var knockdown_timer := 0.0
 var get_up_timer := 0.0
 var get_up_invincible_timer := 0.0
@@ -36,7 +54,9 @@ func _physics_process(delta: float) -> void:
 		_update_knockdown_flow(delta)
 		_update_visual_state()
 		move_and_slide()
-		_apply_post_move_stabilization()
+		if special_wall_phase == "" or knockdown_state != &"KNOCKBACK":
+			_apply_post_move_stabilization()
+		_clamp_special_reaction_art()
 		return
 
 	super._physics_process(delta)
@@ -80,12 +100,23 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 
 	interrupt_combo()
 	_cancel_current_action()
+	last_special_knockback_animation = StringName(attack_data.get("special_knockback_reaction", &"")) if bool(attack_data.get("is_special", false)) else &""
+	special_landing_feedback = bool(attack_data.get("is_special", false)) and causes_down
+	special_landing_color = attack_data.get("special_effect_color", Color(0.35,0.8,1.0))
+	var authored_air := _get_special_received_animation(attack_data, "airborne")
+	if authored_air != &"": last_special_knockback_animation = authored_air
 	if causes_down or final_damage >= current_hp:
 		last_knockdown_animation = _get_knockdown_animation_from_attack(attack_data)
 	else:
 		last_knockdown_animation = &""
 
 	last_damage_animation = _get_damage_animation_from_attack(attack_data)
+	if bool(attack_data.get("backflip_on_launch",false)):
+		# All Gou reaction originals face right; lock the victim toward Gou.
+		var toward_gou := -signf(attack_direction)
+		if attacker != null: toward_gou = signf(attacker.global_position.x-global_position.x)
+		if toward_gou != 0.0: facing_direction = toward_gou
+		_set_visual_facing()
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
@@ -102,8 +133,20 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		attacker.register_combo_hit(self)
 
 	if current_hp <= 0:
+		var ko_air := last_special_knockback_animation
 		reset_knockdown_state()
 		_play_ko_feedback(hit_position, attack_direction)
+		if bool(attack_data.get("is_special", false)):
+			special_ko_flight = true
+			special_landing_feedback = true
+			last_special_knockback_animation = ko_air
+			_clear_control_state_for_knockdown()
+			knockdown_state = &"KNOCKBACK"
+			velocity = _get_knockdown_force(attack_data, attacker, attack_direction)
+			_cache_special_reaction_edge_padding()
+			_begin_special_wall_launch(attack_data)
+			set_hurtbox_enabled(false)
+			_start_special_flight_trail()
 		if attacker != null and attacker.has_method("_finish_combo_after_ko"):
 			attacker._finish_combo_after_ko()
 		return true
@@ -121,6 +164,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		if attacker != null:
 			_end_attacker_combo_for_knockdown(attacker)
 		enter_knockback(attacker, _get_knockdown_force(attack_data, attacker, attack_direction))
+		_begin_special_wall_launch(attack_data)
+		if bool(attack_data.get("is_special", false)):
+			_start_special_flight_trail()
 	elif not bool(attack_data.get("allows_combo_followup", false)):
 		_start_invincibility()
 
@@ -150,6 +196,7 @@ func _receive_power_armor_hit(attack_data: Dictionary, final_damage: int, hit_po
 
 
 func _complete_throw_hit() -> void:
+	last_special_knockback_animation = &""
 	last_knockdown_animation = &""
 	var attacker := pending_throw_attacker
 	var hit_position := pending_throw_hit_position
@@ -224,10 +271,13 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 	_clear_control_state_for_knockdown()
 	knockdown_state = &"KNOCKBACK"
 	velocity = knockback_force
+	_cache_special_reaction_edge_padding()
 	if velocity.y > knockdown_vertical_force:
 		velocity.y = knockdown_vertical_force
 	set_hurtbox_enabled(false)
-	if _has_visual_animation(last_knockdown_animation):
+	if _has_visual_animation(last_special_knockback_animation):
+		_play_state_animation(last_special_knockback_animation, &"Throw")
+	elif _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(last_knockdown_animation, &"Throw")
 	else:
 		_play_state_animation(&"knockback", &"Throw")
@@ -235,6 +285,29 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 
 
 func update_knockback(delta: float) -> void:
+	if special_backflip_enabled:
+		special_backflip_elapsed += delta
+		var progress := clampf(special_backflip_elapsed / special_backflip_duration,0.0,1.0)
+		special_backflip_turn = progress*TAU
+		if animated_character_sprite != null:
+			animated_character_sprite.rotation = special_backflip_direction*special_backflip_turn
+	if special_wall_phase == "fly":
+		velocity.x = special_wall_speed * special_wall_direction
+		# Fast horizontal launch stays airborne until the far wall, even when
+		# the recipient starts near the opposite end of the stage.
+		if global_position.y <= special_wall_start_y - 140.0:
+			global_position.y = special_wall_start_y - 140.0
+			velocity.y = 0.0
+		return
+	if special_wall_phase == "impact":
+		velocity = Vector2.ZERO
+		special_wall_timer = maxf(special_wall_timer-delta,0.0)
+		if special_wall_timer == 0.0:
+			special_wall_phase = "fall"
+			velocity.y = 80.0
+		return
+	if special_wall_phase == "fall":
+		velocity.x = 0.0
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	velocity.x = move_toward(velocity.x, 0.0, move_speed * 0.35 * delta)
@@ -243,12 +316,29 @@ func update_knockback(delta: float) -> void:
 		enter_knockdown()
 
 
+func _start_special_flight_trail() -> void:
+	_lock_special_flight_camera()
+	var trail: Node2D = load("res://scripts/combat/special_flight_trail.gd").new()
+	add_child(trail)
+	trail.setup(self, special_landing_color)
+
+func _lock_special_flight_camera() -> void:
+	var controller := get_parent()
+	while controller != null:
+		if controller.has_method("begin_special_flight_camera"):
+			var limits: Vector2 = controller.begin_special_flight_camera(self)
+			if special_wall_phase == "fly": special_wall_screen_limits = limits
+			return
+		controller = controller.get_parent()
+
 func enter_knockdown() -> void:
-	if current_hp <= 0:
+	if current_hp <= 0 and not special_ko_flight:
 		reset_knockdown_state()
 		return
 
 	knockdown_state = &"KNOCKDOWN"
+	if special_backflip_enabled and animated_character_sprite != null:
+		animated_character_sprite.rotation = 0.0
 	knockdown_timer = knockdown_duration
 	velocity = Vector2.ZERO
 	set_hurtbox_enabled(false)
@@ -256,13 +346,22 @@ func enter_knockdown() -> void:
 	clear_attack_buffer()
 	# The six-frame knockdown sequence starts during knockback. Do not force a
 	# second animation at ground contact or the sequence jumps back to frame 1.
-	if not _has_visual_animation(last_knockdown_animation):
+	if _has_visual_animation(last_special_knockback_animation) and _has_visual_animation(last_knockdown_animation):
+		_play_state_animation(last_knockdown_animation, &"Throw")
+	elif not _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(&"knockdown", &"Throw")
 	_spawn_knockdown_impact_effect(global_position)
+	if special_landing_feedback:
+		var impact: Node2D = load("res://scripts/combat/reversal_effect.gd").new()
+		add_child(impact)
+		impact.setup(self, "impact", 0.3)
+		impact.tint = special_landing_color
+		special_landing_feedback = false
 	screen_shake_requested.emit(knockdown_camera_shake_strength)
 
 
 func update_knockdown(delta: float) -> void:
+	if special_ko_flight and current_hp <= 0: return
 	velocity = Vector2.ZERO
 	knockdown_timer = maxf(knockdown_timer - delta, 0.0)
 	if knockdown_timer == 0.0:
@@ -294,6 +393,10 @@ func update_get_up(delta: float) -> void:
 
 
 func finish_get_up() -> void:
+	special_backflip_enabled = false
+	special_wall_phase = ""
+	last_special_wall_animation = &""
+	last_special_wall_fall_animation = &""
 	last_knockdown_animation = &""
 	knockdown_state = &""
 	knockdown_timer = 0.0
@@ -317,12 +420,26 @@ func set_hurtbox_enabled(enabled: bool) -> void:
 
 
 func restore_sprite_transform() -> void:
+	if animated_character_sprite != null: animated_character_sprite.rotation = 0.0
 	visual_root.position = default_visual_position
 	visual_root.rotation_degrees = 0.0
 	visual_root.scale.y = 1.0
 
 
 func reset_knockdown_state() -> void:
+	special_backflip_enabled = false
+	special_backflip_elapsed = 0.0
+	special_backflip_turn = 0.0
+	special_wall_phase = ""
+	special_wall_timer = 0.0
+	special_wall_contacts = 0
+	special_wall_screen_limits = Vector2.ZERO
+	last_special_wall_animation = &""
+	last_special_wall_fall_animation = &""
+	special_reaction_edge_padding = Vector2.ZERO
+	special_ko_flight = false
+	special_landing_feedback = false
+	last_special_knockback_animation = &""
 	knockdown_state = &""
 	knockdown_timer = 0.0
 	get_up_timer = 0.0
@@ -347,6 +464,76 @@ func _is_knockdown_busy() -> bool:
 	return knockdown_state == &"KNOCKBACK" or knockdown_state == &"KNOCKDOWN" or knockdown_state == &"GET_UP"
 
 
+func _cache_special_reaction_edge_padding() -> void:
+	special_reaction_edge_padding = Vector2.ZERO
+	if last_special_knockback_animation == &"" or animated_character_sprite == null: return
+	var sprite := animated_character_sprite
+	for clip in [last_special_knockback_animation, last_knockdown_animation]:
+		if not _has_visual_animation(clip): continue
+		for index in range(sprite.sprite_frames.get_frame_count(clip)):
+			var texture := sprite.sprite_frames.get_frame_texture(clip,index)
+			var used := texture.get_image().get_used_rect()
+			var left := float(used.position.x)-texture.get_width()*0.5
+			var right := float(used.end.x)-texture.get_width()*0.5
+			if sprite.flip_h:
+				var old_left := left
+				left = -right
+				right = -old_left
+			var world_left: Vector2 = sprite.global_transform * Vector2(left,0)
+			var world_right: Vector2 = sprite.global_transform * Vector2(right,0)
+			special_reaction_edge_padding.x = maxf(special_reaction_edge_padding.x, global_position.x-world_left.x)
+			special_reaction_edge_padding.y = maxf(special_reaction_edge_padding.y, world_right.x-global_position.x)
+
+func _clamp_special_reaction_art() -> void:
+	if special_reaction_edge_padding == Vector2.ZERO or knockdown_state == &"GET_UP": return
+	var left := stage_left_limit + maxf(fighter_body_half_width,special_reaction_edge_padding.x)+8.0
+	var right := stage_right_limit - maxf(fighter_body_half_width,special_reaction_edge_padding.y)-8.0
+	if special_wall_phase != "" and special_wall_screen_limits != Vector2.ZERO:
+		left = special_wall_screen_limits.x + maxf(fighter_body_half_width,special_reaction_edge_padding.x)+8.0
+		right = special_wall_screen_limits.y - maxf(fighter_body_half_width,special_reaction_edge_padding.y)-8.0
+	if left >= right: return
+	global_position.x = clampf(global_position.x,left,right)
+	if special_wall_phase == "fly" and ((special_wall_direction < 0 and global_position.x <= left+0.5) or (special_wall_direction > 0 and global_position.x >= right-0.5)):
+		_enter_special_wall_impact()
+	if (global_position.x <= left and velocity.x < 0) or (global_position.x >= right and velocity.x > 0): velocity.x = 0.0
+
+func _begin_special_wall_launch(attack_data: Dictionary) -> void:
+	special_wall_phase = ""
+	special_wall_contacts = 0
+	special_backflip_enabled = bool(attack_data.get("is_special",false)) and bool(attack_data.get("backflip_on_launch",false))
+	special_backflip_elapsed = 0.0
+	special_backflip_turn = 0.0
+	if special_backflip_enabled:
+		special_backflip_direction = signf(velocity.x)
+		# Complete one turn first, then use the prone pose during the final descent.
+		# Rotate the Sprite about its body center, never the ground/feet origin.
+		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(gravity,1.0)*0.85)
+	if not bool(attack_data.get("is_special",false)) or not bool(attack_data.get("wall_slam",false)): return
+	special_wall_phase = "fly"
+	special_wall_contacts = 0
+	special_wall_direction = signf(velocity.x)
+	special_wall_speed = maxf(absf(velocity.x),1800.0)
+	special_wall_start_y = global_position.y
+	last_special_wall_animation = _get_special_received_animation(attack_data,"wall")
+	last_special_wall_fall_animation = _get_special_received_animation(attack_data,"fall")
+	if not _has_visual_animation(last_special_wall_animation): last_special_wall_animation = last_damage_animation
+	velocity.x = special_wall_speed * special_wall_direction
+
+func _enter_special_wall_impact() -> void:
+	special_wall_phase = "impact"
+	special_wall_timer = 0.16
+	special_wall_contacts += 1
+	velocity = Vector2.ZERO
+	var impact: Node2D = load("res://scripts/combat/reversal_effect.gd").new()
+	add_child(impact)
+	impact.setup(self,"wall",0.28)
+	var wall_padding := special_reaction_edge_padding.y if special_wall_direction > 0 else special_reaction_edge_padding.x
+	impact.position = Vector2(special_wall_direction*wall_padding,-120)
+	impact.scale.x = 1.0
+	impact.tint = special_landing_color
+	screen_shake_requested.emit(6.0)
+	_play_hit_se("strong")
+
 func _get_knockdown_force(attack_data: Dictionary, attacker: Node, fallback_direction: float) -> Vector2:
 	var direction := fallback_direction
 	if attacker is Node2D:
@@ -358,7 +545,16 @@ func _get_knockdown_force(attack_data: Dictionary, attacker: Node, fallback_dire
 
 	var force_x := maxf(float(attack_data.get("knockback_x", knockdown_horizontal_force)), knockdown_horizontal_force)
 	var force_y := maxf(float(attack_data.get("knockback_y", absf(knockdown_vertical_force))), absf(knockdown_vertical_force))
-	return calculate_received_knockback(Vector2(force_x * direction, -force_y))
+	var force := calculate_received_knockback(Vector2(force_x * direction, -force_y))
+	if bool(attack_data.get("is_special", false)):
+		force.x = maxf(absf(force.x), 600.0) * direction
+		force.y = minf(force.y, -400.0)
+		if bool(attack_data.get("wall_slam",false)):
+			force.x = maxf(absf(force.x),1800.0) * direction
+		var cap: Vector2 = attack_data.get("special_launch_speed_cap",Vector2.ZERO)
+		if cap.x > 0: force.x = minf(absf(force.x),cap.x)*direction
+		if cap.y > 0: force.y = maxf(force.y,-cap.y)
+	return force
 
 
 func _clear_control_state_for_knockdown() -> void:

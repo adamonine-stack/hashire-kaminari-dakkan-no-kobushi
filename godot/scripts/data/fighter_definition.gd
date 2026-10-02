@@ -31,7 +31,10 @@ class_name FighterDefinition
 @export var body_width_scale: float = 1.0
 @export var head_scale: float = 1.0
 @export var extra_motion_atlases: Array[Resource] = []
+## attack_id -> {hit, airborne, down}: poses belong to this receiving fighter.
+@export var special_damage_reactions: Dictionary = {}
 @export var aura_attack: Resource
+@export var reversal_attack: Resource
 @export var use_direct_combat_stats: bool = false
 @export var sprite_body_height_px: float = 0.0
 @export var foot_offset: Vector2 = Vector2.ZERO

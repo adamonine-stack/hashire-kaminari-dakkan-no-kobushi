@@ -1,0 +1,33 @@
+{
+  "cell": [
+    320,
+    256
+  ],
+  "baseline": 239,
+  "frames": [
+    {
+      "source": "art_sources\\gou_received_v2\\enemy_06_combo\\hit.png",
+      "scale": 0.16550675112518748,
+      "source_anchor_x": 747.0,
+      "support": [
+        112,
+        97,
+        207,
+        239
+      ],
+      "sha256": "22395c1b4cf1baf32de72f0ee5fb1be26ea1da5f7872b7e99261874674703058"
+    },
+    {
+      "source": "art_sources\\gou_received_v2\\enemy_06_combo\\down.png",
+      "scale": 0.10442713096762389,
+      "source_anchor_x": 895.0,
+      "support": [
+        79,
+        210,
+        242,
+        239
+      ],
+      "sha256": "00e270bfe8a18d3edd00bd4164982b9c2d99b01112621457aee6cf901880fbb1"
+    }
+  ]
+}

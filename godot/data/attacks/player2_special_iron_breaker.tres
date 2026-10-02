@@ -9,8 +9,8 @@ display_name = "Iron Breaker"
 attack_type = "special"
 attack_category = "special"
 base_damage = 1.0
-damage_multiplier = 3.2
-startup_time = 0.38
+damage_multiplier = 1.5
+startup_time = 0.14
 active_time = 0.20
 recovery_time = 0.58
 hitbox_size = Vector2(140, 95)
@@ -18,16 +18,31 @@ hitbox_offset = Vector2(82, -115)
 move_distance = 55.0
 move_duration = 0.20
 move_speed_multiplier = 0.85
-knockback = Vector2(440, -120)
+knockback = Vector2(460, -400)
+special_launch_speed_cap = Vector2(420, 400)
+backflip_on_launch = true
 hitstop_time = 0.15
 hitstun_time = 0.46
 is_guardable = true
-guard_damage_multiplier = 0.20
+guard_damage_multiplier = 0.15
 guard_hit_time = 0.35
 guard_knockback = Vector2(120, 0)
 can_be_interrupted = true
 interruptible_until_active = true
 cooldown = 5.20
-animation_name = "special_iron_breaker"
+animation_name = "gou_reversal_breaker"
 warning_effect_name = "player2_special_warning"
 attack_effect_name = "player2_iron_breaker"
+
+is_special = true
+can_interrupt_attack = true
+can_break_combo = true
+can_use_during_hitstun = true
+startup_invulnerability = 0.10
+
+ai_special_tags = Array[String](["reversal", "counter"])
+
+camera_shake = 6.0
+
+special_startup_animation = &"gou_reversal_startup"
+special_finish_animation = &"gou_reversal_finish"

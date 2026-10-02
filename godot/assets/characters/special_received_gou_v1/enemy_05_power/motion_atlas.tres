@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/special_received_gou_v1/enemy_05_power/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384, 288)
+columns = 2
+clips = {
+"received_gou_breaker_hit": {"frames": [0], "fps": 8, "loop": false},
+"received_gou_breaker_air": {"frames": [0], "fps": 10, "loop": false},
+"received_gou_breaker_down": {"frames": [1], "fps": 5, "loop": false}
+}

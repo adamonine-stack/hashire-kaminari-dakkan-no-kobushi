@@ -141,6 +141,7 @@ var is_round_active := false
 var victory_pose_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
+var special_guard_animation: StringName = &""
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var guard_motion_timer := 0.0
@@ -149,6 +150,7 @@ var crouch_motion_state := "none"
 var crouch_motion_timer := 0.0
 var last_damage_animation: StringName = &"damage_light"
 var last_knockdown_animation: StringName = &""
+var last_special_knockback_animation: StringName = &""
 var ko_slow_motion_active := false
 var throw_startup_timer := 0.0
 var throw_hold_timer := 0.0
@@ -2738,7 +2740,18 @@ func clear_victory_pose() -> void:
 
 
 func _get_current_visual_animation() -> StringName:
+	if _is_knockdown_state(&"KNOCKBACK") and bool(get("special_backflip_enabled")) and float(get("special_backflip_turn")) >= TAU:
+		if _has_visual_animation(last_knockdown_animation): return last_knockdown_animation
+	if _is_knockdown_state(&"KNOCKBACK") and String(get("special_wall_phase")) == "impact":
+		var wall_clip := StringName(get("last_special_wall_animation"))
+		if _has_visual_animation(wall_clip): return wall_clip
+	if _is_knockdown_state(&"KNOCKBACK") and String(get("special_wall_phase")) == "fall":
+		var fall_clip := StringName(get("last_special_wall_fall_animation"))
+		if _has_visual_animation(fall_clip): return fall_clip
 	if current_hp <= 0:
+		if _is_knockdown_state(&"KNOCKBACK"):
+			if _has_visual_animation(last_special_knockback_animation): return last_special_knockback_animation
+			return &"knockback"
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"ko"
@@ -2751,6 +2764,8 @@ func _get_current_visual_animation() -> StringName:
 	if _is_knockdown_state(&"GET_UP"):
 		return &"stand_up"
 	if _is_knockdown_state(&"KNOCKBACK"):
+		if _has_visual_animation(last_special_knockback_animation):
+			return last_special_knockback_animation
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"knockback"
@@ -2768,6 +2783,8 @@ func _get_current_visual_animation() -> StringName:
 	if is_throw_escaping:
 		return &"getup"
 	if is_guard_hit:
+		if _has_visual_animation(special_guard_animation):
+			return special_guard_animation
 		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
 	if is_hit:
 		return last_damage_animation
@@ -2838,6 +2855,14 @@ func _get_walk_animation_for_direction(direction: float) -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var authored_special := _get_special_received_animation(attack_data, "hit")
+	if authored_special != &"": return authored_special
+	if bool(attack_data.get("is_special", false)):
+		var special_reaction := StringName(attack_data.get("special_hit_reaction", &"special_hit"))
+		if _has_visual_animation(special_reaction):
+			return special_reaction
+		if _has_visual_animation(&"special_hit"):
+			return &"special_hit"
 	var cross_reaction := _cross_reaction_for_attack(String(attack_data.get("attack_id", "")))
 	if _has_visual_animation(cross_reaction):
 		return cross_reaction
@@ -2863,6 +2888,11 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 
 
 func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var authored_special := _get_special_received_animation(attack_data, "down")
+	if authored_special != &"": return authored_special
+	if bool(attack_data.get("is_special", false)):
+		var special_down := StringName(attack_data.get("special_knockdown_reaction", &"special_knockdown"))
+		if _has_visual_animation(special_down): return special_down
 	var cross_reaction := _cross_reaction_for_attack(String(attack_data.get("attack_id", "")))
 	var cross_down := StringName(String(cross_reaction) + "_down")
 	if _has_visual_animation(cross_down):
@@ -2871,6 +2901,14 @@ func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName
 	var height_animation: StringName = &"knockdown_low" if attack_height == "low" else &"knockdown_high"
 	return height_animation if _has_visual_animation(height_animation) else &""
 
+
+func _get_special_received_animation(attack_data: Dictionary, reaction_phase: String) -> StringName:
+	if not bool(attack_data.get("is_special", false)): return &""
+	var definition: Resource = get("fighter_definition")
+	if definition == null: return &""
+	var reactions: Dictionary = definition.special_damage_reactions.get(String(attack_data.get("attack_id", "")), {})
+	var clip := StringName(reactions.get(reaction_phase, ""))
+	return clip if clip != &"" and _has_visual_animation(clip) else &""
 
 func _cross_reaction_for_attack(attack_id: String) -> StringName:
 	match attack_id:

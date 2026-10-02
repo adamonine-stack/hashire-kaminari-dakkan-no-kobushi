@@ -28,6 +28,9 @@ var feedback_layer: Node2D
 var damage_number_pool: Array[Label] = []
 var damage_number_tweens: Dictionary = {}
 var damage_number_sequence := 0
+var special_flight_targets: Array[WeakRef] = []
+var special_camera_position := Vector2.ZERO
+var special_camera_zoom := Vector2.ONE
 
 @onready var player := $Player
 @onready var enemy := $Enemy
@@ -267,6 +270,15 @@ func _screen_shake_multiplier() -> float:
 func _update_dynamic_camera(delta: float) -> void:
 	if camera == null or player == null or enemy == null:
 		return
+	var active_targets: Array[WeakRef] = []
+	for reference in special_flight_targets:
+		var fighter: Node = reference.get_ref()
+		if is_instance_valid(fighter) and fighter.has_method("_is_knockdown_busy") and fighter._is_knockdown_busy(): active_targets.append(reference)
+	special_flight_targets = active_targets
+	if not special_flight_targets.is_empty():
+		camera.position = special_camera_position
+		camera.zoom = special_camera_zoom
+		return
 	var player_pos: Vector2 = player.global_position
 	var enemy_pos: Vector2 = enemy.global_position
 	var midpoint := (player_pos + enemy_pos) * 0.5
@@ -287,3 +299,16 @@ func _update_dynamic_camera(delta: float) -> void:
 	var zoom_weight := 1.0 - exp(-camera_zoom_smoothing * delta)
 	camera.position = camera.position.lerp(target_position, follow_weight)
 	camera.zoom = camera.zoom.lerp(Vector2.ONE * target_zoom, zoom_weight)
+
+func begin_special_flight_camera(fighter: Node) -> Vector2:
+	if special_flight_targets.is_empty():
+		special_camera_position = camera.position
+		special_camera_zoom = camera.zoom
+	for reference in special_flight_targets:
+		if reference.get_ref() == fighter:
+			var half_width := get_viewport_rect().size.x*0.5/special_camera_zoom.x
+			return Vector2(camera.global_position.x-half_width,camera.global_position.x+half_width)
+	special_flight_targets.append(weakref(fighter))
+	camera.force_update_scroll()
+	var half_width := get_viewport_rect().size.x*0.5/special_camera_zoom.x
+	return Vector2(camera.global_position.x-half_width,camera.global_position.x+half_width)

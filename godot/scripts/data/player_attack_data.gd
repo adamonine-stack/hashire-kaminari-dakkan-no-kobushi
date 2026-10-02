@@ -56,3 +56,26 @@ class_name PlayerAttackData
 @export var animation_name: String = ""
 @export var warning_effect_name: String = ""
 @export var attack_effect_name: String = ""
+
+@export_group("Special Reversal")
+@export var is_special: bool = false
+@export var can_interrupt_attack: bool = false
+@export var can_break_combo: bool = false
+@export var can_use_during_hitstun: bool = false
+@export var startup_invulnerability: float = 0.0
+@export var armor_frames: int = 0
+@export var special_hit_reaction: StringName = &"special_hit"
+@export var special_knockback_reaction: StringName = &"special_knockback"
+@export var special_knockdown_reaction: StringName = &"special_knockdown"
+@export var special_guard_reaction: StringName = &"special_guard"
+@export var special_startup_animation: StringName = &"special_startup"
+@export var special_finish_animation: StringName = &"special_recovery"
+@export var wall_slam := false
+@export var special_launch_speed_cap := Vector2.ZERO
+@export var backflip_on_launch := false
+@export var effect_scene: PackedScene
+@export var hit_effect_scene: PackedScene
+@export var camera_shake: float = 3.0
+@export var special_resource_cost: float = -1.0
+@export var whiff_recovery_multiplier: float = 1.25
+@export var ai_special_tags: Array[String] = []
