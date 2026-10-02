@@ -16,3 +16,8 @@ class_name FighterMotionAtlas
 @export var cell_size := Vector2i(320, 224)
 @export var columns: int = 4
 @export var clips: Dictionary = {}
+## Nonuniform source sheets must use measured rectangles, not width / columns.
+## Complete source poses are packed into common display cells at load time.
+@export var frame_regions: Array[Rect2i] = []
+@export var frame_offsets: Array[Vector2i] = []
+@export var frame_source_scales: PackedFloat32Array = []

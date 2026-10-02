@@ -2970,7 +2970,7 @@ func _show_enemy_intro(enemy_data: Dictionary) -> void:
 
 	_enemy_intro_pages.clear()
 	var stage_lines: Array[String] = [
-		"STAGE %d / %d  %s" % [current_enemy_index + 1, _campaign_stage_count_for_ui(), stage_name],
+		"STAGE %d  %s" % [current_enemy_index + 1, stage_name],
 		"%s  [%s]" % [enemy_data["display_name"], enemy_type],
 	]
 	if not stage_intro.is_empty():

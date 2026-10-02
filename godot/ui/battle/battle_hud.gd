@@ -32,6 +32,11 @@ var player_hp_label: Label
 var player_hp_bar: ProgressBar
 var player_delay_hp_bar: ProgressBar
 var player_special_bar: ProgressBar
+var player_special_fill: StyleBoxFlat
+var player_special_background: StyleBoxFlat
+var special_gauge_is_full := false
+var special_glow_time := 0.0
+var special_flash_remaining := 0.0
 var player_state_label: Label
 var player_special_label: Label
 var player_low_hp_label: Label
@@ -77,8 +82,16 @@ func _ready() -> void:
 	reset_battle_hud()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	_update_live_state_labels()
+	if special_gauge_is_full:
+		special_glow_time += delta
+		special_flash_remaining = maxf(0.0, special_flash_remaining - delta)
+		var pulse := 0.5 + 0.5 * sin(special_glow_time * TAU * 0.8)
+		var flash := special_flash_remaining / 0.38
+		player_special_fill.bg_color = Color("ffd769").lerp(Color("fff9e4"), 0.18 * pulse + 0.7 * flash)
+		player_special_background.shadow_color = Color(1.0, 0.78, 0.3, 0.28 + 0.1 * pulse + 0.24 * flash)
+		player_special_background.shadow_size = int(5 + 2 * pulse + 3 * flash)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -305,8 +318,19 @@ func update_player_special_gauge(current_value: float, max_value: float) -> void
 	player_special_bar.max_value = safe_max
 	player_special_bar.value = safe_current
 	player_special_bar.visible = show_battle_hp_bars
-	var ratio := safe_current / safe_max
-	player_special_bar.modulate = Color(0.45, 0.95, 1.0, 1.0) if ratio >= 0.999 else Color(0.28, 0.56, 0.95, 0.82)
+	var now_full := safe_current >= safe_max
+	if now_full and not special_gauge_is_full:
+		special_glow_time = 0.0
+		special_flash_remaining = 0.38
+	special_gauge_is_full = now_full
+	player_special_bar.modulate = Color.WHITE
+	if not now_full:
+		special_glow_time = 0.0
+		special_flash_remaining = 0.0
+		player_special_fill.bg_color = Color("26ceef")
+		player_special_background.shadow_size = 0
+		player_special_background.shadow_color = Color.TRANSPARENT
+	_update_special_status()
 
 
 func update_enemy_hp(current_hp: float, max_hp: float, animate := true) -> void:
@@ -617,7 +641,13 @@ func _build_hud() -> void:
 	player_special_bar = _make_special_gauge_bar(player_box)
 	player_state_label = _make_label(player_box, "INVINCIBLE", 15)
 	player_state_label.visible = false
-	player_special_label = _make_label(player_box, "SPECIAL --", 14)
+	player_special_label = _make_label(player_special_bar, "", 11)
+	player_special_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	player_special_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	player_special_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	player_special_label.add_theme_color_override("font_shadow_color", Color("362600"))
+	player_special_label.add_theme_constant_override("shadow_offset_x", 1)
+	player_special_label.add_theme_constant_override("shadow_offset_y", 1)
 	player_special_label.add_theme_color_override("font_color", Color(0.78, 0.88, 1.0, 1.0))
 	player_low_hp_label = _make_label(player_box, "DANGER", 14)
 	player_low_hp_label.add_theme_color_override("font_color", Color(1.0, 0.22, 0.16, 1.0))
@@ -829,11 +859,21 @@ func _make_hp_stack(parent: Node) -> Dictionary:
 
 func _make_special_gauge_bar(parent: Node) -> ProgressBar:
 	var bar := ProgressBar.new()
-	bar.custom_minimum_size = Vector2(300.0, 8.0)
+	bar.custom_minimum_size = Vector2(300.0, 14.0)
 	bar.show_percentage = false
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bar.max_value = 100.0
 	bar.value = 0.0
+	player_special_background = StyleBoxFlat.new()
+	player_special_background.bg_color = Color("071f31")
+	player_special_background.set_border_width_all(1)
+	player_special_background.border_color = Color("568cac")
+	player_special_background.set_corner_radius_all(4)
+	player_special_fill = StyleBoxFlat.new()
+	player_special_fill.bg_color = Color("26ceef")
+	player_special_fill.set_corner_radius_all(4)
+	bar.add_theme_stylebox_override("background", player_special_background)
+	bar.add_theme_stylebox_override("fill", player_special_fill)
 	parent.add_child(bar)
 	return bar
 
@@ -885,26 +925,9 @@ func _update_live_state_labels() -> void:
 func _update_special_status() -> void:
 	if player_special_label == null or current_player == null:
 		return
-	player_special_label.text = ""
-	player_special_label.visible = false
-	return
-	if not current_player.has_method("has_special_attack") or not bool(current_player.has_special_attack()):
-		player_special_label.text = "SPECIAL --"
-		player_special_label.modulate = Color(0.7, 0.7, 0.7, 1.0)
-		return
-	var special_name := "SPECIAL"
-	if current_player.has_method("get_special_display_name"):
-		special_name = String(current_player.get_special_display_name())
-	var cooldown := 0.0
-	if current_player.has_method("get_special_cooldown_remaining"):
-		cooldown = float(current_player.get_special_cooldown_remaining())
-	var ready := cooldown <= 0.05 and (not current_player.has_method("can_start_special_attack") or bool(current_player.can_start_special_attack()))
-	if ready:
-		player_special_label.text = "%s READY" % special_name
-		player_special_label.modulate = Color(0.55, 0.95, 1.0, 1.0)
-	else:
-		player_special_label.text = "%s %.1f" % [special_name, cooldown]
-		player_special_label.modulate = Color(0.45, 0.55, 0.7, 1.0)
+	player_special_label.text = "SPECIAL MAX" if special_gauge_is_full else ""
+	player_special_label.visible = show_battle_hp_bars and special_gauge_is_full
+	player_special_label.modulate = Color("ffe8a0")
 
 
 func _update_low_hp_label(label: Label, current_hp: float, max_hp: float) -> void:
