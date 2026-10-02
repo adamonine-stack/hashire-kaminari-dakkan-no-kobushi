@@ -2740,7 +2740,7 @@ func clear_victory_pose() -> void:
 
 
 func _get_current_visual_animation() -> StringName:
-	if _is_knockdown_state(&"KNOCKBACK") and bool(get("special_backflip_enabled")) and float(get("special_backflip_turn")) >= TAU:
+	if _is_knockdown_state(&"KNOCKBACK") and bool(get("special_backflip_enabled")) and float(get("special_backflip_turn")) >= PI*1.5:
 		if _has_visual_animation(last_knockdown_animation): return last_knockdown_animation
 	if _is_knockdown_state(&"KNOCKBACK") and String(get("special_wall_phase")) == "impact":
 		var wall_clip := StringName(get("last_special_wall_animation"))
@@ -2936,6 +2936,7 @@ func _update_visual_state() -> void:
 	_sync_single_character_visual()
 	_update_pose_collision()
 	_play_visual_animation(_get_current_visual_animation())
+	if has_method("_update_special_air_pose"): call("_update_special_air_pose")
 	_apply_character_visual_pose()
 
 	if not debug_state_label_enabled:

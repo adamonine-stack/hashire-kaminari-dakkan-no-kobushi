@@ -18,6 +18,18 @@
       "sha256": "1bccae48776f24a37b4461718ec8151731031d40759b0bb14021f1f71ae2136c"
     },
     {
+      "source": "art_sources\\gou_received_v2\\enemy_08_boss\\tuck.png",
+      "scale": 0.2500958772770853,
+      "source_anchor_x": 647.0,
+      "support": [
+        71,
+        91,
+        249,
+        278
+      ],
+      "sha256": "13db6371db22a65e5b5cb4938a9d22f6ecaca5dd098e7e5e3d017173cf5a9846"
+    },
+    {
       "source": "art_sources\\gou_received_v2\\enemy_08_boss\\down.png",
       "scale": 0.1451691347270615,
       "source_anchor_x": 1068.0,

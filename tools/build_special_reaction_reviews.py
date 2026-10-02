@@ -5,8 +5,9 @@ ROOT=Path(__file__).resolve().parents[1]
 NAMES=['enemy_01_standard','enemy_02_speed','enemy_03_guard','enemy_04_throw','enemy_05_power',
        'enemy_06_combo','enemy_07_tricky','enemy_08_boss','enemy_09_seiya']
 for folder,phases in [('akky_wall_launch_final',['air','wall','fall','down']),
-                     ('gou_reversal_facing_v2',['impact','air','prone_descent','down'])]:
+                     ('gou_reversal_270_final',['impact','air','prone_descent','down'])]:
     out=ROOT/'evidence'/folder
+    if not all((out/f"{name}_R_{phase}.png").exists() for name in NAMES for phase in phases): continue
     sheet=Image.new('RGB',(1280,len(NAMES)*202),(25,25,30))
     draw=ImageDraw.Draw(sheet)
     for row,name in enumerate(NAMES):
