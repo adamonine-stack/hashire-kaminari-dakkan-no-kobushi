@@ -28,12 +28,12 @@ def pack(source_folder, destination, reference, names, clips, calibration=1.0, a
     density = (rb[3]-rb[1]) / ((initial[3]-initial[1])*calibration)*density_adjustment
     pose_densities = [density]*len(poses)
     if normalize_prone:
-        # The independently drawn prone original has a different source resolution.
-        # Match its anatomical head-to-feet span to the upright body's height,
-        # allowing 15% for extended hands. Never stretch a low pose to idle height.
+        # Compare visible body mass, not pose height/width: lying down overlaps
+        # limbs but must not turn into a miniature character at landing.
         prone_index = names.index("down")
-        prone = poses[prone_index][1]
-        pose_densities[prone_index] *= (initial[3]-initial[1])*1.15/(prone[2]-prone[0])
+        def opaque_area(image):
+            return sum(value >= 128 for value in image.getchannel('A').get_flattened_data())
+        pose_densities[prone_index] = density * (0.85*opaque_area(poses[0][0])/opaque_area(poses[prone_index][0]))**0.5
     if 'tuck' in names:
         tuck_index = names.index('tuck')
         tuck = poses[tuck_index][1]
@@ -86,7 +86,7 @@ path = pack(ROOT/'art_sources/gou_reversal_v1',GODOT/'assets/characters/player02
 attach(GODOT/'data/fighters/ally_power.tres',path,'gou_reversal')
 path = pack(ROOT/'art_sources/gou_received_v2/enemy_01_standard',GODOT/'assets/characters/special_received_gou_v1/enemy_01_standard',
     REFS/'crusher.png',['hit','down'],
-    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],60),'received_gou_breaker_down':([1],5)},1.12,density_adjustment=0.94,normalize_prone=True)
+    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],60),'received_gou_breaker_down':([1],5)},1.0,density_adjustment=1.0,normalize_prone=True)
 fighter = GODOT/'data/enemies/enemy_01_standard.tres'
 attach(fighter,path,'received_gou')
 text = fighter.read_text(encoding='utf-8')
@@ -109,7 +109,7 @@ if reference_manifest.exists():
             raise FileNotFoundError(f'Missing dedicated Gou reactions: {name}')
         path = pack(source,GODOT/'assets/characters/special_received_gou_v1'/name,
             Path(ref['reference']),['hit','down'],
-            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],60),'received_gou_breaker_down':([1],5)},1.12,density_adjustment=0.94,normalize_prone=True)
+            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],60),'received_gou_breaker_down':([1],5)},1.0,density_adjustment=1.0,normalize_prone=True)
         fighter = GODOT/ref['fighter']
         attach(fighter,path,'received_gou')
         text = fighter.read_text(encoding='utf-8')

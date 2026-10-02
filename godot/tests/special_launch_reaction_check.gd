@@ -38,6 +38,15 @@ func visible_body_center_y(sprite: AnimatedSprite2D) -> float:
 	if sprite.flip_h: center.x = -center.x
 	return (sprite.global_transform*(center+sprite.offset)).y
 
+func opaque_body_area(texture: Texture2D) -> float:
+	var image := texture.get_image()
+	var area := 0.0
+	var bounds := image.get_used_rect()
+	for y in range(bounds.position.y,bounds.end.y):
+		for x in range(bounds.position.x,bounds.end.x):
+			if image.get_pixel(x,y).a >= 0.5: area += 1.0
+	return area
+
 func _initialize() -> void:
 	call_deferred("run")
 
@@ -151,7 +160,13 @@ func run() -> void:
 			var previous_body_y := visible_body_center_y(sprite)
 			var captured_spin := false
 			var captured_prone := false
-			if backflip: check(sprite.sprite_frames.get_frame_count(target.last_special_knockback_animation) == 1,label + " arched lightly bent-knee pose throughout flight")
+			if backflip:
+				check(sprite.sprite_frames.get_frame_count(target.last_special_knockback_animation) == 1,label + " arched lightly bent-knee pose throughout flight")
+				var idle_area := opaque_body_area(sprite.sprite_frames.get_frame_texture(&"idle",0))
+				var air_area := opaque_body_area(sprite.sprite_frames.get_frame_texture(target.last_special_knockback_animation,0))
+				var down_area := opaque_body_area(sprite.sprite_frames.get_frame_texture(target.last_knockdown_animation,0))
+				check(air_area/idle_area >= 0.70 and air_area/idle_area <= 1.10,label + " received body keeps ordinary character size")
+				check(down_area/air_area >= 0.80 and down_area/air_area <= 0.90,label + " prone body retains flight body mass")
 			for frame in range(150):
 				await physics_frame
 				check(root.get_camera_2d().zoom.is_equal_approx(camera_zoom_before),label + " no camera enlargement during flight")
@@ -171,11 +186,7 @@ func run() -> void:
 					previous_body_y = body_y
 					if target.special_backflip_turn < PI*1.5:
 						check(sprite.animation == target.last_special_knockback_animation and sprite.frame == 0,label + " stays arched without tucking")
-					if target.special_backflip_turn >= PI*1.5 and not captured_prone:
-						target._update_visual_state()
-						check(sprite.animation == StringName(reaction_prefix + "_down"),label + " prone descent after complete turn")
-						await capture(label + "_prone_descent")
-						captured_prone = true
+					check(target.special_backflip_turn < PI*1.5,label + " rotation only completes at floor contact")
 					if not captured_spin and target.special_backflip_turn > PI:
 						check_visible_art(sprite,label + " rotating body")
 						await capture(label + "_spin")
@@ -206,7 +217,13 @@ func run() -> void:
 					check_visible_art(sprite,label + " airborne")
 					await capture(label + "_air")
 					captured_air = true
-				if target.knockdown_state == &"KNOCKDOWN": break
+				if target.knockdown_state == &"KNOCKDOWN":
+					if backflip:
+						target._update_visual_state()
+						check(sprite.animation == StringName(reaction_prefix + "_down"),label + " rotation ends in grounded prone pose")
+						await capture(label + "_prone_landing")
+						captured_prone = true
+					break
 			check(captured_air and start.y-apex > minimum_flight_height, label + " visible upward arc")
 			if maximum_flight_height > 0:
 				check(start.y-apex < maximum_flight_height,label + " stays close to contact height")
@@ -220,7 +237,8 @@ func run() -> void:
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")
 				check(sprite.offset.is_zero_approx(),label + " grounded prone alignment restored")
 				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no abrupt body drop at floor")
-				if maximum_flight_height > 0: check(target.special_backflip_elapsed-target.special_backflip_duration > 0.25,label + " sustained final descent")
+				if maximum_flight_height > 0:
+					check(absf(target.special_backflip_elapsed-target.special_backflip_duration) <= 0.10,label + " rotation and landing finish together")
 				check(sprite.flip_h == (direction > 0),label + " prone original head faces Gou at landing")
 			check(target.knockdown_state == &"KNOCKDOWN", label + " lands in down state")
 			target._update_visual_state()

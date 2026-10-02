@@ -194,5 +194,7 @@
     }
   ],
   "final_rotation_degrees": 270,
-  "final_airborne_posture": "Upper body arched backward; knees only lightly bent; no compact tuck during the 270-degree flight."
+  "final_airborne_posture": "Upper body arched backward; knees only lightly bent; no compact tuck during the 270-degree flight.",
+  "final_timing": "270-degree turn and physical floor contact complete in the same frame; no post-rotation descent phase",
+  "final_size_calibration": "idle-relative hit height, constant runtime scale, down opaque body area 85 percent of hit"
 }
