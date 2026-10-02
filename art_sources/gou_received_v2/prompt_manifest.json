@@ -110,6 +110,61 @@
       "phase": "down",
       "reference": "evidence/special_reaction_refs/enemy_09_seiya.png",
       "prompt": "Use case: identity-preserve. Production fighting-game sprite enemy_09_seiya down v2. Reference image is character identity and pixel-art style guide. Preserve exact hairstyle, clothing, accessories, proportions, colors and pixel rendering. ONE full-body final knockdown pose lying PRONE FACE DOWN on the ground, horizontally elongated. HEAD at RIGHT, BOOTS/FEET at LEFT. Chest and belly face the FLOOR; back uppermost and visible. Face turned slightly toward viewer but cheek nearly on floor, nose pointing RIGHT, arms sprawled loosely near head, legs extended behind toward LEFT with modest natural knee bends. Absolutely NOT fetal curl, NOT lying on side, NOT supine, no raised head. His head must be closer to the unseen attacker at RIGHT than his feet. One isolated character only on actual transparent alpha, generous padding, no text, no ground shadow, no panels, no sheet. Match original body proportions; feet and hands anatomically intact."
+    },
+    {
+      "name": "enemy_01_standard",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_01_standard.png",
+      "prompt": "Use case: identity-preserve. enemy_01_standard Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_02_speed",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_02_speed.png",
+      "prompt": "Use case: identity-preserve. enemy_02_speed Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_03_guard",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_03_guard.png",
+      "prompt": "Use case: identity-preserve. enemy_03_guard Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_04_throw",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_04_throw.png",
+      "prompt": "Use case: identity-preserve. enemy_04_throw Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_05_power",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_05_power.png",
+      "prompt": "Use case: identity-preserve. enemy_05_power Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_06_combo",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_06_combo.png",
+      "prompt": "Use case: identity-preserve. enemy_06_combo Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_07_tricky",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_07_tricky.png",
+      "prompt": "Use case: identity-preserve. enemy_07_tricky Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_08_boss",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_08_boss.png",
+      "prompt": "Use case: identity-preserve. enemy_08_boss Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
+    },
+    {
+      "name": "enemy_09_seiya",
+      "phase": "tuck",
+      "reference": "evidence/special_reaction_refs/enemy_09_seiya.png",
+      "prompt": "Use case: identity-preserve. enemy_09_seiya Gou received intermediate airborne tuck v3. One isolated FULL BODY fighting game sprite. Preserve this exact character identity, clothes, hairstyle, proportions, and pixel-art rendering. Canonical facing RIGHT toward unseen opponent on RIGHT. A compact airborne BACKWARD TUMBLE pose: head remains ABOVE shoulders, face looking RIGHT and slightly upward, upper back gently arched toward LEFT, knees pulled upward near waist and feet tucked under hips, elbows loosely bent with hands near chest but not hiding face. This is an UPRIGHT anatomical key pose to be rotated by the game engine; do NOT draw him already upside down, horizontal, on the floor, or spinning. No effects, no motion streaks, no text, no shadows, no panels. Genuine transparent alpha background, generous padding. Adult body proportions unchanged."
     }
-  ]
+  ],
+  "final_rotation_degrees": 270
 }

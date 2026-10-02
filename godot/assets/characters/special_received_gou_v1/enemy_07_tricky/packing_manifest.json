@@ -18,6 +18,18 @@
       "sha256": "895a9d7f5f3f84fa4685430a4c966f3107ea1a67748fdc19d2ebedbcab0ee7c3"
     },
     {
+      "source": "art_sources\\gou_received_v2\\enemy_07_tricky\\tuck.png",
+      "scale": 0.22300392670157068,
+      "source_anchor_x": 728.0,
+      "support": [
+        132,
+        120,
+        252,
+        248
+      ],
+      "sha256": "3ff39c153d2fc9e9fd78ad044f2f598683d94c995b1db7dd3b3d0ab01ea7b811"
+    },
+    {
       "source": "art_sources\\gou_received_v2\\enemy_07_tricky\\down.png",
       "scale": 0.13185144683714667,
       "source_anchor_x": 854.0,

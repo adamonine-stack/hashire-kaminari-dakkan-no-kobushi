@@ -26,7 +26,7 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var transform := sprite.get_global_transform_with_canvas()
 	var screen := root.get_visible_rect().size
 	for point in [Vector2(left,top),Vector2(right,top),Vector2(left,bottom),Vector2(right,bottom)]:
-		var actual: Vector2 = transform * point
+		var actual: Vector2 = transform * (point+sprite.offset)
 		if actual.x < 0 or actual.x > screen.x or actual.y < 0 or actual.y > screen.y: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
 		check(actual.x >= 0 and actual.x <= screen.x and actual.y >= 0 and actual.y <= screen.y,label + " art inside rendered viewport")
 
@@ -142,17 +142,30 @@ func run() -> void:
 			var previous_turn := 0.0
 			var captured_spin := false
 			var captured_prone := false
+			var captured_tuck := false
+			var captured_open := false
+			if backflip: check(sprite.sprite_frames.get_frame_count(target.last_special_knockback_animation) == 3,label + " authored arch tuck open sequence")
 			for frame in range(150):
 				await physics_frame
 				check(root.get_camera_2d().zoom.is_equal_approx(camera_zoom_before),label + " no camera enlargement during flight")
 				if backflip and target.knockdown_state == &"KNOCKBACK":
-					check(target.special_backflip_turn >= previous_turn and target.special_backflip_turn <= TAU+0.001,label + " one continuous backward turn")
-					check(is_equal_approx(sprite.rotation,target.special_backflip_turn*direction),label + " backward rotation about body center")
+					check(target.special_backflip_turn >= previous_turn and target.special_backflip_turn <= PI*1.5+0.001,label + " one continuous backward turn")
+					if target.special_backflip_turn < PI*1.5:
+						check(is_equal_approx(sprite.rotation,target.special_backflip_turn*direction),label + " backward rotation about body center")
+					else:
+						check(is_zero_approx(sprite.rotation),label + " prone drawing aligns after 270 degrees")
 					check(sprite.flip_h == (direction > 0),label + " victim remains facing Gou")
 					if target.special_backflip_turn > 0 and target.special_backflip_turn < PI/2:
 						check(Vector2.UP.rotated(sprite.rotation).x*direction > 0,label + " head starts rotating away from Gou")
 					previous_turn = target.special_backflip_turn
-					if target.special_backflip_turn >= TAU and not captured_prone:
+					if sprite.animation == target.last_special_knockback_animation:
+						if sprite.frame == 1 and not captured_tuck:
+							await capture(label + "_tuck")
+							captured_tuck = true
+						if sprite.frame == 2 and not captured_open:
+							await capture(label + "_open")
+							captured_open = true
+					if target.special_backflip_turn >= PI*1.5 and not captured_prone:
 						target._update_visual_state()
 						check(sprite.animation == StringName(reaction_prefix + "_down"),label + " prone descent after complete turn")
 						await capture(label + "_prone_descent")
@@ -195,8 +208,10 @@ func run() -> void:
 				check(distance < maximum_flight_distance,label + " short ground launch")
 				check(target.special_wall_contacts == 0,label + " Gou lands without wall slam")
 			if backflip:
-				check(captured_spin and captured_prone and is_equal_approx(target.special_backflip_turn,TAU),label + " completes exactly one backflip")
+				check(captured_spin and captured_prone and captured_tuck and captured_open and is_equal_approx(target.special_backflip_turn,PI*1.5),label + " completes backward 270-degree prone rotation")
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")
+				check(sprite.offset.is_zero_approx(),label + " grounded prone alignment restored")
+				check(sprite.material != target.special_pose_material,label + " pose blending cleared at landing")
 				check(sprite.flip_h == (direction > 0),label + " prone original head faces Gou at landing")
 			check(target.knockdown_state == &"KNOCKDOWN", label + " lands in down state")
 			target._update_visual_state()

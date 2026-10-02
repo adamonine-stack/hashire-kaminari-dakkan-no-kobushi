@@ -18,6 +18,18 @@
       "sha256": "4683eaf3110fc2333cf584519aa6851a8f4e5841801fd6455adbef350ac63b38"
     },
     {
+      "source": "art_sources\\gou_received_v2\\enemy_09_seiya\\tuck.png",
+      "scale": 0.24867724867724864,
+      "source_anchor_x": 755.5,
+      "support": [
+        141,
+        129,
+        243,
+        250
+      ],
+      "sha256": "d027bd90716d4039295c8ad8c947a618b7e8a2bafd38dfa546f2f0cfbe4b6f1d"
+    },
+    {
       "source": "art_sources\\gou_received_v2\\enemy_09_seiya\\down.png",
       "scale": 0.12529701535786728,
       "source_anchor_x": 942.5,
