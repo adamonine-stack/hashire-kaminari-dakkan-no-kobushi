@@ -2663,7 +2663,7 @@ func _play_audio_manager_se(se_id: String) -> bool:
 func _update_visual_state() -> void:
 	# Base movement selects its ordinary clip first. Preserve Leon's authored
 	# special progress when that temporary base clip is replaced in this update.
-	var preserve_leon_special := _is_enemy8() and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
+	var preserve_leon_special := (_is_enemy8() or _is_masato_takahashi()) and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
 	var previous_animation: StringName = animated_character_sprite.animation if preserve_leon_special else &""
 	var previous_frame: int = animated_character_sprite.frame if preserve_leon_special else 0
 	var previous_progress: float = animated_character_sprite.frame_progress if preserve_leon_special else 0.0

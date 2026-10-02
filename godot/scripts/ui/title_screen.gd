@@ -41,6 +41,11 @@ var orientation_overlay: PanelContainer
 func _ready() -> void:
 	# Private fresh-browser QA fixtures use the normal Web startup because release
 	# templates disable command-line scene overrides. Ordinary saves never set this.
+	var masato_qa_path := "user://qa/masato_motion.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(masato_qa_path) and FileAccess.get_file_as_string(masato_qa_path).strip_edges() == "masato_motion_v2":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(masato_qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/masato_web_qa.tscn")
+		return
 	var leon_qa_path := "user://qa/leon_motion.flag"
 	if OS.has_feature("web") and FileAccess.file_exists(leon_qa_path) and FileAccess.get_file_as_string(leon_qa_path).strip_edges() == "leon_motion_v2":
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(leon_qa_path))
