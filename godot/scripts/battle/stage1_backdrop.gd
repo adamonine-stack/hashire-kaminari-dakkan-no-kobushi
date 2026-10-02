@@ -25,8 +25,8 @@ const STAGE_4_TEXTURE_PARTS := [
 	"res://assets/backgrounds/generated/stage_04_ship_deck_06.b64",
 	"res://assets/backgrounds/generated/stage_04_ship_deck_07.b64",
 ]
-const STAGE_5_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_05_island_pier.svg")
-const STAGE_6_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_06_secret_base_gate.svg")
+const STAGE_5_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_05_island_pier_v2.png")
+const STAGE_6_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_06_secret_base_gate_v2.png")
 const STAGE_7_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_07_hideout_entrance.webp")
 const STAGE_8_TEXTURE: Texture2D = preload("res://assets/backgrounds/stage_08_hideout_boss_room.webp")
 const BACKDROP_RECT := Rect2(-112.0, -63.0, 1504.0, 846.0)

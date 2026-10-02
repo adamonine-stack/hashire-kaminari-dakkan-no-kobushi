@@ -64,8 +64,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		advance_requested = advance_requested or (event as InputEventScreenTouch).pressed
 	if advance_requested:
-		advance()
 		get_viewport().set_input_as_handled()
+		advance()
 
 
 func advance() -> void:

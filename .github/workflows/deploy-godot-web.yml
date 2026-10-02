@@ -138,6 +138,15 @@ jobs:
           grep -Fq 'DARK_SEIYA_COMBAT_CHECK failures=[]' /tmp/dark-seiya.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/dark-seiya.log; then exit 1; fi
 
+      - name: Verify ST_action frame regions, stage transitions and gauge states
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in stage5_6_motion_atlas stage5_shadow_boxer_regression stage7_8_motion_atlas st_action_fix_regression; do
+            timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/$test.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/$test.log"; then exit 1; fi
+          done
+
       - name: Verify enemy pressure profiles
         shell: bash
         run: |

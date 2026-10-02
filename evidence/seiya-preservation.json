@@ -1,0 +1,162 @@
+[
+  {
+    "file": "godot/assets/characters/player03/animations/dark_seiya_v1/ground_contact_source.png",
+    "unchanged": true,
+    "sha256": "f207b327b2ddad153265793a666e53021100ae98abdb722314de0f44fbb07e91"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/dark_seiya_v1/head_landmarks.json",
+    "unchanged": true,
+    "sha256": "8f53fe6357ba945060016d803ba819498f3ae16af71fb5d143af8457e334cf31"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/dark_seiya_v1/special_atlas.png",
+    "unchanged": true,
+    "sha256": "ec7486901e00ad33083187043368ffb2cea56c08b22a92a5acf39540111a35b8"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/dark_seiya_v1/special_atlas.tres",
+    "unchanged": true,
+    "sha256": "0be009cd52c0c3ccf28a1400395f19c10c954bc124e2b7700b03042ba3b6c062"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/motion_atlas.png",
+    "unchanged": true,
+    "sha256": "f7a940538aec67abbc7ae9795ac2b3c5d34dd64cda9a12fb88d25e269d7ab81c"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/motion_atlas.tres",
+    "unchanged": true,
+    "sha256": "ecfbb93f26db2ce5f7b8626abd16b993b8c4491d0c15502ca368e9eccb93857d"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/packing_manifest.json",
+    "unchanged": true,
+    "sha256": "dc23e35ef819133efceef2787b11bd308675c3d4d6bb6b6f1b904877eabaa244"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/sources/.gdignore",
+    "unchanged": true,
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/sources/attacks.png",
+    "unchanged": true,
+    "sha256": "779faad1193f0af2686943ef6b40f35a9b4d8d651e607ad96eb792fe39d3c994"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/sources/extras.png",
+    "unchanged": true,
+    "sha256": "07324adda0de7e48a0326f7456bfb60eab826200e3b3adf23b8920ed61819365"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/sources/locomotion.png",
+    "unchanged": true,
+    "sha256": "a4f0c9ec6ab836b6c24e9fd27ae769d7e36ee81422a2fae733f1827ce3086c3d"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/sources/victory.png",
+    "unchanged": true,
+    "sha256": "c6bfc92fa6ea58fa6a6b65bf2a532045d123947a5feb0ae62172e24bbc778288"
+  },
+  {
+    "file": "godot/assets/characters/player03/animations/seiya_v1/sources/walk.png",
+    "unchanged": true,
+    "sha256": "e18b5b2c6ab9535ede2a1f4998bc2cd27422cdc4915cab70c4222ef27a73ae75"
+  },
+  {
+    "file": "godot/assets/effects/dark_seiya_pillar.png",
+    "unchanged": true,
+    "sha256": "eec2df3feaef688391d8c08bf95f56702c19dc775a2adfb55a928d458235e21c"
+  },
+  {
+    "file": "godot/data/attacks/dark_seiya_abyss_pillar.tres",
+    "unchanged": true,
+    "sha256": "437966d6789d8d9bc61044c9832128aa3746f06af281d03efe11fc3a7ef3b8c8"
+  },
+  {
+    "file": "godot/data/attacks/dark_seiya_kick_finish.tres",
+    "unchanged": true,
+    "sha256": "93b83113ac3f76acbd5dd31738fa9956e023a3ed4b740737faedd160cdabe17f"
+  },
+  {
+    "file": "godot/data/attacks/dark_seiya_punch_1.tres",
+    "unchanged": true,
+    "sha256": "cdbf9a0073b86582f53ead726490c3a94be10cd2586f594dba149dd9e2426718"
+  },
+  {
+    "file": "godot/data/attacks/dark_seiya_punch_2.tres",
+    "unchanged": true,
+    "sha256": "1f5ea602338c7e025e8b57b552d0ab93bd0b5998f730f80fe1bd4555cd5e09d4"
+  },
+  {
+    "file": "godot/data/attacks/dark_seiya_punch_3.tres",
+    "unchanged": true,
+    "sha256": "159e023cd3d39296f46256f2a302392e002169371ec5ba55aab312427348cfa5"
+  },
+  {
+    "file": "godot/data/enemies/enemy_09_seiya.tres",
+    "unchanged": true,
+    "sha256": "ce2acb94882f08c01f3936740c14c950ce40736718148288180068a862a124cb"
+  },
+  {
+    "file": "godot/data/fighters/ally_speed.tres",
+    "unchanged": true,
+    "sha256": "a35506fca63ddd5263388e5a477db88b7123dd9fb20265cb0fd611875730eced"
+  },
+  {
+    "file": "godot/data/stages/stage_09_true_seiya.tres",
+    "unchanged": true,
+    "sha256": "49a0f93b360e90043cc3bc0bdd1bd5e9fa6a35306c4b1e44fc2e9728ff90d44d"
+  },
+  {
+    "file": "godot/scenes/TrueBattle.tscn",
+    "unchanged": true,
+    "sha256": "30457379cf1914fe3e22fdc5986776003d48ee8c6b8df6c9c58710956c0796f0"
+  },
+  {
+    "file": "godot/scripts/battle/true_battle_manager.gd",
+    "unchanged": true,
+    "sha256": "aa82c7ce761dc15a5b83a02bc23603e3e20c7af54931ed7228eb4ab6abef3afa"
+  },
+  {
+    "file": "godot/scripts/characters/seiya_head.gdshader",
+    "unchanged": true,
+    "sha256": "768b5ae6e94a15c642e81801cf8524d7f9d59e1b6b162002393061c550842c98"
+  },
+  {
+    "file": "godot/scripts/characters/seiya_proportions.gd",
+    "unchanged": true,
+    "sha256": "d7793bc128633b34f72ffb52a2c8863f32541ced5cfd2019455b976d2bca4c99"
+  },
+  {
+    "file": "godot/scripts/ui/stage8_ending.gd",
+    "unchanged": true,
+    "sha256": "1c69a500af022779403a97734d7f38ec539ccfeecf43a0482e4a010ee4bdfefd"
+  },
+  {
+    "file": "godot/tests/dark_seiya_combat_check.gd",
+    "unchanged": true,
+    "sha256": "5742774ab846db477cf84f388b9a452a873ab5f3a6279f45b099e1bd5b1ec020"
+  },
+  {
+    "file": "godot/tests/seiya_motion_atlas.gd",
+    "unchanged": true,
+    "sha256": "576a61683f7449532dfa96e1b085db50c0f081d320e6f9c51de25beb8c58d1a1"
+  },
+  {
+    "file": "godot/tests/seiya_size_review.gd",
+    "unchanged": true,
+    "sha256": "06a927708cb7ae945434a6c09a12cc44f8395a586348e0ba8e021e078073401e"
+  },
+  {
+    "file": "godot/tests/seiya_visual_review.gd",
+    "unchanged": true,
+    "sha256": "8c54612c72ad7c8a8d8d6799bc45c02b8e8e78120e0fa7b752ad3987af0df84d"
+  },
+  {
+    "file": "godot/tests/true_seiya_combat_check.gd",
+    "unchanged": true,
+    "sha256": "4c03f842a769b37f579393df1d538b6b007fe0ec5bbeb315ec141b0feda867c5"
+  }
+]

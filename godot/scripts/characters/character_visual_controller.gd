@@ -326,9 +326,12 @@ func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
 	var cell: Vector2i = atlas.get("cell_size")
 	var columns := int(atlas.get("columns"))
 	var clips: Dictionary = atlas.get("clips")
+	var source_regions: Array = atlas.get("frame_regions")
 	if texture == null or cell.x <= 0 or cell.y <= 0 or columns <= 0:
 		push_error("Invalid authored motion atlas: %s" % _fighter_id())
 		return frames
+	if not source_regions.is_empty():
+		return _build_measured_motion_atlas(atlas, texture)
 	for key in clips:
 		var clip: Dictionary = clips[key]
 		var name := String(key)
@@ -346,6 +349,48 @@ func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
 			frame.region = Rect2(region)
 			frame.filter_clip = true
 			frames.add_frame(name, frame)
+	return frames
+
+
+func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteFrames:
+	var cell: Vector2i = atlas.cell_size
+	var regions: Array = atlas.frame_regions
+	var offsets: Array = atlas.frame_offsets
+	var source_image := source.get_image()
+	var packed := Image.create(cell.x * atlas.columns, cell.y * ceili(float(regions.size()) / atlas.columns), false, Image.FORMAT_RGBA8)
+	for index in range(regions.size()):
+		var region: Rect2i = regions[index]
+		if index >= offsets.size() or not Rect2i(Vector2i.ZERO, source_image.get_size()).encloses(region):
+			push_error("Invalid measured atlas region: %s/%d" % [_fighter_id(), index])
+			return null
+		var pose := source_image.get_region(region)
+		pose.convert(Image.FORMAT_RGBA8)
+		var source_scale: float = atlas.frame_source_scales[index] if index < atlas.frame_source_scales.size() else 1.0
+		if not is_equal_approx(source_scale, 1.0):
+			pose.resize(roundi(region.size.x * source_scale), roundi(region.size.y * source_scale), Image.INTERPOLATE_LANCZOS)
+		var padding: Vector2i = offsets[index] + Vector2i((region.size.x - pose.get_width()) / 2, region.size.y - pose.get_height())
+		if padding.x < 0 or padding.y < 0 or padding.x + pose.get_width() > cell.x or padding.y + pose.get_height() > cell.y:
+			push_error("Measured pose does not fit display cell: %s/%d" % [_fighter_id(), index])
+			return null
+		var origin := Vector2i((index % atlas.columns) * cell.x, int(index / atlas.columns) * cell.y)
+		packed.blit_rect(pose, Rect2i(Vector2i.ZERO, pose.get_size()), origin + padding)
+	var packed_texture := ImageTexture.create_from_image(packed)
+	var frames := SpriteFrames.new()
+	frames.remove_animation("default")
+	for key in atlas.clips:
+		var clip: Dictionary = atlas.clips[key]
+		frames.add_animation(key)
+		frames.set_animation_speed(key, float(clip.get("fps", 12.0)))
+		frames.set_animation_loop(key, bool(clip.get("loop", false)))
+		for number in clip.get("frames", []):
+			if number < 0 or number >= regions.size():
+				push_error("Measured clip index out of bounds: %s/%s/%d" % [_fighter_id(), key, number])
+				return null
+			var frame := AtlasTexture.new()
+			frame.atlas = packed_texture
+			frame.region = Rect2((number % atlas.columns) * cell.x, int(number / atlas.columns) * cell.y, cell.x, cell.y)
+			frame.filter_clip = true
+			frames.add_frame(key, frame)
 	return frames
 
 
@@ -1299,6 +1344,10 @@ func _reference_body_rect_from_idle(cell_size: Vector2i) -> Rect2i:
 				var image := texture.get_image()
 				if image != null:
 					var rect := _get_visible_content_rect(image)
+					# get_image() returns the source region without AtlasTexture's
+					# transparent display margins. Include them in the foot pivot.
+					if texture is AtlasTexture:
+						rect.position += Vector2i(texture.margin.position)
 					if rect.size.x > 0 and rect.size.y > 0:
 						return rect
 	return Rect2i(0, 0, cell_size.x, cell_size.y)

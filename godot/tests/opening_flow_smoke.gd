@@ -76,6 +76,21 @@ func _run() -> void:
 	if opening.get("next_button").text != "ゲームを始める":
 		_fail("the final opening action was not presented")
 		return
+	# The final key event changes scenes synchronously. Handling that input must
+	# happen before the opening leaves the tree, while its viewport still exists.
+	current_scene = opening
+	var accept := InputEventAction.new()
+	accept.action = &"ui_accept"
+	accept.pressed = true
+	opening.call("_unhandled_input", accept)
+	await process_frame
+	await process_frame
+	if current_scene == null or current_scene.scene_file_path != BATTLE_SCENE:
+		_fail("final opening key did not enter fighter selection")
+		return
+	var manager := current_scene.get_node_or_null("BattleManager")
+	if manager != null:
+		manager.cleanup_battle_before_transition()
 	print("OPENING_FLOW_OK pages=%d next=%s" % [pages.size(), BATTLE_SCENE])
 	quit(0)
 

@@ -41,7 +41,7 @@ func run() -> void:
 	check(manager.get_next_enemy_index() == 4, "Stage 4 clear advances to Stage 5")
 	check(manager._stage_definition_for_enemy_index(4).stage_number == 5, "Stage 5 definition resolves after Stage 4")
 
-	check(definition.motion_atlas == null, "Stage 5 keeps the existing sprite-sheet motion pipeline")
+	check(definition.motion_atlas != null and definition.motion_atlas.frame_regions.size() == 56, "Stage 5 uses the measured complete-pose atlas")
 	check(definition.sprite_sheet != null, "existing Shadow Boxer sprite sheet remains assigned")
 	check(is_equal_approx(float(definition.character_height_cm), 190.0), "reference height is 190 cm")
 	check(float(definition.backstep_speed_multiplier) >= 1.85, "Shadow Boxer has fast evasive backstep")
@@ -51,7 +51,7 @@ func run() -> void:
 	enemy.apply_fighter_definition(definition)
 	check(enemy.fighter_definition.fighter_id == &"enemy_02_shadow_boxer", "runtime applies Shadow Boxer definition")
 	check(enemy.ai_profile == definition.ai_profile, "runtime applies Shadow Boxer AI profile")
-	check(enemy.character_visual_controller.get_debug_source() == "sprite_sheet", "runtime uses existing sprite sheet")
+	check(enemy.character_visual_controller.get_debug_source() == "motion_atlas", "runtime uses the measured authored atlas")
 	check(is_equal_approx(enemy.move_speed, 335.0), "runtime move speed is preserved")
 	check(enemy.backstep_speed_multiplier >= 1.85, "runtime backstep speed is strengthened")
 
