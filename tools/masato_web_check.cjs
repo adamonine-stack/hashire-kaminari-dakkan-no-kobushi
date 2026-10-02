@@ -47,4 +47,3 @@ const out=path.resolve(__dirname,'../evidence/web/masato_'+(mobile?'mobile':'des
   console.log('MASATO_PUBLIC_WEB_OK '+build+' '+(mobile?'mobile':'desktop')+' screenshots='+screenshotCount);
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});
-
