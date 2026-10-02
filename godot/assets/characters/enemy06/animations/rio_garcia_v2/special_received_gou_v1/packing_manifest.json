@@ -1,0 +1,41 @@
+{
+  "cell": [
+    320,
+    256
+  ],
+  "baseline": 240,
+  "reference_area": 8444,
+  "reference_height": 171,
+  "frames": [
+    {
+      "index": 0,
+      "name": "reaction_0",
+      "scale": 1.0911632956828505,
+      "offset": [
+        95,
+        46
+      ],
+      "size": [
+        129,
+        194
+      ],
+      "opaque_area": 8485,
+      "relative_area": 1.0048555187115111
+    },
+    {
+      "index": 1,
+      "name": "reaction_1",
+      "scale": 1.0911632956828505,
+      "offset": [
+        32,
+        181
+      ],
+      "size": [
+        255,
+        59
+      ],
+      "opaque_area": 7217,
+      "relative_area": 0.8546897205116059
+    }
+  ]
+}

@@ -663,9 +663,10 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	velocity = Vector2.ZERO
 	_set_punch_hitbox_active(false)
 	_set_kick_hitbox_active(false)
+	var held_by_readable: bool = attacker.has_method("_uses_readable_grapple") and attacker._uses_readable_grapple()
 	var held_by_teki: bool = attacker.has_method("_is_authored_grappler") and attacker._is_authored_grappler()
 	var held_by_cross: bool = attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler()
-	_play_throw_animation("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown"))
+	_play_throw_animation("grapple_held" if held_by_readable and _has_visual_animation(&"grapple_held") else ("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown")))
 
 
 func _get_throw_target() -> Node:
@@ -966,11 +967,19 @@ func _lock_throw_target_position(target: Node) -> void:
 		return
 
 	var hold_offset := Vector2(30.0 * facing_direction, -5.0)
+	if _uses_readable_grapple():
+		hold_offset = Vector2(76.0 * facing_direction, 0.0)
+		target.facing_direction = -facing_direction
+		target._set_visual_facing()
 	if _is_teki_grappler():
 		var grip_distance: float = [50.0, 85.0, 35.0, 50.0][teki_throw_variant]
 		hold_offset = Vector2(grip_distance * facing_direction, 0.0)
 	if _is_cross_grappler():
 		hold_offset = Vector2(52.0 * facing_direction, 0.0)
+	if _uses_readable_grapple():
+		# Keep the two complete bodies apart even when a grip starts at a wall.
+		var grip_target_x := clampf(global_position.x + hold_offset.x, _stage_min_x() + 64.0, _stage_max_x() - 64.0)
+		global_position.x = grip_target_x - hold_offset.x
 	var target_position := global_position + hold_offset
 	target_position.x = clampf(target_position.x, _stage_min_x(), _stage_max_x())
 	target_position.y = minf(target_position.y, stage_floor_y)
@@ -1013,6 +1022,15 @@ func _is_cross_grappler() -> bool:
 
 func _is_authored_grappler() -> bool:
 	return _is_teki_grappler() or _is_cross_grappler()
+
+
+func _is_rio_garcia() -> bool:
+	var definition: Resource = get("fighter_definition")
+	return definition != null and String(definition.get("fighter_id")) == "enemy_06_rio_flick_garcia"
+
+
+func _uses_readable_grapple() -> bool:
+	return _is_masato_takahashi() or _is_rio_garcia()
 
 
 func _is_masato_takahashi() -> bool:
@@ -2783,11 +2801,13 @@ func _get_current_visual_animation() -> StringName:
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
-		if _is_authored_grappler() or _is_leon_crow() or _is_masato_takahashi():
+		if _is_authored_grappler() or _is_leon_crow() or _uses_readable_grapple():
 			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_uses_readable_grapple") and pending_throw_attacker._uses_readable_grapple() and _has_visual_animation(&"grapple_held"):
+			return &"grapple_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_grappler") and pending_throw_attacker._is_cross_grappler() and _has_visual_animation(&"cross_react_pull"):
 			return &"cross_react_pull"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_authored_grappler") and pending_throw_attacker._is_authored_grappler():

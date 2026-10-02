@@ -1,0 +1,9 @@
+{
+  "tool": "builtin image_gen imagegen",
+  "source_file": "exec-c9947300-bdaf-4477-ac55-7c6272da902f.png",
+  "prompt": "generation_prompt.txt",
+  "reference": "reference_design.png",
+  "source_sha256": "397536fec188356bd87750eb8fb813e728134a7f15ffa04b0123fa29c42a79ad",
+  "packing": "tools/build_rio_motion_v2.py",
+  "acceptance": "one complete actor per cell; formal costume and standing size preserved; actual held actor comes from the game, never baked into thrower art"
+}

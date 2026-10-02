@@ -101,6 +101,15 @@ jobs:
             grep -q 'MASATO_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/masato-web-qa.log
             if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/masato-web-qa.log; then exit 1; fi
 
+            python3 tools/build_rio_web_qa.py
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/rio_web_qa.tscn 2>&1 | tee /tmp/rio-web-qa.log
+            grep -q 'RIO_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/rio-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/rio-web-qa.log; then exit 1; fi
+            python3 tools/build_grapple_web_qa.py
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/grapple_web_qa.tscn 2>&1 | tee /tmp/grapple-web-qa.log
+            grep -q 'GRAPPLE_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/grapple-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/grapple-web-qa.log; then exit 1; fi
+
       - name: Verify Japanese UI font
         shell: bash
         run: |

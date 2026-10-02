@@ -41,6 +41,8 @@ func run() -> void:
 			for extra in fighter.extra_motion_atlases:
 				if extra.clips.has(String(clip)):
 					expected = extra.texture
+			if String(clip).begins_with("grapple_"):
+				expected = load("res://assets/characters/player01/animations/readable_grapple_v1/motion_atlas.tres").texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(320,224)), clip + ": common cell")

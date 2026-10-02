@@ -49,6 +49,8 @@ func run() -> void:
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_power/motion_atlas.tres").texture
+			if String(clip).begins_with("grapple_"):
+				expected = load("res://assets/characters/player02/animations/readable_grapple_v1/motion_atlas.tres").texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()

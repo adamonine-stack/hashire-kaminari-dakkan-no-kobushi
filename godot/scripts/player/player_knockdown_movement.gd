@@ -228,6 +228,10 @@ func _complete_throw_hit() -> void:
 	throw_escape_timer = 0.0
 	_clear_pending_throw()
 	last_damage_animation = &"damage_heavy"
+	if is_instance_valid(attacker) and attacker.has_method("_uses_readable_grapple") and attacker._uses_readable_grapple() and _has_visual_animation(&"grapple_air"):
+		last_damage_animation = &"grapple_air"
+		last_special_knockback_animation = &"grapple_air"
+		last_knockdown_animation = &"grapple_down"
 	if is_instance_valid(attacker) and attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler():
 		var reaction: StringName = &"cross_react_shoulder" if attacker.cross_throw_variant in [0, 4, 5] else &"cross_react_reap"
 		if _has_visual_animation(reaction):
@@ -822,9 +826,19 @@ func _update_special_headfirst_ground(delta: float) -> void:
 	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
 	if sprite.flip_h: center.x = -center.x
 	var goal := sprite.global_position+center*sprite.scale
-	var actual := sprite.global_transform*(special_headfirst_anchor+sprite.offset)
-	var shift := (goal-actual)*smoothstep(0.65,1.0,progress)
-	sprite.offset += sprite.global_transform.basis_xform_inv(shift)
+	var settling_center := special_headfirst_anchor
+	if _is_rio_garcia():
+		var current_texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
+		settling_center = Vector2(current_texture.get_image().get_used_rect().get_center())-current_texture.get_size()*0.5
+		if sprite.flip_h: settling_center.x = -settling_center.x
+	var actual := sprite.global_transform*(settling_center+sprite.offset)
+	var settle_start := 0.0 if _is_rio_garcia() else 0.65
+	var shift := (goal-actual)*smoothstep(settle_start,1.0,progress)
+	if _is_rio_garcia():
+		# Rio uses a non-unit Sprite scale: basis_xform_inv assumes an orthonormal basis.
+		sprite.offset += sprite.global_transform.affine_inverse().basis_xform(shift)
+	else:
+		sprite.offset += sprite.global_transform.basis_xform_inv(shift)
 	if special_headfirst_timer == 0.0:
 		special_headfirst_phase = "down"
 		enter_knockdown()
