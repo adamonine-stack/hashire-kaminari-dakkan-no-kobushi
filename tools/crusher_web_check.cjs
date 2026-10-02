@@ -1,4 +1,4 @@
-// Published PCK/WASM are unchanged. A private bootstrap argument runs the QA battle scenario.
+// Published PCK/WASM are unchanged. A private fresh-browser fixture runs the QA battle scenario.
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const fs=require('fs'),path=require('path');
 const base=process.argv[2],mobile=process.argv[3]==='mobile';
@@ -8,9 +8,10 @@ const out=path.resolve(__dirname,'../evidence/web/crusher_'+(mobile?'mobile':'de
  const browser=await chromium.launch({channel:'msedge',headless:true,args:['--enable-unsafe-swiftshader']});
  const context=await browser.newContext({viewport:mobile?{width:844,height:390}:{width:1280,height:720},hasTouch:mobile});
  const page=await context.newPage(),logs=[],errors=[],shots=[];
+ fs.writeFileSync(path.join(out,'console.log'),'');
  let build='';
  page.on('console',msg=>{
-  const t=msg.text();logs.push(t);
+  const t=msg.text();logs.push(t);fs.appendFileSync(path.join(out,'console.log'),t+'\n');
   if(t.startsWith('CRUSHER_CAPTURE ') && /_impact$|_down$|_guard_|crusher_ai/.test(t)) {
    const label=t.slice('CRUSHER_CAPTURE '.length).replace(/[^\w-]/g,'_');
    shots.push(page.screenshot({path:path.join(out,label+'.png')}).catch(e=>errors.push(e.message)));
@@ -23,13 +24,14 @@ const out=path.resolve(__dirname,'../evidence/web/crusher_'+(mobile?'mobile':'de
   build=(html.match(/"executable":"([^"]+)"/)||[])[1]||'';
   const marker='const engine = new Engine(GODOT_CONFIG);';
   if(!html.includes(marker))throw Error('Missing bootstrap marker');
-  html=html.replace(marker,`${marker}\nconst qaStart=engine.startGame.bind(engine);engine.startGame=(options={})=>qaStart({...options,args:['--script','res://tests/crusher_reversal_presentation_check.gd']});`);
+  html=html.replace(marker,`${marker}\nconst qaStart=engine.startGame.bind(engine);engine.startGame=async (options={})=>{await engine.init(GODOT_CONFIG.executable);engine.copyToFS('/userfs/godot/app_userdata/HashireIkazuchi/qa/crusher_reversal.flag',new TextEncoder().encode('crusher_reversal_v1').buffer);return qaStart(options);};`);
   await route.fulfill({response,body:html});
  });
  try {
   await page.goto(base+'index.html?crusher_qa='+Date.now());
+  await page.mouse.click(10,10); // Give the browser a gesture before its audio runtime starts.
   const deadline=Date.now()+240000;
-  while(Date.now()<deadline&&!logs.some(t=>t.includes('SPECIAL_LAUNCH_REACTION_CHECK failures=')))await page.waitForTimeout(500);
+  while(Date.now()<deadline&&!logs.some(t=>t.includes('SPECIAL_LAUNCH_REACTION_CHECK failures=')||/SCRIPT ERROR:|^ERROR:/.test(t)))await page.waitForTimeout(500);
   await Promise.all(shots);
   fs.writeFileSync(path.join(out,'console.log'),logs.join('\n'));
   fs.writeFileSync(path.join(out,'errors.json'),JSON.stringify(errors,null,2));

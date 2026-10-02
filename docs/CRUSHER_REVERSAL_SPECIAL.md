@@ -8,6 +8,8 @@
 
 追加検証crusher_reversal_presentation_checkは実Battle.tscnのEnemyからPlayerへ命中させ、3人×左右で飛行・転倒・ガード・KO・画像サイズ・画面内表示を確認する。AIは見えた被弾を0.12秒観察してから発動する経路を決定的条件で検証。原画検証3件は新規Atlasの正式参照・セル寸法・足基準へ拡張し、旧素材の期待値は保持。公開CIにも追加検証を登録。
 
-証拠はevidence/crusher_check.log、crusher_render.log、crusher_reversal_final、test-results.json。非headlessでの制御された実描画と自動戦闘チェックであり、全ステージの手動プレイではない。公開Web確認はtools/crusher_web_check.cjsで配信PCK/WASMを使う私有QA起動シナリオとしてPC/スマートフォン横画面相当を確認し、evidence/webへ保存する。
+証拠はevidence/crusher_check.log、crusher_render_fresh_cache.log、crusher_reversal_final、test-results.json。非headlessでの制御された実描画51枚と自動戦闘チェックであり、全ステージの手動プレイではない。Intel GPUのShaderキャッシュ再読み込みで起動エラーが出たため、キャッシュを証拠フォルダーに退避して再描画し、最後のログでエラー0を確認。
+
+Webリリーステンプレートは起動引数によるシーン差し替えを禁止しているため、同じ戦闘チェックをtools/build_crusher_web_qa.pyで通常Nodeシーンに変換。tools/crusher_web_check.cjsは新しいブラウザーコンテキストのuser://qa/crusher_reversal.flagだけを事前配置し、通常のタイトル起動からその場限りのQAシーンへ入る。フラグは消費して削除し、通常のセーブやNew Gameには設定しない。配信PCK/WASMは書き換えず、3人×左右の実接触、ガード、着地、サイズ、AI、KOをPC/スマートフォン横画面相当で確認してevidence/webへ保存する。CIでも生成とネイティブ起動を検証。
 
 全体の残件: 他8敵の専用攻撃原画と技別プレイヤー反応、Boss既存特殊攻撃の統合、方向Attack/Throw/Comboの全キャラクター照合、元依頼の全12戦闘ケースと手動バランス検証。今回の工程だけで必殺技システム全体の完成とはしない。
