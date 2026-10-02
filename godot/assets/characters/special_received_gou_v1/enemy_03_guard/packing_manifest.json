@@ -18,18 +18,6 @@
       "sha256": "7c25bc3bcd7accfa7af2106c3c1e4b49b706adcb2354693ca4a72324d591e325"
     },
     {
-      "source": "art_sources\\gou_received_v2\\enemy_03_guard\\tuck.png",
-      "scale": 0.2083842954990215,
-      "source_anchor_x": 656.0,
-      "support": [
-        88,
-        105,
-        231,
-        288
-      ],
-      "sha256": "49d1a3b4bc7a624e39a9dd0e0f4417af98fc4df287c8ae02f884b424f6259dec"
-    },
-    {
       "source": "art_sources\\gou_received_v2\\enemy_03_guard\\down.png",
       "scale": 0.16821020776098897,
       "source_anchor_x": 889.0,

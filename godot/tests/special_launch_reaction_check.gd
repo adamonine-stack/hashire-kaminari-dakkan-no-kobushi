@@ -11,6 +11,8 @@ var evidence_folder := "special_launch"
 var dedicated_attack_clips: Array[String] = []
 var minimum_launch_velocity := 500.0
 var maximum_flight_distance := 0.0
+var minimum_flight_height := 55.0
+var maximum_flight_height := 0.0
 
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
@@ -29,6 +31,12 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 		var actual: Vector2 = transform * (point+sprite.offset)
 		if actual.x < 0 or actual.x > screen.x or actual.y < 0 or actual.y > screen.y: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
 		check(actual.x >= 0 and actual.x <= screen.x and actual.y >= 0 and actual.y <= screen.y,label + " art inside rendered viewport")
+
+func visible_body_center_y(sprite: AnimatedSprite2D) -> float:
+	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
+	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	if sprite.flip_h: center.x = -center.x
+	return (sprite.global_transform*(center+sprite.offset)).y
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -140,11 +148,10 @@ func run() -> void:
 			var captured_fall := false
 			var backflip := bool(packet.get("backflip_on_launch",false))
 			var previous_turn := 0.0
+			var previous_body_y := visible_body_center_y(sprite)
 			var captured_spin := false
 			var captured_prone := false
-			var captured_tuck := false
-			var captured_open := false
-			if backflip: check(sprite.sprite_frames.get_frame_count(target.last_special_knockback_animation) == 3,label + " authored arch tuck open sequence")
+			if backflip: check(sprite.sprite_frames.get_frame_count(target.last_special_knockback_animation) == 1,label + " arched lightly bent-knee pose throughout flight")
 			for frame in range(150):
 				await physics_frame
 				check(root.get_camera_2d().zoom.is_equal_approx(camera_zoom_before),label + " no camera enlargement during flight")
@@ -158,13 +165,12 @@ func run() -> void:
 					if target.special_backflip_turn > 0 and target.special_backflip_turn < PI/2:
 						check(Vector2.UP.rotated(sprite.rotation).x*direction > 0,label + " head starts rotating away from Gou")
 					previous_turn = target.special_backflip_turn
-					if sprite.animation == target.last_special_knockback_animation:
-						if sprite.frame == 1 and not captured_tuck:
-							await capture(label + "_tuck")
-							captured_tuck = true
-						if sprite.frame == 2 and not captured_open:
-							await capture(label + "_open")
-							captured_open = true
+					var body_y := visible_body_center_y(sprite)
+					if absf(body_y-previous_body_y) >= 45.0: print("BODY_STEP %s delta=%.2f turn=%.2f elapsed=%.3f clip=%s offset=%s" % [label,body_y-previous_body_y,target.special_backflip_turn,target.special_backflip_elapsed,sprite.animation,sprite.offset])
+					check(absf(body_y-previous_body_y) < 45.0,label + " continuous visible body descent")
+					previous_body_y = body_y
+					if target.special_backflip_turn < PI*1.5:
+						check(sprite.animation == target.last_special_knockback_animation and sprite.frame == 0,label + " stays arched without tucking")
 					if target.special_backflip_turn >= PI*1.5 and not captured_prone:
 						target._update_visual_state()
 						check(sprite.animation == StringName(reaction_prefix + "_down"),label + " prone descent after complete turn")
@@ -196,22 +202,25 @@ func run() -> void:
 				check(sprite.scale.is_equal_approx(scale_before), label + " constant sprite scale")
 				check(sprite.position.is_equal_approx(pivot_before), label + " constant sprite pivot")
 				check(attack_sprite.scale.is_equal_approx(attack_scale) and attack_sprite.position.is_equal_approx(attack_pivot),label + " constant attacker scale and pivot")
-				if not captured_air and start.y-target.position.y > 55:
+				if not captured_air and start.y-target.position.y > minimum_flight_height:
 					check_visible_art(sprite,label + " airborne")
 					await capture(label + "_air")
 					captured_air = true
 				if target.knockdown_state == &"KNOCKDOWN": break
-			check(captured_air and start.y-apex > 55, label + " visible upward arc")
+			check(captured_air and start.y-apex > minimum_flight_height, label + " visible upward arc")
+			if maximum_flight_height > 0:
+				check(start.y-apex < maximum_flight_height,label + " stays close to contact height")
 			if wall_launch: check(captured_wall and captured_fall and target.special_wall_contacts == 1,label + " wall then fall exactly once")
 			check(distance > 200, label + " flies over 200 pixels")
 			if maximum_flight_distance > 0:
 				check(distance < maximum_flight_distance,label + " short ground launch")
 				check(target.special_wall_contacts == 0,label + " Gou lands without wall slam")
 			if backflip:
-				check(captured_spin and captured_prone and captured_tuck and captured_open and is_equal_approx(target.special_backflip_turn,PI*1.5),label + " completes backward 270-degree prone rotation")
+				check(captured_spin and captured_prone and is_equal_approx(target.special_backflip_turn,PI*1.5),label + " completes backward 270-degree prone rotation")
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")
 				check(sprite.offset.is_zero_approx(),label + " grounded prone alignment restored")
-				check(sprite.material != target.special_pose_material,label + " pose blending cleared at landing")
+				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no abrupt body drop at floor")
+				if maximum_flight_height > 0: check(target.special_backflip_elapsed-target.special_backflip_duration > 0.25,label + " sustained final descent")
 				check(sprite.flip_h == (direction > 0),label + " prone original head faces Gou at landing")
 			check(target.knockdown_state == &"KNOCKDOWN", label + " lands in down state")
 			target._update_visual_state()

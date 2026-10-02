@@ -18,8 +18,8 @@ hitbox_offset = Vector2(82, -115)
 move_distance = 55.0
 move_duration = 0.20
 move_speed_multiplier = 0.85
-knockback = Vector2(460, -400)
-special_launch_speed_cap = Vector2(420, 400)
+knockback = Vector2(460, -120)
+special_launch_speed_cap = Vector2(420, 120)
 backflip_on_launch = true
 hitstop_time = 0.15
 hitstun_time = 0.46
@@ -46,3 +46,5 @@ camera_shake = 6.0
 
 special_startup_animation = &"gou_reversal_startup"
 special_finish_animation = &"gou_reversal_finish"
+
+special_launch_gravity = 300.0

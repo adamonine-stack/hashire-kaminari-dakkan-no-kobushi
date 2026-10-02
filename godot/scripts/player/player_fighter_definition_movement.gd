@@ -1592,6 +1592,7 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"wall_slam": character_special_data.wall_slam,
 		"special_launch_speed_cap": character_special_data.special_launch_speed_cap,
 		"backflip_on_launch": character_special_data.backflip_on_launch,
+		"special_launch_gravity": character_special_data.special_launch_gravity,
 		"can_interrupt_attack": character_special_data.can_interrupt_attack,
 		"can_break_combo": character_special_data.can_break_combo,
 		"special_hit_reaction": character_special_data.special_hit_reaction,

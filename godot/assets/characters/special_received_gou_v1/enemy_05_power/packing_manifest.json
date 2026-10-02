@@ -18,18 +18,6 @@
       "sha256": "17a130f37494838b6c3e181157cc35d872eaf565f4886b7dba50d7e7bae00d3a"
     },
     {
-      "source": "art_sources\\gou_received_v2\\enemy_05_power\\tuck.png",
-      "scale": 0.23167782738095238,
-      "source_anchor_x": 741.0,
-      "support": [
-        137,
-        113,
-        246,
-        247
-      ],
-      "sha256": "bd142d68193b91d5d33cdf264ac64f35346fb77a89f104b896552e78718d026d"
-    },
-    {
       "source": "art_sources\\gou_received_v2\\enemy_05_power\\down.png",
       "scale": 0.12100405508152402,
       "source_anchor_x": 934.5,

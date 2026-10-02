@@ -85,8 +85,8 @@ path = pack(ROOT/'art_sources/gou_reversal_v1',GODOT/'assets/characters/player02
     {'gou_reversal_startup':([0,1],2/.14),'gou_reversal_breaker':([2],1/.20),'gou_reversal_finish':([3],1/.58)},1.08,[750,780,780,835])
 attach(GODOT/'data/fighters/ally_power.tres',path,'gou_reversal')
 path = pack(ROOT/'art_sources/gou_received_v2/enemy_01_standard',GODOT/'assets/characters/special_received_gou_v1/enemy_01_standard',
-    REFS/'crusher.png',['hit','tuck','down'],
-    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1,0],60),'received_gou_breaker_down':([2],5)},1.12,density_adjustment=0.94,normalize_prone=True)
+    REFS/'crusher.png',['hit','down'],
+    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],60),'received_gou_breaker_down':([1],5)},1.12,density_adjustment=0.94,normalize_prone=True)
 fighter = GODOT/'data/enemies/enemy_01_standard.tres'
 attach(fighter,path,'received_gou')
 text = fighter.read_text(encoding='utf-8')
@@ -98,18 +98,18 @@ text = attack.read_text(encoding='utf-8').replace('animation_name = "special_iro
 if 'special_startup_animation =' not in text:
     text += '\nspecial_startup_animation = &"gou_reversal_startup"\nspecial_finish_animation = &"gou_reversal_finish"\n'
 attack.write_text(text,encoding='utf-8')
-print('GOU_REVERSAL_PACK_OK attacker_poses=4 victim_poses=3')
+print('GOU_REVERSAL_PACK_OK attacker_poses=4 victim_poses=2')
 reference_manifest = ROOT/'evidence/special_reaction_refs/manifest.json'
 if reference_manifest.exists():
     for ref in json.loads(reference_manifest.read_text()):
         name = ref['name']
         if name == 'enemy_01_standard': continue
         source = ROOT/'art_sources/gou_received_v2'/name
-        if not all((source/(phase+'.png')).exists() for phase in ['hit','tuck','down']):
+        if not all((source/(phase+'.png')).exists() for phase in ['hit','down']):
             raise FileNotFoundError(f'Missing dedicated Gou reactions: {name}')
         path = pack(source,GODOT/'assets/characters/special_received_gou_v1'/name,
-            Path(ref['reference']),['hit','tuck','down'],
-            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1,0],60),'received_gou_breaker_down':([2],5)},1.12,density_adjustment=0.94,normalize_prone=True)
+            Path(ref['reference']),['hit','down'],
+            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],60),'received_gou_breaker_down':([1],5)},1.12,density_adjustment=0.94,normalize_prone=True)
         fighter = GODOT/ref['fighter']
         attach(fighter,path,'received_gou')
         text = fighter.read_text(encoding='utf-8')
@@ -118,4 +118,4 @@ if reference_manifest.exists():
         reactions['player2_special_iron_breaker'] = dict(hit='received_gou_breaker_hit',airborne='received_gou_breaker_air',down='received_gou_breaker_down')
         text = text[:match.start(1)] + json.dumps(reactions) + text[match.end(1):]
         fighter.write_text(text,encoding='utf-8')
-    print('GOU_ALL_ENEMY_REACTIONS_OK enemies=9 original_poses=27')
+    print('GOU_ALL_ENEMY_REACTIONS_OK enemies=9 original_poses=18')
