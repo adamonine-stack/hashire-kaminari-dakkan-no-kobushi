@@ -6,17 +6,17 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/portrait.png" id="4_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/icon.png" id="5_icon"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/battle.png" id="6_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.png" id="7_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/shadow.png" id="8_shadow"]
-[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.tres" id="9_motion"]
+[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.tres" id="9_motion"]
 
 [ext_resource type="Resource" path="res://data/attacks/shadow_slip_counter.tres" id="reversal"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_02_speed/motion_atlas.tres" id="received_akky"]
+[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/special_received_v1/motion_atlas.tres" id="received_akky"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_02_speed/motion_atlas.tres" id="received_gou"]
+[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/special_received_gou_v1/motion_atlas.tres" id="received_gou"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_02_speed/motion_atlas.tres" id="received_seiya"]
+[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/special_received_seiya_v1/motion_atlas.tres" id="received_seiya"]
 
 [resource]
 script = ExtResource("1_def")

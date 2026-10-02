@@ -600,6 +600,7 @@ func _start_kick(is_combo_attack := false) -> void:
 	_set_kick_hitbox_active(true)
 
 
+var cross_muei_throw_active := false
 var cross_throw_variant := 0
 var cross_throw_sequence := 0
 const CROSS_THROW_NAMES := ["seoi", "osoto", "harai", "uchimata", "sode", "rotate"]
@@ -609,6 +610,7 @@ var teki_throw_sequence := 0
 
 
 func _start_throw() -> void:
+	cross_muei_throw_active = false
 	if _is_cross_grappler():
 		cross_throw_variant = cross_throw_sequence % CROSS_THROW_NAMES.size()
 		cross_throw_sequence += 1
@@ -666,7 +668,11 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	var held_by_readable: bool = attacker.has_method("_uses_readable_grapple") and attacker._uses_readable_grapple()
 	var held_by_teki: bool = attacker.has_method("_is_authored_grappler") and attacker._is_authored_grappler()
 	var held_by_cross: bool = attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler()
-	_play_throw_animation("grapple_held" if held_by_readable and _has_visual_animation(&"grapple_held") else ("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown")))
+	var muei_held: bool = attacker.has_method("_is_cross_muei_throw") and attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_held")
+	if muei_held:
+		_play_throw_animation("cross_muei_held")
+	else:
+		_play_throw_animation("grapple_held" if held_by_readable and _has_visual_animation(&"grapple_held") else ("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown")))
 
 
 func _get_throw_target() -> Node:
@@ -794,6 +800,7 @@ func _complete_throw_escape() -> void:
 
 
 func enter_throw_escape_recovery(escaped_target: Node) -> void:
+	cross_muei_throw_active = false
 	interrupt_combo()
 	is_throwing = false
 	is_throw_locked = true
@@ -879,6 +886,7 @@ func _update_throw_recovery(delta: float) -> void:
 	if throw_recovery_timer > 0.0:
 		return
 
+	cross_muei_throw_active = false
 	is_throwing = false
 	is_throw_locked = false
 	is_throw_escaping = false
@@ -931,6 +939,7 @@ func _fail_throw() -> void:
 
 
 func _finish_throw() -> void:
+	cross_muei_throw_active = false
 	is_throwing = false
 	is_throw_locked = false
 	is_throw_escape_pending = false
@@ -975,8 +984,10 @@ func _lock_throw_target_position(target: Node) -> void:
 		var grip_distance: float = [50.0, 85.0, 35.0, 50.0][teki_throw_variant]
 		hold_offset = Vector2(grip_distance * facing_direction, 0.0)
 	if _is_cross_grappler():
-		hold_offset = Vector2(52.0 * facing_direction, 0.0)
-	if _uses_readable_grapple():
+		hold_offset = Vector2(76.0 * facing_direction, 0.0)
+		target.facing_direction = -facing_direction
+		target._set_visual_facing()
+	if _uses_readable_grapple() or _is_cross_grappler():
 		# Keep the two complete bodies apart even when a grip starts at a wall.
 		var grip_target_x := clampf(global_position.x + hold_offset.x, _stage_min_x() + 64.0, _stage_max_x() - 64.0)
 		global_position.x = grip_target_x - hold_offset.x
@@ -1007,12 +1018,18 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 
 
 func _teki_throw_animation(animation_name: String) -> String:
+	if _is_cross_muei_throw() and animation_name in ["throw_start", "throw_hold", "throw_release"]:
+		return {"throw_start":"cross_muei_grip", "throw_hold":"cross_muei_hold", "throw_release":"cross_muei_release"}[animation_name]
 	if _is_cross_grappler() and animation_name in ["throw_start", "throw_hold", "throw_release"]:
 		return "cross_" + CROSS_THROW_NAMES[cross_throw_variant] + animation_name.trim_prefix("throw")
 	if _is_teki_grappler() and animation_name in ["throw_start", "throw_hold", "throw_release"]:
 		var prefix: String = ["throw", "teki_face_grab", "teki_headlock", "teki_low_grab"][teki_throw_variant]
 		return prefix + animation_name.trim_prefix("throw")
 	return animation_name
+
+
+func _is_cross_muei_throw() -> bool:
+	return _is_cross_grappler() and cross_muei_throw_active
 
 
 func _is_cross_grappler() -> bool:
@@ -1030,7 +1047,7 @@ func _is_rio_garcia() -> bool:
 
 
 func _uses_readable_grapple() -> bool:
-	return _is_masato_takahashi() or _is_rio_garcia()
+	return _is_masato_takahashi() or _is_rio_garcia() or _is_shadow_boxer()
 
 
 func _is_masato_takahashi() -> bool:
@@ -2806,6 +2823,8 @@ func _get_current_visual_animation() -> StringName:
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_muei_throw") and pending_throw_attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_held"):
+			return &"cross_muei_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_uses_readable_grapple") and pending_throw_attacker._uses_readable_grapple() and _has_visual_animation(&"grapple_held"):
 			return &"grapple_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_grappler") and pending_throw_attacker._is_cross_grappler() and _has_visual_animation(&"cross_react_pull"):
@@ -3062,3 +3081,7 @@ func _draw() -> void:
 	var throw_rect := Rect2(rect_x, -96.0, absf(range_x), 96.0)
 	draw_rect(throw_rect, Color(0.35, 0.8, 1.0, 0.12), true)
 	draw_rect(throw_rect, Color(0.35, 0.8, 1.0, 0.45), false, 1.0)
+
+func _is_shadow_boxer() -> bool:
+	var definition: Resource = get("fighter_definition")
+	return definition != null and String(definition.get("fighter_id")) == "enemy_02_shadow_boxer"

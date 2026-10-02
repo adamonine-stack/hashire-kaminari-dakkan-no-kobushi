@@ -41,6 +41,26 @@ var orientation_overlay: PanelContainer
 func _ready() -> void:
 	# Private fresh-browser QA fixtures use the normal Web startup because release
 	# templates disable command-line scene overrides. Ordinary saves never set this.
+	var shadow_qa_path := "user://qa/shadow_motion.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(shadow_qa_path) and FileAccess.get_file_as_string(shadow_qa_path).strip_edges() == "shadow_motion_v2":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(shadow_qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/shadow_web_qa.tscn")
+		return
+	var counter_qa_path := "user://qa/counter_motion.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(counter_qa_path) and FileAccess.get_file_as_string(counter_qa_path).strip_edges() == "counter_motion_v1":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(counter_qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/counter_web_qa.tscn")
+		return
+	var cross_qa_path := "user://qa/cross_motion.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(cross_qa_path) and FileAccess.get_file_as_string(cross_qa_path).strip_edges() == "cross_motion_v2":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(cross_qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/cross_web_qa.tscn")
+		return
+	var muei_qa_path := "user://qa/muei_motion.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(muei_qa_path) and FileAccess.get_file_as_string(muei_qa_path).strip_edges() == "muei_motion_v1":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(muei_qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/muei_web_qa.tscn")
+		return
 	var rio_qa_path := "user://qa/rio_motion.flag"
 	if OS.has_feature("web") and FileAccess.file_exists(rio_qa_path) and FileAccess.get_file_as_string(rio_qa_path).strip_edges() == "rio_motion_v2":
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(rio_qa_path))

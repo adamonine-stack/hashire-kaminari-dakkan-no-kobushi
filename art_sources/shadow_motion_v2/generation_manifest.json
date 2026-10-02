@@ -1,0 +1,31 @@
+{
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "purpose": "Dedicated attacker and three receiver sprites preserving referenced character design",
+  "sources": [
+    {
+      "path": "additional_actions.png",
+      "sha256": "f257b1f55b874a90bd937c0227b94b9137af7b6c2b639dfc89365b2a37a7e97e"
+    },
+    {
+      "path": "generation_prompt.txt",
+      "sha256": "0e77f0ea734b8d7bf633968804e9ba3eca018ab07b9eee5b46832680d48ff0b8"
+    },
+    {
+      "path": "received_actions.png",
+      "sha256": "21066e7ae973ca8afd086fc4fe23a9ad193a741e0898cfd297b47ce0050e4694"
+    },
+    {
+      "path": "receiver_generation_prompt.txt",
+      "sha256": "2efd9b6a20ff3ba147f65435249fe9edfcb4035fa568629b95c44755834ee3b8"
+    },
+    {
+      "path": "reference_receivers.png",
+      "sha256": "097357af82ea34528caeb482c5362ceda35ece39f3de832931f36b95b725242f"
+    },
+    {
+      "path": "reference_shadow.png",
+      "sha256": "8ebc3a60376e5cf35b981626908af141fcef51862847982f8f4902883daa5a87"
+    }
+  ]
+}
