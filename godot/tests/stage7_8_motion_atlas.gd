@@ -1,7 +1,7 @@
 extends SceneTree
 
 const CASES := [
-	{"label":"stage7_masato", "fighter":"res://data/enemies/enemy_03_guard.tres", "stage":"res://data/stages/stage_07_masato.tres", "atlas":"res://assets/characters/enemy03/animations/masato_v1/motion_atlas.tres", "id":&"enemy_03_masato_takahashi", "backdrop":&"island_hideout_entrance", "height":168.0},
+	{"label":"stage7_masato", "fighter":"res://data/enemies/enemy_03_guard.tres", "stage":"res://data/stages/stage_07_masato.tres", "atlas":"res://assets/characters/enemy03/animations/masato_v2/motion_atlas.tres", "id":&"enemy_03_masato_takahashi", "backdrop":&"island_hideout_entrance", "height":168.0},
 	{"label":"stage8_leon", "fighter":"res://data/enemies/enemy_08_boss.tres", "stage":"res://data/stages/stage_08_leon.tres", "atlas":"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.tres", "id":&"enemy_08_leon_crow", "backdrop":&"island_hideout_boss_room", "height":188.0},
 ]
 var failures: Array[String] = []
@@ -30,9 +30,8 @@ func _review(case: Dictionary) -> void:
 	_check(stage.stage_number == (7 if case.id == &"enemy_03_masato_takahashi" else 8), "%s campaign slot is correct" % case.label)
 	_check(stage.enemy_definition.fighter_id == case.id and fighter.fighter_id == case.id, "%s fighter id is preserved" % case.label)
 	_check(stage.backdrop_id == case.backdrop, "%s uses its dedicated night hideout backdrop" % case.label)
-	var leon: bool = case.id == &"enemy_08_leon_crow"
-	_check(fighter.motion_atlas == atlas and atlas.columns == 6 and atlas.cell_size == (Vector2i(512,448) if leon else Vector2i(320,320)), "%s uses a fixed-cell dedicated atlas" % case.label)
-	_check(atlas.texture.get_width() == (3072 if leon else 1920) and atlas.texture.get_height() == (3584 if leon else 1920), "%s complete atlas dimensions" % case.label)
+	_check(fighter.motion_atlas == atlas and atlas.columns == 6 and atlas.cell_size == Vector2i(512,448), "%s uses a fixed-cell dedicated atlas" % case.label)
+	_check(atlas.texture.get_width() == 3072 and atlas.texture.get_height() == 3584, "%s complete atlas dimensions" % case.label)
 	_check(is_equal_approx(fighter.character_height_cm, case.height), "%s retains its reference character height" % case.label)
 	var controller := CharacterVisualController.new()
 	var animated := AnimatedSprite2D.new()

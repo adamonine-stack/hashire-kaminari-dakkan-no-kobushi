@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "source": "additional_actions.png",
+  "prompt": "generation_prompt.txt",
+  "sha256": "08cc8737e4ce75ef5dfcc80fe1fc5004bd52d0a7775303e5269e3a1bdd970171",
+  "poses": 9,
+  "anatomy": "one head, two arms, two legs, no opponent or afterimage per sprite",
+  "reference_height_px": 295,
+  "character_height_cm": 168
+}

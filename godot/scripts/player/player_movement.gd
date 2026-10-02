@@ -1015,6 +1015,11 @@ func _is_authored_grappler() -> bool:
 	return _is_teki_grappler() or _is_cross_grappler()
 
 
+func _is_masato_takahashi() -> bool:
+	var definition: Resource = get("fighter_definition")
+	return definition != null and String(definition.get("fighter_id")) == "enemy_03_masato_takahashi"
+
+
 func _is_leon_crow() -> bool:
 	var definition: Resource = get("fighter_definition")
 	return definition != null and String(definition.get("fighter_id")) == "enemy_08_leon_crow"
@@ -2778,7 +2783,7 @@ func _get_current_visual_animation() -> StringName:
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
-		if _is_authored_grappler() or _is_leon_crow():
+		if _is_authored_grappler() or _is_leon_crow() or _is_masato_takahashi():
 			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
