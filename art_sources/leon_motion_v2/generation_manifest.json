@@ -1,0 +1,7 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Exact Leon Crow reference, six separated complete right-facing full bodies: crouch punch anticipation/active, throw reach/hold/release, planted spinning roundhouse. Preserve black hair, leather biker jacket, trousers, gloves, lace boots, subtle purple wing emblem, anatomical head and limb proportions; transparent alpha, no effects, text or opponent.",
+  "source": "additional_actions.png",
+  "sha256": "4a4b48333891b8b3690dc717d6ff9bbec96eb4ce33bc1ba1b0875e177b3c13e4",
+  "source_packing": "Measured complete connected character contours; all recovered source poses use one uniform scale; generated/reaction body mass matches reference; fixed common canvas and floor."
+}

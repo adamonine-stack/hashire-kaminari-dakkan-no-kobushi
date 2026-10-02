@@ -1,0 +1,686 @@
+{
+  "cell": [
+    512,
+    448
+  ],
+  "baseline": 404,
+  "reference_area": 18620,
+  "reference_height": 296,
+  "frames": [
+    {
+      "index": 0,
+      "name": "source_00",
+      "scale": 1.4368932038834952,
+      "offset": [
+        195,
+        108
+      ],
+      "size": [
+        122,
+        296
+      ],
+      "opaque_area": 18620,
+      "relative_area": 1.0
+    },
+    {
+      "index": 1,
+      "name": "source_01",
+      "scale": 1.4368932038834952,
+      "offset": [
+        186,
+        108
+      ],
+      "size": [
+        139,
+        296
+      ],
+      "opaque_area": 21073,
+      "relative_area": 1.1317400644468314
+    },
+    {
+      "index": 2,
+      "name": "source_02",
+      "scale": 1.4368932038834952,
+      "offset": [
+        143,
+        109
+      ],
+      "size": [
+        226,
+        295
+      ],
+      "opaque_area": 21413,
+      "relative_area": 1.15
+    },
+    {
+      "index": 3,
+      "name": "source_03",
+      "scale": 1.4368932038834952,
+      "offset": [
+        172,
+        124
+      ],
+      "size": [
+        168,
+        280
+      ],
+      "opaque_area": 20475,
+      "relative_area": 1.099624060150376
+    },
+    {
+      "index": 4,
+      "name": "source_04",
+      "scale": 1.4368932038834952,
+      "offset": [
+        119,
+        193
+      ],
+      "size": [
+        274,
+        211
+      ],
+      "opaque_area": 17897,
+      "relative_area": 0.961170784103115
+    },
+    {
+      "index": 5,
+      "name": "source_05",
+      "scale": 1.4368932038834952,
+      "offset": [
+        136,
+        114
+      ],
+      "size": [
+        239,
+        290
+      ],
+      "opaque_area": 22594,
+      "relative_area": 1.2134264232008594
+    },
+    {
+      "index": 6,
+      "name": "source_06",
+      "scale": 1.4368932038834952,
+      "offset": [
+        159,
+        142
+      ],
+      "size": [
+        193,
+        262
+      ],
+      "opaque_area": 21577,
+      "relative_area": 1.1588077336197637
+    },
+    {
+      "index": 7,
+      "name": "source_07",
+      "scale": 1.4368932038834952,
+      "offset": [
+        93,
+        142
+      ],
+      "size": [
+        326,
+        262
+      ],
+      "opaque_area": 27906,
+      "relative_area": 1.4987110633727174
+    },
+    {
+      "index": 8,
+      "name": "source_08",
+      "scale": 1.4368932038834952,
+      "offset": [
+        113,
+        237
+      ],
+      "size": [
+        286,
+        167
+      ],
+      "opaque_area": 21869,
+      "relative_area": 1.1744897959183673
+    },
+    {
+      "index": 9,
+      "name": "source_09",
+      "scale": 1.4368932038834952,
+      "offset": [
+        136,
+        145
+      ],
+      "size": [
+        239,
+        259
+      ],
+      "opaque_area": 22905,
+      "relative_area": 1.2301288936627282
+    },
+    {
+      "index": 10,
+      "name": "source_10",
+      "scale": 1.4368932038834952,
+      "offset": [
+        150,
+        135
+      ],
+      "size": [
+        211,
+        269
+      ],
+      "opaque_area": 20561,
+      "relative_area": 1.1042427497314715
+    },
+    {
+      "index": 11,
+      "name": "source_11",
+      "scale": 1.4368932038834952,
+      "offset": [
+        151,
+        193
+      ],
+      "size": [
+        210,
+        211
+      ],
+      "opaque_area": 23824,
+      "relative_area": 1.279484425349087
+    },
+    {
+      "index": 12,
+      "name": "source_12",
+      "scale": 1.4368932038834952,
+      "offset": [
+        163,
+        163
+      ],
+      "size": [
+        185,
+        241
+      ],
+      "opaque_area": 20351,
+      "relative_area": 1.0929645542427497
+    },
+    {
+      "index": 13,
+      "name": "source_13",
+      "scale": 1.4368932038834952,
+      "offset": [
+        136,
+        168
+      ],
+      "size": [
+        239,
+        236
+      ],
+      "opaque_area": 19256,
+      "relative_area": 1.034156820622986
+    },
+    {
+      "index": 14,
+      "name": "source_14",
+      "scale": 1.4368932038834952,
+      "offset": [
+        115,
+        177
+      ],
+      "size": [
+        282,
+        227
+      ],
+      "opaque_area": 20037,
+      "relative_area": 1.0761009667024704
+    },
+    {
+      "index": 15,
+      "name": "source_15",
+      "scale": 1.4368932038834952,
+      "offset": [
+        142,
+        177
+      ],
+      "size": [
+        227,
+        227
+      ],
+      "opaque_area": 18929,
+      "relative_area": 1.016595059076262
+    },
+    {
+      "index": 16,
+      "name": "source_16",
+      "scale": 1.4368932038834952,
+      "offset": [
+        121,
+        174
+      ],
+      "size": [
+        270,
+        230
+      ],
+      "opaque_area": 19907,
+      "relative_area": 1.0691192266380236
+    },
+    {
+      "index": 17,
+      "name": "source_17",
+      "scale": 1.4368932038834952,
+      "offset": [
+        110,
+        184
+      ],
+      "size": [
+        292,
+        220
+      ],
+      "opaque_area": 24177,
+      "relative_area": 1.2984425349087003
+    },
+    {
+      "index": 18,
+      "name": "source_18",
+      "scale": 1.4368932038834952,
+      "offset": [
+        132,
+        174
+      ],
+      "size": [
+        247,
+        230
+      ],
+      "opaque_area": 21911,
+      "relative_area": 1.1767454350161117
+    },
+    {
+      "index": 19,
+      "name": "source_19",
+      "scale": 1.4368932038834952,
+      "offset": [
+        124,
+        232
+      ],
+      "size": [
+        263,
+        172
+      ],
+      "opaque_area": 19228,
+      "relative_area": 1.0326530612244897
+    },
+    {
+      "index": 20,
+      "name": "source_20",
+      "scale": 1.4368932038834952,
+      "offset": [
+        131,
+        160
+      ],
+      "size": [
+        249,
+        244
+      ],
+      "opaque_area": 17848,
+      "relative_area": 0.9585392051557465
+    },
+    {
+      "index": 21,
+      "name": "source_21",
+      "scale": 1.4368932038834952,
+      "offset": [
+        129,
+        161
+      ],
+      "size": [
+        254,
+        243
+      ],
+      "opaque_area": 19650,
+      "relative_area": 1.0553168635875403
+    },
+    {
+      "index": 22,
+      "name": "source_22",
+      "scale": 1.4368932038834952,
+      "offset": [
+        134,
+        157
+      ],
+      "size": [
+        244,
+        247
+      ],
+      "opaque_area": 18706,
+      "relative_area": 1.0046186895810956
+    },
+    {
+      "index": 23,
+      "name": "source_23",
+      "scale": 1.4368932038834952,
+      "offset": [
+        139,
+        199
+      ],
+      "size": [
+        234,
+        205
+      ],
+      "opaque_area": 18026,
+      "relative_area": 0.9680988184747583
+    },
+    {
+      "index": 24,
+      "name": "source_24",
+      "scale": 0.5637967505428719,
+      "offset": [
+        128,
+        126
+      ],
+      "size": [
+        255,
+        278
+      ],
+      "opaque_area": 18641,
+      "relative_area": 1.0011278195488722
+    },
+    {
+      "index": 25,
+      "name": "source_25",
+      "scale": 1.4368932038834952,
+      "offset": [
+        105,
+        263
+      ],
+      "size": [
+        302,
+        141
+      ],
+      "opaque_area": 21368,
+      "relative_area": 1.1475832438238454
+    },
+    {
+      "index": 26,
+      "name": "source_26",
+      "scale": 1.4368932038834952,
+      "offset": [
+        179,
+        122
+      ],
+      "size": [
+        154,
+        282
+      ],
+      "opaque_area": 17174,
+      "relative_area": 0.9223415682062298
+    },
+    {
+      "index": 27,
+      "name": "source_27",
+      "scale": 1.4368932038834952,
+      "offset": [
+        182,
+        157
+      ],
+      "size": [
+        148,
+        247
+      ],
+      "opaque_area": 17356,
+      "relative_area": 0.9321160042964555
+    },
+    {
+      "index": 28,
+      "name": "source_28",
+      "scale": 1.4368932038834952,
+      "offset": [
+        149,
+        173
+      ],
+      "size": [
+        213,
+        231
+      ],
+      "opaque_area": 20991,
+      "relative_area": 1.1273361976369496
+    },
+    {
+      "index": 29,
+      "name": "source_29",
+      "scale": 1.4368932038834952,
+      "offset": [
+        126,
+        158
+      ],
+      "size": [
+        260,
+        246
+      ],
+      "opaque_area": 20110,
+      "relative_area": 1.0800214822771215
+    },
+    {
+      "index": 30,
+      "name": "source_30",
+      "scale": 1.4368932038834952,
+      "offset": [
+        120,
+        199
+      ],
+      "size": [
+        272,
+        205
+      ],
+      "opaque_area": 20219,
+      "relative_area": 1.085875402792696
+    },
+    {
+      "index": 31,
+      "name": "source_31",
+      "scale": 1.4368932038834952,
+      "offset": [
+        106,
+        200
+      ],
+      "size": [
+        300,
+        204
+      ],
+      "opaque_area": 18708,
+      "relative_area": 1.0047261009667026
+    },
+    {
+      "index": 32,
+      "name": "source_32",
+      "scale": 1.4368932038834952,
+      "offset": [
+        133,
+        176
+      ],
+      "size": [
+        246,
+        228
+      ],
+      "opaque_area": 20318,
+      "relative_area": 1.0911922663802363
+    },
+    {
+      "index": 33,
+      "name": "source_33",
+      "scale": 1.4368932038834952,
+      "offset": [
+        166,
+        204
+      ],
+      "size": [
+        180,
+        200
+      ],
+      "opaque_area": 16540,
+      "relative_area": 0.8882921589688507
+    },
+    {
+      "index": 34,
+      "name": "source_34",
+      "scale": 1.4368932038834952,
+      "offset": [
+        156,
+        180
+      ],
+      "size": [
+        200,
+        224
+      ],
+      "opaque_area": 18186,
+      "relative_area": 0.9766917293233083
+    },
+    {
+      "index": 35,
+      "name": "source_35",
+      "scale": 1.4368932038834952,
+      "offset": [
+        101,
+        295
+      ],
+      "size": [
+        309,
+        109
+      ],
+      "opaque_area": 17013,
+      "relative_area": 0.9136949516648765
+    },
+    {
+      "index": 36,
+      "name": "source_36",
+      "scale": 1.4368932038834952,
+      "offset": [
+        76,
+        315
+      ],
+      "size": [
+        359,
+        89
+      ],
+      "opaque_area": 16907,
+      "relative_area": 0.9080021482277122
+    },
+    {
+      "index": 37,
+      "name": "source_37",
+      "scale": 1.4368932038834952,
+      "offset": [
+        152,
+        260
+      ],
+      "size": [
+        207,
+        144
+      ],
+      "opaque_area": 15776,
+      "relative_area": 0.8472610096670247
+    },
+    {
+      "index": 38,
+      "name": "source_38",
+      "scale": 1.4368932038834952,
+      "offset": [
+        147,
+        269
+      ],
+      "size": [
+        217,
+        135
+      ],
+      "opaque_area": 15221,
+      "relative_area": 0.8174543501611171
+    },
+    {
+      "index": 39,
+      "name": "crouch_punch_start",
+      "scale": 0.6174945595345918,
+      "offset": [
+        172,
+        187
+      ],
+      "size": [
+        167,
+        217
+      ],
+      "opaque_area": 18654,
+      "relative_area": 1.0018259935553169
+    },
+    {
+      "index": 40,
+      "name": "crouch_punch_active",
+      "scale": 0.5935917922443423,
+      "offset": [
+        133,
+        187
+      ],
+      "size": [
+        245,
+        217
+      ],
+      "opaque_area": 18602,
+      "relative_area": 0.9990332975295382
+    },
+    {
+      "index": 41,
+      "name": "throw_start",
+      "scale": 0.5777641404034849,
+      "offset": [
+        155,
+        151
+      ],
+      "size": [
+        202,
+        253
+      ],
+      "opaque_area": 18594,
+      "relative_area": 0.9986036519871107
+    },
+    {
+      "index": 42,
+      "name": "throw_hold",
+      "scale": 0.5716930558415223,
+      "offset": [
+        163,
+        137
+      ],
+      "size": [
+        185,
+        267
+      ],
+      "opaque_area": 18581,
+      "relative_area": 0.997905477980666
+    },
+    {
+      "index": 43,
+      "name": "throw_release",
+      "scale": 0.5691858913441584,
+      "offset": [
+        156,
+        159
+      ],
+      "size": [
+        200,
+        245
+      ],
+      "opaque_area": 18656,
+      "relative_area": 1.0019334049409236
+    },
+    {
+      "index": 44,
+      "name": "spin_kick",
+      "scale": 0.5637967505428719,
+      "offset": [
+        128,
+        126
+      ],
+      "size": [
+        255,
+        278
+      ],
+      "opaque_area": 18641,
+      "relative_area": 1.0011278195488722
+    }
+  ]
+}

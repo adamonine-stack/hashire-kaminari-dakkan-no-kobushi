@@ -192,6 +192,10 @@ func _sync_attack_visual_phase() -> void:
 	var definition: Resource = get("fighter_definition")
 	var is_gou := definition != null and String(definition.get("fighter_id")) == "player_02_gou" and definition.get("motion_atlas") != null
 	var is_seiya := definition != null and String(definition.get("fighter_id")) == "player_03_seiya" and definition.get("motion_atlas") != null
+	var is_leon := definition != null and String(definition.get("fighter_id")) == "enemy_08_leon_crow"
+	if is_leon:
+		for id in ["fallback_punch", "fallback_kick", "fallback_jump_kick", "player1_jump_punch_down", "player1_crouch_punch", "player1_crouch_kick_sweep"]:
+			contact_frames[id] = Vector2i(1,1)
 	if is_seiya:
 		for id in ["player3_punch_1", "player3_punch_2", "player3_punch_3", "player3_kick_finish", "player1_crouch_kick_sweep"]:
 			contact_frames[id] = Vector2i(3, 3)
@@ -216,7 +220,7 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_05_cross_murasame":
 		for id in ["cross_punch","cross_chop","cross_wrist_finish","cross_kick","cross_knee","cross_joint_finish","cross_sweep","cross_air_punch","cross_air_kick"]:
 			contact_frames[id] = Vector2i(2, 2) if id.ends_with("finish") else Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya):
+	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya and not is_leon):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)

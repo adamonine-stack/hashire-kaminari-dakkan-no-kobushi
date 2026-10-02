@@ -1,0 +1,56 @@
+{
+  "cell": [
+    512,
+    448
+  ],
+  "baseline": 404,
+  "reference_area": 18620,
+  "reference_height": 296,
+  "frames": [
+    {
+      "index": 0,
+      "name": "reaction_0",
+      "scale": 0.9282016987083684,
+      "offset": [
+        138,
+        150
+      ],
+      "size": [
+        236,
+        254
+      ],
+      "opaque_area": 18597,
+      "relative_area": 0.9987647690655209
+    },
+    {
+      "index": 1,
+      "name": "reaction_1",
+      "scale": 0.9282016987083684,
+      "offset": [
+        70,
+        217
+      ],
+      "size": [
+        371,
+        187
+      ],
+      "opaque_area": 22957,
+      "relative_area": 1.232921589688507
+    },
+    {
+      "index": 2,
+      "name": "reaction_2",
+      "scale": 0.9282016987083684,
+      "offset": [
+        59,
+        229
+      ],
+      "size": [
+        393,
+        175
+      ],
+      "opaque_area": 21727,
+      "relative_area": 1.1668635875402793
+    }
+  ]
+}
