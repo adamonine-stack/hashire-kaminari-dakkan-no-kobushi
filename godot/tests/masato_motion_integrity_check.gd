@@ -64,7 +64,7 @@ func run() -> void:
 			var texture := frames.get_frame_texture(clip,frame) as AtlasTexture
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
-			check(texture.atlas.resource_path.contains("masato_v2"),"all Masato motions use repaired originals "+clip)
+			check(texture.atlas.resource_path.contains("masato_v3"),"all Masato motions use repaired originals "+clip)
 			check(texture.get_size() == Vector2(512,448),"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
 			check(used.position.x>=8 and used.position.y>=8 and used.end.x<=504 and used.end.y<=404,"no clipped hair limbs boots "+clip)

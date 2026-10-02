@@ -6,17 +6,17 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/portrait.png" id="4_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/icon.png" id="5_icon"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/battle.png" id="6_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy06/animations/rio_garcia_v1/motion_atlas.png" id="7_sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy06/shadow.png" id="8_shadow"]
-[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_garcia_v1/motion_atlas.tres" id="9_motion"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.tres" id="9_motion"]
 
 [ext_resource type="Resource" path="res://data/attacks/rio_cross_counter.tres" id="reversal"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_06_combo/motion_atlas.tres" id="received_akky"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_garcia_v2/special_received_v1/motion_atlas.tres" id="received_akky"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_06_combo/motion_atlas.tres" id="received_gou"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_garcia_v2/special_received_gou_v1/motion_atlas.tres" id="received_gou"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_06_combo/motion_atlas.tres" id="received_seiya"]
+[ext_resource type="Resource" path="res://assets/characters/enemy06/animations/rio_garcia_v2/special_received_seiya_v1/motion_atlas.tres" id="received_seiya"]
 
 [resource]
 script = ExtResource("1_def")

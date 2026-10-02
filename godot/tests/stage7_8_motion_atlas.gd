@@ -1,7 +1,7 @@
 extends SceneTree
 
 const CASES := [
-	{"label":"stage7_masato", "fighter":"res://data/enemies/enemy_03_guard.tres", "stage":"res://data/stages/stage_07_masato.tres", "atlas":"res://assets/characters/enemy03/animations/masato_v2/motion_atlas.tres", "id":&"enemy_03_masato_takahashi", "backdrop":&"island_hideout_entrance", "height":168.0},
+	{"label":"stage7_masato", "fighter":"res://data/enemies/enemy_03_guard.tres", "stage":"res://data/stages/stage_07_masato.tres", "atlas":"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.tres", "id":&"enemy_03_masato_takahashi", "backdrop":&"island_hideout_entrance", "height":168.0},
 	{"label":"stage8_leon", "fighter":"res://data/enemies/enemy_08_boss.tres", "stage":"res://data/stages/stage_08_leon.tres", "atlas":"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.tres", "id":&"enemy_08_leon_crow", "backdrop":&"island_hideout_boss_room", "height":188.0},
 ]
 var failures: Array[String] = []

@@ -231,7 +231,7 @@ func run() -> void:
 				if headfirst and target.knockdown_state == &"KNOCKBACK":
 					var body_y := visible_body_center_y(sprite)
 					var sampled_frames := maxi(1,Engine.get_physics_frames()-previous_body_frame)
-					check(absf(body_y-previous_body_y) < 30.0*sampled_frames+5.0,label + " continuous headfirst body position")
+					check(absf(body_y-previous_body_y) < 30.0*sampled_frames+5.0,label + " continuous headfirst body position phase=%s previous=%.2f current=%.2f sampled=%d" % [target.special_headfirst_phase,previous_body_y,body_y,sampled_frames])
 					previous_body_frame = Engine.get_physics_frames()
 					previous_body_y = body_y
 					check(sprite.flip_h == (direction > 0),label + " victim facing stays toward Seiya")
@@ -295,7 +295,7 @@ func run() -> void:
 			if headfirst:
 				check(captured_head_fall and captured_head_impact and captured_collapse,label + " headfirst descent impact and collapse sequence")
 				check(is_zero_approx(sprite.rotation) and sprite.offset.is_zero_approx(),label + " headfirst grounded transform restored")
-				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no size or body-position jump into prone pose")
+				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no size or body-position jump into prone pose previous=%.2f current=%.2f" % [previous_body_y,visible_body_center_y(sprite)])
 			if backflip:
 				check(captured_spin and captured_prone and is_equal_approx(target.special_backflip_turn,PI*1.5),label + " completes backward 270-degree prone rotation")
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")

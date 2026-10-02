@@ -1,0 +1,9 @@
+{
+  "tool": "builtin image_gen imagegen",
+  "source_file": "exec-64aaddd3-feeb-4392-bb58-08dc51b071a6.png",
+  "prompt": "generation_prompt.txt",
+  "reference": "reference_design.png",
+  "source_sha256": "c458ff67a9f99161d74849992a86b1b9b985e28902a9bea1db1d461d31956bb4",
+  "packing": "tools/build_readable_grapple.py",
+  "acceptance": "one complete actor per cell; formal costume and standing size preserved; actual held actor comes from the game, never baked into thrower art"
+}
