@@ -7,7 +7,7 @@ NAMES=['enemy_01_standard','enemy_02_speed','enemy_03_guard','enemy_04_throw','e
 for folder,phases in [('akky_wall_launch_final',['air','wall','fall','down']),
                      ('gou_reversal_270_final',['impact','air','prone_descent','down'])]:
     out=ROOT/'evidence'/folder
-    if not out.exists(): continue
+    if not all((out/f"{name}_R_{phase}.png").exists() for name in NAMES for phase in phases): continue
     sheet=Image.new('RGB',(1280,len(NAMES)*202),(25,25,30))
     draw=ImageDraw.Draw(sheet)
     for row,name in enumerate(NAMES):
