@@ -7,24 +7,24 @@
   "frames": [
     {
       "source": "art_sources\\gou_received_v2\\enemy_07_tricky\\hit.png",
-      "scale": 0.2035543608124253,
+      "scale": 0.24253285543608125,
       "source_anchor_x": 749.0,
       "support": [
-        139,
-        99,
-        246,
+        128,
+        66,
+        255,
         269
       ],
       "sha256": "895a9d7f5f3f84fa4685430a4c966f3107ea1a67748fdc19d2ebedbcab0ee7c3"
     },
     {
       "source": "art_sources\\gou_received_v2\\enemy_07_tricky\\down.png",
-      "scale": 0.13185144683714667,
+      "scale": 0.190257242306792,
       "source_anchor_x": 854.0,
       "support": [
-        94,
-        232,
-        290,
+        51,
+        217,
+        334,
         269
       ],
       "sha256": "dbdf80fec1ea640baf4ba430bd71d1da00f8d4ac66e338816506c67d37775d27"

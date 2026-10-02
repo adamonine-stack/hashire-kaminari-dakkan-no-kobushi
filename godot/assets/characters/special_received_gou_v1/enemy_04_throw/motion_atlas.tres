@@ -4,7 +4,7 @@
 [resource]
 script = ExtResource("1")
 texture = ExtResource("2")
-cell_size = Vector2i(320, 300)
+cell_size = Vector2i(352, 300)
 columns = 2
 clips = {
 "received_gou_breaker_hit": {"frames": [0], "fps": 8, "loop": false},

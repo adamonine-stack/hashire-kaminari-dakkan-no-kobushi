@@ -56,6 +56,11 @@ func _physics_process(delta: float) -> void:
 		_update_knockdown_flow(delta)
 		_update_visual_state()
 		move_and_slide()
+		# Resolve Gou's last turn and the prone pose in the collision frame,
+		# rather than leaving an extra airborne-looking frame after landing.
+		if special_backflip_enabled and knockdown_state == &"KNOCKBACK" and is_on_floor() and velocity.y >= -ground_landing_velocity_threshold:
+			update_knockback(0.0)
+			_update_visual_state()
 		if special_wall_phase == "" or knockdown_state != &"KNOCKBACK":
 			_apply_post_move_stabilization()
 		_clamp_special_reaction_art()
@@ -289,19 +294,22 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 func update_knockback(delta: float) -> void:
 	if special_backflip_enabled:
 		special_backflip_elapsed += delta
-		var progress := clampf(special_backflip_elapsed / special_backflip_duration,0.0,1.0)
+		# Stay in the rotating pose until physical floor contact; there is no
+		# separate airborne prone/settling phase.
+		var landed := is_on_floor() and velocity.y >= -ground_landing_velocity_threshold
+		var progress := 1.0 if landed else clampf(special_backflip_elapsed / special_backflip_duration,0.0,0.9999)
 		special_backflip_turn = progress*(PI*1.5)
 		if animated_character_sprite != null:
-			if progress < 1.0:
+			if not landed:
 				animated_character_sprite.rotation = special_backflip_direction*special_backflip_turn
-				animated_character_sprite.offset = Vector2.ZERO
+				# Move toward the prone drawing's body center while still rotating.
+				# Convert the translation back through the Sprite's rotation and scale.
+				var lowering := smoothstep(0.45,1.0,progress)
+				var shift := special_prone_alignment*animated_character_sprite.scale*lowering
+				animated_character_sprite.offset = shift.rotated(-animated_character_sprite.rotation)/animated_character_sprite.scale
 			else:
-				# At 270 degrees the head already points toward Gou. Match the
-				# prone drawing's body center, then lower it smoothly to ground.
 				animated_character_sprite.rotation = 0.0
-				var settling_time := maxf(0.01,special_backflip_duration/0.60-special_backflip_duration)
-				var settling := smoothstep(0.0,1.0,clampf((special_backflip_elapsed-special_backflip_duration)/settling_time,0.0,1.0))
-				animated_character_sprite.offset = -special_prone_alignment*(1.0-settling)
+				animated_character_sprite.offset = Vector2.ZERO
 	if special_wall_phase == "fly":
 		velocity.x = special_wall_speed * special_wall_direction
 		# Fast horizontal launch stays airborne until the far wall, even when
@@ -539,7 +547,7 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 			special_prone_alignment = prone_center-rotated_air_center
 		# Rotate backward 270 degrees into a head-toward-Gou prone landing.
 		# Rotate the Sprite about its body center, never the ground/feet origin.
-		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(special_flight_gravity if special_flight_gravity > 0.0 else gravity,1.0)*0.60)
+		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(special_flight_gravity if special_flight_gravity > 0.0 else gravity,1.0)+2.0/Engine.physics_ticks_per_second)
 	if not bool(attack_data.get("is_special",false)) or not bool(attack_data.get("wall_slam",false)): return
 	special_wall_phase = "fly"
 	special_wall_contacts = 0

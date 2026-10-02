@@ -7,24 +7,24 @@
   "frames": [
     {
       "source": "art_sources\\gou_received_v2\\enemy_02_speed\\hit.png",
-      "scale": 0.15343996494303241,
+      "scale": 0.18282208588957055,
       "source_anchor_x": 718.5,
       "support": [
-        127,
-        114,
-        194,
+        120,
+        90,
+        200,
         239
       ],
       "sha256": "daa9a72118a4f854fba35752dfc3de2c87da4cf230e926f1c756a619a6959f3f"
     },
     {
       "source": "art_sources\\gou_received_v2\\enemy_02_speed\\down.png",
-      "scale": 0.09561941964285713,
+      "scale": 0.1216326409283899,
       "source_anchor_x": 881.0,
       "support": [
-        88,
-        209,
-        232,
+        69,
+        201,
+        252,
         239
       ],
       "sha256": "e510b70e6b2ef210899a4afb14acf3f02a942f09815567f2a8ff03818cf43127"
