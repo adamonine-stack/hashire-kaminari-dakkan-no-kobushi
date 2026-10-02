@@ -8,8 +8,8 @@ CELL=(512,448);BASELINE=404;COLS=6
 
 def area(im):return sum(a>=128 for a in im.getchannel('A').get_flattened_data())
 
-def components(im,minimum=1000):
- w,h=im.size;mask=bytearray(a>=100 for a in im.getchannel('A').get_flattened_data());result=[]
+def components(im,minimum=1000,alpha_threshold=100):
+ w,h=im.size;mask=bytearray(a>=alpha_threshold for a in im.getchannel('A').get_flattened_data());result=[]
  for seed in range(len(mask)):
   if not mask[seed]:continue
   mask[seed]=0;q=deque([seed]);pixels=[]

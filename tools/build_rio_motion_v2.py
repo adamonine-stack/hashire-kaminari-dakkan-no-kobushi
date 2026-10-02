@@ -13,7 +13,10 @@ source=Image.open(G/'assets/characters/enemy06/animations/rio_garcia_v1/motion_a
 assert len(regions)==56
 poses=[]
 for x,y,w,h in regions:
- im=source.crop((x,y,x+w,y+h));poses.append(im.crop(im.getchannel('A').getbbox()))
+ im=source.crop((x,y,x+w,y+h))
+ # Measured legacy cells may include isolated pixels from neighboring poses.
+ bodies=m.components(im,alpha_threshold=1);body=max(bodies,key=lambda item:m.area(item[1]))[1]
+ poses.append(body)
 m.REFERENCE_AREA=m.area(poses[0]);assert poses[0].height==171
 new=m.components(Image.open(ART/'additional_actions.png').convert('RGBA'))
 # Sort the two sprite rows, then left to right.
