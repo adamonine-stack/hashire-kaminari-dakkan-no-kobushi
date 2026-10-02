@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=16 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -17,6 +17,8 @@
 [ext_resource type="Resource" path="res://assets/characters/player03/animations/seiya_v1/motion_atlas.tres" id="14_seiya_motion"]
 
 [ext_resource type="Resource" path="res://assets/characters/player03/animations/cross_reactions/reactions.tres" id="cross_reactions"]
+
+[ext_resource type="Resource" path="res://assets/characters/player03/animations/somersault_v1/motion_atlas.tres" id="seiya_somersault"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -200,3 +202,5 @@ speed_rating = 4
 health_rating = 3
 throw_rating = 3
 combo_rating = 5
+
+extra_motion_atlases = Array[Resource]([ExtResource("seiya_somersault")])

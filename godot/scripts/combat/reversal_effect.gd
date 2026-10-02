@@ -80,7 +80,9 @@ func _draw() -> void:
 		"player_02_gou":
 			for i in range(3): draw_arc(Vector2(20, 60), r + i * 10, PI, TAU, 24, Color(1,0.7,0.3), 4)
 		"player_03_seiya":
-			for i in range(4): draw_line(Vector2(-60-i*8, -30+i*20), Vector2(40-i*8,-30+i*20), tint, 2)
+			var sweep := -elapsed/duration*TAU
+			draw_arc(Vector2(0,-55),105.0,sweep,sweep+PI*1.25,48,Color(tint,0.22),18.0,true)
+			draw_arc(Vector2(0,-55),105.0,sweep,sweep+PI*1.25,48,Color.WHITE,3.0,true)
 		"enemy_01_crusher":
 			draw_polyline(PackedVector2Array([Vector2(-65,60),Vector2(-30,45),Vector2(0,60),Vector2(30,40),Vector2(65,60)]), Color(1,0.6,0.3), 5)
 		"enemy_02_shadow_boxer":
@@ -107,7 +109,7 @@ func _draw() -> void:
 func _draw_body_aura() -> void:
 	var progress := elapsed / duration
 	var pulse := 1.0 + 0.04 * sin(progress * TAU * 2.0)
-	draw_texture_rect(AURA_TEXTURE,Rect2(Vector2(-95,-170)*pulse,Vector2(190,245)*pulse),false,Color(tint,0.8))
+	draw_texture_rect(AURA_TEXTURE,Rect2(Vector2(-95,-170)*pulse,Vector2(190,245)*pulse),false,Color(tint,0.30 if style == "player_03_seiya" else 0.8))
 	var strength := 1.15 if phase == "active" else 1.0
 	if phase == "finish": strength = 0.85
 	var contour := PackedVector2Array()
@@ -129,6 +131,11 @@ func _draw_body_aura() -> void:
 		ring.append(Vector2(cos(angle) * (68.0 + progress * 15.0), sin(angle) * 13.0 + 62.0))
 	draw_polyline(ring, Color(tint,0.8), 3.0, true)
 	if phase == "active":
+		if style == "player_03_seiya":
+			var sweep := -progress*TAU
+			draw_arc(Vector2(0,-55),105.0,sweep,sweep+PI*1.1,48,Color(tint,0.3),12.0,true)
+			draw_arc(Vector2(0,-55),105.0,sweep,sweep+PI*1.1,48,Color.WHITE,3.0,true)
+			return
 		draw_circle(Vector2(65,-20), 25.0, Color(tint,0.22))
 		draw_circle(Vector2(65,-20), 10.0, Color(1,1,1,0.9))
 		for i in range(5):

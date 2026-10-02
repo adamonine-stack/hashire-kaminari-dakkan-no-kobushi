@@ -1341,10 +1341,13 @@ func start_character_special() -> void:
 	print("[Special] started id=%s" % character_special_id)
 
 
+var seiya_somersault_turn := 0.0
+
 func enter_character_special_active() -> void:
 	if character_special_data == null:
 		interrupt_character_special(false)
 		return
+	seiya_somersault_turn = 0.0
 	character_special_state = CharacterSpecialState.ACTIVE
 	character_special_timer = maxf(float(character_special_data.active_time), 0.01)
 	apply_character_special_hitbox_data()
@@ -1409,6 +1412,9 @@ func update_character_special(delta: float) -> void:
 		reset_character_special_state(false)
 		return
 	_apply_character_special_movement(delta)
+	if character_special_state == CharacterSpecialState.ACTIVE and character_special_data.special_hit_window > 0.0:
+		if character_special_data.active_time-character_special_timer >= character_special_data.special_hit_window:
+			disable_character_special_hitbox()
 	character_special_timer = maxf(character_special_timer - delta, 0.0)
 	match character_special_state:
 		CharacterSpecialState.STARTUP:
@@ -1517,6 +1523,9 @@ func _apply_character_special_movement(delta: float) -> void:
 
 
 func stop_character_special_movement() -> void:
+	if character_special_data != null and character_special_data.somersault_on_special and animated_character_sprite != null:
+		animated_character_sprite.rotation = 0.0
+		animated_character_sprite.offset = Vector2.ZERO
 	character_special_move_timer = 0.0
 	character_special_move_speed = 0.0
 
@@ -1592,6 +1601,7 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"wall_slam": character_special_data.wall_slam,
 		"special_launch_speed_cap": character_special_data.special_launch_speed_cap,
 		"backflip_on_launch": character_special_data.backflip_on_launch,
+		"headfirst_on_launch": character_special_data.headfirst_on_launch,
 		"special_launch_gravity": character_special_data.special_launch_gravity,
 		"can_interrupt_attack": character_special_data.can_interrupt_attack,
 		"can_break_combo": character_special_data.can_break_combo,
@@ -2659,6 +2669,7 @@ func _update_visual_state() -> void:
 				_play_visual_animation(StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else &"special_attack")
 			CharacterSpecialState.RECOVERY:
 				_play_visual_animation(character_special_data.special_finish_animation)
+		_update_seiya_somersault_visual()
 	if is_boss_special_busy():
 		match boss_attack_state:
 			BossAttackState.ULTIMATE_STARTUP:
@@ -2685,3 +2696,30 @@ func _update_visual_state() -> void:
 			str(ultimate_pending).to_upper(),
 			str(ultimate_interrupt_resistant).to_upper(),
 		]
+
+func _update_seiya_somersault_visual() -> void:
+	if character_special_data == null or not character_special_data.somersault_on_special or animated_character_sprite == null: return
+	var sprite := animated_character_sprite
+	if character_special_state != CharacterSpecialState.ACTIVE:
+		sprite.rotation = 0.0
+		sprite.offset = Vector2.ZERO
+		return
+	var rotation_time := maxf(0.1,character_special_data.active_time-2.0/Engine.physics_ticks_per_second)
+	var progress := clampf((character_special_data.active_time-character_special_timer)/rotation_time,0.0,1.0)
+	seiya_somersault_turn = progress*TAU
+	var index := mini(int(progress*3.0),2)
+	sprite.frame = index
+	var authored_angles := [0.0,-PI,-TAU+PI*0.25]
+	sprite.rotation = character_special_direction*(-seiya_somersault_turn-authored_angles[index])
+	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,index)
+	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	if sprite.flip_h: center.x = -center.x
+	var idle := sprite.sprite_frames.get_frame_texture(&"idle",0)
+	var anchor := Vector2(idle.get_image().get_used_rect().get_center())-idle.get_size()*0.5
+	if sprite.flip_h: anchor.x = -anchor.x
+	var jump := Vector2(0,-105.0*sin(PI*progress))
+	sprite.offset = (anchor*sprite.scale+jump).rotated(-sprite.rotation)/sprite.scale-center
+
+func _get_horizontal_movement_input() -> float:
+	if is_character_special_busy() and character_special_data != null and character_special_data.somersault_on_special: return 0.0
+	return super._get_horizontal_movement_input()

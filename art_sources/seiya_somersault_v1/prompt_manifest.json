@@ -1,0 +1,23 @@
+{
+  "mode": "built-in image_gen",
+  "identity_reference": "evidence/seiya_references/seiya.png",
+  "size_reference": "evidence/seiya_references/seiya_idle_size_corrected.png",
+  "accepted_inverted": "inverted_approved.png",
+  "accepted_user_attachment": "1-貼り付けた画像-1.jpg",
+  "selected_assets": [
+    "startup.png",
+    "kick.png",
+    "inverted_approved.png",
+    "return.png",
+    "finish.png"
+  ],
+  "invariants": "blond hair, white shirt, tan trousers, white shoes, corrected player Seiya proportions; transparent alpha; one pose each",
+  "prompts": {
+    "startup": "Low athletic preparatory crouch facing RIGHT before in-place backward somersault.",
+    "kick": "Upright torso, front leg extends diagonally upper RIGHT, other leg hangs down; athletic rising kick.",
+    "inverted_approved": "Exact horizontal mirror of original upside-down sprite, retained upside down. User selected this full mirrored version by attachment; no leg-only redraw used.",
+    "return_pose": "Late backward somersault, head upper right, shoes lower left, preparing landing.",
+    "finish": "Soft bent-knee upright landing facing right after in-place backward somersault."
+  },
+  "runtime_scale": "same as corrected ally_speed.tres; each pose opaque area calibrated to actual idle frame2; no actor size changes"
+}

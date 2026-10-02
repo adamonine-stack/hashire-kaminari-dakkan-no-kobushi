@@ -5,20 +5,20 @@
 [resource]
 script = ExtResource("1_attack")
 attack_id = "player3_special_clear_counter"
-display_name = "Clear Counter"
+display_name = "Somersault Kick"
 attack_type = "special"
 attack_category = "special"
 base_damage = 1.0
 damage_multiplier = 1.5
 startup_time = 0.14
-active_time = 0.16
-recovery_time = 0.32
-hitbox_size = Vector2(115, 82)
-hitbox_offset = Vector2(68, -132)
-move_distance = 120.0
-move_duration = 0.20
+active_time = 0.60
+recovery_time = 0.24
+hitbox_size = Vector2(138,170)
+hitbox_offset = Vector2(66,-176)
+move_distance = 0.0
+move_duration = 0.0
 move_speed_multiplier = 1.15
-knockback = Vector2(720, -440)
+knockback = Vector2(180,-550)
 hitstop_time = 0.09
 hitstun_time = 0.30
 is_guardable = true
@@ -28,7 +28,7 @@ guard_knockback = Vector2(80, 0)
 can_be_interrupted = true
 interruptible_until_active = true
 cooldown = 3.60
-animation_name = "special_clear_counter"
+animation_name = "seiya_somersault_kick"
 warning_effect_name = "player3_special_warning"
 attack_effect_name = "player3_clear_counter"
 
@@ -41,3 +41,11 @@ startup_invulnerability = 0.10
 ai_special_tags = Array[String](["reversal", "counter"])
 
 camera_shake = 6.0
+
+special_startup_animation = &"seiya_somersault_startup"
+special_finish_animation = &"seiya_somersault_landing"
+special_launch_speed_cap = Vector2(180,550)
+special_launch_gravity = 850.0
+headfirst_on_launch = true
+somersault_on_special = true
+special_hit_window = 0.24

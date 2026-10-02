@@ -1,0 +1,68 @@
+{
+  "reference": "evidence/seiya_references/seiya_idle_size_corrected.png",
+  "reference_area": 9394,
+  "accepted_inverted": "inverted_approved.png",
+  "method": "preserve opaque anatomical body area; runtime scale unchanged",
+  "frames": [
+    {
+      "name": "startup",
+      "source": "art_sources\\seiya_somersault_v1\\startup.png",
+      "density": 0.2626225060374135,
+      "opaque_area": 9332,
+      "relative_body_area": 0.9934000425803704,
+      "origin": [
+        136,
+        107
+      ],
+      "sha256": "09294c27176ec79b9152962bac5c0afa60294982b9d160f1855f7a11943e851d"
+    },
+    {
+      "name": "kick",
+      "source": "art_sources\\seiya_somersault_v1\\kick.png",
+      "density": 0.25422645864483007,
+      "opaque_area": 9416,
+      "relative_body_area": 1.0023419203747073,
+      "origin": [
+        100,
+        80
+      ],
+      "sha256": "cecd19a80e20288d9d04ea9349deece14b7c9231565a8ccd47bacae4fce34400"
+    },
+    {
+      "name": "inverted_approved",
+      "source": "art_sources\\seiya_somersault_v1\\inverted_approved.png",
+      "density": 0.21601825134686622,
+      "opaque_area": 9376,
+      "relative_body_area": 0.9980838833297849,
+      "origin": [
+        90,
+        91
+      ],
+      "sha256": "4687c6c55d2c696ae7bd28abed2b75617944208d59c479be971a316f9286442d"
+    },
+    {
+      "name": "return",
+      "source": "art_sources\\seiya_somersault_v1\\return.png",
+      "density": 0.24555721637390293,
+      "opaque_area": 9396,
+      "relative_body_area": 1.000212901852246,
+      "origin": [
+        121,
+        91
+      ],
+      "sha256": "0ff1b1545d0287caeb8a199042b6adf4b44f83ad855179d50d8a522a23311000"
+    },
+    {
+      "name": "finish",
+      "source": "art_sources\\seiya_somersault_v1\\finish.png",
+      "density": 0.26927113953866877,
+      "opaque_area": 9403,
+      "relative_body_area": 1.0009580583351074,
+      "origin": [
+        142,
+        87
+      ],
+      "sha256": "372d0a28c93369a6735293da583fd082118b16931a6372eaf474858771daf725"
+    }
+  ]
+}
