@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=10 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy03/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy03/shadow.png" id="8_shadow"]
 [ext_resource type="Resource" path="res://assets/characters/enemy03/animations/masato_v1/motion_atlas.tres" id="9_motion"]
+
+[ext_resource type="Resource" path="res://data/attacks/masato_palm_reversal.tres" id="reversal"]
 
 [resource]
 script = ExtResource("1_def")
@@ -51,3 +53,5 @@ speed_rating = 3
 health_rating = 3
 throw_rating = 5
 combo_rating = 2
+
+reversal_attack = ExtResource("reversal")

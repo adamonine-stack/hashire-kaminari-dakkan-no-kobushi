@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=11 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/shadow.png" id="8_shadow"]
 [ext_resource type="Resource" path="res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.tres" id="9_motion"]
 [ext_resource type="Resource" path="res://assets/characters/enemy01/animations/crusher_v1/air_attack_atlas.tres" id="10_air_motion"]
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_fault_break.tres" id="reversal"]
 
 [resource]
 script = ExtResource("1_def")
@@ -136,3 +138,5 @@ speed_rating = 1
 health_rating = 5
 throw_rating = 4
 combo_rating = 1
+
+reversal_attack = ExtResource("reversal")

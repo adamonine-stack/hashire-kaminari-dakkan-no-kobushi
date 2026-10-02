@@ -141,6 +141,7 @@ var is_round_active := false
 var victory_pose_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
+var special_guard_animation: StringName = &""
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var guard_motion_timer := 0.0
@@ -2768,6 +2769,8 @@ func _get_current_visual_animation() -> StringName:
 	if is_throw_escaping:
 		return &"getup"
 	if is_guard_hit:
+		if _has_visual_animation(special_guard_animation):
+			return special_guard_animation
 		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
 	if is_hit:
 		return last_damage_animation
@@ -2838,6 +2841,12 @@ func _get_walk_animation_for_direction(direction: float) -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	if bool(attack_data.get("is_special", false)):
+		var special_reaction := StringName(attack_data.get("special_hit_reaction", &"special_hit"))
+		if _has_visual_animation(special_reaction):
+			return special_reaction
+		if _has_visual_animation(&"special_hit"):
+			return &"special_hit"
 	var cross_reaction := _cross_reaction_for_attack(String(attack_data.get("attack_id", "")))
 	if _has_visual_animation(cross_reaction):
 		return cross_reaction

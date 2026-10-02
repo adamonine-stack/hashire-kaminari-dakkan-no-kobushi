@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/sprite_sheet.png" id="10_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/shadow.png" id="11_shadow"]
 [ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v1/motion_atlas.tres" id="12_motion"]
+
+[ext_resource type="Resource" path="res://data/attacks/leon_crow_reversal.tres" id="reversal"]
 
 [resource]
 script = ExtResource("1_def")
@@ -55,3 +57,5 @@ speed_rating = 4
 health_rating = 5
 throw_rating = 4
 combo_rating = 5
+
+reversal_attack = ExtResource("reversal")

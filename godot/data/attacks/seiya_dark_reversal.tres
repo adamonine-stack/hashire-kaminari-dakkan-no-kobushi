@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "seiya_dark_reversal"
+display_name = "seiya_dark_reversal"
+attack_type = "special"
+attack_category = "special"
+damage_multiplier = 1.5
+is_special = true
+can_interrupt_attack = true
+can_break_combo = true
+can_use_during_hitstun = true
+startup_invulnerability = 0.10
+startup_time = 0.14
+active_time = 0.14
+recovery_time = 0.60
+hitbox_size = Vector2(100, 100)
+hitbox_offset = Vector2(55, 0)
+move_distance = 55.0
+move_duration = 0.14
+knockback = Vector2(280, -180)
+hitstun_time = 0.38
+hitstop_time = 0.10
+is_guardable = true
+guard_damage_multiplier = 0.0
+guard_hit_time = 0.22
+guard_knockback = Vector2(95, 0)
+cooldown = 6.0
+animation_name = "special_attack"
+ai_special_tags = Array[String](["reversal", "counter"])

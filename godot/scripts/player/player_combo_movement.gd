@@ -806,6 +806,7 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
+	special_guard_animation = StringName(attack_data.get("special_guard_reaction", &""))
 	reset_attack_state(false)
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0

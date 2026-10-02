@@ -152,6 +152,13 @@ var max_special_gauge := 100.0
 var special_gauge_cost := 100.0
 var special_ai_use_chance := 0.35
 var special_has_armor := false
+var reversal_elapsed := 0.0
+var reversal_cooldown := 0.0
+var reversal_connected := false
+var reversal_ai_observation := 0.0
+var reversal_ai_checked := false
+var reversal_input_buffer := 0.0
+var reversal_visible_threat_time := 0.0
 
 @export_group("Special Gauge Gain")
 @export var special_gauge_passive_per_second := 0.40
@@ -179,6 +186,28 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if input_enabled and _is_special_input_just_pressed():
+		reversal_input_buffer = dev026_combo_input_buffer_time
+	reversal_cooldown = maxf(reversal_cooldown - delta, 0.0)
+	if hit_stop_timer <= 0.0:
+		if reversal_input_buffer > 0.0:
+			if request_character_special(false):
+				reversal_input_buffer = 0.0
+			else:
+				reversal_input_buffer = maxf(reversal_input_buffer - delta, 0.0)
+		var visible_opponent := _get_opponent()
+		if visible_opponent != null and not String(visible_opponent.get("current_attack_type")).is_empty():
+			reversal_visible_threat_time += delta
+		else:
+			reversal_visible_threat_time = 0.0
+		if is_character_special_busy():
+			reversal_elapsed += delta
+		if is_hit:
+			reversal_ai_observation += delta
+		else:
+			reversal_ai_observation = 0.0
+			reversal_ai_checked = false
+		_try_observed_special_reversal()
 	if is_instance_valid(aura_controller) and aura_controller.busy():
 		aura_controller.advance(delta)
 		return
@@ -291,11 +320,16 @@ func apply_attack_sequence_stats() -> void:
 
 
 func apply_character_special_stats() -> void:
+	reversal_cooldown = 0.0
 	character_special_data = null
+	if fighter_definition != null and fighter_definition.reversal_attack != null:
+		character_special_data = fighter_definition.reversal_attack
 	if fighter_definition != null and not _is_enemy8() and not fighter_definition.special_attack_sequence.is_empty():
 		character_special_data = fighter_definition.special_attack_sequence[0]
 	max_special_gauge = maxf(_definition_float("max_special_gauge", 100.0), 1.0)
 	special_gauge_cost = clampf(_definition_float("special_gauge_cost", 100.0), 1.0, max_special_gauge)
+	if character_special_data != null and character_special_data.special_resource_cost >= 0.0:
+		special_gauge_cost = clampf(character_special_data.special_resource_cost, 0.0, max_special_gauge)
 	special_ai_use_chance = clampf(_definition_float("special_ai_use_chance", 0.35), 0.0, 1.0)
 	special_has_armor = bool(fighter_definition.get("special_has_armor")) if fighter_definition != null else false
 	set_special_gauge(clampf(special_gauge, 0.0, max_special_gauge))
@@ -537,6 +571,8 @@ func _display_type_text() -> String:
 
 
 func _update_profile_ai(delta: float) -> void:
+	if is_character_special_busy():
+		return
 	if is_instance_valid(aura_controller) and aura_controller.choose_distance_action(delta):
 		return
 	if ai_profile == null or name != "Enemy" or input_enabled:
@@ -1226,6 +1262,14 @@ func should_use_character_special() -> bool:
 		return false
 	if evaluate_distance() > _profile_float(&"attack_distance", 55.0) + 35.0:
 		return false
+	var opponent := _get_opponent()
+	if opponent == null:
+		return false
+	# Decisions use visible attacks/recovery, never the opponent's input events.
+	if String(opponent.get("current_attack_type")).is_empty():
+		return false
+	if reversal_visible_threat_time < 0.12:
+		return false
 	return randf() <= special_ai_use_chance
 
 
@@ -1239,11 +1283,17 @@ func request_character_special(is_ai_request := false) -> bool:
 func can_start_character_special(is_ai_request := false) -> bool:
 	if character_special_data == null:
 		return false
+	if reversal_cooldown > 0.0:
+		return false
 	if special_gauge + 0.001 < special_gauge_cost:
 		return false
 	if character_special_state != CharacterSpecialState.NONE or is_boss_special_busy():
 		return false
-	if current_hp <= 0 or not is_round_active or is_hit or is_guard_hit or guard_recoil_timer > 0.0 or _is_throw_busy():
+	if current_hp <= 0 or not is_round_active or is_guard_hit or guard_recoil_timer > 0.0 or _is_throw_busy():
+		return false
+	if is_instance_valid(aura_controller) and aura_controller.busy():
+		return false
+	if is_hit and not character_special_data.can_use_during_hitstun:
 		return false
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return false
@@ -1252,7 +1302,7 @@ func can_start_character_special(is_ai_request := false) -> bool:
 	if _is_knockdown_busy():
 		return false
 	if name == "Enemy":
-		return is_ai_request and can_ai_act()
+		return is_ai_request and ai_enabled and ai_profile != null and _get_opponent() != null and hit_stop_timer <= 0.0
 	return input_enabled and not is_ai_request
 
 
@@ -1261,6 +1311,16 @@ func start_character_special() -> void:
 	if attack_id.is_empty():
 		attack_id = "character_special"
 	set_special_gauge(special_gauge - special_gauge_cost)
+	is_hit = false
+	hit_reaction_timer = 0.0
+	is_invincible = false
+	invincibility_timer = 0.0
+	visual_root.modulate.a = 1.0
+	cancel_current_ai_action()
+	if name == "Enemy": _set_ai_state(EnemyAIState.SPECIAL_ATTACK_REQUEST)
+	reversal_elapsed = 0.0
+	reversal_connected = false
+	reversal_cooldown = maxf(float(character_special_data.cooldown), 0.0)
 	interrupt_combo()
 	reset_attack_state(false)
 	_clear_guard_state()
@@ -1275,6 +1335,8 @@ func start_character_special() -> void:
 	character_special_timer = maxf(float(character_special_data.startup_time), 0.01)
 	disable_character_special_hitbox()
 	_play_character_special_animation(&"special_startup", &"kick_1")
+	_spawn_reversal_effect("startup", character_special_timer)
+	_play_audio_manager_se("special_start")
 	character_special_started.emit(character_special_id)
 	print("[Special] started id=%s" % character_special_id)
 
@@ -1289,6 +1351,8 @@ func enter_character_special_active() -> void:
 	enable_character_special_hitbox()
 	_setup_character_special_movement()
 	_play_character_special_animation(&"special_attack", &"kick_1")
+	_spawn_reversal_effect("active", character_special_timer)
+	_play_audio_manager_se("special_attack")
 	character_special_became_active.emit(character_special_id)
 	print("[Special] active")
 
@@ -1298,7 +1362,10 @@ func enter_character_special_recovery() -> void:
 	stop_character_special_movement()
 	character_special_state = CharacterSpecialState.RECOVERY
 	character_special_timer = maxf(float(character_special_data.recovery_time), 0.01)
+	if not reversal_connected:
+		character_special_timer *= maxf(float(character_special_data.whiff_recovery_multiplier), 1.0)
 	_play_character_special_animation(&"special_recovery", &"idle")
+	_spawn_reversal_effect("finish", 0.12)
 
 
 func finish_character_special() -> void:
@@ -1327,6 +1394,7 @@ func reset_character_special_state(reset_gauge := false) -> void:
 	character_special_id = ""
 	character_special_hit_targets.clear()
 	if reset_gauge:
+		reversal_cooldown = 0.0
 		set_special_gauge(0.0)
 
 
@@ -1477,21 +1545,30 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 		return
 	character_special_hit_targets.append(target)
 	var attack_data := _get_character_special_attack_dictionary()
-	var did_hit: bool = bool(target.receive_attack(attack_data, character_special_direction, _get_hit_position(target), self))
+	var resolver := get_tree().root.get_node_or_null("SpecialContactResolver")
+	if resolver == null:
+		resolver = load("res://scripts/combat/special_contact_resolver.gd").new()
+		resolver.name = "SpecialContactResolver"
+		get_tree().root.add_child(resolver)
+	resolver.enqueue(self, target, attack_data, character_special_direction, _get_hit_position(target))
+
+
+func _complete_special_contact(target: Node, attack_data: Dictionary, point: Vector2, did_hit: bool) -> void:
+	# A guard counts as contact; invulnerability does not count as a guard.
+	reversal_connected = reversal_connected or did_hit or bool(target.get("is_guard_hit"))
 	if did_hit:
-		character_special_hit.emit(character_special_id, target)
-		_spawn_hit_effect(_get_hit_position(target), attack_data["effect_size"])
+		character_special_hit.emit(String(attack_data.attack_id), target)
+		_spawn_hit_effect(point, attack_data["effect_size"])
+		_spawn_reversal_effect("impact", 0.14, point)
 		print("[Special] hit target=%s" % _target_debug_name(target))
 	else:
-		character_special_blocked.emit(character_special_id, target)
+		character_special_blocked.emit(String(attack_data.attack_id), target)
 		print("[Special] blocked")
 
 
 func _get_character_special_attack_dictionary() -> Dictionary:
 	var base_damage := maxi(punch_damage, kick_damage)
-	var multiplier := float(character_special_data.damage_multiplier) if character_special_data != null else 2.8
-	if multiplier <= 1.0:
-		multiplier = 2.8
+	var multiplier := float(character_special_data.damage_multiplier) if character_special_data != null else 1.5
 	var raw_knockback: Vector2 = character_special_data.knockback if character_special_data != null else Vector2(kick_knockback_x * 1.4, -kick_knockback_y * 1.4)
 	var final_knockback := calculate_attack_knockback(Vector2(absf(float(raw_knockback.x)), absf(float(raw_knockback.y))))
 	return {
@@ -1500,7 +1577,12 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"attack_height": "middle",
 		"attack_type": "special",
 		"is_guardable": true,
-		"guard_damage_multiplier": maxf(float(character_special_data.guard_damage_multiplier), 0.20) if character_special_data != null else 0.20,
+		"guard_damage_multiplier": float(character_special_data.guard_damage_multiplier) if character_special_data != null else 0.0,
+		"is_special": true,
+		"can_interrupt_attack": character_special_data.can_interrupt_attack,
+		"can_break_combo": character_special_data.can_break_combo,
+		"special_hit_reaction": character_special_data.special_hit_reaction,
+		"special_guard_reaction": character_special_data.special_guard_reaction,
 		"guard_hit_time": float(character_special_data.guard_hit_time) if character_special_data != null else 0.28,
 		"guard_hitstop_attacker": 0.06,
 		"guard_hitstop_defender": 0.08,
@@ -1508,11 +1590,11 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"knockback_x": final_knockback.x,
 		"knockback_y": final_knockback.y,
 		"hit_stop_frames": 8,
-		"hitstop_attacker": 0.09,
-		"hitstop_defender": 0.13,
+		"hitstop_attacker": float(character_special_data.hitstop_time) * 0.75,
+		"hitstop_defender": float(character_special_data.hitstop_time),
 		"hitstun_time": float(character_special_data.hitstun_time) if character_special_data != null else 0.36,
 		"effect_size": 1.85,
-		"screen_shake": 5.8,
+		"screen_shake": character_special_data.camera_shake,
 		"se_type": "special",
 		"attack_id": character_special_id,
 		"causes_knockdown": String(fighter_definition.fighter_type) == "power" if fighter_definition != null else false,
@@ -1522,11 +1604,11 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 func _play_character_special_animation(primary_name: StringName, fallback_name: StringName) -> void:
 	var animation_name := StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else primary_name
 	if primary_name == &"special_startup":
-		animation_name = &"special_startup"
+		animation_name = character_special_data.special_startup_animation
 	elif primary_name == &"special_attack":
 		animation_name = StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else &"special_attack"
 	elif primary_name == &"special_recovery":
-		animation_name = &"special_recovery"
+		animation_name = character_special_data.special_finish_animation
 	_play_visual_animation(animation_name, true)
 	if uses_animated_character_art:
 		if animation_player != null and animation_player.is_playing():
@@ -1538,6 +1620,18 @@ func _play_character_special_animation(primary_name: StringName, fallback_name: 
 		animation_player.play(String(animation_name))
 	elif animation_player.has_animation(String(fallback_name)):
 		animation_player.play(String(fallback_name))
+
+
+func _spawn_reversal_effect(event: String, seconds: float, point := Vector2.ZERO) -> void:
+	var custom_scene: PackedScene = character_special_data.hit_effect_scene if event == "impact" else character_special_data.effect_scene
+	var effect: Node2D = custom_scene.instantiate() if custom_scene != null else load("res://scripts/combat/reversal_effect.gd").new()
+	if event == "impact":
+		_get_character_effect_parent().add_child(effect)
+		effect.global_position = point
+	else:
+		add_child(effect)
+	if effect.has_method("setup"):
+		effect.setup(self, event, seconds)
 
 
 func gain_special_gauge_for_attack_hit(attack_data: Dictionary) -> void:
@@ -2310,13 +2404,16 @@ func update_boss_special_attack(delta: float) -> void:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	# Reject invulnerable contacts before cancelling any move or forced animation.
+	if not can_receive_attack():
+		return false
 	if is_instance_valid(aura_controller) and aura_controller.busy() and can_receive_attack():
 		aura_controller.cancel()
 	var was_character_special := is_character_special_busy()
-	if was_character_special and not special_has_armor:
+	if was_character_special:
 		interrupt_character_special()
 	var was_boss_special := is_boss_special_busy()
-	if was_boss_special and _should_interrupt_boss_special():
+	if was_boss_special and (bool(attack_data.get("can_interrupt_attack", false)) or _should_interrupt_boss_special()):
 		interrupt_special_attack()
 		return super.receive_attack(attack_data, attack_direction, hit_position, attacker)
 	if was_boss_special and ultimate_interrupt_resistant:
@@ -2334,6 +2431,27 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if was_boss_special and current_hp <= 0:
 		reset_special_attack_state(false)
 	return did_hit
+
+
+func can_receive_attack() -> bool:
+	if is_character_special_busy() and character_special_data != null:
+		if reversal_elapsed < float(character_special_data.startup_invulnerability):
+			return false
+	return super.can_receive_attack()
+
+
+func _try_observed_special_reversal() -> void:
+	if name != "Enemy" or input_enabled or not is_hit or reversal_ai_checked:
+		return
+	if reversal_ai_observation < 0.12 or not can_start_character_special(true):
+		return
+	reversal_ai_checked = true
+	# One decision after a visible hit, with a lower rate for ordinary enemies.
+	var order := int(fighter_definition.enemy_order)
+	var type_factor := 0.30 if order <= 3 else (0.65 if order <= 7 else 1.0)
+	var rate := special_ai_use_chance * type_factor
+	if evaluate_distance() <= _profile_float(&"attack_distance", 55.0) + 35.0 and randf() <= rate:
+		request_character_special(true)
 
 
 func is_boss_special_busy() -> bool:
@@ -2520,11 +2638,11 @@ func _update_visual_state() -> void:
 	if is_character_special_busy():
 		match character_special_state:
 			CharacterSpecialState.STARTUP:
-				_play_visual_animation(&"special_startup")
+				_play_visual_animation(character_special_data.special_startup_animation)
 			CharacterSpecialState.ACTIVE:
 				_play_visual_animation(StringName(character_special_data.animation_name) if character_special_data != null and not String(character_special_data.animation_name).is_empty() else &"special_attack")
 			CharacterSpecialState.RECOVERY:
-				_play_visual_animation(&"special_recovery")
+				_play_visual_animation(character_special_data.special_finish_animation)
 	if is_boss_special_busy():
 		match boss_attack_state:
 			BossAttackState.ULTIMATE_STARTUP:
