@@ -9,12 +9,18 @@ const out=path.resolve(__dirname,'../evidence/web/crusher_'+(mobile?'mobile':'de
  const context=await browser.newContext({viewport:mobile?{width:844,height:390}:{width:1280,height:720},hasTouch:mobile});
  const page=await context.newPage(),logs=[],errors=[],shots=[];
  fs.writeFileSync(path.join(out,'console.log'),'');
- let build='';
+ let build='',screenshotCount=0;
  page.on('console',msg=>{
   const t=msg.text();logs.push(t);fs.appendFileSync(path.join(out,'console.log'),t+'\n');
-  if(t.startsWith('CRUSHER_CAPTURE ') && /_impact$|_down$|_guard_|crusher_ai/.test(t)) {
+  if(t.startsWith('CRUSHER_CAPTURE ')) {
    const label=t.slice('CRUSHER_CAPTURE '.length).replace(/[^\w-]/g,'_');
-   shots.push(page.screenshot({path:path.join(out,label+'.png')}).catch(e=>errors.push(e.message)));
+   const capture=async()=>{
+    if(/_impact$|_down$|_guard_|crusher_ai/.test(t)){
+     await page.screenshot({path:path.join(out,label+'.png')});screenshotCount++;
+    }
+    await page.evaluate(value=>{window.crusherQACaptureDone=value;},label);
+   };
+   shots.push(capture().catch(e=>errors.push(e.message)));
   }
  });
  page.on('pageerror',e=>errors.push(e.message));
@@ -37,7 +43,7 @@ const out=path.resolve(__dirname,'../evidence/web/crusher_'+(mobile?'mobile':'de
   fs.writeFileSync(path.join(out,'errors.json'),JSON.stringify(errors,null,2));
   if(!logs.some(t=>t.includes('SPECIAL_LAUNCH_REACTION_CHECK failures=[]')))throw Error('Published battle QA did not pass');
   if(errors.length||logs.some(t=>/SCRIPT ERROR:|^ERROR:/.test(t)))throw Error('Published battle QA has errors');
-  fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({build,mobile,scenario:'controlled Enemy-to-Player actual Battle.tscn contacts; not manual gameplay',screenshots:shots.length,success:true},null,2));
-  console.log('CRUSHER_PUBLIC_WEB_OK '+build+' '+(mobile?'mobile':'desktop')+' screenshots='+shots.length);
+  fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({build,mobile,scenario:'controlled Enemy-to-Player actual Battle.tscn contacts; not manual gameplay',screenshots:screenshotCount,success:true},null,2));
+  console.log('CRUSHER_PUBLIC_WEB_OK '+build+' '+(mobile?'mobile':'desktop')+' screenshots='+screenshotCount);
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

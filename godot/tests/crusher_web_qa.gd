@@ -25,14 +25,21 @@ func reset(manager: Node, actor: Node, point: Vector2, facing: int) -> void:
 	actor.input_enabled = false
 
 func capture(label: String) -> void:
-	await super.capture(label)
 	if OS.has_feature("web"):
 		var previous_pause := get_tree().paused
 		get_tree().paused = true
+		await super.capture(label)
+		JavaScriptBridge.eval("window.crusherQACaptureDone = ''", true)
 		print("CRUSHER_CAPTURE "+label)
-		await get_tree().create_timer(0.5, true, false, true).timeout
+		var deadline := Time.get_ticks_msec()+20000
+		while JavaScriptBridge.eval("window.crusherQACaptureDone", true) != label:
+			if Time.get_ticks_msec() > deadline:
+				check(false, "browser capture acknowledgement "+label)
+				break
+			await get_tree().create_timer(0.05, true, false, true).timeout
 		get_tree().paused = previous_pause
 	else:
+		await super.capture(label)
 		print("CRUSHER_CAPTURE "+label)
 
 func extra_checks(manager: Node, attacker: Node, target: Node) -> void:

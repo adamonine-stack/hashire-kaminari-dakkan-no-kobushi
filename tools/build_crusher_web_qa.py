@@ -27,13 +27,21 @@ func quit(code: int) -> void:
 source=(tests/'special_launch_reaction_check.gd').read_text(encoding='utf-8')
 (tests/'crusher_web_qa_base.gd').write_text(bridge.replace('    ','\t')+source.removeprefix('extends SceneTree\n'),encoding='utf-8')
 source=(tests/'crusher_reversal_presentation_check.gd').read_text(encoding='utf-8')
-source=source.replace('\tprint("CRUSHER_CAPTURE "+label)', '''\tif OS.has_feature("web"):
+source=source.replace('\tawait super.capture(label)\n\tprint("CRUSHER_CAPTURE "+label)', '''\tif OS.has_feature("web"):
 \t\tvar previous_pause := get_tree().paused
 \t\tget_tree().paused = true
+\t\tawait super.capture(label)
+\t\tJavaScriptBridge.eval("window.crusherQACaptureDone = ''", true)
 \t\tprint("CRUSHER_CAPTURE "+label)
-\t\tawait get_tree().create_timer(0.5, true, false, true).timeout
+\t\tvar deadline := Time.get_ticks_msec()+20000
+\t\twhile JavaScriptBridge.eval("window.crusherQACaptureDone", true) != label:
+\t\t\tif Time.get_ticks_msec() > deadline:
+\t\t\t\tcheck(false, "browser capture acknowledgement "+label)
+\t\t\t\tbreak
+\t\t\tawait get_tree().create_timer(0.05, true, false, true).timeout
 \t\tget_tree().paused = previous_pause
 \telse:
+\t\tawait super.capture(label)
 \t\tprint("CRUSHER_CAPTURE "+label)''')
 (tests/'crusher_web_qa.gd').write_text(source.replace('res://tests/special_launch_reaction_check.gd','res://tests/crusher_web_qa_base.gd'),encoding='utf-8')
 (tests/'crusher_web_qa.tscn').write_text('''[gd_scene load_steps=2 format=3]
