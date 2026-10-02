@@ -141,13 +141,22 @@ func run() -> void:
 			var backflip := bool(packet.get("backflip_on_launch",false))
 			var previous_turn := 0.0
 			var captured_spin := false
+			var captured_prone := false
 			for frame in range(150):
 				await physics_frame
 				check(root.get_camera_2d().zoom.is_equal_approx(camera_zoom_before),label + " no camera enlargement during flight")
 				if backflip and target.knockdown_state == &"KNOCKBACK":
 					check(target.special_backflip_turn >= previous_turn and target.special_backflip_turn <= TAU+0.001,label + " one continuous backward turn")
 					check(is_equal_approx(sprite.rotation,target.special_backflip_turn*direction),label + " backward rotation about body center")
+					check(sprite.flip_h == (direction > 0),label + " victim remains facing Gou")
+					if target.special_backflip_turn > 0 and target.special_backflip_turn < PI/2:
+						check(Vector2.UP.rotated(sprite.rotation).x*direction > 0,label + " head starts rotating away from Gou")
 					previous_turn = target.special_backflip_turn
+					if target.special_backflip_turn >= TAU and not captured_prone:
+						target._update_visual_state()
+						check(sprite.animation == StringName(reaction_prefix + "_down"),label + " prone descent after complete turn")
+						await capture(label + "_prone_descent")
+						captured_prone = true
 					if not captured_spin and target.special_backflip_turn > PI:
 						check_visible_art(sprite,label + " rotating body")
 						await capture(label + "_spin")
@@ -186,8 +195,9 @@ func run() -> void:
 				check(distance < maximum_flight_distance,label + " short ground launch")
 				check(target.special_wall_contacts == 0,label + " Gou lands without wall slam")
 			if backflip:
-				check(captured_spin and is_equal_approx(target.special_backflip_turn,TAU),label + " completes exactly one backflip")
+				check(captured_spin and captured_prone and is_equal_approx(target.special_backflip_turn,TAU),label + " completes exactly one backflip")
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")
+				check(sprite.flip_h == (direction > 0),label + " prone original head faces Gou at landing")
 			check(target.knockdown_state == &"KNOCKDOWN", label + " lands in down state")
 			target._update_visual_state()
 			check(sprite.animation == StringName(reaction_prefix + "_down"), label + " grounded victim pose")

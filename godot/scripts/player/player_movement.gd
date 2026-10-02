@@ -2740,6 +2740,8 @@ func clear_victory_pose() -> void:
 
 
 func _get_current_visual_animation() -> StringName:
+	if _is_knockdown_state(&"KNOCKBACK") and bool(get("special_backflip_enabled")) and float(get("special_backflip_turn")) >= TAU:
+		if _has_visual_animation(last_knockdown_animation): return last_knockdown_animation
 	if _is_knockdown_state(&"KNOCKBACK") and String(get("special_wall_phase")) == "impact":
 		var wall_clip := StringName(get("last_special_wall_animation"))
 		if _has_visual_animation(wall_clip): return wall_clip

@@ -6,40 +6,28 @@
   "baseline": 260,
   "frames": [
     {
-      "source": "art_sources\\gou_received_v1\\enemy_01_standard\\hit.png",
-      "scale": 0.2485157699443413,
-      "source_anchor_x": 715.0,
+      "source": "art_sources\\gou_received_v2\\enemy_01_standard\\hit.png",
+      "scale": 0.22354806408544722,
+      "source_anchor_x": 791.0,
       "support": [
-        113,
+        142,
         69,
-        286,
+        258,
         260
       ],
-      "sha256": "9407bca49f2c39cf3cfab8f9dd77a04d49b860fb9cf8c05cd1987fc797c8caef"
+      "sha256": "7579be7f4e2e0a8ff533ee4d0c9a7e3cd6b8038e58ad5d7d23dcd9a86a8e99c1"
     },
     {
-      "source": "art_sources\\gou_received_v1\\enemy_01_standard\\air.png",
-      "scale": 0.2485157699443413,
-      "source_anchor_x": 658.5,
+      "source": "art_sources\\gou_received_v2\\enemy_01_standard\\down.png",
+      "scale": 0.12596491945375746,
+      "source_anchor_x": 988.5,
       "support": [
-        75,
-        69,
-        324,
+        89,
+        220,
+        310,
         260
       ],
-      "sha256": "83cc4b68e579a4d98646554627656f7180a4eec8117b081d532ea9cf02ee5f34"
-    },
-    {
-      "source": "art_sources\\gou_received_v1\\enemy_01_standard\\down.png",
-      "scale": 0.2485157699443413,
-      "source_anchor_x": 757.5,
-      "support": [
-        43,
-        127,
-        357,
-        260
-      ],
-      "sha256": "d20a35372843caa3198ccf5c8aed0c67f03421fc3bf549b81424d55ea53e69ae"
+      "sha256": "19559cde30f351c0b710baa56b32c1c6600040728504e994aefa4e4ccc603b29"
     }
   ]
 }

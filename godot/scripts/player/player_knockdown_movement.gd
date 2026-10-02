@@ -111,6 +111,12 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		last_knockdown_animation = &""
 
 	last_damage_animation = _get_damage_animation_from_attack(attack_data)
+	if bool(attack_data.get("backflip_on_launch",false)):
+		# All Gou reaction originals face right; lock the victim toward Gou.
+		var toward_gou := -signf(attack_direction)
+		if attacker != null: toward_gou = signf(attacker.global_position.x-global_position.x)
+		if toward_gou != 0.0: facing_direction = toward_gou
+		_set_visual_facing()
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
@@ -499,9 +505,9 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 	special_backflip_turn = 0.0
 	if special_backflip_enabled:
 		special_backflip_direction = signf(velocity.x)
-		# One turn completes just before the level-floor ballistic landing.
+		# Complete one turn first, then use the prone pose during the final descent.
 		# Rotate the Sprite about its body center, never the ground/feet origin.
-		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(gravity,1.0)-0.03)
+		special_backflip_duration = maxf(0.1,2.0*absf(velocity.y)/maxf(gravity,1.0)*0.85)
 	if not bool(attack_data.get("is_special",false)) or not bool(attack_data.get("wall_slam",false)): return
 	special_wall_phase = "fly"
 	special_wall_contacts = 0

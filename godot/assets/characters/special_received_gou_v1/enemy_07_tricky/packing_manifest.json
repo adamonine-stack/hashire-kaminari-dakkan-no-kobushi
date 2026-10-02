@@ -6,40 +6,28 @@
   "baseline": 269,
   "frames": [
     {
-      "source": "art_sources\\gou_received_v1\\enemy_07_tricky\\hit.png",
-      "scale": 0.2389551192145862,
-      "source_anchor_x": 770.0,
+      "source": "art_sources\\gou_received_v2\\enemy_07_tricky\\hit.png",
+      "scale": 0.2035543608124253,
+      "source_anchor_x": 749.0,
       "support": [
-        125,
+        139,
         99,
-        259,
+        246,
         269
       ],
-      "sha256": "4ab761f4eeda3851d9cd08e14655711ad43ca91f21d646aeb633e247f4ffd434"
+      "sha256": "895a9d7f5f3f84fa4685430a4c966f3107ea1a67748fdc19d2ebedbcab0ee7c3"
     },
     {
-      "source": "art_sources\\gou_received_v1\\enemy_07_tricky\\air.png",
-      "scale": 0.2389551192145862,
-      "source_anchor_x": 902.5,
+      "source": "art_sources\\gou_received_v2\\enemy_07_tricky\\down.png",
+      "scale": 0.13185144683714667,
+      "source_anchor_x": 854.0,
       "support": [
-        104,
-        92,
-        279,
+        94,
+        232,
+        290,
         269
       ],
-      "sha256": "db38ce2f8e05b8bf2a2b05d8156df50ce55da35324b8885aae184b4cacf68034"
-    },
-    {
-      "source": "art_sources\\gou_received_v1\\enemy_07_tricky\\down.png",
-      "scale": 0.2389551192145862,
-      "source_anchor_x": 742.5,
-      "support": [
-        44,
-        160,
-        341,
-        269
-      ],
-      "sha256": "facb3366a66d7470fdb1b1ca166c77905c981f34f412b541019e62a9966c9d06"
+      "sha256": "dbdf80fec1ea640baf4ba430bd71d1da00f8d4ac66e338816506c67d37775d27"
     }
   ]
 }

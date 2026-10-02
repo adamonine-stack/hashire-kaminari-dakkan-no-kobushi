@@ -6,40 +6,28 @@
   "baseline": 270,
   "frames": [
     {
-      "source": "art_sources\\gou_received_v1\\enemy_09_seiya\\hit.png",
-      "scale": 0.24677313498140446,
-      "source_anchor_x": 778.0,
+      "source": "art_sources\\gou_received_v2\\enemy_09_seiya\\hit.png",
+      "scale": 0.20475585405699762,
+      "source_anchor_x": 774.5,
       "support": [
-        138,
+        146,
         109,
-        246,
+        237,
         270
       ],
-      "sha256": "59eafe4d6206db8b8c0d3be77f8e4c66862da869ec115be7e11eedf187468d5a"
+      "sha256": "4683eaf3110fc2333cf584519aa6851a8f4e5841801fd6455adbef350ac63b38"
     },
     {
-      "source": "art_sources\\gou_received_v1\\enemy_09_seiya\\air.png",
-      "scale": 0.24677313498140446,
-      "source_anchor_x": 896.5,
+      "source": "art_sources\\gou_received_v2\\enemy_09_seiya\\down.png",
+      "scale": 0.12529701535786728,
+      "source_anchor_x": 942.5,
       "support": [
-        115,
-        107,
-        270,
+        99,
+        239,
+        285,
         270
       ],
-      "sha256": "4274af4623c1cef74344f0e4e8b14ea400649055f2948b68c4dcaacd940c28bc"
-    },
-    {
-      "source": "art_sources\\gou_received_v1\\enemy_09_seiya\\down.png",
-      "scale": 0.24677313498140446,
-      "source_anchor_x": 734.5,
-      "support": [
-        74,
-        174,
-        310,
-        270
-      ],
-      "sha256": "eff86a7484875eaa1606d66a08addf83ef57be3c21fd8f94defce126a324eb50"
+      "sha256": "b0a6a08042d3c29d3bafbf900071487f3720102b436a5f20265e9723738bd851"
     }
   ]
 }

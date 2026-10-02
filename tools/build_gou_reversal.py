@@ -15,7 +15,7 @@ for name,atlas in [('gou','assets/characters/player02/animations/gou_v1/motion_a
     width,height = map(int,re.search(r'cell_size = Vector2i\((\d+),\s*(\d+)\)',text).groups())
     Image.open(GODOT/texture).crop((0,0,width,height)).save(REFS/(name+'.png'))
 
-def pack(source_folder, destination, reference, names, clips, calibration=1.0, anchors=None, density_adjustment=1.0):
+def pack(source_folder, destination, reference, names, clips, calibration=1.0, anchors=None, density_adjustment=1.0, normalize_prone=False):
     reference = Image.open(reference).convert('RGBA')
     rb = reference.getchannel('A').point(lambda a: 255 if a >= 128 else 0).getbbox()
     poses = []
@@ -26,7 +26,14 @@ def pack(source_folder, destination, reference, names, clips, calibration=1.0, a
         poses.append((im, bounds, path))
     initial = poses[0][1]
     density = (rb[3]-rb[1]) / ((initial[3]-initial[1])*calibration)*density_adjustment
-    width = max(reference.width, int((max((b[2]-b[0])*density for _,b,_ in poses)+31)//32)*32+32)
+    pose_densities = [density]*len(poses)
+    if normalize_prone:
+        # The independently drawn prone original has a different source resolution.
+        # Match its anatomical head-to-feet span to the upright body's height,
+        # allowing 15% for extended hands. Never stretch a low pose to idle height.
+        prone = poses[1][1]
+        pose_densities[1] *= (initial[3]-initial[1])*1.15/(prone[2]-prone[0])
+    width = max(reference.width, int((max((b[2]-b[0])*d for (_,b,_),d in zip(poses,pose_densities))+31)//32)*32+32)
     if anchors:
         width = max(width, int((2*max(max(x-b[0],b[2]-x)*density for x,(_,b,_) in zip(anchors,poses))+31)//32)*32+32)
     height = reference.height
@@ -34,6 +41,7 @@ def pack(source_folder, destination, reference, names, clips, calibration=1.0, a
     atlas = Image.new('RGBA', (width*len(poses),height))
     records = []
     for i,(im,b,path) in enumerate(poses):
+        density = pose_densities[i]
         anchor = anchors[i] if anchors else (b[0]+b[2])/2
         ox = round(width/2-anchor*density)
         oy = baseline-round(b[3]*density)
@@ -68,9 +76,9 @@ path = pack(ROOT/'art_sources/gou_reversal_v1',GODOT/'assets/characters/player02
     REFS/'gou.png',['startup','step','active','finish'],
     {'gou_reversal_startup':([0,1],2/.14),'gou_reversal_breaker':([2],1/.20),'gou_reversal_finish':([3],1/.58)},1.08,[750,780,780,835])
 attach(GODOT/'data/fighters/ally_power.tres',path,'gou_reversal')
-path = pack(ROOT/'art_sources/gou_received_v1/enemy_01_standard',GODOT/'assets/characters/special_received_gou_v1/enemy_01_standard',
-    REFS/'crusher.png',['hit','air','down'],
-    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1],10),'received_gou_breaker_down':([2],5)},1.12,density_adjustment=0.94)
+path = pack(ROOT/'art_sources/gou_received_v2/enemy_01_standard',GODOT/'assets/characters/special_received_gou_v1/enemy_01_standard',
+    REFS/'crusher.png',['hit','down'],
+    {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],10),'received_gou_breaker_down':([1],5)},1.12,density_adjustment=0.94,normalize_prone=True)
 fighter = GODOT/'data/enemies/enemy_01_standard.tres'
 attach(fighter,path,'received_gou')
 text = fighter.read_text(encoding='utf-8')
@@ -82,18 +90,18 @@ text = attack.read_text(encoding='utf-8').replace('animation_name = "special_iro
 if 'special_startup_animation =' not in text:
     text += '\nspecial_startup_animation = &"gou_reversal_startup"\nspecial_finish_animation = &"gou_reversal_finish"\n'
 attack.write_text(text,encoding='utf-8')
-print('GOU_REVERSAL_PACK_OK attacker_poses=4 victim_poses=3')
+print('GOU_REVERSAL_PACK_OK attacker_poses=4 victim_poses=2')
 reference_manifest = ROOT/'evidence/special_reaction_refs/manifest.json'
 if reference_manifest.exists():
     for ref in json.loads(reference_manifest.read_text()):
         name = ref['name']
         if name == 'enemy_01_standard': continue
-        source = ROOT/'art_sources/gou_received_v1'/name
-        if not all((source/(phase+'.png')).exists() for phase in ['hit','air','down']):
+        source = ROOT/'art_sources/gou_received_v2'/name
+        if not all((source/(phase+'.png')).exists() for phase in ['hit','down']):
             raise FileNotFoundError(f'Missing dedicated Gou reactions: {name}')
         path = pack(source,GODOT/'assets/characters/special_received_gou_v1'/name,
-            Path(ref['reference']),['hit','air','down'],
-            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0,1],10),'received_gou_breaker_down':([2],5)},1.12,density_adjustment=0.94)
+            Path(ref['reference']),['hit','down'],
+            {'received_gou_breaker_hit':([0],8),'received_gou_breaker_air':([0],10),'received_gou_breaker_down':([1],5)},1.12,density_adjustment=0.94,normalize_prone=True)
         fighter = GODOT/ref['fighter']
         attach(fighter,path,'received_gou')
         text = fighter.read_text(encoding='utf-8')
@@ -102,4 +110,4 @@ if reference_manifest.exists():
         reactions['player2_special_iron_breaker'] = dict(hit='received_gou_breaker_hit',airborne='received_gou_breaker_air',down='received_gou_breaker_down')
         text = text[:match.start(1)] + json.dumps(reactions) + text[match.end(1):]
         fighter.write_text(text,encoding='utf-8')
-    print('GOU_ALL_ENEMY_REACTIONS_OK enemies=9 original_poses=27')
+    print('GOU_ALL_ENEMY_REACTIONS_OK enemies=9 original_poses=18')
