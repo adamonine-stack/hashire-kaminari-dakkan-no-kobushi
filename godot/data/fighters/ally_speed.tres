@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=17 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -19,6 +19,8 @@
 [ext_resource type="Resource" path="res://assets/characters/player03/animations/cross_reactions/reactions.tres" id="cross_reactions"]
 
 [ext_resource type="Resource" path="res://assets/characters/player03/animations/somersault_v1/motion_atlas.tres" id="seiya_somersault"]
+
+[ext_resource type="Resource" path="res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.tres" id="received_crusher"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -203,4 +205,6 @@ health_rating = 3
 throw_rating = 3
 combo_rating = 5
 
-extra_motion_atlases = Array[Resource]([ExtResource("seiya_somersault")])
+extra_motion_atlases = Array[Resource]([ExtResource("seiya_somersault"), ExtResource("received_crusher")])
+
+special_damage_reactions = {"crusher_fault_break": {"hit": "received_crusher_hammer_hit", "airborne": "received_crusher_hammer_air", "down": "received_crusher_hammer_down"}}

@@ -30,6 +30,7 @@ var special_wall_contacts := 0
 var last_special_wall_animation: StringName = &""
 var last_special_wall_fall_animation: StringName = &""
 var special_wall_screen_limits := Vector2.ZERO
+var special_keep_flight_in_view := false
 var special_backflip_enabled := false
 var special_backflip_elapsed := 0.0
 var special_backflip_duration := 0.0
@@ -368,7 +369,7 @@ func _lock_special_flight_camera() -> void:
 	while controller != null:
 		if controller.has_method("begin_special_flight_camera"):
 			var limits: Vector2 = controller.begin_special_flight_camera(self)
-			if special_wall_phase == "fly": special_wall_screen_limits = limits
+			if special_wall_phase == "fly" or special_keep_flight_in_view: special_wall_screen_limits = limits
 			return
 		controller = controller.get_parent()
 
@@ -484,6 +485,7 @@ func reset_knockdown_state() -> void:
 	special_wall_timer = 0.0
 	special_wall_contacts = 0
 	special_wall_screen_limits = Vector2.ZERO
+	special_keep_flight_in_view = false
 	last_special_wall_animation = &""
 	last_special_wall_fall_animation = &""
 	special_reaction_edge_padding = Vector2.ZERO
@@ -538,7 +540,7 @@ func _clamp_special_reaction_art() -> void:
 	if special_reaction_edge_padding == Vector2.ZERO or knockdown_state == &"GET_UP": return
 	var left := stage_left_limit + maxf(fighter_body_half_width,special_reaction_edge_padding.x)+8.0
 	var right := stage_right_limit - maxf(fighter_body_half_width,special_reaction_edge_padding.y)-8.0
-	if special_wall_phase != "" and special_wall_screen_limits != Vector2.ZERO:
+	if special_wall_screen_limits != Vector2.ZERO:
 		left = special_wall_screen_limits.x + maxf(fighter_body_half_width,special_reaction_edge_padding.x)+8.0
 		right = special_wall_screen_limits.y - maxf(fighter_body_half_width,special_reaction_edge_padding.y)-8.0
 	if left >= right: return
@@ -548,6 +550,7 @@ func _clamp_special_reaction_art() -> void:
 	if (global_position.x <= left and velocity.x < 0) or (global_position.x >= right and velocity.x > 0): velocity.x = 0.0
 
 func _begin_special_wall_launch(attack_data: Dictionary) -> void:
+	special_keep_flight_in_view = bool(attack_data.get("keep_special_flight_in_view",false))
 	special_wall_phase = ""
 	special_wall_contacts = 0
 	special_backflip_enabled = bool(attack_data.get("is_special",false)) and bool(attack_data.get("backflip_on_launch",false))

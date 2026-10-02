@@ -1,0 +1,73 @@
+{
+  "reference": "art_sources/crusher_reversal_v1/references/seiya.png",
+  "sheet_sha256": "e78573b555597a9d8187bd643075cbe72589ef9ea9e8c107cc7e45418475dc00",
+  "method": "corrected idle opaque anatomical body area; common canvas and baseline; constant runtime scale",
+  "baseline": 318,
+  "frames": [
+    {
+      "pose": "hit",
+      "density": 0.3571548839118101,
+      "origin": [
+        198,
+        171
+      ],
+      "size": [
+        117,
+        147
+      ],
+      "relative_body_area": 0.998190334255908
+    },
+    {
+      "pose": "air",
+      "density": 0.34431921995348325,
+      "origin": [
+        190,
+        171
+      ],
+      "size": [
+        133,
+        147
+      ],
+      "relative_body_area": 0.9992548435171386
+    },
+    {
+      "pose": "down",
+      "density": 0.382538082255519,
+      "origin": [
+        140,
+        257
+      ],
+      "size": [
+        233,
+        61
+      ],
+      "relative_body_area": 0.9980838833297849
+    },
+    {
+      "pose": "guard_impact",
+      "density": 0.3800274613542141,
+      "origin": [
+        204,
+        154
+      ],
+      "size": [
+        105,
+        164
+      ],
+      "relative_body_area": 1.0044709388971684
+    },
+    {
+      "pose": "guard_hold",
+      "density": 0.37082349396393466,
+      "origin": [
+        202,
+        139
+      ],
+      "size": [
+        108,
+        179
+      ],
+      "relative_body_area": 0.9965935703640622
+    }
+  ]
+}

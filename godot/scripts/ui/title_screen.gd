@@ -39,6 +39,13 @@ var orientation_overlay: PanelContainer
 
 
 func _ready() -> void:
+	# Private fresh-browser QA fixtures use the normal Web startup because release
+	# templates disable command-line scene overrides. Ordinary saves never set this.
+	var qa_path := "user://qa/crusher_reversal.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(qa_path) and FileAccess.get_file_as_string(qa_path).strip_edges() == "crusher_reversal_v1":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/crusher_web_qa.tscn")
+		return
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = false
 	_build_title_layout()

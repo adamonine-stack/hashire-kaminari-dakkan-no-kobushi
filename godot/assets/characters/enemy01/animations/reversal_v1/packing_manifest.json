@@ -1,0 +1,60 @@
+{
+  "reference": "art_sources/crusher_reversal_v1/references/crusher.png",
+  "sheet_sha256": "6e4899ede931f1708c3ac5d4f864048ac6f9811ee1ec814bf9e13288d6fa87e1",
+  "method": "corrected idle opaque anatomical body area; common canvas and baseline; constant runtime scale",
+  "baseline": 312,
+  "frames": [
+    {
+      "pose": "anticipation",
+      "density": 0.3967533078913937,
+      "origin": [
+        171,
+        90
+      ],
+      "size": [
+        170,
+        222
+      ],
+      "relative_body_area": 0.9973374121912532
+    },
+    {
+      "pose": "windup",
+      "density": 0.37897795731472733,
+      "origin": [
+        174,
+        53
+      ],
+      "size": [
+        164,
+        259
+      ],
+      "relative_body_area": 0.9973940629956946
+    },
+    {
+      "pose": "hammer",
+      "density": 0.38824635391575996,
+      "origin": [
+        154,
+        111
+      ],
+      "size": [
+        203,
+        201
+      ],
+      "relative_body_area": 0.9950147292091548
+    },
+    {
+      "pose": "finish",
+      "density": 0.40567483021806944,
+      "origin": [
+        170,
+        89
+      ],
+      "size": [
+        172,
+        223
+      ],
+      "relative_body_area": 0.9996600951733514
+    }
+  ]
+}
