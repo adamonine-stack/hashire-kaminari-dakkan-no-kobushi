@@ -26,7 +26,14 @@ func reset(manager: Node, actor: Node, point: Vector2, facing: int) -> void:
 
 func capture(label: String) -> void:
 	await super.capture(label)
-	print("CRUSHER_CAPTURE "+label)
+	if OS.has_feature("web"):
+		var previous_pause := get_tree().paused
+		get_tree().paused = true
+		print("CRUSHER_CAPTURE "+label)
+		await get_tree().create_timer(0.5, true, false, true).timeout
+		get_tree().paused = previous_pause
+	else:
+		print("CRUSHER_CAPTURE "+label)
 
 func extra_checks(manager: Node, attacker: Node, target: Node) -> void:
 	for definition in victim_definitions:

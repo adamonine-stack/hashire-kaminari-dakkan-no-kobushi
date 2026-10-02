@@ -13,6 +13,7 @@ var paused: bool:
     set(value): get_tree().paused = value
 
 func _ready() -> void:
+    process_mode = Node.PROCESS_MODE_ALWAYS
     print("CRUSHER_WEB_QA_READY")
     get_tree().process_frame.connect(func(): process_frame.emit())
     get_tree().physics_frame.connect(func(): physics_frame.emit())
@@ -26,6 +27,14 @@ func quit(code: int) -> void:
 source=(tests/'special_launch_reaction_check.gd').read_text(encoding='utf-8')
 (tests/'crusher_web_qa_base.gd').write_text(bridge.replace('    ','\t')+source.removeprefix('extends SceneTree\n'),encoding='utf-8')
 source=(tests/'crusher_reversal_presentation_check.gd').read_text(encoding='utf-8')
+source=source.replace('\tprint("CRUSHER_CAPTURE "+label)', '''\tif OS.has_feature("web"):
+\t\tvar previous_pause := get_tree().paused
+\t\tget_tree().paused = true
+\t\tprint("CRUSHER_CAPTURE "+label)
+\t\tawait get_tree().create_timer(0.5, true, false, true).timeout
+\t\tget_tree().paused = previous_pause
+\telse:
+\t\tprint("CRUSHER_CAPTURE "+label)''')
 (tests/'crusher_web_qa.gd').write_text(source.replace('res://tests/special_launch_reaction_check.gd','res://tests/crusher_web_qa_base.gd'),encoding='utf-8')
 (tests/'crusher_web_qa.tscn').write_text('''[gd_scene load_steps=2 format=3]
 [ext_resource type="Script" path="res://tests/crusher_web_qa.gd" id="1"]

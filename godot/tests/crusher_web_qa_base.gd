@@ -9,6 +9,7 @@ var paused: bool:
 	set(value): get_tree().paused = value
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	print("CRUSHER_WEB_QA_READY")
 	get_tree().process_frame.connect(func(): process_frame.emit())
 	get_tree().physics_frame.connect(func(): physics_frame.emit())
