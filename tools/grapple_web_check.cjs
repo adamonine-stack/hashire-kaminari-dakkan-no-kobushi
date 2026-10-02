@@ -43,7 +43,7 @@ const out=path.resolve(__dirname,'../evidence/web/grapple_'+(mobile?'mobile':'de
   fs.writeFileSync(path.join(out,'errors.json'),JSON.stringify(errors,null,2));
   if(!logs.some(t=>t.includes('GRAPPLE_MOTION_INTEGRITY_RESULT')&&t.includes('failures=[]')))throw Error('Published battle QA did not pass');
   if(errors.length||logs.some(t=>/SCRIPT ERROR:|^ERROR:/.test(t)))throw Error('Published battle QA has errors');
-  fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({build,mobile,scenagrapple:'Stage6 and Stage7 thirty grappling cases, three allies, both facings, walls, escape, whiff and KO; not manual gameplay',screenshots:screenshotCount,success:true},null,2));
+  fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({build,mobile,scenario:'Stage6 and Stage7 thirty grappling cases, three allies, both facings, walls, escape, whiff and KO; not manual gameplay',screenshots:screenshotCount,success:true},null,2));
   console.log('GRAPPLE_PUBLIC_WEB_OK '+build+' '+(mobile?'mobile':'desktop')+' screenshots='+screenshotCount);
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});
