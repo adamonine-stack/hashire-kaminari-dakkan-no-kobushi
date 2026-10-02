@@ -1,0 +1,56 @@
+{
+  "cell": [
+    320,
+    224
+  ],
+  "baseline": 208,
+  "reference_area": 8446,
+  "reference_height": 172,
+  "frames": [
+    {
+      "index": 0,
+      "name": "hit",
+      "scale": 0.4434389559511623,
+      "offset": [
+        87,
+        63
+      ],
+      "size": [
+        146,
+        145
+      ],
+      "opaque_area": 8469,
+      "relative_area": 1.0027231825716316
+    },
+    {
+      "index": 1,
+      "name": "air",
+      "scale": 0.40826037507247853,
+      "offset": [
+        75,
+        99
+      ],
+      "size": [
+        169,
+        109
+      ],
+      "opaque_area": 8411,
+      "relative_area": 0.9958560265214302
+    },
+    {
+      "index": 2,
+      "name": "down",
+      "scale": 0.41867218933813455,
+      "offset": [
+        51,
+        142
+      ],
+      "size": [
+        217,
+        66
+      ],
+      "opaque_area": 8489,
+      "relative_area": 1.0050911674165286
+    }
+  ]
+}

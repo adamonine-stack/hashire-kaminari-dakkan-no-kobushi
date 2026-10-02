@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384, 288)
+columns = 3
+clips = {"received_shadow_counter_hit": {"frames": [0], "fps": 10, "loop": false}, "received_shadow_counter_air": {"frames": [1], "fps": 10, "loop": false}, "received_shadow_counter_down": {"frames": [2], "fps": 10, "loop": false}}

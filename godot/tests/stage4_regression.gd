@@ -66,7 +66,7 @@ func run() -> void:
 	for clip in atlas.clips:
 		check(sprite.sprite_frames.has_animation(clip), "authored clip " + clip)
 		for index in atlas.clips[clip].frames:
-			check(index >= 0 and index < 56, "valid frame in " + clip)
+			check(index >= 0 and index < 64, "valid frame in " + clip)
 	check(not sprite.sprite_frames.get_animation_loop("ko"), "KO holds final pose")
 	for side in [-1, 1]:
 		enemy.facing_direction = side

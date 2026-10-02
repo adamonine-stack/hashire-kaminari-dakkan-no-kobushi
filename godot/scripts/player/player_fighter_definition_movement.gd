@@ -1547,6 +1547,7 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 		_start_throw()
 		if cross_special:
 			cross_throw_variant = 5
+			cross_muei_throw_active = true
 		else:
 			teki_throw_variant = 1
 		_connect_throw(target)
@@ -2661,12 +2662,11 @@ func _play_audio_manager_se(se_id: String) -> bool:
 
 
 func _update_visual_state() -> void:
-	# Base movement selects its ordinary clip first. Preserve Leon's authored
-	# special progress when that temporary base clip is replaced in this update.
-	var preserve_leon_special := (_is_enemy8() or _uses_readable_grapple()) and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
-	var previous_animation: StringName = animated_character_sprite.animation if preserve_leon_special else &""
-	var previous_frame: int = animated_character_sprite.frame if preserve_leon_special else 0
-	var previous_progress: float = animated_character_sprite.frame_progress if preserve_leon_special else 0.0
+	# Preserve reviewed special progress across the base animation update.
+	var preserve_authored_special := (_is_enemy8() or _uses_readable_grapple() or _is_cross_grappler() or character_special_id == "shadow_slip_counter") and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
+	var previous_animation: StringName = animated_character_sprite.animation if preserve_authored_special else &""
+	var previous_frame: int = animated_character_sprite.frame if preserve_authored_special else 0
+	var previous_progress: float = animated_character_sprite.frame_progress if preserve_authored_special else 0.0
 	super._update_visual_state()
 	if is_character_special_busy():
 		match character_special_state:
@@ -2694,7 +2694,7 @@ func _update_visual_state() -> void:
 				_play_visual_animation(&"ultimate_recovery")
 			_:
 				_play_visual_animation(&"special")
-	if preserve_leon_special and animated_character_sprite.animation == previous_animation:
+	if preserve_authored_special and animated_character_sprite.animation == previous_animation:
 		animated_character_sprite.set_frame_and_progress(previous_frame,previous_progress)
 	if name != "Enemy" or ai_profile == null or not debug_state_label_enabled or state_label == null:
 		return

@@ -1,0 +1,56 @@
+{
+  "cell": [
+    320,
+    224
+  ],
+  "baseline": 208,
+  "reference_area": 8446,
+  "reference_height": 172,
+  "frames": [
+    {
+      "index": 0,
+      "name": "held",
+      "scale": 0.41074009865109795,
+      "offset": [
+        84,
+        81
+      ],
+      "size": [
+        151,
+        127
+      ],
+      "opaque_area": 8425,
+      "relative_area": 0.9975136159128581
+    },
+    {
+      "index": 1,
+      "name": "air",
+      "scale": 0.37142252251417873,
+      "offset": [
+        81,
+        97
+      ],
+      "size": [
+        157,
+        111
+      ],
+      "opaque_area": 8418,
+      "relative_area": 0.9966848212171442
+    },
+    {
+      "index": 2,
+      "name": "down",
+      "scale": 0.40702925308605437,
+      "offset": [
+        52,
+        129
+      ],
+      "size": [
+        215,
+        79
+      ],
+      "opaque_area": 8447,
+      "relative_area": 1.0001183992422449
+    }
+  ]
+}

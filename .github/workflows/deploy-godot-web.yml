@@ -110,6 +110,23 @@ jobs:
             grep -q 'GRAPPLE_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/grapple-web-qa.log
             if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/grapple-web-qa.log; then exit 1; fi
 
+            python3 tools/build_cross_web_qa.py
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/cross_web_qa.tscn 2>&1 | tee /tmp/cross-web-qa.log
+            grep -q 'CROSS_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/cross-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/cross-web-qa.log; then exit 1; fi
+            python3 tools/build_muei_web_qa.py
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/muei_web_qa.tscn 2>&1 | tee /tmp/muei-web-qa.log
+            grep -q 'CROSS_MUEI_RESULT.*failures=\[\]' /tmp/muei-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/muei-web-qa.log; then exit 1; fi
+
+            python3 tools/build_shadow_web_qa.py
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/shadow_web_qa.tscn 2>&1 | tee /tmp/shadow-web-qa.log
+            grep -q 'SHADOW_MOTION_INTEGRITY_RESULT.*failures=\[\]' /tmp/shadow-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/shadow-web-qa.log; then exit 1; fi
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/counter_web_qa.tscn 2>&1 | tee /tmp/counter-web-qa.log
+            grep -q 'SPECIAL_LAUNCH_REACTION_CHECK.*failures=\[\]' /tmp/counter-web-qa.log
+            if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/counter-web-qa.log; then exit 1; fi
+
       - name: Verify Japanese UI font
         shell: bash
         run: |

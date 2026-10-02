@@ -113,6 +113,11 @@ func _draw() -> void:
 			for i in range(3): draw_arc(Vector2(0,25-i*20),r*0.6,PI,TAU,24,Color(0.7,0.3,1),3)
 
 func _draw_body_aura() -> void:
+	if style == "enemy_02_shadow_boxer":
+		# Keep the cap, gloves and counterpunch silhouette readable.
+		draw_arc(Vector2(0,-45),95.0,0,TAU,48,Color(tint,0.25),2.0,true)
+		draw_arc(Vector2(0,62),42.0,0,TAU,32,Color(tint,0.40),2.0,true)
+		return
 	var progress := elapsed / duration
 	var pulse := 1.0 + 0.04 * sin(progress * TAU * 2.0)
 	draw_texture_rect(AURA_TEXTURE,Rect2(Vector2(-95,-170)*pulse,Vector2(190,245)*pulse),false,Color(tint,0.30 if style == "player_03_seiya" else 0.8))
@@ -151,6 +156,10 @@ func _draw_body_aura() -> void:
 		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(1,1,1,0.9), 4.0, true)
 
 func _draw_special_impact() -> void:
+	if style == "enemy_02_shadow_boxer":
+		var counter_radius := 22.0+elapsed/duration*25.0
+		draw_arc(Vector2.ZERO,counter_radius,0,TAU,32,Color(tint,0.65),2.0,true)
+		return
 	var progress := elapsed / duration
 	var radius := 42.0 + progress * 65.0
 	draw_texture_rect(IMPACT_TEXTURE,Rect2(Vector2.ONE*-radius*1.35,Vector2.ONE*radius*2.7),false,Color(tint,0.9))

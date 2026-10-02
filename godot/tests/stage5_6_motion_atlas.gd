@@ -7,7 +7,7 @@ const CASES := [
 		"stage_path": "res://data/stages/stage_05_shadow.tres",
 		"fighter_id": &"enemy_02_shadow_boxer",
 		"display_name": "シャドウボクサー",
-		"atlas_path": "res://assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.tres",
+		"atlas_path": "res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.tres",
 		"cell": Vector2i(320, 256),
 	},
 	{
@@ -55,7 +55,7 @@ func _review_fighter(case: Dictionary) -> void:
 	_check(fighter.motion_atlas == atlas, "%s fighter uses its dedicated authored atlas" % case.label)
 	_check(atlas.columns == 8, "%s atlas uses eight fixed columns" % case.label)
 	_check(atlas.cell_size == case.cell, "%s atlas cells have a fixed design size" % case.label)
-	_check(atlas.frame_regions.size() == (0 if case.fighter_id == &"enemy_06_rio_flick_garcia" else 56), "%s measures seven physical source rows" % case.label)
+	_check(atlas.frame_regions.size() == 0, "%s measures seven physical source rows" % case.label)
 	for region in atlas.frame_regions:
 		_check(Rect2i(Vector2i.ZERO, atlas.texture.get_image().get_size()).encloses(region), "%s measured source region stays in the original image" % case.label)
 
@@ -83,7 +83,7 @@ func _review_fighter(case: Dictionary) -> void:
 			var frame: Texture2D = sprite_frames.get_frame_texture(clip, index)
 			_check(frame is AtlasTexture, "%s clip %s frame %d uses a fixed atlas cell" % [case.label, clip, index])
 			if frame is AtlasTexture:
-				_check(frame.atlas.get_width() == 2560 and frame.atlas.get_height() == (2304 if case.fighter_id == &"enemy_06_rio_flick_garcia" else 1792), "%s clip %s frame %d uses the measured fixed-cell runtime atlas" % [case.label, clip, index])
+				_check(frame.atlas.get_width() == 2560 and frame.atlas.get_height() == (2304 if case.fighter_id == &"enemy_06_rio_flick_garcia" else 2048), "%s clip %s frame %d uses the measured fixed-cell runtime atlas" % [case.label, clip, index])
 				_check(Vector2i(frame.region.size) == atlas.cell_size, "%s clip %s frame %d keeps cell dimensions" % [case.label, clip, index])
 				_check(frame.region.position.x >= 0.0 and frame.region.position.y >= 0.0, "%s clip %s frame %d starts inside the atlas" % [case.label, clip, index])
 				_check(frame.region.end.x <= frame.atlas.get_width() and frame.region.end.y <= frame.atlas.get_height(), "%s clip %s frame %d stays inside the runtime atlas" % [case.label, clip, index])

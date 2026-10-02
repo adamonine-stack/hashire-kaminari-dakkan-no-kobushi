@@ -232,10 +232,15 @@ func _complete_throw_hit() -> void:
 		last_damage_animation = &"grapple_air"
 		last_special_knockback_animation = &"grapple_air"
 		last_knockdown_animation = &"grapple_down"
-	if is_instance_valid(attacker) and attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler():
+	if is_instance_valid(attacker) and attacker.has_method("_is_cross_muei_throw") and attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_air"):
+		last_damage_animation = &"cross_muei_air"
+		last_special_knockback_animation = &"cross_muei_air"
+		last_knockdown_animation = &"cross_muei_down"
+	elif is_instance_valid(attacker) and attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler():
 		var reaction: StringName = &"cross_react_shoulder" if attacker.cross_throw_variant in [0, 4, 5] else &"cross_react_reap"
 		if _has_visual_animation(reaction):
 			last_damage_animation = reaction
+			last_special_knockback_animation = reaction
 			last_knockdown_animation = StringName(String(reaction) + "_down")
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
@@ -254,7 +259,9 @@ func _complete_throw_hit() -> void:
 		attacker._play_throw_se()
 
 	if current_hp <= 0:
+		var muei_down := last_knockdown_animation == &"cross_muei_down"
 		reset_knockdown_state()
+		if muei_down: last_knockdown_animation = &"cross_muei_down"
 		_play_ko_feedback(hit_position, signf(throw_velocity.x))
 		return
 
@@ -827,15 +834,15 @@ func _update_special_headfirst_ground(delta: float) -> void:
 	if sprite.flip_h: center.x = -center.x
 	var goal := sprite.global_position+center*sprite.scale
 	var settling_center := special_headfirst_anchor
-	if _is_rio_garcia():
+	if _is_rio_garcia() or _is_shadow_boxer():
 		var current_texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
 		settling_center = Vector2(current_texture.get_image().get_used_rect().get_center())-current_texture.get_size()*0.5
 		if sprite.flip_h: settling_center.x = -settling_center.x
 	var actual := sprite.global_transform*(settling_center+sprite.offset)
-	var settle_start := 0.0 if _is_rio_garcia() else 0.65
+	var settle_start := 0.0 if (_is_rio_garcia() or _is_shadow_boxer()) else 0.65
 	var shift := (goal-actual)*smoothstep(settle_start,1.0,progress)
-	if _is_rio_garcia():
-		# Rio uses a non-unit Sprite scale: basis_xform_inv assumes an orthonormal basis.
+	if _is_rio_garcia() or _is_shadow_boxer():
+		# These fighters use a non-unit Sprite scale: basis_xform_inv assumes an orthonormal basis.
 		sprite.offset += sprite.global_transform.affine_inverse().basis_xform(shift)
 	else:
 		sprite.offset += sprite.global_transform.basis_xform_inv(shift)
