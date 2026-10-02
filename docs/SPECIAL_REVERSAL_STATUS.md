@@ -93,6 +93,10 @@ HitStun中の必殺技受付をデータで許可。開始0.10秒だけ接触を
 
 ## 14. Effect
 
+追加依頼に対応し、全12定義の発動/Active/Finishに全身オーラ、足元リング、上昇光を追加。Activeには白い前方軌跡、Hitには白い放射閃光と拡大衝撃波を追加。既存のキャラクター別線演出は保持し、色を青/金/紫/赤へ分けた。Hit持続0.28秒、Finish0.22秒。HitStop中は演出時間も停止する。共通戦闘テスト成功、12定義×4局面の非headless描画48枚を確認。手動実戦確認ではない。
+
+ユーザーの補足により、被弾/ダウン要件は「攻撃した必殺技に対応する、受けた各キャラクターの反応」であると確認。現在のアッキー自身の汎用special_hit/downではアッキーの肘打ちを受けた敵側の専用反応を満たさない。攻撃技×受け手に対応した素材と選択経路は未実装であり、次の対応対象とする。
+
 開始/Active/Hit/Finishの呼び出しポイントを追加。アッキーの稲妻線、ゴウの地面リング、セイヤの速度線、Crusherの地面亀裂、Shadowの残像円弧、Masatoの掌打線、Reiの上昇円弧、Crossの交差線、Rioの連続軌跡、Tekiの爪線、Leonの大型Aura、敵セイヤの紫円弧を描画する。Hit時はPower/Speed/Boss/その他で形状を変える。HitStop中はEffectの時間も停止する。カスタムeffect_scene/hit_effect_sceneへ拡張可能。音声は既存special_start/special_attack、Hitは既存special音声経路へ接続。Camera Shake/HitStopもMoveDataから取得する。
 
 ## 15. Enemy AI

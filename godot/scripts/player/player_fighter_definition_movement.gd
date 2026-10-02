@@ -1365,7 +1365,7 @@ func enter_character_special_recovery() -> void:
 	if not reversal_connected:
 		character_special_timer *= maxf(float(character_special_data.whiff_recovery_multiplier), 1.0)
 	_play_character_special_animation(&"special_recovery", &"idle")
-	_spawn_reversal_effect("finish", 0.12)
+	_spawn_reversal_effect("finish", 0.22)
 
 
 func finish_character_special() -> void:
@@ -1559,7 +1559,7 @@ func _complete_special_contact(target: Node, attack_data: Dictionary, point: Vec
 	if did_hit:
 		character_special_hit.emit(String(attack_data.attack_id), target)
 		_spawn_hit_effect(point, attack_data["effect_size"])
-		_spawn_reversal_effect("impact", 0.14, point)
+		_spawn_reversal_effect("impact", 0.28, point)
 		print("[Special] hit target=%s" % _target_debug_name(target))
 	else:
 		character_special_blocked.emit(String(attack_data.attack_id), target)

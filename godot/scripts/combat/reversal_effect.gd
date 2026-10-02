@@ -10,11 +10,20 @@ var tint := Color(0.5, 0.85, 1.0)
 func setup(actor: Node, event: String, seconds: float) -> void:
 	source = weakref(actor)
 	style = String(actor.fighter_definition.fighter_id)
+	tint = _style_color()
 	phase = event
 	duration = maxf(seconds, 0.05)
 	z_index = 20
 	scale.x = actor.facing_direction
 	if event != "impact": position = Vector2(0, -65)
+	queue_redraw()
+
+func _style_color() -> Color:
+	match style:
+		"player_02_gou", "enemy_01_crusher", "enemy_03_masato_takahashi": return Color(1.0, 0.65, 0.18)
+		"enemy_05_cross_murasame", "enemy_07_teki_fighter", "enemy_09_seiya": return Color(0.8, 0.35, 1.0)
+		"enemy_06_rio_flick_garcia", "enemy_08_leon_crow": return Color(1.0, 0.35, 0.18)
+		_: return Color(0.25, 0.85, 1.0)
 
 func _process(delta: float) -> void:
 	var actor: Node = source.get_ref() if source != null else null
@@ -29,10 +38,14 @@ func _process(delta: float) -> void:
 	if elapsed >= duration:
 		queue_free()
 		return
-	modulate.a = (1.0 - elapsed / duration) * 0.75
+	modulate.a = pow(1.0 - elapsed / duration, 0.65)
 	queue_redraw()
 
 func _draw() -> void:
+	if phase == "impact":
+		_draw_special_impact()
+	else:
+		_draw_body_aura()
 	var r := 12.0 + elapsed / duration * 42.0
 	if phase == "impact":
 		if style in ["player_02_gou", "enemy_01_crusher"]:
@@ -79,3 +92,41 @@ func _draw() -> void:
 			draw_line(Vector2(0,-r),Vector2(r,-30),tint,3)
 		"enemy_09_seiya":
 			for i in range(3): draw_arc(Vector2(0,25-i*20),r*0.6,PI,TAU,24,Color(0.7,0.3,1),3)
+
+func _draw_body_aura() -> void:
+	var progress := elapsed / duration
+	var strength := 1.15 if phase == "active" else 1.0
+	if phase == "finish": strength = 0.85
+	var contour := PackedVector2Array()
+	for i in range(49):
+		var angle := float(i) * TAU / 48.0
+		var ripple := 1.0 + 0.07 * sin(angle * 9.0 + progress * TAU)
+		contour.append(Vector2(cos(angle) * 60.0, sin(angle) * 105.0) * ripple * strength + Vector2(0,-38))
+	# Transparent interior keeps the character pose legible; the bright rim signals the special.
+	draw_colored_polygon(contour, Color(tint, 0.10))
+	draw_polyline(contour, Color(tint, 0.20), 15.0, true)
+	draw_polyline(contour, Color(tint, 0.75), 4.0, true)
+	for i in range(9):
+		var x := -64.0 + i * 16.0
+		var y := 50.0 - fmod(progress * 125.0 + i * 23.0, 150.0)
+		draw_line(Vector2(x,y), Vector2(x * 0.83,y-22), Color(tint,0.85), 3.0, true)
+	var ring := PackedVector2Array()
+	for i in range(49):
+		var angle := float(i) * TAU / 48.0
+		ring.append(Vector2(cos(angle) * (68.0 + progress * 15.0), sin(angle) * 13.0 + 62.0))
+	draw_polyline(ring, Color(tint,0.8), 3.0, true)
+	if phase == "active":
+		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(tint,0.25), 18.0, true)
+		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(1,1,1,0.9), 4.0, true)
+
+func _draw_special_impact() -> void:
+	var progress := elapsed / duration
+	var radius := 42.0 + progress * 65.0
+	draw_circle(Vector2.ZERO, radius * 0.65, Color(tint,0.16))
+	draw_arc(Vector2.ZERO, radius, 0, TAU, 48, Color(tint,0.3), 14.0, true)
+	draw_arc(Vector2.ZERO, radius, 0, TAU, 48, tint, 4.0, true)
+	draw_arc(Vector2.ZERO, radius * 0.65, 0, TAU, 40, Color(1,1,1,0.9), 3.0, true)
+	for i in range(10):
+		var direction := Vector2.RIGHT.rotated(i * TAU / 10.0 + 0.15)
+		draw_line(direction * radius * 0.28, direction * radius * 1.25, Color(tint,0.35), 10.0, true)
+		draw_line(direction * radius * 0.28, direction * radius * 1.25, Color(1,1,1,0.95), 3.0, true)

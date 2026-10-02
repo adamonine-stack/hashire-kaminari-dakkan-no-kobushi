@@ -7,6 +7,7 @@ func _initialize() -> void:
 
 func capture(label: String) -> void:
 	await process_frame
+	await process_frame
 	RenderingServer.force_draw(false)
 	root.get_texture().get_image().save_png(output.path_join(label + ".png"))
 
@@ -30,6 +31,11 @@ func run() -> void:
 		"enemies/enemy_04_throw", "enemies/enemy_05_power", "enemies/enemy_06_combo",
 		"enemies/enemy_07_tricky", "enemies/enemy_08_boss", "enemies/enemy_09_seiya"]
 	for definition in definitions:
+		# Remove the previous controlled case's effect nodes before swapping actors.
+		for node in root.find_children("*", "Node2D", true, false):
+			if node.get_script() == load("res://scripts/combat/reversal_effect.gd"):
+				node.queue_free()
+		await process_frame
 		player.apply_character_data(load("res://data/%s.tres" % definition))
 		manager.reset_active_fighter_state(player, Vector2(580,520), 1, player.max_hp)
 		manager.reset_active_fighter_state(enemy, Vector2(710,520), -1, enemy.max_hp)
@@ -53,6 +59,10 @@ func run() -> void:
 		await capture(definition.get_file() + "_finish")
 		player.finish_character_special()
 	print("SPECIAL_VISUAL_CAPTURE_OK characters=12 screenshots=48")
+	for audio in root.find_children("*", "AudioStreamPlayer", true, false): audio.stop()
+	for audio in root.find_children("*", "AudioStreamPlayer2D", true, false): audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit()
