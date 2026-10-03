@@ -310,6 +310,13 @@ jobs:
           timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage7_8_motion_atlas.gd 2>&1 | tee /tmp/stage7-8-motion.log
           grep -q "STAGE7_8_MOTION_ATLAS_OK.*fixed_scale=true night_backdrops=true" /tmp/stage7-8-motion.log
 
+      - name: Verify published main theme and audio transitions
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "$GODOT_PROJECT_DIR/audio/music/st_action_theme.ogg"
+          timeout 180s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/theme_music_check.gd 2>&1 | tee /tmp/theme-music.log
+          grep -F 'failures=[]' /tmp/theme-music.log
       - name: Export Web build
         shell: bash
         run: |

@@ -33,6 +33,7 @@ var explosion := false
 var alarm := false
 var timing_scale := 1.0 # Set before entering tree by QA only; normal playback is real time.
 var auto_return := true
+var theme_completed := false
 const AURA := preload("res://assets/effects/special_v1/aura.png")
 
 func _ready() -> void:
@@ -40,11 +41,16 @@ func _ready() -> void:
 	_build()
 	_layout()
 	get_viewport().size_changed.connect(_layout)
-	get_node("/root/AudioManager").stop_bgm()
+	get_node("/root/AudioManager").music_finished.connect(_on_music_finished)
+	get_node("/root/AudioManager").fade_out()
 	_run()
 
 func _input(_event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
+
+func _on_music_finished(music_id: String) -> void:
+	if music_id == get_node("/root/AudioManager").THEME_ID:
+		theme_completed = true
 
 func _exit_tree() -> void:
 	for player in sound_players.values():
@@ -184,7 +190,7 @@ func _run() -> void:
 	effects.hide()
 	_stop_sound("explosion")
 	_stop_sound("engine")
-	get_node("/root/AudioManager").play_bgm("true_ending")
+	get_node("/root/AudioManager").play_ending_theme()
 	await _cg("dawn", 8.0, true)
 	await _fade(1.0, 2.0)
 	_stop_sound("waves")
@@ -193,6 +199,17 @@ func _run() -> void:
 	_record_completion()
 	_beat("credits")
 	await _credits()
+	# Preserve the autonomous film and allow the whole song to finish.
+	# QA with auto_return=false keeps the existing short sequence.
+	var audio := get_node("/root/AudioManager")
+	if auto_return and audio.current_bgm_id == audio.THEME_ID:
+		title_card.text = "TRUE ENDING"
+		title_card.modulate.a = 1.0
+		title_card.show()
+		# playing can become false a frame before AudioStreamPlayer.finished.
+		# Do not start title playback until the old track's signal is delivered.
+		while not theme_completed and audio.current_bgm_id == audio.THEME_ID:
+			await get_tree().process_frame
 	_beat("complete")
 	if auto_return: get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
@@ -228,7 +245,13 @@ func _credits() -> void:
 	roll.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	roll.z_index = 12
 	var tween := create_tween()
-	tween.tween_property(roll, "position:y", -1150.0, 30.0 * timing_scale)
+	var roll_duration := 30.0 * timing_scale
+	var audio := get_node("/root/AudioManager")
+	if auto_return and audio.is_music_playing(audio.THEME_ID):
+		roll_duration = maxf(roll_duration, audio.bgm_player.stream.get_length() - audio.bgm_player.get_playback_position() - 1.0)
+	# Credit contributors can grow without clipping the last line of the roll.
+	var final_y := -maxf(1150.0, roll.get_combined_minimum_size().y + 50.0)
+	tween.tween_property(roll, "position:y", final_y, roll_duration)
 	await tween.finished
 	roll.queue_free()
 	await _wait(1.0)

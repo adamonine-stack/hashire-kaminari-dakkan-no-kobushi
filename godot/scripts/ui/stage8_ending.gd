@@ -62,7 +62,9 @@ func _ready() -> void:
 	_build(living)
 	_layout()
 	get_viewport().size_changed.connect(_layout)
-	_audio("play_bgm", "final_boss")
+	# Route G still owns its final-boss music and deliberate silence cue.
+	if route == "G": _audio("play_bgm", "final_boss")
+	else: get_node("/root/AudioManager").play_ending_theme("final_boss")
 	_show_page()
 	print("[%s] ENDING route=%s mio=%s ren=%s" % [ENDING_VERSION, route, living.has(HERO_IDS[0]), living.has(HERO_IDS[1])])
 
@@ -82,6 +84,7 @@ func advance() -> void:
 	if terminal_card:
 		finished = true
 		_record_completion()
+		await get_node("/root/AudioManager").fade_out()
 		get_tree().change_scene_to_file("res://scenes/Title.tscn")
 		return
 	if story_label.visible_characters >= 0 and story_label.visible_characters < story_label.get_total_character_count():
@@ -145,7 +148,7 @@ func _execute_event(event_name: String) -> void:
 				actors[actor_name].character_visual_controller.play_animation(&"guard", true)
 			await get_tree().create_timer(0.5).timeout
 		"normal_end", "bad_end":
-			_audio("stop_bgm")
+			# Keep the main theme playing through the end card until return.
 			var fade := create_tween()
 			fade.tween_property(veil, "color:a", 1.0, 0.8)
 			await fade.finished
