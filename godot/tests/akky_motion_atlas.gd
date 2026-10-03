@@ -65,6 +65,14 @@ func run() -> void:
 				check(teki_rect.has_area() and teki_rect.position.x >= 3 and teki_rect.position.y >= 3 and teki_rect.end.x <= 509 and teki_rect.end.y <= 445,clip + ": unclipped Teki receiver")
 				checked += 1
 				continue
+			if String(clip).begins_with("received_cross_muei_guard"):
+				var cross_atlas = load("res://assets/characters/cross_special_guard_v1/ally_balance/motion_atlas.tres")
+				check(texture is AtlasTexture and texture.atlas == cross_atlas.texture,clip + ": dedicated Cross receiver original")
+				check(texture.get_size() == Vector2(512,448),clip + ": Cross receiver canvas")
+				var cross_rect := texture.get_image().get_used_rect()
+				check(cross_rect.has_area() and cross_rect.position.x >= 3 and cross_rect.position.y >= 3 and cross_rect.end.x <= 509 and cross_rect.end.y <= 445,clip + ": unclipped Cross receiver")
+				checked += 1
+				continue
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(320,224)), clip + ": common cell")

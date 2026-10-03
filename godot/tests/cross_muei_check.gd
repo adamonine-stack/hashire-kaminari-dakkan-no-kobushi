@@ -131,7 +131,15 @@ func run() -> void:
 					check(not victim.is_throw_locked and not victim.is_throw_escape_pending,"grip lock clears after "+mode)
 					await capture("stage%d_%s_%d_complete" % [stage+1,mode,direction])
 				cases_checked += 1
+	await extra_reversal_checks(manager,actor,victim)
 	print("CROSS_MUEI_RESULT cases=%d screenshots=%d failures=%s" % [cases_checked,screenshots,failures])
+	for audio in root.find_children("*","AudioStreamPlayer",true,false):audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false):audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
+
+func extra_reversal_checks(_manager: Node,_actor: Node,_victim: Node) -> void:
+	pass

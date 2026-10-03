@@ -152,6 +152,11 @@ func _draw_body_aura() -> void:
 			draw_line(Vector2(85*side,-55),Vector2(55*side,10),Color(tint,0.35),2.0,true)
 		draw_arc(Vector2(0,62),48.0,0,TAU,32,Color(tint,0.4),2.0,true)
 		return
+	if style == "enemy_05_cross_murasame":
+		# Sparse grip arcs preserve the jacket, fringe, chain and both hands.
+		if phase == "startup":draw_arc(Vector2(30,-8),23.0,PI*0.5,PI*1.6,20,Color(tint,0.45),2.0,true)
+		if phase == "finish":draw_arc(Vector2(0,62),38.0,0,TAU,24,Color(tint,0.25),2.0,true)
+		return
 	if style == "enemy_07_teki_fighter":
 		# Startup charge sits beside the coiled hand; no full-body aura.
 		if phase == "startup":

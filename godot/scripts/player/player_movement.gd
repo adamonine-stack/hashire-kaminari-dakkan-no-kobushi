@@ -601,6 +601,7 @@ func _start_kick(is_combo_attack := false) -> void:
 
 
 var cross_muei_throw_active := false
+var cross_muei_recovery_time := 0.0
 var cross_throw_variant := 0
 var cross_throw_sequence := 0
 const CROSS_THROW_NAMES := ["seoi", "osoto", "harai", "uchimata", "sode", "rotate"]
@@ -611,6 +612,7 @@ var teki_throw_sequence := 0
 
 func _start_throw() -> void:
 	cross_muei_throw_active = false
+	cross_muei_recovery_time = 0.0
 	if _is_cross_grappler():
 		cross_throw_variant = cross_throw_sequence % CROSS_THROW_NAMES.size()
 		cross_throw_sequence += 1
@@ -800,13 +802,14 @@ func _complete_throw_escape() -> void:
 
 
 func enter_throw_escape_recovery(escaped_target: Node) -> void:
+	var special_recovery := cross_muei_recovery_time if cross_muei_throw_active else 0.0
 	cross_muei_throw_active = false
 	interrupt_combo()
 	is_throwing = false
 	is_throw_locked = true
 	is_throw_escaping = true
 	throw_state = "THROW_ESCAPE"
-	throw_recovery_timer = throw_escape_recovery_time
+	throw_recovery_timer = maxf(throw_escape_recovery_time,special_recovery)
 	current_throw_target = null
 	has_throw_connected = false
 	has_throw_damage_applied = false
@@ -926,7 +929,7 @@ func _release_throw() -> void:
 		current_throw_target._complete_throw_hit()
 	apply_throw_regrab_lock()
 	throw_state = "THROW_RECOVERY"
-	throw_recovery_timer = throw_recovery_time
+	throw_recovery_timer = maxf(throw_recovery_time,cross_muei_recovery_time) if cross_muei_throw_active else throw_recovery_time
 	current_throw_target = null
 
 
@@ -941,6 +944,7 @@ func _fail_throw() -> void:
 
 func _finish_throw() -> void:
 	cross_muei_throw_active = false
+	cross_muei_recovery_time = 0.0
 	is_throwing = false
 	is_throw_locked = false
 	is_throw_escape_pending = false

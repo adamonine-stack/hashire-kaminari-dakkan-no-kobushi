@@ -3,6 +3,7 @@ Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
 [FONT] Japanese UI font active: Noto Sans JP
 Game progress initialized
 [DEV033] Player select opened
+[Music] play=clear position=0.00
 BGM: WinBGM
 [DEV035] Character data loaded: player_01_akky
 [DEV035] Type: Balance
@@ -11,11 +12,14 @@ BGM: WinBGM
 [DEV035] Punch damage: 11
 [DEV035] Kick damage: 15
 [STAGE8_TRUE_ENDING_V1] ENDING route=A mio=true ren=false
+[Music] play=st_action_theme position=0.00
 [STAGE8_TRUE_ENDING_V1] END_CARD route=A card=TO BE CONTINUED…
+[Music] play=st_action_theme position=0.00
 STAGE8_ROUTE_CHECK route=A done
 Game progress initialized
 [DEV033] Player select opened
 BGM: WinBGM
+[Music] play=clear position=0.00
 [DEV035] Character data loaded: player_02_gou
 [DEV035] Type: Power
 [DEV035] HP: 130
@@ -23,11 +27,14 @@ BGM: WinBGM
 [DEV035] Punch damage: 18
 [DEV035] Kick damage: 25
 [STAGE8_TRUE_ENDING_V1] ENDING route=B mio=false ren=true
+[Music] play=st_action_theme position=0.00
 [STAGE8_TRUE_ENDING_V1] END_CARD route=B card=TO BE CONTINUED…
+[Music] play=st_action_theme position=0.00
 STAGE8_ROUTE_CHECK route=B done
 Game progress initialized
 [DEV033] Player select opened
 BGM: WinBGM
+[Music] play=clear position=0.00
 [DEV035] Character data loaded: player_03_seiya
 [DEV035] Type: Technical
 [DEV035] HP: 92
@@ -35,11 +42,14 @@ BGM: WinBGM
 [DEV035] Punch damage: 9
 [DEV035] Kick damage: 13
 [STAGE8_TRUE_ENDING_V1] ENDING route=C mio=false ren=false
+[Music] play=st_action_theme position=0.00
 [STAGE8_TRUE_ENDING_V1] END_CARD route=C card=BAD END
+[Music] play=st_action_theme position=0.00
 STAGE8_ROUTE_CHECK route=C done
 Game progress initialized
 [DEV033] Player select opened
 BGM: WinBGM
+[Music] play=clear position=0.00
 [DEV035] Character data loaded: player_01_akky
 [DEV035] Type: Balance
 [DEV035] HP: 100
@@ -53,11 +63,14 @@ BGM: WinBGM
 [DEV035] Punch damage: 18
 [DEV035] Kick damage: 25
 [STAGE8_TRUE_ENDING_V1] ENDING route=D mio=true ren=true
+[Music] play=st_action_theme position=0.00
 [STAGE8_TRUE_ENDING_V1] END_CARD route=D card=TO BE CONTINUED…
+[Music] play=st_action_theme position=0.00
 STAGE8_ROUTE_CHECK route=D done
 Game progress initialized
 [DEV033] Player select opened
 BGM: WinBGM
+[Music] play=clear position=0.00
 [DEV035] Character data loaded: player_01_akky
 [DEV035] Type: Balance
 [DEV035] HP: 100
@@ -71,11 +84,14 @@ BGM: WinBGM
 [DEV035] Punch damage: 9
 [DEV035] Kick damage: 13
 [STAGE8_TRUE_ENDING_V1] ENDING route=E mio=true ren=false
+[Music] play=st_action_theme position=0.00
 [STAGE8_TRUE_ENDING_V1] END_CARD route=E card=TO BE CONTINUED…
+[Music] play=st_action_theme position=0.00
 STAGE8_ROUTE_CHECK route=E done
 Game progress initialized
 [DEV033] Player select opened
 BGM: WinBGM
+[Music] play=clear position=0.00
 [DEV035] Character data loaded: player_02_gou
 [DEV035] Type: Power
 [DEV035] HP: 130
@@ -89,11 +105,14 @@ BGM: WinBGM
 [DEV035] Punch damage: 9
 [DEV035] Kick damage: 13
 [STAGE8_TRUE_ENDING_V1] ENDING route=F mio=false ren=true
+[Music] play=st_action_theme position=0.00
 [STAGE8_TRUE_ENDING_V1] END_CARD route=F card=TO BE CONTINUED…
+[Music] play=st_action_theme position=0.00
 STAGE8_ROUTE_CHECK route=F done
 Game progress initialized
 [DEV033] Player select opened
 BGM: WinBGM
+[Music] play=clear position=0.00
 [DEV035] Character data loaded: player_01_akky
 [DEV035] Type: Balance
 [DEV035] HP: 100
@@ -112,6 +131,7 @@ BGM: WinBGM
 [DEV035] Move speed: 265
 [DEV035] Punch damage: 9
 [DEV035] Kick damage: 13
+[Music] play=final_boss position=0.00
 [STAGE8_TRUE_ENDING_V1] ENDING route=G mio=true ren=true
 Game progress initialized
 [ROTATION] Fighter selected for stage 9: player_01_akky
@@ -130,6 +150,7 @@ Game progress initialized
 [DEV035] Punch damage: 18
 [DEV035] Kick damage: 24
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=secret_boss position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_09_seiya
 DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
@@ -229,6 +250,7 @@ Game progress initialized
 [DEV035] Punch damage: 18
 [DEV035] Kick damage: 24
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=secret_boss position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_09_seiya
 DARK_AURA_START target=(320.0, 520.0) cooldown=2.8

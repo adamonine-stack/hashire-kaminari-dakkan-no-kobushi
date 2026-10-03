@@ -19,6 +19,7 @@ Game progress initialized
 [DEV035] Punch damage: 6
 [DEV035] Kick damage: 8
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_01_crusher
 [DEV036] Attack started: fallback_punch
@@ -172,6 +173,7 @@ KO detected
 Enemy defeated: enemy_01_crusher
 BGM: WinBGM
 STAGE 1 CLEAR
+[Music] play=clear position=0.00
 [DEV041][GameFlow] Restart confirmed
 [DEV041][GameFlow] Battle cleanup completed
 Game progress initialized
@@ -196,6 +198,7 @@ Game progress initialized
 [DEV033] Enemy target updated: player_01_akky
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_01_crusher
+[Music] play=battle position=0.00
 [DEV054][enemy_01_crusher] Jump selected
 [DEV036] Attack started: fallback_punch
 [DEV037][enemy_01_crusher] Attack selected: punch

@@ -19,6 +19,7 @@ Game progress initialized
 [DEV035] Punch damage: 6
 [DEV035] Kick damage: 8
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_01_crusher
 [DEV036] Attack started: player1_punch_1
@@ -348,6 +349,7 @@ KO detected
 Enemy defeated: enemy_04_rei_kageyama
 BGM: WinBGM
 STAGE 2 CLEAR
+[Music] play=clear position=0.00
 [DEV041][GameFlow] Restart confirmed
 [DEV041][GameFlow] Battle cleanup completed
 Game progress initialized
@@ -373,5 +375,3 @@ BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_01_crusher
 [DEV041][GameFlow] Battle cleanup completed
 STAGE2_REGRESSION failures=[]
-WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2535)

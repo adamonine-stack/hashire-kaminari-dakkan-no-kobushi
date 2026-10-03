@@ -1,0 +1,76 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[Special] gauge_full
+[Special] started id=player1_special_thunder_drive
+[Special] active
+Damage: 23
+HP: 85
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+SPECIAL_FLIGHT enemy_05_power_R distance=434.4 height=92.0
+Damage: 3
+HP: 105
+[Special] gauge_changed=24
+[Special] gauge_changed=32
+[DEV062][enemy_05_cross_murasame] Guard success -> counter armed
+[Special] gauge_full
+[Special] started id=player1_special_thunder_drive
+[Special] active
+Damage: 23
+HP: 85
+[Special] gauge_changed=44
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+SPECIAL_FLIGHT enemy_05_power_L distance=394.1 height=84.3
+Damage: 3
+HP: 105
+[Special] gauge_changed=57
+[Special] gauge_changed=65
+[DEV062][enemy_05_cross_murasame] Guard success -> counter armed
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+Damage: 23
+HP: 85
+[Special] gauge_changed=77
+KNOCKDOWN HIT
+Damage: 23
+HP: 85
+[Special] gauge_changed=89
+KNOCKDOWN HIT
+Damage: 23
+HP: 85
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+Damage: 23
+HP: 85
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+AKKY_WALL_RANGE_CHECK cases=36 failures=[]
+Damage: 23
+HP: 0
+HP reached 0
+SPECIAL_LAUNCH_REACTION_CHECK failures=[] screenshots=0

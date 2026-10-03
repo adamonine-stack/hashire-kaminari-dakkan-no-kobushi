@@ -1,0 +1,80 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+CRUSHER_WEB_QA_READY
+Game progress initialized
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV033] Enemy target updated: player_01_akky
+DARK_AURA_START target=(430.0, 520.0) cooldown=2.8
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_changed=24
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_05_power_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 2288 }, { "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2341 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_changed=37
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_changed=49
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_05_power_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 2382 }, { "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2407 }]
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+DARK_AURA_START target=(340.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(340.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+Damage: 26
+HP: 973
+[Special] gauge_changed=9
+DARK_AURA_HIT count=1
+STAGE9_TWO_HIT_RESULT cases=2 frames=0 screenshots=0 failures=[]
+SPECIAL_LAUNCH_REACTION_CHECK failures=[]
+CRUSHER_WEB_QA_EXIT code=0
