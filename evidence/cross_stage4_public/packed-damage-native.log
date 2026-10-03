@@ -1,0 +1,34 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 - Build 32.0.101.6737 - Compatibility - Using Device: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+CROSS_PUBLIC_PACK_PROJECT_BINARY=true
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+Damage: 5
+HP: 103
+[Special] gauge_changed=6
+Damage: 5
+HP: 103
+[Special] gauge_changed=12
+Damage: 5
+HP: 103
+[Special] gauge_changed=24
+KNOCKDOWN HIT
+Damage: 5
+HP: 103
+[Special] gauge_changed=31
+Damage: 5
+HP: 103
+[Special] gauge_changed=37
+Damage: 5
+HP: 103
+[Special] gauge_changed=49
+KNOCKDOWN HIT
+CROSS_STAGE4_DAMAGE_PRESENTATION_OK frames=291 screenshots=129 failures=[]

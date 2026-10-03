@@ -40,8 +40,10 @@ evidence/cross_stage4_audit/audit_page_01.jpg
 evidence/cross_stage4_audit/audit_page_02.jpg
 evidence/cross_stage4_audit/audit_page_03.jpg
 evidence/cross_stage4_audit/compact_native.log
+evidence/cross_stage4_audit/cross-changed-files.txt
 evidence/cross_stage4_audit/down_proportions_comparison.png
 evidence/cross_stage4_audit/frames.json
+evidence/cross_stage4_audit/git-status-before-commit.txt
 evidence/cross_stage4_audit/metrics.json
 evidence/cross_stage4_damage/pose_down_00_L.png
 evidence/cross_stage4_damage/pose_down_00_R.png
