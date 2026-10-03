@@ -246,6 +246,8 @@ func _resolve_directional_move(command: Dictionary) -> String:
 
 func _request_directional_move(move_id: String, is_ai_request := false) -> bool:
 	var move := _get_attack_data(move_id)
+	if move != null and String(move.attack_type) == "throw":
+		return _request_directional_throw(move, is_ai_request)
 	if move == null or not _can_accept_attack_input(is_ai_request):
 		return false
 	if bool(move.ground_only) and not is_on_floor():
@@ -357,8 +359,131 @@ func _dev_start_kick() -> void:
 
 
 func _start_throw() -> void:
+	directional_throw_data = null
 	interrupt_combo()
 	super._start_throw()
+
+
+var directional_throw_data: PlayerAttackData
+var directional_throw_origin := Vector2.ZERO
+var directional_throw_victim_origin := Vector2.ZERO
+var directional_throw_facing := 1.0
+var directional_throw_elapsed := 0.0
+
+
+func _request_directional_throw(move: PlayerAttackData, is_ai_request := false) -> bool:
+	if not is_ai_request and not input_enabled:
+		return false
+	# Down is a command, so allow it to leave the crouch pose before grabbing.
+	var crouched := is_crouching
+	is_crouching = false
+	if is_backstepping or is_character_special_busy() or not _can_start_throw():
+		is_crouching = crouched
+		return false
+	_start_throw()
+	directional_throw_data = move
+	directional_throw_origin = global_position
+	directional_throw_facing = facing_direction
+	directional_throw_elapsed = 0.0
+	throw_startup_timer = move.startup_time
+	_play_throw_animation("throw_start")
+	return true
+
+
+func _update_active_throw(delta: float) -> void:
+	directional_throw_elapsed += delta
+	super._update_active_throw(delta)
+
+
+func _get_throw_target() -> Node:
+	var target := super._get_throw_target()
+	if target != null or directional_throw_data == null or not is_throwing or throw_state != "THROW_STARTUP":
+		return target
+	var move := directional_throw_data
+	if move.throw_counter_range <= 0.0 or directional_throw_elapsed > move.throw_counter_window:
+		return null
+	target = _get_opponent()
+	if target == null or not target.can_be_thrown(self) or not _is_facing_attacker(target):
+		return null
+	if absf(target.global_position.y - global_position.y) > throw_vertical_tolerance or _get_throw_gap_to(target) > move.throw_counter_range:
+		return null
+	# Observe motion toward us, not the opponent's input or a move-ID matchup.
+	if target.velocity.x * signf(global_position.x - target.global_position.x) < 80.0:
+		return null
+	return target
+
+
+func _connect_throw(target: Node) -> void:
+	if directional_throw_data == null:
+		super._connect_throw(target)
+		return
+	directional_throw_victim_origin = target.global_position
+	var saved_damage := throw_damage
+	var saved_hold := throw_hold_time
+	var saved_force := throw_knockback
+	var saved_vertical := throw_vertical_force
+	var resistance := 1.0
+	var definition: Resource = target.get("fighter_definition")
+	if definition != null:
+		resistance = clampf(float(definition.throw_received_damage_scale), 0.25, 1.0)
+	throw_damage = maxi(1, roundi(saved_damage * directional_throw_data.damage_multiplier * resistance))
+	throw_hold_time = directional_throw_data.throw_hold_seconds
+	throw_knockback = directional_throw_data.throw_velocity.x
+	throw_vertical_force = directional_throw_data.throw_velocity.y
+	super._connect_throw(target)
+	throw_damage = saved_damage
+	throw_hold_time = saved_hold
+	throw_knockback = saved_force
+	throw_vertical_force = saved_vertical
+
+
+func _release_throw() -> void:
+	if directional_throw_data == null:
+		super._release_throw()
+		return
+	if has_throw_damage_applied:
+		return
+	var target := current_throw_target
+	if _is_valid_throw_target(target) and directional_throw_data.throw_swap_positions:
+		global_position.x = clampf(directional_throw_victim_origin.x, _stage_min_x(), _stage_max_x())
+		target.global_position.x = clampf(directional_throw_origin.x, _stage_min_x(), _stage_max_x())
+		target.global_position.y = stage_floor_y
+		target.pending_throw_velocity = Vector2(-directional_throw_data.throw_velocity.x * directional_throw_facing, directional_throw_data.throw_velocity.y)
+		target.pending_throw_direction = -directional_throw_facing
+	super._release_throw()
+	throw_recovery_timer = directional_throw_data.recovery_time
+
+
+func _fail_throw() -> void:
+	super._fail_throw()
+	if directional_throw_data != null:
+		throw_recovery_timer = directional_throw_data.throw_whiff_seconds
+
+
+func _finish_throw() -> void:
+	super._finish_throw()
+	directional_throw_data = null
+
+
+func _lock_throw_target_position(target: Node) -> void:
+	if directional_throw_data == null or directional_throw_data.throw_hold_offset == Vector2.ZERO:
+		super._lock_throw_target_position(target)
+		return
+	var offset := directional_throw_data.throw_hold_offset
+	offset.x *= directional_throw_facing
+	var target_x := clampf(global_position.x + offset.x, _stage_min_x() + 64.0, _stage_max_x() - 64.0)
+	global_position.x = clampf(target_x - offset.x, _stage_min_x(), _stage_max_x())
+	target.global_position = Vector2(target_x, stage_floor_y + offset.y)
+	target.velocity = Vector2.ZERO
+	target.facing_direction = -directional_throw_facing
+	target._set_visual_facing()
+
+
+func _play_throw_animation(animation_name := "Throw") -> void:
+	if directional_throw_data != null and animation_name == "throw_hold" and _has_visual_animation(&"directional_throw_hold"):
+		_play_visual_animation(&"directional_throw_hold", true)
+		return
+	super._play_throw_animation(animation_name)
 
 
 func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_direction: float, throw_velocity: Vector2) -> void:

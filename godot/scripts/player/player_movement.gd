@@ -673,6 +673,8 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 		_play_throw_animation("cross_muei_held")
 	else:
 		_play_throw_animation("grapple_held" if held_by_readable and _has_visual_animation(&"grapple_held") else ("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown")))
+	if attacker.get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_held"):
+		_play_visual_animation(&"directional_throw_held", true)
 
 
 func _get_throw_target() -> Node:
@@ -2818,11 +2820,15 @@ func _get_current_visual_animation() -> StringName:
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
+		if throw_state == "THROW_HOLD" and get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_hold"):
+			return &"directional_throw_hold"
 		if _is_authored_grappler() or _is_leon_crow() or _uses_readable_grapple():
 			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_held"):
+			return &"directional_throw_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_muei_throw") and pending_throw_attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_held"):
 			return &"cross_muei_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_uses_readable_grapple") and pending_throw_attacker._uses_readable_grapple() and _has_visual_animation(&"grapple_held"):

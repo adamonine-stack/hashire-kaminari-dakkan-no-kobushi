@@ -30,6 +30,16 @@ class_name PlayerAttackData
 @export var hit_reaction: StringName = &""
 @export var counter_hitstun_bonus: float = 0.0
 
+@export_group("Directional Throw")
+@export var throw_hold_seconds: float = 0.20
+@export var throw_whiff_seconds: float = 0.50
+@export var throw_velocity: Vector2 = Vector2(120.0, -120.0)
+@export var throw_swap_positions: bool = false
+@export var throw_counter_range: float = 0.0
+@export var throw_counter_window: float = 0.0
+@export var throw_down_seconds: float = 0.0
+@export var throw_hold_offset: Vector2 = Vector2.ZERO
+
 @export_group("Damage")
 @export var base_damage: float = 1.0
 @export var damage_multiplier: float = 1.0

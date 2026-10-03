@@ -4,6 +4,8 @@ signal knockdown_started(character: Node)
 signal get_up_started(character: Node)
 signal get_up_finished(character: Node)
 
+var directional_throw_down_remaining := 0.0
+
 @export var knockdown_duration := 0.80
 @export var get_up_duration := 0.55
 @export var get_up_invincible_time := 0.45
@@ -248,6 +250,7 @@ func _complete_throw_hit() -> void:
 	var hit_position := pending_throw_hit_position
 	var damage := pending_throw_damage
 	var throw_velocity := pending_throw_velocity
+	var directional_move: PlayerAttackData = attacker.directional_throw_data if is_instance_valid(attacker) and attacker.get("directional_throw_data") != null else null
 	is_throw_escape_pending = false
 	is_throw_locked = false
 	throw_state = ""
@@ -298,6 +301,11 @@ func _complete_throw_hit() -> void:
 		maxf(absf(throw_velocity.x), knockdown_horizontal_force) * throw_direction,
 		minf(throw_velocity.y, knockdown_vertical_force)
 	)))
+	if directional_move != null and current_hp > 0:
+		# Authored throws use their own trajectory instead of the legacy minimum
+		# forward force. A slam therefore stays near the point of release.
+		velocity = calculate_received_knockback(throw_velocity)
+		directional_throw_down_remaining = directional_move.throw_down_seconds
 
 
 func _get_valid_hurtbox_target(area: Area2D) -> Node:
@@ -425,6 +433,8 @@ func enter_knockdown() -> void:
 		animated_character_sprite.rotation = 0.0
 		animated_character_sprite.offset = Vector2.ZERO
 	knockdown_timer = knockdown_duration
+	knockdown_timer = maxf(knockdown_timer, directional_throw_down_remaining)
+	directional_throw_down_remaining = 0.0
 	velocity = Vector2.ZERO
 	set_hurtbox_enabled(false)
 	close_combo_window()
@@ -517,6 +527,7 @@ func restore_sprite_transform() -> void:
 
 
 func reset_knockdown_state() -> void:
+	directional_throw_down_remaining = 0.0
 	seiya_followup_owner = null
 	seiya_followup_sequence = -1
 	special_backflip_enabled = false

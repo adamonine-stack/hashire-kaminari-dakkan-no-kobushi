@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+attack_id = "akky_forward_throw"
+display_name = "AKKY forward throw"
+attack_type = "throw"
+command_direction = "forward"
+command_priority = 200
+ground_only = true
+startup_time = 0.17
+recovery_time = 0.38
+damage_multiplier = 0.9
+throw_whiff_seconds = 0.6
+throw_velocity = Vector2(480, -180)
+throw_swap_positions = false
+throw_counter_range = 0.0
+throw_counter_window = 0
+throw_down_seconds = 0
+throw_hold_offset = Vector2(125, 0)

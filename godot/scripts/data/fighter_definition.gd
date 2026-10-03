@@ -1,6 +1,10 @@
 extends Resource
 class_name FighterDefinition
 
+## Directional-throw resistance complements the existing AI throw escape rate.
+## Default preserves saved definitions and existing balance.
+@export_range(0.25, 1.0, 0.05) var throw_received_damage_scale: float = 1.0
+
 @export var fighter_id: StringName
 @export var display_name: String
 @export var hud_name_katakana: String
