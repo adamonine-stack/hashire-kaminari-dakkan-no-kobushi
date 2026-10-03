@@ -120,17 +120,25 @@ func run() -> void:
 	enemy.ai_profile = enemy.fighter_definition.ai_profile
 	enemy.set_special_gauge(100)
 	check(enemy.request_character_special(true), "Deadly Hand spends gauge")
-	check(sprite.animation == &"special_startup", "special readable startup")
+	check(sprite.animation == &"teki_deadly_startup", "special readable startup")
 	enemy.enter_character_special_active()
+	enemy.reversal_elapsed = 0.20
 	player.throw_regrab_lock_timer = 0.0
 	player.is_invincible = false
+	player.invincibility_timer = 0.0
+	var before_special: int = player.current_hp
 	enemy._on_character_special_hitbox_area_entered(player.hurt_box)
-	check(enemy.throw_state == "THROW_HOLD" and enemy.teki_throw_variant == 1, "special contact uses face-grab pipeline")
+	await process_frame
+	await process_frame
+	check(not enemy._is_throw_busy() and player.knockdown_state == &"KNOCKBACK", "special palm interrupts into dedicated knockback")
+	check(player.current_hp == before_special-11,"special palm applies damage once")
 	check(enemy.special_gauge == 0, "special consumes gauge")
-	player._complete_throw_escape()
-	enemy._finish_throw()
-	player._finish_throw()
-	player.set_health(player.max_hp)
+	# Both clocks were paused for contact assertions; reset the completed
+	# special rather than leaving its startup protection frozen during clear.
+	manager.reset_active_fighter_state(player,Vector2(560,520),1,player.max_hp)
+	manager.reset_active_fighter_state(enemy,Vector2(660,520),-1,enemy.current_hp)
+	player.is_round_active = true
+	enemy.is_round_active = true
 	player.set_physics_process(true)
 	await clear_stage()
 	check(manager.flow_state == manager.BattleState.CLEAR, "Teki KO clears three-stage campaign")

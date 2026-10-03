@@ -57,6 +57,14 @@ func run() -> void:
 				check(rei_rect.has_area() and rei_rect.position.x >= 3 and rei_rect.position.y >= 3 and rei_rect.end.x <= 509 and rei_rect.end.y <= 445,clip + ": unclipped Rei receiver")
 				checked += 1
 				continue
+			if String(clip).begins_with("received_teki_palm_"):
+				var teki_atlas = load("res://assets/characters/special_received_teki_v1/ally_balance/motion_atlas.tres")
+				check(texture is AtlasTexture and texture.atlas == teki_atlas.texture,clip + ": dedicated Teki receiver original")
+				check(texture.get_size() == Vector2(512,448),clip + ": Teki receiver canvas")
+				var teki_rect := texture.get_image().get_used_rect()
+				check(teki_rect.has_area() and teki_rect.position.x >= 3 and teki_rect.position.y >= 3 and teki_rect.end.x <= 509 and teki_rect.end.y <= 445,clip + ": unclipped Teki receiver")
+				checked += 1
+				continue
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(320,224)), clip + ": common cell")

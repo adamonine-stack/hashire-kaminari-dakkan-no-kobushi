@@ -1,0 +1,1482 @@
+[
+  {
+    "clip": "backstep",
+    "file": "backstep_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "backstep",
+    "file": "backstep_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "backstep",
+    "file": "backstep_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "backstep",
+    "file": "backstep_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch",
+    "file": "crouch_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_guard",
+    "file": "crouch_guard_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_idle",
+    "file": "crouch_idle_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_kick",
+    "file": "crouch_kick_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_kick",
+    "file": "crouch_kick_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_kick",
+    "file": "crouch_kick_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_kick_sweep",
+    "file": "crouch_kick_sweep_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_kick_sweep",
+    "file": "crouch_kick_sweep_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_kick_sweep",
+    "file": "crouch_kick_sweep_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_punch",
+    "file": "crouch_punch_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_punch",
+    "file": "crouch_punch_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_punch",
+    "file": "crouch_punch_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_sweep_kick",
+    "file": "crouch_sweep_kick_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_sweep_kick",
+    "file": "crouch_sweep_kick_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "crouch_sweep_kick",
+    "file": "crouch_sweep_kick_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage",
+    "file": "damage_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage",
+    "file": "damage_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_heavy",
+    "file": "damage_heavy_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_heavy",
+    "file": "damage_heavy_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_high",
+    "file": "damage_high_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_high",
+    "file": "damage_high_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_light",
+    "file": "damage_light_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_light",
+    "file": "damage_light_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_low",
+    "file": "damage_low_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "damage_low",
+    "file": "damage_low_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "dash",
+    "file": "dash_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "dash",
+    "file": "dash_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "defeat",
+    "file": "defeat_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "defeat",
+    "file": "defeat_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "down",
+    "file": "down_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "fall",
+    "file": "fall_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "getup",
+    "file": "getup_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "getup",
+    "file": "getup_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "getup",
+    "file": "getup_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "getup",
+    "file": "getup_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "grab",
+    "file": "grab_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "grab",
+    "file": "grab_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "grab",
+    "file": "grab_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "grab",
+    "file": "grab_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "grabbed",
+    "file": "grabbed_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "guard",
+    "file": "guard_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "guard_hit",
+    "file": "guard_hit_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "guard_hit",
+    "file": "guard_hit_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "heavy_attack",
+    "file": "heavy_attack_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "heavy_attack",
+    "file": "heavy_attack_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "heavy_attack",
+    "file": "heavy_attack_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle",
+    "file": "idle_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle",
+    "file": "idle_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle",
+    "file": "idle_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle",
+    "file": "idle_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle_prebattle",
+    "file": "idle_prebattle_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle_prebattle",
+    "file": "idle_prebattle_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump",
+    "file": "jump_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump",
+    "file": "jump_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_air",
+    "file": "jump_air_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_fall",
+    "file": "jump_fall_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_kick",
+    "file": "jump_kick_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_kick",
+    "file": "jump_kick_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_kick",
+    "file": "jump_kick_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_land",
+    "file": "jump_land_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_land",
+    "file": "jump_land_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_punch",
+    "file": "jump_punch_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_punch",
+    "file": "jump_punch_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_punch",
+    "file": "jump_punch_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_punch_down",
+    "file": "jump_punch_down_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_punch_down",
+    "file": "jump_punch_down_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_punch_down",
+    "file": "jump_punch_down_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_start",
+    "file": "jump_start_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_start",
+    "file": "jump_start_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "jump_up",
+    "file": "jump_up_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick",
+    "file": "kick_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick",
+    "file": "kick_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick",
+    "file": "kick_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick_1",
+    "file": "kick_1_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick_1",
+    "file": "kick_1_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick_1",
+    "file": "kick_1_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick_2",
+    "file": "kick_2_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick_2",
+    "file": "kick_2_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "kick_2",
+    "file": "kick_2_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "knockback",
+    "file": "knockback_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "knockback",
+    "file": "knockback_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "knockdown",
+    "file": "knockdown_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "knockdown",
+    "file": "knockdown_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "knockdown",
+    "file": "knockdown_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "ko",
+    "file": "ko_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "ko",
+    "file": "ko_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "land",
+    "file": "land_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "land",
+    "file": "land_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "landing",
+    "file": "landing_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "landing",
+    "file": "landing_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "light_attack",
+    "file": "light_attack_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "light_attack",
+    "file": "light_attack_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "light_attack",
+    "file": "light_attack_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch",
+    "file": "punch_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch",
+    "file": "punch_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch",
+    "file": "punch_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch_1",
+    "file": "punch_1_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch_1",
+    "file": "punch_1_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch_1",
+    "file": "punch_1_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch_2",
+    "file": "punch_2_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch_2",
+    "file": "punch_2_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "punch_2",
+    "file": "punch_2_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_akky_elbow_air",
+    "file": "received_akky_elbow_air_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_akky_elbow_air",
+    "file": "received_akky_elbow_air_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_akky_elbow_down",
+    "file": "received_akky_elbow_down_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_akky_elbow_fall",
+    "file": "received_akky_elbow_fall_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_akky_elbow_hit",
+    "file": "received_akky_elbow_hit_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_akky_elbow_wall",
+    "file": "received_akky_elbow_wall_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_gou_breaker_air",
+    "file": "received_gou_breaker_air_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_gou_breaker_down",
+    "file": "received_gou_breaker_down_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_gou_breaker_hit",
+    "file": "received_gou_breaker_hit_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_somersault_air",
+    "file": "received_seiya_somersault_air_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_somersault_down",
+    "file": "received_seiya_somersault_down_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_somersault_fall",
+    "file": "received_seiya_somersault_fall_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_somersault_hit",
+    "file": "received_seiya_somersault_hit_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_two_down",
+    "file": "received_seiya_two_down_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_two_fall",
+    "file": "received_seiya_two_fall_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_two_fly",
+    "file": "received_seiya_two_fly_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "received_seiya_two_lift",
+    "file": "received_seiya_two_lift_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special",
+    "file": "special_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special",
+    "file": "special_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_attack",
+    "file": "special_attack_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_attack",
+    "file": "special_attack_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_recovery",
+    "file": "special_recovery_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_recovery",
+    "file": "special_recovery_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_recovery",
+    "file": "special_recovery_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_startup",
+    "file": "special_startup_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_startup",
+    "file": "special_startup_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "special_startup",
+    "file": "special_startup_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_deadly_hand",
+    "file": "teki_deadly_hand_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_deadly_hand",
+    "file": "teki_deadly_hand_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_face_grab_hold",
+    "file": "teki_face_grab_hold_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_face_grab_hold",
+    "file": "teki_face_grab_hold_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_face_grab_release",
+    "file": "teki_face_grab_release_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_face_grab_start",
+    "file": "teki_face_grab_start_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_headlock_hold",
+    "file": "teki_headlock_hold_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_headlock_hold",
+    "file": "teki_headlock_hold_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_headlock_release",
+    "file": "teki_headlock_release_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_headlock_start",
+    "file": "teki_headlock_start_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_low_grab_hold",
+    "file": "teki_low_grab_hold_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_low_grab_release",
+    "file": "teki_low_grab_release_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "teki_low_grab_start",
+    "file": "teki_low_grab_start_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw",
+    "file": "throw_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw",
+    "file": "throw_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw",
+    "file": "throw_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw",
+    "file": "throw_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw_hold",
+    "file": "throw_hold_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw_release",
+    "file": "throw_release_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw_release",
+    "file": "throw_release_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "throw_start",
+    "file": "throw_start_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "thrown",
+    "file": "thrown_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "thrown",
+    "file": "thrown_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "victory",
+    "file": "victory_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "victory",
+    "file": "victory_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk",
+    "file": "walk_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk",
+    "file": "walk_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk",
+    "file": "walk_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk",
+    "file": "walk_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_00.png",
+    "index": 0,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_01.png",
+    "index": 1,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_02.png",
+    "index": 2,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_03.png",
+    "index": 3,
+    "scale": "(1.061104, 1.061104)",
+    "size": "(384.0, 288.0)",
+    "texture": ""
+  }
+]

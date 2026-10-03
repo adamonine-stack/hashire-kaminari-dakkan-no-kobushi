@@ -1,0 +1,444 @@
+ M .github/workflows/deploy-godot-web.yml
+ M evidence/handoff_checks/akky_motion_atlas.log
+ M evidence/handoff_checks/crusher_reversal_presentation_check.log
+ M evidence/handoff_checks/dev066_character_backstep_ai_smoke.log
+ M evidence/handoff_checks/gou_motion_atlas.log
+ M evidence/handoff_checks/seiya_motion_atlas.log
+ M evidence/handoff_checks/special_grapple_guard_check.log
+ M evidence/handoff_checks/stage1_regression.log
+ M evidence/handoff_checks/stage3_regression.log
+ M evidence/handoff_checks/stage8_ending_check.log
+ M evidence/handoff_checks/stage9_cleanup_qa.log
+ M evidence/handoff_checks/stage9_two_hit_qa.log
+ M evidence/handoff_checks/test-results.json
+ M evidence/handoff_checks/true_seiya_combat_check.log
+ M godot/assets/backgrounds/stage8_detention.png.import
+ M godot/assets/backgrounds/stage_05_island_pier_v2.png.import
+ M godot/assets/backgrounds/stage_06_secret_base_gate_v2.png.import
+ M godot/assets/backgrounds/stage_07_hideout_entrance.webp.import
+ M godot/assets/backgrounds/stage_07_hideout_entrance_source.png.import
+ M godot/assets/backgrounds/stage_08_hideout_boss_room.webp.import
+ M godot/assets/backgrounds/stage_08_hideout_boss_room_source.png.import
+ M godot/assets/characters/enemy01/animations/crusher_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy01/animations/reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy01/battle.png.import
+ M godot/assets/characters/enemy01/icon.png.import
+ M godot/assets/characters/enemy01/portrait.png.import
+ M godot/assets/characters/enemy01/shadow.png.import
+ M godot/assets/characters/enemy01/sprite_sheet.png.import
+ M godot/assets/characters/enemy02/battle.png.import
+ M godot/assets/characters/enemy02/icon.png.import
+ M godot/assets/characters/enemy02/portrait.png.import
+ M godot/assets/characters/enemy02/shadow.png.import
+ M godot/assets/characters/enemy02/sprite_sheet.png.import
+ M godot/assets/characters/enemy03/animations/masato_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v1/sources/generated_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/battle.png.import
+ M godot/assets/characters/enemy03/icon.png.import
+ M godot/assets/characters/enemy03/portrait.png.import
+ M godot/assets/characters/enemy03/shadow.png.import
+ M godot/assets/characters/enemy03/sprite_sheet.png.import
+ M godot/assets/characters/enemy04/animations/rei_reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy04/animations/rei_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy04/battle.png.import
+ M godot/assets/characters/enemy04/icon.png.import
+ M godot/assets/characters/enemy04/portrait.png.import
+ M godot/assets/characters/enemy04/shadow.png.import
+ M godot/assets/characters/enemy04/sprite_sheet.png.import
+ M godot/assets/characters/enemy05/animations/cross_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/battle.png.import
+ M godot/assets/characters/enemy05/icon.png.import
+ M godot/assets/characters/enemy05/portrait.png.import
+ M godot/assets/characters/enemy05/shadow.png.import
+ M godot/assets/characters/enemy05/sprite_sheet.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/battle.png.import
+ M godot/assets/characters/enemy06/icon.png.import
+ M godot/assets/characters/enemy06/portrait.png.import
+ M godot/assets/characters/enemy06/shadow.png.import
+ M godot/assets/characters/enemy06/sprite_sheet.png.import
+ M godot/assets/characters/enemy07/animations/teki_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy07/battle.png.import
+ M godot/assets/characters/enemy07/icon.png.import
+ M godot/assets/characters/enemy07/portrait.png.import
+ M godot/assets/characters/enemy07/shadow.png.import
+ M godot/assets/characters/enemy07/sprite_sheet.png.import
+ M godot/assets/characters/enemy08/animations/leon_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v1/sources/generated_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/battle.png.import
+ M godot/assets/characters/enemy08/icon.png.import
+ M godot/assets/characters/enemy08/portrait.png.import
+ M godot/assets/characters/enemy08/shadow.png.import
+ M godot/assets/characters/enemy08/sprite_sheet.png.import
+ M godot/assets/characters/player01/akky_guard_8x192.png.import
+ M godot/assets/characters/player01/akky_idle_8x192.png.import
+ M godot/assets/characters/player01/akky_idle_pose.png.import
+ M godot/assets/characters/player01/akky_jump_8x192.png.import
+ M godot/assets/characters/player01/akky_kick_8x192.png.import
+ M godot/assets/characters/player01/akky_prebattle_pose.png.import
+ M godot/assets/characters/player01/akky_punch_8x192.png.import
+ M godot/assets/characters/player01/akky_walk_8x192.png.import
+ M godot/assets/characters/player01/animations/akky_punch_1_strip.png.import
+ M godot/assets/characters/player01/animations/akky_punch_2_strip.png.import
+ M godot/assets/characters/player01/animations/akky_v3/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/cross_muei_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/cross_reactions/reactions.png.import
+ M godot/assets/characters/player01/animations/crouch_guard_192.png.import
+ M godot/assets/characters/player01/animations/crouch_kick_sweep_192.png.import
+ M godot/assets/characters/player01/animations/jump_punch_down_192.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_01.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_02.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_03.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_04.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_05.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_06.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_01.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_02.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_03.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_04.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_05.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_06.png.import
+ M godot/assets/characters/player01/animations/readable_grapple_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/shadow_counter_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/battle.png.import
+ M godot/assets/characters/player01/icon.png.import
+ M godot/assets/characters/player01/jump_192.png.import
+ M godot/assets/characters/player01/jump_kick_192.png.import
+ M godot/assets/characters/player01/portrait.png.import
+ M godot/assets/characters/player01/selection_icon.png.import
+ M godot/assets/characters/player01/selection_portrait.png.import
+ M godot/assets/characters/player01/shadow.png.import
+ M godot/assets/characters/player01/sprite_sheet.png.import
+ M godot/assets/characters/player02/animations/cross_muei_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/cross_reactions/reactions.png.import
+ M godot/assets/characters/player02/animations/gou_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/readable_grapple_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/battle.png.import
+ M godot/assets/characters/player02/icon.png.import
+ M godot/assets/characters/player02/portrait.png.import
+ M godot/assets/characters/player02/selection_portrait.png.import
+ M godot/assets/characters/player02/shadow.png.import
+ M godot/assets/characters/player02/sprite_sheet.png.import
+ M godot/assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/cross_reactions/reactions.png.import
+ M godot/assets/characters/player03/animations/dark_seiya_v1/ground_contact_source.png.import
+ M godot/assets/characters/player03/animations/dark_seiya_v1/special_atlas.png.import
+ M godot/assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/somersault_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/battle.png.import
+ M godot/assets/characters/player03/icon.png.import
+ M godot/assets/characters/player03/portrait.png.import
+ M godot/assets/characters/player03/selection_portrait.png.import
+ M godot/assets/characters/player03/shadow.png.import
+ M godot/assets/characters/player03/sprite_sheet.png.import
+ M godot/assets/characters/rescued/mio.png.import
+ M godot/assets/characters/rescued/ren.png.import
+ M godot/assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png.import
+ M godot/assets/characters/special_received_crusher_v1/ally_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_02_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_03_guard/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_04_throw/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_05_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_06_combo/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_07_tricky/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_08_boss/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_09_seiya/motion_atlas.png.import
+ M godot/assets/characters/special_received_rei_v1/ally_balance/motion_atlas.png.import
+ M godot/assets/characters/special_received_rei_v1/ally_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_02_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_03_guard/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_04_throw/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_05_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_06_combo/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_07_tricky/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_08_boss/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_09_seiya/motion_atlas.png.import
+ M godot/assets/effects/dark_seiya_pillar.png.import
+ M godot/assets/effects/special_v1/aura.png.import
+ M godot/assets/effects/special_v1/impact.png.import
+ M godot/assets/endings/true/alarm.wav.import
+ M godot/assets/endings/true/boat.png.import
+ M godot/assets/endings/true/click.wav.import
+ M godot/assets/endings/true/dawn.png.import
+ M godot/assets/endings/true/ending_music.wav.import
+ M godot/assets/endings/true/engine.wav.import
+ M godot/assets/endings/true/escape.png.import
+ M godot/assets/endings/true/explosion.png.import
+ M godot/assets/endings/true/explosion.wav.import
+ M godot/assets/endings/true/pier.png.import
+ M godot/assets/endings/true/rumble.wav.import
+ M godot/assets/endings/true/waves.wav.import
+ M godot/assets/fonts/NotoSansJP-Regular.otf.import
+ M godot/data/attacks/teki_deadly_hand.tres
+ M godot/data/enemies/enemy_07_tricky.tres
+ M godot/data/fighters/ally_balance.tres
+ M godot/data/fighters/ally_power.tres
+ M godot/data/fighters/ally_speed.tres
+ M godot/docs/index.apple-touch-icon.png.import
+ M godot/docs/index.icon.png.import
+ M godot/docs/index.png.import
+ M godot/scripts/combat/reversal_effect.gd
+ M godot/scripts/player/player_fighter_definition_movement.gd
+ M godot/tests/akky_motion_atlas.gd
+ M godot/tests/gou_motion_atlas.gd
+ M godot/tests/seiya_motion_atlas.gd
+ M godot/tests/special_grapple_guard_check.gd
+ M godot/tests/special_reversal_check.gd
+ M godot/tests/stage3_regression.gd
+ M tools/run_special_handoff_checks.ps1
+?? art_sources/teki_reversal_v1/
+?? docs/TEKI_REVERSAL_IMPLEMENTATION_REPORT_20261003.md
+?? docs/TEKI_REVERSAL_MOTION_PLAN.md
+?? evidence/handoff_checks/akky_reversal_motion_check.log
+?? evidence/handoff_checks/runtime/
+?? evidence/handoff_checks/teki_damage_presentation_check.log
+?? evidence/handoff_checks/teki_received_akky_check.log
+?? evidence/handoff_checks/teki_received_gou_check.log
+?? evidence/handoff_checks/teki_received_seiya_check.log
+?? evidence/handoff_checks/teki_reversal_presentation_check.log
+?? evidence/stage9/
+?? evidence/teki_audit/
+?? evidence/teki_damage_final/
+?? evidence/teki_received_akky_final/
+?? evidence/teki_received_gou_final/
+?? evidence/teki_reversal_final/
+?? godot/assets/backgrounds/stage_01_downtown.webp.import
+?? godot/assets/backgrounds/stage_02_back_alley.webp.import
+?? godot/assets/backgrounds/stage_05_island_pier.svg.import
+?? godot/assets/backgrounds/stage_06_secret_base_gate.svg.import
+?? godot/assets/characters/enemy07/animations/teki_damage_v2/
+?? godot/assets/characters/enemy07/animations/teki_reversal_v1/
+?? godot/assets/characters/player01/animations/akky_v2/dash_7frame_strip.png.import
+?? godot/assets/characters/player01/animations/akky_v2/idle_7frame_strip.png.import
+?? godot/assets/characters/player01/animations/akky_v2/jump_kick_7frame_strip.png.import
+?? godot/assets/characters/player01/animations/akky_v2/jump_punch_down_7frame_strip.png.import
+?? godot/assets/characters/player01/animations/akky_v2/walk_8frame_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_01.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_02.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_03.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_04.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_05.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_5frame_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_enter_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_5frame/akky_crouch_release_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_01.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_02.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_03.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_3frame_source_1536x512.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_3frame_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_game_01.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_game_02.png.import
+?? godot/assets/characters/player01/animations/crouch_guard_3frame/akky_crouch_guard_game_03.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_01.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_02.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_03.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_04.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_05.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_06.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_6frame_source_3072x512.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_6frame_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_game_01.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_game_02.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_game_03.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_game_04.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_game_05.png.import
+?? godot/assets/characters/player01/animations/crouch_punch_6frame/akky_crouch_punch_game_06.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_01.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_02.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_03.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_04.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_05.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_06.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_07.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_08.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_8frame_source_4096x512.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_8frame_strip.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_01.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_02.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_03.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_04.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_05.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_06.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_07.png.import
+?? godot/assets/characters/player01/animations/crouch_sweep_kick_8frame/akky_crouch_sweep_game_08.png.import
+?? godot/assets/characters/player01/animations/guard_3frame/akky_guard_01.png.import
+?? godot/assets/characters/player01/animations/guard_3frame/akky_guard_04.png.import
+?? godot/assets/characters/player01/animations/guard_3frame/akky_guard_06.png.import
+?? godot/assets/characters/player01/animations/guard_3frame/akky_guard_3frame_strip.png.import
+?? godot/assets/characters/player01/animations/guard_3frame/akky_guard_start_strip.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_high_01.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_high_02.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_high_03.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_high_04.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_high_strip.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_low_01.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_low_02.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_low_03.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_low_04.png.import
+?? godot/assets/characters/player01/animations/hit_reaction_4frame/akky_hit_low_strip.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_01.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_02.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_03.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_04.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_05.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_06.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_07.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_08.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_8frame_strip.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_land_strip.png.import
+?? godot/assets/characters/player01/animations/jump_8frame/akky_jump_start_strip.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_01.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_02.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_03.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_04.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_05.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_06.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_07.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_08.png.import
+?? godot/assets/characters/player01/animations/kick_2_8frame/akky_kick2_strip.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_01.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_02.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_03.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_04.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_05.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_06.png.import
+?? godot/assets/characters/player01/animations/kick_6frame/akky_kick_strip.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_01.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_02.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_03.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_04.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_05.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_06.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_high_strip.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_01.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_02.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_03.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_04.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_05.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_06.png.import
+?? godot/assets/characters/player01/animations/knockdown_6frame/akky_knockdown_low_strip.png.import
+?? godot/assets/characters/player01/animations/ko_6frame/akky_ko_6frame_candidate_strip.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/active_key.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/finish_key.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/special_guard_hold.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/special_guard_impact.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/special_hit.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/special_knockback.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/special_knockdown.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/startup_key.png.import
+?? godot/assets/characters/player01/animations/reversal_v1/sources/transition.png.import
+?? godot/assets/characters/player01/animations/seiya_two_received_v1/motion_atlas.png.import
+?? godot/assets/characters/player01/animations/walk_5frame/akky_walk_01.png.import
+?? godot/assets/characters/player01/animations/walk_5frame/akky_walk_02.png.import
+?? godot/assets/characters/player01/animations/walk_5frame/akky_walk_03.png.import
+?? godot/assets/characters/player01/animations/walk_5frame/akky_walk_04.png.import
+?? godot/assets/characters/player01/animations/walk_5frame/akky_walk_05.png.import
+?? godot/assets/characters/player01/animations/walk_5frame/akky_walk_strip.png.import
+?? godot/assets/characters/player02/animations/seiya_two_received_v1/motion_atlas.png.import
+?? godot/assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.png.import
+?? godot/assets/characters/player03/animations/seiya_v2/motion_atlas.png.import
+?? godot/assets/characters/player03/animations/two_hit_v1/motion_atlas.png.import
+?? godot/assets/characters/special_received_teki_v1/
+?? godot/icon.png.import
+?? godot/icon.svg.import
+?? godot/scripts/autoload/global_font_manager.gd.uid
+?? godot/scripts/battle/stage1_battle_manager.gd.uid
+?? godot/scripts/combat/reversal_effect.gd.uid
+?? godot/scripts/combat/special_contact_resolver.gd.uid
+?? godot/scripts/combat/special_flight_trail.gd.uid
+?? godot/scripts/data/encoded_texture_chunk.gd.uid
+?? godot/scripts/data/fighter_animation_definition.gd.uid
+?? godot/scripts/data/stage_definition.gd.uid
+?? godot/scripts/ui/opening.gd.uid
+?? godot/tests/akky_motion_atlas.gd.uid
+?? godot/tests/akky_reversal_motion_check.gd.uid
+?? godot/tests/akky_wall_launch_check.gd.uid
+?? godot/tests/combat_pose_flow_check.gd.uid
+?? godot/tests/cross_reactions.gd.uid
+?? godot/tests/cross_visual_review.gd.uid
+?? godot/tests/dev053_stage1_smoke.gd.uid
+?? godot/tests/dev056_enemy_air_attack_smoke.gd.uid
+?? godot/tests/dev061_enemy_pressure_smoke.gd.uid
+?? godot/tests/dev062_guard_counterplay_smoke.gd.uid
+?? godot/tests/dev063_special_gauge_balance_smoke.gd.uid
+?? godot/tests/dev064_archetype_balance_smoke.gd.uid
+?? godot/tests/dev065_double_tap_mobility_smoke.gd.uid
+?? godot/tests/dev066_character_backstep_ai_smoke.gd.uid
+?? godot/tests/dev_audio_smoke.gd.uid
+?? godot/tests/gou_motion_atlas.gd.uid
+?? godot/tests/gou_reversal_presentation_check.gd.uid
+?? godot/tests/gou_visual_review.gd.uid
+?? godot/tests/japanese_font_smoke.gd.uid
+?? godot/tests/opening_flow_smoke.gd.uid
+?? godot/tests/rei_visual_review.gd.uid
+?? godot/tests/seiya_motion_atlas.gd.uid
+?? godot/tests/seiya_neck_review.gd.uid
+?? godot/tests/seiya_visual_review.gd.uid
+?? godot/tests/special_ai_situation_check.gd.uid
+?? godot/tests/special_grapple_guard_check.gd.uid
+?? godot/tests/special_handoff_inventory.gd.uid
+?? godot/tests/special_launch_reaction_check.gd.uid
+?? godot/tests/special_reversal_check.gd.uid
+?? godot/tests/special_reversal_visual_review.gd.uid
+?? godot/tests/stage1_audit.gd.uid
+?? godot/tests/stage1_playthrough.gd.uid
+?? godot/tests/stage1_regression.gd.uid
+?? godot/tests/stage1_visual_review.gd.uid
+?? godot/tests/stage2_regression.gd.uid
+?? godot/tests/stage3_regression.gd.uid
+?? godot/tests/stage4_regression.gd.uid
+?? godot/tests/stage5_6_motion_atlas.gd.uid
+?? godot/tests/stage5_shadow_boxer_regression.gd.uid
+?? godot/tests/stage7_8_motion_atlas.gd.uid
+?? godot/tests/stage9_cleanup_qa.gd.uid
+?? godot/tests/stage9_two_hit_qa.gd.uid
+?? godot/tests/teki_audit_export.gd
+?? godot/tests/teki_audit_export.gd.uid
+?? godot/tests/teki_damage_presentation_check.gd
+?? godot/tests/teki_damage_presentation_check.gd.uid
+?? godot/tests/teki_received_akky_check.gd
+?? godot/tests/teki_received_gou_check.gd
+?? godot/tests/teki_received_seiya_check.gd
+?? godot/tests/teki_receiver_export.gd
+?? godot/tests/teki_receiver_export.gd.uid
+?? godot/tests/teki_reversal_presentation_check.gd
+?? godot/tests/teki_reversal_presentation_check.gd.uid
+?? godot/tests/teki_visual_review.gd.uid
+?? tools/__pycache__/
+?? tools/audit_teki_frames.py
+?? tools/build_teki_reversal.py
+?? tools/review_teki_presentation.py

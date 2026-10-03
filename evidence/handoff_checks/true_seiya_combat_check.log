@@ -82,6 +82,24 @@ KO detected
 [Special] gauge_changed=26
 [DEV036] Attack finished: player1_punch_1
 Enemy defeated: enemy_09_seiya
-BGM: WinBGM
 [STAGE8_TRUE_ENDING_V1] TRUE BOSS SEIYA DEFEATED
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[TRUE_ENDING] defeat
 TRUE_SEIYA_COMBAT_CHECK failures=[]

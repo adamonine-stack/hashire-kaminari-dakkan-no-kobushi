@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(512, 448)
+columns = 4
+clips = {"teki_deadly_startup": {"frames": [0, 1, 2], "fps": 16.666666666666668, "loop": false}, "teki_deadly_hand": {"frames": [3, 4], "fps": 10.0, "loop": false}, "teki_deadly_finish": {"frames": [5, 6, 7], "fps": 5.454545454545454, "loop": false}}
