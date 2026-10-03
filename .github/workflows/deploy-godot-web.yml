@@ -181,6 +181,15 @@ jobs:
           grep -Fq 'DARK_SEIYA_COMBAT_CHECK failures=[]' /tmp/dark-seiya.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/dark-seiya.log; then exit 1; fi
 
+      - name: Verify Stage 9 two-hit combat and complete motion integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/stage9_two_hit_qa.tscn 2>&1 | tee /tmp/stage9-two-hit.log
+          grep -Fq 'STAGE9_TWO_HIT_RESULT' /tmp/stage9-two-hit.log
+          grep -Fq 'failures=[]' /tmp/stage9-two-hit.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/stage9-two-hit.log; then exit 1; fi
+
       - name: Verify ST_action frame regions, stage transitions and gauge states
         shell: bash
         run: |

@@ -17,6 +17,12 @@ func run_check() -> void:
 	enemy.ai_enabled = false
 	enemy.ai_profile = null
 	enemy.input_enabled = false
+	enemy.aura_controller.cancel()
+	manager.reset_active_fighter_state(player,Vector2(320,520),1.0,player.max_hp)
+	manager._set_battle_active(true)
+	enemy.ai_enabled = false
+	enemy.ai_profile = null
+	await ticks(4)
 	var initial_x: float = player.position.x
 	Input.action_press("move_right")
 	await ticks(12)

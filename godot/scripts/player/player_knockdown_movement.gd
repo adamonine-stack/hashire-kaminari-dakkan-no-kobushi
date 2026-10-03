@@ -55,6 +55,12 @@ var get_up_timer := 0.0
 var get_up_invincible_timer := 0.0
 var did_get_up_separation := false
 var default_visual_position := Vector2.ZERO
+var seiya_followup_owner: WeakRef
+var seiya_followup_sequence := -1
+var seiya_lift_elapsed := 0.0
+
+func can_receive_seiya_followup(packet: Dictionary, attacker: Node) -> bool:
+	return current_hp > 0 and knockdown_state == &"KNOCKBACK" and seiya_followup_owner != null and seiya_followup_owner.get_ref() == attacker and int(packet.get("seiya_two_hit_stage",-1)) == 1 and int(packet.get("seiya_two_hit_sequence",-2)) == seiya_followup_sequence
 
 
 func _ready() -> void:
@@ -185,6 +191,12 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 			_end_attacker_combo_for_knockdown(attacker)
 		enter_knockback(attacker, _get_knockdown_force(attack_data, attacker, attack_direction))
 		_begin_special_wall_launch(attack_data)
+		if int(attack_data.get("seiya_two_hit_stage",-1)) == 0:
+			seiya_followup_owner = weakref(attacker)
+			seiya_followup_sequence = int(attack_data.seiya_two_hit_sequence)
+			seiya_lift_elapsed = 0.0
+			velocity = Vector2(35.0*attack_direction,-360.0)
+			set_hurtbox_enabled(true)
 		if bool(attack_data.get("is_special", false)):
 			_start_special_flight_trail()
 	elif not bool(attack_data.get("allows_combo_followup", false)):
@@ -316,6 +328,10 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 
 
 func update_knockback(delta: float) -> void:
+	if seiya_followup_owner != null:
+		seiya_lift_elapsed += delta
+		if velocity.y >= 0.0 and _has_visual_animation(&"received_seiya_two_fall"):
+			last_special_knockback_animation = &"received_seiya_two_fall"
 	if special_headfirst_enabled:
 		if special_headfirst_phase in ["head_impact","collapse"]:
 			_update_special_headfirst_ground(delta)
@@ -385,6 +401,7 @@ func _lock_special_flight_camera() -> void:
 		controller = controller.get_parent()
 
 func enter_knockdown() -> void:
+	seiya_followup_owner = null
 	if current_hp <= 0 and not special_ko_flight:
 		reset_knockdown_state()
 		return
@@ -486,6 +503,8 @@ func restore_sprite_transform() -> void:
 
 
 func reset_knockdown_state() -> void:
+	seiya_followup_owner = null
+	seiya_followup_sequence = -1
 	special_backflip_enabled = false
 	special_headfirst_enabled = false
 	special_headfirst_phase = ""

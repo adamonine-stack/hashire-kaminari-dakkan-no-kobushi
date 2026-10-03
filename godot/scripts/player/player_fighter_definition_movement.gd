@@ -1342,12 +1342,39 @@ func start_character_special() -> void:
 
 
 var seiya_somersault_turn := 0.0
+var seiya_two_hit_stage := 0
+var seiya_two_hit_sequence := 0
+var seiya_pose_centers := {}
+
+func _seiya_pose_center(texture: Texture2D) -> Vector2:
+	var key := texture.get_instance_id()
+	if not seiya_pose_centers.has(key):
+		seiya_pose_centers[key] = Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	return seiya_pose_centers[key]
+
+func _is_seiya_two_hit() -> bool:
+	return character_special_data != null and character_special_data.somersault_sidekick
+
+func _update_seiya_two_hitbox() -> void:
+	var elapsed: float = character_special_data.active_time-character_special_timer
+	if seiya_two_hit_stage == 0 and elapsed >= character_special_data.sidekick_time:
+		seiya_two_hit_stage = 1
+		character_special_hit_targets.clear()
+		apply_character_special_hitbox_data()
+		_play_audio_manager_se("special_attack")
+	var open: bool = (elapsed < 0.18) if seiya_two_hit_stage == 0 else (elapsed < character_special_data.sidekick_time+character_special_data.sidekick_hit_window)
+	_set_character_special_hitbox_active(open)
+	if open and special_area.monitoring:
+		for area in special_area.get_overlapping_areas():
+			_on_character_special_hitbox_area_entered(area)
 
 func enter_character_special_active() -> void:
 	if character_special_data == null:
 		interrupt_character_special(false)
 		return
 	seiya_somersault_turn = 0.0
+	seiya_two_hit_stage = 0
+	seiya_two_hit_sequence += 1
 	character_special_state = CharacterSpecialState.ACTIVE
 	character_special_timer = maxf(float(character_special_data.active_time), 0.01)
 	apply_character_special_hitbox_data()
@@ -1412,7 +1439,9 @@ func update_character_special(delta: float) -> void:
 		reset_character_special_state(false)
 		return
 	_apply_character_special_movement(delta)
-	if character_special_state == CharacterSpecialState.ACTIVE and character_special_data.special_hit_window > 0.0:
+	if character_special_state == CharacterSpecialState.ACTIVE and _is_seiya_two_hit():
+		_update_seiya_two_hitbox()
+	elif character_special_state == CharacterSpecialState.ACTIVE and character_special_data.special_hit_window > 0.0:
 		if character_special_data.active_time-character_special_timer >= character_special_data.special_hit_window:
 			disable_character_special_hitbox()
 	character_special_timer = maxf(character_special_timer - delta, 0.0)
@@ -1489,6 +1518,10 @@ func apply_character_special_hitbox_data() -> void:
 	if fighter_definition != null:
 		special_area.position *= fighter_definition.combat_geometry_scale
 		special_shape.shape.size *= fighter_definition.combat_geometry_scale
+	if _is_seiya_two_hit() and seiya_two_hit_stage == 1:
+		var geometry: float = battle_visual_scale_multiplier * fighter_definition.combat_geometry_scale
+		special_area.position = Vector2(90.0*character_special_direction,-110.0)*geometry
+		special_shape.shape.size = Vector2(155.0,100.0)*geometry
 
 
 func _set_character_special_hitbox_active(is_active: bool) -> void:
@@ -1523,7 +1556,9 @@ func _apply_character_special_movement(delta: float) -> void:
 
 
 func stop_character_special_movement() -> void:
-	if character_special_data != null and character_special_data.somersault_on_special and animated_character_sprite != null:
+	# AI lock synchronization also calls this while receiving knockback.
+	# Only an active own special owns these visual transforms.
+	if character_special_state != CharacterSpecialState.NONE and character_special_data != null and (character_special_data.somersault_on_special or character_special_data.somersault_sidekick) and animated_character_sprite != null:
 		animated_character_sprite.rotation = 0.0
 		animated_character_sprite.offset = Vector2.ZERO
 	character_special_move_timer = 0.0
@@ -1533,7 +1568,15 @@ func stop_character_special_movement() -> void:
 func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 	if character_special_state != CharacterSpecialState.ACTIVE:
 		return
+	if _is_seiya_two_hit():
+		var elapsed: float = character_special_data.active_time-character_special_timer
+		if seiya_two_hit_stage == 0 and elapsed >= 0.18: return
+		if seiya_two_hit_stage == 1 and (elapsed < character_special_data.sidekick_time or elapsed >= character_special_data.sidekick_time+character_special_data.sidekick_hit_window): return
 	var target := _get_valid_hurtbox_target(area)
+	if target == null and _is_seiya_two_hit() and seiya_two_hit_stage == 1 and area.name == "HurtBox":
+		var candidate := area.get_parent()
+		if candidate != self and candidate.has_method("can_receive_seiya_followup") and candidate.can_receive_seiya_followup(_get_character_special_attack_dictionary(),self):
+			target = candidate
 	if target == null or character_special_hit_targets.has(target):
 		return
 	# Deadly Hand enters the existing escapeable grab pipeline on contact.
@@ -1590,7 +1633,7 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 	var multiplier := float(character_special_data.damage_multiplier) if character_special_data != null else 1.5
 	var raw_knockback: Vector2 = character_special_data.knockback if character_special_data != null else Vector2(kick_knockback_x * 1.4, -kick_knockback_y * 1.4)
 	var final_knockback := calculate_attack_knockback(Vector2(absf(float(raw_knockback.x)), absf(float(raw_knockback.y))))
-	return {
+	var packet := {
 		"damage": maxi(1, int(round(float(base_damage) * multiplier))),
 		"base_damage": maxi(1, int(round(float(base_damage) * multiplier))),
 		"attack_height": "middle",
@@ -1627,6 +1670,29 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		"attack_id": String(character_special_data.attack_id),
 		"causes_knockdown": true,
 	}
+	if _is_seiya_two_hit():
+		packet["seiya_two_hit_stage"] = seiya_two_hit_stage
+		packet["seiya_two_hit_sequence"] = seiya_two_hit_sequence
+		packet["headfirst_on_launch"] = false
+		packet["hitstop_attacker"] = 0.065
+		packet["hitstop_defender"] = 0.065
+		packet["special_guard_reaction"] = &"guard_hit"
+		packet["keep_special_flight_in_view"] = true
+		packet["special_launch_gravity"] = 850.0
+		if seiya_two_hit_stage == 0:
+			packet["special_hit_reaction"] = &"received_seiya_two_lift"
+			packet["special_knockback_reaction"] = &"received_seiya_two_lift"
+			packet["special_knockdown_reaction"] = &"received_seiya_two_down"
+			packet["special_launch_speed_cap"] = Vector2(35,360)
+			packet["knockback_x"] = 35.0
+			packet["knockback_y"] = 360.0
+		else:
+			packet["special_hit_reaction"] = &"received_seiya_two_fly"
+			packet["special_knockback_reaction"] = &"received_seiya_two_fly"
+			packet["special_knockdown_reaction"] = &"received_seiya_two_down"
+			packet["wall_slam"] = true
+			packet["special_launch_speed_cap"] = Vector2.ZERO
+	return packet
 
 
 func _play_character_special_animation(primary_name: StringName, fallback_name: StringName) -> void:
@@ -2433,6 +2499,8 @@ func update_boss_special_attack(delta: float) -> void:
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
 	# Reject invulnerable contacts before cancelling any move or forced animation.
+	if can_receive_seiya_followup(attack_data,attacker):
+		reset_knockdown_state()
 	if not can_receive_attack():
 		return false
 	if is_instance_valid(aura_controller) and aura_controller.busy() and can_receive_attack():
@@ -2714,6 +2782,9 @@ func _update_visual_state() -> void:
 		]
 
 func _update_seiya_somersault_visual() -> void:
+	if _is_seiya_two_hit():
+		_update_seiya_two_hit_visual()
+		return
 	if character_special_data == null or not character_special_data.somersault_on_special or animated_character_sprite == null: return
 	var sprite := animated_character_sprite
 	if character_special_state != CharacterSpecialState.ACTIVE:
@@ -2736,6 +2807,35 @@ func _update_seiya_somersault_visual() -> void:
 	var jump := Vector2(0,-105.0*sin(PI*progress))
 	sprite.offset = (anchor*sprite.scale+jump).rotated(-sprite.rotation)/sprite.scale-center
 
+func _update_seiya_two_hit_visual() -> void:
+	# Incoming launches own their rotation; an idle attack must never reset them.
+	if not is_character_special_busy(): return
+	var sprite := animated_character_sprite
+	sprite.rotation = 0.0
+	sprite.offset = Vector2.ZERO
+	if character_special_state != CharacterSpecialState.ACTIVE: return
+	var elapsed: float = character_special_data.active_time-character_special_timer
+	if elapsed < 0.60:
+		_play_visual_animation(&"seiya_two_somersault")
+		var progress := clampf(elapsed/0.54,0.0,1.0)
+		seiya_somersault_turn = progress*TAU
+		var index := mini(int(progress*3.0),2)
+		sprite.frame = index
+		var authored := [0.0,-PI,-TAU]
+		sprite.rotation = character_special_direction*(-seiya_somersault_turn-authored[index])
+		var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,index)
+		var center := _seiya_pose_center(texture)
+		if sprite.flip_h: center.x = -center.x
+		var idle := sprite.sprite_frames.get_frame_texture(&"idle",0)
+		var anchor := _seiya_pose_center(idle)
+		if sprite.flip_h: anchor.x = -anchor.x
+		var jump := Vector2(0,-70.0*sin(PI*progress))
+		sprite.offset = sprite.transform.affine_inverse().basis_xform(anchor*sprite.scale+jump)-center
+	else:
+		_play_visual_animation(&"seiya_two_sidekick")
+		var kick_elapsed: float = elapsed-character_special_data.sidekick_time
+		sprite.frame = 0 if kick_elapsed < 0.0 else (1 if kick_elapsed < 0.08 else (2 if kick_elapsed < 0.16 else 3))
+
 func _get_horizontal_movement_input() -> float:
-	if is_character_special_busy() and character_special_data != null and character_special_data.somersault_on_special: return 0.0
+	if is_character_special_busy() and character_special_data != null and (character_special_data.somersault_on_special or character_special_data.somersault_sidekick): return 0.0
 	return super._get_horizontal_movement_input()

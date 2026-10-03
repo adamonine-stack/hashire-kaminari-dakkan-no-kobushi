@@ -76,6 +76,9 @@ class_name PlayerAttackData
 @export var backflip_on_launch := false
 @export var headfirst_on_launch := false
 @export var somersault_on_special := false
+@export var somersault_sidekick := false
+@export var sidekick_time := 0.72
+@export var sidekick_hit_window := 0.16
 @export var special_hit_window := 0.0
 @export var special_launch_gravity := 0.0
 @export var effect_scene: PackedScene

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy03/animations/masato_v3/special_received_seiya_v1/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(512, 448)
+columns = 6
+clips = {"received_seiya_somersault_hit": {"frames": [0], "fps": 8, "loop": false}, "received_seiya_somersault_air": {"frames": [0], "fps": 60, "loop": false}, "received_seiya_somersault_fall": {"frames": [0], "fps": 60, "loop": false}, "received_seiya_somersault_down": {"frames": [1], "fps": 5, "loop": false}, "received_seiya_two_lift": {"frames": [0], "fps": 8, "loop": false}, "received_seiya_two_fall": {"frames": [0], "fps": 60, "loop": false}, "received_seiya_two_fly": {"frames": [0], "fps": 60, "loop": false}, "received_seiya_two_down": {"frames": [1], "fps": 5, "loop": false}}

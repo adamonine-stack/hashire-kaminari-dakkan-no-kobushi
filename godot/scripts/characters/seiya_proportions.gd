@@ -10,6 +10,7 @@ var head_anchor := Vector2.ZERO
 var head_bounds := Rect2()
 var cache := {}
 var landmarks := {}
+var body_centers := {}
 
 func setup(target: AnimatedSprite2D, data: Resource) -> void:
 	sprite = target
@@ -74,11 +75,25 @@ func update_head() -> void:
 		cache[key] = rect
 	head_bounds = cache[key]
 	head_anchor = Vector2(head_bounds.get_center().x, head_bounds.end.y)
+	# The neck is above the head in inverted poses and beside it when prone.
+	# An always-bottom anchor cuts a rectangular gap through those bodies.
+	if not body_centers.has(key): body_centers[key] = Vector2(texture.get_image().get_used_rect().get_center())
+	var body_center: Vector2 = body_centers[key]
+	var toward_head := head_bounds.get_center()-body_center
+	var neck_direction := Vector2(0,-1)
+	if absf(toward_head.x)>absf(toward_head.y):
+		neck_direction = Vector2(signf(toward_head.x),0)
+		head_anchor = Vector2(head_bounds.position.x if neck_direction.x>0 else head_bounds.end.x,head_bounds.get_center().y)
+	elif toward_head.y>0:
+		neck_direction = Vector2(0,1)
+		head_anchor = Vector2(head_bounds.get_center().x,head_bounds.position.y)
+	material.set_shader_parameter("neck_direction",neck_direction)
 	var offset := Vector2.ZERO
 	var atlas_size := Vector2(texture.get_size())
 	if texture is AtlasTexture:
 		offset = texture.region.position
 		atlas_size = texture.atlas.get_size()
 	material.set_shader_parameter("atlas_size", atlas_size)
+	material.set_shader_parameter("cell_rect", Vector4(offset.x,offset.y,texture.get_width(),texture.get_height()))
 	material.set_shader_parameter("head_rect", Vector4(head_bounds.position.x+offset.x,head_bounds.position.y+offset.y,head_bounds.size.x,head_bounds.size.y))
 	material.set_shader_parameter("head_anchor", head_anchor+offset)

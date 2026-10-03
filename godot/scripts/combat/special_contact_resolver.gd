@@ -7,7 +7,7 @@ var scheduled := false
 
 
 func enqueue(attacker: Node, target: Node, packet: Dictionary, direction: float, point: Vector2) -> void:
-	if not target.can_receive_attack():
+	if not target.can_receive_attack() and not target.can_receive_seiya_followup(packet,attacker):
 		return
 	contacts.append({"attacker": weakref(attacker), "target": weakref(target),
 		"packet": packet.duplicate(true), "direction": direction, "point": point})

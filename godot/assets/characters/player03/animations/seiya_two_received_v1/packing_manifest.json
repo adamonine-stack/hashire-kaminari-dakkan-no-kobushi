@@ -1,0 +1,71 @@
+{
+  "cell": [
+    384,
+    288
+  ],
+  "baseline": 270,
+  "reference_area": 9394,
+  "reference_height": 190,
+  "frames": [
+    {
+      "index": 0,
+      "name": "lift",
+      "scale": 0.5864414724299082,
+      "offset": [
+        124,
+        102
+      ],
+      "size": [
+        135,
+        168
+      ],
+      "opaque_area": 9378,
+      "relative_area": 0.9982967851820311
+    },
+    {
+      "index": 1,
+      "name": "fall",
+      "scale": 0.6485623669149061,
+      "offset": [
+        145,
+        110
+      ],
+      "size": [
+        93,
+        160
+      ],
+      "opaque_area": 9423,
+      "relative_area": 1.0030870768575686
+    },
+    {
+      "index": 2,
+      "name": "fly",
+      "scale": 0.5264115733366553,
+      "offset": [
+        101,
+        168
+      ],
+      "size": [
+        182,
+        102
+      ],
+      "opaque_area": 9398,
+      "relative_area": 1.0004258037044922
+    },
+    {
+      "index": 3,
+      "name": "down",
+      "scale": 0.6295138624496217,
+      "offset": [
+        73,
+        213
+      ],
+      "size": [
+        237,
+        57
+      ],
+      "opaque_area": 9297,
+      "relative_area": 0.9896742601660634
+    }
+  ]
+}
