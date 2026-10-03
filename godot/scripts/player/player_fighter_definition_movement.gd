@@ -2806,6 +2806,8 @@ func _update_seiya_somersault_visual() -> void:
 	sprite.offset = (anchor*sprite.scale+jump).rotated(-sprite.rotation)/sprite.scale-center
 
 func _update_seiya_two_hit_visual() -> void:
+	# Incoming launches own their rotation; an idle attack must never reset them.
+	if not is_character_special_busy(): return
 	var sprite := animated_character_sprite
 	sprite.rotation = 0.0
 	sprite.offset = Vector2.ZERO
