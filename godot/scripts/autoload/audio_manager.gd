@@ -3,6 +3,33 @@ extends Node
 const SE_POOL_SIZE := 16
 const SAMPLE_RATE := 22050
 const BGM_GAIN := 0.68
+const THEME_ID := "st_action_theme"
+const THEME_PATH := "res://audio/music/st_action_theme.ogg"
+const THEME_LOCAL_PATH := "res://audio/local_music/st_action_theme.ogg"
+const THEME_FADE_IN := 1.25
+const THEME_FADE_OUT := 1.0
+const THEME_START_POSITION := 0.0
+const THEME_LOOP := true
+
+# Whole-song restart by default. No musical cue/chorus timestamp is assumed.
+var theme_paths: Array[String] = [THEME_LOCAL_PATH, THEME_PATH,
+	"res://audio/local_music/st_action_theme.mp3", "res://audio/music/st_action_theme.mp3",
+	"res://audio/local_music/st_action_theme.wav", "res://audio/music/st_action_theme.wav"]
+var theme_loop_position := 0.0
+var theme_restart_delay := 0.75
+var theme_gain := BGM_GAIN
+var theme_repeat := false
+var theme_audio_path := ""
+var theme_warning_shown := false
+var pending_bgm_id := ""
+var transition_serial := 0
+var music_tween: Tween
+var music_envelope := 1.0
+var duck_ratio := 1.0
+var crossfade_player: AudioStreamPlayer
+var crossfade_envelope := 0.0
+var crossfade_bgm_id := ""
+signal music_finished(music_id: String)
 
 var bgm_volume := 0.80
 var se_volume := 0.90
@@ -22,6 +49,14 @@ func _ready() -> void:
 	bgm_player.name = "BGMPlayer"
 	bgm_player.bus = &"Music"
 	add_child(bgm_player)
+	bgm_player.finished.connect(_on_music_finished.bind(bgm_player))
+	# Fixed reserve used only by explicit crossfade() between non-theme tracks.
+	# Title/theme transitions always fade through silence using one active player.
+	crossfade_player = AudioStreamPlayer.new()
+	crossfade_player.name = "BGMCrossfadePlayer"
+	crossfade_player.bus = &"Music"
+	add_child(crossfade_player)
+	crossfade_player.finished.connect(_on_music_finished.bind(crossfade_player))
 	for index in range(SE_POOL_SIZE):
 		var player := AudioStreamPlayer.new()
 		player.name = "SEPlayer%02d" % index
@@ -32,39 +67,252 @@ func _ready() -> void:
 
 
 func play_bgm(bgm_id: String) -> void:
-	if bgm_id.is_empty() or current_bgm_id == bgm_id:
+	if bgm_id.is_empty():
 		return
-	current_bgm_id = bgm_id
-	bgm_player.stop()
-	bgm_player.stream = _stream_for_id(bgm_id, true)
-	bgm_player.volume_db = _target_bgm_db()
-	bgm_player.play()
+	if bgm_id == THEME_ID:
+		play_theme()
+		return
+	if current_bgm_id == bgm_id and (bgm_player.playing or bgm_player.stream_paused) and pending_bgm_id.is_empty():
+		return
+	_cancel_music_transition()
+	_start_music(bgm_id, _stream_for_id(bgm_id, true))
 
 
 func stop_bgm() -> void:
+	_cancel_music_transition()
+	theme_repeat = false
 	current_bgm_id = ""
 	if bgm_player != null:
 		bgm_player.stop()
+		bgm_player.stream_paused = false
 
 
 func fade_bgm(bgm_id: String, duration := 0.35) -> void:
-	if bgm_id.is_empty() or current_bgm_id == bgm_id:
+	if bgm_id.is_empty() or pending_bgm_id == bgm_id:
 		return
-	if bgm_player == null or not bgm_player.playing or duration <= 0.05:
-		play_bgm(bgm_id)
+	if bgm_id == THEME_ID:
+		fade_to_theme(duration)
 		return
-	var next_id := bgm_id
-	var fade_time: float = maxf(duration, 0.10)
-	var tween := create_tween()
-	tween.tween_property(bgm_player, "volume_db", -36.0, fade_time * 0.45)
-	tween.tween_callback(func() -> void:
-		current_bgm_id = next_id
+	if current_bgm_id == bgm_id and pending_bgm_id.is_empty() and bgm_player.playing:
+		return
+	var out_time: float = THEME_FADE_OUT if current_bgm_id == THEME_ID else maxf(0.0, duration * 0.45)
+	_transition_music(bgm_id, _stream_for_id(bgm_id, true), out_time, maxf(0.0, duration * 0.55))
+
+
+func _cancel_music_transition() -> void:
+	transition_serial += 1
+	pending_bgm_id = ""
+	if music_tween != null and music_tween.is_valid(): music_tween.kill()
+	if bgm_duck_tween != null and bgm_duck_tween.is_valid(): bgm_duck_tween.kill()
+	duck_ratio = 1.0
+	if crossfade_player != null:
+		crossfade_player.stop()
+		crossfade_player.stream_paused = false
+	crossfade_bgm_id = ""
+	crossfade_envelope = 0.0
+
+
+func _start_music(music_id: String, stream: AudioStream, position := 0.0, envelope := 1.0) -> void:
+	bgm_player.stop()
+	bgm_player.stream_paused = false
+	current_bgm_id = music_id
+	if music_id != THEME_ID: theme_repeat = false
+	bgm_player.stream = stream
+	_set_music_envelope(envelope)
+	bgm_player.play(clampf(position, 0.0, maxf(0.0, stream.get_length() - 0.01)))
+	print("[Music] play=%s position=%.2f" % [music_id, position])
+
+
+func _set_music_envelope(value: float) -> void:
+	music_envelope = value
+	_refresh_music_volume()
+
+
+func _set_duck_ratio(value: float) -> void:
+	duck_ratio = value
+	_refresh_music_volume()
+
+
+func _refresh_music_volume() -> void:
+	if bgm_player != null:
+		var gain: float = theme_gain if current_bgm_id == THEME_ID else BGM_GAIN
+		bgm_player.volume_db = _linear_to_db(bgm_volume * gain * music_envelope * duck_ratio)
+	if crossfade_player != null:
+		crossfade_player.volume_db = _linear_to_db(bgm_volume * BGM_GAIN * crossfade_envelope)
+
+
+func _set_crossfade_envelope(value: float) -> void:
+	crossfade_envelope = value
+	_refresh_music_volume()
+
+
+func _ramp_music(value: float, duration: float, serial: int) -> void:
+	if duration <= 0.0:
+		_set_music_envelope(value)
+		return
+	music_tween = create_tween()
+	music_tween.tween_method(_set_music_envelope, music_envelope, value, duration)
+	# A killed Tween does not emit finished. Polling also lets a newer request
+	# cancel this coroutine without leaving title/ending transitions waiting.
+	while serial == transition_serial and music_tween != null and music_tween.is_valid():
+		await get_tree().process_frame
+
+
+func _transition_music(music_id: String, stream: AudioStream, out_time: float, in_time: float, position := 0.0, repeat_theme := false) -> void:
+	if stream == null: return
+	_cancel_music_transition()
+	var serial := transition_serial
+	pending_bgm_id = music_id
+	if bgm_player.playing:
+		await _ramp_music(0.0, out_time, serial)
+	if serial != transition_serial: return
+	pending_bgm_id = ""
+	theme_repeat = repeat_theme
+	_start_music(music_id, stream, position, 0.0 if in_time > 0.0 else 1.0)
+	await _ramp_music(1.0, in_time, serial)
+
+
+func _theme_stream() -> AudioStream:
+	for path in theme_paths:
+		var stream: AudioStream
+		# Export templates use imported/remapped resources; loose editor projects
+		# must not resurrect a removed source from their import cache.
+		if not OS.has_feature("template") and not FileAccess.file_exists(path): continue
+		if ResourceLoader.exists(path):
+			stream = load(path) as AudioStream
+		elif FileAccess.file_exists(path) and path.get_extension() == "ogg":
+			stream = AudioStreamOggVorbis.load_from_file(path)
+		if stream != null:
+			stream = stream.duplicate() as AudioStream
+			if stream is AudioStreamOggVorbis or stream is AudioStreamMP3: stream.set("loop", false)
+			elif stream is AudioStreamWAV: stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+			theme_audio_path = path
+			return stream
+	theme_audio_path = ""
+	if not theme_warning_shown:
+		push_warning("ST-Action theme audio file not found")
+		theme_warning_shown = true
+	return null
+
+
+func play_theme(restart := false, looping := THEME_LOOP) -> bool:
+	if not restart and current_bgm_id == THEME_ID and pending_bgm_id.is_empty() and (bgm_player.playing or bgm_player.stream_paused):
+		theme_repeat = looping
+		return true
+	var stream := _theme_stream()
+	if stream == null: return false
+	_transition_music(THEME_ID, stream, THEME_FADE_OUT, THEME_FADE_IN, THEME_START_POSITION, looping)
+	return true
+
+
+func play_theme_from_position(position: float, looping := false) -> bool:
+	var stream := _theme_stream()
+	if stream == null: return false
+	_transition_music(THEME_ID, stream, THEME_FADE_OUT, THEME_FADE_IN, position, looping)
+	return true
+
+
+func fade_to_theme(duration := THEME_FADE_OUT, position := THEME_START_POSITION, looping := false) -> bool:
+	if pending_bgm_id == THEME_ID: return true
+	var stream := _theme_stream()
+	if stream == null: return false
+	_transition_music(THEME_ID, stream, duration, THEME_FADE_IN, position, looping)
+	return true
+
+
+func play_title_theme() -> void:
+	if not play_theme(true, THEME_LOOP): fade_bgm("title", THEME_FADE_IN)
+
+
+func play_ending_theme(fallback_id := "true_ending") -> void:
+	if not play_theme(true, false): fade_bgm(fallback_id, THEME_FADE_IN)
+
+
+func play_music(music_id: String) -> void:
+	play_bgm(music_id)
+
+
+func stop_music() -> void:
+	stop_bgm()
+
+
+func fade_in(duration := THEME_FADE_IN) -> void:
+	_cancel_music_transition()
+	await _ramp_music(1.0, duration, transition_serial)
+
+
+func fade_out(duration := THEME_FADE_OUT) -> void:
+	_cancel_music_transition()
+	theme_repeat = false
+	var serial := transition_serial
+	if bgm_player.playing: await _ramp_music(0.0, duration, serial)
+	if serial == transition_serial:
 		bgm_player.stop()
-		bgm_player.stream = _stream_for_id(next_id, true)
-		bgm_player.volume_db = -36.0
-		bgm_player.play()
-	)
-	tween.tween_property(bgm_player, "volume_db", _target_bgm_db(), fade_time * 0.55)
+		current_bgm_id = ""
+
+
+func crossfade(music_id: String, duration := 1.0) -> void:
+	# The theme must never overlap stage music, even via this optional API.
+	if music_id == THEME_ID or current_bgm_id == THEME_ID or not bgm_player.playing:
+		fade_bgm(music_id, duration)
+		return
+	if music_id.is_empty() or music_id == current_bgm_id or music_id == pending_bgm_id: return
+	if duration <= 0.0:
+		play_bgm(music_id)
+		return
+	_cancel_music_transition()
+	var serial := transition_serial
+	pending_bgm_id = music_id
+	crossfade_bgm_id = music_id
+	crossfade_player.stream = _stream_for_id(music_id, true)
+	_set_crossfade_envelope(0.0)
+	crossfade_player.play()
+	music_tween = create_tween().set_parallel(true)
+	music_tween.tween_method(_set_music_envelope, music_envelope, 0.0, duration)
+	music_tween.tween_method(_set_crossfade_envelope, 0.0, 1.0, duration)
+	while serial == transition_serial and music_tween != null and music_tween.is_valid():
+		await get_tree().process_frame
+	if serial != transition_serial: return
+	bgm_player.stop()
+	var old_player := bgm_player
+	bgm_player = crossfade_player
+	crossfade_player = old_player
+	current_bgm_id = music_id
+	pending_bgm_id = ""
+	crossfade_bgm_id = ""
+	crossfade_envelope = 0.0
+	theme_repeat = false
+	_set_music_envelope(1.0)
+
+
+func pause_music() -> void:
+	bgm_player.stream_paused = true
+	crossfade_player.stream_paused = true
+	if music_tween != null and music_tween.is_valid(): music_tween.pause()
+	if bgm_duck_tween != null and bgm_duck_tween.is_valid(): bgm_duck_tween.pause()
+
+
+func resume_music() -> void:
+	bgm_player.stream_paused = false
+	crossfade_player.stream_paused = false
+	if music_tween != null and music_tween.is_valid(): music_tween.play()
+	if bgm_duck_tween != null and bgm_duck_tween.is_valid(): bgm_duck_tween.play()
+
+
+func is_music_playing(music_id: String) -> bool:
+	return current_bgm_id == music_id and (bgm_player.playing or bgm_player.stream_paused)
+
+
+func _on_music_finished(player: AudioStreamPlayer) -> void:
+	if player != bgm_player: return
+	var finished_id := current_bgm_id
+	music_finished.emit(finished_id)
+	if finished_id == THEME_ID and theme_repeat and pending_bgm_id.is_empty():
+		var serial := transition_serial
+		await get_tree().create_timer(theme_restart_delay).timeout
+		if serial == transition_serial and theme_repeat and current_bgm_id == THEME_ID:
+			_start_music(THEME_ID, bgm_player.stream, theme_loop_position, 0.0)
+			await _ramp_music(1.0, THEME_FADE_IN, serial)
 
 
 func play_se(se_id: String) -> void:
@@ -88,8 +336,7 @@ func play_ui_se(se_id: String) -> void:
 
 func set_bgm_volume(value: float) -> void:
 	bgm_volume = clampf(value, 0.0, 1.0)
-	if bgm_player != null and (bgm_duck_tween == null or not bgm_duck_tween.is_valid()):
-		bgm_player.volume_db = _target_bgm_db()
+	_refresh_music_volume()
 
 
 func set_se_volume(value: float) -> void:
@@ -259,12 +506,10 @@ func _duck_bgm(duration: float, ratio: float) -> void:
 		return
 	if bgm_duck_tween != null and bgm_duck_tween.is_valid():
 		bgm_duck_tween.kill()
-	var normal_db := _target_bgm_db()
-	var duck_db := _linear_to_db(maxf(0.001, bgm_volume * BGM_GAIN * ratio))
 	bgm_duck_tween = create_tween()
-	bgm_duck_tween.tween_property(bgm_player, "volume_db", duck_db, 0.025)
+	bgm_duck_tween.tween_method(_set_duck_ratio, duck_ratio, ratio, 0.025)
 	bgm_duck_tween.tween_interval(duration)
-	bgm_duck_tween.tween_property(bgm_player, "volume_db", normal_db, 0.12)
+	bgm_duck_tween.tween_method(_set_duck_ratio, ratio, 1.0, 0.12)
 
 
 func _se_gain_db(se_id: String) -> float:
@@ -293,6 +538,7 @@ func _linear_to_db(value: float) -> float:
 
 
 func _exit_tree() -> void:
+	_cancel_music_transition()
 	if bgm_duck_tween != null and bgm_duck_tween.is_valid():
 		bgm_duck_tween.kill()
 	for player in se_players:
@@ -302,4 +548,7 @@ func _exit_tree() -> void:
 	if is_instance_valid(bgm_player):
 		bgm_player.stop()
 		bgm_player.stream = null
+	if is_instance_valid(crossfade_player):
+		crossfade_player.stop()
+		crossfade_player.stream = null
 	generated_streams.clear()

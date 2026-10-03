@@ -1,11 +1,23 @@
-走れイカズチ
+走れカミナリ
 奪還の拳
 
 
 STAFF
 
 
-ST_action Project
+企画・構成
+蒼大
+
+ディレクター
+PAPA
+
+音楽ディレクター
+蒼大
+Suno
+
+クリエイター
+chatGPT
+codex
 
 
 GAME ENGINE

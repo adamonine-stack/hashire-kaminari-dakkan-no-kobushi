@@ -55,7 +55,7 @@ func run_check() -> void:
 	change_scene_to_file("res://scenes/Title.tscn")
 	for n in range(4): await process_frame
 	current_scene.continue_game()
-	await create_timer(0.5).timeout
+	await create_timer(1.5).timeout
 	check(current_scene.scene_file_path == "res://scenes/TrueBattle.tscn", "continue enters TRUE scene")
 	manager = current_scene.get_node("BattleManager")
 	check(manager.current_enemy_index == 8, "continue stage 9")

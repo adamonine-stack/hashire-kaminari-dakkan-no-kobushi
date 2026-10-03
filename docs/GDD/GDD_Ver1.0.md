@@ -1,4 +1,4 @@
-# 走れ雷 奪還の拳
+# 走れカミナリ 奪還の拳
 # Game Design Document（GDD）
 Version 1.0
 
@@ -10,8 +10,8 @@ Version 1.0
 
 |項目|内容|
 |---|---|
-|タイトル|走れ雷 奪還の拳|
-|英語タイトル|Hashire Ikazuchi: Dakkan no Ken|
+|タイトル|走れカミナリ 奪還の拳|
+|英語タイトル|Hashire Kaminari: Dakkan no Ken|
 |ジャンル|2D横スクロール 1対1格闘アクションゲーム|
 |対応機種|Android / iOS|
 |ゲームエンジン|Godot Engine 4|
