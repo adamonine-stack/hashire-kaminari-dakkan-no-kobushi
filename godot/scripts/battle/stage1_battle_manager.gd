@@ -5,6 +5,24 @@ class_name Stage1BattleManager
 ## Enemy scoping is configured by BattleManager.active_enemy_count_limit on
 ## Battle.tscn. This script keeps Stage 1's unlimited timer and clear presentation.
 
+const BATTLE_HP_SCALE := 1.5
+const BATTLE_HP_SCALE_META := &"st_action_hp_scale_applied_1_5"
+
+
+func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
+	_apply_battle_hp_scale_once(definition)
+	return super._create_progress_entry_from_definition(definition, battle_order)
+
+
+func _apply_battle_hp_scale_once(definition: Resource) -> void:
+	if definition == null or definition.has_meta(BATTLE_HP_SCALE_META):
+		return
+	var current_max_health := float(definition.get("max_health"))
+	if current_max_health <= 0.0:
+		return
+	definition.set("max_health", current_max_health * BATTLE_HP_SCALE)
+	definition.set_meta(BATTLE_HP_SCALE_META, true)
+
 
 func _ready() -> void:
 	super._ready()
