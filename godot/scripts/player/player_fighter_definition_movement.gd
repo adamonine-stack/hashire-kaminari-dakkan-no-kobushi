@@ -1344,6 +1344,7 @@ func start_character_special() -> void:
 var seiya_somersault_turn := 0.0
 var seiya_two_hit_stage := 0
 var seiya_two_hit_sequence := 0
+var seiya_confirmed_targets: Array[WeakRef] = []
 var seiya_pose_centers := {}
 
 func _seiya_pose_center(texture: Texture2D) -> Vector2:
@@ -1355,6 +1356,24 @@ func _seiya_pose_center(texture: Texture2D) -> Vector2:
 func _is_seiya_two_hit() -> bool:
 	return character_special_data != null and character_special_data.somersault_sidekick
 
+func is_seiya_confirmed_followup_target(target: Node, packet: Dictionary) -> bool:
+	if not _is_seiya_two_hit() or character_special_state != CharacterSpecialState.ACTIVE or seiya_two_hit_stage != 1:
+		return false
+	if int(packet.get("seiya_two_hit_stage",-1)) != 1 or int(packet.get("seiya_two_hit_sequence",-1)) != seiya_two_hit_sequence:
+		return false
+	for reference in seiya_confirmed_targets:
+		if reference.get_ref() == target: return true
+	return false
+
+func _connect_seiya_confirmed_followups() -> void:
+	for reference in seiya_confirmed_targets:
+		var target: Node = reference.get_ref()
+		if not is_instance_valid(target) or target.current_hp <= 0: continue
+		# Track the lifted opponent horizontally; retain their descending arc.
+		position.x = target.position.x-95.0*character_special_direction
+		_clamp_to_screen()
+		_queue_character_special_contact(target)
+
 func _update_seiya_two_hitbox() -> void:
 	var elapsed: float = character_special_data.active_time-character_special_timer
 	if seiya_two_hit_stage == 0 and elapsed >= character_special_data.sidekick_time:
@@ -1362,6 +1381,7 @@ func _update_seiya_two_hitbox() -> void:
 		character_special_hit_targets.clear()
 		apply_character_special_hitbox_data()
 		_play_audio_manager_se("special_attack")
+		_connect_seiya_confirmed_followups()
 	var open: bool = (elapsed < 0.18) if seiya_two_hit_stage == 0 else (elapsed < character_special_data.sidekick_time+character_special_data.sidekick_hit_window)
 	_set_character_special_hitbox_active(open)
 	if open and special_area.monitoring:
@@ -1375,6 +1395,7 @@ func enter_character_special_active() -> void:
 	seiya_somersault_turn = 0.0
 	seiya_two_hit_stage = 0
 	seiya_two_hit_sequence += 1
+	seiya_confirmed_targets.clear()
 	character_special_state = CharacterSpecialState.ACTIVE
 	character_special_timer = maxf(float(character_special_data.active_time), 0.01)
 	apply_character_special_hitbox_data()
@@ -1423,6 +1444,7 @@ func reset_character_special_state(reset_gauge := false) -> void:
 	character_special_timer = 0.0
 	character_special_id = ""
 	character_special_hit_targets.clear()
+	seiya_confirmed_targets.clear()
 	if reset_gauge:
 		reversal_cooldown = 0.0
 		set_special_gauge(0.0)
@@ -1596,8 +1618,14 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 		_connect_throw(target)
 		_spawn_throw_effect(_get_hit_position(target), "teki_claw", Color(0.62, 0.25, 1.0), 40.0)
 		return
+	_queue_character_special_contact(target)
+
+func _queue_character_special_contact(target: Node) -> void:
+	if character_special_hit_targets.has(target): return
 	character_special_hit_targets.append(target)
 	var attack_data := _get_character_special_attack_dictionary()
+	if is_seiya_confirmed_followup_target(target,attack_data):
+		attack_data["is_guardable"] = false
 	var resolver := get_tree().root.get_node_or_null("SpecialContactResolver")
 	if resolver == null:
 		resolver = load("res://scripts/combat/special_contact_resolver.gd").new()
@@ -1619,6 +1647,8 @@ func _complete_special_contact(target: Node, attack_data: Dictionary, point: Vec
 	# A guard counts as contact; invulnerability does not count as a guard.
 	reversal_connected = reversal_connected or did_hit or bool(target.get("is_guard_hit"))
 	if did_hit:
+		if _is_seiya_two_hit() and character_special_state == CharacterSpecialState.ACTIVE and int(attack_data.get("seiya_two_hit_stage",-1)) == 0 and int(attack_data.get("seiya_two_hit_sequence",-1)) == seiya_two_hit_sequence:
+			seiya_confirmed_targets.append(weakref(target))
 		character_special_hit.emit(String(attack_data.attack_id), target)
 		_spawn_hit_effect(point, attack_data["effect_size"])
 		_spawn_reversal_effect("impact", 0.28, point)
@@ -2501,6 +2531,10 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	# Reject invulnerable contacts before cancelling any move or forced animation.
 	if can_receive_seiya_followup(attack_data,attacker):
 		reset_knockdown_state()
+		# Only the same activation's confirmed target bypasses guard/immunity.
+		attack_data = attack_data.duplicate(true)
+		attack_data["is_guardable"] = false
+		is_invincible = false
 	if not can_receive_attack():
 		return false
 	if is_instance_valid(aura_controller) and aura_controller.busy() and can_receive_attack():
