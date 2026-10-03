@@ -9,9 +9,9 @@ class_name Stage1BattleManager
 # Player definitions are stored at double the displayed/in-battle target because
 # BattleManager applies PLAYER_MAX_HEALTH_SCALE = 0.5 after roster creation.
 const BATTLE_HP_RESOURCE_TARGETS := {
-	&"player_01_akky": 150.0,
-	&"player_02_gou": 200.0,
-	&"player_03_seiya": 140.0,
+	&"player_01_akky": 200.0,
+	&"player_02_gou": 240.0,
+	&"player_03_seiya": 180.0,
 	&"enemy_01_crusher": 180.0,
 	&"enemy_04_rei_kageyama": 160.0,
 	&"enemy_07_teki_fighter": 170.0,
