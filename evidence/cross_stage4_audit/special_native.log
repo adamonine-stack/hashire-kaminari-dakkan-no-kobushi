@@ -1,0 +1,1353 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 - Build 32.0.101.6737 - Compatibility - Using Device: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_1_center_0_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_0_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_0_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_0_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_0_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=12
+MUEI_CAPTURE stage4_ally_balance_1_center_0_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_0_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_balance_1_center_0_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_balance_1_center_0_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_1_center_1_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_1_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_1_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_1_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_1_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=25
+MUEI_CAPTURE stage4_ally_balance_1_center_1_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_1_cross_react_reap
+MUEI_CAPTURE stage4_ally_balance_1_center_1_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_balance_1_center_1_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_1_center_2_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_2_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_2_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_2_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_2_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=38
+MUEI_CAPTURE stage4_ally_balance_1_center_2_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_2_cross_react_reap
+MUEI_CAPTURE stage4_ally_balance_1_center_2_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_balance_1_center_2_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_1_center_3_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_3_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_3_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_3_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_3_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=51
+MUEI_CAPTURE stage4_ally_balance_1_center_3_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_3_cross_react_reap
+MUEI_CAPTURE stage4_ally_balance_1_center_3_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_balance_1_center_3_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_1_center_4_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_4_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_4_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_4_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_4_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=64
+MUEI_CAPTURE stage4_ally_balance_1_center_4_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_4_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_balance_1_center_4_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_balance_1_center_4_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_1_center_5_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_5_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_5_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_5_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_5_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=77
+MUEI_CAPTURE stage4_ally_balance_1_center_5_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_5_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_balance_1_center_5_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_balance_1_center_5_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_center_6_special_active
+MUEI_CAPTURE stage4_ally_balance_1_center_6_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_center_6_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_center_6_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_center_6_hold_8
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_changed=90
+MUEI_CAPTURE stage4_ally_balance_1_center_6_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_center_6_cross_muei_air
+MUEI_CAPTURE stage4_ally_balance_1_center_6_cross_muei_down
+MUEI_CAPTURE stage4_ally_balance_1_center_6_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_special_active
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_hold_1
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_hold_4
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_hold_8
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_cross_muei_air
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_cross_muei_down
+MUEI_CAPTURE stage4_ally_balance_1_wall_7_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_0_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_cross_react_reap
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_1_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_cross_react_reap
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_2_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_cross_react_reap
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_3_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_4_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_hold_8
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_5_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_special_active
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_hold_8
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_cross_muei_air
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_cross_muei_down
+MUEI_CAPTURE stage4_ally_balance_-1_center_6_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_special_active
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_hold_1
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_THROW_HOLD
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_hold_4
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_hold_8
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_cross_muei_air
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_cross_muei_down
+MUEI_CAPTURE stage4_ally_balance_-1_wall_7_stand_up
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_1_center_0_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_0_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_0_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_0_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_0_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_0_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_0_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_power_1_center_0_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_power_1_center_0_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_1_center_1_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_1_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_1_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_1_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_1_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_1_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_1_cross_react_reap
+MUEI_CAPTURE stage4_ally_power_1_center_1_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_power_1_center_1_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_1_center_2_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_2_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_2_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_2_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_2_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_2_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_2_cross_react_reap
+MUEI_CAPTURE stage4_ally_power_1_center_2_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_power_1_center_2_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_1_center_3_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_3_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_3_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_3_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_3_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_3_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_3_cross_react_reap
+MUEI_CAPTURE stage4_ally_power_1_center_3_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_power_1_center_3_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_1_center_4_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_4_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_4_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_4_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_4_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_4_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_4_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_power_1_center_4_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_power_1_center_4_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_1_center_5_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_5_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_5_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_5_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_5_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_5_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_5_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_power_1_center_5_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_power_1_center_5_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_center_6_special_active
+MUEI_CAPTURE stage4_ally_power_1_center_6_hold_1
+MUEI_CAPTURE stage4_ally_power_1_center_6_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_center_6_hold_4
+MUEI_CAPTURE stage4_ally_power_1_center_6_hold_8
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_center_6_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_center_6_cross_muei_air
+MUEI_CAPTURE stage4_ally_power_1_center_6_cross_muei_down
+MUEI_CAPTURE stage4_ally_power_1_center_6_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_1_wall_7_special_active
+MUEI_CAPTURE stage4_ally_power_1_wall_7_hold_1
+MUEI_CAPTURE stage4_ally_power_1_wall_7_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_1_wall_7_hold_4
+MUEI_CAPTURE stage4_ally_power_1_wall_7_hold_8
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_1_wall_7_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_1_wall_7_cross_muei_air
+MUEI_CAPTURE stage4_ally_power_1_wall_7_cross_muei_down
+MUEI_CAPTURE stage4_ally_power_1_wall_7_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_-1_center_0_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_0_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_0_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_0_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_0_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_0_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_0_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_power_-1_center_0_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_power_-1_center_0_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_-1_center_1_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_1_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_1_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_1_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_1_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_1_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_1_cross_react_reap
+MUEI_CAPTURE stage4_ally_power_-1_center_1_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_power_-1_center_1_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_-1_center_2_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_2_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_2_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_2_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_2_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_2_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_2_cross_react_reap
+MUEI_CAPTURE stage4_ally_power_-1_center_2_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_power_-1_center_2_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_-1_center_3_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_3_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_3_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_3_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_3_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_3_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_3_cross_react_reap
+MUEI_CAPTURE stage4_ally_power_-1_center_3_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_power_-1_center_3_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_-1_center_4_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_4_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_4_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_4_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_4_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_4_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_4_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_power_-1_center_4_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_power_-1_center_4_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_power_-1_center_5_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_5_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_5_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_5_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_5_hold_8
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_5_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_5_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_power_-1_center_5_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_power_-1_center_5_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_center_6_special_active
+MUEI_CAPTURE stage4_ally_power_-1_center_6_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_center_6_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_center_6_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_center_6_hold_8
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_center_6_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_center_6_cross_muei_air
+MUEI_CAPTURE stage4_ally_power_-1_center_6_cross_muei_down
+MUEI_CAPTURE stage4_ally_power_-1_center_6_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_special_active
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_hold_1
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_THROW_HOLD
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_hold_4
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_hold_8
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_cross_muei_air
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_cross_muei_down
+MUEI_CAPTURE stage4_ally_power_-1_wall_7_stand_up
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_1_center_0_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_0_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_0_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_0_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_0_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_0_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_0_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_speed_1_center_0_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_speed_1_center_0_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_1_center_1_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_1_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_1_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_1_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_1_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_1_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_1_cross_react_reap
+MUEI_CAPTURE stage4_ally_speed_1_center_1_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_speed_1_center_1_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_1_center_2_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_2_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_2_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_2_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_2_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_2_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_2_cross_react_reap
+MUEI_CAPTURE stage4_ally_speed_1_center_2_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_speed_1_center_2_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_1_center_3_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_3_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_3_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_3_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_3_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_3_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_3_cross_react_reap
+MUEI_CAPTURE stage4_ally_speed_1_center_3_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_speed_1_center_3_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_1_center_4_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_4_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_4_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_4_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_4_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_4_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_4_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_speed_1_center_4_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_speed_1_center_4_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_1_center_5_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_5_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_5_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_5_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_5_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_5_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_5_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_speed_1_center_5_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_speed_1_center_5_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_center_6_special_active
+MUEI_CAPTURE stage4_ally_speed_1_center_6_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_center_6_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_center_6_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_center_6_hold_8
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_center_6_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_center_6_cross_muei_air
+MUEI_CAPTURE stage4_ally_speed_1_center_6_cross_muei_down
+MUEI_CAPTURE stage4_ally_speed_1_center_6_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_special_active
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_hold_1
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_hold_4
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_hold_8
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_cross_muei_air
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_cross_muei_down
+MUEI_CAPTURE stage4_ally_speed_1_wall_7_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_0_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_cross_react_reap
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_1_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_cross_react_reap
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_2_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_cross_react_reap
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_cross_react_reap_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_3_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_4_stand_up
+[DEV033] Enemy target updated: 
+THROW STARTUP
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_THROW_STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_hold_8
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_cross_react_shoulder
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_cross_react_shoulder_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_5_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_special_active
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_hold_8
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_cross_muei_air
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_cross_muei_down
+MUEI_CAPTURE stage4_ally_speed_-1_center_6_stand_up
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_special_active
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_hold_1
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_THROW_HOLD
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_hold_4
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_hold_8
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_THROW_RECOVERY
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_cross_muei_air
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_cross_muei_down
+MUEI_CAPTURE stage4_ally_speed_-1_wall_7_stand_up
+[Special] gauge_full
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+MUEI_CAPTURE stage4_whiff_1_complete
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_escape_1
+MUEI_CAPTURE stage4_escape_1_complete
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 0
+HP reached 0
+MUEI_CAPTURE stage4_throw_ko_1
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE stage4_whiff_-1_complete
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE stage4_escape_-1
+MUEI_CAPTURE stage4_escape_-1_complete
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 0
+HP reached 0
+MUEI_CAPTURE stage4_throw_ko_-1
+[Special] gauge_full
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[Special] gauge_full
+[DEV036] Attack started: player1_punch_1
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_balance_1_natural_hold
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE ally_balance_1_natural_release
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 98
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+MUEI_CAPTURE ally_balance_1_natural_guard
+MUEI_CAPTURE ally_balance_1_guard_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE ally_balance_1_whiff_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_balance_1_natural_hold
+MUEI_CAPTURE ally_balance_1_escape_recovery
+[Special] gauge_full
+[DEV036] Attack started: player1_punch_1
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_balance_-1_natural_hold
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+MUEI_CAPTURE ally_balance_-1_natural_release
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 98
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+MUEI_CAPTURE ally_balance_-1_natural_guard
+MUEI_CAPTURE ally_balance_-1_guard_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE ally_balance_-1_whiff_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_balance_-1_natural_hold
+MUEI_CAPTURE ally_balance_-1_escape_recovery
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] started id=player1_special_thunder_drive
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 11
+HP: 89
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] interrupted
+Damage: 23
+HP: 85
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+MUEI_CAPTURE ally_balance_trade_order_0
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] started id=player1_special_thunder_drive
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 23
+HP: 85
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] interrupted
+Damage: 11
+HP: 89
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+MUEI_CAPTURE ally_balance_trade_order_1
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[Special] gauge_full
+[DEV036] Attack started: player2_punch_1
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_power_1_natural_hold
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_changed=24
+MUEI_CAPTURE ally_power_1_natural_release
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 128
+[Special] gauge_changed=36
+[Special] gauge_changed=44
+[Special] blocked
+MUEI_CAPTURE ally_power_1_natural_guard
+MUEI_CAPTURE ally_power_1_guard_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE ally_power_1_whiff_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_power_1_natural_hold
+MUEI_CAPTURE ally_power_1_escape_recovery
+[Special] gauge_full
+[DEV036] Attack started: player2_punch_1
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_power_-1_natural_hold
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_changed=57
+MUEI_CAPTURE ally_power_-1_natural_release
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 128
+[Special] gauge_changed=69
+[Special] gauge_changed=77
+[Special] blocked
+MUEI_CAPTURE ally_power_-1_natural_guard
+MUEI_CAPTURE ally_power_-1_guard_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE ally_power_-1_whiff_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_power_-1_natural_hold
+MUEI_CAPTURE ally_power_-1_escape_recovery
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] started id=player2_special_iron_breaker
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 11
+HP: 119
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] interrupted
+Damage: 38
+HP: 70
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+MUEI_CAPTURE ally_power_trade_order_0
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] started id=player2_special_iron_breaker
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 38
+HP: 70
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] interrupted
+Damage: 11
+HP: 119
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+MUEI_CAPTURE ally_power_trade_order_1
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[DEV036] Attack started: player3_punch_1
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_speed_1_natural_hold
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_changed=24
+MUEI_CAPTURE ally_speed_1_natural_release
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 90
+[Special] gauge_changed=36
+[Special] gauge_changed=44
+[Special] blocked
+MUEI_CAPTURE ally_speed_1_natural_guard
+MUEI_CAPTURE ally_speed_1_guard_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE ally_speed_1_whiff_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_speed_1_natural_hold
+MUEI_CAPTURE ally_speed_1_escape_recovery
+[Special] gauge_full
+[DEV036] Attack started: player3_punch_1
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_speed_-1_natural_hold
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_changed=57
+MUEI_CAPTURE ally_speed_-1_natural_release
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 90
+[Special] gauge_changed=69
+[Special] gauge_changed=77
+[Special] blocked
+MUEI_CAPTURE ally_speed_-1_natural_guard
+MUEI_CAPTURE ally_speed_-1_guard_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+MUEI_CAPTURE ally_speed_-1_whiff_recovery
+[Special] finished
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] hit target=Player
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+MUEI_CAPTURE ally_speed_-1_natural_hold
+MUEI_CAPTURE ally_speed_-1_escape_recovery
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] started id=player3_special_clear_counter
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 11
+HP: 81
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] interrupted
+Damage: 13
+HP: 95
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+MUEI_CAPTURE ally_speed_trade_order_0
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] started id=player3_special_clear_counter
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 13
+HP: 95
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] interrupted
+Damage: 11
+HP: 81
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+MUEI_CAPTURE ally_speed_trade_order_1
+[Special] gauge_full
+[DEV033] Enemy target updated: 
+[Special] started id=cross_muei
+MUEI_CAPTURE cross_observed_ai_reversal
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 11
+HP: 81
+[Special] gauge_changed=24
+KNOCKDOWN HIT
+[Special] hit target=Player
+MUEI_CAPTURE cross_airborne_special_hit
+CROSS_STAGE4_REVERSAL_EXTRA_OK natural_hit guard whiff escape recovery trade ai airborne down failures=[]
+CROSS_MUEI_RESULT cases=54 screenshots=490 failures=[]

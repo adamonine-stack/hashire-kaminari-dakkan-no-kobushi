@@ -1,0 +1,701 @@
+A  art_sources/cross_stage4_v3/prompt_manifest.json
+A  docs/CROSS_STAGE4_PUBLIC_RELEASE_20261003.md
+M  docs/CROSS_STAGE4_REVERSAL_REPORT_20261003.md
+M  evidence/cross_stage4_audit/cross-changed-files.txt
+A  evidence/cross_stage4_audit/cross_received_akky_check-native.log
+A  evidence/cross_stage4_audit/cross_received_gou_check-native.log
+A  evidence/cross_stage4_audit/cross_received_seiya_check-native.log
+A  evidence/cross_stage4_audit/incoming_page_01.jpg
+A  evidence/cross_stage4_audit/incoming_page_02.jpg
+A  evidence/cross_stage4_audit/incoming_seiya.jpg
+A  evidence/cross_stage4_audit/integrity_native.log
+A  evidence/cross_stage4_audit/integrity_page_01.jpg
+A  evidence/cross_stage4_audit/integrity_page_02.jpg
+A  evidence/cross_stage4_audit/integrity_page_03.jpg
+A  evidence/cross_stage4_audit/integrity_page_04.jpg
+A  evidence/cross_stage4_audit/native-results.json
+A  evidence/cross_stage4_audit/special_native.log
+A  evidence/cross_stage4_audit/special_page_01.jpg
+A  evidence/cross_stage4_audit/special_page_02.jpg
+A  evidence/cross_stage4_audit/special_page_03.jpg
+A  evidence/cross_stage4_audit/special_page_04.jpg
+A  evidence/cross_stage4_audit/special_page_05.jpg
+A  evidence/cross_stage4_audit/special_page_06.jpg
+A  evidence/cross_stage4_audit/special_page_07.jpg
+A  evidence/cross_stage4_audit/special_page_08.jpg
+A  evidence/cross_stage4_audit/special_page_09.jpg
+A  evidence/cross_stage4_audit/special_page_10.jpg
+A  evidence/cross_stage4_audit/special_page_11.jpg
+A  evidence/cross_stage4_audit/special_page_12.jpg
+A  evidence/cross_stage4_audit/special_page_13.jpg
+A  evidence/cross_stage4_audit/special_page_14.jpg
+A  evidence/cross_stage4_audit/special_page_15.jpg
+A  evidence/cross_stage4_audit/special_page_16.jpg
+A  evidence/cross_stage4_public/damage_page_01.jpg
+A  evidence/cross_stage4_public/damage_page_02.jpg
+A  evidence/cross_stage4_public/damage_page_03.jpg
+A  evidence/cross_stage4_public/damage_page_04.jpg
+A  evidence/cross_stage4_public/down_screen.png
+A  evidence/cross_stage4_public/fetch_public.ps1
+A  evidence/cross_stage4_public/packed-damage-native.log
+A  evidence/cross_stage4_public/packed-special-headless.log
+A  evidence/cross_stage4_public/packed-special-native.log
+A  evidence/cross_stage4_public/packed_damage.gd
+A  evidence/cross_stage4_public/packed_special.gd
+A  evidence/cross_stage4_public/pages-run.json
+A  evidence/cross_stage4_public/special_page_01.jpg
+A  evidence/cross_stage4_public/special_page_02.jpg
+A  evidence/cross_stage4_public/verification.json
+ M godot/assets/backgrounds/stage8_detention.png.import
+ M godot/assets/backgrounds/stage_05_island_pier_v2.png.import
+ M godot/assets/backgrounds/stage_06_secret_base_gate_v2.png.import
+ M godot/assets/backgrounds/stage_07_hideout_entrance.webp.import
+ M godot/assets/backgrounds/stage_07_hideout_entrance_source.png.import
+ M godot/assets/backgrounds/stage_08_hideout_boss_room.webp.import
+ M godot/assets/backgrounds/stage_08_hideout_boss_room_source.png.import
+ M godot/assets/characters/enemy01/animations/crusher_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy01/animations/reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy01/battle.png.import
+ M godot/assets/characters/enemy01/icon.png.import
+ M godot/assets/characters/enemy01/portrait.png.import
+ M godot/assets/characters/enemy01/shadow.png.import
+ M godot/assets/characters/enemy01/sprite_sheet.png.import
+ M godot/assets/characters/enemy02/battle.png.import
+ M godot/assets/characters/enemy02/icon.png.import
+ M godot/assets/characters/enemy02/portrait.png.import
+ M godot/assets/characters/enemy02/shadow.png.import
+ M godot/assets/characters/enemy02/sprite_sheet.png.import
+ M godot/assets/characters/enemy03/animations/masato_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v1/sources/generated_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/animations/masato_v3/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy03/battle.png.import
+ M godot/assets/characters/enemy03/icon.png.import
+ M godot/assets/characters/enemy03/portrait.png.import
+ M godot/assets/characters/enemy03/shadow.png.import
+ M godot/assets/characters/enemy03/sprite_sheet.png.import
+ M godot/assets/characters/enemy04/animations/rei_reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy04/battle.png.import
+ M godot/assets/characters/enemy04/icon.png.import
+ M godot/assets/characters/enemy04/portrait.png.import
+ M godot/assets/characters/enemy04/shadow.png.import
+ M godot/assets/characters/enemy04/sprite_sheet.png.import
+ M godot/assets/characters/enemy05/animations/cross_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/cross_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/animations/shadow_boxer_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy05/battle.png.import
+ M godot/assets/characters/enemy05/icon.png.import
+ M godot/assets/characters/enemy05/portrait.png.import
+ M godot/assets/characters/enemy05/shadow.png.import
+ M godot/assets/characters/enemy05/sprite_sheet.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/animations/rio_garcia_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy06/battle.png.import
+ M godot/assets/characters/enemy06/icon.png.import
+ M godot/assets/characters/enemy06/portrait.png.import
+ M godot/assets/characters/enemy06/shadow.png.import
+ M godot/assets/characters/enemy06/sprite_sheet.png.import
+ M godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy07/animations/teki_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy07/battle.png.import
+ M godot/assets/characters/enemy07/icon.png.import
+ M godot/assets/characters/enemy07/portrait.png.import
+ M godot/assets/characters/enemy07/shadow.png.import
+ M godot/assets/characters/enemy07/sprite_sheet.png.import
+ M godot/assets/characters/enemy08/animations/leon_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v1/sources/generated_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/special_received_gou_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/special_received_seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/animations/leon_v2/special_received_v1/motion_atlas.png.import
+ M godot/assets/characters/enemy08/battle.png.import
+ M godot/assets/characters/enemy08/icon.png.import
+ M godot/assets/characters/enemy08/portrait.png.import
+ M godot/assets/characters/enemy08/shadow.png.import
+ M godot/assets/characters/enemy08/sprite_sheet.png.import
+ M godot/assets/characters/player01/akky_guard_8x192.png.import
+ M godot/assets/characters/player01/akky_idle_8x192.png.import
+ M godot/assets/characters/player01/akky_idle_pose.png.import
+ M godot/assets/characters/player01/akky_jump_8x192.png.import
+ M godot/assets/characters/player01/akky_kick_8x192.png.import
+ M godot/assets/characters/player01/akky_prebattle_pose.png.import
+ M godot/assets/characters/player01/akky_punch_8x192.png.import
+ M godot/assets/characters/player01/akky_walk_8x192.png.import
+ M godot/assets/characters/player01/animations/akky_punch_1_strip.png.import
+ M godot/assets/characters/player01/animations/akky_punch_2_strip.png.import
+ M godot/assets/characters/player01/animations/akky_v3/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/cross_muei_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/cross_reactions/reactions.png.import
+ M godot/assets/characters/player01/animations/crouch_guard_192.png.import
+ M godot/assets/characters/player01/animations/crouch_kick_sweep_192.png.import
+ M godot/assets/characters/player01/animations/jump_punch_down_192.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_01.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_02.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_03.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_04.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_05.png.import
+ M godot/assets/characters/player01/animations/punch_1_frames/frame_06.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_01.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_02.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_03.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_04.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_05.png.import
+ M godot/assets/characters/player01/animations/punch_2_frames/frame_06.png.import
+ M godot/assets/characters/player01/animations/readable_grapple_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/animations/shadow_counter_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player01/battle.png.import
+ M godot/assets/characters/player01/icon.png.import
+ M godot/assets/characters/player01/jump_192.png.import
+ M godot/assets/characters/player01/jump_kick_192.png.import
+ M godot/assets/characters/player01/portrait.png.import
+ M godot/assets/characters/player01/selection_icon.png.import
+ M godot/assets/characters/player01/selection_portrait.png.import
+ M godot/assets/characters/player01/shadow.png.import
+ M godot/assets/characters/player01/sprite_sheet.png.import
+ M godot/assets/characters/player02/animations/cross_muei_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/cross_reactions/reactions.png.import
+ M godot/assets/characters/player02/animations/gou_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/readable_grapple_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/reversal_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player02/battle.png.import
+ M godot/assets/characters/player02/icon.png.import
+ M godot/assets/characters/player02/portrait.png.import
+ M godot/assets/characters/player02/selection_portrait.png.import
+ M godot/assets/characters/player02/shadow.png.import
+ M godot/assets/characters/player02/sprite_sheet.png.import
+ M godot/assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/cross_reactions/reactions.png.import
+ M godot/assets/characters/player03/animations/dark_seiya_v1/ground_contact_source.png.import
+ M godot/assets/characters/player03/animations/dark_seiya_v1/special_atlas.png.import
+ M godot/assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/seiya_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/animations/somersault_v1/motion_atlas.png.import
+ M godot/assets/characters/player03/battle.png.import
+ M godot/assets/characters/player03/icon.png.import
+ M godot/assets/characters/player03/portrait.png.import
+ M godot/assets/characters/player03/selection_portrait.png.import
+ M godot/assets/characters/player03/shadow.png.import
+ M godot/assets/characters/player03/sprite_sheet.png.import
+ M godot/assets/characters/rescued/mio.png.import
+ M godot/assets/characters/rescued/ren.png.import
+ M godot/assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png.import
+ M godot/assets/characters/special_received_crusher_v1/ally_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_02_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_03_guard/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_04_throw/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_05_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_06_combo/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_07_tricky/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_08_boss/motion_atlas.png.import
+ M godot/assets/characters/special_received_gou_v1/enemy_09_seiya/motion_atlas.png.import
+ M godot/assets/characters/special_received_rei_v1/ally_balance/motion_atlas.png.import
+ M godot/assets/characters/special_received_rei_v1/ally_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png.import
+ M godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_02_speed/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_03_guard/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_04_throw/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_05_power/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_06_combo/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_07_tricky/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_08_boss/motion_atlas.png.import
+ M godot/assets/characters/special_received_v1/enemy_09_seiya/motion_atlas.png.import
+ M godot/assets/effects/dark_seiya_pillar.png.import
+ M godot/assets/effects/special_v1/aura.png.import
+ M godot/assets/effects/special_v1/impact.png.import
+ M godot/assets/endings/true/alarm.wav.import
+ M godot/assets/endings/true/boat.png.import
+ M godot/assets/endings/true/click.wav.import
+ M godot/assets/endings/true/dawn.png.import
+ M godot/assets/endings/true/ending_music.wav.import
+ M godot/assets/endings/true/engine.wav.import
+ M godot/assets/endings/true/escape.png.import
+ M godot/assets/endings/true/explosion.png.import
+ M godot/assets/endings/true/explosion.wav.import
+ M godot/assets/endings/true/pier.png.import
+ M godot/assets/endings/true/rumble.wav.import
+ M godot/assets/endings/true/waves.wav.import
+ M godot/assets/fonts/NotoSansJP-Regular.otf.import
+ M godot/audio/music/st_action_theme.ogg.import
+ M godot/docs/index.apple-touch-icon.png.import
+ M godot/docs/index.icon.png.import
+ M godot/docs/index.png.import
+?? evidence/cross_received_akky/
+?? evidence/cross_received_gou/
+?? evidence/cross_runtime/
+?? evidence/cross_stage4_audit/atlas_followup.log
+?? evidence/cross_stage4_audit/backstep_00.png
+?? evidence/cross_stage4_audit/backstep_01.png
+?? evidence/cross_stage4_audit/backstep_02.png
+?? evidence/cross_stage4_audit/backstep_03.png
+?? evidence/cross_stage4_audit/chop_00.png
+?? evidence/cross_stage4_audit/chop_01.png
+?? evidence/cross_stage4_audit/chop_02.png
+?? evidence/cross_stage4_audit/combo_finisher_00.png
+?? evidence/cross_stage4_audit/combo_finisher_01.png
+?? evidence/cross_stage4_audit/combo_finisher_02.png
+?? evidence/cross_stage4_audit/combo_finisher_03.png
+?? evidence/cross_stage4_audit/compact_import.log
+?? evidence/cross_stage4_audit/cross_ankle_00.png
+?? evidence/cross_stage4_audit/cross_ankle_01.png
+?? evidence/cross_stage4_audit/cross_ankle_02.png
+?? evidence/cross_stage4_audit/cross_ankle_hold_00.png
+?? evidence/cross_stage4_audit/cross_ankle_release_00.png
+?? evidence/cross_stage4_audit/cross_ankle_release_01.png
+?? evidence/cross_stage4_audit/cross_ankle_start_00.png
+?? evidence/cross_stage4_audit/cross_armbar_00.png
+?? evidence/cross_stage4_audit/cross_armbar_01.png
+?? evidence/cross_stage4_audit/cross_armbar_02.png
+?? evidence/cross_stage4_audit/cross_armbar_hold_00.png
+?? evidence/cross_stage4_audit/cross_armbar_release_00.png
+?? evidence/cross_stage4_audit/cross_armbar_release_01.png
+?? evidence/cross_stage4_audit/cross_armbar_start_00.png
+?? evidence/cross_stage4_audit/cross_choke_00.png
+?? evidence/cross_stage4_audit/cross_choke_01.png
+?? evidence/cross_stage4_audit/cross_choke_02.png
+?? evidence/cross_stage4_audit/cross_choke_hold_00.png
+?? evidence/cross_stage4_audit/cross_choke_release_00.png
+?? evidence/cross_stage4_audit/cross_choke_release_01.png
+?? evidence/cross_stage4_audit/cross_choke_start_00.png
+?? evidence/cross_stage4_audit/cross_chop_00.png
+?? evidence/cross_stage4_audit/cross_chop_01.png
+?? evidence/cross_stage4_audit/cross_chop_02.png
+?? evidence/cross_stage4_audit/cross_harai_00.png
+?? evidence/cross_stage4_audit/cross_harai_01.png
+?? evidence/cross_stage4_audit/cross_harai_02.png
+?? evidence/cross_stage4_audit/cross_harai_hold_00.png
+?? evidence/cross_stage4_audit/cross_harai_release_00.png
+?? evidence/cross_stage4_audit/cross_harai_release_01.png
+?? evidence/cross_stage4_audit/cross_harai_start_00.png
+?? evidence/cross_stage4_audit/cross_joint_finish_00.png
+?? evidence/cross_stage4_audit/cross_joint_finish_01.png
+?? evidence/cross_stage4_audit/cross_joint_finish_02.png
+?? evidence/cross_stage4_audit/cross_joint_finish_03.png
+?? evidence/cross_stage4_audit/cross_knee_00.png
+?? evidence/cross_stage4_audit/cross_knee_01.png
+?? evidence/cross_stage4_audit/cross_knee_02.png
+?? evidence/cross_stage4_audit/cross_muei_00.png
+?? evidence/cross_stage4_audit/cross_muei_grip_00.png
+?? evidence/cross_stage4_audit/cross_muei_hold_00.png
+?? evidence/cross_stage4_audit/cross_muei_hold_01.png
+?? evidence/cross_stage4_audit/cross_muei_release_00.png
+?? evidence/cross_stage4_audit/cross_muei_release_01.png
+?? evidence/cross_stage4_audit/cross_osoto_00.png
+?? evidence/cross_stage4_audit/cross_osoto_01.png
+?? evidence/cross_stage4_audit/cross_osoto_02.png
+?? evidence/cross_stage4_audit/cross_osoto_hold_00.png
+?? evidence/cross_stage4_audit/cross_osoto_release_00.png
+?? evidence/cross_stage4_audit/cross_osoto_release_01.png
+?? evidence/cross_stage4_audit/cross_osoto_start_00.png
+?? evidence/cross_stage4_audit/cross_rotate_00.png
+?? evidence/cross_stage4_audit/cross_rotate_01.png
+?? evidence/cross_stage4_audit/cross_rotate_02.png
+?? evidence/cross_stage4_audit/cross_rotate_hold_00.png
+?? evidence/cross_stage4_audit/cross_rotate_release_00.png
+?? evidence/cross_stage4_audit/cross_rotate_release_01.png
+?? evidence/cross_stage4_audit/cross_rotate_start_00.png
+?? evidence/cross_stage4_audit/cross_seoi_00.png
+?? evidence/cross_stage4_audit/cross_seoi_01.png
+?? evidence/cross_stage4_audit/cross_seoi_02.png
+?? evidence/cross_stage4_audit/cross_seoi_hold_00.png
+?? evidence/cross_stage4_audit/cross_seoi_release_00.png
+?? evidence/cross_stage4_audit/cross_seoi_release_01.png
+?? evidence/cross_stage4_audit/cross_seoi_start_00.png
+?? evidence/cross_stage4_audit/cross_side_pin_00.png
+?? evidence/cross_stage4_audit/cross_side_pin_01.png
+?? evidence/cross_stage4_audit/cross_side_pin_02.png
+?? evidence/cross_stage4_audit/cross_side_pin_hold_00.png
+?? evidence/cross_stage4_audit/cross_side_pin_release_00.png
+?? evidence/cross_stage4_audit/cross_side_pin_release_01.png
+?? evidence/cross_stage4_audit/cross_side_pin_start_00.png
+?? evidence/cross_stage4_audit/cross_sode_00.png
+?? evidence/cross_stage4_audit/cross_sode_01.png
+?? evidence/cross_stage4_audit/cross_sode_02.png
+?? evidence/cross_stage4_audit/cross_sode_hold_00.png
+?? evidence/cross_stage4_audit/cross_sode_release_00.png
+?? evidence/cross_stage4_audit/cross_sode_release_01.png
+?? evidence/cross_stage4_audit/cross_sode_start_00.png
+?? evidence/cross_stage4_audit/cross_tomoe_00.png
+?? evidence/cross_stage4_audit/cross_tomoe_01.png
+?? evidence/cross_stage4_audit/cross_tomoe_02.png
+?? evidence/cross_stage4_audit/cross_tomoe_hold_00.png
+?? evidence/cross_stage4_audit/cross_tomoe_release_00.png
+?? evidence/cross_stage4_audit/cross_tomoe_release_01.png
+?? evidence/cross_stage4_audit/cross_tomoe_start_00.png
+?? evidence/cross_stage4_audit/cross_triangle_00.png
+?? evidence/cross_stage4_audit/cross_triangle_01.png
+?? evidence/cross_stage4_audit/cross_triangle_02.png
+?? evidence/cross_stage4_audit/cross_triangle_hold_00.png
+?? evidence/cross_stage4_audit/cross_triangle_release_00.png
+?? evidence/cross_stage4_audit/cross_triangle_release_01.png
+?? evidence/cross_stage4_audit/cross_triangle_start_00.png
+?? evidence/cross_stage4_audit/cross_uchimata_00.png
+?? evidence/cross_stage4_audit/cross_uchimata_01.png
+?? evidence/cross_stage4_audit/cross_uchimata_02.png
+?? evidence/cross_stage4_audit/cross_uchimata_hold_00.png
+?? evidence/cross_stage4_audit/cross_uchimata_release_00.png
+?? evidence/cross_stage4_audit/cross_uchimata_release_01.png
+?? evidence/cross_stage4_audit/cross_uchimata_start_00.png
+?? evidence/cross_stage4_audit/cross_wrist_finish_00.png
+?? evidence/cross_stage4_audit/cross_wrist_finish_01.png
+?? evidence/cross_stage4_audit/cross_wrist_finish_02.png
+?? evidence/cross_stage4_audit/cross_wrist_finish_03.png
+?? evidence/cross_stage4_audit/crouch_00.png
+?? evidence/cross_stage4_audit/crouch_guard_00.png
+?? evidence/cross_stage4_audit/crouch_idle_00.png
+?? evidence/cross_stage4_audit/crouch_kick_00.png
+?? evidence/cross_stage4_audit/crouch_kick_01.png
+?? evidence/cross_stage4_audit/crouch_kick_02.png
+?? evidence/cross_stage4_audit/crouch_kick_sweep_00.png
+?? evidence/cross_stage4_audit/crouch_kick_sweep_01.png
+?? evidence/cross_stage4_audit/crouch_kick_sweep_02.png
+?? evidence/cross_stage4_audit/crouch_punch_00.png
+?? evidence/cross_stage4_audit/crouch_punch_01.png
+?? evidence/cross_stage4_audit/crouch_punch_02.png
+?? evidence/cross_stage4_audit/crouch_sweep_kick_00.png
+?? evidence/cross_stage4_audit/crouch_sweep_kick_01.png
+?? evidence/cross_stage4_audit/crouch_sweep_kick_02.png
+?? evidence/cross_stage4_audit/damage_00.png
+?? evidence/cross_stage4_audit/damage_01.png
+?? evidence/cross_stage4_audit/damage_heavy_00.png
+?? evidence/cross_stage4_audit/damage_heavy_01.png
+?? evidence/cross_stage4_audit/damage_high_00.png
+?? evidence/cross_stage4_audit/damage_high_01.png
+?? evidence/cross_stage4_audit/damage_light_00.png
+?? evidence/cross_stage4_audit/damage_light_01.png
+?? evidence/cross_stage4_audit/damage_low_00.png
+?? evidence/cross_stage4_audit/damage_low_01.png
+?? evidence/cross_stage4_audit/dash_00.png
+?? evidence/cross_stage4_audit/dash_01.png
+?? evidence/cross_stage4_audit/defeat_00.png
+?? evidence/cross_stage4_audit/defeat_01.png
+?? evidence/cross_stage4_audit/down_00.png
+?? evidence/cross_stage4_audit/elbow_00.png
+?? evidence/cross_stage4_audit/elbow_01.png
+?? evidence/cross_stage4_audit/elbow_02.png
+?? evidence/cross_stage4_audit/export.log
+?? evidence/cross_stage4_audit/fall_00.png
+?? evidence/cross_stage4_audit/full_checks.log
+?? evidence/cross_stage4_audit/get_up_00.png
+?? evidence/cross_stage4_audit/get_up_01.png
+?? evidence/cross_stage4_audit/get_up_02.png
+?? evidence/cross_stage4_audit/get_up_03.png
+?? evidence/cross_stage4_audit/getup_00.png
+?? evidence/cross_stage4_audit/getup_01.png
+?? evidence/cross_stage4_audit/getup_02.png
+?? evidence/cross_stage4_audit/getup_03.png
+?? evidence/cross_stage4_audit/grab_00.png
+?? evidence/cross_stage4_audit/grab_01.png
+?? evidence/cross_stage4_audit/grab_02.png
+?? evidence/cross_stage4_audit/grab_03.png
+?? evidence/cross_stage4_audit/grabbed_00.png
+?? evidence/cross_stage4_audit/guard_00.png
+?? evidence/cross_stage4_audit/guard_hit_00.png
+?? evidence/cross_stage4_audit/guard_hit_01.png
+?? evidence/cross_stage4_audit/heavy_attack_00.png
+?? evidence/cross_stage4_audit/heavy_attack_01.png
+?? evidence/cross_stage4_audit/heavy_attack_02.png
+?? evidence/cross_stage4_audit/idle_00.png
+?? evidence/cross_stage4_audit/idle_01.png
+?? evidence/cross_stage4_audit/idle_02.png
+?? evidence/cross_stage4_audit/idle_03.png
+?? evidence/cross_stage4_audit/idle_prebattle_00.png
+?? evidence/cross_stage4_audit/idle_prebattle_01.png
+?? evidence/cross_stage4_audit/idle_ready_00.png
+?? evidence/cross_stage4_audit/idle_ready_01.png
+?? evidence/cross_stage4_audit/idle_ready_02.png
+?? evidence/cross_stage4_audit/idle_ready_03.png
+?? evidence/cross_stage4_audit/import-v3.log
+?? evidence/cross_stage4_audit/import.log
+?? evidence/cross_stage4_audit/import_runtime/
+?? evidence/cross_stage4_audit/jump_00.png
+?? evidence/cross_stage4_audit/jump_01.png
+?? evidence/cross_stage4_audit/jump_air_00.png
+?? evidence/cross_stage4_audit/jump_fall_00.png
+?? evidence/cross_stage4_audit/jump_kick_00.png
+?? evidence/cross_stage4_audit/jump_kick_01.png
+?? evidence/cross_stage4_audit/jump_kick_02.png
+?? evidence/cross_stage4_audit/jump_land_00.png
+?? evidence/cross_stage4_audit/jump_land_01.png
+?? evidence/cross_stage4_audit/jump_punch_00.png
+?? evidence/cross_stage4_audit/jump_punch_01.png
+?? evidence/cross_stage4_audit/jump_punch_02.png
+?? evidence/cross_stage4_audit/jump_punch_down_00.png
+?? evidence/cross_stage4_audit/jump_punch_down_01.png
+?? evidence/cross_stage4_audit/jump_punch_down_02.png
+?? evidence/cross_stage4_audit/jump_start_00.png
+?? evidence/cross_stage4_audit/jump_start_01.png
+?? evidence/cross_stage4_audit/jump_up_00.png
+?? evidence/cross_stage4_audit/kick_00.png
+?? evidence/cross_stage4_audit/kick_01.png
+?? evidence/cross_stage4_audit/kick_02.png
+?? evidence/cross_stage4_audit/kick_1_00.png
+?? evidence/cross_stage4_audit/kick_1_01.png
+?? evidence/cross_stage4_audit/kick_1_02.png
+?? evidence/cross_stage4_audit/kick_2_00.png
+?? evidence/cross_stage4_audit/kick_2_01.png
+?? evidence/cross_stage4_audit/kick_2_02.png
+?? evidence/cross_stage4_audit/knee_00.png
+?? evidence/cross_stage4_audit/knee_01.png
+?? evidence/cross_stage4_audit/knee_02.png
+?? evidence/cross_stage4_audit/knockback_00.png
+?? evidence/cross_stage4_audit/knockback_01.png
+?? evidence/cross_stage4_audit/knockdown_00.png
+?? evidence/cross_stage4_audit/knockdown_01.png
+?? evidence/cross_stage4_audit/knockdown_02.png
+?? evidence/cross_stage4_audit/ko_00.png
+?? evidence/cross_stage4_audit/ko_01.png
+?? evidence/cross_stage4_audit/land_00.png
+?? evidence/cross_stage4_audit/land_01.png
+?? evidence/cross_stage4_audit/landing_00.png
+?? evidence/cross_stage4_audit/landing_01.png
+?? evidence/cross_stage4_audit/light_attack_00.png
+?? evidence/cross_stage4_audit/light_attack_01.png
+?? evidence/cross_stage4_audit/light_attack_02.png
+?? evidence/cross_stage4_audit/native_akky_retry/
+?? evidence/cross_stage4_audit/native_cross_received_akky_check/
+?? evidence/cross_stage4_audit/native_cross_received_gou_check/
+?? evidence/cross_stage4_audit/native_cross_received_seiya_check/
+?? evidence/cross_stage4_audit/native_integrity/
+?? evidence/cross_stage4_audit/new-special-headless.log
+?? evidence/cross_stage4_audit/pr-body.md
+?? evidence/cross_stage4_audit/punch_00.png
+?? evidence/cross_stage4_audit/punch_01.png
+?? evidence/cross_stage4_audit/punch_02.png
+?? evidence/cross_stage4_audit/punch_1_00.png
+?? evidence/cross_stage4_audit/punch_1_01.png
+?? evidence/cross_stage4_audit/punch_1_02.png
+?? evidence/cross_stage4_audit/punch_2_00.png
+?? evidence/cross_stage4_audit/punch_2_01.png
+?? evidence/cross_stage4_audit/punch_2_02.png
+?? evidence/cross_stage4_audit/received_akky_elbow_air_00.png
+?? evidence/cross_stage4_audit/received_akky_elbow_air_01.png
+?? evidence/cross_stage4_audit/received_akky_elbow_down_00.png
+?? evidence/cross_stage4_audit/received_akky_elbow_fall_00.png
+?? evidence/cross_stage4_audit/received_akky_elbow_hit_00.png
+?? evidence/cross_stage4_audit/received_akky_elbow_wall_00.png
+?? evidence/cross_stage4_audit/received_gou_breaker_air_00.png
+?? evidence/cross_stage4_audit/received_gou_breaker_down_00.png
+?? evidence/cross_stage4_audit/received_gou_breaker_hit_00.png
+?? evidence/cross_stage4_audit/received_seiya_somersault_air_00.png
+?? evidence/cross_stage4_audit/received_seiya_somersault_down_00.png
+?? evidence/cross_stage4_audit/received_seiya_somersault_fall_00.png
+?? evidence/cross_stage4_audit/received_seiya_somersault_hit_00.png
+?? evidence/cross_stage4_audit/received_seiya_two_down_00.png
+?? evidence/cross_stage4_audit/received_seiya_two_fall_00.png
+?? evidence/cross_stage4_audit/received_seiya_two_fly_00.png
+?? evidence/cross_stage4_audit/received_seiya_two_lift_00.png
+?? evidence/cross_stage4_audit/reimport.log
+?? evidence/cross_stage4_audit/roundhouse_00.png
+?? evidence/cross_stage4_audit/roundhouse_01.png
+?? evidence/cross_stage4_audit/roundhouse_02.png
+?? evidence/cross_stage4_audit/runtime/
+?? evidence/cross_stage4_audit/special_00.png
+?? evidence/cross_stage4_audit/special_attack_00.png
+?? evidence/cross_stage4_audit/special_recovery_00.png
+?? evidence/cross_stage4_audit/special_recovery_01.png
+?? evidence/cross_stage4_audit/special_startup_00.png
+?? evidence/cross_stage4_audit/special_startup_01.png
+?? evidence/cross_stage4_audit/stage4_followup.log
+?? evidence/cross_stage4_audit/stand_up_00.png
+?? evidence/cross_stage4_audit/stand_up_01.png
+?? evidence/cross_stage4_audit/stand_up_02.png
+?? evidence/cross_stage4_audit/stand_up_03.png
+?? evidence/cross_stage4_audit/straight_punch_00.png
+?? evidence/cross_stage4_audit/straight_punch_01.png
+?? evidence/cross_stage4_audit/straight_punch_02.png
+?? evidence/cross_stage4_audit/targeted.log
+?? evidence/cross_stage4_audit/throw_00.png
+?? evidence/cross_stage4_audit/throw_01.png
+?? evidence/cross_stage4_audit/throw_02.png
+?? evidence/cross_stage4_audit/throw_03.png
+?? evidence/cross_stage4_audit/throw_hold_00.png
+?? evidence/cross_stage4_audit/throw_hold_01.png
+?? evidence/cross_stage4_audit/throw_release_00.png
+?? evidence/cross_stage4_audit/throw_start_00.png
+?? evidence/cross_stage4_audit/thrown_00.png
+?? evidence/cross_stage4_audit/thrown_01.png
+?? evidence/cross_stage4_audit/ukemi_00.png
+?? evidence/cross_stage4_audit/ukemi_01.png
+?? evidence/cross_stage4_audit/ukemi_02.png
+?? evidence/cross_stage4_audit/ukemi_03.png
+?? evidence/cross_stage4_audit/victory_00.png
+?? evidence/cross_stage4_audit/victory_01.png
+?? evidence/cross_stage4_audit/walk_00.png
+?? evidence/cross_stage4_audit/walk_01.png
+?? evidence/cross_stage4_audit/walk_02.png
+?? evidence/cross_stage4_audit/walk_03.png
+?? evidence/cross_stage4_audit/walk_backward_00.png
+?? evidence/cross_stage4_audit/walk_backward_01.png
+?? evidence/cross_stage4_audit/walk_backward_02.png
+?? evidence/cross_stage4_audit/walk_backward_03.png
+?? evidence/cross_stage4_audit/walk_forward_00.png
+?? evidence/cross_stage4_audit/walk_forward_01.png
+?? evidence/cross_stage4_audit/walk_forward_02.png
+?? evidence/cross_stage4_audit/walk_forward_03.png
+?? evidence/cross_stage4_damage/appdata_compact/
+?? evidence/cross_stage4_damage/before_damage_0.png
+?? evidence/cross_stage4_damage/before_damage_1.png
+?? evidence/cross_stage4_damage/before_down_0.png
+?? evidence/cross_stage4_damage/before_ko_0.png
+?? evidence/cross_stage4_damage/before_ko_1.png
+?? evidence/cross_stage4_damage/before_stand_up_0.png
+?? evidence/cross_stage4_damage/before_stand_up_1.png
+?? evidence/cross_stage4_damage/before_stand_up_2.png
+?? evidence/cross_stage4_damage/before_stand_up_3.png
+?? evidence/cross_stage4_damage/ko_0.png
+?? evidence/cross_stage4_damage/ko_1.png
+?? evidence/cross_stage4_damage/natural_getup_-1_frame_0.png
+?? evidence/cross_stage4_damage/natural_getup_-1_frame_1.png
+?? evidence/cross_stage4_damage/natural_getup_-1_frame_2.png
+?? evidence/cross_stage4_damage/natural_getup_-1_frame_3.png
+?? evidence/cross_stage4_damage/natural_getup_1_frame_0.png
+?? evidence/cross_stage4_damage/natural_getup_1_frame_1.png
+?? evidence/cross_stage4_damage/natural_getup_1_frame_2.png
+?? evidence/cross_stage4_damage/natural_getup_1_frame_3.png
+?? evidence/cross_stage4_damage/natural_high_-1_hit.png
+?? evidence/cross_stage4_damage/natural_high_-1_ready.png
+?? evidence/cross_stage4_damage/natural_high_1_hit.png
+?? evidence/cross_stage4_damage/natural_high_1_ready.png
+?? evidence/cross_stage4_damage/natural_knockdown_-1_GET_UP.png
+?? evidence/cross_stage4_damage/natural_knockdown_-1_KNOCKBACK.png
+?? evidence/cross_stage4_damage/natural_knockdown_-1_KNOCKDOWN.png
+?? evidence/cross_stage4_damage/natural_knockdown_-1_ready.png
+?? evidence/cross_stage4_damage/natural_knockdown_1_GET_UP.png
+?? evidence/cross_stage4_damage/natural_knockdown_1_KNOCKBACK.png
+?? evidence/cross_stage4_damage/natural_knockdown_1_KNOCKDOWN.png
+?? evidence/cross_stage4_damage/natural_knockdown_1_ready.png
+?? evidence/cross_stage4_damage/natural_low_-1_hit.png
+?? evidence/cross_stage4_damage/natural_low_-1_ready.png
+?? evidence/cross_stage4_damage/natural_low_1_hit.png
+?? evidence/cross_stage4_damage/natural_low_1_ready.png
+?? evidence/cross_stage4_damage/pose_damage_00_L.png
+?? evidence/cross_stage4_damage/pose_damage_00_R.png
+?? evidence/cross_stage4_damage/pose_damage_heavy_00_L.png
+?? evidence/cross_stage4_damage/pose_damage_heavy_00_R.png
+?? evidence/cross_stage4_damage/pose_damage_heavy_01_L.png
+?? evidence/cross_stage4_damage/pose_damage_heavy_01_R.png
+?? evidence/cross_stage4_damage/pose_damage_high_00_L.png
+?? evidence/cross_stage4_damage/pose_damage_high_00_R.png
+?? evidence/cross_stage4_damage/pose_damage_light_00_L.png
+?? evidence/cross_stage4_damage/pose_damage_light_00_R.png
+?? evidence/cross_stage4_damage/pose_damage_low_00_L.png
+?? evidence/cross_stage4_damage/pose_damage_low_00_R.png
+?? evidence/cross_stage4_damage/pose_get_up_00_L.png
+?? evidence/cross_stage4_damage/pose_get_up_00_R.png
+?? evidence/cross_stage4_damage/pose_get_up_01_L.png
+?? evidence/cross_stage4_damage/pose_get_up_01_R.png
+?? evidence/cross_stage4_damage/pose_get_up_02_L.png
+?? evidence/cross_stage4_damage/pose_get_up_02_R.png
+?? evidence/cross_stage4_damage/pose_get_up_03_L.png
+?? evidence/cross_stage4_damage/pose_get_up_03_R.png
+?? evidence/cross_stage4_damage/pose_getup_00_L.png
+?? evidence/cross_stage4_damage/pose_getup_00_R.png
+?? evidence/cross_stage4_damage/pose_getup_01_L.png
+?? evidence/cross_stage4_damage/pose_getup_01_R.png
+?? evidence/cross_stage4_damage/pose_getup_02_L.png
+?? evidence/cross_stage4_damage/pose_getup_02_R.png
+?? evidence/cross_stage4_damage/pose_getup_03_L.png
+?? evidence/cross_stage4_damage/pose_getup_03_R.png
+?? evidence/cross_stage4_damage/pose_grabbed_00_L.png
+?? evidence/cross_stage4_damage/pose_grabbed_00_R.png
+?? evidence/cross_stage4_damage/pose_guard_hit_00_L.png
+?? evidence/cross_stage4_damage/pose_guard_hit_00_R.png
+?? evidence/cross_stage4_damage/pose_knockback_00_L.png
+?? evidence/cross_stage4_damage/pose_knockback_00_R.png
+?? evidence/cross_stage4_damage/pose_knockback_01_L.png
+?? evidence/cross_stage4_damage/pose_knockback_01_R.png
+?? evidence/cross_stage4_damage/pose_knockdown_00_L.png
+?? evidence/cross_stage4_damage/pose_knockdown_00_R.png
+?? evidence/cross_stage4_damage/pose_knockdown_01_L.png
+?? evidence/cross_stage4_damage/pose_knockdown_01_R.png
+?? evidence/cross_stage4_damage/pose_knockdown_02_L.png
+?? evidence/cross_stage4_damage/pose_knockdown_02_R.png
+?? evidence/cross_stage4_damage/pose_ko_00_L.png
+?? evidence/cross_stage4_damage/pose_ko_00_R.png
+?? evidence/cross_stage4_damage/pose_ko_01_L.png
+?? evidence/cross_stage4_damage/pose_ko_01_R.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_air_00_L.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_air_00_R.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_air_01_L.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_air_01_R.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_down_00_L.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_down_00_R.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_fall_00_L.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_fall_00_R.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_hit_00_L.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_hit_00_R.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_wall_00_L.png
+?? evidence/cross_stage4_damage/pose_received_akky_elbow_wall_00_R.png
+?? evidence/cross_stage4_damage/pose_received_gou_breaker_air_00_L.png
+?? evidence/cross_stage4_damage/pose_received_gou_breaker_air_00_R.png
+?? evidence/cross_stage4_damage/pose_received_gou_breaker_down_00_L.png
+?? evidence/cross_stage4_damage/pose_received_gou_breaker_down_00_R.png
+?? evidence/cross_stage4_damage/pose_received_gou_breaker_hit_00_L.png
+?? evidence/cross_stage4_damage/pose_received_gou_breaker_hit_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_air_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_air_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_down_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_down_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_fall_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_fall_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_hit_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_somersault_hit_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_down_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_down_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_fall_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_fall_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_fly_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_fly_00_R.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_lift_00_L.png
+?? evidence/cross_stage4_damage/pose_received_seiya_two_lift_00_R.png
+?? evidence/cross_stage4_damage/pose_stand_up_00_L.png
+?? evidence/cross_stage4_damage/pose_stand_up_00_R.png
+?? evidence/cross_stage4_damage/pose_stand_up_01_L.png
+?? evidence/cross_stage4_damage/pose_stand_up_01_R.png
+?? evidence/cross_stage4_damage/pose_stand_up_02_L.png
+?? evidence/cross_stage4_damage/pose_stand_up_02_R.png
+?? evidence/cross_stage4_damage/pose_stand_up_03_L.png
+?? evidence/cross_stage4_damage/pose_stand_up_03_R.png
+?? evidence/cross_stage4_damage/pose_thrown_00_L.png
+?? evidence/cross_stage4_damage/pose_thrown_00_R.png
+?? evidence/cross_stage4_damage/pose_thrown_01_L.png
+?? evidence/cross_stage4_damage/pose_thrown_01_R.png
+?? evidence/cross_stage4_public/driver-cache-rejected.log
+?? evidence/cross_stage4_public/headless_appdata/
+?? evidence/cross_stage4_public/native_appdata/
+?? evidence/cross_stage4_public/public.pck
+?? evidence/cross_stage4_public/special_fresh_appdata/
+?? evidence/cross_stage4_public/special_scene_appdata/
+?? evidence/cross_stage4_public/wrapper-setup-rejected.log
+?? evidence/cross_stage4_public_damage/
+?? evidence/cross_stage4_public_special/
+?? evidence/cross_stage4_special/
+?? evidence/handoff_checks/runtime/
+?? evidence/stage9/
+?? tools/__pycache__/

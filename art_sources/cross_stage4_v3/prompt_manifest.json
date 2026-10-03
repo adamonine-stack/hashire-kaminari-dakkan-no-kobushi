@@ -1,0 +1,21 @@
+{
+  "workflow": "Motion plan -> one key pose per generation -> reference/design comparison -> atlas -> Godot screenshots -> correction",
+  "approved": [
+    {
+      "file": "frames/cross_down.png",
+      "generation": "exec-78cb447e-8cd5-46a6-8307-cd05e6930825.png",
+      "purpose": "Compact bent-knee side prone, retain formal head/jacket/red sleeve tag/hip chain/boots; replace elongated candidate."
+    },
+    {
+      "file": "frames/cross_low_hit.png",
+      "generation": "exec-d1ad4ac5-8171-4eb5-b244-e1186fc80f3f.png",
+      "purpose": "Forward torso fold and buckled knee, formal fringe/jacket/chain/boots."
+    }
+  ],
+  "rejected": [
+    {
+      "generation": "exec-6b3d8f91-9333-4ab6-ada1-cfef9b2f2e69.png",
+      "reason": "Area matching produced 347px body width versus 213px idle height; too elongated. Not used in atlas."
+    }
+  ]
+}

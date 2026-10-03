@@ -1,0 +1,263 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 - Build 32.0.101.6737 - Compatibility - Using Device: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+CROSS_CAPTURE frame_air_hit_0_R
+CROSS_CAPTURE frame_air_hit_0_L
+CROSS_CAPTURE frame_air_hit_1_R
+CROSS_CAPTURE frame_air_hit_1_L
+CROSS_CAPTURE frame_backstep_0_R
+CROSS_CAPTURE frame_backstep_0_L
+CROSS_CAPTURE frame_backstep_1_R
+CROSS_CAPTURE frame_backstep_1_L
+CROSS_CAPTURE frame_backstep_2_R
+CROSS_CAPTURE frame_backstep_2_L
+CROSS_CAPTURE frame_chop_0_R
+CROSS_CAPTURE frame_chop_0_L
+CROSS_CAPTURE frame_chop_1_R
+CROSS_CAPTURE frame_chop_1_L
+CROSS_CAPTURE frame_chop_2_R
+CROSS_CAPTURE frame_chop_2_L
+CROSS_CAPTURE frame_combo_finisher_0_R
+CROSS_CAPTURE frame_combo_finisher_0_L
+CROSS_CAPTURE frame_combo_finisher_1_R
+CROSS_CAPTURE frame_combo_finisher_1_L
+CROSS_CAPTURE frame_combo_finisher_2_R
+CROSS_CAPTURE frame_combo_finisher_2_L
+CROSS_CAPTURE frame_cross_ankle_0_R
+CROSS_CAPTURE frame_cross_ankle_0_L
+CROSS_CAPTURE frame_cross_ankle_2_R
+CROSS_CAPTURE frame_cross_ankle_2_L
+CROSS_CAPTURE frame_cross_armbar_1_R
+CROSS_CAPTURE frame_cross_armbar_1_L
+CROSS_CAPTURE frame_cross_choke_1_R
+CROSS_CAPTURE frame_cross_choke_1_L
+CROSS_CAPTURE frame_cross_chop_0_R
+CROSS_CAPTURE frame_cross_chop_0_L
+CROSS_CAPTURE frame_cross_chop_1_R
+CROSS_CAPTURE frame_cross_chop_1_L
+CROSS_CAPTURE frame_cross_harai_2_R
+CROSS_CAPTURE frame_cross_harai_2_L
+CROSS_CAPTURE frame_cross_joint_finish_1_R
+CROSS_CAPTURE frame_cross_joint_finish_1_L
+CROSS_CAPTURE frame_cross_muei_0_R
+CROSS_CAPTURE frame_cross_muei_0_L
+CROSS_CAPTURE frame_cross_muei_hold_0_R
+CROSS_CAPTURE frame_cross_muei_hold_0_L
+CROSS_CAPTURE frame_cross_muei_hold_1_R
+CROSS_CAPTURE frame_cross_muei_hold_1_L
+CROSS_CAPTURE frame_cross_muei_release_0_R
+CROSS_CAPTURE frame_cross_muei_release_0_L
+CROSS_CAPTURE frame_cross_muei_release_1_R
+CROSS_CAPTURE frame_cross_muei_release_1_L
+CROSS_CAPTURE frame_cross_osoto_2_R
+CROSS_CAPTURE frame_cross_osoto_2_L
+CROSS_CAPTURE frame_cross_rotate_2_R
+CROSS_CAPTURE frame_cross_rotate_2_L
+CROSS_CAPTURE frame_cross_side_pin_1_R
+CROSS_CAPTURE frame_cross_side_pin_1_L
+CROSS_CAPTURE frame_cross_tomoe_2_R
+CROSS_CAPTURE frame_cross_tomoe_2_L
+CROSS_CAPTURE frame_cross_triangle_1_R
+CROSS_CAPTURE frame_cross_triangle_1_L
+CROSS_CAPTURE frame_cross_triangle_2_R
+CROSS_CAPTURE frame_cross_triangle_2_L
+CROSS_CAPTURE frame_crouch_0_R
+CROSS_CAPTURE frame_crouch_0_L
+CROSS_CAPTURE frame_crouch_kick_1_R
+CROSS_CAPTURE frame_crouch_kick_1_L
+CROSS_CAPTURE frame_damage_low_0_R
+CROSS_CAPTURE frame_damage_low_0_L
+CROSS_CAPTURE frame_dash_0_R
+CROSS_CAPTURE frame_dash_0_L
+CROSS_CAPTURE frame_dash_1_R
+CROSS_CAPTURE frame_dash_1_L
+CROSS_CAPTURE frame_defeat_1_R
+CROSS_CAPTURE frame_defeat_1_L
+CROSS_CAPTURE frame_elbow_1_R
+CROSS_CAPTURE frame_elbow_1_L
+CROSS_CAPTURE frame_fall_0_R
+CROSS_CAPTURE frame_fall_0_L
+CROSS_CAPTURE frame_get_up_1_R
+CROSS_CAPTURE frame_get_up_1_L
+CROSS_CAPTURE frame_get_up_2_R
+CROSS_CAPTURE frame_get_up_2_L
+CROSS_CAPTURE frame_get_up_3_R
+CROSS_CAPTURE frame_get_up_3_L
+CROSS_CAPTURE frame_guard_hit_0_R
+CROSS_CAPTURE frame_guard_hit_0_L
+CROSS_CAPTURE frame_idle_1_R
+CROSS_CAPTURE frame_idle_1_L
+CROSS_CAPTURE frame_idle_prebattle_0_R
+CROSS_CAPTURE frame_idle_prebattle_0_L
+CROSS_CAPTURE frame_jump_0_R
+CROSS_CAPTURE frame_jump_0_L
+CROSS_CAPTURE frame_jump_1_R
+CROSS_CAPTURE frame_jump_1_L
+CROSS_CAPTURE frame_jump_kick_1_R
+CROSS_CAPTURE frame_jump_kick_1_L
+CROSS_CAPTURE frame_jump_land_0_R
+CROSS_CAPTURE frame_jump_land_0_L
+CROSS_CAPTURE frame_jump_punch_1_R
+CROSS_CAPTURE frame_jump_punch_1_L
+CROSS_CAPTURE frame_knee_0_R
+CROSS_CAPTURE frame_knee_0_L
+CROSS_CAPTURE frame_knee_1_R
+CROSS_CAPTURE frame_knee_1_L
+CROSS_CAPTURE frame_received_akky_elbow_air_0_R
+CROSS_CAPTURE frame_received_akky_elbow_air_0_L
+CROSS_CAPTURE frame_received_akky_elbow_air_1_R
+CROSS_CAPTURE frame_received_akky_elbow_air_1_L
+CROSS_CAPTURE frame_received_akky_elbow_down_0_R
+CROSS_CAPTURE frame_received_akky_elbow_down_0_L
+CROSS_CAPTURE frame_received_akky_elbow_fall_0_R
+CROSS_CAPTURE frame_received_akky_elbow_fall_0_L
+CROSS_CAPTURE frame_received_akky_elbow_hit_0_R
+CROSS_CAPTURE frame_received_akky_elbow_hit_0_L
+CROSS_CAPTURE frame_received_akky_elbow_wall_0_R
+CROSS_CAPTURE frame_received_akky_elbow_wall_0_L
+CROSS_CAPTURE frame_received_gou_breaker_air_0_R
+CROSS_CAPTURE frame_received_gou_breaker_air_0_L
+CROSS_CAPTURE frame_received_gou_breaker_hit_0_R
+CROSS_CAPTURE frame_received_gou_breaker_hit_0_L
+CROSS_CAPTURE frame_received_seiya_somersault_air_0_R
+CROSS_CAPTURE frame_received_seiya_somersault_air_0_L
+CROSS_CAPTURE frame_received_seiya_somersault_fall_0_R
+CROSS_CAPTURE frame_received_seiya_somersault_fall_0_L
+CROSS_CAPTURE frame_received_seiya_somersault_hit_0_R
+CROSS_CAPTURE frame_received_seiya_somersault_hit_0_L
+CROSS_CAPTURE frame_received_seiya_two_fall_0_R
+CROSS_CAPTURE frame_received_seiya_two_fall_0_L
+CROSS_CAPTURE frame_received_seiya_two_fly_0_R
+CROSS_CAPTURE frame_received_seiya_two_fly_0_L
+CROSS_CAPTURE frame_received_seiya_two_lift_0_R
+CROSS_CAPTURE frame_received_seiya_two_lift_0_L
+CROSS_CAPTURE frame_roundhouse_0_R
+CROSS_CAPTURE frame_roundhouse_0_L
+CROSS_CAPTURE frame_roundhouse_1_R
+CROSS_CAPTURE frame_roundhouse_1_L
+CROSS_CAPTURE frame_special_startup_0_R
+CROSS_CAPTURE frame_special_startup_0_L
+CROSS_CAPTURE frame_straight_punch_0_R
+CROSS_CAPTURE frame_straight_punch_0_L
+CROSS_CAPTURE frame_straight_punch_1_R
+CROSS_CAPTURE frame_straight_punch_1_L
+CROSS_CAPTURE frame_ukemi_0_R
+CROSS_CAPTURE frame_ukemi_0_L
+CROSS_CAPTURE frame_ukemi_2_R
+CROSS_CAPTURE frame_ukemi_2_L
+CROSS_CAPTURE frame_walk_0_R
+CROSS_CAPTURE frame_walk_0_L
+CROSS_CAPTURE frame_walk_1_R
+CROSS_CAPTURE frame_walk_1_L
+CROSS_CAPTURE frame_walk_2_R
+CROSS_CAPTURE frame_walk_2_L
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 97
+[Special] gauge_changed=9
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=8
+CROSS_CAPTURE contact_damage_1
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: cross_kick
+Kick HitBox ON
+[DEV036] Attack active: cross_kick
+Kick Hit
+Damage: 7
+HP: 93
+[Special] gauge_changed=18
+[DEV036] Attack hit: Player
+[Special] gauge_changed=19
+CROSS_CAPTURE contact_kick_1
+Kick HitBox OFF
+[DEV036] Attack finished: cross_kick
+[Special] gauge_changed=21
+Damage: 0
+HP: 108
+[Special] gauge_changed=28
+CROSS_CAPTURE contact_guard_1
+[DEV033] Enemy target updated: 
+THROW STARTUP
+CROSS_CAPTURE contact_cross_seoi_start_1
+THROW CONNECTED
+CROSS_CAPTURE contact_cross_seoi_hold_1
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=33
+CROSS_CAPTURE contact_cross_seoi_release_1
+[Special] gauge_full
+[Special] started id=cross_muei
+CROSS_CAPTURE muei_special_startup_1
+[Special] active
+CROSS_CAPTURE muei_cross_muei_1
+CROSS_CAPTURE muei_peak_1
+CROSS_CAPTURE muei_special_recovery_1
+[Special] finished
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 97
+[Special] gauge_changed=9
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=41
+CROSS_CAPTURE contact_damage_-1
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: cross_kick
+Kick HitBox ON
+[DEV036] Attack active: cross_kick
+Kick Hit
+Damage: 7
+HP: 93
+[Special] gauge_changed=51
+[DEV036] Attack hit: Player
+[Special] gauge_changed=19
+CROSS_CAPTURE contact_kick_-1
+Kick HitBox OFF
+[DEV036] Attack finished: cross_kick
+[Special] gauge_changed=54
+Damage: 0
+HP: 108
+[Special] gauge_changed=28
+CROSS_CAPTURE contact_guard_-1
+[DEV033] Enemy target updated: 
+THROW STARTUP
+CROSS_CAPTURE contact_cross_osoto_start_-1
+THROW CONNECTED
+CROSS_CAPTURE contact_cross_osoto_hold_-1
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=66
+CROSS_CAPTURE contact_cross_osoto_release_-1
+[Special] gauge_full
+[Special] started id=cross_muei
+CROSS_CAPTURE muei_special_startup_-1
+[Special] active
+CROSS_CAPTURE muei_cross_muei_-1
+CROSS_CAPTURE muei_peak_-1
+CROSS_CAPTURE muei_special_recovery_-1
+[Special] finished
+CROSS_MOTION_INTEGRITY_RESULT frames=291 unique_views=150 screenshots=170 failures=[]
