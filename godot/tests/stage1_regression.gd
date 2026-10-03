@@ -104,7 +104,7 @@ func run() -> void:
 		player.start_attack("player1_punch_1")
 		player._update_visual_state()
 		var initial_hp: int = enemy.current_hp
-		await ticks(8)
+		await ticks(maxi(1, floori(player.attack_startup_time_actual * 60.0) - 2))
 		check(enemy.current_hp == initial_hp, "startup cannot deal damage")
 		var saw_contact := false
 		for i in range(45):

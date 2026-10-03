@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "akky_forward_punch"
+display_name = "AKKY forward punch"
+attack_type = "punch"
+attack_category = "directional"
+command_direction = "forward"
+command_priority = 10
+base_damage = 1.05
+startup_time = 0.12
+active_time = 0.08
+recovery_time = 0.24
+hitbox_size = Vector2(60, 34)
+hitbox_offset = Vector2(68, -137)
+forward_move_distance = 38
+forward_move_duration = 0.2
+knockback = Vector2(170, -35)
+hitstop_time = 0.055
+hitstun_time = 0.32
+animation_name = "akky_forward_punch"
+contact_start_frame = 2
+contact_end_frame = 2
+hurtbox_height_scale = 1
+hurtbox_offset = Vector2(0, 0)
+hurtbox_start = 0.02
+hurtbox_end = 0.2
+launch_velocity = Vector2(0, 0)
+knockdown = false
+counter_hitstun_bonus = 0.0
+attack_height = "middle"
+cancel_start = 0.19
+cancel_end = 0.3
+cancel_targets = Array[String](["player1_kick_finish", "akky_forward_kick"])
+guard_hit_time = 0.16
+guard_knockback = Vector2(65, 0)

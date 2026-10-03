@@ -2907,6 +2907,9 @@ func _get_walk_animation_for_direction(direction: float) -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var authored_hit := StringName(attack_data.get("hit_reaction", &""))
+	if authored_hit != &"" and _has_visual_animation(authored_hit):
+		return authored_hit
 	var authored_special := _get_special_received_animation(attack_data, "hit")
 	if authored_special != &"": return authored_special
 	if bool(attack_data.get("is_special", false)):

@@ -83,3 +83,6 @@ Windowsのroot certificate store読み出しエラーはログに残る。ネッ
 36–37. 発見・修正：空enum Parse Error、userログ書込み失敗、テスト終了時解放、対向方向入力の誤方向、通常Comboによる方向専用Resource誤選択。
 38. 未解決：Phase 2以降の本編技・双方のモーション・方向投げ・Launcher/Air Combo・Situation AI・全キャラ展開・実画面／Touch／Performance／全回帰。全体を完成としない。
 39. Commit Hashはcombat_git_result.txt参照。
+
+## 後続工程（2026-10-04）
+AKKY方向攻撃6技とダウン/復帰Motionの実装・検証・残作業は DIRECTIONAL_PHASE_REPORT.md を参照。全戦闘体系の完成報告ではありません。

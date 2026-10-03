@@ -104,6 +104,12 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if _can_guard_attack(attack_data, attacker):
 		_receive_guarded_attack(attack_data, attack_direction, hit_position, attacker)
 		return false
+	# Counter state is observed before cancelling the receiving attack. No move
+	# ID matchup priority is involved; collision and timing have already won.
+	if attack_phase == AttackPhase.STARTUP and float(attack_data.get("counter_hitstun_bonus", 0.0)) > 0.0:
+		attack_data = attack_data.duplicate()
+		attack_data["counter_hit"] = true
+		attack_data["hitstun_time"] = float(attack_data.get("hitstun_time", hit_reaction_time)) + float(attack_data.counter_hitstun_bonus)
 
 	var final_damage := int(attack_data["damage"])
 	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
@@ -178,6 +184,14 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		return true
 
 	_apply_knockback(attack_data, attack_direction)
+	var launch: Vector2 = attack_data.get("launch_velocity", Vector2.ZERO)
+	if launch != Vector2.ZERO and not causes_down:
+		velocity = Vector2(launch.x * attack_direction, -absf(launch.y))
+		if _has_visual_animation(&"launch_hit"):
+			last_damage_animation = &"launch_hit"
+		elif _has_visual_animation(&"knockback"):
+			last_damage_animation = &"knockback"
+		_play_visual_animation(last_damage_animation, true)
 	_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
 	_spawn_hit_effect(hit_position, attack_data["effect_size"])
 	_play_hit_se(attack_data["se_type"])

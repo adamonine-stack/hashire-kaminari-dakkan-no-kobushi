@@ -33,6 +33,7 @@ func run() -> void:
 	move.attack_id = "test_back_punch"
 	move.attack_type = "punch"
 	move.command_direction = "back"
+	move.command_priority = 1000
 	move.animation_name = "punch_1"
 	move.cancel_start = 0.10
 	move.cancel_end = 0.25

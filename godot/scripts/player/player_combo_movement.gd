@@ -202,6 +202,11 @@ func _dispatch_combat_command() -> void:
 		if _request_directional_move(move_id):
 			combat_commands.consume(command)
 		return
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty() and command.kind in ["punch", "kick"]:
+		var target := _directional_cancel_target(String(command.kind))
+		if not target.is_empty() and _request_directional_move(target):
+			combat_commands.consume(command)
+		return
 	var accepted := false
 	match String(command.kind):
 		"special": accepted = request_combat_input(CombatInput.SPECIAL)
@@ -211,6 +216,14 @@ func _dispatch_combat_command() -> void:
 	# Legacy combo buffering stores the request even before it can cancel.
 	if accepted or (command.kind in ["punch", "kick"] and dev_buffered_attack != &""):
 		combat_commands.consume(command)
+
+
+func _directional_cancel_target(kind: String) -> String:
+	for target_id in current_attack_data.cancel_targets:
+		var target := _get_attack_data(target_id)
+		if target != null and String(target.command_direction).is_empty() and String(target.attack_type).to_lower() == kind:
+			return target_id
+	return ""
 
 
 func _resolve_directional_move(command: Dictionary) -> String:
@@ -279,6 +292,9 @@ func _sync_attack_visual_phase() -> void:
 	if current_attack_data == null or animated_character_sprite == null:
 		return
 	var contact_frames := {"player1_punch_1": Vector2i(2, 2), "player1_punch_2": Vector2i(2, 2), "player1_kick_finish": Vector2i(2, 3)}
+	var authored_contact := int(current_attack_data.contact_start_frame) >= 0
+	if authored_contact:
+		contact_frames[current_attack_id] = Vector2i(current_attack_data.contact_start_frame, maxi(current_attack_data.contact_end_frame, current_attack_data.contact_start_frame))
 	var definition: Resource = get("fighter_definition")
 	var is_gou := definition != null and String(definition.get("fighter_id")) == "player_02_gou" and definition.get("motion_atlas") != null
 	var is_seiya := definition != null and String(definition.get("fighter_id")) == "player_03_seiya" and definition.get("motion_atlas") != null
@@ -310,7 +326,7 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_05_cross_murasame":
 		for id in ["cross_punch","cross_chop","cross_wrist_finish","cross_kick","cross_knee","cross_joint_finish","cross_sweep","cross_air_punch","cross_air_kick"]:
 			contact_frames[id] = Vector2i(2, 2) if id.ends_with("finish") else Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya and not is_leon and not _uses_readable_grapple()):
+	if not contact_frames.has(current_attack_id) or (not authored_contact and is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya and not is_leon and not _uses_readable_grapple()):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)
@@ -577,6 +593,8 @@ func start_attack(attack_id: String) -> void:
 	current_attack_id = attack_id
 	command_attack_elapsed = 0.0
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
+	if not String(attack_data.command_direction).is_empty():
+		is_crouching = false
 	_play_audio_manager_se("kick_whiff" if current_attack_type == "Kick" else "punch_whiff")
 	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
 	dev_current_attack_connected = false
@@ -776,7 +794,10 @@ func apply_attack_forward_movement(delta: float) -> void:
 	if attack_forward_timer <= 0.0:
 		return
 	var step := minf(delta, attack_forward_timer)
-	position.x += attack_forward_speed * step
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty():
+		velocity.x = attack_forward_speed * step / maxf(delta, 0.001)
+	else:
+		position.x += attack_forward_speed * step
 	attack_forward_timer = maxf(attack_forward_timer - delta, 0.0)
 
 
@@ -1101,6 +1122,12 @@ func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bo
 
 
 func try_continue_combo() -> bool:
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty():
+		var target := _directional_cancel_target(String(dev_buffered_attack).to_lower())
+		if not target.is_empty() and _request_directional_move(target, not input_enabled):
+			clear_attack_buffer()
+			return true
+		return false
 	if not _can_cancel_attack():
 		return false
 	if dev_buffered_attack == &"":
@@ -1156,7 +1183,7 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 	# The receiver must judge finishers from the attacker's combo definition, not its own.
 	scaled_attack_data["combo_hit_max"] = dev026_max_combo_hits
 	scaled_attack_data["damage_scale"] = damage_scale
-	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and not current_attack_data.next_attack_ids.is_empty()
+	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and (not current_attack_data.next_attack_ids.is_empty() or not current_attack_data.cancel_targets.is_empty())
 	return scaled_attack_data
 
 
@@ -1372,7 +1399,7 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 	# Air attacks are overheads: standing guard blocks them, crouch guard does not.
 	if String(attack_data.get("attack_category")).to_lower() == "air":
 		attack_height = "overhead"
-	return {
+	var result := {
 		"damage": maxi(1, int(round(float(base_damage) * float(attack_data.base_damage)))),
 		"attacker_archetype": String(_get_combat_archetype()),
 		"attack_height": attack_height,
@@ -1390,6 +1417,19 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		"attack_id": current_attack_id,
 		"attack_type": String(attack_data.attack_type),
 	}
+	if not String(attack_data.command_direction).is_empty():
+		result.merge({
+		"launch_velocity": Vector2(attack_data.launch_velocity),
+		"causes_knockdown": bool(attack_data.knockdown),
+		"hit_reaction": StringName(attack_data.hit_reaction),
+		"counter_hitstun_bonus": float(attack_data.counter_hitstun_bonus),
+		"hitstun_time": float(attack_data.hitstun_time),
+		"is_guardable": bool(attack_data.is_guardable),
+		"guard_damage_multiplier": float(attack_data.guard_damage_multiplier),
+		"guard_hit_time": float(attack_data.guard_hit_time),
+		"guard_knockback": Vector2(attack_data.guard_knockback),
+		}, true)
+	return result
 
 
 func _get_attack_data(attack_id: String) -> Resource:
@@ -1570,6 +1610,8 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
+	if attack_data != null and not String(attack_data.command_direction).is_empty():
+		return StringName(attack_data.animation_name)
 	if _is_cross_grappler() and attack_data != null:
 		return StringName(attack_data.animation_name)
 	if attack_data != null:
@@ -1587,7 +1629,24 @@ func _attack_animation_name(attack_data: Resource) -> StringName:
 	return _get_attack_animation_name(StringName(current_attack_type))
 
 
+func _update_pose_collision() -> void:
+	super._update_pose_collision()
+	if current_attack_data == null or String(current_attack_data.command_direction).is_empty():
+		return
+	if hurt_box == null or hurt_shape == null or not (hurt_shape.shape is RectangleShape2D):
+		return
+	if command_attack_elapsed < float(current_attack_data.hurtbox_start) or command_attack_elapsed > float(current_attack_data.hurtbox_end):
+		return
+	var height := default_hurt_box_size.y * clampf(float(current_attack_data.hurtbox_height_scale), 0.25, 1.25)
+	hurt_shape.shape.size = Vector2(default_hurt_box_size.x * clampf(float(current_attack_data.hurtbox_width_scale), 0.25, 1.25), height)
+	var offset: Vector2 = current_attack_data.hurtbox_offset * battle_visual_scale_multiplier
+	offset.x *= facing_direction
+	hurt_box.position = default_hurt_box_position + Vector2(0.0, (default_hurt_box_size.y - height) * 0.5) + offset
+
+
 func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) -> float:
+	if attack_data != null and not String(attack_data.command_direction).is_empty():
+		return float(attack_data.hitstop_time)
 	if attack_type == "Kick":
 		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
 			return dev052_kick_1_hitstop_attacker
@@ -1600,6 +1659,8 @@ func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) ->
 
 
 func _get_attack_hitstop_defender(attack_data: Resource, attack_type: String) -> float:
+	if attack_data != null and not String(attack_data.command_direction).is_empty():
+		return float(attack_data.hitstop_time)
 	if attack_type == "Kick":
 		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
 			return 0.09

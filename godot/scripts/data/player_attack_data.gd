@@ -16,6 +16,19 @@ class_name PlayerAttackData
 @export var cancel_start: float = -1.0
 @export var cancel_end: float = -1.0
 @export var cancel_targets: Array[String] = []
+## Reviewed contact poses; negative retains the legacy clip phase map.
+@export var contact_start_frame: int = -1
+@export var contact_end_frame: int = -1
+## Temporary collision geometry about the foot anchor; sprite scale stays fixed.
+@export var hurtbox_height_scale: float = 1.0
+@export var hurtbox_width_scale: float = 1.0
+@export var hurtbox_offset: Vector2 = Vector2.ZERO
+@export var hurtbox_start: float = 0.0
+@export var hurtbox_end: float = 0.0
+@export var launch_velocity: Vector2 = Vector2.ZERO
+@export var knockdown: bool = false
+@export var hit_reaction: StringName = &""
+@export var counter_hitstun_bonus: float = 0.0
 
 @export_group("Damage")
 @export var base_damage: float = 1.0
