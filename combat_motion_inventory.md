@@ -529,4 +529,3 @@ Existing clips: idle, idle_ready, idle_prebattle, walk, walk_forward, walk_backw
 | Special Knockback | special_knockback | Missing exact clip; pose review / new production needed |
 | Special Knockdown | special_knockdown | Missing exact clip; pose review / new production needed |
 | Special Guard | special_guard | Missing exact clip; pose review / new production needed |
-

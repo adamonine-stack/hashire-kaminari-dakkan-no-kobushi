@@ -54,7 +54,7 @@ func _initialize() -> void:
 		push_error("Cannot write inventory")
 		quit(1)
 		return
-	output.store_string("\n".join(lines) + "\n")
+	output.store_string("\n".join(lines).strip_edges(false, true) + "\n")
 	output.close()
 	print("COMBAT_MOTION_INVENTORY fighters=%d" % files.size())
 	quit()
