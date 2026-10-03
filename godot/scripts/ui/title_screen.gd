@@ -39,6 +39,11 @@ var orientation_overlay: PanelContainer
 
 
 func _ready() -> void:
+	var stage9_qa_path := "user://qa/stage9_motion.flag"
+	if OS.has_feature("web") and FileAccess.file_exists(stage9_qa_path) and FileAccess.get_file_as_string(stage9_qa_path).strip_edges() == "stage9_motion_v1":
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(stage9_qa_path))
+		get_tree().call_deferred("change_scene_to_file","res://tests/stage9_two_hit_qa.tscn")
+		return
 	# Private fresh-browser QA fixtures use the normal Web startup because release
 	# templates disable command-line scene overrides. Ordinary saves never set this.
 	var shadow_qa_path := "user://qa/shadow_motion.flag"

@@ -50,9 +50,10 @@ func run() -> void:
 	check(enemy.fighter_definition.visual_scale_adjustment == hero.visual_scale_adjustment and enemy.fighter_definition.head_scale == hero.head_scale and enemy.fighter_definition.body_width_scale == hero.body_width_scale,"identical hero and boss proportions")
 	await reset_pair()
 	var hp: int = player.current_hp
+	var hits_before: int = aura.actual_hits
 	check(aura.start_special(),"special begins")
 	check(not aura.strike_area.monitoring,"no hitbox during charge")
-	await ticks(25)
+	await ticks(4)
 	await capture("special_1_charge")
 	await wait_phase(aura.Phase.SLAM)
 	await capture("special_2_slam")
@@ -65,7 +66,7 @@ func run() -> void:
 	await capture("special_4_pillar_hit")
 	await wait_phase(aura.Phase.IDLE)
 	check(player.current_hp == hp-26,"one pillar deals exactly 26")
-	check(aura.actual_hits == 1,"one pillar contacts once")
+	check(aura.actual_hits == hits_before+1,"one pillar contacts once")
 	check(not aura.strike_area.monitoring and aura.strike_shape.disabled,"no lingering hitbox")
 	check(not aura.start_special(),"cooldown blocks repetition")
 	await capture("special_5_recovered")
@@ -84,8 +85,6 @@ func run() -> void:
 	await reset_pair()
 	hp = player.current_hp
 	aura.start_special()
-	await wait_phase(aura.Phase.WARNING)
-	await ticks(14)
 	Input.action_press("jump")
 	await ticks(1)
 	Input.action_release("jump")

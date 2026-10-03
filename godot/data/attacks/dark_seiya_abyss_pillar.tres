@@ -2,3 +2,9 @@
 [ext_resource type="Script" path="res://scripts/combat/aura_attack_definition.gd" id="1"]
 [resource]
 script = ExtResource("1")
+
+charge_time = 0.12
+slam_time = 0.08
+warning_time = 0.18
+recovery_time = 0.35
+cooldown = 2.8

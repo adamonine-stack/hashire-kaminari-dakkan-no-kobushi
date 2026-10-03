@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=23 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/player03/shadow.png" id="12_shadow"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/selection_portrait.png" id="13_selection_portrait"]
 
-[ext_resource type="Resource" path="res://assets/characters/player03/animations/seiya_v1/motion_atlas.tres" id="14_seiya_motion"]
+[ext_resource type="Resource" path="res://assets/characters/player03/animations/seiya_v2/motion_atlas.tres" id="14_seiya_motion"]
 
 [ext_resource type="Resource" path="res://assets/characters/player03/animations/cross_reactions/reactions.tres" id="cross_reactions"]
 
@@ -31,11 +31,15 @@
 
 [ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_09_seiya/motion_atlas.tres" id="received_seiya"]
 
+[ext_resource type="Resource" path="res://assets/characters/player03/animations/two_hit_v1/motion_atlas.tres" id="seiya_two_hit"]
+
+[ext_resource type="Resource" path="res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.tres" id="seiya_two_received"]
+
 [resource]
 script = ExtResource("1_definition")
 use_direct_combat_stats = true
 aura_attack = ExtResource("aura")
-extra_motion_atlases = Array[Resource]([ExtResource("aura_motion"), ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya")])
+extra_motion_atlases = Array[Resource]([ExtResource("aura_motion"), ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("seiya_two_hit"), ExtResource("seiya_two_received")])
 supplemental_motion_atlas = ExtResource("cross_reactions")
 fighter_id = &"enemy_09_seiya"
 display_name = "セイヤ"

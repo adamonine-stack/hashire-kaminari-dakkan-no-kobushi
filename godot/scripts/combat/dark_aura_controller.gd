@@ -49,7 +49,7 @@ func choose_distance_action(delta: float) -> bool:
 	var target = fighter._get_opponent()
 	var distance: float = absf(target.global_position.x-fighter.global_position.x)
 	if distance >= data.far_distance and cooldown == 0:
-		return start_special()
+		return start_normal()
 	if distance >= data.mid_distance and distance < data.far_distance and mid_cooldown == 0:
 		fighter._face_opponent()
 		fighter.start_attack(data.mid_attack_id)
@@ -58,6 +58,10 @@ func choose_distance_action(delta: float) -> bool:
 	return false
 
 func start_special() -> bool:
+	# Compatibility entry point: this is a cooldown-based normal distance move, no gauge.
+	return start_normal()
+
+func start_normal() -> bool:
 	if busy() or cooldown > 0 or not fighter.is_round_active or fighter.current_hp <= 0 or not fighter.is_on_floor(): return false
 	var target = fighter._get_opponent()
 	if target == null: return false
@@ -141,7 +145,8 @@ func on_contact(area: Area2D) -> void:
 	hit_targets[target.get_instance_id()] = true
 	actual_hits += 1
 	var direction: float = signf(target.global_position.x-fighter.global_position.x)
-	target.receive_attack({"damage":data.damage,"base_damage":data.damage,"attack_type":"special",
+	target.receive_attack({"damage":data.damage,"base_damage":data.damage,"attack_type":"normal",
+		"attack_category":"normal","is_special":false,
 		"attack_id":data.attack_id,"attack_height":"low","is_guardable":true,"guard_damage_multiplier":0.15,
 		"knockback_x":150.0,"knockback_y":80.0,"hitstun_time":0.3,"hitstop_time":0.06,
 		"hit_stop_frames":4,"effect_size":1.8,"screen_shake":2.0,"se_type":"strong"},

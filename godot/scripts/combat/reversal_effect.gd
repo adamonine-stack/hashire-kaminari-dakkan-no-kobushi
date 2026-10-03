@@ -113,7 +113,7 @@ func _draw() -> void:
 			for i in range(3): draw_arc(Vector2(0,25-i*20),r*0.6,PI,TAU,24,Color(0.7,0.3,1),3)
 
 func _draw_body_aura() -> void:
-	if style == "enemy_02_shadow_boxer":
+	if style in ["enemy_02_shadow_boxer","player_03_seiya","enemy_09_seiya"]:
 		# Keep the cap, gloves and counterpunch silhouette readable.
 		draw_arc(Vector2(0,-45),95.0,0,TAU,48,Color(tint,0.25),2.0,true)
 		draw_arc(Vector2(0,62),42.0,0,TAU,32,Color(tint,0.40),2.0,true)
@@ -156,6 +156,10 @@ func _draw_body_aura() -> void:
 		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(1,1,1,0.9), 4.0, true)
 
 func _draw_special_impact() -> void:
+	if style in ["player_03_seiya","enemy_09_seiya"]:
+		draw_arc(Vector2.ZERO,28.0,0,TAU,32,Color(tint,0.5),3.0,true)
+		draw_arc(Vector2.ZERO,16.0,0,TAU,24,Color(1,1,1,0.4),2.0,true)
+		return
 	if style == "enemy_02_shadow_boxer":
 		var counter_radius := 22.0+elapsed/duration*25.0
 		draw_arc(Vector2.ZERO,counter_radius,0,TAU,32,Color(tint,0.65),2.0,true)

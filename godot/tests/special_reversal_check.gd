@@ -57,21 +57,22 @@ func run() -> void:
 		check(player.character_special_data != null, definition + " reversal resource")
 		if player.character_special_data == null: continue
 		var data: Dictionary = player._get_character_special_attack_dictionary()
-		check(data.damage == roundi(maxi(player.punch_damage, player.kick_damage) * 1.5), definition + " 1.5 damage")
+		var expected_multiplier := 1.0 if definition in ["fighters/ally_speed","enemies/enemy_09_seiya"] else 1.5
+		check(data.damage == roundi(maxi(player.punch_damage, player.kick_damage) * expected_multiplier), definition + " authored per-hit damage")
 		check(data.is_guardable and data.can_interrupt_attack, definition + " guard/interrupt contract")
 		var launch: Vector2 = enemy._get_knockdown_force(data, player, 1.0)
 		if definition == "fighters/ally_power":
 			check(data.causes_knockdown and not data.wall_slam and player.character_special_data.special_launch_speed_cap == Vector2(420,120),definition + " authored short ground launch")
 			check(is_equal_approx(float(data.special_launch_gravity),300.0),definition + " independent low gravity preserves airtime")
 			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-120.0),definition + " bounded launch after stat modifiers")
-		elif definition == "fighters/ally_speed":
-			check(data.headfirst_on_launch and data.special_launch_gravity == 850.0,definition + " dedicated high headfirst launch")
-			check(is_equal_approx(absf(launch.x),180.0) and is_equal_approx(launch.y,-550.0),definition + " upward launch with short horizontal distance")
-			check(player.character_special_data.somersault_on_special and player.character_special_data.move_distance == 0.0,definition + " in-place somersault contract")
+		elif definition in ["fighters/ally_speed","enemies/enemy_09_seiya"]:
+			check(not data.headfirst_on_launch and data.special_launch_gravity == 850.0,definition + " ascending two-hit first launch")
+			check(is_equal_approx(absf(launch.x),35.0) and is_equal_approx(launch.y,-360.0),definition + " bounded lift near sidekick range")
+			check(player.character_special_data.somersault_sidekick and player.character_special_data.move_distance == 0.0,definition + " two-stage stationary special")
 		else:
 			check(data.causes_knockdown and player.character_special_data.knockback.x >= 560.0 and absf(player.character_special_data.knockback.y) >= 430.0, definition + " authored large special launch")
 			check(absf(launch.x) >= 600.0 and launch.y <= -400.0, definition + " received large special launch after stat modifiers")
-		var expected_chip := 0.0 if definition in ["enemies/enemy_01_standard", "enemies/enemy_02_speed", "enemies/enemy_03_guard", "enemies/enemy_06_combo", "enemies/enemy_08_boss", "enemies/enemy_09_seiya"] else 0.15
+		var expected_chip := 0.0 if definition in ["enemies/enemy_01_standard", "enemies/enemy_02_speed", "enemies/enemy_03_guard", "enemies/enemy_06_combo", "enemies/enemy_08_boss", "enemies/enemy_09_seiya", "fighters/ally_speed"] else 0.15
 		check(is_equal_approx(float(data.guard_damage_multiplier), expected_chip), definition + " independent authored chip contract")
 		print("SPECIAL_DAMAGE %s=%d" % [definition, data.damage])
 	player.apply_character_data(load("res://data/fighters/ally_balance.tres"))

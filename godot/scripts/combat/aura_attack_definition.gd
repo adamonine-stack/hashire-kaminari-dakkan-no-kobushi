@@ -3,6 +3,9 @@ class_name AuraAttackDefinition
 
 @export var attack_id := "dark_seiya_abyss_pillar"
 @export var display_name := "冥脈・黒紫柱"
+@export var attack_type := "normal"
+@export var attack_category := "normal"
+@export var is_special := false
 @export var charge_time := 0.8
 @export var slam_time := 0.16
 @export var warning_time := 0.65

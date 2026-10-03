@@ -43,6 +43,10 @@ func run() -> void:
 				expected = load("res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_shadow_counter_"):
 				expected = load("res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.tres").texture
+			if String(clip).begins_with("received_seiya_two_"):
+				expected = load("res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.tres").texture
+			if String(clip).begins_with("seiya_two_"):
+				expected = load("res://assets/characters/player03/animations/two_hit_v1/motion_atlas.tres").texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
@@ -112,11 +116,11 @@ func run() -> void:
 			player.is_crouching = false
 	player.set_special_gauge(100)
 	check(player.request_character_special(false), "Seiya special starts through real gauge path")
-	check(player.animated_character_sprite.animation == &"seiya_somersault_startup", "Somersault windup")
+	check(player.animated_character_sprite.animation == &"seiya_two_start", "Two-hit windup")
 	player.enter_character_special_active()
-	check(player.animated_character_sprite.animation == &"seiya_somersault_kick", "Somersault contact")
+	check(player.animated_character_sprite.animation == &"seiya_two_somersault", "Somersault first contact")
 	player.enter_character_special_recovery()
-	check(player.animated_character_sprite.animation == &"seiya_somersault_landing", "Somersault recovery")
+	check(player.animated_character_sprite.animation == &"seiya_two_finish", "Two-hit recovery")
 	player.finish_character_special()
 	print("SEIYA_MOTION_ATLAS_OK clips=%d frames=%d failures=%s" % [frames.get_animation_names().size(), checked, failures])
 	frames = null

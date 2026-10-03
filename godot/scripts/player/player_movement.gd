@@ -2956,6 +2956,11 @@ func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName
 
 func _get_special_received_animation(attack_data: Dictionary, reaction_phase: String) -> StringName:
 	if not bool(attack_data.get("is_special", false)): return &""
+	if attack_data.has("seiya_two_hit_stage"):
+		var stage := int(attack_data.seiya_two_hit_stage)
+		var pose := "down" if reaction_phase == "down" else ("lift" if stage == 0 else "fly")
+		var dedicated := StringName("received_seiya_two_"+pose)
+		if _has_visual_animation(dedicated): return dedicated
 	var definition: Resource = get("fighter_definition")
 	if definition == null: return &""
 	var reactions: Dictionary = definition.special_damage_reactions.get(String(attack_data.get("attack_id", "")), {})

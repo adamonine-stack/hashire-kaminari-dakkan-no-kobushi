@@ -55,6 +55,8 @@ func run() -> void:
 				expected = load("res://assets/characters/player02/animations/cross_muei_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_shadow_counter_"):
 				expected = load("res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.tres").texture
+			if String(clip).begins_with("received_seiya_two_"):
+				expected = load("res://assets/characters/player02/animations/seiya_two_received_v1/motion_atlas.tres").texture
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
