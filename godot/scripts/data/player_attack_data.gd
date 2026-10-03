@@ -6,6 +6,17 @@ class_name PlayerAttackData
 @export var attack_type: String = "punch"
 @export var attack_category: String = "normal"
 
+@export_group("Directional Command")
+## Empty keeps legacy input routing until a fighter has reviewed move resources.
+@export var command_direction: String = ""
+@export var command_priority: int = 0
+@export var ground_only: bool = true
+@export var airborne_only: bool = false
+## Seconds from attack start. Negative values preserve the legacy cancel window.
+@export var cancel_start: float = -1.0
+@export var cancel_end: float = -1.0
+@export var cancel_targets: Array[String] = []
+
 @export_group("Damage")
 @export var base_damage: float = 1.0
 @export var damage_multiplier: float = 1.0

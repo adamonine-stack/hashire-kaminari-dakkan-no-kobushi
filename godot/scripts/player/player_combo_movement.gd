@@ -1,6 +1,12 @@
 extends "res://scripts/player/player_movement.gd"
 
 const PlayerAttackDataScript := preload("res://scripts/data/player_attack_data.gd")
+const CombatCommandBufferScript := preload("res://scripts/input/combat_command_buffer.gd")
+
+@export_range(0.10, 0.18, 0.01) var directional_input_buffer_seconds := 0.15
+var combat_commands := CombatCommandBufferScript.new()
+var last_combat_command: Dictionary = {}
+var command_attack_elapsed := 0.0
 
 signal attack_started(attack_id)
 signal attack_became_active(attack_id)
@@ -85,6 +91,7 @@ var ai_jump_launch_speed_multiplier := 1.0
 
 
 func _physics_process(delta: float) -> void:
+	_sample_combat_commands(delta)
 	if _update_hit_stop(delta):
 		return
 	_update_guard_recoil(delta)
@@ -151,15 +158,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y += gravity * delta
 
-	var did_cancel_attack := try_continue_combo()
-	if input_enabled and not did_cancel_attack and _is_throw_input_pressed():
-		request_combat_input(CombatInput.THROW)
-	if not did_cancel_attack and _is_special_input_just_pressed():
-		request_combat_input(CombatInput.SPECIAL)
-	if not did_cancel_attack and Input.is_action_just_pressed("attack"):
-		request_combat_input(CombatInput.PUNCH)
-	if not did_cancel_attack and Input.is_action_just_pressed("kick"):
-		request_combat_input(CombatInput.KICK)
+	_dispatch_combat_command()
 
 	if not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_attack(delta)
@@ -174,6 +173,97 @@ func _physics_process(delta: float) -> void:
 	if is_guard_hit and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
 
+
+
+func _sample_combat_commands(delta: float) -> void:
+	combat_commands.buffer_seconds = directional_input_buffer_seconds
+	combat_commands.advance(delta)
+	if not input_enabled or not is_round_active or current_hp <= 0:
+		combat_commands.clear()
+		return
+	for entry in [["left", "move_left"], ["right", "move_right"], ["down", "down"], ["punch", "attack"], ["kick", "kick"], ["throw", "throw_attack"]]:
+		combat_commands.record(entry[0], Input.is_action_pressed(entry[1]), facing_direction)
+	combat_commands.record("special", Input.is_action_pressed("special_attack") or Input.is_action_pressed("special"), facing_direction)
+
+
+func _dispatch_combat_command() -> void:
+	if not input_enabled:
+		try_continue_combo()
+		return
+	var command: Dictionary = combat_commands.peek()
+	if command.is_empty():
+		try_continue_combo()
+		return
+	last_combat_command = command.duplicate()
+	var move_id := _resolve_directional_move(command)
+	if not move_id.is_empty():
+		# A directional command never falls back to a normal attack when its
+		# recovery/cancel rules prevent execution.
+		if _request_directional_move(move_id):
+			combat_commands.consume(command)
+		return
+	var accepted := false
+	match String(command.kind):
+		"special": accepted = request_combat_input(CombatInput.SPECIAL)
+		"throw": accepted = request_combat_input(CombatInput.THROW)
+		"punch": accepted = request_combat_input(CombatInput.PUNCH)
+		"kick": accepted = request_combat_input(CombatInput.KICK)
+	# Legacy combo buffering stores the request even before it can cancel.
+	if accepted or (command.kind in ["punch", "kick"] and dev_buffered_attack != &""):
+		combat_commands.consume(command)
+
+
+func _resolve_directional_move(command: Dictionary) -> String:
+	var best_id := ""
+	var best_priority := -2147483648
+	for move in attack_data_sequence:
+		if move == null or String(move.command_direction).is_empty():
+			continue
+		if String(move.command_direction) != String(command.direction) or String(move.attack_type).to_lower() != String(command.kind):
+			continue
+		if bool(move.ground_only) and not is_on_floor():
+			continue
+		if bool(move.airborne_only) and is_on_floor():
+			continue
+		if int(move.command_priority) > best_priority:
+			best_id = String(move.attack_id)
+			best_priority = int(move.command_priority)
+	return best_id
+
+
+func _request_directional_move(move_id: String, is_ai_request := false) -> bool:
+	var move := _get_attack_data(move_id)
+	if move == null or not _can_accept_attack_input(is_ai_request):
+		return false
+	if bool(move.ground_only) and not is_on_floor():
+		return false
+	if bool(move.airborne_only) and is_on_floor():
+		return false
+	if current_attack_type != "":
+		if current_attack_data == null or float(current_attack_data.cancel_start) < 0.0:
+			return false
+		if command_attack_elapsed < float(current_attack_data.cancel_start) or command_attack_elapsed > float(current_attack_data.cancel_end):
+			return false
+		if not current_attack_data.cancel_targets.has(move_id):
+			return false
+		if not dev_current_attack_connected and not bool(current_attack_data.can_cancel_on_whiff):
+			return false
+		if dev_current_attack_connected and not bool(current_attack_data.can_cancel_on_hit):
+			return false
+		if combo_count >= dev026_max_combo_hits:
+			return false
+		start_combo_attack(StringName(move_id))
+	else:
+		if bool(move.airborne_only):
+			if not (_can_start_air_kick_attack(is_ai_request) if String(move.attack_type).to_lower() == "kick" else _can_start_air_punch_down_attack(is_ai_request)):
+				return false
+		elif not _can_start_attack_from_input(_attack_type_to_state_name(String(move.attack_type)), is_ai_request):
+			return false
+		start_attack(move_id)
+		if bool(move.airborne_only):
+			is_air_attack_active = true
+			has_used_air_attack = true
+	return current_attack_id == move_id
 
 
 func _update_air_movement(direction: float, delta: float) -> void:
@@ -485,6 +575,7 @@ func start_attack(attack_id: String) -> void:
 	reset_attack_state(false)
 	current_attack_data = attack_data
 	current_attack_id = attack_id
+	command_attack_elapsed = 0.0
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
 	_play_audio_manager_se("kick_whiff" if current_attack_type == "Kick" else "punch_whiff")
 	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
@@ -657,11 +748,15 @@ func get_next_attack_id(input_type: String) -> String:
 	if current_attack_data != null and not current_attack_id.is_empty():
 		for next_id in current_attack_data.next_attack_ids:
 			var attack_data := _get_attack_data(String(next_id))
+			if attack_data != null and String(attack_data.command_direction) not in ["", "neutral"]:
+				continue
 			if attack_data != null and String(attack_data.attack_type).to_lower() == normalized_type:
 				return String(attack_data.attack_id)
 		return ""
 
 	for attack_data in attack_data_sequence:
+		if attack_data != null and String(attack_data.command_direction) not in ["", "neutral"]:
+			continue
 		if attack_data != null and String(attack_data.attack_type).to_lower() == normalized_type:
 			return String(attack_data.attack_id)
 	return ""
@@ -863,6 +958,7 @@ func _update_kick(delta: float) -> void:
 func _update_current_attack(delta: float) -> void:
 	if current_attack_data == null:
 		return
+	command_attack_elapsed += delta
 
 	apply_attack_forward_movement(delta)
 	attack_cooldown_timer = maxf(attack_cooldown_timer - delta, 0.0)
@@ -982,12 +1078,6 @@ func _update_attack_buffer(delta: float) -> void:
 		if dev_attack_buffer_timer == 0.0:
 			clear_attack_buffer()
 
-	if not input_enabled or current_attack_type == "" or _is_throw_input_held():
-		return
-	if Input.is_action_just_pressed("attack"):
-		request_combat_input(CombatInput.PUNCH)
-	elif Input.is_action_just_pressed("kick"):
-		request_combat_input(CombatInput.KICK)
 
 
 func _try_cancel_attack_from_input() -> bool:
