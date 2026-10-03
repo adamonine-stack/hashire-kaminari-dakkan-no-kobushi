@@ -22,6 +22,6 @@
 18. **発見・修正した問題**: 元Down体格面積0.632、通常Hit0.832、Gou/Seiya受けHit0.780で縮小。新Down/Lowとoffline面積補正で統一（姿勢重なりのあるGou/Seiya proneは0.85を意図して維持）。Specialが通常掴みへ移行し相打ちresolverを迂回→共通Special経路へ修正。新自然接触テストで8件miss→HitBox修正後成功。旧Stage3テストが旧掴みを要求→新掌打仕様に更新し成功。停止fixtureのStartup無敵残留→resetし、KO原画確認の既存点滅をfixtureで解除。Knockdown high/low aliasを不用意に追加せず、空中と着地のClip選択を維持。
 19. **未解決/未実施**: 40回帰テストすべて機能成功、35件warningなし。既存5テスト(dev053/dev056/dev064/dev065/Stage2)には終了時ObjectDB警告が残る。新しいTeki専用5テストとNative描画にはERROR/WARNINGなし。手操作による長時間Balance試遊、スマホ実機、Tekiを含む複数Enemy戦・新しいBoss戦での専用描画試遊は未実施。既存Boss/Stage8/9自動回帰成功をこれらの手動確認と混同しない。AI頻度や0.55sRecoveryの長期Balance調整はプレイフィードバックが必要。
 20. **git status --short**: 公開前snapshotを`evidence/teki_audit/git-status-before-commit.txt`へ保存。新checkoutのGodot自動生成Import/UIDを本修正とは別に記録し、必要な新Atlas importだけ採用。他worktreeの既存作業を変更していない。
-21. **commit hash / 公開**: Commit・PR・Merge・Pagesの結果および公開runtime検証は公開後の`TEKI_PUBLIC_RELEASE_20261003.md`へ記録する。公開作業完了の判断はPages成功と公開側runtime反映・実ブラウザ起動確認後とする。
+21. **commit hash / 公開**: 実装1e24ac42afe6f18deb825c43786d1e1e603ec382、検証資料610998ecb7af61fbf7d7ea1fa835006a8e7e3fdb。PR #168をMergeし公開e2fd41a99990036961b1b480d1752d2c09ebad8f、Pages 37112817091はbuild/deployとも成功。公開HTML/Runtime5ファイルの反映と公開PCKのHeadless/Native描画を確認。詳細は[公開検証報告](TEKI_PUBLIC_RELEASE_20261003.md)。ブラウザ接続が利用できず公開Canvas目視は未実施。
 
 回帰結果: `evidence/handoff_checks/test-results.json`、Teki専用5log、Stage3回帰log。Native log: `evidence/teki_audit/{special,damage,incoming-akky,incoming-gou,incoming-seiya}-native.log`。画像元Frame185枚はローカルのevidence/teki_auditに保持し、Gitには再構築に必要な元Frameと比較Sheetを採用。

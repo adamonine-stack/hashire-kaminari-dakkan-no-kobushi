@@ -1,173 +1,182 @@
-.github/workflows/deploy-godot-web.yml
-art_sources/teki_reversal_v1/frames/akky_air_0.png
-art_sources/teki_reversal_v1/frames/akky_down_0.png
-art_sources/teki_reversal_v1/frames/akky_guard_0.png
-art_sources/teki_reversal_v1/frames/akky_guard_1.png
-art_sources/teki_reversal_v1/frames/akky_hit_0.png
-art_sources/teki_reversal_v1/frames/gou_air_0.png
-art_sources/teki_reversal_v1/frames/gou_down_0.png
-art_sources/teki_reversal_v1/frames/gou_guard_0.png
-art_sources/teki_reversal_v1/frames/gou_guard_1.png
-art_sources/teki_reversal_v1/frames/gou_hit_0.png
-art_sources/teki_reversal_v1/frames/seiya_air_0.png
-art_sources/teki_reversal_v1/frames/seiya_down_0.png
-art_sources/teki_reversal_v1/frames/seiya_guard_0.png
-art_sources/teki_reversal_v1/frames/seiya_guard_1.png
-art_sources/teki_reversal_v1/frames/seiya_hit_0.png
-art_sources/teki_reversal_v1/frames/teki_00_anticipation.png
-art_sources/teki_reversal_v1/frames/teki_01_coil.png
-art_sources/teki_reversal_v1/frames/teki_02_step.png
-art_sources/teki_reversal_v1/frames/teki_03_strike.png
-art_sources/teki_reversal_v1/frames/teki_04_impact.png
-art_sources/teki_reversal_v1/frames/teki_05_retract.png
-art_sources/teki_reversal_v1/frames/teki_06_recover.png
-art_sources/teki_reversal_v1/frames/teki_07_finish.png
-art_sources/teki_reversal_v1/frames/teki_air.png
-art_sources/teki_reversal_v1/frames/teki_crouch.png
-art_sources/teki_reversal_v1/frames/teki_down.png
-art_sources/teki_reversal_v1/frames/teki_guard.png
-art_sources/teki_reversal_v1/frames/teki_hit.png
-art_sources/teki_reversal_v1/frames/teki_idle.png
-art_sources/teki_reversal_v1/frames/teki_low_hit.png
-art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_air_00.png
-art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_air_01.png
-art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_down_00.png
-art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_fall_00.png
-art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_hit_00.png
-art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_wall_00.png
-art_sources/teki_reversal_v1/frames/teki_received_gou_breaker_air_00.png
-art_sources/teki_reversal_v1/frames/teki_received_gou_breaker_down_00.png
-art_sources/teki_reversal_v1/frames/teki_received_gou_breaker_hit_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_air_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_down_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_fall_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_hit_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_two_down_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_two_fall_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_two_fly_00.png
-art_sources/teki_reversal_v1/frames/teki_received_seiya_two_lift_00.png
-art_sources/teki_reversal_v1/frames/teki_rise.png
-art_sources/teki_reversal_v1/prompt_manifest.json
-art_sources/teki_reversal_v1/references/akky.png
-art_sources/teki_reversal_v1/references/gou.png
-art_sources/teki_reversal_v1/references/seiya.png
-art_sources/teki_reversal_v1/references/teki.png
-docs/TEKI_REVERSAL_IMPLEMENTATION_REPORT_20261003.md
-docs/TEKI_REVERSAL_MOTION_PLAN.md
-evidence/handoff_checks/akky_motion_atlas.log
-evidence/handoff_checks/gou_motion_atlas.log
-evidence/handoff_checks/seiya_motion_atlas.log
-evidence/handoff_checks/special_grapple_guard_check.log
-evidence/handoff_checks/stage3_regression.log
-evidence/handoff_checks/teki_damage_presentation_check.log
-evidence/handoff_checks/teki_received_akky_check.log
-evidence/handoff_checks/teki_received_gou_check.log
-evidence/handoff_checks/teki_received_seiya_check.log
-evidence/handoff_checks/teki_reversal_presentation_check.log
-evidence/handoff_checks/test-results.json
-evidence/teki_audit/audit_page_01.jpg
-evidence/teki_audit/audit_page_02.jpg
-evidence/teki_audit/audit_page_03.jpg
-evidence/teki_audit/damage-native.log
-evidence/teki_audit/damage-original-comparison.jpg
-evidence/teki_audit/damage_00.png
-evidence/teki_audit/damage_heavy_01.png
-evidence/teki_audit/down_00.png
-evidence/teki_audit/final-label-check.log
-evidence/teki_audit/frames.json
-evidence/teki_audit/guard_00.png
-evidence/teki_audit/idle_00.png
-evidence/teki_audit/incoming-akky-native.log
-evidence/teki_audit/incoming-gou-native.log
-evidence/teki_audit/incoming-seiya-native.log
-evidence/teki_audit/metrics.json
-evidence/teki_audit/received_akky_elbow_air_00.png
-evidence/teki_audit/received_akky_elbow_air_01.png
-evidence/teki_audit/received_akky_elbow_down_00.png
-evidence/teki_audit/received_akky_elbow_fall_00.png
-evidence/teki_audit/received_akky_elbow_hit_00.png
-evidence/teki_audit/received_akky_elbow_wall_00.png
-evidence/teki_audit/received_gou_breaker_air_00.png
-evidence/teki_audit/received_gou_breaker_down_00.png
-evidence/teki_audit/received_gou_breaker_hit_00.png
-evidence/teki_audit/received_seiya_somersault_air_00.png
-evidence/teki_audit/received_seiya_somersault_down_00.png
-evidence/teki_audit/received_seiya_somersault_fall_00.png
-evidence/teki_audit/received_seiya_somersault_hit_00.png
-evidence/teki_audit/received_seiya_two_down_00.png
-evidence/teki_audit/received_seiya_two_fall_00.png
-evidence/teki_audit/received_seiya_two_fly_00.png
-evidence/teki_audit/received_seiya_two_lift_00.png
-evidence/teki_audit/receiver-review.jpg
-evidence/teki_audit/special-native.log
-evidence/teki_audit/special-original-comparison.jpg
-evidence/teki_audit/stage9_runtime_page_01.jpg
-evidence/teki_audit/stand_up_01.png
-evidence/teki_audit/stand_up_02.png
-evidence/teki_audit/teki_damage_final_page_01.jpg
-evidence/teki_audit/teki_damage_final_page_02.jpg
-evidence/teki_audit/teki_damage_final_page_03.jpg
-evidence/teki_audit/teki_damage_final_page_04.jpg
-evidence/teki_audit/teki_damage_final_page_05.jpg
-evidence/teki_audit/teki_damage_final_page_06.jpg
-evidence/teki_audit/teki_damage_final_page_07.jpg
-evidence/teki_audit/teki_damage_final_page_08.jpg
-evidence/teki_audit/teki_damage_final_page_09.jpg
-evidence/teki_audit/teki_received_akky_final_page_01.jpg
-evidence/teki_audit/teki_received_gou_final_page_01.jpg
-evidence/teki_audit/teki_received_gou_final_page_02.jpg
-evidence/teki_audit/teki_reversal_final_page_01.jpg
-evidence/teki_audit/teki_reversal_final_page_02.jpg
-evidence/teki_audit/teki_reversal_final_page_03.jpg
-evidence/teki_audit/teki_reversal_final_page_04.jpg
-evidence/teki_audit/teki_reversal_final_page_05.jpg
-evidence/teki_audit/teki_reversal_final_page_06.jpg
-evidence/teki_audit/teki_reversal_final_page_07.jpg
-godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.png
-godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.png.import
-godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.tres
-godot/assets/characters/enemy07/animations/teki_damage_v2/packing_manifest.json
-godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.png
-godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.png.import
-godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.tres
-godot/assets/characters/enemy07/animations/teki_reversal_v1/packing_manifest.json
-godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png
-godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png.import
-godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.tres
-godot/assets/characters/special_received_teki_v1/ally_balance/packing_manifest.json
-godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.png
-godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.png.import
-godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.tres
-godot/assets/characters/special_received_teki_v1/ally_power/packing_manifest.json
-godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png
-godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png.import
-godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.tres
-godot/assets/characters/special_received_teki_v1/ally_speed/packing_manifest.json
-godot/data/attacks/teki_deadly_hand.tres
-godot/data/enemies/enemy_07_tricky.tres
-godot/data/fighters/ally_balance.tres
-godot/data/fighters/ally_power.tres
-godot/data/fighters/ally_speed.tres
-godot/scripts/combat/reversal_effect.gd
-godot/scripts/player/player_fighter_definition_movement.gd
-godot/tests/akky_motion_atlas.gd
-godot/tests/gou_motion_atlas.gd
-godot/tests/seiya_motion_atlas.gd
-godot/tests/special_grapple_guard_check.gd
-godot/tests/special_reversal_check.gd
-godot/tests/stage3_regression.gd
-godot/tests/teki_audit_export.gd
-godot/tests/teki_audit_export.gd.uid
-godot/tests/teki_damage_presentation_check.gd
-godot/tests/teki_damage_presentation_check.gd.uid
-godot/tests/teki_received_akky_check.gd
-godot/tests/teki_received_gou_check.gd
-godot/tests/teki_received_seiya_check.gd
-godot/tests/teki_receiver_export.gd
-godot/tests/teki_receiver_export.gd.uid
-godot/tests/teki_reversal_presentation_check.gd
-godot/tests/teki_reversal_presentation_check.gd.uid
-tools/audit_teki_frames.py
-tools/build_teki_reversal.py
-tools/review_teki_presentation.py
-tools/run_special_handoff_checks.ps1
+M	.github/workflows/deploy-godot-web.yml
+A	art_sources/teki_reversal_v1/frames/akky_air_0.png
+A	art_sources/teki_reversal_v1/frames/akky_down_0.png
+A	art_sources/teki_reversal_v1/frames/akky_guard_0.png
+A	art_sources/teki_reversal_v1/frames/akky_guard_1.png
+A	art_sources/teki_reversal_v1/frames/akky_hit_0.png
+A	art_sources/teki_reversal_v1/frames/gou_air_0.png
+A	art_sources/teki_reversal_v1/frames/gou_down_0.png
+A	art_sources/teki_reversal_v1/frames/gou_guard_0.png
+A	art_sources/teki_reversal_v1/frames/gou_guard_1.png
+A	art_sources/teki_reversal_v1/frames/gou_hit_0.png
+A	art_sources/teki_reversal_v1/frames/seiya_air_0.png
+A	art_sources/teki_reversal_v1/frames/seiya_down_0.png
+A	art_sources/teki_reversal_v1/frames/seiya_guard_0.png
+A	art_sources/teki_reversal_v1/frames/seiya_guard_1.png
+A	art_sources/teki_reversal_v1/frames/seiya_hit_0.png
+A	art_sources/teki_reversal_v1/frames/teki_00_anticipation.png
+A	art_sources/teki_reversal_v1/frames/teki_01_coil.png
+A	art_sources/teki_reversal_v1/frames/teki_02_step.png
+A	art_sources/teki_reversal_v1/frames/teki_03_strike.png
+A	art_sources/teki_reversal_v1/frames/teki_04_impact.png
+A	art_sources/teki_reversal_v1/frames/teki_05_retract.png
+A	art_sources/teki_reversal_v1/frames/teki_06_recover.png
+A	art_sources/teki_reversal_v1/frames/teki_07_finish.png
+A	art_sources/teki_reversal_v1/frames/teki_air.png
+A	art_sources/teki_reversal_v1/frames/teki_crouch.png
+A	art_sources/teki_reversal_v1/frames/teki_down.png
+A	art_sources/teki_reversal_v1/frames/teki_guard.png
+A	art_sources/teki_reversal_v1/frames/teki_hit.png
+A	art_sources/teki_reversal_v1/frames/teki_idle.png
+A	art_sources/teki_reversal_v1/frames/teki_low_hit.png
+A	art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_air_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_air_01.png
+A	art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_down_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_fall_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_hit_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_akky_elbow_wall_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_gou_breaker_air_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_gou_breaker_down_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_gou_breaker_hit_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_air_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_down_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_fall_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_somersault_hit_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_two_down_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_two_fall_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_two_fly_00.png
+A	art_sources/teki_reversal_v1/frames/teki_received_seiya_two_lift_00.png
+A	art_sources/teki_reversal_v1/frames/teki_rise.png
+A	art_sources/teki_reversal_v1/prompt_manifest.json
+A	art_sources/teki_reversal_v1/references/akky.png
+A	art_sources/teki_reversal_v1/references/gou.png
+A	art_sources/teki_reversal_v1/references/seiya.png
+A	art_sources/teki_reversal_v1/references/teki.png
+A	docs/TEKI_REVERSAL_IMPLEMENTATION_REPORT_20261003.md
+A	docs/TEKI_REVERSAL_MOTION_PLAN.md
+M	evidence/handoff_checks/akky_motion_atlas.log
+M	evidence/handoff_checks/crusher_reversal_presentation_check.log
+M	evidence/handoff_checks/dev066_character_backstep_ai_smoke.log
+M	evidence/handoff_checks/gou_motion_atlas.log
+M	evidence/handoff_checks/seiya_motion_atlas.log
+M	evidence/handoff_checks/special_grapple_guard_check.log
+M	evidence/handoff_checks/stage1_regression.log
+M	evidence/handoff_checks/stage3_regression.log
+M	evidence/handoff_checks/stage8_ending_check.log
+M	evidence/handoff_checks/stage9_cleanup_qa.log
+M	evidence/handoff_checks/stage9_two_hit_qa.log
+A	evidence/handoff_checks/teki_damage_presentation_check.log
+A	evidence/handoff_checks/teki_received_akky_check.log
+A	evidence/handoff_checks/teki_received_gou_check.log
+A	evidence/handoff_checks/teki_received_seiya_check.log
+A	evidence/handoff_checks/teki_reversal_presentation_check.log
+M	evidence/handoff_checks/test-results.json
+M	evidence/handoff_checks/true_seiya_combat_check.log
+A	evidence/teki_audit/audit_page_01.jpg
+A	evidence/teki_audit/audit_page_02.jpg
+A	evidence/teki_audit/audit_page_03.jpg
+A	evidence/teki_audit/damage-native.log
+A	evidence/teki_audit/damage-original-comparison.jpg
+A	evidence/teki_audit/damage_00.png
+A	evidence/teki_audit/damage_heavy_01.png
+A	evidence/teki_audit/down_00.png
+A	evidence/teki_audit/final-label-check.log
+A	evidence/teki_audit/frames.json
+A	evidence/teki_audit/git-status-before-commit.txt
+A	evidence/teki_audit/guard_00.png
+A	evidence/teki_audit/idle_00.png
+A	evidence/teki_audit/incoming-akky-native.log
+A	evidence/teki_audit/incoming-gou-native.log
+A	evidence/teki_audit/incoming-seiya-native.log
+A	evidence/teki_audit/metrics.json
+A	evidence/teki_audit/received_akky_elbow_air_00.png
+A	evidence/teki_audit/received_akky_elbow_air_01.png
+A	evidence/teki_audit/received_akky_elbow_down_00.png
+A	evidence/teki_audit/received_akky_elbow_fall_00.png
+A	evidence/teki_audit/received_akky_elbow_hit_00.png
+A	evidence/teki_audit/received_akky_elbow_wall_00.png
+A	evidence/teki_audit/received_gou_breaker_air_00.png
+A	evidence/teki_audit/received_gou_breaker_down_00.png
+A	evidence/teki_audit/received_gou_breaker_hit_00.png
+A	evidence/teki_audit/received_seiya_somersault_air_00.png
+A	evidence/teki_audit/received_seiya_somersault_down_00.png
+A	evidence/teki_audit/received_seiya_somersault_fall_00.png
+A	evidence/teki_audit/received_seiya_somersault_hit_00.png
+A	evidence/teki_audit/received_seiya_two_down_00.png
+A	evidence/teki_audit/received_seiya_two_fall_00.png
+A	evidence/teki_audit/received_seiya_two_fly_00.png
+A	evidence/teki_audit/received_seiya_two_lift_00.png
+A	evidence/teki_audit/receiver-review.jpg
+A	evidence/teki_audit/special-native.log
+A	evidence/teki_audit/special-original-comparison.jpg
+A	evidence/teki_audit/stage9_runtime_page_01.jpg
+A	evidence/teki_audit/stand_up_01.png
+A	evidence/teki_audit/stand_up_02.png
+A	evidence/teki_audit/teki-changed-files.txt
+A	evidence/teki_audit/teki_damage_final_page_01.jpg
+A	evidence/teki_audit/teki_damage_final_page_02.jpg
+A	evidence/teki_audit/teki_damage_final_page_03.jpg
+A	evidence/teki_audit/teki_damage_final_page_04.jpg
+A	evidence/teki_audit/teki_damage_final_page_05.jpg
+A	evidence/teki_audit/teki_damage_final_page_06.jpg
+A	evidence/teki_audit/teki_damage_final_page_07.jpg
+A	evidence/teki_audit/teki_damage_final_page_08.jpg
+A	evidence/teki_audit/teki_damage_final_page_09.jpg
+A	evidence/teki_audit/teki_received_akky_final_page_01.jpg
+A	evidence/teki_audit/teki_received_gou_final_page_01.jpg
+A	evidence/teki_audit/teki_received_gou_final_page_02.jpg
+A	evidence/teki_audit/teki_reversal_final_page_01.jpg
+A	evidence/teki_audit/teki_reversal_final_page_02.jpg
+A	evidence/teki_audit/teki_reversal_final_page_03.jpg
+A	evidence/teki_audit/teki_reversal_final_page_04.jpg
+A	evidence/teki_audit/teki_reversal_final_page_05.jpg
+A	evidence/teki_audit/teki_reversal_final_page_06.jpg
+A	evidence/teki_audit/teki_reversal_final_page_07.jpg
+A	godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.png
+A	godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.png.import
+A	godot/assets/characters/enemy07/animations/teki_damage_v2/motion_atlas.tres
+A	godot/assets/characters/enemy07/animations/teki_damage_v2/packing_manifest.json
+A	godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.png
+A	godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.png.import
+A	godot/assets/characters/enemy07/animations/teki_reversal_v1/motion_atlas.tres
+A	godot/assets/characters/enemy07/animations/teki_reversal_v1/packing_manifest.json
+A	godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png
+A	godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png.import
+A	godot/assets/characters/special_received_teki_v1/ally_balance/motion_atlas.tres
+A	godot/assets/characters/special_received_teki_v1/ally_balance/packing_manifest.json
+A	godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.png
+A	godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.png.import
+A	godot/assets/characters/special_received_teki_v1/ally_power/motion_atlas.tres
+A	godot/assets/characters/special_received_teki_v1/ally_power/packing_manifest.json
+A	godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png
+A	godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png.import
+A	godot/assets/characters/special_received_teki_v1/ally_speed/motion_atlas.tres
+A	godot/assets/characters/special_received_teki_v1/ally_speed/packing_manifest.json
+M	godot/data/attacks/teki_deadly_hand.tres
+M	godot/data/enemies/enemy_07_tricky.tres
+M	godot/data/fighters/ally_balance.tres
+M	godot/data/fighters/ally_power.tres
+M	godot/data/fighters/ally_speed.tres
+M	godot/scripts/combat/reversal_effect.gd
+M	godot/scripts/player/player_fighter_definition_movement.gd
+M	godot/tests/akky_motion_atlas.gd
+M	godot/tests/gou_motion_atlas.gd
+M	godot/tests/seiya_motion_atlas.gd
+M	godot/tests/special_grapple_guard_check.gd
+M	godot/tests/special_reversal_check.gd
+M	godot/tests/stage3_regression.gd
+A	godot/tests/teki_audit_export.gd
+A	godot/tests/teki_audit_export.gd.uid
+A	godot/tests/teki_damage_presentation_check.gd
+A	godot/tests/teki_damage_presentation_check.gd.uid
+A	godot/tests/teki_received_akky_check.gd
+A	godot/tests/teki_received_gou_check.gd
+A	godot/tests/teki_received_seiya_check.gd
+A	godot/tests/teki_receiver_export.gd
+A	godot/tests/teki_receiver_export.gd.uid
+A	godot/tests/teki_reversal_presentation_check.gd
+A	godot/tests/teki_reversal_presentation_check.gd.uid
+A	tools/audit_teki_frames.py
+A	tools/build_teki_reversal.py
+A	tools/review_teki_presentation.py
+M	tools/run_special_handoff_checks.ps1

@@ -1,0 +1,27 @@
+[
+  {
+    "asset": "game-e2fd41a99990.js",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "asset": "game-e2fd41a99990.wasm",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "asset": "game-e2fd41a99990.pck",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "asset": "game-e2fd41a99990.audio.worklet.js",
+    "status": 200,
+    "bytes": null
+  },
+  {
+    "asset": "game-e2fd41a99990.audio.position.worklet.js",
+    "status": 200,
+    "bytes": null
+  }
+]
