@@ -1,0 +1,41 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 9
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=player1_special_thunder_drive
+[Special] active
+[Special] gauge_full
+Damage: 14
+HP: 86
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+Damage: 14
+HP: 86
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+KNOCKDOWN HIT
+[Special] gauge_full
+Damage: 2
+HP: 98
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+AKKY_REVERSAL_MOTION_CHECK failures=[] screenshots=0 scale=(1.280403, 1.280403) pivot=(0.0, -122.9187)
