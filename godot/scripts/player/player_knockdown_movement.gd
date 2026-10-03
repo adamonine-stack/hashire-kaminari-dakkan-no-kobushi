@@ -60,7 +60,7 @@ var seiya_followup_sequence := -1
 var seiya_lift_elapsed := 0.0
 
 func can_receive_seiya_followup(packet: Dictionary, attacker: Node) -> bool:
-	return current_hp > 0 and knockdown_state == &"KNOCKBACK" and seiya_followup_owner != null and seiya_followup_owner.get_ref() == attacker and int(packet.get("seiya_two_hit_stage",-1)) == 1 and int(packet.get("seiya_two_hit_sequence",-2)) == seiya_followup_sequence
+	return current_hp > 0 and is_instance_valid(attacker) and attacker.has_method("is_seiya_confirmed_followup_target") and attacker.is_seiya_confirmed_followup_target(self,packet)
 
 
 func _ready() -> void:

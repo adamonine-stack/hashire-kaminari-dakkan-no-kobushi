@@ -105,8 +105,15 @@ func run_case(manager: Node, attacker: Node, target: Node, direction: int, mode:
 		if attacker.character_special_state == attacker.CharacterSpecialState.ACTIVE:
 			if target.seiya_followup_owner != null:
 				check(not target.can_receive_attack(),label+" ordinary attacks cannot juggle this lift")
-			if mode == "first_only" and elapsed>0.45 and not moved_for_second:
+			if mode == "confirmed_guard_displaced" and elapsed>0.45 and not moved_for_second:
 				target.position.x = start_x+390*direction
+				target.is_guarding = true
+				target.guard_type = "high"
+				target.is_invincible = true
+				var wrong_sequence: Dictionary = attacker._get_character_special_attack_dictionary()
+				wrong_sequence["seiya_two_hit_stage"] = 1
+				wrong_sequence["seiya_two_hit_sequence"] -= 1
+				check(not target.can_receive_seiya_followup(wrong_sequence,attacker),label+" rejects another activation")
 				moved_for_second = true
 			if mode == "guard_both" and elapsed>0.40:
 				target.is_guard_hit = false
@@ -137,19 +144,22 @@ func run_case(manager: Node, attacker: Node, target: Node, direction: int, mode:
 	var guards := contact_events.filter(func(e):return e.guard)
 	var base := maxi(attacker.punch_damage,attacker.kick_damage)
 	for hit in hits: check(hit.damage==base,label+" independent 1x damage")
-	if mode in ["both","wall","ko_second"]:
+	if mode in ["both","wall","ko_second","confirmed_guard_displaced"]:
 		check(hits.size()==2,label+" two separate hits")
 		if hits.size()==2:
 			check(hits[1].y < target_start.y-8,label+" second contact airborne")
 			check(hits[1].vy>0,label+" second contact while descending")
 		check(cap_done.has("wall"),label+" reaches screen edge")
 		if mode=="ko_second": check(target.current_hp==0,label+" second hit KO retains visible flight")
+		if mode=="confirmed_guard_displaced":
+			check(guards.is_empty(),label+" confirmed second hit cannot be guarded")
+			check(moved_for_second,label+" confirmed hit tracks displaced target")
 	elif mode=="side_only": check(hits.size()==1,label+" sidekick only is 1x")
 	elif mode=="guard_first": check(guards.size()==1 and hits.size()==1,label+" first guard does not stop second hit")
 	elif mode=="guard_both": check(guards.size()==2 and hits.is_empty(),label+" independently guard both")
 	elif mode=="whiff": check(hits.is_empty() and guards.is_empty(),label+" both misses recover without damage")
-	elif mode=="first_only": check(hits.size()==1,label+" first hit only is 1x")
 	check(not attacker.special_area.monitoring,label+" hitbox cleans after move")
+	check(attacker.seiya_confirmed_targets.is_empty(),label+" confirmed target cleans after move")
 	check(attacker.animated_character_sprite.rotation==0 and attacker.animated_character_sprite.offset==Vector2.ZERO,label+" restores transform")
 	print("STAGE9_CASE ",label," contacts=",contact_events)
 	cases+=1
@@ -183,7 +193,7 @@ func run() -> void:
 	if include_boss_cases or include_cleanup_cases:
 		hero.apply_character_data(load("res://data/fighters/ally_speed.tres"))
 		for direction in [-1,1]:
-			for mode in ["whiff","first_only","ko_second"]:
+			for mode in ["whiff","confirmed_guard_displaced","ko_second"]:
 				await run_case(manager,boss,hero,direction,mode,"cleanup_"+mode+"_"+str(direction))
 	hero.apply_character_data(load("res://data/fighters/ally_speed.tres"))
 	for enemy in hero_enemies:
