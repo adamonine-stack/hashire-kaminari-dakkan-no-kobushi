@@ -87,6 +87,8 @@ func run() -> void:
 				player.enter_character_special_active()
 				enemy.request_punch_attack()
 				player._on_character_special_hitbox_area_entered(enemy.get_node("HurtBox"))
+				await process_frame
+				await process_frame
 				check(enemy.is_throw_locked and enemy.current_attack_type.is_empty(), label + " hit interrupts current attack into authored grapple")
 				check(enemy.pending_throw_damage == packet.damage, label + " special uses 1.5x damage not ordinary throw")
 				await capture(label + "_held")
@@ -107,6 +109,8 @@ func run() -> void:
 				enemy.guard_type = "high"
 				player._start_throw()
 				player._connect_throw(enemy)
+				await process_frame
+				await process_frame
 				check(enemy.is_throw_locked and enemy.pending_throw_damage == player.throw_damage,label + " ordinary throw retains guard-breaking damage")
 	print("SPECIAL_GRAPPLE_GUARD_CHECK cases=6 captures=%d failures=%s" % [captures,failures])
 	for audio in root.find_children("*", "AudioStreamPlayer", true, false): audio.stop()

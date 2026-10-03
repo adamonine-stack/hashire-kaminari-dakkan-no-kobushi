@@ -61,6 +61,7 @@ HP: 78
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -72,6 +73,7 @@ HP: 89
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -132,6 +134,7 @@ HP: 78
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -144,6 +147,7 @@ HP: 89
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -211,6 +215,7 @@ HP: 108
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -223,6 +228,7 @@ HP: 119
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -283,6 +289,7 @@ HP: 108
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -295,6 +302,7 @@ HP: 119
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -362,6 +370,7 @@ HP: 70
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -374,6 +383,7 @@ HP: 81
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -434,6 +444,7 @@ HP: 70
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -446,6 +457,7 @@ HP: 81
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -470,6 +482,7 @@ HP: 81
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -477,6 +490,7 @@ THROW CONNECTED
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -492,6 +506,7 @@ HP reached 0
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -499,6 +514,7 @@ THROW CONNECTED
 [Special] gauge_full
 [Special] started id=cross_muei
 [Special] active
+[Special] hit target=Player
 [Special] finished
 THROW STARTUP
 THROW CONNECTED

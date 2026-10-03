@@ -70,7 +70,7 @@ func run() -> void:
 			check(player.character_special_data.special_launch_speed_cap == Vector2(420,560),definition + " bounded Rei uppercut")
 			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-560.0),definition + " bounded uppercut after stat modifiers")
 			check(is_equal_approx(float(data.special_launch_gravity),1200.0),definition + " Rei uppercut gravity")
-		elif definition == "enemies/enemy_07_tricky":
+		elif definition in ["enemies/enemy_07_tricky","enemies/enemy_05_power"]:
 			check(data.causes_knockdown and data.keep_special_flight_in_view,definition + " palm reversal keeps defender visible")
 			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-280.0),definition + " horizontal palm launch cap")
 			check(is_equal_approx(float(data.special_launch_gravity),1000.0),definition + " palm flight gravity")

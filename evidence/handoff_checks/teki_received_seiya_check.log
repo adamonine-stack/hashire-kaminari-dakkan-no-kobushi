@@ -46,7 +46,7 @@ HP: 973
 KNOCKDOWN HIT
 [Special] hit target=Enemy1
 [Special] finished
-STAGE9_CASE enemy_07_tricky_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#92526348287>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 2282 }, { "target": Enemy:<CharacterBody2D#92526348287>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2359 }]
+STAGE9_CASE enemy_07_tricky_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 2273 }, { "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2313 }]
 [Special] gauge_full
 [Special] started id=player3_special_clear_counter
 [Special] active
@@ -61,7 +61,7 @@ HP: 973
 KNOCKDOWN HIT
 [Special] hit target=Enemy1
 [Special] finished
-STAGE9_CASE enemy_07_tricky_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#92526348287>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 2422 }, { "target": Enemy:<CharacterBody2D#92526348287>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2452 }]
+STAGE9_CASE enemy_07_tricky_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 2355 }, { "target": Enemy:<CharacterBody2D#93969188877>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2381 }]
 [DEV035] Character data loaded: enemy_09_seiya
 [DEV035] Type: Boss
 [DEV035] HP: 180

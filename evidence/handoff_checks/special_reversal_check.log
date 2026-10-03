@@ -19,6 +19,7 @@ Game progress initialized
 [DEV035] Punch damage: 6
 [DEV035] Kick damage: 8
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_01_crusher
 [DEV035] Character data loaded: player_01_akky

@@ -19,6 +19,7 @@ Game progress initialized
 [DEV035] Punch damage: 6
 [DEV035] Kick damage: 8
 [DEV033] Enemy target updated: player_02_gou
+[Music] play=battle position=0.00
 BGM: BattleBGM
 Battle Start: player_02_gou VS enemy_01_crusher
 [DEV036] Attack started: player2_punch_1
@@ -123,5 +124,5 @@ Kick HitBox OFF
 [Special] started id=player2_special_iron_breaker
 [Special] active
 [Special] finished
-GOU_MOTION_ATLAS_OK clips=112 frames=307 failures=[]
+GOU_MOTION_ATLAS_OK clips=113 frames=309 failures=[]
 [DEV041][GameFlow] Battle cleanup completed

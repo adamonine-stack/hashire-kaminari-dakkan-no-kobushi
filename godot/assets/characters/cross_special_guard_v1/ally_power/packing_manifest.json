@@ -1,0 +1,35 @@
+{
+  "reference": "art_sources/teki_reversal_v1/references/gou.png",
+  "method": "Reviewed individual poses; offline body-scale correction; fixed runtime transform and floor baseline; intentional prone overlap mass 0.85 for backflip receivers",
+  "baseline": 350,
+  "frames": [
+    {
+      "file": "gou_guard_0.png",
+      "sha256": "1a507bf8cd3d4bbf41644c7e6137beb4828d96ece53e09ea150bf3767bf5d347",
+      "density": 1.0019519138438817,
+      "origin": [
+        166,
+        159
+      ],
+      "size": [
+        180,
+        191
+      ],
+      "relative_body_area": 0.9961075725406936
+    },
+    {
+      "file": "gou_guard_1.png",
+      "sha256": "56194145168c06345fba433c61d677d4e5740aaeab121815f47f3d8d299777f6",
+      "density": 1.0002359882038752,
+      "origin": [
+        166,
+        154
+      ],
+      "size": [
+        179,
+        196
+      ],
+      "relative_body_area": 0.9995281906109932
+    }
+  ]
+}

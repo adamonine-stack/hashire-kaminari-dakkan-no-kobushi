@@ -1,6 +1,7 @@
 Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
 
 [FONT] Japanese UI font active: Noto Sans JP
+[Music] play=st_action_theme position=0.00
 [GameFlow] TITLE -> OPENING
 [GameFlow] OPENING ready pages=26
 [GameFlow] OPENING -> FIGHTER_SELECT

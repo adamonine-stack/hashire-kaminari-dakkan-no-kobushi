@@ -19,6 +19,7 @@ Game progress initialized
 [DEV035] Punch damage: 6
 [DEV035] Kick damage: 8
 [DEV033] Enemy target updated: player_03_seiya
+[Music] play=battle position=0.00
 BGM: BattleBGM
 Battle Start: player_03_seiya VS enemy_01_crusher
 [DEV036] Attack started: player3_punch_1
@@ -137,5 +138,5 @@ Kick HitBox OFF
 [Special] started id=player3_special_clear_counter
 [Special] active
 [Special] finished
-SEIYA_MOTION_ATLAS_OK clips=117 frames=329 failures=[]
+SEIYA_MOTION_ATLAS_OK clips=118 frames=331 failures=[]
 [DEV041][GameFlow] Battle cleanup completed

@@ -85,8 +85,11 @@ Game progress initialized
 [DEV035] Punch damage: 6
 [DEV035] Kick damage: 8
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_01_crusher
 [DEV066][enemy_01_crusher] Backstep selected
 [DEV041][GameFlow] Battle cleanup completed
 DEV066_CHARACTER_BACKSTEP_AI_OK failures=[] ally={ "player_01_akky": 101.99, "player_02_gou": 66.15, "player_03_seiya": 129.85 } enemies={ "enemy_01_crusher": 85.75, "enemy_02_shadow_boxer": 173.53, "enemy_03_masato_takahashi": 111.72, "enemy_04_rei_kageyama": 130.2, "enemy_05_cross_murasame": 128.1, "enemy_06_rio_flick_garcia": 171.36, "enemy_07_teki_fighter": 130.2, "enemy_08_leon_crow": 152.46 }
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)

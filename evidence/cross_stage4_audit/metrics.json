@@ -1,0 +1,4674 @@
+[
+  {
+    "clip": "backstep",
+    "file": "backstep_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "backstep",
+    "file": "backstep_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      277,
+      270
+    ],
+    "area_ratio": 1.045,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "backstep",
+    "file": "backstep_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      267,
+      269
+    ],
+    "area_ratio": 0.812,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "backstep",
+    "file": "backstep_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "chop",
+    "file": "chop_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      120,
+      58,
+      264,
+      269
+    ],
+    "area_ratio": 1.063,
+    "height_ratio": 0.995
+  },
+  {
+    "clip": "chop",
+    "file": "chop_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      98,
+      57,
+      287,
+      269
+    ],
+    "area_ratio": 1.182,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "chop",
+    "file": "chop_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      109,
+      57,
+      275,
+      269
+    ],
+    "area_ratio": 1.051,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      105,
+      271,
+      269
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.774
+  },
+  {
+    "clip": "combo_finisher",
+    "file": "combo_finisher_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_ankle",
+    "file": "cross_ankle_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_ankle",
+    "file": "cross_ankle_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      105,
+      271,
+      269
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.774
+  },
+  {
+    "clip": "cross_ankle",
+    "file": "cross_ankle_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_ankle_hold",
+    "file": "cross_ankle_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      105,
+      271,
+      269
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.774
+  },
+  {
+    "clip": "cross_ankle_release",
+    "file": "cross_ankle_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_ankle_release",
+    "file": "cross_ankle_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_ankle_start",
+    "file": "cross_ankle_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_armbar",
+    "file": "cross_armbar_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_armbar",
+    "file": "cross_armbar_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      113,
+      118,
+      270,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.712
+  },
+  {
+    "clip": "cross_armbar",
+    "file": "cross_armbar_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_armbar_hold",
+    "file": "cross_armbar_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      113,
+      118,
+      270,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.712
+  },
+  {
+    "clip": "cross_armbar_release",
+    "file": "cross_armbar_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_armbar_release",
+    "file": "cross_armbar_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_armbar_start",
+    "file": "cross_armbar_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_choke",
+    "file": "cross_choke_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_choke",
+    "file": "cross_choke_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      121,
+      111,
+      262,
+      270
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.75
+  },
+  {
+    "clip": "cross_choke",
+    "file": "cross_choke_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_choke_hold",
+    "file": "cross_choke_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      121,
+      111,
+      262,
+      270
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.75
+  },
+  {
+    "clip": "cross_choke_release",
+    "file": "cross_choke_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_choke_release",
+    "file": "cross_choke_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_choke_start",
+    "file": "cross_choke_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_chop",
+    "file": "cross_chop_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_chop",
+    "file": "cross_chop_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "cross_chop",
+    "file": "cross_chop_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_harai",
+    "file": "cross_harai_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_harai",
+    "file": "cross_harai_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_harai",
+    "file": "cross_harai_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      71,
+      66,
+      312,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.958
+  },
+  {
+    "clip": "cross_harai_hold",
+    "file": "cross_harai_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_harai_release",
+    "file": "cross_harai_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      71,
+      66,
+      312,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.958
+  },
+  {
+    "clip": "cross_harai_release",
+    "file": "cross_harai_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_harai_start",
+    "file": "cross_harai_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_joint_finish",
+    "file": "cross_joint_finish_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_joint_finish",
+    "file": "cross_joint_finish_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "cross_joint_finish",
+    "file": "cross_joint_finish_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      105,
+      271,
+      269
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.774
+  },
+  {
+    "clip": "cross_joint_finish",
+    "file": "cross_joint_finish_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_knee",
+    "file": "cross_knee_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "cross_knee",
+    "file": "cross_knee_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      71,
+      66,
+      312,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.958
+  },
+  {
+    "clip": "cross_knee",
+    "file": "cross_knee_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_muei",
+    "file": "cross_muei_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      70,
+      280,
+      270
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.943
+  },
+  {
+    "clip": "cross_muei_grip",
+    "file": "cross_muei_grip_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      70,
+      280,
+      270
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.943
+  },
+  {
+    "clip": "cross_muei_hold",
+    "file": "cross_muei_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      109,
+      65,
+      274,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.967
+  },
+  {
+    "clip": "cross_muei_hold",
+    "file": "cross_muei_hold_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      108,
+      63,
+      275,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.976
+  },
+  {
+    "clip": "cross_muei_release",
+    "file": "cross_muei_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      102,
+      79,
+      282,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.901
+  },
+  {
+    "clip": "cross_muei_release",
+    "file": "cross_muei_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      108,
+      59,
+      275,
+      270
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.995
+  },
+  {
+    "clip": "cross_osoto",
+    "file": "cross_osoto_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_osoto",
+    "file": "cross_osoto_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "cross_osoto",
+    "file": "cross_osoto_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      49,
+      273,
+      270
+    ],
+    "area_ratio": 1.006,
+    "height_ratio": 1.042
+  },
+  {
+    "clip": "cross_osoto_hold",
+    "file": "cross_osoto_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "cross_osoto_release",
+    "file": "cross_osoto_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      49,
+      273,
+      270
+    ],
+    "area_ratio": 1.006,
+    "height_ratio": 1.042
+  },
+  {
+    "clip": "cross_osoto_release",
+    "file": "cross_osoto_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_osoto_start",
+    "file": "cross_osoto_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_rotate",
+    "file": "cross_rotate_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_rotate",
+    "file": "cross_rotate_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_rotate",
+    "file": "cross_rotate_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      91,
+      57,
+      292,
+      269
+    ],
+    "area_ratio": 1.038,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_rotate_hold",
+    "file": "cross_rotate_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_rotate_release",
+    "file": "cross_rotate_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      91,
+      57,
+      292,
+      269
+    ],
+    "area_ratio": 1.038,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_rotate_release",
+    "file": "cross_rotate_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_rotate_start",
+    "file": "cross_rotate_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_seoi",
+    "file": "cross_seoi_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_seoi",
+    "file": "cross_seoi_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_seoi",
+    "file": "cross_seoi_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "cross_seoi_hold",
+    "file": "cross_seoi_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_seoi_release",
+    "file": "cross_seoi_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "cross_seoi_release",
+    "file": "cross_seoi_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_seoi_start",
+    "file": "cross_seoi_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_side_pin",
+    "file": "cross_side_pin_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_side_pin",
+    "file": "cross_side_pin_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      117,
+      271,
+      269
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.717
+  },
+  {
+    "clip": "cross_side_pin",
+    "file": "cross_side_pin_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_side_pin_hold",
+    "file": "cross_side_pin_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      117,
+      271,
+      269
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.717
+  },
+  {
+    "clip": "cross_side_pin_release",
+    "file": "cross_side_pin_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      127,
+      267,
+      270
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.675
+  },
+  {
+    "clip": "cross_side_pin_release",
+    "file": "cross_side_pin_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_side_pin_start",
+    "file": "cross_side_pin_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_sode",
+    "file": "cross_sode_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_sode",
+    "file": "cross_sode_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "cross_sode",
+    "file": "cross_sode_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_sode_hold",
+    "file": "cross_sode_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "cross_sode_release",
+    "file": "cross_sode_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_sode_release",
+    "file": "cross_sode_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_sode_start",
+    "file": "cross_sode_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_tomoe",
+    "file": "cross_tomoe_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_tomoe",
+    "file": "cross_tomoe_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "cross_tomoe",
+    "file": "cross_tomoe_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      90,
+      88,
+      294,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.858
+  },
+  {
+    "clip": "cross_tomoe_hold",
+    "file": "cross_tomoe_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "cross_tomoe_release",
+    "file": "cross_tomoe_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      90,
+      88,
+      294,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.858
+  },
+  {
+    "clip": "cross_tomoe_release",
+    "file": "cross_tomoe_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_tomoe_start",
+    "file": "cross_tomoe_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_triangle",
+    "file": "cross_triangle_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_triangle",
+    "file": "cross_triangle_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      94,
+      280,
+      269
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.825
+  },
+  {
+    "clip": "cross_triangle",
+    "file": "cross_triangle_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      100,
+      281,
+      270
+    ],
+    "area_ratio": 1.004,
+    "height_ratio": 0.802
+  },
+  {
+    "clip": "cross_triangle_hold",
+    "file": "cross_triangle_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      94,
+      280,
+      269
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.825
+  },
+  {
+    "clip": "cross_triangle_release",
+    "file": "cross_triangle_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      100,
+      281,
+      270
+    ],
+    "area_ratio": 1.004,
+    "height_ratio": 0.802
+  },
+  {
+    "clip": "cross_triangle_release",
+    "file": "cross_triangle_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_triangle_start",
+    "file": "cross_triangle_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_uchimata",
+    "file": "cross_uchimata_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_uchimata",
+    "file": "cross_uchimata_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "cross_uchimata",
+    "file": "cross_uchimata_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      71,
+      66,
+      312,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.958
+  },
+  {
+    "clip": "cross_uchimata_hold",
+    "file": "cross_uchimata_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "cross_uchimata_release",
+    "file": "cross_uchimata_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      71,
+      66,
+      312,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.958
+  },
+  {
+    "clip": "cross_uchimata_release",
+    "file": "cross_uchimata_release_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "cross_uchimata_start",
+    "file": "cross_uchimata_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_wrist_finish",
+    "file": "cross_wrist_finish_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "cross_wrist_finish",
+    "file": "cross_wrist_finish_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "cross_wrist_finish",
+    "file": "cross_wrist_finish_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      105,
+      271,
+      269
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.774
+  },
+  {
+    "clip": "cross_wrist_finish",
+    "file": "cross_wrist_finish_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "crouch",
+    "file": "crouch_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_guard",
+    "file": "crouch_guard_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_idle",
+    "file": "crouch_idle_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_kick",
+    "file": "crouch_kick_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_kick",
+    "file": "crouch_kick_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      87,
+      137,
+      298,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.623
+  },
+  {
+    "clip": "crouch_kick",
+    "file": "crouch_kick_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_kick_sweep",
+    "file": "crouch_kick_sweep_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_kick_sweep",
+    "file": "crouch_kick_sweep_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      87,
+      137,
+      298,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.623
+  },
+  {
+    "clip": "crouch_kick_sweep",
+    "file": "crouch_kick_sweep_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_punch",
+    "file": "crouch_punch_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_punch",
+    "file": "crouch_punch_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      98,
+      57,
+      287,
+      269
+    ],
+    "area_ratio": 1.182,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "crouch_punch",
+    "file": "crouch_punch_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_sweep_kick",
+    "file": "crouch_sweep_kick_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "crouch_sweep_kick",
+    "file": "crouch_sweep_kick_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      87,
+      137,
+      298,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.623
+  },
+  {
+    "clip": "crouch_sweep_kick",
+    "file": "crouch_sweep_kick_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "damage",
+    "file": "damage_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "damage",
+    "file": "damage_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "damage_heavy",
+    "file": "damage_heavy_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "damage_heavy",
+    "file": "damage_heavy_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "damage_high",
+    "file": "damage_high_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "damage_high",
+    "file": "damage_high_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "damage_light",
+    "file": "damage_light_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "damage_light",
+    "file": "damage_light_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "damage_low",
+    "file": "damage_low_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "damage_low",
+    "file": "damage_low_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "dash",
+    "file": "dash_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      96,
+      100,
+      287,
+      269
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.797
+  },
+  {
+    "clip": "dash",
+    "file": "dash_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      87,
+      103,
+      298,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.783
+  },
+  {
+    "clip": "defeat",
+    "file": "defeat_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "defeat",
+    "file": "defeat_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "down",
+    "file": "down_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "elbow",
+    "file": "elbow_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      120,
+      58,
+      264,
+      269
+    ],
+    "area_ratio": 1.063,
+    "height_ratio": 0.995
+  },
+  {
+    "clip": "elbow",
+    "file": "elbow_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      57,
+      267,
+      269
+    ],
+    "area_ratio": 0.866,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "elbow",
+    "file": "elbow_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      109,
+      57,
+      275,
+      269
+    ],
+    "area_ratio": 1.051,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "fall",
+    "file": "fall_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      87,
+      278,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.863
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      138,
+      277,
+      269
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.618
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "get_up",
+    "file": "get_up_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "getup",
+    "file": "getup_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "getup",
+    "file": "getup_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      138,
+      277,
+      269
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.618
+  },
+  {
+    "clip": "getup",
+    "file": "getup_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "getup",
+    "file": "getup_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "grab",
+    "file": "grab_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "grab",
+    "file": "grab_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "grab",
+    "file": "grab_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "grab",
+    "file": "grab_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "grabbed",
+    "file": "grabbed_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "guard",
+    "file": "guard_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      277,
+      270
+    ],
+    "area_ratio": 1.045,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "guard_hit",
+    "file": "guard_hit_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "guard_hit",
+    "file": "guard_hit_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "heavy_attack",
+    "file": "heavy_attack_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "heavy_attack",
+    "file": "heavy_attack_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      49,
+      273,
+      270
+    ],
+    "area_ratio": 1.006,
+    "height_ratio": 1.042
+  },
+  {
+    "clip": "heavy_attack",
+    "file": "heavy_attack_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle",
+    "file": "idle_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle",
+    "file": "idle_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      138,
+      58,
+      245,
+      270
+    ],
+    "area_ratio": 0.911,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle",
+    "file": "idle_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle",
+    "file": "idle_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      138,
+      58,
+      245,
+      270
+    ],
+    "area_ratio": 0.911,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle_prebattle",
+    "file": "idle_prebattle_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      129,
+      57,
+      253,
+      269
+    ],
+    "area_ratio": 0.931,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle_prebattle",
+    "file": "idle_prebattle_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      138,
+      58,
+      245,
+      270
+    ],
+    "area_ratio": 0.911,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "idle_ready",
+    "file": "idle_ready_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      138,
+      58,
+      245,
+      270
+    ],
+    "area_ratio": 0.911,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "jump",
+    "file": "jump_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      117,
+      272,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.722
+  },
+  {
+    "clip": "jump",
+    "file": "jump_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "jump_air",
+    "file": "jump_air_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "jump_fall",
+    "file": "jump_fall_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      87,
+      278,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.863
+  },
+  {
+    "clip": "jump_kick",
+    "file": "jump_kick_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "jump_kick",
+    "file": "jump_kick_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      110,
+      90,
+      274,
+      270
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.849
+  },
+  {
+    "clip": "jump_kick",
+    "file": "jump_kick_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      87,
+      278,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.863
+  },
+  {
+    "clip": "jump_land",
+    "file": "jump_land_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      125,
+      278,
+      269
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.679
+  },
+  {
+    "clip": "jump_land",
+    "file": "jump_land_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "jump_punch",
+    "file": "jump_punch_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "jump_punch",
+    "file": "jump_punch_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      81,
+      279,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.892
+  },
+  {
+    "clip": "jump_punch",
+    "file": "jump_punch_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      87,
+      278,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.863
+  },
+  {
+    "clip": "jump_punch_down",
+    "file": "jump_punch_down_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "jump_punch_down",
+    "file": "jump_punch_down_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      81,
+      279,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.892
+  },
+  {
+    "clip": "jump_punch_down",
+    "file": "jump_punch_down_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      87,
+      278,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.863
+  },
+  {
+    "clip": "jump_start",
+    "file": "jump_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      112,
+      117,
+      272,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.722
+  },
+  {
+    "clip": "jump_start",
+    "file": "jump_start_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "jump_up",
+    "file": "jump_up_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      70,
+      266,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.939
+  },
+  {
+    "clip": "kick",
+    "file": "kick_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "kick",
+    "file": "kick_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      49,
+      273,
+      270
+    ],
+    "area_ratio": 1.006,
+    "height_ratio": 1.042
+  },
+  {
+    "clip": "kick",
+    "file": "kick_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "kick_1",
+    "file": "kick_1_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "kick_1",
+    "file": "kick_1_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      111,
+      49,
+      273,
+      270
+    ],
+    "area_ratio": 1.006,
+    "height_ratio": 1.042
+  },
+  {
+    "clip": "kick_1",
+    "file": "kick_1_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "kick_2",
+    "file": "kick_2_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      125,
+      41,
+      258,
+      269
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 1.075
+  },
+  {
+    "clip": "kick_2",
+    "file": "kick_2_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      71,
+      66,
+      312,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 0.958
+  },
+  {
+    "clip": "kick_2",
+    "file": "kick_2_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "knee",
+    "file": "knee_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      136,
+      42,
+      248,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 1.071
+  },
+  {
+    "clip": "knee",
+    "file": "knee_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      131,
+      55,
+      251,
+      269
+    ],
+    "area_ratio": 1.001,
+    "height_ratio": 1.009
+  },
+  {
+    "clip": "knee",
+    "file": "knee_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      136,
+      42,
+      248,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 1.071
+  },
+  {
+    "clip": "knockback",
+    "file": "knockback_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "knockback",
+    "file": "knockback_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "knockdown",
+    "file": "knockdown_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      116,
+      72,
+      268,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.934
+  },
+  {
+    "clip": "knockdown",
+    "file": "knockdown_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "knockdown",
+    "file": "knockdown_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "ko",
+    "file": "ko_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "ko",
+    "file": "ko_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "land",
+    "file": "land_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      125,
+      278,
+      269
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.679
+  },
+  {
+    "clip": "land",
+    "file": "land_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "landing",
+    "file": "landing_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      125,
+      278,
+      269
+    ],
+    "area_ratio": 0.999,
+    "height_ratio": 0.679
+  },
+  {
+    "clip": "landing",
+    "file": "landing_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "light_attack",
+    "file": "light_attack_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "light_attack",
+    "file": "light_attack_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "light_attack",
+    "file": "light_attack_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "punch",
+    "file": "punch_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "punch",
+    "file": "punch_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "punch",
+    "file": "punch_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "punch_1",
+    "file": "punch_1_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "punch_1",
+    "file": "punch_1_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "punch_1",
+    "file": "punch_1_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "punch_2",
+    "file": "punch_2_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "punch_2",
+    "file": "punch_2_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "punch_2",
+    "file": "punch_2_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      98,
+      281,
+      270
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.811
+  },
+  {
+    "clip": "received_akky_elbow_air",
+    "file": "received_akky_elbow_air_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      55,
+      290,
+      262
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.976
+  },
+  {
+    "clip": "received_akky_elbow_air",
+    "file": "received_akky_elbow_air_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      73,
+      135,
+      320,
+      270
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.637
+  },
+  {
+    "clip": "received_akky_elbow_down",
+    "file": "received_akky_elbow_down_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      43,
+      180,
+      340,
+      269
+    ],
+    "area_ratio": 0.995,
+    "height_ratio": 0.42
+  },
+  {
+    "clip": "received_akky_elbow_fall",
+    "file": "received_akky_elbow_fall_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      55,
+      290,
+      262
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.976
+  },
+  {
+    "clip": "received_akky_elbow_hit",
+    "file": "received_akky_elbow_hit_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      55,
+      290,
+      262
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.976
+  },
+  {
+    "clip": "received_akky_elbow_wall",
+    "file": "received_akky_elbow_wall_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      73,
+      135,
+      320,
+      270
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.637
+  },
+  {
+    "clip": "received_gou_breaker_air",
+    "file": "received_gou_breaker_air_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_gou_breaker_down",
+    "file": "received_gou_breaker_down_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      42,
+      202,
+      340,
+      254
+    ],
+    "area_ratio": 0.706,
+    "height_ratio": 0.245
+  },
+  {
+    "clip": "received_gou_breaker_hit",
+    "file": "received_gou_breaker_hit_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_seiya_somersault_air",
+    "file": "received_seiya_somersault_air_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_seiya_somersault_down",
+    "file": "received_seiya_somersault_down_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      42,
+      202,
+      340,
+      254
+    ],
+    "area_ratio": 0.706,
+    "height_ratio": 0.245
+  },
+  {
+    "clip": "received_seiya_somersault_fall",
+    "file": "received_seiya_somersault_fall_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_seiya_somersault_hit",
+    "file": "received_seiya_somersault_hit_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_seiya_two_down",
+    "file": "received_seiya_two_down_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      42,
+      202,
+      340,
+      254
+    ],
+    "area_ratio": 0.706,
+    "height_ratio": 0.245
+  },
+  {
+    "clip": "received_seiya_two_fall",
+    "file": "received_seiya_two_fall_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_seiya_two_fly",
+    "file": "received_seiya_two_fly_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "received_seiya_two_lift",
+    "file": "received_seiya_two_lift_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      181,
+      36,
+      313,
+      252
+    ],
+    "area_ratio": 0.811,
+    "height_ratio": 1.019
+  },
+  {
+    "clip": "roundhouse",
+    "file": "roundhouse_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      99,
+      57,
+      285,
+      270
+    ],
+    "area_ratio": 1.205,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "roundhouse",
+    "file": "roundhouse_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      83,
+      59,
+      300,
+      270
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.995
+  },
+  {
+    "clip": "roundhouse",
+    "file": "roundhouse_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      136,
+      42,
+      248,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 1.071
+  },
+  {
+    "clip": "special",
+    "file": "special_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      70,
+      280,
+      270
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.943
+  },
+  {
+    "clip": "special_attack",
+    "file": "special_attack_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      70,
+      280,
+      270
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.943
+  },
+  {
+    "clip": "special_recovery",
+    "file": "special_recovery_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      108,
+      59,
+      275,
+      270
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.995
+  },
+  {
+    "clip": "special_recovery",
+    "file": "special_recovery_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "special_startup",
+    "file": "special_startup_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      118,
+      89,
+      265,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.854
+  },
+  {
+    "clip": "special_startup",
+    "file": "special_startup_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      70,
+      280,
+      270
+    ],
+    "area_ratio": 1.003,
+    "height_ratio": 0.943
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      138,
+      277,
+      269
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.618
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      109,
+      262,
+      269
+    ],
+    "area_ratio": 0.998,
+    "height_ratio": 0.755
+  },
+  {
+    "clip": "stand_up",
+    "file": "stand_up_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "straight_punch",
+    "file": "straight_punch_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      104,
+      58,
+      279,
+      270
+    ],
+    "area_ratio": 1.078,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "straight_punch",
+    "file": "straight_punch_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      87,
+      58,
+      295,
+      269
+    ],
+    "area_ratio": 1.177,
+    "height_ratio": 0.995
+  },
+  {
+    "clip": "straight_punch",
+    "file": "straight_punch_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      109,
+      57,
+      275,
+      269
+    ],
+    "area_ratio": 1.051,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "throw",
+    "file": "throw_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "throw",
+    "file": "throw_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "throw",
+    "file": "throw_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "throw",
+    "file": "throw_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "throw_hold",
+    "file": "throw_hold_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      115,
+      76,
+      269,
+      270
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 0.915
+  },
+  {
+    "clip": "throw_hold",
+    "file": "throw_hold_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      57,
+      278,
+      269
+    ],
+    "area_ratio": 0.967,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "throw_release",
+    "file": "throw_release_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      100,
+      109,
+      284,
+      270
+    ],
+    "area_ratio": 1.002,
+    "height_ratio": 0.759
+  },
+  {
+    "clip": "throw_start",
+    "file": "throw_start_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      95,
+      58,
+      288,
+      270
+    ],
+    "area_ratio": 1.019,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "thrown",
+    "file": "thrown_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "thrown",
+    "file": "thrown_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      70,
+      201,
+      314,
+      269
+    ],
+    "area_ratio": 0.725,
+    "height_ratio": 0.321
+  },
+  {
+    "clip": "ukemi",
+    "file": "ukemi_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      80,
+      114,
+      305,
+      270
+    ],
+    "area_ratio": 0.997,
+    "height_ratio": 0.736
+  },
+  {
+    "clip": "ukemi",
+    "file": "ukemi_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      103,
+      100,
+      281,
+      270
+    ],
+    "area_ratio": 1.004,
+    "height_ratio": 0.802
+  },
+  {
+    "clip": "ukemi",
+    "file": "ukemi_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      106,
+      138,
+      277,
+      269
+    ],
+    "area_ratio": 1.005,
+    "height_ratio": 0.618
+  },
+  {
+    "clip": "ukemi",
+    "file": "ukemi_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "victory",
+    "file": "victory_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      114,
+      57,
+      269,
+      269
+    ],
+    "area_ratio": 1.0,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "victory",
+    "file": "victory_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      129,
+      57,
+      253,
+      269
+    ],
+    "area_ratio": 0.931,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "walk",
+    "file": "walk_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      57,
+      262,
+      270
+    ],
+    "area_ratio": 0.86,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "walk",
+    "file": "walk_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      266,
+      269
+    ],
+    "area_ratio": 0.808,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "walk",
+    "file": "walk_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      120,
+      57,
+      264,
+      270
+    ],
+    "area_ratio": 0.866,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "walk",
+    "file": "walk_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      267,
+      269
+    ],
+    "area_ratio": 0.812,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      267,
+      269
+    ],
+    "area_ratio": 0.812,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      120,
+      57,
+      264,
+      270
+    ],
+    "area_ratio": 0.866,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      266,
+      269
+    ],
+    "area_ratio": 0.808,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "walk_backward",
+    "file": "walk_backward_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      57,
+      262,
+      270
+    ],
+    "area_ratio": 0.86,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_00.png",
+    "index": 0,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      122,
+      57,
+      262,
+      270
+    ],
+    "area_ratio": 0.86,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_01.png",
+    "index": 1,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      266,
+      269
+    ],
+    "area_ratio": 0.808,
+    "height_ratio": 1.0
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_02.png",
+    "index": 2,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      120,
+      57,
+      264,
+      270
+    ],
+    "area_ratio": 0.866,
+    "height_ratio": 1.005
+  },
+  {
+    "clip": "walk_forward",
+    "file": "walk_forward_03.png",
+    "index": 3,
+    "scale": "(1.021402, 1.021402)",
+    "size": "(384.0, 288.0)",
+    "texture": "",
+    "bounds": [
+      117,
+      57,
+      267,
+      269
+    ],
+    "area_ratio": 0.812,
+    "height_ratio": 1.0
+  }
+]

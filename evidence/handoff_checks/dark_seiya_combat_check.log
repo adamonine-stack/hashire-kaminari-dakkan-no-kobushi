@@ -18,6 +18,7 @@ Game progress initialized
 [DEV035] Punch damage: 18
 [DEV035] Kick damage: 24
 [DEV033] Enemy target updated: player_01_akky
+[Music] play=secret_boss position=0.00
 BGM: BattleBGM
 Battle Start: player_01_akky VS enemy_09_seiya
 DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
@@ -77,7 +78,20 @@ HP: 34
 [DEV036] Attack hit: Player
 [Special] gauge_changed=14
 Punch HitBox OFF
-[DEV036] Attack finished: dark_seiya_punch_1
+Cancel: dark_seiya_punch_1 -> dark_seiya_punch_2
+[DEV036] Attack started: dark_seiya_punch_2
+[DEV036] Combo advanced: dark_seiya_punch_2
+Punch HitBox ON
+[DEV036] Attack active: dark_seiya_punch_2
+Punch Hit
+Damage: 17
+HP: 17
+[Special] gauge_changed=38
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_changed=23
+Punch HitBox OFF
+[DEV036] Attack finished: dark_seiya_punch_2
 DARK_SEIYA_CHECK visible extended punch contacts at 165px PASS
 DARK_SEIYA_CHECK idle fixed frame scale PASS
 DARK_SEIYA_CHECK idle fixed frame scale PASS
@@ -142,3 +156,5 @@ DARK_SEIYA_CHECK aura_recovery fixed frame scale PASS
 DARK_SEIYA_CHECK aura_recovery fixed frame scale PASS
 DARK_SEIYA_COMBAT_CHECK failures=[]
 [DEV041][GameFlow] Battle cleanup completed
+WARNING: 24 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)

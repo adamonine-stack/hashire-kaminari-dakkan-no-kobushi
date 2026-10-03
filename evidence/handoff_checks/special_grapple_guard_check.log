@@ -37,6 +37,7 @@ HP: 98
 [Special] started id=cross_muei
 [Special] active
 [DEV036] Attack started: player1_punch_1
+[Special] hit target=Enemy1
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -65,6 +66,7 @@ HP: 98
 [Special] started id=cross_muei
 [Special] active
 [DEV036] Attack started: player1_punch_1
+[Special] hit target=Enemy1
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -100,6 +102,7 @@ HP: 128
 [Special] started id=cross_muei
 [Special] active
 [DEV036] Attack started: player2_punch_1
+[Special] hit target=Enemy1
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -128,6 +131,7 @@ HP: 128
 [Special] started id=cross_muei
 [Special] active
 [DEV036] Attack started: player2_punch_1
+[Special] hit target=Enemy1
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -163,6 +167,7 @@ HP: 90
 [Special] started id=cross_muei
 [Special] active
 [DEV036] Attack started: player3_punch_1
+[Special] hit target=Enemy1
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
@@ -191,6 +196,7 @@ HP: 90
 [Special] started id=cross_muei
 [Special] active
 [DEV036] Attack started: player3_punch_1
+[Special] hit target=Enemy1
 [Special] finished
 THROW STARTUP
 THROW CONNECTED
