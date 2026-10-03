@@ -99,21 +99,21 @@ func run() -> void:
 	packet.causes_knockdown = false
 	check(actor.receive_attack(packet, -1.0, actor.global_position, enemy), "runtime special damage")
 	actor._update_visual_state()
-	check(sprite.animation == &"special_hit", "runtime special hit reaction")
+	check(sprite.animation == &"received_rei_uppercut_hit", "runtime special hit reaction")
 	reset_actor()
 	packet.causes_knockdown = true
 	check(actor.receive_attack(packet, -1.0, actor.global_position, enemy), "runtime special launch")
 	actor._update_visual_state()
-	check(sprite.animation == &"special_knockback", "airborne reaction before landing")
+	check(sprite.animation == &"received_rei_uppercut_air", "airborne reaction before landing")
 	actor.enter_knockdown()
 	actor._update_visual_state()
-	check(sprite.animation == &"special_knockdown", "ground reaction after landing")
+	check(sprite.animation == &"received_rei_uppercut_down", "ground reaction after landing")
 	reset_actor()
 	actor.is_guarding = true
 	actor.guard_type = "high"
 	check(not actor.receive_attack(packet, -1.0, actor.global_position, enemy), "runtime guard succeeds")
 	actor._update_visual_state()
-	check(sprite.animation == &"special_guard", "runtime special guard reaction")
+	check(sprite.animation == &"received_rei_uppercut_guard", "runtime special guard reaction")
 	print("AKKY_REVERSAL_MOTION_CHECK failures=%s screenshots=%d scale=%s pivot=%s" % [failures,screenshot_count,fixed_scale,fixed_pivot])
 	await create_timer(1.5).timeout
 	# Fixed-FPS simulation can finish before the real audio mixer catches up.
