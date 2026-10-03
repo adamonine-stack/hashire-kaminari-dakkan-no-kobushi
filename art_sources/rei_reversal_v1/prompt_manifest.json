@@ -1,0 +1,141 @@
+[
+  {
+    "id": 0,
+    "file": "rei_00_anticipation.png",
+    "prompt": "Use case: stylized-concept. Asset: exactly ONE production 2D fighting-game sprite frame, NOT a sheet or collage. Reference image 1 is the authoritative identity and drawing style of Rei Kageyama. Create a new full-body key pose for his reversal dragon uppercut, frame 0 ANTICIPATION: facing RIGHT in the same three-quarter side view, deep but natural knee bend, weight on rear left leg, lead right boot planted ahead, right gloved fist pulled low beside right hip, left fist guarding cheek; torso coiled, head looking forward. Preserve tall upright black mohawk and shaved sides, muscular proportions, face, tan skin, fur-edged black sleeveless vest, gold waist chain and buckle, black fingerless gloves, loose torn black pants with exposed knees, chunky dark boots with tan soles. Match reference painterly pixel-edged detailed sprite style, crisp edges at game size. Exactly one head/two arms/two legs, no extra fingers. Entire character isolated in a generous transparent square canvas, no other person, no effect, no ground/shadow, no labels or text, no motion blur. Keep head-to-body ratio and same anatomical body mass; bending knees reduces pose height rather than changing the character's size. Actual transparent background. This is a NEW pose, do not merely redraw the idle stance.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-74a0c0a4-08ed-4b4f-ba4e-2e24eda82d5f.png"
+  },
+  {
+    "id": 1,
+    "file": "rei_01_load.png",
+    "prompt": "Exactly ONE transparent full-body production fighting-game sprite, not a sheet. Image1: authoritative Rei identity. Image2 and image3: approved endpoint key poses. Create ONE new intermediate between those endpoints. Preserve mohawk/shaved sides, tan muscular body/face, fur-edged black sleeveless vest, gold chain/buckle, fingerless gloves, baggy ripped black pants, thick dark boots/tan soles, same anatomical size and detailed painterly pixel-edged style. Facing RIGHT three-quarter side view, generous empty transparent margins, no effect/extra person/shadow/text/cropping. One head/two arms/two legs, natural anatomy. Intermediate weight transfer: shoulders slightly LOWER, right fist closer to waist and elbow slightly farther behind, left cheek guard unchanged. Knees deeply bent, hips turn slightly; right boot forward and left boot back stay planted. Distinct transitional drawing halfway from image2 to image3.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-56f32698-2dd8-4b86-8e29-2a172353f795.png"
+  },
+  {
+    "id": 2,
+    "file": "rei_02_coil.png",
+    "prompt": "Production game sprite. Exactly ONE full-body pose on actual transparent background, no sheet, no other person, no text, no effect/shadow. Image1 authoritative Rei identity, Image2 approved anticipation sprite and art style. Preserve exact tall black mohawk/shaved sides, face and muscular proportions, fur-trimmed black sleeveless vest, gold waist chain/buckle, fingerless black gloves, baggy ripped black pants with tan exposed knees, chunky black boots with tan soles. Same detailed painterly pixel-edged game rendering. Facing RIGHT in three-quarter side view. Entire body with generous transparent margin, one head/two arms/two legs, coherent fingers. Same anatomical body mass and head/body ratio as both references. Key frame STARTUP COIL: knees bent, torso rotates slightly clockwise toward viewer, right striking fist tightly tucked beside waist with elbow behind the torso, left gloved fist held up beside cheek. Rear boot planted; front boot remains planted. Shoulders lower and wind up, face eyes fixed to the right. This must be distinct from the anticipation, ready to spring upward.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-935af970-d121-4bc3-870e-422e43ffc536.png"
+  },
+  {
+    "id": 3,
+    "file": "rei_03_rise.png",
+    "prompt": "Exactly ONE transparent full-body production fighting-game sprite, not a sheet. Image1: authoritative Rei identity. Image2 and image3: approved endpoint key poses. Create ONE new intermediate between those endpoints. Preserve mohawk/shaved sides, tan muscular body/face, fur-edged black sleeveless vest, gold chain/buckle, fingerless gloves, baggy ripped black pants, thick dark boots/tan soles, same anatomical size and detailed painterly pixel-edged style. Facing RIGHT three-quarter side view, generous empty transparent margins, no effect/extra person/shadow/text/cropping. One head/two arms/two legs, natural anatomy. Intermediate rising ATTACK: right striking elbow drives FORWARD and upward at chest height, forearm rising diagonally, fist just beside forehead rather than fully extended overhead. Torso begins straightening, rear heel raises while toe remains on ground, leading boot planted, left fist near chest. Exactly halfway from coiled image2 to extended uppercut image3; striking fist unmistakably moves up, not a straight jab.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-ce5ddca4-eb90-495c-b53c-93f3046a6d07.png"
+  },
+  {
+    "id": 4,
+    "file": "rei_04_impact.png",
+    "prompt": "Production game sprite. Exactly ONE full-body pose on actual transparent background, no sheet, no other person, no text, no effect/shadow. Image1 authoritative Rei identity, Image2 approved anticipation sprite and art style. Preserve exact tall black mohawk/shaved sides, face and muscular proportions, fur-trimmed black sleeveless vest, gold waist chain/buckle, fingerless black gloves, baggy ripped black pants with tan exposed knees, chunky black boots with tan soles. Same detailed painterly pixel-edged game rendering. Facing RIGHT in three-quarter side view. Entire body with generous transparent margin, one head/two arms/two legs, coherent fingers. Same anatomical body mass and head/body ratio as both references. Key frame IMPACT of rising dragon uppercut: right arm rises diagonally FORWARD toward upper right with fist clearly above forehead, elbow mostly extended; torso uncoils upward and leans slightly toward target. Left fist protects chest. Leading right foot bears weight; rear heel lifted but toe touching ground, knees straighter. No leap or flying pose. Clear rising punch silhouette and full mohawk visible, neither fist nor head cropped.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-9fe986d6-a7a9-4d2c-aa4f-9ec4655927f1.png"
+  },
+  {
+    "id": 5,
+    "file": "rei_05_return.png",
+    "prompt": "Exactly ONE transparent full-body production fighting-game sprite, not a sheet. Image1: authoritative Rei identity. Image2 and image3: approved endpoint key poses. Create ONE new intermediate between those endpoints. Preserve mohawk/shaved sides, tan muscular body/face, fur-edged black sleeveless vest, gold chain/buckle, fingerless gloves, baggy ripped black pants, thick dark boots/tan soles, same anatomical size and detailed painterly pixel-edged style. Facing RIGHT three-quarter side view, generous empty transparent margins, no effect/extra person/shadow/text/cropping. One head/two arms/two legs, natural anatomy. First RECOVERY intermediate just after uppercut peak: right elbow bends, raised fist returning from overhead toward eye height, shoulders lower, rear heel returns toward floor, knees bend to absorb momentum. Left fist at upper chest. Keep front boot planted and trailing boot behind. Whole right arm is still above chest, distinct from image3 finish.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-780cb8fc-6750-4fdb-8800-fb437ab8eeba.png"
+  },
+  {
+    "id": 6,
+    "file": "rei_06_recover.png",
+    "prompt": "Exactly ONE transparent full-body production fighting-game sprite, not a sheet. Image1: authoritative Rei identity. Image2 and image3: approved endpoint key poses. Create ONE new intermediate between those endpoints. Preserve mohawk/shaved sides, tan muscular body/face, fur-edged black sleeveless vest, gold chain/buckle, fingerless gloves, baggy ripped black pants, thick dark boots/tan soles, same anatomical size and detailed painterly pixel-edged style. Facing RIGHT three-quarter side view, generous empty transparent margins, no effect/extra person/shadow/text/cropping. One head/two arms/two legs, natural anatomy. Second RECOVERY intermediate near finish: right fist lowered to collarbone with elbow close to ribcage, left fist guarding cheek, torso rotated slightly forward after the uppercut, knees moderately bent and both boots planted. Slightly more forward leaning than image3 finish. A clear new pose, not a duplicate of reference2/3.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-bc883dcb-85da-42dc-962b-df8cdb7285af.png"
+  },
+  {
+    "id": 7,
+    "file": "rei_07_finish.png",
+    "prompt": "Production game sprite. Exactly ONE full-body pose on actual transparent background, no sheet, no other person, no text, no effect/shadow. Image1 authoritative Rei identity, Image2 approved anticipation sprite and art style. Preserve exact tall black mohawk/shaved sides, face and muscular proportions, fur-trimmed black sleeveless vest, gold waist chain/buckle, fingerless black gloves, baggy ripped black pants with tan exposed knees, chunky black boots with tan soles. Same detailed painterly pixel-edged game rendering. Facing RIGHT in three-quarter side view. Entire body with generous transparent margin, one head/two arms/two legs, coherent fingers. Same anatomical body mass and head/body ratio as both references. Key frame dedicated FINISH: uppercut fully finished, torso upright with relaxed slight forward lean; both knees softly bent, right fist withdrawn to upper chest, left fist near cheek. Front right boot planted and rear left foot extended back, wider stance than reference idle, breathing after powerful attack. Both feet grounded. New distinct finish pose, not the reference idle or anticipation.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-6b968bbe-9da3-46e4-92c9-403d0b8705ce.png"
+  },
+  {
+    "id": "akky_hit",
+    "file": "akky_hit.png",
+    "prompt": "Asset: ONE full-body SPECIAL HIT sprite keyframe for a production 2D fighting game, actual transparent background, no sheet/collage/effects/opponent/text/ground/shadow. Image1 is authoritative character identity, scale, proportions and painterly pixel-edged game drawing style. Akky: black medium-length hair, tan brown jacket over black shirt, black belt with silver buckle, loose black pants and black boots. Preserve exact face/hair/clothes/colors and head/body ratio from reference. Pose: facing RIGHT three-quarter side view, struck by a rising uppercut from the RIGHT under chin/upper chest. Chin lifts, torso arches backward toward LEFT, shoulders open, fists/arms recoil with coherent hands, knees buckle slightly but BOTH feet still touching ground. Clear powerful recoil distinct from ordinary idle. No detached neck, no extra limbs. Entire body isolated within square transparent canvas with wide margin. This is the moment of impact before the upward launch; do not draw an attacker or add bruises/new costume details.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-bfff47c2-59ca-4db6-bbc2-c57602207eaf.png"
+  },
+  {
+    "id": "akky_air",
+    "file": "akky_air.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Akky: black medium-length hair, tan brown jacket over black shirt, black belt with silver buckle, loose black pants and black boots. ONE full-body airborne uppercut victim pose. Facing RIGHT, chin lifted, back arched backward LEFT, shoulders behind hips, arms recoiling open; both knees bend only slightly and BOTH feet lift, body stretched rather than tucked. No rotation drawn, no floor. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-dac4dc1b-7129-4ae7-a8cf-519a7ca98ae3.png"
+  },
+  {
+    "id": "akky_down",
+    "file": "akky_down.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Akky: black medium-length hair, tan brown jacket over black shirt, black belt with silver buckle, loose black pants and black boots. ONE full-body supine knocked-down pose. Character lies horizontally ON HIS BACK with head at RIGHT and boots or sandals at LEFT, face looking upward, spine parallel to ground, legs relaxed nearly straight, arms splayed. Not sitting, not face-down, no floor. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-c81f1dcb-773d-4262-b3c2-61fe832879eb.png"
+  },
+  {
+    "id": "akky_guard_impact",
+    "file": "akky_guard_impact.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Akky: black medium-length hair, tan brown jacket over black shirt, black belt with silver buckle, loose black pants and black boots. ONE full-body heavy guard impact pose facing RIGHT. Both forearms braced together in front of face and chest against impact from RIGHT, torso leans LEFT, knees bent, both feet planted firmly, rear foot slides slightly LEFT. Keep face readable above forearms. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-b6e183d1-f16a-4cbc-8b90-ccca28401795.png"
+  },
+  {
+    "id": "akky_guard_hold",
+    "file": "akky_guard_hold.png",
+    "prompt": "Exactly ONE individual follow-through animation frame of the attached strong guard pose. Akky: black medium-length hair, tan brown jacket over black shirt, black belt with silver buckle, loose black pants and black boots. Match attached idle and guard sprites EXACTLY in identity, hair, face, clothing, body proportions and drawing/pixel shading style. Facing RIGHT, forearms remain braced in front of face/chest, torso straightens slightly, rear foot braces, knees softly bent. Slight settling after guard impact, not idle and not attacking. Entire body within image with generous margin. Transparent background, no effect/text/ground/shadow or other person.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-3a03fb9d-1c9b-44d1-8386-940a65baaa8d.png"
+  },
+  {
+    "id": "gou_hit",
+    "file": "gou_hit.png",
+    "prompt": "Asset: ONE full-body SPECIAL HIT sprite keyframe for a production 2D fighting game, actual transparent background, no sheet/collage/effects/opponent/text/ground/shadow. Image1 is authoritative character identity, scale, proportions and painterly pixel-edged game drawing style. Gou: very muscular tan man, short brown buzz-cut hair, dark sunglasses, white tank top, wide black belt, baggy black pants, black-and-gold sandals. Preserve exact face/hair/clothes/colors and head/body ratio from reference. Pose: facing RIGHT three-quarter side view, struck by a rising uppercut from the RIGHT under chin/upper chest. Chin lifts, torso arches backward toward LEFT, shoulders open, fists/arms recoil with coherent hands, knees buckle slightly but BOTH feet still touching ground. Clear powerful recoil distinct from ordinary idle. No detached neck, no extra limbs. Entire body isolated within square transparent canvas with wide margin. This is the moment of impact before the upward launch; do not draw an attacker or add bruises/new costume details.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-6a4e721b-5ef7-42b5-9e8d-5c02c0c2db67.png"
+  },
+  {
+    "id": "gou_air",
+    "file": "gou_air.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Gou: very muscular tan man, short brown buzz-cut hair, dark sunglasses, white tank top, wide black belt, baggy black pants, black-and-gold sandals. ONE full-body airborne uppercut victim pose. Facing RIGHT, chin lifted, back arched backward LEFT, shoulders behind hips, arms recoiling open; both knees bend only slightly and BOTH feet lift, body stretched rather than tucked. No rotation drawn, no floor. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-29866768-fbed-4fd5-ae92-b0c31025c4f3.png"
+  },
+  {
+    "id": "gou_down",
+    "file": "gou_down.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Gou: very muscular tan man, short brown buzz-cut hair, dark sunglasses, white tank top, wide black belt, baggy black pants, black-and-gold sandals. ONE full-body supine knocked-down pose. Character lies horizontally ON HIS BACK with head at RIGHT and boots or sandals at LEFT, face looking upward, spine parallel to ground, legs relaxed nearly straight, arms splayed. Not sitting, not face-down, no floor. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-bf9effcc-a6dd-4368-bc25-ad19c53664b2.png"
+  },
+  {
+    "id": "gou_guard_impact",
+    "file": "gou_guard_impact.png",
+    "prompt": "Correct exactly this ONE Gou guard sprite: add the dark black sunglasses worn in the authoritative idle reference. His sunglasses MUST remain on his face in combat. Keep this guard pose, muscular tan body, brown buzz-cut hair, white tank top, loose black pants, gold-soled black sandals, full body proportions and every other detail unchanged. Transparent background. No other pose, no effects.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-652168f6-e429-4205-819e-290123b6586b.png",
+    "selection_note": "User requires guard without sunglasses; rejected sunglasses variants are not used."
+  },
+  {
+    "id": "gou_guard_hold",
+    "file": "gou_guard_hold.png",
+    "prompt": "Remove sunglasses; use natural eyes, matching approved guard impact; preserve hold pose, clothes, body mass and transparency.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-e63addf8-510b-4b81-8942-79cde42fcb8e.png"
+  },
+  {
+    "id": "seiya_hit",
+    "file": "seiya_hit.png",
+    "prompt": "Asset: ONE full-body SPECIAL HIT sprite keyframe for a production 2D fighting game, actual transparent background, no sheet/collage/effects/opponent/text/ground/shadow. Image1 is authoritative character identity, scale, proportions and painterly pixel-edged game drawing style. Seiya: slim young man with blond layered hair, white long-sleeve buttoned shirt, black belt, beige loose pants, white low-top shoes. Preserve exact face/hair/clothes/colors and head/body ratio from reference. Pose: facing RIGHT three-quarter side view, struck by a rising uppercut from the RIGHT under chin/upper chest. Chin lifts, torso arches backward toward LEFT, shoulders open, fists/arms recoil with coherent hands, knees buckle slightly but BOTH feet still touching ground. Clear powerful recoil distinct from ordinary idle. No detached neck, no extra limbs. Entire body isolated within square transparent canvas with wide margin. This is the moment of impact before the upward launch; do not draw an attacker or add bruises/new costume details.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-59dc3ab7-df34-4334-83c1-63a489974a3f.png"
+  },
+  {
+    "id": "seiya_air",
+    "file": "seiya_air.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Seiya: slim young man with blond layered hair, white long-sleeve buttoned shirt, black belt, beige loose pants, white low-top shoes. ONE full-body airborne uppercut victim pose. Facing RIGHT, chin lifted, back arched backward LEFT, shoulders behind hips, arms recoiling open; both knees bend only slightly and BOTH feet lift, body stretched rather than tucked. No rotation drawn, no floor. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-25a1a31e-d11f-4160-b342-5322778f4f8b.png"
+  },
+  {
+    "id": "seiya_down",
+    "file": "seiya_down.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Seiya: slim young man with blond layered hair, white long-sleeve buttoned shirt, black belt, beige loose pants, white low-top shoes. ONE full-body supine knocked-down pose. Character lies horizontally ON HIS BACK with head at RIGHT and boots or sandals at LEFT, face looking upward, spine parallel to ground, legs relaxed nearly straight, arms splayed. Not sitting, not face-down, no floor. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-5d1dbe1e-cbb5-4317-b280-75622536309a.png"
+  },
+  {
+    "id": "seiya_guard_impact",
+    "file": "seiya_guard_impact.png",
+    "prompt": "Produce exactly ONE individual animation key pose, transparent background, for an existing side-view beat-em-up Godot character. Match the attached authoritative idle sprite EXACTLY in drawing/pixel shading style, identity, hairstyle, facial features, clothing, body proportions and mass. Seiya: slim young man with blond layered hair, white long-sleeve buttoned shirt, black belt, beige loose pants, white low-top shoes. ONE full-body heavy guard impact pose facing RIGHT. Both forearms braced together in front of face and chest against impact from RIGHT, torso leans LEFT, knees bent, both feet planted firmly, rear foot slides slightly LEFT. Keep face readable above forearms. Entire character including all hands, hair and feet within image, generous clear margin. No other characters, effect, text, shadow or background. Anatomical two arms and two legs. Render at same character detail as reference.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-eee52c11-8277-4952-9cf8-f560c02f8acf.png"
+  },
+  {
+    "id": "seiya_guard_hold",
+    "file": "seiya_guard_hold.png",
+    "prompt": "Exactly ONE individual follow-through animation frame of the attached strong guard pose. Seiya: slim young man with blond layered hair, white long-sleeve buttoned shirt, black belt, beige loose pants, white low-top shoes. Match attached idle and guard sprites EXACTLY in identity, hair, face, clothing, body proportions and drawing/pixel shading style. Facing RIGHT, forearms remain braced in front of face/chest, torso straightens slightly, rear foot braces, knees softly bent. Slight settling after guard impact, not idle and not attacking. Entire body within image with generous margin. Transparent background, no effect/text/ground/shadow or other person.",
+    "source": "C:\\Users\\takas\\.codex\\generated_images\\01a0ffad-5380-7af2-aa90-5710ffc3fb7e\\exec-26852bb8-f77f-41a9-858c-912740eec052.png"
+  }
+]

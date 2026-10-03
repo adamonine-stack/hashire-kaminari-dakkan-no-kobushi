@@ -1,0 +1,79 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV035] Character data loaded: enemy_02_shadow_boxer
+[DEV035] Type: Boxer
+[DEV035] HP: 88
+[DEV035] Move speed: 335
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: enemy_03_masato_takahashi
+[DEV035] Type: Judo
+[DEV035] HP: 96
+[DEV035] Move speed: 285
+[DEV035] Punch damage: 4
+[DEV035] Kick damage: 6
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 9
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: enemy_06_rio_flick_garcia
+[DEV035] Type: Grapple Speed
+[DEV035] HP: 102
+[DEV035] Move speed: 340
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 8
+[DEV035] Character data loaded: enemy_07_teki_fighter
+[DEV035] Type: Technical Grappler
+[DEV035] HP: 118
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: enemy_08_leon_crow
+[DEV035] Type: Boss
+[DEV035] HP: 170
+[DEV035] Move speed: 330
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 10
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV036] Attack started: dark_seiya_kick_finish
+COMBAT_POSE_FLOW_CHECK failures=[] screenshots=0

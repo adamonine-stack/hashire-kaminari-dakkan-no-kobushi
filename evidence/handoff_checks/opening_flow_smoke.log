@@ -8,5 +8,3 @@ Game progress initialized
 [DEV033] Player select opened
 [DEV041][GameFlow] Battle cleanup completed
 OPENING_FLOW_OK pages=26 next=res://scenes/Battle.tscn
-WARNING: 5 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2535)

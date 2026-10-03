@@ -2805,6 +2805,16 @@ func _play_audio_manager_se(se_id: String) -> bool:
 	return false
 
 
+func _get_current_visual_animation() -> StringName:
+	# Select the special clip before the base update, instead of temporarily
+	# entering idle_prebattle every frame and restarting the special at frame 0.
+	if is_character_special_busy() and character_special_data != null:
+		match character_special_state:
+			CharacterSpecialState.STARTUP: return character_special_data.special_startup_animation
+			CharacterSpecialState.ACTIVE: return StringName(character_special_data.animation_name)
+			CharacterSpecialState.RECOVERY: return character_special_data.special_finish_animation
+	return super._get_current_visual_animation()
+
 func _update_visual_state() -> void:
 	# Preserve reviewed special progress across the base animation update.
 	var preserve_authored_special := (_is_enemy8() or _uses_readable_grapple() or _is_cross_grappler() or character_special_id == "shadow_slip_counter") and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null

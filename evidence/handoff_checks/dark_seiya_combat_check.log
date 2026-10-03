@@ -77,20 +77,7 @@ HP: 34
 [DEV036] Attack hit: Player
 [Special] gauge_changed=14
 Punch HitBox OFF
-Cancel: dark_seiya_punch_1 -> dark_seiya_punch_2
-[DEV036] Attack started: dark_seiya_punch_2
-[DEV036] Combo advanced: dark_seiya_punch_2
-Punch HitBox ON
-[DEV036] Attack active: dark_seiya_punch_2
-Punch Hit
-Damage: 17
-HP: 17
-[Special] gauge_changed=38
-Combo: Player2 2 HIT
-[DEV036] Attack hit: Player
-[Special] gauge_changed=23
-Punch HitBox OFF
-[DEV036] Attack finished: dark_seiya_punch_2
+[DEV036] Attack finished: dark_seiya_punch_1
 DARK_SEIYA_CHECK visible extended punch contacts at 165px PASS
 DARK_SEIYA_CHECK idle fixed frame scale PASS
 DARK_SEIYA_CHECK idle fixed frame scale PASS

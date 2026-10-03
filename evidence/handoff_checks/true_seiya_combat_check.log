@@ -85,5 +85,3 @@ Enemy defeated: enemy_09_seiya
 BGM: WinBGM
 [STAGE8_TRUE_ENDING_V1] TRUE BOSS SEIYA DEFEATED
 TRUE_SEIYA_COMBAT_CHECK failures=[]
-WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2535)

@@ -100,7 +100,12 @@ func _draw() -> void:
 			draw_line(Vector2(5,0), Vector2(65,0), Color(1,0.85,0.5), 6)
 			draw_arc(Vector2(45,0), r*0.5, -PI/2, PI/2, 18, tint, 2)
 		"enemy_04_rei_kageyama":
-			for i in range(2): draw_arc(Vector2(30,-i*24), r, -PI, PI/2, 24, tint, 3)
+			if phase == "active":
+				# Rising arc follows the uppercut box, never a horizontal punch flash.
+				var progress := elapsed/duration
+				var center := contact_point+Vector2(-35,20)
+				draw_arc(center,48.0,PI*0.6,PI*0.6+progress*PI*1.25,32,Color(tint,0.3),10.0,true)
+				draw_arc(center,48.0,PI*0.6,PI*0.6+progress*PI*1.25,32,Color.WHITE,2.0,true)
 		"enemy_05_cross_murasame":
 			draw_line(contact_point+Vector2(-35,-25),contact_point+Vector2(35,25),Color(0.8,0.4,1),3)
 			draw_line(contact_point+Vector2(-35,25),contact_point+Vector2(35,-25),Color(0.8,0.4,1),3)
@@ -116,6 +121,19 @@ func _draw() -> void:
 			for i in range(3): draw_arc(Vector2(0,25-i*20),r*0.6,PI,TAU,24,Color(0.7,0.3,1),3)
 
 func _draw_body_aura() -> void:
+	if style == "enemy_04_rei_kageyama":
+		# Thin ground spiral and side lift lines preserve mohawk, face and vest.
+		var progress := elapsed/duration
+		for i in range(2):
+			var ring := PackedVector2Array()
+			for step in range(33):
+				var angle := step*TAU/32.0+progress*PI+i*PI
+				ring.append(Vector2(cos(angle)*(40+i*9),sin(angle)*8+62-i*5))
+			draw_polyline(ring,Color(tint,0.35),2.0,true)
+		if phase == "startup":
+			for side in [-1.0,1.0]:
+				draw_line(Vector2(side*68,35),Vector2(side*60,-45-progress*40),Color(tint,0.3),2.0,true)
+		return
 	if style == "enemy_05_cross_murasame":
 		# Technique: narrow directional edges frame the grip, with no body fill.
 		for side in [-1.0, 1.0]:
@@ -172,6 +190,12 @@ func _draw_body_aura() -> void:
 		draw_arc(Vector2(38,-20), 62.0, -1.3, 1.3, 32, Color(1,1,1,0.9), 4.0, true)
 
 func _draw_special_impact() -> void:
+	if style == "enemy_04_rei_kageyama":
+		var radius := 18.0+elapsed/duration*25.0
+		draw_arc(Vector2.ZERO,radius,0,TAU,32,Color(tint,0.6),2.0,true)
+		for i in range(3):
+			draw_line(Vector2(-16+i*16,12),Vector2(-10+i*10,-radius),Color(1,1,1,0.7),2.0,true)
+		return
 	if style in ["player_03_seiya","enemy_09_seiya"]:
 		draw_arc(Vector2.ZERO,28.0,0,TAU,32,Color(tint,0.5),3.0,true)
 		draw_arc(Vector2.ZERO,16.0,0,TAU,24,Color(1,1,1,0.4),2.0,true)

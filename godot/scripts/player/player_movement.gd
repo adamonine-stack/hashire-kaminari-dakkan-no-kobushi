@@ -2900,7 +2900,9 @@ func _get_current_visual_animation() -> StringName:
 		return &"dash"
 	if absf(velocity.x) > 0.0:
 		return _get_walk_animation_for_direction(velocity.x)
-	return &"idle_ready" if input_enabled else &"idle_prebattle"
+	# AI actors never enable player input. That does not make an active
+	# round a prebattle scene; reserve the presentation pose for the intro.
+	return &"idle_ready" if is_round_active else &"idle_prebattle"
 
 
 func _get_walk_animation_for_direction(direction: float) -> StringName:

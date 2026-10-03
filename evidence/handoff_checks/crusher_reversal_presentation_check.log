@@ -56,7 +56,7 @@ CRUSHER_CAPTURE ally_balance_L_impact
 CRUSHER_CAPTURE ally_balance_L_air
 [Special] finished
 CRUSHER_CAPTURE ally_balance_L_down
-SPECIAL_FLIGHT ally_balance_L distance=410.9 height=231.6
+SPECIAL_FLIGHT ally_balance_L distance=411.3 height=231.6
 CRUSHER_CAPTURE ally_balance_L_finish
 Damage: 0
 HP: 100
@@ -81,7 +81,7 @@ CRUSHER_CAPTURE ally_power_R_impact
 CRUSHER_CAPTURE ally_power_R_air
 [Special] finished
 CRUSHER_CAPTURE ally_power_R_down
-SPECIAL_FLIGHT ally_power_R distance=376.6 height=114.7
+SPECIAL_FLIGHT ally_power_R distance=377.7 height=114.7
 CRUSHER_CAPTURE ally_power_R_finish
 Damage: 0
 HP: 130
@@ -100,7 +100,7 @@ CRUSHER_CAPTURE ally_power_L_impact
 CRUSHER_CAPTURE ally_power_L_air
 [Special] finished
 CRUSHER_CAPTURE ally_power_L_down
-SPECIAL_FLIGHT ally_power_L distance=383.7 height=114.7
+SPECIAL_FLIGHT ally_power_L distance=383.2 height=114.7
 CRUSHER_CAPTURE ally_power_L_finish
 Damage: 0
 HP: 130
@@ -125,7 +125,7 @@ CRUSHER_CAPTURE ally_speed_R_impact
 CRUSHER_CAPTURE ally_speed_R_air
 [Special] finished
 CRUSHER_CAPTURE ally_speed_R_down
-SPECIAL_FLIGHT ally_speed_R distance=411.9 height=360.1
+SPECIAL_FLIGHT ally_speed_R distance=412.1 height=360.1
 CRUSHER_CAPTURE ally_speed_R_finish
 Damage: 0
 HP: 92
@@ -146,7 +146,7 @@ CRUSHER_CAPTURE ally_speed_L_impact
 CRUSHER_CAPTURE ally_speed_L_air
 [Special] finished
 CRUSHER_CAPTURE ally_speed_L_down
-SPECIAL_FLIGHT ally_speed_L distance=405.5 height=360.1
+SPECIAL_FLIGHT ally_speed_L distance=408.6 height=360.1
 CRUSHER_CAPTURE ally_speed_L_finish
 Damage: 0
 HP: 92

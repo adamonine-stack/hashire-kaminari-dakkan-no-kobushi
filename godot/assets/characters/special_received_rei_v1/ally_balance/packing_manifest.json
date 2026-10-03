@@ -1,0 +1,77 @@
+{
+  "reference": "art_sources/rei_reversal_v1/references/akky.png",
+  "method": "Individual reviewed originals; idle opaque body area; fixed canvas and floor baseline; unchanged runtime scale",
+  "baseline": 319,
+  "frames": [
+    {
+      "file": "akky_hit.png",
+      "sha256": "b52ced3be1706a3efd74a32979909afab7e4072ee15a25a505ecb9f9a27aa3c3",
+      "density": 0.16343921986744595,
+      "origin": [
+        204,
+        155
+      ],
+      "size": [
+        103,
+        164
+      ],
+      "relative_body_area": 0.9979872128818376
+    },
+    {
+      "file": "akky_air.png",
+      "sha256": "c442c38546ad7a94f403d5c5412f20b3a8e8867be8c2c0c42f9e0999c0331c35",
+      "density": 0.20321290120178884,
+      "origin": [
+        200,
+        159
+      ],
+      "size": [
+        113,
+        160
+      ],
+      "relative_body_area": 1.0011839924224486
+    },
+    {
+      "file": "akky_down.png",
+      "sha256": "dd2d7e21be14bd0399f0ddb2554b0f334a86c6da3c1087f44e9bc61e7113c467",
+      "density": 0.1858068858324685,
+      "origin": [
+        143,
+        248
+      ],
+      "size": [
+        226,
+        71
+      ],
+      "relative_body_area": 0.9968032204593891
+    },
+    {
+      "file": "akky_guard_impact.png",
+      "sha256": "1fcd6a11b49818c18e11d5b264f2d01816ceab317790733b5dca1fd95571d05d",
+      "density": 0.20705924686181448,
+      "origin": [
+        198,
+        160
+      ],
+      "size": [
+        117,
+        159
+      ],
+      "relative_body_area": 1.000710395453469
+    },
+    {
+      "file": "akky_guard_hold.png",
+      "sha256": "3e316fc228f30e1fddeb371013206f96f84239395044f61630d6f818028343d4",
+      "density": 0.20959452800945552,
+      "origin": [
+        200,
+        154
+      ],
+      "size": [
+        113,
+        165
+      ],
+      "relative_body_area": 1.004617570447549
+    }
+  ]
+}

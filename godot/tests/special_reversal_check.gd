@@ -65,6 +65,11 @@ func run() -> void:
 			check(data.causes_knockdown and not data.wall_slam and player.character_special_data.special_launch_speed_cap == Vector2(420,120),definition + " authored short ground launch")
 			check(is_equal_approx(float(data.special_launch_gravity),300.0),definition + " independent low gravity preserves airtime")
 			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-120.0),definition + " bounded launch after stat modifiers")
+		elif definition == "enemies/enemy_04_throw":
+			check(data.causes_knockdown and data.keep_special_flight_in_view,definition + " upward reversal stays visible")
+			check(player.character_special_data.special_launch_speed_cap == Vector2(420,560),definition + " bounded Rei uppercut")
+			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-560.0),definition + " bounded uppercut after stat modifiers")
+			check(is_equal_approx(float(data.special_launch_gravity),1200.0),definition + " Rei uppercut gravity")
 		elif definition in ["fighters/ally_speed","enemies/enemy_09_seiya"]:
 			check(not data.headfirst_on_launch and data.special_launch_gravity == 850.0,definition + " ascending two-hit first launch")
 			check(is_equal_approx(absf(launch.x),35.0) and is_equal_approx(launch.y,-360.0),definition + " bounded lift near sidekick range")
