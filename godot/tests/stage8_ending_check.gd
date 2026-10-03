@@ -129,4 +129,11 @@ func run_check() -> void:
 	if current_scene != null:
 		current_scene.queue_free()
 		for frame in range(3): await process_frame
+	get_root().get_node("AudioManager").stop_bgm()
+	var audio = get_root().get_node("AudioManager")
+	for sound in audio.se_players:
+		sound.stop()
+		sound.stream = null
+	audio.bgm_player.stream = null
+	await create_timer(0.3).timeout
 	quit(0 if failures.is_empty() else 1)
