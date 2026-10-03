@@ -27,7 +27,7 @@ func extra_reversal_checks(manager: Node, actor: Node, victim: Node) -> void:
      check(not victim.current_attack_type.is_empty(),hero+" begins ordinary attack")
      victim.set_physics_process(false)
     var hp: int = victim.current_hp
-    var damage: int = roundi(maxi(actor.punch_damage,actor.kick_damage)*1.5)
+    var damage: int = int(actor._get_character_special_attack_dictionary()["damage"])
     actor.start_character_special()
     var seen := {}
     for tick in range(160):
@@ -42,7 +42,7 @@ func extra_reversal_checks(manager: Node, actor: Node, victim: Node) -> void:
      if actor.throw_state=="THROW_HOLD" and not seen.has("hold"):
       seen["hold"] = true
       check(victim.is_throw_locked and victim.current_attack_type.is_empty(),"natural hit interrupts ordinary attack")
-      check(victim.pending_throw_damage==damage,"1.5x pending damage")
+      check(victim.pending_throw_damage==damage,"dedicated special pending damage")
       await capture(hero+"_"+str(direction)+"_natural_hold")
       if mode=="escape":
        victim._complete_throw_escape()

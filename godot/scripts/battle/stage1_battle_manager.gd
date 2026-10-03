@@ -23,6 +23,44 @@ const BATTLE_HP_RESOURCE_TARGETS := {
 	&"enemy_09_seiya": 250.0,
 }
 
+# Published base combat values: punch / kick / throw.
+# Punch and kick keep each fighter's existing timing, AI and knockback profile.
+# Legacy enemy definitions receive equivalent damage scales, while allies and
+# direct-stat bosses receive the exact direct punch/kick values.
+const BATTLE_ATTACK_DAMAGE_TARGETS := {
+	&"player_01_akky": [11.0, 14.0, 18.0],
+	&"player_02_gou": [15.0, 20.0, 26.0],
+	&"player_03_seiya": [9.0, 12.0, 14.0],
+	&"enemy_01_crusher": [8.0, 10.0, 16.0],
+	&"enemy_04_rei_kageyama": [7.0, 10.0, 17.0],
+	&"enemy_07_teki_fighter": [7.0, 9.0, 18.0],
+	&"enemy_05_cross_murasame": [9.0, 12.0, 20.0],
+	&"enemy_02_shadow_boxer": [6.0, 8.0, 11.0],
+	&"enemy_06_rio_flick_garcia": [7.0, 9.0, 15.0],
+	&"enemy_03_masato_takahashi": [6.0, 8.0, 15.0],
+	&"enemy_08_leon_crow": [10.0, 14.0, 21.0],
+	&"enemy_09_seiya": [11.0, 15.0, 18.0],
+}
+
+# Character-special damage is intentionally outside this balance pass. The
+# special system derives damage from max(punch,kick), so preserve the currently
+# published per-hit values by retuning only the active special resource's
+# multiplier after the new basic punch/kick values are applied.
+const BATTLE_SPECIAL_DAMAGE_TARGETS := {
+	&"player_01_akky": 23.0,
+	&"player_02_gou": 38.0,
+	&"player_03_seiya": 13.0,
+	&"enemy_01_crusher": 12.0,
+	&"enemy_04_rei_kageyama": 14.0,
+	&"enemy_07_teki_fighter": 11.0,
+	&"enemy_05_cross_murasame": 11.0,
+	&"enemy_02_shadow_boxer": 11.0,
+	&"enemy_06_rio_flick_garcia": 12.0,
+	&"enemy_03_masato_takahashi": 9.0,
+	&"enemy_08_leon_crow": 15.0,
+	&"enemy_09_seiya": 24.0,
+}
+
 # In-battle max HP values used by saves created before this balance change.
 # Continue data is migrated by preserving the remaining-health percentage.
 const LEGACY_BATTLE_HP_MAX := {
@@ -41,12 +79,14 @@ const LEGACY_BATTLE_HP_MAX := {
 }
 
 const BATTLE_HP_TARGET_META := &"st_action_hp_targets_applied_v2"
+const BATTLE_ATTACK_TARGET_META := &"st_action_attack_targets_applied_v1"
 const BATTLE_HP_SAVE_VERSION := 2
 const BATTLE_RUN_SAVE_PATH := "user://save.cfg"
 
 
 func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
 	_apply_battle_hp_target_once(definition)
+	_apply_battle_attack_target_once(definition)
 	return super._create_progress_entry_from_definition(definition, battle_order)
 
 
@@ -58,6 +98,48 @@ func _apply_battle_hp_target_once(definition: Resource) -> void:
 		return
 	definition.set("max_health", float(BATTLE_HP_RESOURCE_TARGETS[fighter_id]))
 	definition.set_meta(BATTLE_HP_TARGET_META, true)
+
+
+func _apply_battle_attack_target_once(definition: Resource) -> void:
+	if definition == null or definition.has_meta(BATTLE_ATTACK_TARGET_META):
+		return
+	var fighter_id := StringName(definition.get("fighter_id"))
+	if not BATTLE_ATTACK_DAMAGE_TARGETS.has(fighter_id):
+		return
+	var targets: Array = BATTLE_ATTACK_DAMAGE_TARGETS[fighter_id]
+	var punch_target := float(targets[0])
+	var kick_target := float(targets[1])
+	var throw_target := float(targets[2])
+	var uses_direct_stats := StringName(definition.get("team_type")) == &"ALLY" or bool(definition.get("use_direct_combat_stats"))
+	if uses_direct_stats:
+		definition.set("punch_damage", punch_target)
+		definition.set("kick_damage", kick_target)
+	else:
+		definition.set("punch_damage_scale", punch_target / 5.0)
+		definition.set("kick_damage_scale", kick_target / 8.0)
+	definition.set("throw_damage_scale", throw_target / 15.0)
+	_preserve_character_special_damage(definition, fighter_id, maxf(punch_target, kick_target))
+	definition.set_meta(BATTLE_ATTACK_TARGET_META, true)
+
+
+func _preserve_character_special_damage(definition: Resource, fighter_id: StringName, new_base_damage: float) -> void:
+	if new_base_damage <= 0.0 or not BATTLE_SPECIAL_DAMAGE_TARGETS.has(fighter_id):
+		return
+	var special_data: Resource = null
+	# Enemy 8 uses its reversal as the character-special/counter; its boss move
+	# sequence is a separate system and must retain its authored values.
+	if fighter_id == &"enemy_08_leon_crow":
+		special_data = definition.get("reversal_attack") as Resource
+	else:
+		var sequence: Array = definition.get("special_attack_sequence") as Array
+		if not sequence.is_empty():
+			special_data = sequence[0] as Resource
+		if special_data == null:
+			special_data = definition.get("reversal_attack") as Resource
+	if special_data == null:
+		return
+	var desired_damage := float(BATTLE_SPECIAL_DAMAGE_TARGETS[fighter_id])
+	special_data.set("damage_multiplier", desired_damage / new_base_damage)
 
 
 func save_run_progress() -> bool:

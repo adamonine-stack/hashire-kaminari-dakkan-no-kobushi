@@ -45,7 +45,7 @@ func run() -> void:
 	enemy = manager.enemy
 	aura = enemy.aura_controller
 	check(aura != null,"registered final boss component")
-	check(enemy.max_hp == 250 and enemy.punch_damage == 18 and enemy.kick_damage == 24,"boss direct stats")
+	check(enemy.max_hp == 250 and enemy.punch_damage == 11 and enemy.kick_damage == 15 and enemy.throw_damage == 18,"boss direct stats")
 	var hero = load("res://data/fighters/ally_speed.tres")
 	check(enemy.fighter_definition.visual_scale_adjustment == hero.visual_scale_adjustment and enemy.fighter_definition.head_scale == hero.head_scale and enemy.fighter_definition.body_width_scale == hero.body_width_scale,"identical hero and boss proportions")
 	await reset_pair()
