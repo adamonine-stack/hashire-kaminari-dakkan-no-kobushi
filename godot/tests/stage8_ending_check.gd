@@ -106,13 +106,18 @@ func run_check() -> void:
 			boss_manager.select_player_by_id("player_02_gou")
 			await create_timer(1.5).timeout
 			check(boss_manager.player.fighter_definition.fighter_id == &"player_02_gou", "Gou replacement")
+			boss_manager.restart_current_game()
+			await create_timer(1.5).timeout
+			check(boss_manager.enemy.current_hp > 0 and boss_manager.player.current_hp > 0 and boss_manager.isRoundActive, "TRUE retry")
 			boss_manager._set_battle_active(false)
 			boss_manager._mark_enemy_defeated()
 			boss_manager._should_finish_game()
 			check(boss_manager.flow_state == boss_manager.BattleState.CLEAR, "TRUE win")
-			boss_manager.restart_current_game()
-			await create_timer(1.5).timeout
-			check(boss_manager.enemy.current_hp > 0 and boss_manager.player.current_hp > 0 and boss_manager.isRoundActive, "TRUE retry")
+			await create_timer(2.2).timeout
+			check(current_scene.scene_file_path == "res://scenes/TrueEnding.tscn", "TRUE win enters ending")
+			change_scene_to_file("res://scenes/TrueBattle.tscn")
+			await create_timer(1.8).timeout
+			boss_manager = current_scene.get_node("BattleManager")
 			boss_manager._set_battle_active(false)
 			for data in boss_manager.player_team:
 				data["is_defeated"] = true
@@ -124,4 +129,11 @@ func run_check() -> void:
 	if current_scene != null:
 		current_scene.queue_free()
 		for frame in range(3): await process_frame
+	get_root().get_node("AudioManager").stop_bgm()
+	var audio = get_root().get_node("AudioManager")
+	for sound in audio.se_players:
+		sound.stop()
+		sound.stream = null
+	audio.bgm_player.stream = null
+	await create_timer(0.3).timeout
 	quit(0 if failures.is_empty() else 1)

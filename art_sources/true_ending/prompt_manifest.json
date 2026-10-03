@@ -1,0 +1,33 @@
+{
+  "tool": "built-in image_gen",
+  "canonical_references": [
+    "godot/assets/characters/player01/battle.png",
+    "godot/assets/characters/player02/battle.png",
+    "godot/assets/characters/rescued/mio.png",
+    "godot/assets/characters/rescued/ren.png",
+    "godot/assets/backgrounds/stage_05_island_pier_v2.png"
+  ],
+  "assets": [
+    {
+      "path": "godot/assets/endings/true/escape.png",
+      "prompt": "Create a single cinematic 16:9 ending CG for ST_action, detailed painted anime with pixel-game character styling. Use references as canonical designs, EXACTLY FOUR survivors: Akky adult 175cm black medium parted hair tan leather jacket black turtleneck loose black trousers combat boots; Gou 190cm very muscular short brown buzzcut white tank loose black pants sandals; Mio young adult woman 162cm brown shoulder length hair purple cardigan light blue knee length dress cream flats; Ren young adult man 173cm short spiky brown hair blue hoodie white T-shirt dark jeans gray sneakers. Preserve exact hair, faces, clothing, colors and build. They run together down coastal concrete road toward harbor ahead at right, escaping concrete secret base far behind upper left. Navy night sea moonlight, red warning lamps, small distant smoke and sparks, no large explosion yet. All four full bodies readable, running urgently, Gou taller and broader, Mio shortest. No other people, no Seiya, no text, no UI, no panels. Industrial tropical island consistent with supplied pier world. Single finished CG."
+    },
+    {
+      "path": "godot/assets/endings/true/pier.png",
+      "prompt": "Single 16:9 cinematic ending CG, painted anime style consistent with reference escape CG. Exactly same FOUR survivors Akky tan jacket black hair black pants boots; massive Gou white tank black pants sandals buzzcut; Mio purple cardigan blue dress cream flats; Ren blue hoodie white shirt dark jeans sneakers brown spiky hair. Preserve canonical designs ages and height differences. Night industrial island pier matching Stage5 reference, wet concrete yellow black edge markings lamps tropical island distant base red alarms. Four arrive on pier at left/center, Akky points toward a SMALL EMPTY OPEN MOTORBOAT tied alongside pier at right, clearly discover means to escape, Gou stands taller, Mio shortest. No boarding action yet. Boat practical gray-white hull, simple outboard engine, no cabin. Visible all four and empty boat. Moonlit navy sea, no giant explosion. No Seiya, extra people, dialogue, letters, UI, panels. One finished illustration."
+    },
+    {
+      "path": "godot/assets/endings/true/boat.png",
+      "prompt": "Edit this single CG to correct the boat escape direction and characters' eyelines. Preserve exactly FOUR characters and their original designs costumes and faces, island style moonlight and cinematic illustration. The boat is sailing AWAY from the island: move the outboard motor to the UPPER RIGHT rear/stern of the boat, nearest the distant island; its wake must trail to UPPER RIGHT toward the island. The pointed BOW/front of boat points LOWER LEFT toward open ocean, away from island. Camera views from FRONT LEFT of boat, therefore see the four from a diagonal back/side angle as they TURN their heads BACK toward UPPER RIGHT island, all four eyes directed toward island and NOT viewer. Keep all four clearly recognizable tan jacket black hair Akky, muscular buzzcut white tank Gou, brown-haired purple cardigan blue dress Mio, brown spiky blue hoodie Ren. Island upper right is behind the boat. No extra characters, no text, no fireball yet. Maintain 16:9."
+    },
+    {
+      "path": "godot/assets/endings/true/explosion.png",
+      "prompt": "Edit this exact 16:9 boat CG for true ending CLIMAX, preserve SAME camera composition, all FOUR people in foreground same positions faces body and clothing, boat sailing lower left away from island with wake back right. ONLY transform distant secret base on island upper right into spectacular HUGE orange gold white fireball, towering fire columns and dense black smoke, sequential smaller detonations at concrete structures, collapsing roof silhouettes. Explosion bigger than any combat effect, remote enough four people are safe. Warm explosion light rims the FOUR survivors' hair shoulders clothes and highlights boat sea; everyone remains silent and watches island. No Seiya or any person on island, no injury, no death depiction, no text/UI/panels. Detailed cinematic painted anime matching reference. Keep foreground boat and four intact."
+    },
+    {
+      "path": "godot/assets/endings/true/dawn.png",
+      "prompt": "Create final 16:9 cinematic dawn ending CG as a narrative continuation of referenced boat CG. Wide very distant camera: a SMALL open gray-white outboard motorboat with EXACTLY FOUR tiny recognizable silhouettes travels AWAY into an expansive sunrise sea. Four are survivors Akky tan jacket black hair, massive Gou white tank buzzcut, Mio purple cardigan light blue dress shoulder brown hair, Ren blue hoodie spiky brown hair. All aboard safely, four small silhouette heads, no one else. Small boat lower middle occupies about 12 percent width, wake behind. Dawn clearly unlike night: warm pink peach gold horizon and pale blue lavender clouds, golden sun path across calm water, hopeful quiet release. Distant island can be a faint dark fading shape at far right margin, no active fireball, no person on island. Elegant detailed painted anime visual consistent with previous CG. No Seiya, grave, death imagery, text, UI, panels, credits, logo. Single finished illustration, not a montage."
+    }
+  ],
+  "note": "Escape prompt omits only the save-path hint here. Boat was corrected in a second edit; its final prompt is recorded."
+}

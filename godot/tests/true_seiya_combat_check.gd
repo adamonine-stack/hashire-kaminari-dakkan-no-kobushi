@@ -75,8 +75,12 @@ func run_check() -> void:
 	await ticks(4)
 	player.request_attack_input(&"Punch")
 	await create_timer(4.5).timeout
-	check(manager.flow_state == manager.BattleState.CLEAR, "real hit -> boss KO -> true clear")
-	check(not player.input_enabled and not enemy.is_round_active, "clear stops battle")
+	var deadline := Time.get_ticks_msec() + 8000
+	while (current_scene == null or current_scene.scene_file_path != "res://scenes/TrueEnding.tscn") and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(current_scene.scene_file_path == "res://scenes/TrueEnding.tscn", "real hit -> boss KO -> true ending")
+	if current_scene.scene_file_path == "res://scenes/TrueEnding.tscn":
+		check(not current_scene.akky.input_enabled and not current_scene.seiya.is_round_active, "ending stops battle")
 	print("TRUE_SEIYA_COMBAT_CHECK failures=%s" % JSON.stringify(failures))
 	current_scene.queue_free()
 	for n in range(3): await process_frame

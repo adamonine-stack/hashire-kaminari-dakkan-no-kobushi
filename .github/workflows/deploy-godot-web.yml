@@ -173,6 +173,14 @@ jobs:
           grep -Fq 'TRUE_SEIYA_COMBAT_CHECK failures=[]' /tmp/true-seiya-combat.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-seiya-combat.log; then exit 1; fi
 
+      - name: Verify cinematic true ending and save compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/true_ending_check.gd 2>&1 | tee /tmp/true-ending.log
+          grep -Fq 'TRUE_ENDING_CHECK failures=[]' /tmp/true-ending.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-ending.log; then exit 1; fi
+
       - name: Verify dark Seiya proportions and aura combat
         shell: bash
         run: |
