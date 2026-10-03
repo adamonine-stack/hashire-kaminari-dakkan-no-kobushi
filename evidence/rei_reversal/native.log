@@ -1,0 +1,326 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 - Build 32.0.101.6737 - Compatibility - Using Device: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 9
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 36
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+SPECIAL_FLIGHT ally_balance_R distance=360.4 height=135.4
+Damage: 2
+HP: 48
+[Special] gauge_changed=25
+[Special] gauge_changed=33
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 36
+[Special] gauge_changed=45
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+SPECIAL_FLIGHT ally_balance_L distance=366.9 height=135.4
+Damage: 2
+HP: 48
+[Special] gauge_changed=57
+[Special] gauge_changed=65
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 51
+[Special] gauge_changed=77
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+SPECIAL_FLIGHT ally_power_R distance=369.9 height=135.4
+Damage: 2
+HP: 63
+[Special] gauge_changed=89
+[Special] gauge_changed=97
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 51
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+SPECIAL_FLIGHT ally_power_L distance=375.3 height=135.4
+Damage: 2
+HP: 63
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 32
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+SPECIAL_FLIGHT ally_speed_R distance=362.0 height=135.4
+Damage: 2
+HP: 44
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 32
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+SPECIAL_FLIGHT ally_speed_L distance=362.0 height=135.4
+Damage: 2
+HP: 44
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[Special] gauge_full
+[DEV036] Attack started: player1_punch_1
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 36
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 2
+HP: 48
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 36
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[DEV036] Attack started: player1_punch_1
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 36
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 2
+HP: 48
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 36
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[Special] gauge_full
+[DEV036] Attack started: player2_punch_1
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 51
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 2
+HP: 63
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 51
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[DEV036] Attack started: player2_punch_1
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 51
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 2
+HP: 63
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 51
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[DEV036] Attack started: player3_punch_1
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 32
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 2
+HP: 44
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 32
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[DEV036] Attack started: player3_punch_1
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 32
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 2
+HP: 44
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+[Special] active
+Damage: 14
+HP: 32
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+REI_REVERSAL_EXTRA_OK natural_contact guard whiff ai body_mass
+Damage: 14
+HP: 0
+HP reached 0
+SPECIAL_LAUNCH_REACTION_CHECK failures=[] screenshots=107

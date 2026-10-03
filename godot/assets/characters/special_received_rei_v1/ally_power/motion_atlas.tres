@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(512, 448)
+columns = 5
+clips = {"received_rei_uppercut_hit": {"frames": [0], "fps": 12, "loop": false}, "received_rei_uppercut_air": {"frames": [0, 1], "fps": 12, "loop": false}, "received_rei_uppercut_down": {"frames": [2], "fps": 5, "loop": false}, "received_rei_uppercut_guard": {"frames": [3, 4], "fps": 7.142857142857142, "loop": false}}

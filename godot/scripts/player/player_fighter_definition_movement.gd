@@ -159,6 +159,8 @@ var reversal_ai_observation := 0.0
 var reversal_ai_checked := false
 var reversal_input_buffer := 0.0
 var reversal_visible_threat_time := 0.0
+var reversal_counter_checked := false
+var reversal_observed_opponent_id := 0
 
 @export_group("Special Gauge Gain")
 @export var special_gauge_passive_per_second := 0.40
@@ -195,11 +197,7 @@ func _physics_process(delta: float) -> void:
 				reversal_input_buffer = 0.0
 			else:
 				reversal_input_buffer = maxf(reversal_input_buffer - delta, 0.0)
-		var visible_opponent := _get_opponent()
-		if visible_opponent != null and not String(visible_opponent.get("current_attack_type")).is_empty():
-			reversal_visible_threat_time += delta
-		else:
-			reversal_visible_threat_time = 0.0
+		_update_reversal_threat_observation(delta)
 		if is_character_special_busy():
 			reversal_elapsed += delta
 		if is_hit:
@@ -320,6 +318,12 @@ func apply_attack_sequence_stats() -> void:
 
 
 func apply_character_special_stats() -> void:
+	reversal_visible_threat_time = 0.0
+	reversal_counter_checked = false
+	reversal_observed_opponent_id = 0
+	reversal_ai_observation = 0.0
+	reversal_ai_checked = false
+	reversal_input_buffer = 0.0
 	reversal_cooldown = 0.0
 	character_special_data = null
 	if fighter_definition != null and fighter_definition.reversal_attack != null:
@@ -1257,21 +1261,56 @@ func request_existing_attack(attack_type: String) -> bool:
 	return current_attack_type != ""
 
 
+func _special_ai_has_tag(tag: String) -> bool:
+	if character_special_data == null:
+		return false
+	# Untagged legacy resources retain their existing situational uses.
+	var tags: Array[String] = character_special_data.ai_special_tags
+	return tag in tags or (tags.is_empty() and tag in ["reversal", "counter"])
+
+
+func _special_ai_chance() -> float:
+	if fighter_definition == null:
+		return 0.0
+	var order := int(fighter_definition.enemy_order)
+	var type_factor := 0.30 if order <= 3 else (0.65 if order <= 7 else 1.0)
+	return clampf(special_ai_use_chance * type_factor, 0.0, 1.0)
+
+
+func _opponent_has_visible_attack(opponent: Node) -> bool:
+	if not is_instance_valid(opponent) or opponent.current_hp <= 0 or not opponent.is_round_active:
+		return false
+	if not String(opponent.get("current_attack_type")).is_empty():
+		return true
+	# These are rendered states, not attack-button events.
+	return opponent.is_character_special_busy() or opponent.is_boss_special_busy()
+
+
+func _update_reversal_threat_observation(delta: float) -> void:
+	var opponent := _get_opponent()
+	var opponent_id := opponent.get_instance_id() if is_instance_valid(opponent) else 0
+	if opponent_id != reversal_observed_opponent_id:
+		reversal_visible_threat_time = 0.0
+		reversal_counter_checked = false
+		reversal_observed_opponent_id = opponent_id
+	if _opponent_has_visible_attack(opponent):
+		reversal_visible_threat_time += delta
+	else:
+		reversal_visible_threat_time = 0.0
+		reversal_counter_checked = false
+
+
 func should_use_character_special() -> bool:
-	if not can_start_character_special(true):
+	if not _special_ai_has_tag("counter") or reversal_counter_checked or not can_start_character_special(true):
 		return false
 	if evaluate_distance() > _profile_float(&"attack_distance", 55.0) + 35.0:
 		return false
-	var opponent := _get_opponent()
-	if opponent == null:
+	if not _opponent_has_visible_attack(_get_opponent()) or reversal_visible_threat_time < 0.12:
 		return false
-	# Decisions use visible attacks/recovery, never the opponent's input events.
-	if String(opponent.get("current_attack_type")).is_empty():
-		return false
-	if reversal_visible_threat_time < 0.12:
-		return false
-	return randf() <= special_ai_use_chance
-
+	# One trial per continuous visible threat prevents repeated random rolls
+	# making long attacks an almost guaranteed counter for ordinary enemies.
+	reversal_counter_checked = true
+	return randf() <= _special_ai_chance()
 
 func request_character_special(is_ai_request := false) -> bool:
 	if not can_start_character_special(is_ai_request):
@@ -1604,6 +1643,12 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 	# Deadly Hand enters the existing escapeable grab pipeline on contact.
 	# A miss keeps the special recovery; no unrelated fighter changes behavior.
 	if character_special_id in ["teki_deadly_hand", "cross_muei"]:
+		var special_packet := _get_character_special_attack_dictionary()
+		# The entry strike is guardable even though the authored hit continues
+		# through the normal, escapeable grapple animation pipeline.
+		if target._can_guard_attack(special_packet, self):
+			_queue_character_special_contact(target)
+			return
 		var cross_special := character_special_id == "cross_muei"
 		if not target.has_method("can_be_thrown") or not target.can_be_thrown(self):
 			return
@@ -1615,7 +1660,7 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 			cross_muei_throw_active = true
 		else:
 			teki_throw_variant = 1
-		_connect_throw(target)
+		_connect_throw(target, int(special_packet.damage))
 		_spawn_throw_effect(_get_hit_position(target), "teki_claw", Color(0.62, 0.25, 1.0), 40.0)
 		return
 	_queue_character_special_contact(target)
@@ -2571,16 +2616,13 @@ func can_receive_attack() -> bool:
 
 
 func _try_observed_special_reversal() -> void:
-	if name != "Enemy" or input_enabled or not is_hit or reversal_ai_checked:
+	if name != "Enemy" or input_enabled or not is_hit or reversal_ai_checked or not _special_ai_has_tag("reversal"):
 		return
 	if reversal_ai_observation < 0.12 or not can_start_character_special(true):
 		return
 	reversal_ai_checked = true
 	# One decision after a visible hit, with a lower rate for ordinary enemies.
-	var order := int(fighter_definition.enemy_order)
-	var type_factor := 0.30 if order <= 3 else (0.65 if order <= 7 else 1.0)
-	var rate := special_ai_use_chance * type_factor
-	if evaluate_distance() <= _profile_float(&"attack_distance", 55.0) + 35.0 and randf() <= rate:
+	if evaluate_distance() <= _profile_float(&"attack_distance", 55.0) + 35.0 and randf() <= _special_ai_chance():
 		request_character_special(true)
 
 
@@ -2762,6 +2804,16 @@ func _play_audio_manager_se(se_id: String) -> bool:
 		return true
 	return false
 
+
+func _get_current_visual_animation() -> StringName:
+	# Select the special clip before the base update, instead of temporarily
+	# entering idle_prebattle every frame and restarting the special at frame 0.
+	if is_character_special_busy() and character_special_data != null:
+		match character_special_state:
+			CharacterSpecialState.STARTUP: return character_special_data.special_startup_animation
+			CharacterSpecialState.ACTIVE: return StringName(character_special_data.animation_name)
+			CharacterSpecialState.RECOVERY: return character_special_data.special_finish_animation
+	return super._get_current_visual_animation()
 
 func _update_visual_state() -> void:
 	# Preserve reviewed special progress across the base animation update.

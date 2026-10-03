@@ -49,6 +49,14 @@ func run() -> void:
 				expected = load("res://assets/characters/player01/animations/shadow_counter_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_seiya_two_"):
 				expected = load("res://assets/characters/player01/animations/seiya_two_received_v1/motion_atlas.tres").texture
+			if String(clip).begins_with("received_rei_uppercut_"):
+				var rei_atlas = load("res://assets/characters/special_received_rei_v1/ally_balance/motion_atlas.tres")
+				check(texture is AtlasTexture and texture.atlas == rei_atlas.texture,clip + ": dedicated Rei receiver original")
+				check(texture.get_size() == Vector2(512,448),clip + ": Rei receiver canvas")
+				var rei_rect := texture.get_image().get_used_rect()
+				check(rei_rect.has_area() and rei_rect.position.x >= 3 and rei_rect.position.y >= 3 and rei_rect.end.x <= 509 and rei_rect.end.y <= 445,clip + ": unclipped Rei receiver")
+				checked += 1
+				continue
 			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(320,224)), clip + ": common cell")

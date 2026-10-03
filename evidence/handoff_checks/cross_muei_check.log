@@ -1,0 +1,509 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=12
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=25
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=38
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=51
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=64
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_changed=77
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_changed=90
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 78
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 108
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 22
+HP: 70
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 0
+HP reached 0
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+[DEV033] Enemy target updated: 
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 0
+HP reached 0
+CROSS_MUEI_RESULT cases=54 screenshots=0 failures=[]

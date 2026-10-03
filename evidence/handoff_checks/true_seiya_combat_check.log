@@ -1,0 +1,87 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV033] Enemy target updated: player_01_akky
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_09_seiya
+DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(320.0, 520.0)
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 169
+[Special] gauge_changed=6
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=8
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: dark_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: dark_seiya_punch_1
+Punch Hit
+Damage: 16
+HP: 34
+[Special] gauge_changed=18
+[DEV036] Attack hit: Player
+[Special] gauge_changed=15
+Punch HitBox OFF
+[DEV036] Attack finished: dark_seiya_punch_1
+[DEV041][GameFlow] TITLE -> CONTINUE
+Game progress initialized
+[SAVE] Continued from stage 9
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV033] Enemy target updated: player_01_akky
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_09_seiya
+DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(320.0, 520.0)
+[DEV036] Attack started: player1_punch_1
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+[DEV033] Battle resumed
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 0
+HP reached 0
+KO detected
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=26
+[DEV036] Attack finished: player1_punch_1
+Enemy defeated: enemy_09_seiya
+BGM: WinBGM
+[STAGE8_TRUE_ENDING_V1] TRUE BOSS SEIYA DEFEATED
+TRUE_SEIYA_COMBAT_CHECK failures=[]

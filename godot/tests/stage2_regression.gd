@@ -145,7 +145,7 @@ func run() -> void:
 	enemy.ai_enabled = true
 	enemy.set_special_gauge(100)
 	check(enemy.request_character_special(true), "Rei can spend gauge on dragon uppercut")
-	check(sprite.animation == &"special_startup", "purple charge telegraph")
+	check(sprite.animation == &"rei_uppercut_startup", "dedicated three-frame uppercut telegraph")
 	enemy.enter_character_special_active()
 	check(enemy.character_special_state == enemy.CharacterSpecialState.ACTIVE, "dragon uppercut active")
 	enemy.enter_character_special_recovery()

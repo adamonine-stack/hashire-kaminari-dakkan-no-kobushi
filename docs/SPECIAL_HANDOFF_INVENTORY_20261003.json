@@ -1,0 +1,3081 @@
+[
+	{
+		"cooldown": 4.2,
+		"damage_per_hit": 23,
+		"definition": "fighters/ally_balance",
+		"hitbox_offset": "(75.0, -55.0)",
+		"hitbox_size": "(120.0, 90.0)",
+		"id": "player_01_akky",
+		"movement": 90.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [],
+		"received_reactions": {
+			"crusher_fault_break": {
+				"airborne": "received_crusher_hammer_air",
+				"down": "received_crusher_hammer_down",
+				"hit": "received_crusher_hammer_hit"
+			},
+			"shadow_slip_counter": {
+				"airborne": "received_shadow_counter_air",
+				"down": "received_shadow_counter_down",
+				"hit": "received_shadow_counter_hit"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 3584.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 3584.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 3584.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 3584.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 3808.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 3808.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 3808.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 3808.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 2912.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 2912.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 2912.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 2912.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 2688.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 2688.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 2688.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 2688.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 896.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 1344.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 896.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 3136.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 3136.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 3136.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 3136.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 3136.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 3136.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 3136.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 3136.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 2688.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 2688.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 2688.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 2688.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 2912.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 2912.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 2912.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 2912.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 896.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 896.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 896.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 896.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 896.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 896.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 896.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 896.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [
+				{
+					"clip": "special_guard",
+					"frames": [
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (960.0, 224.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (0.0, 448.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Hit": [
+				{
+					"clip": "special_hit",
+					"frames": [
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (0.0, 224.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (320.0, 224.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Knockback": [
+				{
+					"clip": "special_knockback",
+					"frames": [
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (0.0, 224.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (320.0, 224.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Knockdown": [
+				{
+					"clip": "special_knockdown",
+					"frames": [
+						"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (640.0, 224.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw": [
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 4032.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 4032.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 4032.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 4032.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 2464.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 2464.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 2464.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 2464.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (0.0, 2240.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (320.0, 2240.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (640.0, 2240.0), S: (320.0, 224.0)]",
+						"res://assets/characters/player01/animations/akky_v3/motion_atlas.png [P: (960.0, 2240.0), S: (320.0, 224.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "player1_special_thunder_drive",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "akky_reversal_elbow",
+				"frames": [
+					"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (640.0, 0.0), S: (320.0, 224.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "akky_reversal_finish",
+				"frames": [
+					"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (960.0, 0.0), S: (320.0, 224.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "akky_reversal_startup",
+				"frames": [
+					"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (0.0, 0.0), S: (320.0, 224.0)]",
+					"res://assets/characters/player01/animations/reversal_v1/motion_atlas.png [P: (320.0, 0.0), S: (320.0, 224.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 5.2,
+		"damage_per_hit": 38,
+		"definition": "fighters/ally_power",
+		"hitbox_offset": "(82.0, -115.0)",
+		"hitbox_size": "(140.0, 95.0)",
+		"id": "player_02_gou",
+		"movement": 55.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [],
+		"received_reactions": {
+			"crusher_fault_break": {
+				"airborne": "received_crusher_hammer_air",
+				"down": "received_crusher_hammer_down",
+				"hit": "received_crusher_hammer_hit"
+			},
+			"shadow_slip_counter": {
+				"airborne": "received_shadow_counter_air",
+				"down": "received_shadow_counter_down",
+				"hit": "received_shadow_counter_hit"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1920.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 2304.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1152.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1536.0, 2304.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1152.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1536.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1920.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 2304.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2304.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (2688.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (0.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (384.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (768.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player02/animations/gou_v1/motion_atlas.png [P: (1152.0, 2016.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "player2_special_iron_breaker",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "gou_reversal_breaker",
+				"frames": [
+					"res://assets/characters/player02/animations/reversal_v1/motion_atlas.png [P: (768.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "gou_reversal_finish",
+				"frames": [
+					"res://assets/characters/player02/animations/reversal_v1/motion_atlas.png [P: (1152.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "gou_reversal_startup",
+				"frames": [
+					"res://assets/characters/player02/animations/reversal_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]",
+					"res://assets/characters/player02/animations/reversal_v1/motion_atlas.png [P: (384.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 3.6,
+		"damage_per_hit": 13,
+		"definition": "fighters/ally_speed",
+		"hitbox_offset": "(65.0, -58.0)",
+		"hitbox_size": "(130.0, 180.0)",
+		"id": "player_03_seiya",
+		"movement": 0.0,
+		"multiplier": 1.0,
+		"normal_attack_shared_frames": [],
+		"received_reactions": {
+			"crusher_fault_break": {
+				"airborne": "received_crusher_hammer_air",
+				"down": "received_crusher_hammer_down",
+				"hit": "received_crusher_hammer_hit"
+			},
+			"shadow_slip_counter": {
+				"airborne": "received_shadow_counter_air",
+				"down": "received_shadow_counter_down",
+				"hit": "received_shadow_counter_hit"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 2880.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 2880.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2880.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2880.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 2304.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2016.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "player3_special_clear_counter",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "seiya_two_somersault",
+				"frames": [
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (384.0, 0.0), S: (384.0, 288.0)]",
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (768.0, 0.0), S: (384.0, 288.0)]",
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (1152.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "seiya_two_finish",
+				"frames": [
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (2688.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "seiya_two_start",
+				"frames": [
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 6.0,
+		"damage_per_hit": 12,
+		"definition": "enemies/enemy_01_standard",
+		"hitbox_offset": "(55.0, 0.0)",
+		"hitbox_size": "(110.0, 68.0)",
+		"id": "enemy_01_crusher",
+		"movement": 35.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						" [P: (0.0, 280.0), S: (400.0, 280.0)]",
+						" [P: (400.0, 280.0), S: (400.0, 280.0)]",
+						" [P: (800.0, 280.0), S: (400.0, 280.0)]",
+						" [P: (1200.0, 280.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						" [P: (0.0, 0.0), S: (400.0, 280.0)]",
+						" [P: (400.0, 0.0), S: (400.0, 280.0)]",
+						" [P: (800.0, 0.0), S: (400.0, 280.0)]",
+						" [P: (1200.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (800.0, 1120.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (800.0, 840.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (800.0, 840.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (800.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (1200.0, 1120.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 1120.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 840.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 840.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (1200.0, 1400.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1680.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (1200.0, 1400.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1680.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (1200.0, 1400.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 0.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (800.0, 1400.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1120.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1120.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (400.0, 1400.0), S: (400.0, 280.0)]",
+						"res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png [P: (0.0, 1120.0), S: (400.0, 280.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "crusher_fault_break",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "crusher_hammer_active",
+				"frames": [
+					"res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png [P: (1024.0, 0.0), S: (512.0, 384.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "crusher_hammer_finish",
+				"frames": [
+					"res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png [P: (1536.0, 0.0), S: (512.0, 384.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "crusher_hammer_startup",
+				"frames": [
+					"res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png [P: (0.0, 0.0), S: (512.0, 384.0)]",
+					"res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png [P: (512.0, 0.0), S: (512.0, 384.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 6.0,
+		"damage_per_hit": 11,
+		"definition": "enemies/enemy_02_speed",
+		"hitbox_offset": "(55.0, -62.0)",
+		"hitbox_size": "(78.0, 40.0)",
+		"id": "enemy_02_shadow_boxer",
+		"movement": 90.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [
+			{
+				"phase": "Special Attack",
+				"shared_with": [
+					"kick_1"
+				]
+			},
+			{
+				"phase": "Special Finish",
+				"shared_with": [
+					"kick_1"
+				]
+			}
+		],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 512.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (960.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (2240.0, 512.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1280.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1920.0, 1024.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (960.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1280.0, 1536.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1536.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (960.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1280.0, 1536.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1536.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1536.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1280.0, 1536.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (960.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1600.0, 768.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (960.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1600.0, 768.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1600.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1600.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1920.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (2240.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1280.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1280.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1280.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1280.0, 512.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (960.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (1600.0, 512.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "shadow_slip_counter",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "shadow_counter_active",
+				"frames": [
+					"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (320.0, 1792.0), S: (320.0, 256.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "shadow_counter_finish",
+				"frames": [
+					"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (640.0, 1792.0), S: (320.0, 256.0)]",
+					"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 0.0), S: (320.0, 256.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "shadow_counter_startup",
+				"frames": [
+					"res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png [P: (0.0, 1792.0), S: (320.0, 256.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 6.0,
+		"damage_per_hit": 9,
+		"definition": "enemies/enemy_03_guard",
+		"hitbox_offset": "(55.0, 0.0)",
+		"hitbox_size": "(92.0, 55.0)",
+		"id": "enemy_03_masato_takahashi",
+		"movement": 35.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [
+			{
+				"phase": "Special Finish",
+				"shared_with": [
+					"kick_2"
+				]
+			}
+		],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1536.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 448.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 448.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 1344.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 1344.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1536.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 3136.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 3136.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 3136.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 3136.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2560.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2560.0, 448.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (512.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 2688.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "masato_palm_reversal",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "special_attack",
+				"frames": [
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2048.0, 2688.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2560.0, 2688.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2048.0, 2688.0), S: (512.0, 448.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "special_recovery",
+				"frames": [
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2048.0, 2688.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (1024.0, 896.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (0.0, 0.0), S: (512.0, 448.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "special_startup",
+				"frames": [
+					"res://assets/characters/enemy03/animations/masato_v3/motion_atlas.png [P: (2048.0, 2688.0), S: (512.0, 448.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 4.2,
+		"damage_per_hit": 14,
+		"definition": "enemies/enemy_04_throw",
+		"hitbox_offset": "(65.0, -145.0)",
+		"hitbox_size": "(86.0, 130.0)",
+		"id": "enemy_04_rei_kageyama",
+		"movement": 42.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [
+			{
+				"phase": "Special Attack",
+				"shared_with": [
+					"punch_2"
+				]
+			},
+			{
+				"phase": "Special Finish",
+				"shared_with": [
+					"punch_2"
+				]
+			}
+		],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (960.0, 300.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 1500.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 300.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (960.0, 300.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1500.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 300.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 1200.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 0.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (640.0, 900.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (640.0, 900.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 1200.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (640.0, 1200.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 0.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 0.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 600.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 600.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (640.0, 600.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (0.0, 600.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (320.0, 600.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (640.0, 600.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 1200.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 1200.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1600.0, 1200.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1600.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 900.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 900.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 1500.0), S: (320.0, 300.0)]",
+						"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 900.0), S: (320.0, 300.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "rei_dragon_uppercut",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "rei_dragon_uppercut",
+				"frames": [
+					"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1280.0, 600.0), S: (320.0, 300.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "special_recovery",
+				"frames": [
+					"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (1600.0, 600.0), S: (320.0, 300.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "special_startup",
+				"frames": [
+					"res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png [P: (640.0, 1500.0), S: (320.0, 300.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 4.2,
+		"damage_per_hit": 11,
+		"definition": "enemies/enemy_05_power",
+		"hitbox_offset": "(84.0, -142.0)",
+		"hitbox_size": "(70.0, 66.0)",
+		"id": "enemy_05_cross_murasame",
+		"movement": 24.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [
+			{
+				"phase": "Special Finish",
+				"shared_with": [
+					"kick_1"
+				]
+			}
+		],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2688.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (768.0, 288.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (768.0, 288.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (2688.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "cross_muei",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "cross_muei",
+				"frames": [
+					"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 2016.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "special_recovery",
+				"frames": [
+					"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (1920.0, 2016.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "special_startup",
+				"frames": [
+					"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (0.0, 2016.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy05/animations/cross_v2/motion_atlas.png [P: (384.0, 2016.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 6.0,
+		"damage_per_hit": 12,
+		"definition": "enemies/enemy_06_combo",
+		"hitbox_offset": "(55.0, 0.0)",
+		"hitbox_size": "(100.0, 42.0)",
+		"id": "enemy_06_rio_flick_garcia",
+		"movement": 65.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [
+			{
+				"phase": "Special Startup",
+				"shared_with": [
+					"punch_1"
+				]
+			},
+			{
+				"phase": "Special Attack",
+				"shared_with": [
+					"punch_1",
+					"jump_punch"
+				]
+			},
+			{
+				"phase": "Special Finish",
+				"shared_with": [
+					"punch_1"
+				]
+			}
+		],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1024.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1024.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (2240.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1280.0, 1024.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 1024.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1280.0, 1024.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (2240.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (2240.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 2048.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 768.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 768.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 768.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (320.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1600.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1280.0, 1792.0), S: (320.0, 256.0)]",
+						"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (960.0, 1792.0), S: (320.0, 256.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "rio_cross_counter",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "special_attack",
+				"frames": [
+					"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 768.0), S: (320.0, 256.0)]",
+					"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (640.0, 768.0), S: (320.0, 256.0)]",
+					"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 768.0), S: (320.0, 256.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "special_recovery",
+				"frames": [
+					"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (1920.0, 768.0), S: (320.0, 256.0)]",
+					"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 0.0), S: (320.0, 256.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "special_startup",
+				"frames": [
+					"res://assets/characters/enemy06/animations/rio_garcia_v2/motion_atlas.png [P: (0.0, 768.0), S: (320.0, 256.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 4.2,
+		"damage_per_hit": 11,
+		"definition": "enemies/enemy_07_tricky",
+		"hitbox_offset": "(84.0, -142.0)",
+		"hitbox_size": "(70.0, 66.0)",
+		"id": "enemy_07_teki_fighter",
+		"movement": 24.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (384.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (768.0, 288.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (384.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (768.0, 288.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (768.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1152.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 576.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (768.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1152.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 576.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1920.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 288.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1920.0, 288.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 288.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1920.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2688.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1920.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 576.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 576.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 576.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "teki_deadly_hand",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "teki_deadly_hand",
+				"frames": [
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "special_recovery",
+				"frames": [
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1152.0, 864.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "special_startup",
+				"frames": [
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (768.0, 1152.0), S: (384.0, 288.0)]",
+					"res://assets/characters/enemy07/animations/teki_v1/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 6.0,
+		"damage_per_hit": 15,
+		"definition": "enemies/enemy_08_boss",
+		"hitbox_offset": "(55.0, 0.0)",
+		"hitbox_size": "(118.0, 70.0)",
+		"id": "enemy_08_leon_crow",
+		"movement": 48.0,
+		"multiplier": 1.5,
+		"normal_attack_shared_frames": [
+			{
+				"phase": "Special Startup",
+				"shared_with": [
+					"kick_2"
+				]
+			},
+			{
+				"phase": "Special Attack",
+				"shared_with": [
+					"kick_2",
+					"punch_2"
+				]
+			},
+			{
+				"phase": "Special Finish",
+				"shared_with": [
+					"kick_2"
+				]
+			}
+		],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_two_lift",
+				"down": "received_seiya_two_down",
+				"fall": "received_seiya_two_fly",
+				"hit": "received_seiya_two_lift",
+				"wall": "received_seiya_two_fly"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (0.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 1792.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (0.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (0.0, 1344.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 1792.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 0.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1024.0, 1344.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 0.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1024.0, 1344.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 2240.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2240.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 896.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 2688.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (0.0, 3136.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 3136.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 448.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 1792.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2560.0, 448.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 2688.0), S: (512.0, 448.0)]",
+						"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 2688.0), S: (512.0, 448.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "leon_crow_reversal",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "special_attack",
+				"frames": [
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 896.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (2048.0, 896.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (1536.0, 896.0), S: (512.0, 448.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "special_recovery",
+				"frames": [
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 0.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (0.0, 0.0), S: (512.0, 448.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "special_startup",
+				"frames": [
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 0.0), S: (512.0, 448.0)]",
+					"res://assets/characters/enemy08/animations/leon_v2/motion_atlas.png [P: (512.0, 896.0), S: (512.0, 448.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	},
+	{
+		"cooldown": 6.0,
+		"damage_per_hit": 24,
+		"definition": "enemies/enemy_09_seiya",
+		"hitbox_offset": "(65.0, -58.0)",
+		"hitbox_size": "(130.0, 180.0)",
+		"id": "enemy_09_seiya",
+		"movement": 0.0,
+		"multiplier": 1.0,
+		"normal_attack_shared_frames": [],
+		"received_reactions": {
+			"player1_special_thunder_drive": {
+				"airborne": "received_akky_elbow_air",
+				"down": "received_akky_elbow_down",
+				"fall": "received_akky_elbow_fall",
+				"hit": "received_akky_elbow_hit",
+				"wall": "received_akky_elbow_wall"
+			},
+			"player2_special_iron_breaker": {
+				"airborne": "received_gou_breaker_air",
+				"down": "received_gou_breaker_down",
+				"hit": "received_gou_breaker_hit"
+			},
+			"player3_special_clear_counter": {
+				"airborne": "received_seiya_somersault_air",
+				"down": "received_seiya_somersault_down",
+				"fall": "received_seiya_somersault_fall",
+				"hit": "received_seiya_somersault_hit"
+			}
+		},
+		"requested_slots": {
+			"Air Hit": [],
+			"Air K": [
+				{
+					"clip": "jump_kick",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Air P": [
+				{
+					"clip": "jump_punch",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Ground Bounce": [],
+			"Heavy Hit": [
+				{
+					"clip": "damage_heavy",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"High Hit": [
+				{
+					"clip": "damage_high",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"K": [
+				{
+					"clip": "kick_1",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "kick",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockback": [
+				{
+					"clip": "knockback",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Knockdown": [
+				{
+					"clip": "knockdown",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1152.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Launch Hit": [],
+			"Light Hit": [
+				{
+					"clip": "damage_light",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Low Hit": [
+				{
+					"clip": "damage_low",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 864.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 864.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"P": [
+				{
+					"clip": "punch_1",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "punch",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 1440.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 1440.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Special Guard": [],
+			"Special Hit": [],
+			"Special Knockback": [],
+			"Special Knockdown": [],
+			"Throw": [
+				{
+					"clip": "throw_start",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 2592.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				},
+				{
+					"clip": "throw",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 2592.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 2880.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 2880.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2880.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2880.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"Throw Back Damage": [],
+			"Throw Down Damage": [],
+			"Throw Front Damage": [],
+			"←K": [],
+			"←P": [],
+			"←Throw": [],
+			"→K": [],
+			"→P": [],
+			"→Throw": [],
+			"↓Air K": [],
+			"↓K": [
+				{
+					"clip": "crouch_kick",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1536.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1920.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 2304.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 2304.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓P": [
+				{
+					"clip": "crouch_punch",
+					"frames": [
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2304.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (2688.0, 1728.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (384.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (0.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (768.0, 2016.0), S: (384.0, 288.0)]",
+						"res://assets/characters/player03/animations/seiya_v2/motion_atlas.png [P: (1152.0, 2016.0), S: (384.0, 288.0)]"
+					],
+					"registered": true
+				}
+			],
+			"↓Throw": []
+		},
+		"special_id": "seiya_dark_reversal",
+		"special_phases": {
+			"Special Attack": {
+				"clip": "seiya_two_somersault",
+				"frames": [
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (384.0, 0.0), S: (384.0, 288.0)]",
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (768.0, 0.0), S: (384.0, 288.0)]",
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (1152.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Finish": {
+				"clip": "seiya_two_finish",
+				"frames": [
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (2688.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			},
+			"Special Startup": {
+				"clip": "seiya_two_start",
+				"frames": [
+					"res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png [P: (0.0, 0.0), S: (384.0, 288.0)]"
+				],
+				"registered": true
+			}
+		},
+		"startup_invulnerability": 0.1
+	}
+]
