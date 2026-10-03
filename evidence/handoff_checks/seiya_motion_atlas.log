@@ -137,5 +137,5 @@ Kick HitBox OFF
 [Special] started id=player3_special_clear_counter
 [Special] active
 [Special] finished
-SEIYA_MOTION_ATLAS_OK clips=113 frames=323 failures=[]
+SEIYA_MOTION_ATLAS_OK clips=117 frames=329 failures=[]
 [DEV041][GameFlow] Battle cleanup completed

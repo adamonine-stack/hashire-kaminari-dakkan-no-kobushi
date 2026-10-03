@@ -1,0 +1,50 @@
+{
+  "workflow": "Motion plan, individual reference-guided key poses, visual comparison, individual intermediate poses, offline atlas pack, Godot rendered review",
+  "formal_design": "long black hair, white V-neck short-sleeve shirt, loose black trousers, red and white sneakers; no new accessories",
+  "generated_individually": [
+    {
+      "file": "frames/teki_down.png",
+      "sha256": "2f0f4e62d4e56555783810dd7bc18cf38678e1aa087695044a235005f7063864"
+    },
+    {
+      "file": "frames/teki_low_hit.png",
+      "sha256": "794083a650b527cdbb6459f3c254750e6fc928aa05c377ab73485889fce02724"
+    },
+    {
+      "file": "frames/teki_00_anticipation.png",
+      "sha256": "653b679f27abe8dce6702a4f7cc40888b7478d02c0f080a88b565dbd1916d501"
+    },
+    {
+      "file": "frames/teki_01_coil.png",
+      "sha256": "a0887820d29957de70454109f92c19da1483cff4817ebdc7733b78ba845538a1"
+    },
+    {
+      "file": "frames/teki_02_step.png",
+      "sha256": "4d98c33e62517a73efa9bb730c3fcaa965c97946a55861492135a876aff8f282"
+    },
+    {
+      "file": "frames/teki_03_strike.png",
+      "sha256": "a147ae7f30c5b66d8dd84dd9e68517b65fb65cc6f17e955adabf6d98c34ef3f2"
+    },
+    {
+      "file": "frames/teki_04_impact.png",
+      "sha256": "261dbf555141c7f369096784b68da709f08d048a881e5d2753e23dbeb3ce4560"
+    },
+    {
+      "file": "frames/teki_05_retract.png",
+      "sha256": "b9bbe8a1ab921fc15cda07363db0a12e4eff260ca6fa16fe5ff5982ddb0c9ab3"
+    },
+    {
+      "file": "frames/teki_06_recover.png",
+      "sha256": "b295051b8c43f02c351f8995c4f9d220258cf1ccc5da2cb22e38cb5efdf2b40b"
+    },
+    {
+      "file": "frames/teki_07_finish.png",
+      "sha256": "b292e871134a9ffa0e536960503194e8b8e9eecace8b4890cb0e6eb65f168a7e"
+    }
+  ],
+  "corrected_existing_sources": "Teki original extracted frames in evidence/teki_audit and frames/teki_*; body area normalized offline to formal idle, prone overlap exception 0.85",
+  "hero_received_sources": "received_shadow_counter hit/air/down and received_rei_uppercut guard; individually inspected safe sharing, Gou has no sunglasses",
+  "generator": "image_gen.imagegen",
+  "packing_tool": "tools/build_teki_reversal.py"
+}

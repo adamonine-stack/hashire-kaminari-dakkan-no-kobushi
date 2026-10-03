@@ -1640,26 +1640,22 @@ func _on_character_special_hitbox_area_entered(area: Area2D) -> void:
 			target = candidate
 	if target == null or character_special_hit_targets.has(target):
 		return
-	# Deadly Hand enters the existing escapeable grab pipeline on contact.
-	# A miss keeps the special recovery; no unrelated fighter changes behavior.
-	if character_special_id in ["teki_deadly_hand", "cross_muei"]:
+	# Cross retains its escapeable grapple. Teki's dedicated palm reversal
+	# uses the deferred contact resolver, including simultaneous special hits.
+	if character_special_id == "cross_muei":
 		var special_packet := _get_character_special_attack_dictionary()
 		# The entry strike is guardable even though the authored hit continues
 		# through the normal, escapeable grapple animation pipeline.
 		if target._can_guard_attack(special_packet, self):
 			_queue_character_special_contact(target)
 			return
-		var cross_special := character_special_id == "cross_muei"
 		if not target.has_method("can_be_thrown") or not target.can_be_thrown(self):
 			return
 		character_special_hit.emit(character_special_id, target)
 		finish_character_special()
 		_start_throw()
-		if cross_special:
-			cross_throw_variant = 5
-			cross_muei_throw_active = true
-		else:
-			teki_throw_variant = 1
+		cross_throw_variant = 5
+		cross_muei_throw_active = true
 		_connect_throw(target, int(special_packet.damage))
 		_spawn_throw_effect(_get_hit_position(target), "teki_claw", Color(0.62, 0.25, 1.0), 40.0)
 		return

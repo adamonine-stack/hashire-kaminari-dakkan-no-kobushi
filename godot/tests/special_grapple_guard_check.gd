@@ -44,7 +44,9 @@ func run() -> void:
 	for i in range(5): await physics_frame
 	player.set_physics_process(false)
 	enemy.set_physics_process(false)
-	for attack_definition in ["enemy_05_power", "enemy_07_tricky"]:
+	# Teki now uses a palm strike; its hit/guard flow is covered by
+	# teki_reversal_presentation_check. Cross remains an escapeable grapple.
+	for attack_definition in ["enemy_05_power"]:
 		player.apply_character_data(load("res://data/enemies/%s.tres" % attack_definition))
 		for victim_definition in ["ally_balance", "ally_power", "ally_speed"]:
 			enemy.apply_character_data(load("res://data/fighters/%s.tres" % victim_definition))
@@ -106,7 +108,7 @@ func run() -> void:
 				player._start_throw()
 				player._connect_throw(enemy)
 				check(enemy.is_throw_locked and enemy.pending_throw_damage == player.throw_damage,label + " ordinary throw retains guard-breaking damage")
-	print("SPECIAL_GRAPPLE_GUARD_CHECK cases=12 captures=%d failures=%s" % [captures,failures])
+	print("SPECIAL_GRAPPLE_GUARD_CHECK cases=6 captures=%d failures=%s" % [captures,failures])
 	for audio in root.find_children("*", "AudioStreamPlayer", true, false): audio.stop()
 	for audio in root.find_children("*", "AudioStreamPlayer2D", true, false): audio.stop()
 	OS.delay_msec(200)

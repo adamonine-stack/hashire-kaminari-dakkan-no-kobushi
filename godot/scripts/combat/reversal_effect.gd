@@ -51,16 +51,23 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
+	var r := 12.0 + elapsed / duration * 42.0
 	if phase == "wall":
 		_draw_special_impact()
 		draw_line(Vector2(0,-90),Vector2(0,90),Color(tint,0.4),14.0)
 		draw_line(Vector2(0,-75),Vector2(0,75),Color.WHITE,3.0)
 		return
 	if phase == "impact":
+		if style == "enemy_07_teki_fighter":
+			# A palm impact opens into five short finger trails, away from the face.
+			for i in range(5):
+				var spread := Vector2(1.0,(i-2)*0.3).normalized()
+				draw_line(spread*8.0,spread*(22.0+r*0.35),Color(tint,0.7),2.0,true)
+			draw_arc(Vector2.ZERO,14.0+r*0.2,-PI*0.5,PI*0.5,20,Color.WHITE,2.0,true)
+			return
 		_draw_special_impact()
 	else:
 		_draw_body_aura()
-	var r := 12.0 + elapsed / duration * 42.0
 	if phase == "impact":
 		if style in ["player_02_gou", "enemy_01_crusher"]:
 			draw_arc(Vector2.ZERO, r, 0, TAU, 32, Color(1,0.7,0.3),4)
@@ -112,7 +119,11 @@ func _draw() -> void:
 		"enemy_06_rio_flick_garcia":
 			for i in range(3): draw_line(Vector2(10,-20+i*20),Vector2(65,-30+i*20),Color(1,0.4,0.3),3)
 		"enemy_07_teki_fighter":
-			for i in range(3): draw_arc(contact_point+Vector2(0,i*6),r,-1.8,0.3,24,Color(0.8,0.4,1),2)
+			if phase == "active":
+				var progress := elapsed/duration
+				for i in range(3):
+					var edge := contact_point+Vector2(0,(i-1)*12)
+					draw_line(edge-Vector2(35.0+progress*20.0,0),edge+Vector2(progress*18.0,-4),Color(tint,0.55),2.0,true)
 		"enemy_08_leon_crow":
 			draw_arc(Vector2.ZERO,r,-PI*0.85,PI*0.85,32,Color(1,0.45,0.2),4)
 			draw_line(Vector2(-r,-30),Vector2(0,-r),tint,3)
@@ -142,10 +153,10 @@ func _draw_body_aura() -> void:
 		draw_arc(Vector2(0,62),48.0,0,TAU,32,Color(tint,0.4),2.0,true)
 		return
 	if style == "enemy_07_teki_fighter":
-		# Claw trails stay around the hands rather than covering face/clothing.
-		for i in range(3):
-			draw_arc(Vector2(55,-35),22.0+i*10.0,-1.8,0.3,24,Color(tint,0.45),2.0,true)
-		draw_arc(Vector2(-10,-40),100.0,PI*0.5,PI*1.5,32,Color(tint,0.2),2.0,true)
+		# Startup charge sits beside the coiled hand; no full-body aura.
+		if phase == "startup":
+			for i in range(2):draw_arc(Vector2(25,-10),14.0+i*7.0,PI*0.5,PI*1.8,20,Color(tint,0.4),2.0,true)
+		if phase == "finish":draw_arc(Vector2(0,62),32.0,0,TAU,24,Color(tint,0.25),2.0,true)
 		return
 	if style in ["enemy_02_shadow_boxer","player_03_seiya","enemy_09_seiya"]:
 		# Keep the cap, gloves and counterpunch silhouette readable.

@@ -123,5 +123,5 @@ Kick HitBox OFF
 [Special] started id=player2_special_iron_breaker
 [Special] active
 [Special] finished
-GOU_MOTION_ATLAS_OK clips=108 frames=301 failures=[]
+GOU_MOTION_ATLAS_OK clips=112 frames=307 failures=[]
 [DEV041][GameFlow] Battle cleanup completed

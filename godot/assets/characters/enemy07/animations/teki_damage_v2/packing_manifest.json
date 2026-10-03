@@ -1,0 +1,357 @@
+{
+  "reference": "art_sources/teki_reversal_v1/references/teki.png",
+  "method": "Reviewed individual poses; offline body-scale correction; fixed runtime transform and floor baseline; intentional prone overlap mass 0.85 for backflip receivers",
+  "baseline": 349,
+  "frames": [
+    {
+      "file": "teki_hit.png",
+      "sha256": "e40b95c1cd97fd0a8b469038c8077d38da8a8b577f2f0203ea37930a89187b81",
+      "density": 1.0964845913173766,
+      "origin": [
+        177,
+        154
+      ],
+      "size": [
+        158,
+        195
+      ],
+      "relative_body_area": 0.9996383363471971
+    },
+    {
+      "file": "teki_air.png",
+      "sha256": "faea4ca5af3a21e085826b0c8370fa9012eeb414d6598394e12c68aee6976127",
+      "density": 1.0271031410069345,
+      "origin": [
+        146,
+        210
+      ],
+      "size": [
+        221,
+        139
+      ],
+      "relative_body_area": 1.0021699819168173
+    },
+    {
+      "file": "teki_down.png",
+      "sha256": "2f0f4e62d4e56555783810dd7bc18cf38678e1aa087695044a235005f7063864",
+      "density": 0.23632606903897893,
+      "origin": [
+        93,
+        277
+      ],
+      "size": [
+        326,
+        72
+      ],
+      "relative_body_area": 1.0047739602169983
+    },
+    {
+      "file": "teki_rise.png",
+      "sha256": "451cafd5eec2fd0ebe16f34f3b7021b9a36267f291def3582bcf4af69e80da3c",
+      "density": 1.1152142264071314,
+      "origin": [
+        177,
+        206
+      ],
+      "size": [
+        158,
+        143
+      ],
+      "relative_body_area": 1.0004339963833635
+    },
+    {
+      "file": "teki_crouch.png",
+      "sha256": "46566ca3754320c74fc8e2e779851a27a850b2a162aaed571abdba8a51f553e2",
+      "density": 1.1334601458540874,
+      "origin": [
+        186,
+        191
+      ],
+      "size": [
+        141,
+        158
+      ],
+      "relative_body_area": 1.0070886075949368
+    },
+    {
+      "file": "teki_idle.png",
+      "sha256": "a9f0c96cfc4812b522988aa0973268d7a916b524832468c5fedceb77333f7cf2",
+      "density": 1.0,
+      "origin": [
+        172,
+        146
+      ],
+      "size": [
+        168,
+        203
+      ],
+      "relative_body_area": 1.0
+    },
+    {
+      "file": "teki_guard.png",
+      "sha256": "05354cd2c956cb41f0234b68292af8961e28b703ff170be468b9a701f6e14771",
+      "density": 1.0260857807943724,
+      "origin": [
+        184,
+        142
+      ],
+      "size": [
+        143,
+        207
+      ],
+      "relative_body_area": 0.999132007233273
+    },
+    {
+      "file": "teki_low_hit.png",
+      "sha256": "794083a650b527cdbb6459f3c254750e6fc928aa05c377ab73485889fce02724",
+      "density": 0.2550819175125622,
+      "origin": [
+        172,
+        156
+      ],
+      "size": [
+        167,
+        193
+      ],
+      "relative_body_area": 1.0023146473779385
+    },
+    {
+      "file": "teki_received_akky_elbow_air_00.png",
+      "sha256": "414752d8039e08f0c5957aa30c21a981fc21c78ba3e2a7ef8eeef77fb73b35d8",
+      "density": 1.0894957294313798,
+      "origin": [
+        166,
+        151
+      ],
+      "size": [
+        179,
+        198
+      ],
+      "relative_body_area": 1.0020976491862568
+    },
+    {
+      "file": "teki_received_akky_elbow_air_01.png",
+      "sha256": "b447cc5b44129b7386070fe9e79216f574b8161901a798d5bc9a5b63b89255b4",
+      "density": 0.9912200734586807,
+      "origin": [
+        116,
+        223
+      ],
+      "size": [
+        281,
+        126
+      ],
+      "relative_body_area": 0.9947920433996383
+    },
+    {
+      "file": "teki_received_akky_elbow_down_00.png",
+      "sha256": "20fc65e2a919aebf0e2802b7134aa04b16ee4ea806285ac0a4c2a14521439588",
+      "density": 0.9608036722354867,
+      "origin": [
+        98,
+        264
+      ],
+      "size": [
+        316,
+        85
+      ],
+      "relative_body_area": 1.010271247739602
+    },
+    {
+      "file": "teki_received_akky_elbow_fall_00.png",
+      "sha256": "414752d8039e08f0c5957aa30c21a981fc21c78ba3e2a7ef8eeef77fb73b35d8",
+      "density": 1.0894957294313798,
+      "origin": [
+        166,
+        151
+      ],
+      "size": [
+        179,
+        198
+      ],
+      "relative_body_area": 1.0020976491862568
+    },
+    {
+      "file": "teki_received_akky_elbow_hit_00.png",
+      "sha256": "414752d8039e08f0c5957aa30c21a981fc21c78ba3e2a7ef8eeef77fb73b35d8",
+      "density": 1.0894957294313798,
+      "origin": [
+        166,
+        151
+      ],
+      "size": [
+        179,
+        198
+      ],
+      "relative_body_area": 1.0020976491862568
+    },
+    {
+      "file": "teki_received_akky_elbow_wall_00.png",
+      "sha256": "b447cc5b44129b7386070fe9e79216f574b8161901a798d5bc9a5b63b89255b4",
+      "density": 0.9912200734586807,
+      "origin": [
+        116,
+        223
+      ],
+      "size": [
+        281,
+        126
+      ],
+      "relative_body_area": 0.9947920433996383
+    },
+    {
+      "file": "teki_received_gou_breaker_air_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_gou_breaker_down_00.png",
+      "sha256": "2f3c6f763aa6a52cbbb3069206cac91ccc875de39d23956ff06131fbcb79a8d2",
+      "density": 1.1320902405696762,
+      "origin": [
+        96,
+        289
+      ],
+      "size": [
+        320,
+        60
+      ],
+      "relative_body_area": 0.847377938517179
+    },
+    {
+      "file": "teki_received_gou_breaker_hit_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_seiya_somersault_air_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_seiya_somersault_down_00.png",
+      "sha256": "2f3c6f763aa6a52cbbb3069206cac91ccc875de39d23956ff06131fbcb79a8d2",
+      "density": 1.2279242708940623,
+      "origin": [
+        82,
+        284
+      ],
+      "size": [
+        348,
+        65
+      ],
+      "relative_body_area": 1.000506329113924
+    },
+    {
+      "file": "teki_received_seiya_somersault_fall_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_seiya_somersault_hit_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_seiya_two_down_00.png",
+      "sha256": "2f3c6f763aa6a52cbbb3069206cac91ccc875de39d23956ff06131fbcb79a8d2",
+      "density": 1.1320902405696762,
+      "origin": [
+        96,
+        289
+      ],
+      "size": [
+        320,
+        60
+      ],
+      "relative_body_area": 0.847377938517179
+    },
+    {
+      "file": "teki_received_seiya_two_fall_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_seiya_two_fly_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    },
+    {
+      "file": "teki_received_seiya_two_lift_00.png",
+      "sha256": "086e522b0f0b29eb89ff91076fcfbe3e2b0ffdab5369f9afd778bf1652f9f9a8",
+      "density": 1.1320408560712856,
+      "origin": [
+        184,
+        119
+      ],
+      "size": [
+        144,
+        230
+      ],
+      "relative_body_area": 1.0028209764918625
+    }
+  ]
+}
