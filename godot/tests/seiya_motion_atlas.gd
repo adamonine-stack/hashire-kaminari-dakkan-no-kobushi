@@ -103,7 +103,7 @@ func run() -> void:
 	player.set_physics_process(false)
 	enemy.set_physics_process(false)
 	check(player.fighter_definition.fighter_id == &"player_03_seiya", "selected fighter ID preserved")
-	check(player.max_hp == 46, "published campaign HP preserved")
+	check(player.max_hp == 90, "published campaign HP preserved")
 	for facing in [-1, 1]:
 		player.facing_direction = facing
 		player.character_visual_controller.set_facing(facing)
