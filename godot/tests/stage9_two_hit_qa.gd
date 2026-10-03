@@ -216,6 +216,11 @@ func run() -> void:
 	check(not aura.strike_area.monitoring,"normal pillar cleanup")
 	print("STAGE9_TWO_HIT_RESULT cases=%d frames=%d screenshots=%d failures=%s" % [cases,motions,screenshots,str(failures)])
 	print("SPECIAL_LAUNCH_REACTION_CHECK failures="+str(failures))
+	contact_events.clear()
+	for audio in root.find_children("*","AudioStreamPlayer",true,false): audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false): audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)

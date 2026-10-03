@@ -125,7 +125,8 @@ func run() -> void:
 								await capture(prefix+"_"+String(reaction))
 						if tick>30 and actor.throw_state.is_empty() and victim.knockdown_state==&"" and not victim.is_hit: break
 					check(held_frames>0 and seen.has("THROW_RECOVERY") and (seen.has(&"cross_muei_air") and seen.has(&"cross_muei_down") if special else seen.has(&"cross_react_shoulder") or seen.has(&"cross_react_reap")),"grip release flight landing sequence "+prefix)
-					check(victim.current_hp==hp-actor.throw_damage,"unchanged throw damage "+prefix)
+					var expected_damage: int = roundi(maxi(actor.punch_damage,actor.kick_damage)*1.5) if special else actor.throw_damage
+					check(victim.current_hp==hp-expected_damage,"special 1.5x or unchanged ordinary throw damage "+prefix)
 					check(not actor.cross_muei_throw_active,"dedicated flag clears "+prefix)
 					if special: check(actor.special_gauge<100,"special consumes gauge "+prefix)
 					cases_checked += 1

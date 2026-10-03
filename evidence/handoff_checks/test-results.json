@@ -1,0 +1,338 @@
+[
+  {
+    "test": "special_reversal_check",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\special_reversal_check.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "special_ai_situation_check",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\special_ai_situation_check.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage9_cleanup_qa",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage9_cleanup_qa.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "crusher_reversal_presentation_check",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\crusher_reversal_presentation_check.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "st_action_fix_regression",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\st_action_fix_regression.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage5_6_motion_atlas",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage5_6_motion_atlas.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage7_8_motion_atlas",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage7_8_motion_atlas.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage5_shadow_boxer_regression",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage5_shadow_boxer_regression.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev052_visual_check",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev052_visual_check.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev053_stage1_smoke",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev053_stage1_smoke.log",
+    "warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev056_enemy_air_attack_smoke",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev056_enemy_air_attack_smoke.log",
+    "warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev061_enemy_pressure_smoke",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev061_enemy_pressure_smoke.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev062_guard_counterplay_smoke",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev062_guard_counterplay_smoke.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev063_special_gauge_balance_smoke",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev063_special_gauge_balance_smoke.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev064_archetype_balance_smoke",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev064_archetype_balance_smoke.log",
+    "warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev065_double_tap_mobility_smoke",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev065_double_tap_mobility_smoke.log",
+    "warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "dev066_character_backstep_ai_smoke",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dev066_character_backstep_ai_smoke.log",
+    "warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "akky_motion_atlas",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\akky_motion_atlas.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "gou_motion_atlas",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\gou_motion_atlas.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "seiya_motion_atlas",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\seiya_motion_atlas.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage1_regression",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage1_regression.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage2_regression",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage2_regression.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage3_regression",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage3_regression.log",
+    "warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage4_regression",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage4_regression.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "japanese_font_smoke",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\japanese_font_smoke.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "opening_flow_smoke",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\opening_flow_smoke.log",
+    "warnings": [
+      "WARNING: 5 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "stage8_ending_check",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage8_ending_check.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "true_seiya_combat_check",
+    "exit": 0,
+    "passed": false,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\true_seiya_combat_check.log",
+    "warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+    ],
+    "functionalPassed": true
+  },
+  {
+    "test": "dark_seiya_combat_check",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\dark_seiya_combat_check.log",
+    "warnings": [],
+    "functionalPassed": true
+  },
+  {
+    "test": "special_grapple_guard_check",
+    "exit": 0,
+    "passed": true,
+    "functionalPassed": true,
+    "warnings": [],
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\special_grapple_guard_check.log"
+  },
+  {
+    "test": "stage9_two_hit_qa",
+    "exit": 0,
+    "passed": true,
+    "functionalPassed": true,
+    "warnings": [],
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\stage9_two_hit_qa.log"
+  },
+  {
+    "test": "cross_muei_check",
+    "exit": 0,
+    "passed": true,
+    "functionalPassed": true,
+    "warnings": [],
+    "errors": [],
+    "completed": true,
+    "log": "C:\\Users\\takas\\Documents\\hashire-kaminari-dakkan-no-kobushi\\.cross_motion_20261003\\evidence\\handoff_checks\\cross_muei_check.log"
+  }
+]

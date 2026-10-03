@@ -1,0 +1,952 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+CRUSHER_WEB_QA_READY
+Game progress initialized
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV033] Enemy target updated: player_01_akky
+DARK_AURA_START target=(430.0, 520.0) cooldown=2.8
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_changed=24
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_both_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3028 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 3106 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_changed=37
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_side_only_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3224 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_changed=46
+[Special] blocked
+Damage: 24
+HP: 975
+[Special] gauge_changed=58
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_guard_first_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 3279 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3321 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_changed=66
+[Special] blocked
+Damage: 0
+HP: 999
+[Special] gauge_changed=74
+[Special] blocked
+[Special] finished
+STAGE9_CASE ally_balance_guard_both_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 3379 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 3420 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_changed=86
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_changed=98
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_wall_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3454 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 3503 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_both_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3551 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 3598 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_side_only_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3706 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_guard_first_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 3764 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3806 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] finished
+STAGE9_CASE ally_balance_guard_both_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 3855 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 3893 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_balance_wall_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3925 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 3970 }]
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_both_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4040 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 4093 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_side_only_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4195 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_guard_first_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 4245 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4283 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] finished
+STAGE9_CASE ally_power_guard_both_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 4337 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 4375 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_wall_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4414 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 4459 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_both_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4516 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 4570 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_side_only_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4667 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_guard_first_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 4719 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4757 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] finished
+STAGE9_CASE ally_power_guard_both_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 4814 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 4852 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_power_wall_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 4886 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 4940 }]
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_both_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5022 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 5080 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_side_only_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5204 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_guard_first_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 5258 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5302 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] finished
+STAGE9_CASE ally_speed_guard_both_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 5353 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 5394 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_wall_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5431 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 5480 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_both_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5526 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 5576 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_side_only_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5687 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_guard_first_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 5745 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5789 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+Damage: 0
+HP: 999
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] finished
+STAGE9_CASE ally_speed_guard_both_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 5848 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 0, "guard": true, "y": 520.0, "vy": 0.0, "time": 5889 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE ally_speed_wall_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 5930 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 5990 }]
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+[Special] finished
+STAGE9_CASE cleanup_whiff_-1 contacts=[]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_confirmed_guard_displaced_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 6159 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 6213 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 1
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 0
+HP reached 0
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_ko_second_-1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 6271 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 6329 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+[Special] finished
+STAGE9_CASE cleanup_whiff_1 contacts=[]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_confirmed_guard_displaced_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 6521 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 6570 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 1
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 0
+HP reached 0
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_ko_second_1 contacts=[{ "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 6628 }, { "target": Player:<CharacterBody2D#88550147598>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 6680 }]
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_changed=25
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_01_standard_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 6822 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 6888 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_changed=37
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_changed=49
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_01_standard_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 6956 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.287017822266, "vy": 249.16667175293, "time": 6997 }]
+[DEV035] Character data loaded: enemy_02_shadow_boxer
+[DEV035] Type: Boxer
+[DEV035] HP: 88
+[DEV035] Move speed: 335
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_changed=62
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_changed=74
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_02_speed_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7065 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7113 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_changed=86
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_changed=99
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_02_speed_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7168 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7212 }]
+[DEV035] Character data loaded: enemy_03_masato_takahashi
+[DEV035] Type: Judo
+[DEV035] HP: 96
+[DEV035] Move speed: 285
+[DEV035] Punch damage: 4
+[DEV035] Kick damage: 6
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_03_guard_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7297 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7337 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_03_guard_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7388 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7427 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 9
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_04_throw_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7489 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7537 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_04_throw_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7593 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7630 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_05_power_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7692 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7726 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_05_power_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7777 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7814 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_06_rio_flick_garcia
+[DEV035] Type: Grapple Speed
+[DEV035] HP: 102
+[DEV035] Move speed: 340
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 8
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_06_combo_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7888 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 7932 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_06_combo_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 7982 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8015 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_07_teki_fighter
+[DEV035] Type: Technical Grappler
+[DEV035] HP: 118
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_07_tricky_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 8083 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8126 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_07_tricky_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 8179 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8223 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_08_leon_crow
+[DEV035] Type: Boss
+[DEV035] HP: 170
+[DEV035] Move speed: 330
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 10
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_08_boss_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 8294 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8336 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_08_boss_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 8384 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8421 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_09_seiya_hero_-1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 8484 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8521 }]
+[Special] gauge_full
+[Special] started id=player3_special_clear_counter
+[Special] active
+Damage: 13
+HP: 986
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+Damage: 13
+HP: 973
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] finished
+STAGE9_CASE enemy_09_seiya_hero_1 contacts=[{ "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 520.0, "vy": 0.0, "time": 8571 }, { "target": Enemy:<CharacterBody2D#88969578466>, "damage": 13, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 8607 }]
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+DARK_AURA_START target=(340.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(340.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+Damage: 26
+HP: 973
+[Special] gauge_changed=9
+DARK_AURA_HIT count=1
+STAGE9_TWO_HIT_RESULT cases=54 frames=322 screenshots=0 failures=[]
+SPECIAL_LAUNCH_REACTION_CHECK failures=[]
+CRUSHER_WEB_QA_EXIT code=0

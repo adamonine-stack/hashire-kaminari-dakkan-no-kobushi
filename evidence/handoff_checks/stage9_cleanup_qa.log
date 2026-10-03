@@ -1,0 +1,119 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+CRUSHER_WEB_QA_READY
+Game progress initialized
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV033] Enemy target updated: player_01_akky
+DARK_AURA_START target=(430.0, 520.0) cooldown=2.8
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+[Special] finished
+STAGE9_CASE cleanup_whiff_-1 contacts=[]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_changed=13
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_changed=25
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_confirmed_guard_displaced_-1 contacts=[{ "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2735 }, { "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2791 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 1
+[Special] gauge_changed=37
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 0
+HP reached 0
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_ko_second_-1 contacts=[{ "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2843 }, { "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2887 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+[Special] finished
+STAGE9_CASE cleanup_whiff_1 contacts=[]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 975
+[Special] gauge_changed=50
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 951
+[Special] gauge_changed=63
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_confirmed_guard_displaced_1 contacts=[{ "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3119 }, { "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 3177 }]
+[Special] gauge_full
+[Special] started id=seiya_dark_reversal
+[Special] active
+Damage: 24
+HP: 1
+[Special] gauge_changed=75
+KNOCKDOWN HIT
+[Special] hit target=Player
+Damage: 24
+HP: 0
+HP reached 0
+[Special] hit target=Player
+[Special] finished
+STAGE9_CASE cleanup_ko_second_1 contacts=[{ "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 3248 }, { "target": Player:<CharacterBody2D#88768251407>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 3312 }]
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV036] Attack started: dark_seiya_kick_finish
+DARK_AURA_START target=(340.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(340.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+Damage: 26
+HP: 973
+[Special] gauge_changed=85
+DARK_AURA_HIT count=1
+STAGE9_TWO_HIT_RESULT cases=6 frames=0 screenshots=0 failures=[]
+SPECIAL_LAUNCH_REACTION_CHECK failures=[]
+CRUSHER_WEB_QA_EXIT code=0

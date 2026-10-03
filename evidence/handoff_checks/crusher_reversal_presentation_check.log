@@ -1,0 +1,212 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+CRUSHER_CAPTURE attack_crusher_hammer_startup_0_R
+CRUSHER_CAPTURE attack_crusher_hammer_startup_0_L
+CRUSHER_CAPTURE attack_crusher_hammer_startup_1_R
+CRUSHER_CAPTURE attack_crusher_hammer_startup_1_L
+CRUSHER_CAPTURE attack_crusher_hammer_active_0_R
+CRUSHER_CAPTURE attack_crusher_hammer_active_0_L
+CRUSHER_CAPTURE attack_crusher_hammer_finish_0_R
+CRUSHER_CAPTURE attack_crusher_hammer_finish_0_L
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[Special] gauge_full
+CRUSHER_CAPTURE ally_balance_R_before
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE ally_balance_R_startup
+[Special] active
+Damage: 12
+HP: 88
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+CRUSHER_CAPTURE ally_balance_R_impact
+CRUSHER_CAPTURE ally_balance_R_air
+[Special] finished
+CRUSHER_CAPTURE ally_balance_R_down
+SPECIAL_FLIGHT ally_balance_R distance=379.5 height=231.6
+CRUSHER_CAPTURE ally_balance_R_finish
+Damage: 0
+HP: 100
+[Special] gauge_changed=21
+[Special] gauge_full
+CRUSHER_CAPTURE ally_balance_L_before
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE ally_balance_L_startup
+[Special] active
+Damage: 12
+HP: 88
+[Special] gauge_changed=33
+KNOCKDOWN HIT
+[Special] hit target=Player
+CRUSHER_CAPTURE ally_balance_L_impact
+CRUSHER_CAPTURE ally_balance_L_air
+[Special] finished
+CRUSHER_CAPTURE ally_balance_L_down
+SPECIAL_FLIGHT ally_balance_L distance=410.9 height=231.6
+CRUSHER_CAPTURE ally_balance_L_finish
+Damage: 0
+HP: 100
+[Special] gauge_changed=41
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[Special] gauge_full
+CRUSHER_CAPTURE ally_power_R_before
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE ally_power_R_startup
+[Special] active
+Damage: 12
+HP: 118
+[Special] gauge_changed=53
+KNOCKDOWN HIT
+[Special] hit target=Player
+CRUSHER_CAPTURE ally_power_R_impact
+CRUSHER_CAPTURE ally_power_R_air
+[Special] finished
+CRUSHER_CAPTURE ally_power_R_down
+SPECIAL_FLIGHT ally_power_R distance=376.6 height=114.7
+CRUSHER_CAPTURE ally_power_R_finish
+Damage: 0
+HP: 130
+[Special] gauge_changed=62
+[Special] gauge_full
+CRUSHER_CAPTURE ally_power_L_before
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE ally_power_L_startup
+[Special] active
+Damage: 12
+HP: 118
+[Special] gauge_changed=74
+KNOCKDOWN HIT
+[Special] hit target=Player
+CRUSHER_CAPTURE ally_power_L_impact
+CRUSHER_CAPTURE ally_power_L_air
+[Special] finished
+CRUSHER_CAPTURE ally_power_L_down
+SPECIAL_FLIGHT ally_power_L distance=383.7 height=114.7
+CRUSHER_CAPTURE ally_power_L_finish
+Damage: 0
+HP: 130
+[Special] gauge_changed=82
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+CRUSHER_CAPTURE ally_speed_R_before
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE ally_speed_R_startup
+[Special] active
+Damage: 12
+HP: 80
+[Special] gauge_changed=94
+KNOCKDOWN HIT
+[Special] hit target=Player
+CRUSHER_CAPTURE ally_speed_R_impact
+CRUSHER_CAPTURE ally_speed_R_air
+[Special] finished
+CRUSHER_CAPTURE ally_speed_R_down
+SPECIAL_FLIGHT ally_speed_R distance=411.9 height=360.1
+CRUSHER_CAPTURE ally_speed_R_finish
+Damage: 0
+HP: 92
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+CRUSHER_CAPTURE ally_speed_L_before
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE ally_speed_L_startup
+[Special] active
+Damage: 12
+HP: 80
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] hit target=Player
+CRUSHER_CAPTURE ally_speed_L_impact
+CRUSHER_CAPTURE ally_speed_L_air
+[Special] finished
+CRUSHER_CAPTURE ally_speed_L_down
+SPECIAL_FLIGHT ally_speed_L distance=405.5 height=360.1
+CRUSHER_CAPTURE ally_speed_L_finish
+Damage: 0
+HP: 92
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+Damage: 0
+HP: 100
+[Special] gauge_full
+[Special] gauge_changed=100
+CRUSHER_CAPTURE ally_balance_guard_1
+Damage: 0
+HP: 100
+[Special] gauge_full
+[Special] gauge_changed=100
+CRUSHER_CAPTURE ally_balance_guard_-1
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+Damage: 0
+HP: 130
+[Special] gauge_full
+[Special] gauge_changed=100
+CRUSHER_CAPTURE ally_power_guard_1
+Damage: 0
+HP: 130
+[Special] gauge_full
+[Special] gauge_changed=100
+CRUSHER_CAPTURE ally_power_guard_-1
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+Damage: 0
+HP: 92
+[Special] gauge_full
+[Special] gauge_changed=100
+CRUSHER_CAPTURE ally_speed_guard_1
+Damage: 0
+HP: 92
+[Special] gauge_full
+[Special] gauge_changed=100
+CRUSHER_CAPTURE ally_speed_guard_-1
+[Special] gauge_full
+[Special] started id=crusher_fault_break
+CRUSHER_CAPTURE crusher_ai_reversal
+Damage: 12
+HP: 0
+HP reached 0
+SPECIAL_LAUNCH_REACTION_CHECK failures=[] screenshots=0

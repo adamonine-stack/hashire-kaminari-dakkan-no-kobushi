@@ -1,0 +1,170 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV033] Enemy target updated: player_01_akky
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_01_crusher
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+SPECIAL_DAMAGE fighters/ally_balance=23
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+SPECIAL_DAMAGE fighters/ally_power=38
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+SPECIAL_DAMAGE fighters/ally_speed=13
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+SPECIAL_DAMAGE enemies/enemy_01_standard=12
+[DEV035] Character data loaded: enemy_02_shadow_boxer
+[DEV035] Type: Boxer
+[DEV035] HP: 88
+[DEV035] Move speed: 335
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+SPECIAL_DAMAGE enemies/enemy_02_speed=11
+[DEV035] Character data loaded: enemy_03_masato_takahashi
+[DEV035] Type: Judo
+[DEV035] HP: 96
+[DEV035] Move speed: 285
+[DEV035] Punch damage: 4
+[DEV035] Kick damage: 6
+SPECIAL_DAMAGE enemies/enemy_03_guard=9
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 9
+SPECIAL_DAMAGE enemies/enemy_04_throw=14
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+SPECIAL_DAMAGE enemies/enemy_05_power=11
+[DEV035] Character data loaded: enemy_06_rio_flick_garcia
+[DEV035] Type: Grapple Speed
+[DEV035] HP: 102
+[DEV035] Move speed: 340
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 8
+SPECIAL_DAMAGE enemies/enemy_06_combo=12
+[DEV035] Character data loaded: enemy_07_teki_fighter
+[DEV035] Type: Technical Grappler
+[DEV035] HP: 118
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+SPECIAL_DAMAGE enemies/enemy_07_tricky=11
+[DEV035] Character data loaded: enemy_08_leon_crow
+[DEV035] Type: Boss
+[DEV035] HP: 170
+[DEV035] Move speed: 330
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 10
+SPECIAL_DAMAGE enemies/enemy_08_boss=15
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+SPECIAL_DAMAGE enemies/enemy_09_seiya=24
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 9
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=player1_special_thunder_drive
+[Special] active
+[Special] finished
+[Special] gauge_full
+[Special] gauge_full
+[Special] gauge_full
+[Special] gauge_full
+[Special] gauge_full
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=player1_special_thunder_drive
+[Special] active
+[DEV036] Attack started: rei_straight
+Damage: 23
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+KNOCKDOWN HIT
+[Special] gauge_full
+[Special] gauge_full
+Damage: 3
+HP: 109
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV062][enemy_04_rei_kageyama] Guard success -> counter armed
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=player1_special_thunder_drive
+[Special] started id=rei_dragon_uppercut
+[Special] active
+[Special] active
+[Special] interrupted
+Damage: 23
+HP: 89
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Enemy1
+[Special] interrupted
+Damage: 14
+HP: 86
+[Special] gauge_changed=12
+KNOCKDOWN HIT
+[Special] hit target=Player
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=rei_dragon_uppercut
+SPECIAL_REVERSAL_CHECK failures=[]

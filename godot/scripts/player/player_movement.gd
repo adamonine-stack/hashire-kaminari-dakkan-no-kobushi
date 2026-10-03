@@ -893,7 +893,7 @@ func _update_throw_recovery(delta: float) -> void:
 	throw_state = ""
 
 
-func _connect_throw(target: Node) -> void:
+func _connect_throw(target: Node, damage_override: int = -1) -> void:
 	if not _is_valid_throw_target(target):
 		_fail_throw()
 		return
@@ -909,7 +909,8 @@ func _connect_throw(target: Node) -> void:
 	print("THROW CONNECTED")
 	throw_hit.emit(target)
 	var throw_velocity := Vector2(throw_knockback * facing_direction, throw_vertical_force)
-	target.receive_throw(self, throw_damage, _get_hit_position(target), facing_direction, throw_velocity)
+	var contact_damage := throw_damage if damage_override < 0 else damage_override
+	target.receive_throw(self, contact_damage, _get_hit_position(target), facing_direction, throw_velocity)
 	_lock_throw_target_position(target)
 	_spawn_throw_success_effect(_get_hit_position(target))
 

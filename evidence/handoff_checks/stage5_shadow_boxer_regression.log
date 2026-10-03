@@ -1,0 +1,12 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_02_shadow_boxer
+[DEV035] Type: Boxer
+[DEV035] HP: 88
+[DEV035] Move speed: 335
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+STAGE5_SHADOW_BOXER_REGRESSION failures=[]

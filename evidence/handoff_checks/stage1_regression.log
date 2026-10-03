@@ -1,0 +1,564 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV033] Enemy target updated: player_01_akky
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_01_crusher
+[DEV036] Attack started: fallback_punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_kick
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 114
+[Special] gauge_changed=10
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=9
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 103
+[Special] gauge_changed=19
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=17
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 92
+[Special] gauge_changed=29
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=26
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 81
+[Special] gauge_changed=38
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=34
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 70
+[Special] gauge_changed=48
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=43
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 59
+[Special] gauge_changed=57
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=51
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 48
+[Special] gauge_changed=67
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=60
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 37
+[Special] gauge_changed=76
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=68
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 26
+[Special] gauge_changed=86
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=77
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 15
+[Special] gauge_changed=95
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=85
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 4
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=93
+Punch HitBox OFF
+[DEV036] Attack finished: player1_punch_1
+[DEV036] Attack started: player1_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player1_punch_1
+Punch Hit
+Damage: 11
+HP: 0
+HP reached 0
+KO detected
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack finished: player1_punch_1
+Enemy defeated: enemy_01_crusher
+BGM: WinBGM
+STAGE 1 CLEAR
+[DEV041][GameFlow] Restart confirmed
+[DEV041][GameFlow] Battle cleanup completed
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_01_akky
+[Special] gauge_full
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV033] Enemy target updated: player_01_akky
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_01_crusher
+[DEV054][enemy_01_crusher] Jump selected
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 44
+[Special] gauge_changed=8
+[DEV036] Attack hit: Player
+[Special] gauge_changed=16
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 38
+[Special] gauge_changed=14
+[DEV036] Attack hit: Player
+[Special] gauge_changed=30
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 32
+[Special] gauge_changed=20
+[DEV036] Attack hit: Player
+[Special] gauge_changed=44
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 26
+[Special] gauge_changed=27
+[DEV036] Attack hit: Player
+[Special] gauge_changed=59
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV054][enemy_01_crusher] Jump selected
+[DEV036] Attack started: player1_jump_punch_down
+[DEV055][enemy_01_crusher] Jump punch selected
+Punch HitBox ON
+[DEV036] Attack active: player1_jump_punch_down
+Punch Hit
+Damage: 6
+HP: 20
+[Special] gauge_changed=33
+[DEV036] Attack hit: Player
+[Special] gauge_changed=73
+Punch HitBox OFF
+[DEV036] Attack finished: player1_jump_punch_down
+[DEV036] Attack started: fallback_kick
+[DEV037][enemy_01_crusher] Attack selected: kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_kick
+Kick Hit
+Damage: 8
+HP: 12
+[Special] gauge_changed=42
+[DEV036] Attack hit: Player
+[Special] gauge_changed=87
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 6
+[Special] gauge_changed=49
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 0
+HP reached 0
+KO detected
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack finished: fallback_punch
+[DEV033] Player defeated: player_01_akky
+Player defeated: player_01_akky
+[DEV033] Enemy HP retained: 125 / 125
+[DEV033] Available players: player_02_gou, player_03_seiya
+[ROTATION] Fighter defeated: player_01_akky
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_02_gou
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV035] Character changed: player_01_akky -> player_02_gou
+[DEV035] player_02_gou stats applied
+[DEV035] HUD max HP updated: 65
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV033] Enemy target updated: player_02_gou
+Battle Start: player_02_gou VS enemy_01_crusher
+[DEV033] Battle resumed
+[DEV054][enemy_01_crusher] Jump selected
+[DEV036] Attack started: fallback_jump_kick
+[DEV055][enemy_01_crusher] Jump kick selected
+Kick HitBox ON
+[DEV036] Attack active: fallback_jump_kick
+Kick Hit
+Damage: 9
+HP: 56
+[Special] gauge_changed=10
+[DEV036] Attack hit: Player
+[Special] gauge_changed=15
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_jump_kick
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 50
+[Special] gauge_changed=17
+[DEV036] Attack hit: Player
+[Special] gauge_changed=30
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_kick
+[DEV037][enemy_01_crusher] Attack selected: kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_kick
+Kick Hit
+Damage: 8
+HP: 42
+[Special] gauge_changed=26
+[DEV036] Attack hit: Player
+[Special] gauge_changed=44
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_kick
+[DEV037][enemy_01_crusher] Attack selected: kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_kick
+Kick Hit
+Damage: 8
+HP: 34
+[Special] gauge_changed=36
+[DEV036] Attack hit: Player
+[Special] gauge_changed=59
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 28
+[Special] gauge_changed=42
+[DEV036] Attack hit: Player
+[Special] gauge_changed=73
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+THROW STARTUP
+[DEV054][enemy_01_crusher] Throw selected
+THROW CONNECTED
+THROW RELEASE
+Damage: 19
+HP: 9
+[Special] gauge_changed=54
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV054][enemy_01_crusher] Jump selected
+[DEV036] Attack started: player1_jump_punch_down
+[DEV055][enemy_01_crusher] Jump punch selected
+Punch HitBox ON
+[DEV036] Attack active: player1_jump_punch_down
+Punch Hit
+Damage: 6
+HP: 3
+[Special] gauge_changed=61
+[DEV036] Attack hit: Player
+[Special] gauge_changed=89
+Punch HitBox OFF
+[DEV036] Attack finished: player1_jump_punch_down
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 0
+HP reached 0
+KO detected
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack finished: fallback_punch
+[DEV033] Player defeated: player_02_gou
+Player defeated: player_02_gou
+[DEV033] Enemy HP retained: 125 / 125
+[DEV033] Available players: player_03_seiya
+[ROTATION] Fighter defeated: player_02_gou
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_03_seiya
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[DEV035] Character changed: player_02_gou -> player_03_seiya
+[DEV035] player_03_seiya stats applied
+[DEV035] HUD max HP updated: 46
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV033] Enemy target updated: player_03_seiya
+Battle Start: player_03_seiya VS enemy_01_crusher
+[DEV033] Battle resumed
+[DEV054][enemy_01_crusher] Jump selected
+[DEV036] Attack started: fallback_jump_kick
+[DEV055][enemy_01_crusher] Jump kick selected
+Kick HitBox ON
+[DEV036] Attack active: fallback_jump_kick
+Kick Hit
+Damage: 9
+HP: 37
+[Special] gauge_changed=10
+[DEV036] Attack hit: Player
+[Special] gauge_changed=15
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_jump_kick
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 31
+[Special] gauge_changed=17
+[DEV036] Attack hit: Player
+[Special] gauge_changed=30
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 25
+[Special] gauge_changed=23
+[DEV036] Attack hit: Player
+[Special] gauge_changed=44
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 19
+[Special] gauge_changed=30
+[DEV036] Attack hit: Player
+[Special] gauge_changed=59
+Punch HitBox OFF
+[DEV036] Attack finished: fallback_punch
+[DEV054][enemy_01_crusher] Jump selected
+[DEV036] Attack started: fallback_jump_kick
+[DEV055][enemy_01_crusher] Jump kick selected
+Kick HitBox ON
+[DEV036] Attack active: fallback_jump_kick
+Kick Hit
+Damage: 9
+HP: 10
+[Special] gauge_changed=39
+[DEV036] Attack hit: Player
+[Special] gauge_changed=73
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_jump_kick
+[DEV036] Attack started: fallback_kick
+[DEV037][enemy_01_crusher] Attack selected: kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_kick
+Kick Hit
+Damage: 8
+HP: 2
+[Special] gauge_changed=49
+[DEV036] Attack hit: Player
+[Special] gauge_changed=88
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_punch
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: fallback_punch
+Punch Hit
+Damage: 6
+HP: 0
+HP reached 0
+KO detected
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack finished: fallback_punch
+[DEV033] Player defeated: player_03_seiya
+Player defeated: player_03_seiya
+[DEV033] Enemy HP retained: 125 / 125
+[DEV033] No available players
+BGM: LoseBGM
+GAME OVER
+[DEV033] GAME OVER
+[DEV041][GameFlow] Battle cleanup completed
+STAGE1_REGRESSION failures=[]

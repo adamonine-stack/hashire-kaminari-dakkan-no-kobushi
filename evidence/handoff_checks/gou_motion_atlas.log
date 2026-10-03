@@ -1,0 +1,127 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_02_gou
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV035] player_02_gou stats applied
+[DEV035] HUD max HP updated: 65
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 125
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 8
+[DEV033] Enemy target updated: player_02_gou
+BGM: BattleBGM
+Battle Start: player_02_gou VS enemy_01_crusher
+[DEV036] Attack started: player2_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_1
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_1
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_punch_2
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_2
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_2
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_kick_finish
+Kick HitBox ON
+[DEV036] Attack active: player2_kick_finish
+Kick HitBox OFF
+[DEV036] Attack finished: player2_kick_finish
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_1
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_1
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player1_crouch_kick_sweep
+Kick HitBox ON
+[DEV036] Attack active: player1_crouch_kick_sweep
+Kick HitBox OFF
+[DEV036] Attack finished: player1_crouch_kick_sweep
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player1_jump_punch_down
+Punch HitBox ON
+[DEV036] Attack active: player1_jump_punch_down
+Punch HitBox OFF
+[DEV036] Attack finished: player1_jump_punch_down
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_jump_kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_jump_kick
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_jump_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_1
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_1
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_punch_2
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_2
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_2
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_kick_finish
+Kick HitBox ON
+[DEV036] Attack active: player2_kick_finish
+Kick HitBox OFF
+[DEV036] Attack finished: player2_kick_finish
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player2_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_1
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_1
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player1_crouch_kick_sweep
+Kick HitBox ON
+[DEV036] Attack active: player1_crouch_kick_sweep
+Kick HitBox OFF
+[DEV036] Attack finished: player1_crouch_kick_sweep
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: player1_jump_punch_down
+Punch HitBox ON
+[DEV036] Attack active: player1_jump_punch_down
+Punch HitBox OFF
+[DEV036] Attack finished: player1_jump_punch_down
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: fallback_jump_kick
+Kick HitBox ON
+[DEV036] Attack active: fallback_jump_kick
+Kick HitBox OFF
+[DEV036] Attack finished: fallback_jump_kick
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[Special] gauge_full
+[Special] started id=player2_special_iron_breaker
+[Special] active
+[Special] finished
+GOU_MOTION_ATLAS_OK clips=104 frames=295 failures=[]
+[DEV041][GameFlow] Battle cleanup completed
