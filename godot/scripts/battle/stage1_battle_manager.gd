@@ -5,6 +5,108 @@ class_name Stage1BattleManager
 ## Enemy scoping is configured by BattleManager.active_enemy_count_limit on
 ## Battle.tscn. This script keeps Stage 1's unlimited timer and clear presentation.
 
+# Exact final battle HP targets requested for the current balance pass.
+# Player definitions are stored at double the displayed/in-battle target because
+# BattleManager applies PLAYER_MAX_HEALTH_SCALE = 0.5 after roster creation.
+const BATTLE_HP_RESOURCE_TARGETS := {
+	&"player_01_akky": 200.0,
+	&"player_02_gou": 240.0,
+	&"player_03_seiya": 180.0,
+	&"enemy_01_crusher": 180.0,
+	&"enemy_04_rei_kageyama": 160.0,
+	&"enemy_07_teki_fighter": 170.0,
+	&"enemy_05_cross_murasame": 160.0,
+	&"enemy_02_shadow_boxer": 160.0,
+	&"enemy_06_rio_flick_garcia": 160.0,
+	&"enemy_03_masato_takahashi": 160.0,
+	&"enemy_08_leon_crow": 220.0,
+	&"enemy_09_seiya": 250.0,
+}
+
+# In-battle max HP values used by saves created before this balance change.
+# Continue data is migrated by preserving the remaining-health percentage.
+const LEGACY_BATTLE_HP_MAX := {
+	&"player_01_akky": 50,
+	&"player_02_gou": 65,
+	&"player_03_seiya": 46,
+	&"enemy_01_crusher": 125,
+	&"enemy_04_rei_kageyama": 112,
+	&"enemy_07_teki_fighter": 118,
+	&"enemy_05_cross_murasame": 108,
+	&"enemy_02_shadow_boxer": 88,
+	&"enemy_06_rio_flick_garcia": 102,
+	&"enemy_03_masato_takahashi": 96,
+	&"enemy_08_leon_crow": 170,
+	&"enemy_09_seiya": 180,
+}
+
+const BATTLE_HP_TARGET_META := &"st_action_hp_targets_applied_v2"
+const BATTLE_HP_SAVE_VERSION := 2
+const BATTLE_RUN_SAVE_PATH := "user://save.cfg"
+
+
+func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
+	_apply_battle_hp_target_once(definition)
+	return super._create_progress_entry_from_definition(definition, battle_order)
+
+
+func _apply_battle_hp_target_once(definition: Resource) -> void:
+	if definition == null or definition.has_meta(BATTLE_HP_TARGET_META):
+		return
+	var fighter_id := StringName(definition.get("fighter_id"))
+	if not BATTLE_HP_RESOURCE_TARGETS.has(fighter_id):
+		return
+	definition.set("max_health", float(BATTLE_HP_RESOURCE_TARGETS[fighter_id]))
+	definition.set_meta(BATTLE_HP_TARGET_META, true)
+
+
+func save_run_progress() -> bool:
+	if not super.save_run_progress():
+		return false
+	var config := ConfigFile.new()
+	if config.load(BATTLE_RUN_SAVE_PATH) != OK:
+		return false
+	config.set_value("run", "version", BATTLE_HP_SAVE_VERSION)
+	return config.save(BATTLE_RUN_SAVE_PATH) == OK
+
+
+func load_run_progress() -> bool:
+	var saved_version := 1
+	if FileAccess.file_exists(BATTLE_RUN_SAVE_PATH):
+		var version_config := ConfigFile.new()
+		if version_config.load(BATTLE_RUN_SAVE_PATH) == OK:
+			saved_version = int(version_config.get_value("run", "version", 1))
+
+	if not super.load_run_progress():
+		return false
+
+	if saved_version < BATTLE_HP_SAVE_VERSION:
+		_migrate_loaded_health_to_target_values()
+		save_run_progress()
+	return true
+
+
+func _migrate_loaded_health_to_target_values() -> void:
+	for data in player_team:
+		_migrate_progress_entry_health(data)
+	for data in enemy_team:
+		_migrate_progress_entry_health(data)
+	_update_all_ui()
+
+
+func _migrate_progress_entry_health(data: Dictionary) -> void:
+	if bool(data.get("is_defeated", false)):
+		return
+	var fighter_id := StringName(data.get("fighter_id", ""))
+	if not LEGACY_BATTLE_HP_MAX.has(fighter_id):
+		return
+	var old_max := int(LEGACY_BATTLE_HP_MAX[fighter_id])
+	var new_max := int(data["max_health"])
+	if old_max <= 0 or new_max <= 0:
+		return
+	var health_ratio := clampf(float(data["current_health"]) / float(old_max), 0.0, 1.0)
+	data["current_health"] = clampi(int(round(health_ratio * float(new_max))), 1, new_max)
+
 
 func _ready() -> void:
 	super._ready()
