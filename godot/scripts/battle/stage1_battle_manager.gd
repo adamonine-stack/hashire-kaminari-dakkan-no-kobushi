@@ -7,6 +7,8 @@ class_name Stage1BattleManager
 
 const BATTLE_HP_SCALE := 1.5
 const BATTLE_HP_SCALE_META := &"st_action_hp_scale_applied_1_5"
+const BATTLE_HP_SAVE_VERSION := 2
+const BATTLE_RUN_SAVE_PATH := "user://save.cfg"
 
 
 func _create_progress_entry_from_definition(definition: Resource, battle_order: int) -> Dictionary:
@@ -22,6 +24,52 @@ func _apply_battle_hp_scale_once(definition: Resource) -> void:
 		return
 	definition.set("max_health", current_max_health * BATTLE_HP_SCALE)
 	definition.set_meta(BATTLE_HP_SCALE_META, true)
+
+
+func save_run_progress() -> bool:
+	if not super.save_run_progress():
+		return false
+	var config := ConfigFile.new()
+	if config.load(BATTLE_RUN_SAVE_PATH) != OK:
+		return false
+	config.set_value("run", "version", BATTLE_HP_SAVE_VERSION)
+	return config.save(BATTLE_RUN_SAVE_PATH) == OK
+
+
+func load_run_progress() -> bool:
+	var saved_version := 1
+	if FileAccess.file_exists(BATTLE_RUN_SAVE_PATH):
+		var version_config := ConfigFile.new()
+		if version_config.load(BATTLE_RUN_SAVE_PATH) == OK:
+			saved_version = int(version_config.get_value("run", "version", 1))
+
+	if not super.load_run_progress():
+		return false
+
+	if saved_version < BATTLE_HP_SAVE_VERSION:
+		_migrate_loaded_health_to_scaled_values()
+		save_run_progress()
+	return true
+
+
+func _migrate_loaded_health_to_scaled_values() -> void:
+	for data in player_team:
+		if bool(data.get("is_defeated", false)):
+			continue
+		data["current_health"] = clampi(
+			int(round(float(data["current_health"]) * BATTLE_HP_SCALE)),
+			1,
+			int(data["max_health"])
+		)
+	for data in enemy_team:
+		if bool(data.get("is_defeated", false)):
+			continue
+		data["current_health"] = clampi(
+			int(round(float(data["current_health"]) * BATTLE_HP_SCALE)),
+			1,
+			int(data["max_health"])
+		)
+	_update_all_ui()
 
 
 func _ready() -> void:
