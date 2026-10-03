@@ -82,7 +82,8 @@ func run_check() -> void:
 			await capture(expected_route + "_end")
 			ui.last_input_msec = -1000
 			ui.advance()
-			for frame in range(3): await process_frame
+			# Returning now waits for the ending music's 1-second fade.
+			await create_timer(1.2).timeout
 			check(current_scene.scene_file_path == "res://scenes/Title.tscn", "title return " + expected_route)
 		else:
 			await capture("G_true_boss_card")

@@ -1,7 +1,7 @@
 extends SceneTree
 
 const FONT_PATH := "res://assets/fonts/NotoSansJP-Regular.otf"
-const REQUIRED_TEXT := "走れイカズチ 奪還の拳 スタート 鉄塊の門 最初の壁を突破し、奪還への道を開け。 アッキー クラッシャー 翼の舞踏家 闘 防御 攻撃 必殺"
+const REQUIRED_TEXT := "走れカミナリ 奪還の拳 企画・構成 蒼大 ディレクター 音楽 クリエイター スタート 鉄塊の門 最初の壁を突破し、奪還への道を開け。 アッキー クラッシャー 翼の舞踏家 闘 防御 攻撃 必殺"
 
 func _initialize() -> void:
 	call_deferred("_run")
@@ -29,7 +29,7 @@ func _run() -> void:
 	var panel := Panel.new()
 	root.add_child(panel)
 	var label := Label.new()
-	label.text = "走れイカズチ 奪還の拳"
+	label.text = "走れカミナリ 奪還の拳"
 	panel.add_child(label)
 	_check_glyphs(label.get_theme_font("font"), label.text + " " + REQUIRED_TEXT, "Label", failures)
 	var button := Button.new()

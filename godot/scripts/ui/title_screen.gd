@@ -4,9 +4,9 @@ const BATTLE_SCENE := "res://scenes/Battle.tscn"
 const OPENING_SCENE := "res://scenes/Opening.tscn"
 const RUN_SAVE_PATH := "user://save.cfg"
 const CONTINUE_REQUEST_META := &"st_action_continue_run"
-const TITLE_MAIN := "走れイカズチ"
+const TITLE_MAIN := "走れカミナリ"
 const TITLE_SUBTITLE := "奪還の拳"
-const TITLE_ENGLISH := "HASHIRE IKAZUCHI"
+const TITLE_ENGLISH := "HASHIRE KAMINARI"
 const HERO_PORTRAITS := [
 	"res://assets/characters/player01/selection_portrait.png",
 	"res://assets/characters/player02/selection_portrait.png",
@@ -97,7 +97,7 @@ func _ready() -> void:
 	if not get_viewport().size_changed.is_connected(_refresh_orientation_overlay):
 		get_viewport().size_changed.connect(_refresh_orientation_overlay)
 	_refresh_orientation_overlay()
-	_play_bgm("title")
+	_audio().play_title_theme()
 	game_start_button.grab_focus()
 
 
@@ -149,6 +149,7 @@ func _enter_battle_scene(is_continue: bool) -> void:
 	scene_transition_started.emit(target_scene)
 	print("[DEV041][GameFlow] TITLE -> %s" % ("CONTINUE" if is_continue else "FIGHTER_SELECT"))
 	await _fade_out(0.25)
+	await _audio().fade_out()
 	get_tree().paused = false
 	get_tree().change_scene_to_file(target_scene)
 
@@ -160,6 +161,7 @@ func enter_opening_scene() -> void:
 	scene_transition_started.emit(OPENING_SCENE)
 	print("[GameFlow] TITLE -> OPENING")
 	await _fade_out(0.25)
+	await _audio().fade_out()
 	get_tree().paused = false
 	var error := get_tree().change_scene_to_file(OPENING_SCENE)
 	if error != OK:

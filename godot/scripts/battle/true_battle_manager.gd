@@ -98,7 +98,7 @@ func enter_game_clear() -> void:
 	set_process_input(false)
 	set_process_unhandled_input(false)
 	clear_run_save()
-	get_node("/root/AudioManager").stop_bgm()
+	get_node("/root/AudioManager").fade_out()
 	var cfg := ConfigFile.new()
 	if not FileAccess.file_exists("user://story_progress.cfg") or cfg.load("user://story_progress.cfg") == OK:
 		cfg.set_value("story", "true_boss_defeated", true)
