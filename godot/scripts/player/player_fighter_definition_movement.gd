@@ -1556,7 +1556,9 @@ func _apply_character_special_movement(delta: float) -> void:
 
 
 func stop_character_special_movement() -> void:
-	if character_special_data != null and (character_special_data.somersault_on_special or character_special_data.somersault_sidekick) and animated_character_sprite != null:
+	# AI lock synchronization also calls this while receiving knockback.
+	# Only an active own special owns these visual transforms.
+	if character_special_state != CharacterSpecialState.NONE and character_special_data != null and (character_special_data.somersault_on_special or character_special_data.somersault_sidekick) and animated_character_sprite != null:
 		animated_character_sprite.rotation = 0.0
 		animated_character_sprite.offset = Vector2.ZERO
 	character_special_move_timer = 0.0
