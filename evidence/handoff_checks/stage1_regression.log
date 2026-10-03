@@ -562,5 +562,3 @@ GAME OVER
 [DEV033] GAME OVER
 [DEV041][GameFlow] Battle cleanup completed
 STAGE1_REGRESSION failures=[]
-WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2535)

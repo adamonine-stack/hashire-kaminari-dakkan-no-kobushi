@@ -45,7 +45,7 @@ HP: 951
 KNOCKDOWN HIT
 [Special] hit target=Player
 [Special] finished
-STAGE9_CASE cleanup_confirmed_guard_displaced_-1 contacts=[{ "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2389 }, { "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2434 }]
+STAGE9_CASE cleanup_confirmed_guard_displaced_-1 contacts=[{ "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2505 }, { "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2559 }]
 [Special] gauge_full
 [Special] started id=seiya_dark_reversal
 [Special] active
@@ -59,7 +59,7 @@ HP: 0
 HP reached 0
 [Special] hit target=Player
 [Special] finished
-STAGE9_CASE cleanup_ko_second_-1 contacts=[{ "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2481 }, { "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2528 }]
+STAGE9_CASE cleanup_ko_second_-1 contacts=[{ "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2617 }, { "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2665 }]
 [Special] gauge_full
 [Special] started id=seiya_dark_reversal
 [Special] active
@@ -79,7 +79,7 @@ HP: 951
 KNOCKDOWN HIT
 [Special] hit target=Player
 [Special] finished
-STAGE9_CASE cleanup_confirmed_guard_displaced_1 contacts=[{ "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2654 }, { "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2689 }]
+STAGE9_CASE cleanup_confirmed_guard_displaced_1 contacts=[{ "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2784 }, { "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2814 }]
 [Special] gauge_full
 [Special] started id=seiya_dark_reversal
 [Special] active
@@ -93,7 +93,7 @@ HP: 0
 HP reached 0
 [Special] hit target=Player
 [Special] finished
-STAGE9_CASE cleanup_ko_second_1 contacts=[{ "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2727 }, { "target": Player:<CharacterBody2D#90177537551>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2762 }]
+STAGE9_CASE cleanup_ko_second_1 contacts=[{ "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 520.0, "vy": 0.0, "time": 2848 }, { "target": Player:<CharacterBody2D#91939145231>, "damage": 24, "guard": false, "y": 479.286956787109, "vy": 249.16667175293, "time": 2882 }]
 [DEV035] Character data loaded: player_03_seiya
 [DEV035] Type: Technical
 [DEV035] HP: 92

@@ -164,8 +164,6 @@ Battle Start: player_02_gou VS enemy_09_seiya
 DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
 DARK_AURA_WARNING target=(320.0, 520.0)
 DARK_AURA_ACTIVE size=(84.0, 96.0)
-BGM: WinBGM
-[STAGE8_TRUE_ENDING_V1] TRUE BOSS SEIYA DEFEATED
 [DEV041][GameFlow] Restart confirmed
 [DEV041][GameFlow] Battle cleanup completed
 Game progress initialized
@@ -177,6 +175,51 @@ Game progress initialized
 [DEV035] Punch damage: 11
 [DEV035] Kick damage: 15
 [DEV035] Character changed: player_02_gou -> player_01_akky
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 50
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV033] Enemy target updated: player_01_akky
+Battle Start: player_01_akky VS enemy_09_seiya
+DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(320.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+Damage: 26
+HP: 4
+[Special] gauge_changed=9
+DARK_AURA_HIT count=1
+[STAGE8_TRUE_ENDING_V1] TRUE BOSS SEIYA DEFEATED
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[TRUE_ENDING] defeat
+Game progress initialized
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
 [DEV035] player_01_akky stats applied
 [DEV035] HUD max HP updated: 50
 [DEV035] Character data loaded: enemy_09_seiya
