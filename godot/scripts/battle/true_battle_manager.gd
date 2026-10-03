@@ -84,13 +84,35 @@ func enter_game_clear() -> void:
 	_set_battle_active(false)
 	_hide_player_selection()
 	close_player_order_select()
+	_clear_active_fighter_actions(player)
+	_clear_active_fighter_actions(enemy)
+	for fighter in [player, enemy]:
+		fighter.input_enabled = false
+		fighter.ai_enabled = false
+		fighter.is_round_active = false
+		if fighter.aura_controller != null: fighter.aura_controller.cancel()
+	_hide_end_panel()
+	battle_ui_root.hide()
+	if mobile_controls != null: mobile_controls.hide()
+	set_process(false)
+	set_process_input(false)
+	set_process_unhandled_input(false)
 	clear_run_save()
-	_switch_bgm("WinBGM")
-	_show_message("TRUE FINAL BATTLE CLEAR")
-	_show_end_panel("TRUE FINAL BATTLE CLEAR", "BLACK SPARROW\nTRUE BOSS SEIYA DEFEATED")
-	game_cleared.emit()
+	get_node("/root/AudioManager").stop_bgm()
 	var cfg := ConfigFile.new()
-	if FileAccess.file_exists("user://story_progress.cfg"): cfg.load("user://story_progress.cfg")
-	cfg.set_value("story", "true_boss_defeated", true)
-	cfg.save("user://story_progress.cfg")
+	if not FileAccess.file_exists("user://story_progress.cfg") or cfg.load("user://story_progress.cfg") == OK:
+		cfg.set_value("story", "true_boss_defeated", true)
+		cfg.save("user://story_progress.cfg")
 	print("[STAGE8_TRUE_ENDING_V1] TRUE BOSS SEIYA DEFEATED")
+	var layer := CanvasLayer.new()
+	layer.layer = 100
+	get_parent().add_child(layer)
+	var fade := ColorRect.new()
+	fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	fade.color = Color(0,0,0,0)
+	layer.add_child(fade)
+	await get_tree().create_timer(0.9).timeout
+	var tween := create_tween()
+	tween.tween_property(fade, "color:a", 1.0, 0.9)
+	await tween.finished
+	if is_inside_tree(): get_tree().change_scene_to_file("res://scenes/TrueEnding.tscn")

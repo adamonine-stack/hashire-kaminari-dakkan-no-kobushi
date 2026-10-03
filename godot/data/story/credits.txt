@@ -1,0 +1,28 @@
+走れイカズチ
+奪還の拳
+
+
+STAFF
+
+
+ST_action Project
+
+
+GAME ENGINE
+
+Godot Engine
+
+
+JAPANESE FONT
+
+Noto Sans JP
+Google / Adobe
+SIL Open Font License 1.1
+
+
+ENDING CG
+
+OpenAI Image Generation
+
+
+THANK YOU FOR PLAYING

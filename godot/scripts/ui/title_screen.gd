@@ -253,6 +253,9 @@ func _build_title_layout() -> void:
 
 	var eyebrow := Label.new()
 	eyebrow.text = TITLE_ENGLISH
+	var story_progress := ConfigFile.new()
+	if story_progress.load("user://story_progress.cfg") == OK and bool(story_progress.get_value("story", "true_ending_unlocked", false)):
+		eyebrow.text += "  •  TRUE ENDING CLEAR"
 	eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	eyebrow.add_theme_font_size_override("font_size", 16)
 	eyebrow.add_theme_color_override("font_color", Color(1.0, 0.76, 0.28, 0.92))

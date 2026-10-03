@@ -123,6 +123,8 @@ func _stream_for_id(sound_id: String, is_bgm: bool) -> AudioStream:
 
 func _make_music(sound_id: String) -> AudioStreamWAV:
 	match sound_id:
+		"true_ending":
+			return load("res://assets/endings/true/ending_music.wav") as AudioStreamWAV
 		"title":
 			return _make_music_loop(108.0, 52, [0, 3, 7, 10, 7, 3, 5, 7, 0, 3, 7, 12, 10, 7, 5, 3], 0.74)
 		"final_boss":
