@@ -55,7 +55,8 @@ async function main() {
   });
   await page.goto(base + 'index.html?true_ending_qa=' + Date.now());
   await page.mouse.click(10, 10); // Browser audio gesture.
-  await page.waitForTimeout(14000);
+  await page.waitForFunction(() => !document.getElementById('status'), {}, { timeout: 120000 });
+  await page.waitForTimeout(1800);
   await screenshot('title_before');
   const tap = async (x, y) => mobile ? page.touchscreen.tap(x, y) : page.mouse.click(x, y, { delay: 70 });
   await tap(mobile ? 422 : 640, mobile ? 212 : 390);
