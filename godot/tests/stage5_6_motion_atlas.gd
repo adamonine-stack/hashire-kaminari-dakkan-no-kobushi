@@ -52,7 +52,7 @@ func _review_fighter(case: Dictionary) -> void:
 	_check(stage.enemy_definition.fighter_id == case.fighter_id, "%s stage points at the correct fighter" % case.label)
 	_check(fighter.fighter_id == case.fighter_id, "%s preserves its saved fighter id" % case.label)
 	_check(fighter.display_name == case.display_name, "%s display name matches the design" % case.label)
-	_check(fighter.motion_atlas == atlas, "%s fighter uses its dedicated authored atlas" % case.label)
+	_check(fighter.motion_atlas_path == case.atlas_path, "%s fighter points at its dedicated authored atlas" % case.label)
 	_check(atlas.columns == 8, "%s atlas uses eight fixed columns" % case.label)
 	_check(atlas.cell_size == case.cell, "%s atlas cells have a fixed design size" % case.label)
 	_check(atlas.frame_regions.size() == 0, "%s measures seven physical source rows" % case.label)
