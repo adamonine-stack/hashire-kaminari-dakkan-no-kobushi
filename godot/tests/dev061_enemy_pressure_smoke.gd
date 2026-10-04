@@ -42,7 +42,10 @@ func _run() -> void:
 	assert(String(shadow.fighter_id) == "enemy_02_shadow_boxer")
 	assert(is_equal_approx(float(shadow.character_height_cm), 190.0))
 	assert(shadow.motion_atlas != null)
-	assert(shadow.sprite_sheet != null)
+	# Path-backed authored-atlas fighters intentionally avoid materializing the
+	# duplicate source sheet during battle setup on mobile Web. Validate the
+	# fallback asset declaration without forcing its large texture into memory.
+	assert(not String(shadow.sprite_sheet_path).is_empty())
 	assert(shadow.backstep_speed_multiplier >= 1.85)
 	assert(shadow.attack_speed_scale >= 1.20)
 	assert(shadow.ai_profile.can_feint)
