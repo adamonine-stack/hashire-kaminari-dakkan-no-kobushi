@@ -12,11 +12,58 @@ class_name FighterDefinition
 
 @export_group("Official Art Assets")
 @export var portrait: Texture2D
-@export var battle_texture: Texture2D
+@export var battle_texture_path: String = ""
+@export var sprite_sheet_path: String = ""
+@export var battle_texture: Texture2D:
+	get:
+		if battle_texture == null and not battle_texture_path.is_empty():
+			battle_texture = ResourceLoader.load(
+				battle_texture_path,
+				"Texture2D",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			) as Texture2D
+			if battle_texture == null:
+				push_warning("Failed to lazy-load battle texture: %s" % battle_texture_path)
+		return battle_texture
 @export var icon: Texture2D
-@export var sprite_sheet: Texture2D
-@export var motion_atlas: Resource
-@export var supplemental_motion_atlas: Resource
+@export var sprite_sheet: Texture2D:
+	get:
+		if sprite_sheet == null and not sprite_sheet_path.is_empty():
+			sprite_sheet = ResourceLoader.load(
+				sprite_sheet_path,
+				"Texture2D",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			) as Texture2D
+			if sprite_sheet == null:
+				push_warning("Failed to lazy-load sprite sheet: %s" % sprite_sheet_path)
+		return sprite_sheet
+## Heavy authored motion atlases can be stored as paths so Web builds do not
+## keep every campaign fighter's combat textures resident at battle startup.
+## Direct Resource assignments remain supported for backwards compatibility.
+@export var motion_atlas_path: String = ""
+@export var supplemental_motion_atlas_path: String = ""
+@export var motion_atlas: Resource:
+	get:
+		if motion_atlas == null and not motion_atlas_path.is_empty():
+			motion_atlas = ResourceLoader.load(
+				motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if motion_atlas == null:
+				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
+		return motion_atlas
+@export var supplemental_motion_atlas: Resource:
+	get:
+		if supplemental_motion_atlas == null and not supplemental_motion_atlas_path.is_empty():
+			supplemental_motion_atlas = ResourceLoader.load(
+				supplemental_motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if supplemental_motion_atlas == null:
+				push_warning("Failed to lazy-load supplemental motion atlas: %s" % supplemental_motion_atlas_path)
+		return supplemental_motion_atlas
 @export var shadow_texture: Texture2D
 @export var idle_pose_texture: Texture2D
 @export var prebattle_pose_texture: Texture2D

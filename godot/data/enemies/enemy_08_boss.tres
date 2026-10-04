@@ -8,10 +8,7 @@
 [ext_resource type="Resource" path="res://data/attacks/enemy8_ultimate_shockwave.tres" id="6_ultimate"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/portrait.png" id="7_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/icon.png" id="8_icon"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy08/battle.png" id="9_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy08/sprite_sheet.png" id="10_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy08/shadow.png" id="11_shadow"]
-[ext_resource type="Resource" path="res://assets/characters/enemy08/animations/leon_v2/motion_atlas.tres" id="12_motion"]
 
 [ext_resource type="Resource" path="res://data/attacks/leon_crow_reversal.tres" id="reversal"]
 
@@ -25,10 +22,10 @@ fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("7_portrait")
 selection_icon = ExtResource("8_icon")
 portrait = ExtResource("7_portrait")
-battle_texture = ExtResource("9_battle")
+battle_texture_path = "res://assets/characters/enemy08/battle.png"
 icon = ExtResource("8_icon")
-sprite_sheet = ExtResource("10_sheet")
-motion_atlas = ExtResource("12_motion")
+sprite_sheet_path = "res://assets/characters/enemy08/sprite_sheet.png"
+motion_atlas_path = "res://assets/characters/enemy08/animations/leon_v2/motion_atlas.tres"
 shadow_texture = ExtResource("11_shadow")
 art_folder = "res://assets/characters/enemy08/"
 fighter_type = &"BOSS"
