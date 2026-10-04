@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_neutral.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(400, 280)
+columns = 2
+clips = {"crusher_throw_neutral_release": {"frames": [0,1], "fps": 10.0, "loop": false}}

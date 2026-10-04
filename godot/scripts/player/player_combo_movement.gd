@@ -539,9 +539,13 @@ func _play_throw_animation(animation_name := "Throw") -> void:
 		if animation_name in ["throw_start", "throw_release"] and _has_visual_animation(authored):
 			_play_visual_animation(authored, true)
 			return
-	if directional_throw_data != null and animation_name == "throw_hold" and _has_visual_animation(&"directional_throw_hold"):
-		_play_visual_animation(&"directional_throw_hold", true)
-		return
+	if directional_throw_data != null and animation_name == "throw_hold":
+		var hold_clip := directional_throw_data.throw_hold_animation
+		if hold_clip == &"":
+			hold_clip = &"directional_throw_hold"
+		if _has_visual_animation(hold_clip):
+			_play_visual_animation(hold_clip, true)
+			return
 	super._play_throw_animation(animation_name)
 
 
@@ -553,6 +557,8 @@ func _directional_throw_visual_animation() -> StringName:
 		clip = directional_throw_data.throw_start_animation
 	elif throw_state == "THROW_HOLD" and directional_throw_prepared:
 		clip = directional_throw_data.throw_prepare_animation
+	elif throw_state == "THROW_HOLD":
+		clip = directional_throw_data.throw_hold_animation
 	elif throw_state == "THROW_RECOVERY":
 		clip = directional_throw_data.throw_release_animation
 	return clip if _has_visual_animation(clip) else &""
@@ -566,6 +572,9 @@ func _directional_throw_victim_animation() -> StringName:
 		var clip: StringName = holder.directional_throw_data.throw_victim_prepare_animation
 		if _has_visual_animation(clip):
 			return clip
+	var hold_clip: StringName = holder.directional_throw_data.throw_victim_hold_animation
+	if _has_visual_animation(hold_clip):
+		return hold_clip
 	return &""
 
 
