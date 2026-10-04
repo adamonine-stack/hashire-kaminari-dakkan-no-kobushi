@@ -20,3 +20,7 @@ Regression markers passed: STAGE1_REGRESSION, WALL_BOUNCE_CHECK, SPECIAL_REVERSA
 ## Boundaries
 
 Campaign enemy progression is unchanged and remains sequential. The additional test-owned enemy verifies multi-target damage/recovery/KO, not simultaneous multiple-enemy AI. No smartphone hardware, touch input or public deployment was verified in this checkpoint. Character source art, proportions and scale were not changed. Windows root-certificate environment warnings remain unrelated to these combat checks. Inherited imports, generated UIDs and previous uncommitted work are excluded from the commit.
+
+## Superseded scope — duel clarification
+
+The user confirmed one-on-one gameplay. Historical extra-enemy tests above were test-only. Removed those sections from combat_flow_check.gd; current coverage is AKKY versus Crusher. Stage 1 retains KO/progression coverage. See DUEL_MOBILE_INPUT_CHECKPOINT.md.

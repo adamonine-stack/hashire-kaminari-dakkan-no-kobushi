@@ -82,37 +82,6 @@ func run():
     if move.ends_with("down_kick"): check(saw_down and saw_wake,"sweep down/wake "+move)
     check(victim.current_hp>0 and not victim.is_hit and victim.knockdown_state==&"" and victim.hurt_box.monitorable,"normal recovery "+move)
     check(attacker.current_attack_type=="" and not attacker.punch_hitbox_active and not attacker.kick_hitbox_active,"attacker cleanup "+move)
- # Two receiving enemies share a single actual attack active interval.
- var extra: Node=load("res://scenes/Player.tscn").instantiate()
- extra.name="CombatExtraCrusher"
- battle.add_child(extra)
- extra.apply_character_data(load("res://data/enemies/enemy_01_standard.tres"))
- actors.append(extra)
- for facing in [1.0,-1.0]:
-  reset_actor(actors[0],Vector2(540,520),facing)
-  reset_actor(actors[1],Vector2(540+90*facing,520),-facing)
-  reset_actor(extra,Vector2(540+110*facing,520),-facing)
-  for i in range(4): await physics_frame
-  var hp1: int=actors[1].current_hp
-  var hp2: int=extra.current_hp
-  actors[0].start_attack("akky_forward_punch")
-  for tick in range(90): await physics_frame
-  check(actors[1].current_hp<hp1 and extra.current_hp<hp2,"multi-target actual contact "+str(facing))
-  check(not actors[1].is_hit and not extra.is_hit,"independent hitstun recovery")
-  await snap("multiple_%s"%facing)
- # KO a test-owned enemy through a real hitbox without changing campaign progress.
- reset_actor(actors[0],Vector2(540,520),1)
- reset_actor(actors[1],Vector2(1000,520),-1)
- reset_actor(extra,Vector2(630,520),-1)
- extra.set_health(1)
- for i in range(4): await physics_frame
- actors[0].start_attack("player1_punch_1")
- for i in range(180): await physics_frame
- check(extra.current_hp==0 and not extra.hurt_box.monitorable,"KO disables HurtBox")
- check(not extra.can_receive_attack() and not extra._can_start_throw(),"KO rejects combat")
- check(not extra.punch_hitbox_active and not extra.kick_hitbox_active,"KO no active attacks")
- await snap("extra_ko")
- extra.queue_free()
  for a in actors.slice(0,2): a._cancel_current_action()
  print("COMBAT_FLOW_CHECK failures=",failures)
  manager.cleanup_battle_before_transition()
