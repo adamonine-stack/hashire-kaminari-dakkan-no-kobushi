@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=48 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=51 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -69,6 +69,10 @@
 [ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.tres" id="dedicated_ground_bounce"]
 
 [ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.tres" id="dedicated_heavy_hit"]
+
+[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_light_hit.tres" id="dedicated_light_hit"]
+[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_high_hit.tres" id="dedicated_high_hit"]
+[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_low_hit.tres" id="dedicated_low_hit"]
 
 [resource]
 script = ExtResource("1_def")
@@ -198,7 +202,7 @@ combo_rating = 1
 
 reversal_attack = ExtResource("reversal")
 
-extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("crusher_reversal"), ExtResource("seiya_two_received"), ExtResource("directional_throw_art"), ExtResource("directional_throw_release_art"), ExtResource("dedicated_upper"), ExtResource("dedicated_air_received"), ExtResource("dedicated_launcher"), ExtResource("dedicated_forward_kick"), ExtResource("dedicated_back_kick"), ExtResource("crusher_throw_grab"), ExtResource("crusher_throw_neutral_art"), ExtResource("crusher_throw_forward_art"), ExtResource("dedicated_air_guard"), ExtResource("crusher_throw_down_art"), ExtResource("crusher_throw_back_art"), ExtResource("dedicated_dive_kick"), ExtResource("dedicated_special_guard"), ExtResource("dedicated_wall_hit"), ExtResource("dedicated_ground_bounce"), ExtResource("dedicated_heavy_hit")])
+extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("crusher_reversal"), ExtResource("seiya_two_received"), ExtResource("directional_throw_art"), ExtResource("directional_throw_release_art"), ExtResource("dedicated_upper"), ExtResource("dedicated_air_received"), ExtResource("dedicated_launcher"), ExtResource("dedicated_forward_kick"), ExtResource("dedicated_back_kick"), ExtResource("crusher_throw_grab"), ExtResource("crusher_throw_neutral_art"), ExtResource("crusher_throw_forward_art"), ExtResource("dedicated_air_guard"), ExtResource("crusher_throw_down_art"), ExtResource("crusher_throw_back_art"), ExtResource("dedicated_dive_kick"), ExtResource("dedicated_special_guard"), ExtResource("dedicated_wall_hit"), ExtResource("dedicated_ground_bounce"), ExtResource("dedicated_heavy_hit"), ExtResource("dedicated_light_hit"), ExtResource("dedicated_high_hit"), ExtResource("dedicated_low_hit")])
 sync_special_guard_to_stun = true
 special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "wall_hit", "fall": "wall_fall", "guard": "special_guard"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}
 

@@ -81,11 +81,13 @@ func run():
     victim._update_visual_state()
     check(victim.last_damage_animation==item.clip,item.label+" recorded")
     check(sprite.animation==item.clip,item.label+" actual sprite")
-    if item.clip==&"damage_heavy":
-     check(sprite.sprite_frames.get_frame_count(item.clip)==3,"dedicated heavy three phases")
+    if item.clip in [&"damage_light",&"damage_heavy",&"damage_high",&"damage_low"]:
+     var source_name={&"damage_light":"light_hit",&"damage_heavy":"heavy_hit",&"damage_high":"high_hit",&"damage_low":"low_hit"}[item.clip]
+     var actor_name="akky" if String(victim.fighter_definition.fighter_id)=="player_01_akky" else "crusher"
+     check(sprite.sprite_frames.get_frame_count(item.clip)==3,"dedicated reaction three phases")
      for i in range(3):
       var tex: AtlasTexture=sprite.sprite_frames.get_frame_texture(item.clip,i)
-      check(tex.atlas.resource_path.ends_with("_heavy_hit.png"),"dedicated heavy source")
+      check(tex.atlas.resource_path.ends_with(actor_name+"_"+source_name+".png"),"dedicated actor/reaction source")
     for frame in range(sprite.sprite_frames.get_frame_count(item.clip)):
      sprite.pause()
      sprite.frame=frame
