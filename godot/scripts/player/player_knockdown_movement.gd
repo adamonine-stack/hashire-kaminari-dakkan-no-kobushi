@@ -271,6 +271,11 @@ func _complete_throw_hit() -> void:
 			last_damage_animation = reaction
 			last_special_knockback_animation = reaction
 			last_knockdown_animation = StringName(String(reaction) + "_down")
+	if directional_move != null and _has_visual_animation(directional_move.throw_victim_air_animation):
+		last_damage_animation = directional_move.throw_victim_air_animation
+		last_special_knockback_animation = directional_move.throw_victim_air_animation
+		if _has_visual_animation(directional_move.throw_victim_down_animation):
+			last_knockdown_animation = directional_move.throw_victim_down_animation
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)

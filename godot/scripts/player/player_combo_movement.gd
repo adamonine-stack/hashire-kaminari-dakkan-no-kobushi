@@ -369,6 +369,7 @@ var directional_throw_origin := Vector2.ZERO
 var directional_throw_victim_origin := Vector2.ZERO
 var directional_throw_facing := 1.0
 var directional_throw_elapsed := 0.0
+var directional_throw_prepared := false
 
 
 func _request_directional_throw(move: PlayerAttackData, is_ai_request := false) -> bool:
@@ -385,6 +386,7 @@ func _request_directional_throw(move: PlayerAttackData, is_ai_request := false) 
 	directional_throw_origin = global_position
 	directional_throw_facing = facing_direction
 	directional_throw_elapsed = 0.0
+	directional_throw_prepared = false
 	throw_startup_timer = move.startup_time
 	_play_throw_animation("throw_start")
 	return true
@@ -392,6 +394,13 @@ func _request_directional_throw(move: PlayerAttackData, is_ai_request := false) 
 
 func _update_active_throw(delta: float) -> void:
 	directional_throw_elapsed += delta
+	if directional_throw_data != null and throw_state == "THROW_HOLD" and not directional_throw_prepared and directional_throw_data.throw_prepare_seconds > 0.0:
+		if throw_hold_timer <= directional_throw_data.throw_prepare_seconds + delta and _is_valid_throw_target(current_throw_target):
+			directional_throw_prepared = true
+			if _has_visual_animation(directional_throw_data.throw_prepare_animation):
+				_play_visual_animation(directional_throw_data.throw_prepare_animation, true)
+			if current_throw_target._has_visual_animation(directional_throw_data.throw_victim_prepare_animation):
+				current_throw_target._play_visual_animation(directional_throw_data.throw_victim_prepare_animation, true)
 	super._update_active_throw(delta)
 
 
@@ -444,6 +453,10 @@ func _release_throw() -> void:
 	if has_throw_damage_applied:
 		return
 	var target := current_throw_target
+	if _is_valid_throw_target(target) and directional_throw_data.throw_release_offset != Vector2.ZERO:
+		var offset := directional_throw_data.throw_release_offset
+		target.global_position.x += offset.x * directional_throw_facing
+		target.global_position.y = minf(target.global_position.y, stage_floor_y + directional_throw_data.throw_hold_offset.y + offset.y)
 	if _is_valid_throw_target(target) and directional_throw_data.throw_swap_positions:
 		global_position.x = clampf(directional_throw_victim_origin.x, _stage_min_x(), _stage_max_x())
 		target.global_position.x = clampf(directional_throw_origin.x, _stage_min_x(), _stage_max_x())
@@ -463,6 +476,7 @@ func _fail_throw() -> void:
 func _finish_throw() -> void:
 	super._finish_throw()
 	directional_throw_data = null
+	directional_throw_prepared = false
 
 
 func _lock_throw_target_position(target: Node) -> void:
@@ -473,17 +487,51 @@ func _lock_throw_target_position(target: Node) -> void:
 	offset.x *= directional_throw_facing
 	var target_x := clampf(global_position.x + offset.x, _stage_min_x() + 64.0, _stage_max_x() - 64.0)
 	global_position.x = clampf(target_x - offset.x, _stage_min_x(), _stage_max_x())
-	target.global_position = Vector2(target_x, stage_floor_y + offset.y)
+	var preparation := 0.0
+	if directional_throw_data.throw_prepare_seconds > 0.0:
+		preparation = clampf(1.0 - throw_hold_timer / directional_throw_data.throw_prepare_seconds, 0.0, 1.0)
+	target.global_position = Vector2(target_x, stage_floor_y + offset.y + directional_throw_data.throw_release_offset.y * preparation)
 	target.velocity = Vector2.ZERO
 	target.facing_direction = -directional_throw_facing
 	target._set_visual_facing()
 
 
 func _play_throw_animation(animation_name := "Throw") -> void:
+	if directional_throw_data != null:
+		var authored := directional_throw_data.throw_release_animation if animation_name == "throw_release" else directional_throw_data.throw_start_animation
+		if authored == &"":
+			authored = directional_throw_data.throw_prepare_animation
+		if animation_name in ["throw_start", "throw_release"] and _has_visual_animation(authored):
+			_play_visual_animation(authored, true)
+			return
 	if directional_throw_data != null and animation_name == "throw_hold" and _has_visual_animation(&"directional_throw_hold"):
 		_play_visual_animation(&"directional_throw_hold", true)
 		return
 	super._play_throw_animation(animation_name)
+
+
+func _directional_throw_visual_animation() -> StringName:
+	if directional_throw_data == null:
+		return &""
+	var clip: StringName = &""
+	if throw_state in ["THROW_STARTUP", "THROW_WHIFF"]:
+		clip = directional_throw_data.throw_start_animation
+	elif throw_state == "THROW_HOLD" and directional_throw_prepared:
+		clip = directional_throw_data.throw_prepare_animation
+	elif throw_state == "THROW_RECOVERY":
+		clip = directional_throw_data.throw_release_animation
+	return clip if _has_visual_animation(clip) else &""
+
+
+func _directional_throw_victim_animation() -> StringName:
+	if not is_instance_valid(pending_throw_attacker) or pending_throw_attacker.get("directional_throw_data") == null:
+		return &""
+	var holder := pending_throw_attacker
+	if holder.directional_throw_prepared:
+		var clip: StringName = holder.directional_throw_data.throw_victim_prepare_animation
+		if _has_visual_animation(clip):
+			return clip
+	return &""
 
 
 func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_direction: float, throw_velocity: Vector2) -> void:

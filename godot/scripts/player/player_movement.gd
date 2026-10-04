@@ -2820,6 +2820,10 @@ func _get_current_visual_animation() -> StringName:
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
+		if has_method("_directional_throw_visual_animation"):
+			var authored: StringName = call("_directional_throw_visual_animation")
+			if authored != &"":
+				return authored
 		if throw_state == "THROW_HOLD" and get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_hold"):
 			return &"directional_throw_hold"
 		if _is_authored_grappler() or _is_leon_crow() or _uses_readable_grapple():
@@ -2827,6 +2831,10 @@ func _get_current_visual_animation() -> StringName:
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if has_method("_directional_throw_victim_animation"):
+			var authored: StringName = call("_directional_throw_victim_animation")
+			if authored != &"":
+				return authored
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_held"):
 			return &"directional_throw_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_muei_throw") and pending_throw_attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_held"):

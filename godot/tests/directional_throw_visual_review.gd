@@ -1,8 +1,12 @@
 extends SceneTree
-var output := "res://../throw_evidence"
+var review_actors: Array[Node] = []
+var output := "res://../throw_motion_evidence"
 func _initialize() -> void:
  call_deferred("run")
 func snap(label: String) -> void:
+ for actor in review_actors:
+  actor._update_visual_state()
+  actor.animated_character_sprite.pause()
  await process_frame
  await RenderingServer.frame_post_draw
  root.get_texture().get_image().save_png(output.path_join(label+".png"))
@@ -34,6 +38,7 @@ func run() -> void:
   if manager.isRoundActive: break
  var player: Node = battle.get_node("Player")
  var enemy: Node = battle.get_node("Enemy")
+ review_actors.assign([player,enemy])
  player.set_physics_process(false)
  enemy.set_physics_process(false)
  enemy.ai_enabled = false
@@ -70,8 +75,21 @@ func run() -> void:
    player._update_active_throw(player.directional_throw_data.throw_hold_seconds+.001)
    player._update_visual_state()
    enemy._update_visual_state()
-   await snap("throw_%s_%s_release"%[direction,int(facing)])
- print("DIRECTIONAL_THROW_VISUAL_EXPORT_OK")
+   var release_origin: Vector2 = enemy.global_position
+   var release_velocity: Vector2 = enemy.velocity
+   var attacker_sprite: AnimatedSprite2D = player.animated_character_sprite
+   var victim_sprite: AnimatedSprite2D = enemy.animated_character_sprite
+   for frame in range(victim_sprite.sprite_frames.get_frame_count(victim_sprite.animation)):
+    var t := frame*.10
+    enemy.global_position = release_origin+Vector2(release_velocity.x*t, release_velocity.y*t+500.0*t*t)
+    attacker_sprite.set_frame_and_progress(mini(frame,1),0)
+    victim_sprite.set_frame_and_progress(frame,0)
+    await snap("throw_%s_%s_release_%02d"%[direction,int(facing),frame])
+   if direction in ["down","back"]:
+    enemy.global_position.y = enemy.stage_floor_y
+    enemy.enter_knockdown()
+    await snap("throw_%s_%s_down"%[direction,int(facing)])
+ print("THROW_MOTION_VISUAL_EXPORT_OK")
  root.get_node("AudioManager").stop_bgm()
  manager.cleanup_battle_before_transition()
  battle.queue_free()

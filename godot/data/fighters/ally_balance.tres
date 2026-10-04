@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=37 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=38 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="Resource" path="res://assets/characters/player01/animations/akky_v3/motion_atlas.tres" id="45_motion_atlas"]
@@ -47,6 +47,8 @@
 [ext_resource type="Resource" path="res://data/attacks/akky_back_throw.tres" id="dir_back_throw"]
 
 [ext_resource type="Resource" path="res://assets/characters/directional_throw_v1/akky.tres" id="directional_throw_art"]
+
+[ext_resource type="Resource" path="res://assets/characters/directional_throw_v2/akky.tres" id="directional_throw_release_art"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -114,6 +116,6 @@ health_rating = 3
 throw_rating = 3
 combo_rating = 3
 
-extra_motion_atlases = Array[Resource]([ExtResource("akky_reversal"), ExtResource("received_crusher"), ExtResource("readable_grapple"), ExtResource("cross_muei_received"), ExtResource("shadow_counter_received"), ExtResource("seiya_two_received"), ExtResource("directional_atlas"), ExtResource("down_v2"), ExtResource("directional_throw_art")])
+extra_motion_atlases = Array[Resource]([ExtResource("akky_reversal"), ExtResource("received_crusher"), ExtResource("readable_grapple"), ExtResource("cross_muei_received"), ExtResource("shadow_counter_received"), ExtResource("seiya_two_received"), ExtResource("directional_atlas"), ExtResource("down_v2"), ExtResource("directional_throw_art"), ExtResource("directional_throw_release_art")])
 
 special_damage_reactions = {"shadow_slip_counter": {"hit":"received_shadow_counter_hit","airborne":"received_shadow_counter_air","down":"received_shadow_counter_down"},"crusher_fault_break": {"hit": "received_crusher_hammer_hit", "airborne": "received_crusher_hammer_air", "down": "received_crusher_hammer_down"}}
