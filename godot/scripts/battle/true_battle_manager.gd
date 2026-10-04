@@ -1,6 +1,7 @@
 extends Stage1BattleManager
 
-const TRUE_SEIYA := preload("res://data/enemies/enemy_09_seiya.tres")
+const TRUE_SEIYA_PATH := "res://data/enemies/enemy_09_seiya.tres"
+const TRUE_SEIYA := preload(TRUE_SEIYA_PATH)
 const TRUE_STAGE := preload("res://data/stages/stage_09_true_seiya.tres")
 
 func _ready() -> void:
@@ -49,7 +50,13 @@ func initialize_enemy_team() -> void:
 		data["is_defeated"] = true
 		data["current_health"] = 0
 		defeated_enemy_ids.append(StringName(data["fighter_id"]))
-	enemy_team.append(_create_progress_entry_from_definition(TRUE_SEIYA, 8))
+	var true_seiya_progress := _create_progress_entry_from_definition(TRUE_SEIYA, 8)
+	# BattleManager now resolves the active enemy through definition_path.
+	# Keep the progress row lightweight and let the current-enemy cache own the
+	# only runtime Resource reference used by the battle flow/HUD.
+	true_seiya_progress["definition"] = null
+	true_seiya_progress["definition_path"] = TRUE_SEIYA_PATH
+	enemy_team.append(true_seiya_progress)
 	enemy_order.append(TRUE_SEIYA.fighter_id)
 
 func reset_player_roster() -> void:
