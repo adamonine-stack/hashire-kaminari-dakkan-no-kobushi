@@ -15,8 +15,33 @@ class_name FighterDefinition
 @export var battle_texture: Texture2D
 @export var icon: Texture2D
 @export var sprite_sheet: Texture2D
-@export var motion_atlas: Resource
-@export var supplemental_motion_atlas: Resource
+## Heavy authored motion atlases can be stored as paths so Web builds do not
+## keep every campaign fighter's combat textures resident at battle startup.
+## Direct Resource assignments remain supported for backwards compatibility.
+@export var motion_atlas_path: String = ""
+@export var supplemental_motion_atlas_path: String = ""
+@export var motion_atlas: Resource:
+	get:
+		if motion_atlas == null and not motion_atlas_path.is_empty():
+			motion_atlas = ResourceLoader.load(
+				motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if motion_atlas == null:
+				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
+		return motion_atlas
+@export var supplemental_motion_atlas: Resource:
+	get:
+		if supplemental_motion_atlas == null and not supplemental_motion_atlas_path.is_empty():
+			supplemental_motion_atlas = ResourceLoader.load(
+				supplemental_motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if supplemental_motion_atlas == null:
+				push_warning("Failed to lazy-load supplemental motion atlas: %s" % supplemental_motion_atlas_path)
+		return supplemental_motion_atlas
 @export var shadow_texture: Texture2D
 @export var idle_pose_texture: Texture2D
 @export var prebattle_pose_texture: Texture2D
