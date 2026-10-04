@@ -1,6 +1,15 @@
 extends Resource
 class_name FighterDefinition
 
+# Keep only the two most recently requested primary authored atlases alive.
+# This is intentionally a very small LRU cache: it prevents animation-state
+# changes from repeatedly decoding the same large atlas during a fight, while
+# still allowing completed enemy stages to fall out of memory as the campaign
+# advances on memory-constrained mobile Web devices.
+static var _runtime_motion_atlas_cache: Dictionary = {}
+static var _runtime_motion_atlas_lru: Array[String] = []
+const RUNTIME_MOTION_ATLAS_CACHE_LIMIT := 2
+
 @export var fighter_id: StringName
 @export var display_name: String
 @export var hud_name_katakana: String
@@ -58,14 +67,7 @@ class_name FighterDefinition
 		if motion_atlas != null:
 			return motion_atlas
 		if not motion_atlas_path.is_empty():
-			# Do not retain path-loaded combat art on this definition. SpriteFrames
-			# owns the texture while the fighter is active; keeping it here as well
-			# makes completed campaign stages accumulate in Web memory.
-			var loaded := ResourceLoader.load(
-				motion_atlas_path,
-				"Resource",
-				ResourceLoader.CACHE_MODE_IGNORE_DEEP
-			)
+			var loaded := _load_runtime_motion_atlas(motion_atlas_path)
 			if loaded == null:
 				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
 			return loaded
@@ -202,3 +204,32 @@ class_name FighterDefinition
 @export_range(1, 5) var health_rating: int = 3
 @export_range(1, 5) var throw_rating: int = 3
 @export_range(1, 5) var combo_rating: int = 3
+
+
+static func _load_runtime_motion_atlas(path: String) -> Resource:
+	if _runtime_motion_atlas_cache.has(path):
+		_touch_runtime_motion_atlas(path)
+		return _runtime_motion_atlas_cache[path] as Resource
+
+	var loaded := ResourceLoader.load(
+		path,
+		"Resource",
+		ResourceLoader.CACHE_MODE_IGNORE_DEEP
+	)
+	if loaded == null:
+		return null
+
+	_runtime_motion_atlas_cache[path] = loaded
+	_touch_runtime_motion_atlas(path)
+	while _runtime_motion_atlas_lru.size() > RUNTIME_MOTION_ATLAS_CACHE_LIMIT:
+		var evicted_path := _runtime_motion_atlas_lru.pop_front()
+		if evicted_path != path:
+			_runtime_motion_atlas_cache.erase(evicted_path)
+	return loaded
+
+
+static func _touch_runtime_motion_atlas(path: String) -> void:
+	var existing_index := _runtime_motion_atlas_lru.find(path)
+	if existing_index >= 0:
+		_runtime_motion_atlas_lru.remove_at(existing_index)
+	_runtime_motion_atlas_lru.append(path)
