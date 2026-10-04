@@ -615,6 +615,8 @@ func disable_ai() -> void:
 
 
 func can_ai_act() -> bool:
+	if _is_landing_recovery_busy():
+		return false
 	if not ai_enabled or ai_profile == null:
 		return false
 	if not is_round_active or current_hp <= 0:
@@ -1120,6 +1122,16 @@ func _try_ai_jump_attack() -> void:
 		return
 	var distance := evaluate_distance()
 	if ai_jump_attack_plan == &"kick":
+		var opponent := _get_opponent()
+		if opponent != null and opponent.is_on_floor() and not opponent.is_guarding and velocity.y >= -jump_power * 0.40 and situation_observed_state == "recovery" and situation_observed_time >= _profile_float(&"move_observation_seconds", 0.22):
+			for move in attack_data_sequence:
+				if move != null and move.ai_tags.has("dive") and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+					if _request_directional_move(String(move.attack_id),true):
+						ai_jump_attack_used = true
+						ai_selected_move_id = String(move.attack_id)
+						ai_action_started.emit(ai_selected_move_id)
+						_register_ai_action(StringName(ai_selected_move_id))
+						return
 		if distance > _profile_float(&"jump_kick_distance", 155.0):
 			return
 		# Fire after the launch frame but allow ascent, apex, and early descent.
@@ -1442,6 +1454,8 @@ func request_character_special(is_ai_request := false) -> bool:
 
 
 func can_start_character_special(is_ai_request := false) -> bool:
+	if _is_landing_recovery_busy():
+		return false
 	if character_special_data == null:
 		return false
 	if reversal_cooldown > 0.0:

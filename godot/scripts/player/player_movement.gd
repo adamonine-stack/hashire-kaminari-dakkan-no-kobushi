@@ -121,6 +121,12 @@ var attack_active_timer := 0.0
 var attack_cooldown_timer := 0.0
 var kick_active_timer := 0.0
 var kick_cooldown_timer := 0.0
+var landing_recovery_remaining := 0.0
+var landing_recovery_animation: StringName = &"jump_land"
+
+func _is_landing_recovery_busy() -> bool:
+	return landing_recovery_remaining > 0.0
+
 var is_guarding := false
 var is_crouching := false
 var is_crouch_guarding := false
@@ -696,7 +702,7 @@ func _get_throw_target() -> Node:
 
 
 func _can_start_throw() -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and guard_recoil_timer <= 0.0 and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	return not _is_landing_recovery_busy() and is_round_active and current_hp > 0 and is_on_floor() and guard_recoil_timer <= 0.0 and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
 
 
 func can_be_thrown(attacker: Node) -> bool:
@@ -1307,6 +1313,9 @@ func _get_hit_position(target: Node) -> Vector2:
 
 
 func _cancel_current_action() -> void:
+	landing_recovery_remaining = 0.0
+	if has_method("clear_pending_air_landing"):
+		call("clear_pending_air_landing")
 	_cancel_mobility_burst()
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
@@ -1478,7 +1487,7 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 
 func _can_start_guard_or_crouch() -> bool:
-	return can_guard and is_round_active and current_hp > 0 and not (has_method("_is_knockdown_busy") and call("_is_knockdown_busy")) and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
+	return not _is_landing_recovery_busy() and can_guard and is_round_active and current_hp > 0 and not (has_method("_is_knockdown_busy") and call("_is_knockdown_busy")) and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
 
 
 func _can_guard_back_walk() -> bool:
@@ -2642,6 +2651,8 @@ func _can_start_double_tap_movement() -> bool:
 
 
 func _can_continue_mobility_burst() -> bool:
+	if _is_landing_recovery_busy():
+		return false
 	if not is_on_floor() or is_hit or is_guard_hit or is_guarding or is_crouching or is_crouch_guarding or _is_throw_busy():
 		return false
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0 or guard_recoil_timer > 0.0:
@@ -2863,6 +2874,8 @@ func _get_current_visual_animation() -> StringName:
 		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
 	if is_hit:
 		return last_damage_animation
+	if _is_landing_recovery_busy() and _has_visual_animation(landing_recovery_animation):
+		return landing_recovery_animation
 	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty() and current_attack_type in ["Punch", "Kick"] and _has_visual_animation(StringName(current_attack_data.animation_name)):
 		return StringName(current_attack_data.animation_name)
 	if _is_cross_grappler() and current_attack_data != null and current_attack_type in ["Punch", "Kick"]:

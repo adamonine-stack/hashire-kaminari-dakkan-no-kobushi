@@ -79,6 +79,7 @@ var attack_recovery_time_actual := 0.0
 var crouch_sweep_hurtbox_adjusted := false
 var crouch_sweep_hurtbox_restore_position := Vector2.ZERO
 var crouch_sweep_hurtbox_restore_size := Vector2.ZERO
+var pending_air_landing_data: PlayerAttackData
 var air_kick_attack_data: Resource
 var air_punch_down_attack_data: Resource
 var crouch_kick_sweep_attack_data: Resource
@@ -96,6 +97,7 @@ func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
 	_update_guard_recoil(delta)
+	landing_recovery_remaining = maxf(landing_recovery_remaining-delta,0.0)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
@@ -116,10 +118,11 @@ func _physics_process(delta: float) -> void:
 		_update_ai_guard(delta)
 	if not is_backstepping:
 		_face_opponent()
-	_update_double_tap_movement(delta)
+	if not _is_landing_recovery_busy():
+		_update_double_tap_movement(delta)
 
 	var is_air_attack_current := _is_air_attack_currently_active()
-	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0 or is_backstepping:
+	if _is_landing_recovery_busy() or current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0 or is_backstepping:
 		direction = 0.0
 		if is_air_attack_current and input_enabled:
 			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
@@ -141,8 +144,8 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		jump_pressed_this_airtime = false
 		has_used_air_attack = false
-		var ai_jump_requested := not input_enabled and guard_recoil_timer <= 0.0 and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
-		var player_jump_requested := input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_backstepping and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var ai_jump_requested := not _is_landing_recovery_busy() and not input_enabled and guard_recoil_timer <= 0.0 and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var player_jump_requested := not _is_landing_recovery_busy() and input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_backstepping and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
 		if player_jump_requested or ai_jump_requested:
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
@@ -164,12 +167,14 @@ func _physics_process(delta: float) -> void:
 	if not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_attack(delta)
 		_update_kick(delta)
+	_apply_dive_motion()
 	_update_visual_state()
+	var was_air_attack := is_air_attack_active and current_attack_type != ""
 	move_and_slide()
 	_apply_post_move_stabilization()
 	if not was_on_floor_before_move and is_on_floor():
 		jump_combo_pending = false
-		if _is_air_attack_currently_active():
+		if was_air_attack or pending_air_landing_data != null:
 			_finish_air_attack_on_landing()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
@@ -731,7 +736,7 @@ func request_attack_input(attack_type: StringName, is_ai_request := false) -> bo
 func _can_accept_attack_input(is_ai_request: bool) -> bool:
 	if not is_ai_request and not input_enabled:
 		return false
-	return current_hp > 0 and is_round_active and guard_recoil_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
+	return not _is_landing_recovery_busy() and current_hp > 0 and is_round_active and guard_recoil_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
 
 
 func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) -> bool:
@@ -812,6 +817,8 @@ func start_attack(attack_id: String) -> void:
 
 	reset_attack_state(false)
 	current_attack_data = attack_data
+	if attack_data.airborne_only and attack_data.landing_recovery > 0.0:
+		pending_air_landing_data = attack_data
 	current_attack_id = attack_id
 	command_attack_elapsed = 0.0
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
@@ -1934,11 +1941,33 @@ func _is_air_attack_currently_active() -> bool:
 	return is_air_attack_active and current_attack_type != "" and not is_on_floor()
 
 
+func clear_pending_air_landing() -> void:
+	pending_air_landing_data = null
+
+
+func _apply_dive_motion() -> void:
+	if is_on_floor() or is_hit or is_guard_hit or current_attack_data == null or attack_phase == AttackPhase.STARTUP:
+		return
+	var dive: Vector2 = current_attack_data.dive_velocity
+	if dive.y > 0.0:
+		velocity = Vector2(dive.x*facing_direction,maxf(velocity.y,dive.y))
+
+
 func _finish_air_attack_on_landing() -> void:
+	var landing_data := pending_air_landing_data
+	if landing_data == null and current_attack_data != null:
+		landing_data = current_attack_data
 	finish_attack()
 	has_used_air_attack = false
 	jump_combo_pending = false
-	_play_visual_animation(&"jump_land", true)
+	pending_air_landing_data = null
+	landing_recovery_remaining = float(landing_data.landing_recovery) if landing_data != null else 0.0
+	landing_recovery_animation = landing_data.landing_animation if landing_data != null else &"jump_land"
+	if _is_landing_recovery_busy():
+		velocity.x = 0.0
+		is_crouching = false
+		_clear_guard_state()
+	_play_visual_animation(landing_recovery_animation, true)
 
 
 func _target_debug_name(target: Node) -> String:
@@ -1954,6 +1983,8 @@ func _update_visual_state() -> void:
 	_sync_attack_visual_phase()
 	if not debug_state_label_enabled:
 		return
+	if _is_landing_recovery_busy():
+		state_label.text += "\nLANDING RECOVERY: %.2fs" % landing_recovery_remaining
 	if combo_count == 0 and not dev_combo_window_open and dev_buffered_attack == &"":
 		return
 

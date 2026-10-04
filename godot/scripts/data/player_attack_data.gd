@@ -30,6 +30,12 @@ class_name PlayerAttackData
 @export var hit_reaction: StringName = &""
 @export var counter_hitstun_bonus: float = 0.0
 
+@export_group("Air Movement / Landing")
+## Zero preserves existing air attacks. Applied after startup, never during hitstun.
+@export var dive_velocity: Vector2 = Vector2.ZERO
+@export var landing_recovery: float = 0.0
+@export var landing_animation: StringName = &"jump_land"
+
 @export_group("Situation AI")
 @export var ai_tags: Array[String] = []
 @export var ai_distance_min: float = 0.0
