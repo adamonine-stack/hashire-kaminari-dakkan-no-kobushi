@@ -757,6 +757,8 @@ func choose_next_action() -> void:
 	if player_threatening and should_guard_against_player():
 		enter_guard()
 		return
+	if _try_situation_throw():
+		return
 	if _try_situation_move():
 		return
 	if should_counter_attack_player(distance):
@@ -880,6 +882,53 @@ func enter_guard() -> void:
 	_register_ai_action(&"guard")
 
 
+func _select_ai_throw_move() -> String:
+	var moves_by_direction: Dictionary = {}
+	for move in attack_data_sequence:
+		if move != null and String(move.attack_type) == "throw" and not String(move.command_direction).is_empty():
+			moves_by_direction[String(move.command_direction)] = String(move.attack_id)
+	if moves_by_direction.is_empty():
+		return ""
+	var opponent := _get_opponent()
+	if not (opponent is Node2D):
+		return str(moves_by_direction.get("neutral", ""))
+	var own_wall_gap := minf(global_position.x-_stage_min_x(),_stage_max_x()-global_position.x)
+	var target_wall_gap := minf(opponent.global_position.x-opponent._stage_min_x(),opponent._stage_max_x()-opponent.global_position.x)
+	var direction := "neutral"
+	if own_wall_gap <= 80.0:
+		direction = "back"
+	elif target_wall_gap <= 80.0:
+		direction = "forward"
+	elif situation_observed_time >= _profile_float(&"move_observation_seconds", 0.22):
+		if situation_observed_state == "attack" and opponent.velocity.x * signf(global_position.x-opponent.global_position.x) >= 80.0:
+			direction = "back"
+		elif situation_observed_state == "recovery" or opponent.is_crouching:
+			direction = "down"
+	return str(moves_by_direction.get(direction,moves_by_direction.get("neutral","")))
+
+
+func _try_situation_throw() -> bool:
+	if not _profile_bool(&"use_situation_moves", false) or not can_ai_act() or ai_reaction_timer > 0.0:
+		return false
+	if _select_ai_throw_move().is_empty() or not should_throw_player():
+		return false
+	# Keep the existing rate/cooldown; let throws compete before a guaranteed jab.
+	enter_throw()
+	return is_throwing
+
+
+func _start_ai_selected_throw() -> bool:
+	var move_id := _select_ai_throw_move()
+	if move_id.is_empty():
+		# Existing grapplers without directional data retain their established throws.
+		_start_throw()
+		return is_throwing
+	if not _request_directional_move(move_id,true):
+		return false
+	ai_selected_move_id = move_id
+	return true
+
+
 func enter_throw() -> void:
 	if not can_ai_act() or not _can_start_throw() or _get_throw_target() == null:
 		enter_idle()
@@ -890,8 +939,10 @@ func enter_throw() -> void:
 	ai_throw_cooldown_timer = _profile_float(&"throw_cooldown", 1.50)
 	ai_action_started.emit("throw")
 	_register_ai_action(&"throw")
-	_start_throw()
-	print("[DEV054][%s] Throw selected" % _debug_enemy_id())
+	if not _start_ai_selected_throw():
+		enter_idle()
+		return
+	print("[DEV054][%s] Throw selected move=%s" % [_debug_enemy_id(), ai_selected_move_id])
 
 
 func enter_jump() -> void:
@@ -2156,7 +2207,7 @@ func _update_ai_throw(delta: float) -> void:
 
 	ai_throw_cooldown_timer = ai_throw_cooldown
 	_face_opponent()
-	_start_throw()
+	_start_ai_selected_throw()
 
 
 func apply_boss_special_attack_data(sequence: Array) -> void:

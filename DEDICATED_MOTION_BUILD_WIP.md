@@ -19,3 +19,5 @@
 最初の制作: Crusher Back P対空アッパーとAKKY Launch Hit受け。正式Crusherの赤Bandanna/黒Tank/緑Cargo/腕帯/黒Bootsと筋肉量を維持。AKKYのベージュ長袖ジャケット/黒タートルネック/黒パンツ/黒Boots/顔と髪を維持。袖まくり・腹露出禁止。
 
 2026-10-04 checkpoint: new Air P/air-launch reactions, both distinct Down P, Crusher Back P/Forward K/Back K and AKKY Back K connected; see DEDICATED_MOTION_CHECKPOINT.md. Full two-character target remains in progress. Authoring sources moved outside Godot to art/dedicated_pair_v1/sources.
+
+2026-10-04 later checkpoints: Crusher neutral/forward/down/back dedicated attacker + AKKY receiver pairs are now connected; shared grab/hold, individual release/air clips, reviewed down pose, fixed Sprite transforms. AIR_GUARD_IMPLEMENTATION.md adds both dedicated air guard/impact clips. CRUSHER_BACK_THROW_AI_CHECKPOINT.md connects all four Crusher directional throws to situational AI, with wall-position swap/counter checks. Original table above is the starting inventory, not current completion status. Next outstanding art work is dive K/landing and remaining receiver/special guard coverage audit.

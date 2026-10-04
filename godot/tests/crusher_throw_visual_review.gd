@@ -51,7 +51,7 @@ func run() -> void:
  battle.get_node("BattleCamera").set_physics_process(false)
  battle.set_process(false)
  for facing in [1.0,-1.0]:
-  for direction in ["neutral","forward","down"]:
+  for direction in ["neutral","forward","down","back"]:
    for actor in [player,enemy]:
     actor._finish_throw()
     actor.reset_knockdown_state()

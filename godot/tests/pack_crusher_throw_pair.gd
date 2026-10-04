@@ -1,7 +1,7 @@
 extends SceneTree
 func _initialize():
  var folder := "res://assets/characters/dedicated_pair_v1/"
- for kind in ["grab","neutral","forward","down"]:
+ for kind in ["grab","neutral","forward","down","back"]:
   var src := Image.load_from_file(ProjectSettings.globalize_path("res://../art/dedicated_pair_v1/sources/crusher_"+("grab_strip" if kind=="grab" else "throw_"+kind+"_strip")+".png"))
   var rows := [0,473,930] if kind=="grab" else ([0,550,1050] if kind=="neutral" else [0,532,1024])
   var splits := [500,500] if kind=="grab" else ([570,575,500] if kind=="neutral" else [800,800])
@@ -10,6 +10,10 @@ func _initialize():
    rows = [0,627,1254]
    splits = [600,555]
    feet = [580,1138]
+  if kind=="back":
+   rows = [0,627,1254]
+   splits = [680,690]
+   feet = [605,1190]
   for who in ["crusher","akky"]:
    var cell := Vector2i(400,280) if who=="crusher" else Vector2i(320,224)
    var anchor := Vector2i(200,260) if who=="crusher" else Vector2i(160,208)
@@ -18,6 +22,9 @@ func _initialize():
    if kind=="down":
     factor = .42 if who=="crusher" else .28
     root_x = 318 if who=="crusher" else 910
+   if kind=="back":
+    factor = .36 if who=="crusher" else .31
+    root_x = 330 if who=="crusher" else 950
    var atlas := Image.create(cell.x*(rows.size()-1),cell.y,false,Image.FORMAT_RGBA8)
    for i in range(rows.size()-1):
     var x0: int = 0 if who=="crusher" else splits[i]
@@ -27,7 +34,7 @@ func _initialize():
     region = Rect2i(region.position+used.position,used.size)
     crop = src.get_region(region)
     var local_root: int = root_x-region.position.x
-    if who=="akky":
+    if who=="akky" and kind!="back":
      crop.flip_x()
      local_root = region.size.x-local_root
     crop.resize(roundi(region.size.x*factor),roundi(region.size.y*factor),Image.INTERPOLATE_LANCZOS)

@@ -59,7 +59,7 @@ func run() -> void:
  var scales := [player.animated_character_sprite.scale,enemy.animated_character_sprite.scale]
  var anchors := [player.animated_character_sprite.position,enemy.animated_character_sprite.position]
  for facing in [1.0,-1.0]:
-  for direction in ["neutral","forward","down"]:
+  for direction in ["neutral","forward","down","back"]:
    reset_pair(facing)
    var move: PlayerAttackData = player._get_attack_data("crusher_%s_throw"%direction)
    check(player._request_directional_move(move.attack_id,true),"motion start %s"%direction)
@@ -105,7 +105,7 @@ func run() -> void:
    check(player.directional_throw_data == null and not player.directional_throw_prepared,"throw metadata clears")
  # Run the actual common physics flow, not just manual phase calls.
  for facing in [1.0,-1.0]:
-  for direction in ["neutral","forward","down"]:
+  for direction in ["neutral","forward","down","back"]:
    reset_pair(facing)
    player.is_backstepping = false
    enemy.is_backstepping = false

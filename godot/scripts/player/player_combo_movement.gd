@@ -496,6 +496,11 @@ func _release_throw() -> void:
 		global_position.x = clampf(directional_throw_victim_origin.x, _stage_min_x(), _stage_max_x())
 		target.global_position.x = clampf(directional_throw_origin.x, _stage_min_x(), _stage_max_x())
 		target.global_position.y = stage_floor_y
+		if directional_throw_data.throw_face_swapped_target:
+			facing_direction = -directional_throw_facing
+			target.facing_direction = directional_throw_facing
+			_set_visual_facing()
+			target._set_visual_facing()
 		target.pending_throw_velocity = Vector2(-directional_throw_data.throw_velocity.x * directional_throw_facing, directional_throw_data.throw_velocity.y)
 		target.pending_throw_direction = -directional_throw_facing
 	super._release_throw()

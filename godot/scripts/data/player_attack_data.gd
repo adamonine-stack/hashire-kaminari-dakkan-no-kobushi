@@ -39,6 +39,7 @@ class_name PlayerAttackData
 @export var throw_hold_seconds: float = 0.20
 @export var throw_whiff_seconds: float = 0.50
 @export var throw_velocity: Vector2 = Vector2(120.0, -120.0)
+@export var throw_face_swapped_target := false
 @export var throw_swap_positions: bool = false
 @export var throw_counter_range: float = 0.0
 @export var throw_counter_window: float = 0.0
