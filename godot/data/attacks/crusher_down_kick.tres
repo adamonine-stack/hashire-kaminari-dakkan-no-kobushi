@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "crusher_down_kick"
+attack_type = "kick"
+command_direction = "down"
+command_priority = 10
+startup_time = 0.22
+active_time = 0.1
+recovery_time = 0.36
+base_damage = 1.0
+hitbox_size = Vector2(100, 30)
+hitbox_offset = Vector2(65, -25)
+forward_move_distance = 0
+forward_move_duration = 0
+animation_name = "crouch_kick_sweep"
+contact_start_frame = 1
+contact_end_frame = 1
+hitstun_time = 0.25
+hitstop_time = 0.05
+ai_tags = Array[String](["low"])
+ai_distance_min = 65
+ai_distance_max = 130
+can_cancel_on_whiff = false
+knockdown = true
+attack_height = "low"
+knockback = Vector2(80, -70)
+hurtbox_height_scale = 0.6
+hurtbox_start = 0.03
+hurtbox_end = 0.30

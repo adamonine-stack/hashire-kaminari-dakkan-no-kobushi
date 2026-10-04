@@ -30,6 +30,11 @@ class_name PlayerAttackData
 @export var hit_reaction: StringName = &""
 @export var counter_hitstun_bonus: float = 0.0
 
+@export_group("Situation AI")
+@export var ai_tags: Array[String] = []
+@export var ai_distance_min: float = 0.0
+@export var ai_distance_max: float = 0.0
+
 @export_group("Directional Throw")
 @export var throw_hold_seconds: float = 0.20
 @export var throw_whiff_seconds: float = 0.50

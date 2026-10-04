@@ -79,3 +79,7 @@ class_name EnemyAIProfile
 @export var can_feint: bool = false
 @export var can_request_special_attack: bool = false
 @export var can_jump: bool = true
+
+@export_group("Data Driven Moves")
+@export var use_situation_moves: bool = false
+@export var move_observation_seconds: float = 0.22

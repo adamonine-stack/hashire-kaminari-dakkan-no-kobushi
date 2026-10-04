@@ -61,3 +61,6 @@ can_combo = false
 can_feint = false
 can_request_special_attack = false
 can_jump = true
+
+use_situation_moves = true
+move_observation_seconds = 0.24

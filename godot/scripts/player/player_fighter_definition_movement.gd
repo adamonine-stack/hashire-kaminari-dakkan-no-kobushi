@@ -97,6 +97,9 @@ var repeated_action_count := 0
 var ai_state := EnemyAIState.DISABLED
 var ai_enabled := false
 var ai_reaction_timer := 0.0
+var situation_observed_state := ""
+var situation_observed_time := 0.0
+var ai_selected_move_id := ""
 var ai_idle_timer := 0.0
 var ai_attack_cooldown_timer := 0.0
 var ai_retreat_timer := 0.0
@@ -221,6 +224,7 @@ func _physics_process(delta: float) -> void:
 	update_special_cooldowns(delta)
 	check_ultimate_condition()
 	update_boss_special_attack(delta)
+	_observe_situation_state(delta)
 	_update_profile_ai(delta)
 
 
@@ -416,6 +420,9 @@ func clear_ai_action_state() -> void:
 
 
 func reset_ai_state() -> void:
+	situation_observed_state = ""
+	situation_observed_time = 0.0
+	ai_selected_move_id = ""
 	ai_decision_timer = 0.0
 	ai_action_recovery_timer = 0.0
 	ai_movement_timer = 0.0
@@ -470,6 +477,7 @@ func get_ai_debug_lines() -> Array[String]:
 	lines.append("AI STATE: %s" % [_debug_ai_action_text()])
 	lines.append("AI DISTANCE: %.0f" % [distance])
 	lines.append("AI TARGET DISTANCE: %.0f" % [ai_current_target_distance])
+	lines.append("AI MOVE: %s / OBSERVED: %s %.2f" % [ai_selected_move_id, situation_observed_state, situation_observed_time])
 	lines.append("AI REACTION: %.2f" % [ai_reaction_timer])
 	lines.append("AI COOLDOWN: %.2f" % [ai_attack_cooldown_timer])
 	lines.append("SELECTED ATTACK: %s" % ["NONE" if ai_selected_attack_type.is_empty() else ai_selected_attack_type.to_upper()])
@@ -747,6 +755,8 @@ func choose_next_action() -> void:
 	if player_threatening and should_guard_against_player():
 		enter_guard()
 		return
+	if _try_situation_move():
+		return
 	if should_counter_attack_player(distance):
 		enter_attack()
 		return
@@ -970,6 +980,8 @@ func update_approach(delta: float) -> void:
 		disable_ai()
 		return
 	var distance := evaluate_distance()
+	if _try_situation_move():
+		return
 	var attack_distance := _profile_float(&"attack_distance", 55.0)
 	if not ai_approach_jump_checked and distance <= attack_distance + 78.0 and distance > attack_distance + 6.0:
 		ai_approach_jump_checked = true
@@ -1234,6 +1246,67 @@ func should_request_special_attack() -> bool:
 	if not _profile_bool(&"can_request_special_attack", false) or ai_special_request_cooldown_timer > 0.0:
 		return false
 	return randf() <= _profile_float(&"special_attack_rate", 0.0)
+
+
+func _observe_situation_state(delta: float) -> void:
+	if not _profile_bool(&"use_situation_moves", false):
+		return
+	var opponent := _get_opponent()
+	if opponent == null:
+		situation_observed_state = ""
+		situation_observed_time = 0.0
+		return
+	var visible := "idle"
+	if not opponent.is_on_floor():
+		visible = "air"
+	elif opponent.current_attack_type != "":
+		visible = "recovery" if opponent.attack_phase == AttackPhase.RECOVERY else "attack"
+	if visible != situation_observed_state:
+		situation_observed_state = visible
+		situation_observed_time = 0.0
+	else:
+		situation_observed_time += delta
+
+
+func _select_situation_move() -> String:
+	if not _profile_bool(&"use_situation_moves", false):
+		return ""
+	var opponent := _get_opponent()
+	if opponent == null or not is_on_floor() or not opponent.is_on_floor():
+		return ""
+	var distance := evaluate_distance()
+	var tag := "close" if distance < 65.0 else ("middle" if distance <= 130.0 else "approach")
+	if situation_observed_time >= _profile_float(&"move_observation_seconds", 0.22):
+		if situation_observed_state == "recovery":
+			tag = "punish"
+		elif situation_observed_state == "attack":
+			tag = "evade"
+		elif situation_observed_state == "idle" and distance > 90.0 and opponent.is_crouching:
+			tag = "low"
+	elif opponent.current_attack_type != "":
+		return ""
+	for move in attack_data_sequence:
+		if move != null and move.ai_tags.has(tag) and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+			return String(move.attack_id)
+	return ""
+
+
+func _try_situation_move() -> bool:
+	if not can_ai_act() or ai_reaction_timer > 0.0 or ai_attack_cooldown_timer > 0.0:
+		return false
+	var move_id := _select_situation_move()
+	if move_id.is_empty():
+		return false
+	_face_opponent()
+	if not _request_directional_move(move_id, true):
+		return false
+	ai_selected_move_id = move_id
+	ai_selected_attack_type = String(current_attack_data.attack_type)
+	_set_ai_state(EnemyAIState.ATTACK)
+	ai_attack_cooldown_timer = randf_range(_profile_float(&"attack_cooldown_min", 0.30), _profile_float(&"attack_cooldown_max", 0.60))
+	_register_ai_action(StringName(move_id))
+	ai_action_started.emit(move_id)
+	return true
 
 
 func choose_attack_type() -> String:
