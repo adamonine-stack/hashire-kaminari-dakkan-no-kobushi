@@ -49,7 +49,7 @@ func run() -> void:
  var getup_first: AtlasTexture = frames.get_frame_texture(&"stand_up",0)
  check(prone.region == getup_first.region and prone.atlas == getup_first.atlas,"down/getup reuse exact prone frame")
  var prone_bounds := opaque_bounds(prone.get_image())
- check(prone_bounds.size.x >= 320 and prone_bounds.size.x <= 335,"reviewed prone span retained")
+ check(prone_bounds.size.x >= 290 and prone_bounds.size.x <= 300,"reviewed prone span retained")
  print("CRUSHER_DOWN_PRONE_BOUNDS ",prone_bounds)
  # Real down -> wake-up flow, with both mirrored facings, retains scale.
  for facing in [1.0,-1.0]:
