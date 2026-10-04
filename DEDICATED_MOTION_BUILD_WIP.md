@@ -31,3 +31,5 @@
 2026-10-04 receiver checkpoint: rendered Seiya launch sampling resolved, middle-hit routing repaired; newly authored three-phase dedicated heavy-hit clips for AKKY/Crusher replace shared frames. High/low/light distinct source authoring remains pending. See RECEIVER_ROUTING_CHECKPOINT.md.
 
 2026-10-04 basic receiver checkpoint: distinct three-phase light/high/low original atlases for AKKY/Crusher now connected, removing remaining shared basic receiver art for this pair. Heavy remains dedicated. See DEDICATED_BASIC_REACTIONS_CHECKPOINT.md for tests and remaining full-play coverage.
+
+2026-10-04 combat flow checkpoint: actual Area2D contacts now tested for both actors, both facings, ordinary P/forward P/K/sweep, two receivers and extra-actor KO. Fixed sweep hitstop reaction visibility, KO HurtBox reset, and disabled legacy AI fallbacks. See COMBAT_FLOW_CHECKPOINT.md; scripted rendered evidence is separate from manual/mobile play.

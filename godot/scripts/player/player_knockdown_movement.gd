@@ -174,6 +174,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	if current_hp <= 0:
 		var ko_air := last_special_knockback_animation
 		reset_knockdown_state()
+		set_hurtbox_enabled(false)
 		_play_ko_feedback(hit_position, attack_direction)
 		if bool(attack_data.get("is_special", false)):
 			special_ko_flight = true
@@ -354,6 +355,8 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 	set_hurtbox_enabled(false)
 	if _has_visual_animation(last_special_knockback_animation):
 		_play_state_animation(last_special_knockback_animation, &"Throw")
+	elif last_damage_animation == &"damage_low" and hit_stop_timer > 0.0 and _has_visual_animation(last_damage_animation):
+		_play_state_animation(last_damage_animation, &"Throw")
 	elif _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(last_knockdown_animation, &"Throw")
 	else:

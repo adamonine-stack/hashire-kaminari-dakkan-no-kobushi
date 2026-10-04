@@ -2193,12 +2193,16 @@ func _register_ai_action(action: StringName) -> void:
 
 
 func _uses_ai_guard() -> bool:
+	if not ai_enabled:
+		return false
 	if ai_profile != null and name == "Enemy" and not input_enabled:
 		return false
 	return ai_guard_enabled and name == "Enemy" and is_round_active and not input_enabled and not is_hit and not is_guard_hit and not _is_throw_busy()
 
 
 func _update_ai_throw(delta: float) -> void:
+	if not ai_enabled:
+		return
 	if ai_profile != null and name == "Enemy" and not input_enabled:
 		return
 	if name != "Enemy" or input_enabled:

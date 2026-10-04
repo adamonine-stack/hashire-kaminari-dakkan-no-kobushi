@@ -2844,6 +2844,8 @@ func _get_current_visual_animation() -> StringName:
 	if _is_knockdown_state(&"KNOCKBACK"):
 		if _has_visual_animation(last_special_knockback_animation):
 			return last_special_knockback_animation
+		if last_damage_animation == &"damage_low" and hit_stop_timer > 0.0 and _has_visual_animation(last_damage_animation):
+			return last_damage_animation
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"knockback"
