@@ -143,3 +143,7 @@ class_name PlayerAttackData
 @export var special_resource_cost: float = -1.0
 @export var whiff_recovery_multiplier: float = 1.25
 @export var ai_special_tags: Array[String] = []
+
+@export_group("Ground Bounce")
+@export_range(0, 1, 1) var ground_bounces := 0
+@export var ground_bounce_velocity := Vector2(0, -160)

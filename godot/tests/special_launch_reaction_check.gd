@@ -89,7 +89,7 @@ func check(ok: bool, label: String) -> void:
 
 func capture(label: String) -> void:
 	if DisplayServer.get_name() == "headless": return
-	await process_frame
+	# Capture the observed physics phase without advancing its short impact window.
 	RenderingServer.force_draw(false)
 	check(root.get_texture().get_image().save_png(output.path_join(label + ".png")) == OK, "capture " + label)
 	screenshots += 1
@@ -255,7 +255,7 @@ func run() -> void:
 					check(target.velocity == Vector2.ZERO,label + " wall contact stops motion")
 					if not captured_wall:
 						target._update_visual_state()
-						check(sprite.animation == &"received_akky_elbow_wall",label + " wall recoil pose")
+						check(sprite.animation == (&"wall_hit" if definition == "enemy_01_standard" else &"received_akky_elbow_wall"),label + " wall recoil pose")
 						check_visible_art(sprite,label + " wall")
 						await capture(label + "_wall")
 						captured_wall = true
@@ -263,7 +263,7 @@ func run() -> void:
 					check(captured_wall and is_zero_approx(target.velocity.x),label + " drops after wall contact")
 					if not captured_fall:
 						target._update_visual_state()
-						check(sprite.animation == &"received_akky_elbow_fall",label + " falling pose")
+						check(sprite.animation == (&"wall_fall" if definition == "enemy_01_standard" else &"received_akky_elbow_fall"),label + " falling pose")
 						await capture(label + "_fall")
 						captured_fall = true
 				if definition == "enemy_01_standard" and direction == 1 and frame % 4 == 0:

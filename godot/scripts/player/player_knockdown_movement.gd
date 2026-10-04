@@ -5,6 +5,11 @@ signal get_up_started(character: Node)
 signal get_up_finished(character: Node)
 
 var directional_throw_down_remaining := 0.0
+var ground_bounces_remaining := 0
+var ground_bounce_contacts := 0
+var ground_bounce_velocity := Vector2.ZERO
+var ground_bounce_phase := ""
+var ground_bounce_timer := 0.0
 
 @export var knockdown_duration := 0.80
 @export var get_up_duration := 0.55
@@ -79,7 +84,7 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		# Resolve Gou's last turn and the prone pose in the collision frame,
 		# rather than leaving an extra airborne-looking frame after landing.
-		if special_backflip_enabled and knockdown_state == &"KNOCKBACK" and is_on_floor() and velocity.y >= -ground_landing_velocity_threshold:
+		if (special_backflip_enabled or ground_bounces_remaining > 0 or ground_bounce_phase == "air") and knockdown_state == &"KNOCKBACK" and is_on_floor() and velocity.y >= -ground_landing_velocity_threshold:
 			update_knockback(0.0)
 			_update_visual_state()
 		if special_wall_phase == "" or knockdown_state != &"KNOCKBACK":
@@ -207,6 +212,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 			_end_attacker_combo_for_knockdown(attacker)
 		enter_knockback(attacker, _get_knockdown_force(attack_data, attacker, attack_direction))
 		_begin_special_wall_launch(attack_data)
+		_configure_ground_bounce(int(attack_data.get("ground_bounces",0)), attack_data.get("ground_bounce_velocity",Vector2.ZERO))
 		if int(attack_data.get("seiya_two_hit_stage",-1)) == 0:
 			seiya_followup_owner = weakref(attacker)
 			seiya_followup_sequence = int(attack_data.seiya_two_hit_sequence)
@@ -311,6 +317,7 @@ func _complete_throw_hit() -> void:
 		# forward force. A slam therefore stays near the point of release.
 		velocity = calculate_received_knockback(throw_velocity)
 		directional_throw_down_remaining = directional_move.throw_down_seconds
+		_configure_ground_bounce(directional_move.ground_bounces,directional_move.ground_bounce_velocity)
 
 
 func _get_valid_hurtbox_target(area: Area2D) -> Node:
@@ -355,6 +362,13 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 
 
 func update_knockback(delta: float) -> void:
+	if ground_bounce_phase == "impact":
+		velocity = Vector2.ZERO
+		ground_bounce_timer = maxf(ground_bounce_timer-delta,0.0)
+		if ground_bounce_timer == 0.0:
+			ground_bounce_phase = "air"
+			velocity = ground_bounce_velocity
+		return
 	if seiya_followup_owner != null:
 		seiya_lift_elapsed += delta
 		if velocity.y >= 0.0 and _has_visual_animation(&"received_seiya_two_fall"):
@@ -409,7 +423,8 @@ func update_knockback(delta: float) -> void:
 
 	if is_on_floor() and velocity.y >= -ground_landing_velocity_threshold:
 		if special_headfirst_enabled: _begin_special_headfirst_impact()
-		else: enter_knockdown()
+		else:
+			if not _try_begin_ground_bounce(): enter_knockdown()
 
 
 func _start_special_flight_trail() -> void:
@@ -433,6 +448,7 @@ func enter_knockdown() -> void:
 		reset_knockdown_state()
 		return
 
+	ground_bounce_phase = ""
 	knockdown_state = &"KNOCKDOWN"
 	if (special_backflip_enabled or special_headfirst_enabled) and animated_character_sprite != null:
 		animated_character_sprite.rotation = 0.0
@@ -493,6 +509,7 @@ func update_get_up(delta: float) -> void:
 
 
 func finish_get_up() -> void:
+	_clear_ground_bounce()
 	special_backflip_enabled = false
 	special_headfirst_enabled = false
 	special_headfirst_phase = ""
@@ -532,6 +549,7 @@ func restore_sprite_transform() -> void:
 
 
 func reset_knockdown_state() -> void:
+	_clear_ground_bounce()
 	directional_throw_down_remaining = 0.0
 	seiya_followup_owner = null
 	seiya_followup_sequence = -1
@@ -580,7 +598,7 @@ func _cache_special_reaction_edge_padding() -> void:
 	special_reaction_edge_padding = Vector2.ZERO
 	if last_special_knockback_animation == &"" or animated_character_sprite == null: return
 	var sprite := animated_character_sprite
-	for clip in [last_special_knockback_animation, last_knockdown_animation]:
+	for clip in [last_special_knockback_animation, last_knockdown_animation, &"wall_hit", &"wall_fall", &"ground_impact", &"ground_bounce"]:
 		if not _has_visual_animation(clip): continue
 		for index in range(sprite.sprite_frames.get_frame_count(clip)):
 			var texture := sprite.sprite_frames.get_frame_texture(clip,index)
@@ -672,7 +690,11 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 	special_wall_start_y = global_position.y
 	last_special_wall_animation = _get_special_received_animation(attack_data,"wall")
 	last_special_wall_fall_animation = _get_special_received_animation(attack_data,"fall")
-	if not _has_visual_animation(last_special_wall_animation): last_special_wall_animation = last_damage_animation
+	if not _has_visual_animation(last_special_wall_animation):
+		last_special_wall_animation = &"wall_hit" if _has_visual_animation(&"wall_hit") else last_damage_animation
+	if not _has_visual_animation(last_special_wall_fall_animation) and _has_visual_animation(&"wall_fall"):
+		last_special_wall_fall_animation = &"wall_fall"
+	_cache_special_reaction_edge_padding()
 	velocity.x = special_wall_speed * special_wall_direction
 
 func _enter_special_wall_impact() -> void:
@@ -898,3 +920,33 @@ func _update_special_headfirst_ground(delta: float) -> void:
 	if special_headfirst_timer == 0.0:
 		special_headfirst_phase = "down"
 		enter_knockdown()
+
+
+func _clear_ground_bounce() -> void:
+	ground_bounces_remaining = 0
+	ground_bounce_contacts = 0
+	ground_bounce_velocity = Vector2.ZERO
+	ground_bounce_phase = ""
+	ground_bounce_timer = 0.0
+
+
+func _configure_ground_bounce(count: int, force: Vector2) -> void:
+	_clear_ground_bounce()
+	if current_hp <= 0 or not _has_visual_animation(&"ground_bounce") or not _has_visual_animation(&"ground_impact"):
+		return
+	ground_bounces_remaining = clampi(count,0,1)
+	ground_bounce_velocity = Vector2(clampf(force.x,-80.0,80.0),-clampf(absf(force.y),80.0,200.0))
+
+
+func _try_begin_ground_bounce() -> bool:
+	if ground_bounces_remaining <= 0 or current_hp <= 0:
+		return false
+	ground_bounces_remaining -= 1
+	ground_bounce_contacts += 1
+	ground_bounce_phase = "impact"
+	ground_bounce_timer = 0.07
+	velocity = Vector2.ZERO
+	set_hurtbox_enabled(false)
+	_spawn_knockdown_impact_effect(global_position)
+	_start_hit_stop_seconds(0.025)
+	return true

@@ -25,3 +25,5 @@
 2026-10-04 dive checkpoint: AKKY/Crusher dedicated Down+Air K startup/contact/landing now connected; shared 0.32s punishable landing recovery and delayed observed-recovery AI selection. See DIVE_KICK_CHECKPOINT.md for tests and evidence boundaries. Remaining receiver and special-guard motion coverage still pending.
 
 2026-10-04 special guard checkpoint: three dedicated grounded guard phases for both actors, receiver-data mapping and opt-in guard-stun synchronization. Air guard retained. Runtime receiver sources inventoried in PAIR_REACTION_INVENTORY.json; wall/ground-bounce and high/low/heavy hit review remain. See SPECIAL_GUARD_REACTION_CHECKPOINT.md.
+
+2026-10-04 wall/bounce checkpoint: both dedicated wall_hit/wall_fall and ground_impact/ground_bounce atlases connected. Down throws have one bounded bounce before existing down/wake-up. See WALL_BOUNCE_REACTION_CHECKPOINT.md for verification boundaries. High/low/heavy receiver coverage remains pending.

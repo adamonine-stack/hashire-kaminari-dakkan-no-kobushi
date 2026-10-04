@@ -1653,6 +1653,8 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		"launch_velocity": Vector2(attack_data.launch_velocity),
 		"causes_knockdown": bool(attack_data.knockdown),
 		"hit_reaction": StringName(attack_data.hit_reaction),
+		"ground_bounces": int(attack_data.ground_bounces),
+		"ground_bounce_velocity": Vector2(attack_data.ground_bounce_velocity),
 		"counter_hitstun_bonus": float(attack_data.counter_hitstun_bonus),
 		"hitstun_time": float(attack_data.hitstun_time),
 		"is_guardable": bool(attack_data.is_guardable),

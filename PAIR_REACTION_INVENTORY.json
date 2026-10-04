@@ -96,8 +96,13 @@
       ]
     },
     "ground_bounce": {
-      "exists": false,
-      "frames": []
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.png"
+        }
+      ]
     },
     "knockback": {
       "exists": false,
@@ -171,8 +176,13 @@
       "frames": []
     },
     "wall_hit": {
-      "exists": false,
-      "frames": []
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_wall_hit.png"
+        }
+      ]
     }
   },
   "player_01_akky": {
@@ -296,8 +306,13 @@
       ]
     },
     "ground_bounce": {
-      "exists": false,
-      "frames": []
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_ground_bounce.png"
+        }
+      ]
     },
     "knockback": {
       "exists": true,
@@ -415,8 +430,13 @@
       ]
     },
     "wall_hit": {
-      "exists": false,
-      "frames": []
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_wall_hit.png"
+        }
+      ]
     }
   }
 }

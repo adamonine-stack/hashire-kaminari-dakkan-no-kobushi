@@ -28,3 +28,6 @@ throw_victim_prepare_animation = &"directional_throw_held"
 throw_victim_air_animation = &"throw_victim_down_air"
 throw_victim_down_animation = &"throw_victim_slam_down"
 throw_release_offset = Vector2(0, -32)
+
+ground_bounces = 1
+ground_bounce_velocity = Vector2(0, -160)

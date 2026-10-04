@@ -2812,6 +2812,9 @@ func clear_victory_pose() -> void:
 
 
 func _get_current_visual_animation() -> StringName:
+	if _is_knockdown_state(&"KNOCKBACK") and String(get("ground_bounce_phase")) in ["impact","air"]:
+		var bounce_clip: StringName = &"ground_impact" if String(get("ground_bounce_phase")) == "impact" else &"ground_bounce"
+		if _has_visual_animation(bounce_clip): return bounce_clip
 	if _is_knockdown_state(&"KNOCKBACK") and bool(get("special_headfirst_enabled")) and String(get("special_headfirst_phase")) in ["fall","head_impact","collapse"]:
 		var headfirst_clip := StringName(get("last_special_headfirst_fall_animation"))
 		if _has_visual_animation(headfirst_clip): return headfirst_clip
