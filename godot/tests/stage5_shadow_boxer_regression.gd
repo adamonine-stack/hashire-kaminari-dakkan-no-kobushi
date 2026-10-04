@@ -32,6 +32,15 @@ func run() -> void:
 	check(manager.STAGE_DEFINITIONS[4].enemy_definition.fighter_id == &"enemy_02_shadow_boxer", "Stage 5 points to Shadow Boxer")
 	check(stage.enemy_definition.fighter_id == &"enemy_02_shadow_boxer", "Stage 5 resource points to Shadow Boxer")
 
+	# Regression for the published progression bug: after the first four opponents
+	# are defeated, the next opponent must be Stage 5 instead of ending the run.
+	for index in range(4):
+		manager.enemy_team[index]["is_defeated"] = true
+		manager.enemy_team[index]["current_health"] = 0
+	manager.current_enemy_index = 3
+	check(manager.get_next_enemy_index() == 4, "Stage 4 clear advances to Stage 5")
+	check(manager._stage_definition_for_enemy_index(4).stage_number == 5, "Stage 5 definition resolves after Stage 4")
+
 	check(definition.motion_atlas != null and definition.motion_atlas.texture.get_size() == Vector2(2560,2048), "Stage 5 uses the measured complete-pose atlas")
 	# Authored-atlas fighters deliberately do not materialize the legacy source
 	# sheet during battle setup on mobile Web. Keep validating that the fallback
