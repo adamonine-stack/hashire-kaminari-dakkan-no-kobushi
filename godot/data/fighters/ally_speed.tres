@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=15 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -9,8 +9,6 @@
 [ext_resource type="Resource" path="res://data/attacks/player3_special_clear_counter.tres" id="7_special"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/portrait.png" id="8_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/icon.png" id="9_icon"]
-[ext_resource type="Texture2D" path="res://assets/characters/player03/battle.png" id="10_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/player03/sprite_sheet.png" id="11_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/shadow.png" id="12_shadow"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/selection_portrait.png" id="13_selection_portrait"]
 
@@ -25,9 +23,9 @@ fighter_scene = ExtResource("2_player")
 selection_portrait = ExtResource("13_selection_portrait")
 selection_icon = ExtResource("9_icon")
 portrait = ExtResource("8_portrait")
-battle_texture = ExtResource("10_battle")
+battle_texture_path = "res://assets/characters/player03/battle.png"
 icon = ExtResource("9_icon")
-sprite_sheet = ExtResource("11_sheet")
+sprite_sheet_path = "res://assets/characters/player03/sprite_sheet.png"
 motion_atlas_path = "res://assets/characters/player03/animations/seiya_v2/motion_atlas.tres"
 sprite_sheet_format = &"authored_atlas"
 sprite_body_height_px = 195.0
