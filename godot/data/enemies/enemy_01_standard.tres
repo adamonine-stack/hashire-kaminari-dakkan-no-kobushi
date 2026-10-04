@@ -13,16 +13,6 @@
 
 [ext_resource type="Resource" path="res://data/attacks/crusher_fault_break.tres" id="reversal"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres" id="received_akky"]
-
-[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres" id="received_gou"]
-
-[ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_01_standard/motion_atlas.tres" id="received_seiya"]
-
-[ext_resource type="Resource" path="res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.tres" id="crusher_reversal"]
-
-[ext_resource type="Resource" path="res://assets/characters/seiya_two_received_v1/enemy_01_standard/motion_atlas.tres" id="seiya_two_received"]
-
 [resource]
 script = ExtResource("1_def")
 fighter_id = &"enemy_01_crusher"
@@ -151,5 +141,5 @@ combo_rating = 1
 
 reversal_attack = ExtResource("reversal")
 
-extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("crusher_reversal"), ExtResource("seiya_two_received")])
+extra_motion_atlas_paths = Array[String](["res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_seiya_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.tres", "res://assets/characters/seiya_two_received_v1/enemy_01_standard/motion_atlas.tres"])
 special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "received_akky_elbow_wall", "fall": "received_akky_elbow_fall"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}

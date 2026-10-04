@@ -30,7 +30,27 @@ class_name FighterDefinition
 @export var combat_geometry_scale: float = 1.0
 @export var body_width_scale: float = 1.0
 @export var head_scale: float = 1.0
-@export var extra_motion_atlases: Array[Resource] = []
+## Heavy received-special/reversal atlases may be stored as paths so Web builds
+## do not keep every campaign fighter's optional motion textures resident at
+## battle-scene startup. The existing Resource array remains supported for
+## backwards compatibility and is populated on first access when paths exist.
+@export var extra_motion_atlas_paths: Array[String] = []
+@export var extra_motion_atlases: Array[Resource] = []:
+	get:
+		if extra_motion_atlases.is_empty() and not extra_motion_atlas_paths.is_empty():
+			for atlas_path in extra_motion_atlas_paths:
+				if atlas_path.is_empty():
+					continue
+				var atlas := ResourceLoader.load(
+					atlas_path,
+					"Resource",
+					ResourceLoader.CACHE_MODE_IGNORE_DEEP
+				)
+				if atlas != null:
+					extra_motion_atlases.append(atlas)
+				else:
+					push_warning("Failed to lazy-load extra motion atlas: %s" % atlas_path)
+		return extra_motion_atlases
 ## attack_id -> {hit, airborne, down}: poses belong to this receiving fighter.
 @export var special_damage_reactions: Dictionary = {}
 @export var aura_attack: Resource
