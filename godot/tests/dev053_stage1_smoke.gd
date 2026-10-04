@@ -60,7 +60,7 @@ func _run_stage1_smoke() -> void:
 	assert(String(stage_1.enemy_dialogues.get("player_03_seiya", "")) != "")
 
 	# Stage 1 uses an unlimited timer: the Stage1 manager must not decrement it.
-	var initial_round_time := manager.roundTime
+	var initial_round_time: int = int(manager.roundTime)
 	manager.flow_state = BattleManager.BattleState.BATTLE
 	manager.currentBattleState = BattleManager.BattleState.BATTLE
 	manager.isRoundActive = true
