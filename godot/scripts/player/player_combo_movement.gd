@@ -462,9 +462,9 @@ func _get_throw_target() -> Node:
 	return target
 
 
-func _connect_throw(target: Node) -> void:
+func _connect_throw(target: Node, damage_override: int = -1) -> void:
 	if directional_throw_data == null:
-		super._connect_throw(target)
+		super._connect_throw(target, damage_override)
 		return
 	directional_throw_victim_origin = target.global_position
 	var saved_damage := throw_damage
@@ -479,7 +479,7 @@ func _connect_throw(target: Node) -> void:
 	throw_hold_time = directional_throw_data.throw_hold_seconds
 	throw_knockback = directional_throw_data.throw_velocity.x
 	throw_vertical_force = directional_throw_data.throw_velocity.y
-	super._connect_throw(target)
+	super._connect_throw(target, damage_override)
 	throw_damage = saved_damage
 	throw_hold_time = saved_hold
 	throw_knockback = saved_force
