@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/battle_ui_input.gd" id="1_battle_ui_input"]
-[ext_resource type="Script" path="res://ui/battle/battle_hud.gd" id="2_battle_hud"]
+[ext_resource type="Script" path="res://ui/battle/battle_hud_lazy_resource_adapter.gd" id="2_battle_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/mobile_controls.tscn" id="3_mobile_controls"]
 
 [node name="UI" type="CanvasLayer"]
