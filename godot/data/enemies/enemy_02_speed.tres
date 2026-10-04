@@ -5,10 +5,7 @@
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_02_speed_ai.tres" id="3_ai"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/portrait.png" id="4_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/icon.png" id="5_icon"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy02/battle.png" id="6_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy02/shadow.png" id="8_shadow"]
-[ext_resource type="Resource" path="res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.tres" id="9_motion"]
 
 [ext_resource type="Resource" path="res://data/attacks/shadow_slip_counter.tres" id="reversal"]
 
@@ -22,10 +19,10 @@ fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
 selection_icon = ExtResource("5_icon")
 portrait = ExtResource("4_portrait")
-battle_texture = ExtResource("6_battle")
+battle_texture_path = "res://assets/characters/enemy02/battle.png"
 icon = ExtResource("5_icon")
-sprite_sheet = ExtResource("7_sheet")
-motion_atlas = ExtResource("9_motion")
+sprite_sheet_path = "res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.png"
+motion_atlas_path = "res://assets/characters/enemy05/animations/shadow_boxer_v2/motion_atlas.tres"
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy02/"
 battle_sprite_height = 174.78516
