@@ -1272,9 +1272,16 @@ func _select_situation_move() -> String:
 	if not _profile_bool(&"use_situation_moves", false):
 		return ""
 	var opponent := _get_opponent()
-	if opponent == null or not is_on_floor() or not opponent.is_on_floor():
+	if opponent == null or not is_on_floor():
 		return ""
 	var distance := evaluate_distance()
+	if not opponent.is_on_floor():
+		if situation_observed_state != "air" or situation_observed_time < _profile_float(&"move_observation_seconds", 0.22):
+			return ""
+		for move in attack_data_sequence:
+			if move != null and move.ai_tags.has("anti_air") and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+				return String(move.attack_id)
+		return ""
 	var tag := "close" if distance < 65.0 else ("middle" if distance <= 130.0 else "approach")
 	if situation_observed_time >= _profile_float(&"move_observation_seconds", 0.22):
 		if situation_observed_state == "recovery":

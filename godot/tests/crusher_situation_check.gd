@@ -89,7 +89,10 @@ func run() -> void:
   reset_pair()
   player.global_position.y = 390
   player.move_and_slide()
-  check(enemy._select_situation_move().is_empty(),"unsupported anti-air not fabricated")
+  check(enemy._select_situation_move().is_empty(),"unobserved airborne opponent does not trigger frame-perfect counter")
+  enemy._observe_situation_state(.3)
+  enemy._observe_situation_state(.3)
+  check(enemy._select_situation_move() == "crusher_back_punch","observed air selects authored anti-air after reaction delay")
  var crusher_scale: Vector2 = enemy.animated_character_sprite.scale
  var hits: Array[String] = []
  enemy.attack_hit.connect(func(id,_target): hits.append(String(id)))
