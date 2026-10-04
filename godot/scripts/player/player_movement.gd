@@ -148,6 +148,7 @@ var victory_pose_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var special_guard_animation: StringName = &""
+var special_guard_duration := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var guard_motion_timer := 0.0
@@ -1313,6 +1314,8 @@ func _get_hit_position(target: Node) -> Vector2:
 
 
 func _cancel_current_action() -> void:
+	special_guard_animation = &""
+	special_guard_duration = 0.0
 	landing_recovery_remaining = 0.0
 	if has_method("clear_pending_air_landing"):
 		call("clear_pending_air_landing")
@@ -1386,6 +1389,7 @@ func _apply_knockback(attack_data: Dictionary, attack_direction: float) -> void:
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
+	_select_special_guard_reaction(attack_data)
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
 	_set_punch_hitbox_active(false)
@@ -1402,6 +1406,7 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	var authored_guard_time := float(attack_data.get("guard_hit_time", guard_hit_timer))
 	var guarded_attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	guard_hit_timer = authored_guard_time if guarded_attack_type == "special" or guarded_attack_type == "ultimate" else minf(authored_guard_time, 0.09)
+	special_guard_duration = guard_hit_timer if special_guard_animation != &"" else 0.0
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
 	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
@@ -1423,7 +1428,7 @@ func _enter_guard_hit_state() -> void:
 	is_hit = false
 	guard_hit_timer = guard_hit_time
 	guard_motion_state = "hit_stun"
-	_play_visual_animation(&"air_guard_hit" if not is_on_floor() and _has_visual_animation(&"air_guard_hit") else (&"crouch_guard" if is_crouch_guarding else &"guard_hit"), true)
+	_play_visual_animation(_get_current_visual_animation(), true)
 
 
 func _get_guard_damage(damage: int) -> int:
@@ -1825,6 +1830,8 @@ func _update_guard_hit(delta: float) -> void:
 		return
 
 	is_guard_hit = false
+	special_guard_animation = &""
+	special_guard_duration = 0.0
 	_clear_guard_state()
 	if input_enabled:
 		_update_defensive_state(0.0)
@@ -2997,7 +3004,7 @@ func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName
 
 func _get_special_received_animation(attack_data: Dictionary, reaction_phase: String) -> StringName:
 	if not bool(attack_data.get("is_special", false)): return &""
-	if attack_data.has("seiya_two_hit_stage"):
+	if reaction_phase != "guard" and attack_data.has("seiya_two_hit_stage"):
 		var stage := int(attack_data.seiya_two_hit_stage)
 		var pose := "down" if reaction_phase == "down" else ("lift" if stage == 0 else "fly")
 		var dedicated := StringName("received_seiya_two_"+pose)
@@ -3034,6 +3041,7 @@ func _update_visual_state() -> void:
 	_sync_single_character_visual()
 	_update_pose_collision()
 	_play_visual_animation(_get_current_visual_animation())
+	_sync_special_guard_pose()
 	_apply_character_visual_pose()
 
 	if not debug_state_label_enabled:
@@ -3131,3 +3139,26 @@ func _draw() -> void:
 func _is_shadow_boxer() -> bool:
 	var definition: Resource = get("fighter_definition")
 	return definition != null and String(definition.get("fighter_id")) == "enemy_02_shadow_boxer"
+
+
+func _select_special_guard_reaction(attack_data: Dictionary) -> void:
+	special_guard_duration = 0.0
+	special_guard_animation = _get_special_received_animation(attack_data, "guard")
+	if special_guard_animation == &"" and bool(attack_data.get("is_special", false)):
+		special_guard_animation = StringName(attack_data.get("special_guard_reaction", &"special_guard"))
+
+
+func _sync_special_guard_pose() -> void:
+	if not is_guard_hit or special_guard_duration <= 0.0 or animated_character_sprite == null:
+		return
+	# Opt-in per fighter; legacy guard clips keep their authored playback.
+	var definition: Resource = get("fighter_definition")
+	if definition == null or not definition.sync_special_guard_to_stun:
+		return
+	if animated_character_sprite.animation != &"special_guard":
+		return
+	var count := animated_character_sprite.sprite_frames.get_frame_count(&"special_guard")
+	if count != 3: return
+	var progress := clampf(1.0-guard_hit_timer/special_guard_duration,0.0,0.9999)
+	animated_character_sprite.pause()
+	animated_character_sprite.set_frame_and_progress(int(progress*count),0.0)

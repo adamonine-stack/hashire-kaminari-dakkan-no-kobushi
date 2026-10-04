@@ -1155,7 +1155,7 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
-	special_guard_animation = StringName(attack_data.get("special_guard_reaction", &""))
+	_select_special_guard_reaction(attack_data)
 	reset_attack_state(false)
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
@@ -1175,6 +1175,7 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	var authored_guard_time := float(attack_data.get("guard_hit_time", guard_hit_timer))
 	var guarded_attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	guard_hit_timer = authored_guard_time if guarded_attack_type == "special" or guarded_attack_type == "ultimate" else minf(authored_guard_time, 0.09)
+	special_guard_duration = guard_hit_timer if special_guard_animation != &"" else 0.0
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
 	if has_method("gain_special_gauge_from_damage"):
