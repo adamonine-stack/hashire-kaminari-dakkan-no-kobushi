@@ -6,3 +6,5 @@ Full combat expansion remains incomplete. Next planned work is directional throw
 後続の方向投げ基盤/Contactと残作業は DIRECTIONAL_THROW_PHASE_REPORT.md。
 
 方向投げの専用Release/Victim/着地clipと同期検証は THROW_MOTION_PHASE_REPORT.md。次工程はAir/Launcher/Cancel接続とCrusher側戦闘体系。
+
+AKKY Launcher->Jump->Air P->Air Kの接続は AIR_COMBO_PHASE_REPORT.md。次工程はCrusher側方向技/Situation AI。専用Air P/急降下素材とLanding Recoveryは残作業。

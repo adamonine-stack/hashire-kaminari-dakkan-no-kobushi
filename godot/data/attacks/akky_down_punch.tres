@@ -32,6 +32,6 @@ counter_hitstun_bonus = 0.0
 attack_height = "middle"
 cancel_start = 0.28
 cancel_end = 0.41
-cancel_targets = Array[String](["akky_forward_punch"])
+cancel_targets = Array[String](["akky_forward_punch", "jump"])
 guard_hit_time = 0.16
 guard_knockback = Vector2(65, 0)

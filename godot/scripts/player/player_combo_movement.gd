@@ -83,6 +83,7 @@ var air_kick_attack_data: Resource
 var air_punch_down_attack_data: Resource
 var crouch_kick_sweep_attack_data: Resource
 var has_used_air_attack := false
+var jump_combo_pending := false
 var is_air_attack_active := false
 var jump_kick_air_control_multiplier := 0.65
 var ai_jump_launch_pending := false
@@ -166,8 +167,10 @@ func _physics_process(delta: float) -> void:
 	_update_visual_state()
 	move_and_slide()
 	_apply_post_move_stabilization()
-	if not was_on_floor_before_move and is_on_floor() and _is_air_attack_currently_active():
-		_finish_air_attack_on_landing()
+	if not was_on_floor_before_move and is_on_floor():
+		jump_combo_pending = false
+		if _is_air_attack_currently_active():
+			_finish_air_attack_on_landing()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
@@ -181,7 +184,7 @@ func _sample_combat_commands(delta: float) -> void:
 	if not input_enabled or not is_round_active or current_hp <= 0:
 		combat_commands.clear()
 		return
-	for entry in [["left", "move_left"], ["right", "move_right"], ["down", "down"], ["punch", "attack"], ["kick", "kick"], ["throw", "throw_attack"]]:
+	for entry in [["left", "move_left"], ["right", "move_right"], ["down", "down"], ["punch", "attack"], ["kick", "kick"], ["throw", "throw_attack"], ["jump", "jump"]]:
 		combat_commands.record(entry[0], Input.is_action_pressed(entry[1]), facing_direction)
 	combat_commands.record("special", Input.is_action_pressed("special_attack") or Input.is_action_pressed("special"), facing_direction)
 
@@ -195,6 +198,10 @@ func _dispatch_combat_command() -> void:
 		try_continue_combo()
 		return
 	last_combat_command = command.duplicate()
+	if command.kind == "jump":
+		if _request_jump_cancel():
+			combat_commands.consume(command)
+		return
 	var move_id := _resolve_directional_move(command)
 	if not move_id.is_empty():
 		# A directional command never falls back to a normal attack when its
@@ -230,9 +237,9 @@ func _resolve_directional_move(command: Dictionary) -> String:
 	var best_id := ""
 	var best_priority := -2147483648
 	for move in attack_data_sequence:
-		if move == null or String(move.command_direction).is_empty():
+		if move == null or (String(move.command_direction).is_empty() and not bool(move.airborne_only)):
 			continue
-		if String(move.command_direction) != String(command.direction) or String(move.attack_type).to_lower() != String(command.kind):
+		if (String(move.command_direction) != "any" and String(move.command_direction) != String(command.direction)) or String(move.attack_type).to_lower() != String(command.kind):
 			continue
 		if bool(move.ground_only) and not is_on_floor():
 			continue
@@ -274,11 +281,39 @@ func _request_directional_move(move_id: String, is_ai_request := false) -> bool:
 				return false
 		elif not _can_start_attack_from_input(_attack_type_to_state_name(String(move.attack_type)), is_ai_request):
 			return false
-		start_attack(move_id)
-		if bool(move.airborne_only):
-			is_air_attack_active = true
-			has_used_air_attack = true
+		if bool(move.airborne_only) and jump_combo_pending and combo_count > 0:
+			start_combo_attack(StringName(move_id))
+		else:
+			start_attack(move_id)
+		jump_combo_pending = false
+	if bool(move.airborne_only) and current_attack_id == move_id:
+		is_air_attack_active = true
+		has_used_air_attack = true
 	return current_attack_id == move_id
+
+
+func _request_jump_cancel(is_ai_request := false) -> bool:
+	if not is_on_floor() or current_attack_data == null or not _can_accept_attack_input(is_ai_request):
+		return false
+	if not current_attack_data.cancel_targets.has("jump") or not current_attack_data.can_cancel_on_hit or not dev_current_attack_connected:
+		return false
+	if command_attack_elapsed < current_attack_data.cancel_start or command_attack_elapsed > current_attack_data.cancel_end:
+		return false
+	if combo_count >= dev026_max_combo_hits:
+		return false
+	reset_attack_state(false)
+	close_combo_window()
+	is_crouching = false
+	jump_combo_pending = true
+	has_used_air_attack = false
+	jump_pressed_this_airtime = true
+	_prepare_jump_visual_state()
+	velocity.y = -jump_power
+	var direction := _get_horizontal_input_direction()
+	if direction != 0.0:
+		velocity.x = direction * jump_horizontal_speed
+	_play_audio_manager_se("jump")
+	return true
 
 
 func _update_air_movement(direction: float, delta: float) -> void:
@@ -1466,6 +1501,7 @@ func _get_combo_knockback_scale_for_hit(hit_index: int) -> float:
 
 
 func interrupt_combo() -> void:
+	jump_combo_pending = false
 	reset_attack_state(false)
 	clear_attack_buffer()
 	close_combo_window()
@@ -1887,6 +1923,7 @@ func _is_air_attack_currently_active() -> bool:
 func _finish_air_attack_on_landing() -> void:
 	finish_attack()
 	has_used_air_attack = false
+	jump_combo_pending = false
 	_play_visual_animation(&"jump_land", true)
 
 
