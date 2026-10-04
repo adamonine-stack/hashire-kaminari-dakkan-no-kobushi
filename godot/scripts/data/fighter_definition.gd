@@ -1,14 +1,14 @@
 extends Resource
 class_name FighterDefinition
 
-# Keep only the two most recently requested primary authored atlases alive.
-# This is intentionally a very small LRU cache: it prevents animation-state
-# changes from repeatedly decoding the same large atlas during a fight, while
-# still allowing completed enemy stages to fall out of memory as the campaign
-# advances on memory-constrained mobile Web devices.
-static var _runtime_motion_atlas_cache: Dictionary = {}
-static var _runtime_motion_atlas_lru: Array[String] = []
-const RUNTIME_MOTION_ATLAS_CACHE_LIMIT := 2
+# Akky's authored atlas is a direct source texture (not a measured/repacked
+# atlas). SpriteFrames already keep that Texture2D alive for the active player,
+# so retaining this lightweight Resource wrapper does not add another texture
+# copy. It prevents animation-state checks from repeatedly decoding the same
+# ~25 MB RGBA atlas on mobile Web. Enemy atlases remain non-retained so prior
+# campaign stages can still release their heavy source art.
+static var _akky_runtime_motion_atlas: Resource
+static var _akky_runtime_motion_atlas_path := ""
 
 @export var fighter_id: StringName
 @export var display_name: String
@@ -67,9 +67,19 @@ const RUNTIME_MOTION_ATLAS_CACHE_LIMIT := 2
 		if motion_atlas != null:
 			return motion_atlas
 		if not motion_atlas_path.is_empty():
-			var loaded := _load_runtime_motion_atlas(motion_atlas_path)
+			if fighter_id == &"player_01_akky" and _akky_runtime_motion_atlas_path == motion_atlas_path and _akky_runtime_motion_atlas != null:
+				return _akky_runtime_motion_atlas
+			var loaded := ResourceLoader.load(
+				motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
 			if loaded == null:
 				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
+				return null
+			if fighter_id == &"player_01_akky":
+				_akky_runtime_motion_atlas_path = motion_atlas_path
+				_akky_runtime_motion_atlas = loaded
 			return loaded
 		return null
 @export var supplemental_motion_atlas: Resource:
@@ -204,32 +214,3 @@ const RUNTIME_MOTION_ATLAS_CACHE_LIMIT := 2
 @export_range(1, 5) var health_rating: int = 3
 @export_range(1, 5) var throw_rating: int = 3
 @export_range(1, 5) var combo_rating: int = 3
-
-
-static func _load_runtime_motion_atlas(path: String) -> Resource:
-	if _runtime_motion_atlas_cache.has(path):
-		_touch_runtime_motion_atlas(path)
-		return _runtime_motion_atlas_cache[path] as Resource
-
-	var loaded := ResourceLoader.load(
-		path,
-		"Resource",
-		ResourceLoader.CACHE_MODE_IGNORE_DEEP
-	)
-	if loaded == null:
-		return null
-
-	_runtime_motion_atlas_cache[path] = loaded
-	_touch_runtime_motion_atlas(path)
-	while _runtime_motion_atlas_lru.size() > RUNTIME_MOTION_ATLAS_CACHE_LIMIT:
-		var evicted_path := _runtime_motion_atlas_lru.pop_front()
-		if evicted_path != path:
-			_runtime_motion_atlas_cache.erase(evicted_path)
-	return loaded
-
-
-static func _touch_runtime_motion_atlas(path: String) -> void:
-	var existing_index := _runtime_motion_atlas_lru.find(path)
-	if existing_index >= 0:
-		_runtime_motion_atlas_lru.remove_at(existing_index)
-	_runtime_motion_atlas_lru.append(path)
