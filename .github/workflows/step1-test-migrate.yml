@@ -1,0 +1,35 @@
+name: STEP1 migrate lazy-resource tests
+
+on:
+  push:
+    branches:
+      - agent/battle-resource-residency-step1-20261004
+    paths:
+      - ".github/workflows/step1-test-migrate.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/battle-resource-residency-step1-20261004
+          fetch-depth: 0
+      - name: Update test references
+        run: python3 tools/step1_update_lazy_resource_tests.py
+      - name: Commit migrated tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- godot/tests; then
+            echo "No test changes needed"
+            exit 0
+          fi
+          git add godot/tests
+          git commit -m "Update tests for lazy battle resources"
+          git push origin HEAD:agent/battle-resource-residency-step1-20261004
