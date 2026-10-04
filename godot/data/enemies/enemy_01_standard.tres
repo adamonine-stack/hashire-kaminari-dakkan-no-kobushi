@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=37 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=38 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -51,6 +51,8 @@
 
 [ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_forward.tres" id="crusher_throw_forward_art"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_forward_throw.tres" id="move_forward_throw"]
+
+[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_air_guard.tres" id="dedicated_air_guard"]
 
 [resource]
 script = ExtResource("1_def")
@@ -180,7 +182,7 @@ combo_rating = 1
 
 reversal_attack = ExtResource("reversal")
 
-extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("crusher_reversal"), ExtResource("seiya_two_received"), ExtResource("directional_throw_art"), ExtResource("directional_throw_release_art"), ExtResource("dedicated_upper"), ExtResource("dedicated_air_received"), ExtResource("dedicated_launcher"), ExtResource("dedicated_forward_kick"), ExtResource("dedicated_back_kick"), ExtResource("crusher_throw_grab"), ExtResource("crusher_throw_neutral_art"), ExtResource("crusher_throw_forward_art")])
+extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("crusher_reversal"), ExtResource("seiya_two_received"), ExtResource("directional_throw_art"), ExtResource("directional_throw_release_art"), ExtResource("dedicated_upper"), ExtResource("dedicated_air_received"), ExtResource("dedicated_launcher"), ExtResource("dedicated_forward_kick"), ExtResource("dedicated_back_kick"), ExtResource("crusher_throw_grab"), ExtResource("crusher_throw_neutral_art"), ExtResource("crusher_throw_forward_art"), ExtResource("dedicated_air_guard")])
 special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "received_akky_elbow_wall", "fall": "received_akky_elbow_fall"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}
 
 attack_sequence = Array[Resource]([ExtResource("move_neutral_punch"), ExtResource("move_neutral_kick"), ExtResource("move_forward_punch"), ExtResource("move_forward_kick"), ExtResource("move_back_kick"), ExtResource("move_down_kick"), ExtResource("move_back_punch"), ExtResource("move_down_punch"), ExtResource("move_neutral_throw"), ExtResource("move_forward_throw")])

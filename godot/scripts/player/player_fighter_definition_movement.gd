@@ -97,6 +97,8 @@ var repeated_action_count := 0
 var ai_state := EnemyAIState.DISABLED
 var ai_enabled := false
 var ai_reaction_timer := 0.0
+var ai_air_guard_observed := 0.0
+var ai_air_guard_decided := false
 var situation_observed_state := ""
 var situation_observed_time := 0.0
 var ai_selected_move_id := ""
@@ -867,9 +869,9 @@ func enter_guard() -> void:
 	_set_ai_state(EnemyAIState.GUARD)
 	ai_guard_type = _choose_ai_guard_type_against_player()
 	is_guarding = true
-	is_crouch_guarding = ai_guard_type == "low"
+	is_crouch_guarding = is_on_floor() and ai_guard_type == "low"
 	is_crouching = false
-	guard_type = ai_guard_type
+	guard_type = ai_guard_type if is_on_floor() else "air"
 	ai_guard_timer = randf_range(_profile_float(&"guard_time_min", 0.30), _profile_float(&"guard_time_max", 0.75))
 	ai_guard_minimum_timer = minf(ai_guard_timer, 0.20)
 	_face_opponent()
@@ -900,6 +902,8 @@ func enter_jump() -> void:
 	if not (opponent is Node2D):
 		enter_idle()
 		return
+	ai_air_guard_observed = 0.0
+	ai_air_guard_decided = false
 	_set_ai_state(EnemyAIState.JUMP)
 	_face_opponent()
 	ai_jump_direction = signf(opponent.global_position.x - global_position.x)
@@ -996,16 +1000,42 @@ func update_approach(delta: float) -> void:
 	_move_ai(direction, _profile_float(&"approach_speed_multiplier", 1.0), delta)
 
 
+func _try_ai_air_guard(delta: float) -> bool:
+	if is_on_floor():
+		ai_air_guard_observed = 0.0
+		ai_air_guard_decided = false
+		return false
+	if ai_air_guard_decided or current_attack_type != "" or not can_choose_guard():
+		return false
+	var opponent := _get_opponent()
+	if opponent == null or not _is_player_attack_threatening(opponent):
+		ai_air_guard_observed = 0.0
+		return false
+	ai_air_guard_observed += delta
+	if ai_air_guard_observed < maxf(_profile_float(&"reaction_time_min", 0.20), 0.12):
+		return false
+	# One decision per jump, using visible attacks rather than input events.
+	ai_air_guard_decided = true
+	if not _profile_bool(&"can_guard", true) or randf() > _profile_float(&"reactive_guard_rate", 0.45):
+		return false
+	enter_guard()
+	return is_guarding
+
+
 func update_jump(delta: float) -> void:
 	if current_hp <= 0 or not is_round_active:
 		return
 	if is_on_floor():
 		velocity.x = 0.0
 		ai_jump_direction = 0.0
+		ai_air_guard_observed = 0.0
+		ai_air_guard_decided = false
 		ai_jump_attack_plan = &""
 		ai_jump_attack_used = false
 		ai_action_finished.emit("jump")
 		enter_idle()
+		return
+	if _try_ai_air_guard(delta):
 		return
 	var desired_speed := ai_jump_direction * jump_horizontal_speed * _profile_float(&"jump_forward_speed_multiplier", 0.80)
 	velocity.x = move_toward(velocity.x, desired_speed, air_control_acceleration * delta * 0.35)
@@ -1948,9 +1978,9 @@ func _update_ai_guard_state(delta: float) -> void:
 	ai_guard_timer = maxf(ai_guard_timer - delta, 0.0)
 	ai_guard_minimum_timer = maxf(ai_guard_minimum_timer - delta, 0.0)
 	is_guarding = true
-	is_crouch_guarding = ai_guard_type == "low"
+	is_crouch_guarding = is_on_floor() and ai_guard_type == "low"
 	is_crouching = false
-	guard_type = ai_guard_type
+	guard_type = ai_guard_type if is_on_floor() else "air"
 	if ai_guard_timer == 0.0 and ai_guard_minimum_timer == 0.0:
 		_clear_guard_state()
 		ai_action_finished.emit("guard")

@@ -515,6 +515,9 @@ func _update_defensive_state(delta := 0.0) -> void:
 	guard_motion_timer = maxf(guard_motion_timer - delta, 0.0)
 	crouch_motion_timer = maxf(crouch_motion_timer - delta, 0.0)
 
+	# Preserve air blockstun until its timer expires; releasing G cannot cancel it.
+	if is_guard_hit and not is_on_floor():
+		return
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
 		crouch_motion_state = "none"
@@ -531,7 +534,7 @@ func _update_defensive_state(delta := 0.0) -> void:
 		is_crouching = false
 		crouch_motion_state = "none"
 		crouch_motion_timer = 0.0
-		guard_type = "low" if is_crouch_guarding else "high"
+		guard_type = "air" if not is_on_floor() else ("low" if is_crouch_guarding else "high")
 		if not was_guarding:
 			guard_motion_state = "enter"
 		elif guard_motion_state != "enter":
@@ -1411,7 +1414,7 @@ func _enter_guard_hit_state() -> void:
 	is_hit = false
 	guard_hit_timer = guard_hit_time
 	guard_motion_state = "hit_stun"
-	_play_visual_animation(&"crouch_guard" if is_crouch_guarding else &"guard_hit", true)
+	_play_visual_animation(&"air_guard_hit" if not is_on_floor() and _has_visual_animation(&"air_guard_hit") else (&"crouch_guard" if is_crouch_guarding else &"guard_hit"), true)
 
 
 func _get_guard_damage(damage: int) -> int:
@@ -1441,9 +1444,9 @@ func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) ->
 func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 	if not bool(attack_data.get("is_guardable", true)):
 		return false
-	if not can_guard or not is_round_active or is_guard_hit:
+	if not can_guard or not is_round_active or current_hp <= 0 or (is_guard_hit and is_on_floor()):
 		return false
-	if is_hit or is_invincible or not is_on_floor():
+	if is_hit or is_invincible or _is_throw_busy():
 		return false
 	if attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return false
@@ -1451,6 +1454,8 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 		return false
 	if not _is_facing_attacker(attacker):
 		return false
+	if not is_on_floor():
+		return str(attack_data.get("attack_height", "middle")) != "throw" and str(attack_data.get("attack_type", "")) != "throw"
 	return _is_attack_height_guardable(str(attack_data.get("attack_height", "middle")))
 
 
@@ -1473,7 +1478,7 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 
 func _can_start_guard_or_crouch() -> bool:
-	return can_guard and is_round_active and is_on_floor() and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
+	return can_guard and is_round_active and current_hp > 0 and not (has_method("_is_knockdown_busy") and call("_is_knockdown_busy")) and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
 
 
 func _can_guard_back_walk() -> bool:
@@ -1617,6 +1622,8 @@ func _choose_ai_combo_attack() -> StringName:
 
 
 func _update_ai_guard(delta: float) -> void:
+	if is_guard_hit and not is_on_floor():
+		return
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
 		ai_guard_timer = 0.0
@@ -2849,6 +2856,8 @@ func _get_current_visual_animation() -> StringName:
 	if is_throw_escaping:
 		return &"getup"
 	if is_guard_hit:
+		if not is_on_floor() and _has_visual_animation(&"air_guard_hit"):
+			return &"air_guard_hit"
 		if _has_visual_animation(special_guard_animation):
 			return special_guard_animation
 		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
@@ -2889,10 +2898,10 @@ func _get_current_visual_animation() -> StringName:
 	if is_crouch_guarding:
 		return &"crouch_guard"
 	if is_guarding:
-		return &"guard"
+		return &"air_guard" if not is_on_floor() and _has_visual_animation(&"air_guard") else &"guard"
 	if guard_motion_state == "crouch_release" and guard_motion_timer > 0.0:
 		return &"crouch_guard_release"
-	if guard_motion_state == "release" and guard_motion_timer > 0.0:
+	if guard_motion_state == "release" and guard_motion_timer > 0.0 and is_on_floor():
 		return &"guard_release"
 	if not is_on_floor():
 		if uses_animated_character_art and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_01_akky" and velocity.y >= -80.0:
