@@ -93,13 +93,24 @@ func _prepare_backdrop_texture(backdrop_id: StringName) -> void:
 		_:
 			var texture_path := String(BACKDROP_TEXTURE_PATHS.get(backdrop_id, ""))
 			if not texture_path.is_empty():
-				_backdrop_texture = ResourceLoader.load(texture_path, "Texture2D") as Texture2D
+				# Do not leave completed stage backgrounds in the global resource cache.
+				# On iPhone 13 the Stage 5 -> 6 transition otherwise overlaps two large
+				# decoded PNGs with Rio's authored motion atlas.
+				_backdrop_texture = ResourceLoader.load(
+					texture_path,
+					"Texture2D",
+					ResourceLoader.CACHE_MODE_IGNORE_DEEP
+				) as Texture2D
 
 	# Preserve the previous visual fallback without keeping Stage 1 resident
 	# during the whole campaign.
 	if _backdrop_texture == null and backdrop_id != &"downtown_street":
 		var fallback_path := String(BACKDROP_TEXTURE_PATHS[&"downtown_street"])
-		_backdrop_texture = ResourceLoader.load(fallback_path, "Texture2D") as Texture2D
+		_backdrop_texture = ResourceLoader.load(
+			fallback_path,
+			"Texture2D",
+			ResourceLoader.CACHE_MODE_IGNORE_DEEP
+		) as Texture2D
 
 	_loaded_backdrop_id = backdrop_id
 
