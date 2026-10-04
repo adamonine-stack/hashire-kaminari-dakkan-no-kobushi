@@ -12,9 +12,31 @@ class_name FighterDefinition
 
 @export_group("Official Art Assets")
 @export var portrait: Texture2D
-@export var battle_texture: Texture2D
+@export var battle_texture_path: String = ""
+@export var sprite_sheet_path: String = ""
+@export var battle_texture: Texture2D:
+	get:
+		if battle_texture == null and not battle_texture_path.is_empty():
+			battle_texture = ResourceLoader.load(
+				battle_texture_path,
+				"Texture2D",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			) as Texture2D
+			if battle_texture == null:
+				push_warning("Failed to lazy-load battle texture: %s" % battle_texture_path)
+		return battle_texture
 @export var icon: Texture2D
-@export var sprite_sheet: Texture2D
+@export var sprite_sheet: Texture2D:
+	get:
+		if sprite_sheet == null and not sprite_sheet_path.is_empty():
+			sprite_sheet = ResourceLoader.load(
+				sprite_sheet_path,
+				"Texture2D",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			) as Texture2D
+			if sprite_sheet == null:
+				push_warning("Failed to lazy-load sprite sheet: %s" % sprite_sheet_path)
+		return sprite_sheet
 ## Heavy authored motion atlases can be stored as paths so Web builds do not
 ## keep every campaign fighter's combat textures resident at battle startup.
 ## Direct Resource assignments remain supported for backwards compatibility.
