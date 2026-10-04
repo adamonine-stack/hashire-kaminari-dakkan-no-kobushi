@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 root = Path(__file__).resolve().parents[1]
 tests = root / "godot" / "tests"
@@ -14,6 +15,11 @@ for path in tests.rglob("*.gd"):
     updated = text
     for old, new in replacements.items():
         updated = updated.replace(old, new)
+    updated = re.sub(
+        r"([A-Za-z_][A-Za-z0-9_]*)\.STAGE_DEFINITIONS\[(\d+)\]",
+        r"\1._stage_definition_for_enemy_index(\2)",
+        updated,
+    )
     if updated != text:
         path.write_text(updated, encoding="utf-8")
         changed.append(str(path.relative_to(root)))
