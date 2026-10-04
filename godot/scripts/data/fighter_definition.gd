@@ -1,14 +1,15 @@
 extends Resource
 class_name FighterDefinition
 
-# Akky's authored atlas is a direct source texture (not a measured/repacked
-# atlas). SpriteFrames already keep that Texture2D alive for the active player,
-# so retaining this lightweight Resource wrapper does not add another texture
+# Keep only the currently selected player's primary authored atlas alive.
+# SpriteFrames already keep that Texture2D alive for the active player, so
+# retaining this lightweight Resource wrapper does not add another texture
 # copy. It prevents animation-state checks from repeatedly decoding the same
-# ~25 MB RGBA atlas on mobile Web. Enemy atlases remain non-retained so prior
-# campaign stages can still release their heavy source art.
-static var _akky_runtime_motion_atlas: Resource
-static var _akky_runtime_motion_atlas_path := ""
+# large authored atlas on mobile Web. Switching players replaces this single
+# slot, while enemy atlases remain non-retained so completed campaign stages
+# can still release their heavy source art.
+static var _active_player_motion_atlas: Resource
+static var _active_player_motion_atlas_path := ""
 
 @export var fighter_id: StringName
 @export var display_name: String
@@ -67,8 +68,9 @@ static var _akky_runtime_motion_atlas_path := ""
 		if motion_atlas != null:
 			return motion_atlas
 		if not motion_atlas_path.is_empty():
-			if fighter_id == &"player_01_akky" and _akky_runtime_motion_atlas_path == motion_atlas_path and _akky_runtime_motion_atlas != null:
-				return _akky_runtime_motion_atlas
+			var is_selectable_player := String(fighter_id).begins_with("player_")
+			if is_selectable_player and _active_player_motion_atlas_path == motion_atlas_path and _active_player_motion_atlas != null:
+				return _active_player_motion_atlas
 			var loaded := ResourceLoader.load(
 				motion_atlas_path,
 				"Resource",
@@ -77,9 +79,9 @@ static var _akky_runtime_motion_atlas_path := ""
 			if loaded == null:
 				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
 				return null
-			if fighter_id == &"player_01_akky":
-				_akky_runtime_motion_atlas_path = motion_atlas_path
-				_akky_runtime_motion_atlas = loaded
+			if is_selectable_player:
+				_active_player_motion_atlas_path = motion_atlas_path
+				_active_player_motion_atlas = loaded
 			return loaded
 		return null
 @export var supplemental_motion_atlas: Resource:
