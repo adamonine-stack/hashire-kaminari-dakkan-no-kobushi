@@ -1,0 +1,79 @@
+{
+  "pack_bytes": 117063792,
+  "assets": [
+    {
+      "status": 200,
+      "asset": "game-08083b78e7f7.js"
+    },
+    {
+      "status": 200,
+      "asset": "game-08083b78e7f7.wasm"
+    },
+    {
+      "status": 200,
+      "asset": "game-08083b78e7f7.pck"
+    },
+    {
+      "status": 200,
+      "asset": "game-08083b78e7f7.audio.worklet.js"
+    },
+    {
+      "status": 200,
+      "asset": "game-08083b78e7f7.audio.position.worklet.js"
+    }
+  ],
+  "public_url": "https://adamonine-stack.github.io/hashire-kaminari-dakkan-no-kobushi/",
+  "godot_config": {
+    "args": [],
+    "canvasResizePolicy": 2,
+    "emscriptenPoolSize": 8,
+    "ensureCrossOriginIsolationHeaders": true,
+    "executable": "game-08083b78e7f7",
+    "experimentalVK": false,
+    "fileSizes": {
+      "game-08083b78e7f7.pck": 117063792,
+      "game-08083b78e7f7.wasm": 39509339
+    },
+    "focusCanvas": true,
+    "gdextensionLibs": [],
+    "godotPoolSize": 4
+  },
+  "pages_run": 37125923169,
+  "browser_canvas": "Unverified: browser inventory empty; iab unavailable",
+  "pack_sha256": "fcd0478e55f013edeeb03605ce654ff5790cbbc0a82c7d3779e043e46a2333a1",
+  "pr": 170,
+  "release_commit": "08083b78e7f70e113e92886836e6e6173156be17",
+  "packed-special-headless.log": {
+    "failures": [],
+    "errors": [],
+    "warnings": [],
+    "packed_project_binary": "main-pack supplied; native wrappers assert project.binary"
+  },
+  "packed-damage-native.log": {
+    "failures": [],
+    "errors": [],
+    "warnings": [],
+    "packed_project_binary": true
+  },
+  "packed-special-native.log": {
+    "failures": [],
+    "errors": [],
+    "warnings": [],
+    "packed_project_binary": true
+  },
+  "packed_native_damage": {
+    "frames": 291,
+    "capture_calls": 129,
+    "failures": []
+  },
+  "packed_native_special": {
+    "capture_calls": 50,
+    "unique_pngs": 44,
+    "failures": [],
+    "scope": "24 natural outcomes, 6 mutual queue-order trades, AI, airborne and down refusal; base54 also headless"
+  },
+  "rejected_attempts": [
+    "GPU shader cache reused between native processes caused startup failure; fresh isolated APPDATA successful",
+    "Quick QA wrapper omitted current_scene assignment; corrected to match original test setup; final run clean"
+  ]
+}

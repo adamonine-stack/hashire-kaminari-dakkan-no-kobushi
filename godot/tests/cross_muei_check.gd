@@ -94,7 +94,8 @@ func run() -> void:
 								await capture(prefix+"_"+String(reaction))
 						if tick>30 and actor.throw_state.is_empty() and victim.knockdown_state==&"" and not victim.is_hit: break
 					check(held_frames>0 and seen.has("THROW_RECOVERY") and (seen.has(&"cross_muei_air") and seen.has(&"cross_muei_down") if special else seen.has(&"cross_react_shoulder") or seen.has(&"cross_react_reap")),"grip release flight landing sequence "+prefix)
-					check(victim.current_hp==hp-actor.throw_damage,"unchanged throw damage "+prefix)
+					var expected_damage: int = int(actor._get_character_special_attack_dictionary()["damage"]) if special else actor.throw_damage
+					check(victim.current_hp==hp-expected_damage,"dedicated special or unchanged ordinary throw damage "+prefix)
 					check(not actor.cross_muei_throw_active,"dedicated flag clears "+prefix)
 					if special: check(actor.special_gauge<100,"special consumes gauge "+prefix)
 					cases_checked += 1
@@ -130,7 +131,15 @@ func run() -> void:
 					check(not victim.is_throw_locked and not victim.is_throw_escape_pending,"grip lock clears after "+mode)
 					await capture("stage%d_%s_%d_complete" % [stage+1,mode,direction])
 				cases_checked += 1
+	await extra_reversal_checks(manager,actor,victim)
 	print("CROSS_MUEI_RESULT cases=%d screenshots=%d failures=%s" % [cases_checked,screenshots,failures])
+	for audio in root.find_children("*","AudioStreamPlayer",true,false):audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false):audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
+
+func extra_reversal_checks(_manager: Node,_actor: Node,_victim: Node) -> void:
+	pass

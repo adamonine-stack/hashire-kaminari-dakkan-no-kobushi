@@ -1,0 +1,147 @@
+{
+  "reference": "art_sources/rei_reversal_v1/references/rei.png",
+  "method": "Individual reviewed originals; idle opaque body area; fixed canvas and floor baseline; unchanged runtime scale",
+  "baseline": 343,
+  "frames": [
+    {
+      "file": "rei_00_anticipation.png",
+      "sha256": "b23feb82abd5bd0311f056ab5460ad54211c8832b61ae06da0e549561e78f216",
+      "density": 0.21552604703608197,
+      "origin": [
+        182,
+        164
+      ],
+      "size": [
+        148,
+        179
+      ],
+      "relative_body_area": 0.996048876856662
+    },
+    {
+      "file": "rei_01_load.png",
+      "sha256": "81966930c90d75665a20d4cfb22996c6e32cadbc3f664e340ce5cd14c382a425",
+      "density": 0.21123123406834085,
+      "origin": [
+        178,
+        169
+      ],
+      "size": [
+        157,
+        174
+      ],
+      "relative_body_area": 1.002926757883954
+    },
+    {
+      "file": "rei_02_coil.png",
+      "sha256": "91c81533981ef752761fbac9aec2713416ab05e3127334d26560009e4d5197de",
+      "density": 0.20514235216864027,
+      "origin": [
+        180,
+        168
+      ],
+      "size": [
+        153,
+        175
+      ],
+      "relative_body_area": 1.00190239262457
+    },
+    {
+      "file": "rei_03_rise.png",
+      "sha256": "e510408b55488e2d16b89f2d144f4571a73d917c604017d9b996d63362df7ea7",
+      "density": 0.20204453852929402,
+      "origin": [
+        182,
+        138
+      ],
+      "size": [
+        149,
+        205
+      ],
+      "relative_body_area": 1.0005853515767908
+    },
+    {
+      "file": "rei_04_impact.png",
+      "sha256": "e6f8717ea8dab7bb78a08a190939ac829998172dcf38c3eec97a73e2d037d158",
+      "density": 0.19846177265746875,
+      "origin": [
+        183,
+        116
+      ],
+      "size": [
+        146,
+        227
+      ],
+      "relative_body_area": 0.9940733152849931
+    },
+    {
+      "file": "rei_05_return.png",
+      "sha256": "fcaca3fc927e0446a46467935efd8c743ab49e8a9ff2462f27247faaeeb54208",
+      "density": 0.20331745442101945,
+      "origin": [
+        182,
+        142
+      ],
+      "size": [
+        148,
+        201
+      ],
+      "relative_body_area": 1.0040242920904368
+    },
+    {
+      "file": "rei_06_recover.png",
+      "sha256": "cc1c6e07158c1c49561105bc07309c7f41e8a5f6d1f47997b95635fef470cb8f",
+      "density": 0.206410412527531,
+      "origin": [
+        176,
+        150
+      ],
+      "size": [
+        160,
+        193
+      ],
+      "relative_body_area": 0.9967805663276506
+    },
+    {
+      "file": "rei_07_finish.png",
+      "sha256": "85ba84c4ced51abb21e9700615601131bd2ce8d0f12871d9def7b43b086c3e0e",
+      "density": 0.20443976691198074,
+      "origin": [
+        174,
+        149
+      ],
+      "size": [
+        165,
+        194
+      ],
+      "relative_body_area": 0.9999268310529011
+    },
+    {
+      "file": "rei_prebattle.png",
+      "sha256": "26e7351a15b9b9274068e689ad6bb34b00e8b1c44018103d3dbc6b97fa3fc00f",
+      "density": 1.1419188359920822,
+      "origin": [
+        184,
+        141
+      ],
+      "size": [
+        145,
+        202
+      ],
+      "relative_body_area": 1.0
+    },
+    {
+      "file": "rei_idle.png",
+      "sha256": "45a6b72e6690dddd6801083342730d201fd17610d7fa7ed533b69312aeb1a8d6",
+      "density": 1.0,
+      "origin": [
+        186,
+        136
+      ],
+      "size": [
+        141,
+        207
+      ],
+      "relative_body_area": 1.0
+    }
+  ]
+}

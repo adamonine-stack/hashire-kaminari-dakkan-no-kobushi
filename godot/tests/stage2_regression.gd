@@ -51,9 +51,9 @@ func run() -> void:
 	check(manager.STAGE_DEFINITIONS.size() == 9, "campaign structure contains nine stage definitions")
 	check(manager.validate_enemy_definitions(), "all eight implemented enemy roster IDs and orders remain valid")
 	check(manager.enemy_order[1] == &"enemy_04_rei_kageyama", "Rei occupies stage 2")
-	check(int(manager.player_team[0]["max_health"]) == 50, "Akky maximum HP is reduced to 50")
-	check(int(manager.player_team[1]["max_health"]) == 65, "Gou maximum HP is reduced to 65")
-	check(int(manager.player_team[2]["max_health"]) == 46, "Seiya maximum HP is reduced to 46")
+	check(int(manager.player_team[0]["max_health"]) == 100, "Akky maximum HP is 100")
+	check(int(manager.player_team[1]["max_health"]) == 120, "Gou maximum HP is 120")
+	check(int(manager.player_team[2]["max_health"]) == 90, "Seiya maximum HP is 90")
 	manager.player_team[1]["current_health"] = 40
 	manager.player_team[2]["current_health"] = 30
 	await manager.select_player_by_id(String(manager.player_team[0].fighter_id))
@@ -78,8 +78,8 @@ func run() -> void:
 			break
 	check(manager.current_enemy_index == 1 and manager.flow_state == manager.BattleState.NEXT_PLAYER, "Crusher KO opens stage 2 fighter selection")
 	check(int(manager.player_team[0]["current_health"]) == active_hp_before_win, "stage 1 fighter does not recover after winning")
-	check(int(manager.player_team[1]["current_health"]) == 53, "resting Gou recovers 20 percent of campaign max HP")
-	check(int(manager.player_team[2]["current_health"]) == 39, "resting Seiya recovers 20 percent of campaign max HP")
+	check(int(manager.player_team[1]["current_health"]) == 64, "resting Gou recovers 20 percent of campaign max HP")
+	check(int(manager.player_team[2]["current_health"]) == 48, "resting Seiya recovers 20 percent of campaign max HP")
 	await manager.select_player_by_id(String(manager.player_team[1].fighter_id))
 	for i in range(480):
 		await physics_frame
@@ -87,8 +87,8 @@ func run() -> void:
 			break
 	check(manager.current_enemy_index == 1 and manager.isRoundActive, "selected fighter starts Rei stage")
 	check(not manager.isBattleFinished, "stage 1 no longer prematurely clears campaign")
-	check(int(manager.player_team[1]["current_health"]) == 53, "fighter selection preserves Gou saved HP")
-	check(int(player.current_hp) == 53, "new fighter spawns with saved HP instead of previous fighter HP")
+	check(int(manager.player_team[1]["current_health"]) == 64, "fighter selection preserves Gou saved HP")
+	check(int(player.current_hp) == 64, "new fighter spawns with saved HP instead of previous fighter HP")
 	check(enemy.visible, "stage 2 enemy is visible after stage transition")
 	check(enemy.fighter_definition.fighter_id == &"enemy_04_rei_kageyama", "active fighter is Rei")
 	var hud := battle.get_node("UI/BattleUIRoot/BattleHUD")
@@ -145,7 +145,7 @@ func run() -> void:
 	enemy.ai_enabled = true
 	enemy.set_special_gauge(100)
 	check(enemy.request_character_special(true), "Rei can spend gauge on dragon uppercut")
-	check(sprite.animation == &"special_startup", "purple charge telegraph")
+	check(sprite.animation == &"rei_uppercut_startup", "dedicated three-frame uppercut telegraph")
 	enemy.enter_character_special_active()
 	check(enemy.character_special_state == enemy.CharacterSpecialState.ACTIVE, "dragon uppercut active")
 	enemy.enter_character_special_recovery()

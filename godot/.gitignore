@@ -19,3 +19,7 @@ builds/
 # User-provided theme audio is never included in source commits by default.
 audio/local_music/
 audio/music/st_action_theme.*
+
+# OGG publication explicitly authorized on 2026-10-03.
+!audio/music/st_action_theme.ogg
+!audio/music/st_action_theme.ogg.import

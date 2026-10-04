@@ -246,7 +246,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for test in special_reversal_check akky_reversal_motion_check akky_wall_launch_check gou_reversal_presentation_check seiya_somersault_check crusher_reversal_presentation_check; do
+          for test in special_reversal_check special_ai_situation_check special_grapple_guard_check cross_motion_integrity_check cross_stage4_reversal_check cross_stage4_damage_check cross_received_akky_check cross_received_gou_check cross_received_seiya_check akky_reversal_motion_check akky_wall_launch_check gou_reversal_presentation_check seiya_somersault_check crusher_reversal_presentation_check rei_reversal_presentation_check teki_reversal_presentation_check teki_damage_presentation_check teki_received_akky_check teki_received_gou_check teki_received_seiya_check combat_pose_flow_check; do
             timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/$test.log"
             grep -Fq 'failures=[]' "/tmp/$test.log"
             if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/$test.log"; then exit 1; fi
@@ -310,6 +310,13 @@ jobs:
           timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage7_8_motion_atlas.gd 2>&1 | tee /tmp/stage7-8-motion.log
           grep -q "STAGE7_8_MOTION_ATLAS_OK.*fixed_scale=true night_backdrops=true" /tmp/stage7-8-motion.log
 
+      - name: Verify published main theme and audio transitions
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "$GODOT_PROJECT_DIR/audio/music/st_action_theme.ogg"
+          timeout 180s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/theme_music_check.gd 2>&1 | tee /tmp/theme-music.log
+          grep -F 'failures=[]' /tmp/theme-music.log
       - name: Export Web build
         shell: bash
         run: |

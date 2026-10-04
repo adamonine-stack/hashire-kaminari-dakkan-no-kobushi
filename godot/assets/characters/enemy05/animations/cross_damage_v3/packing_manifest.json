@@ -1,0 +1,315 @@
+{
+  "reference": "art_sources/cross_stage4_v3/references/cross.png",
+  "method": "Individual reviewed poses; bent-knee prone anatomy; down width <= 1.30x formal idle height; fixed runtime transform/floor. Compact prone overlap mass 0.90, Akky supine overlap mass 0.85.",
+  "baseline": 349,
+  "frames": [
+    {
+      "file": "cross_hit.png",
+      "sha256": "75f256783c79cd243f2d15ff535b7ce66ff1405018796999cfc61ec4b1d2fe00",
+      "density": 0.9997870301328208,
+      "origin": [
+        180,
+        151
+      ],
+      "size": [
+        152,
+        198
+      ],
+      "relative_body_area": 1.0004260758414998
+    },
+    {
+      "file": "cross_air.png",
+      "sha256": "2486c4cdbb054d313dff27f5f4e12998e3ccdc6df49c3c1eaa146c3e2a6345d3",
+      "density": 1.0017086727539815,
+      "origin": [
+        144,
+        193
+      ],
+      "size": [
+        225,
+        156
+      ],
+      "relative_body_area": 0.9965913932680017
+    },
+    {
+      "file": "cross_down.png",
+      "sha256": "19f66e2e43d632bbe637367a063940ea77fe6473d761544519836fcb5154619f",
+      "density": 0.20862158027543365,
+      "origin": [
+        122,
+        272
+      ],
+      "size": [
+        268,
+        77
+      ],
+      "relative_body_area": 0.9049140747052975
+    },
+    {
+      "file": "cross_rise.png",
+      "sha256": "dd11d4a5d3c8e5c9c3e91e50ca9502f5d1fc6064042c0723be8284af65da1f98",
+      "density": 0.9975942793990715,
+      "origin": [
+        170,
+        218
+      ],
+      "size": [
+        171,
+        131
+      ],
+      "relative_body_area": 1.0048288595369976
+    },
+    {
+      "file": "cross_crouch.png",
+      "sha256": "e5e79d3af4e69d4bb1373219bf16b7d757b9ad0e4f39e606eb6f7a7efbe1c4c9",
+      "density": 1.0010312763893467,
+      "origin": [
+        186,
+        189
+      ],
+      "size": [
+        140,
+        160
+      ],
+      "relative_body_area": 0.9979406334327511
+    },
+    {
+      "file": "cross_idle.png",
+      "sha256": "e9342b6e36893572fb6c2eb23dd54cefb9310fb8ece04fe7e13e79fc96f21d46",
+      "density": 1.0,
+      "origin": [
+        178,
+        137
+      ],
+      "size": [
+        155,
+        212
+      ],
+      "relative_body_area": 1.0
+    },
+    {
+      "file": "cross_guard.png",
+      "sha256": "a42d12f654f4537357c3e5600c6f05f999b9fcb6b209faa7ee4eb9ba7d377ad1",
+      "density": 0.9784544122830525,
+      "origin": [
+        172,
+        141
+      ],
+      "size": [
+        167,
+        208
+      ],
+      "relative_body_area": 0.998082658713251
+    },
+    {
+      "file": "cross_low_hit.png",
+      "sha256": "b2624e440a70da3266180b1e95626119055fb690569a6b5ed42ed0ef1f3aac0f",
+      "density": 0.2265218225126452,
+      "origin": [
+        170,
+        158
+      ],
+      "size": [
+        171,
+        191
+      ],
+      "relative_body_area": 1.0027694929697486
+    },
+    {
+      "file": "cross_received_akky_elbow_air_00.png",
+      "sha256": "895fcadcfbb80a50a1edbd52c6b9255b679e0b07abed7888dd987f7cd22f8db0",
+      "density": 0.9997515483821172,
+      "origin": [
+        161,
+        142
+      ],
+      "size": [
+        190,
+        207
+      ],
+      "relative_body_area": 1.0004970884817497
+    },
+    {
+      "file": "cross_received_akky_elbow_air_01.png",
+      "sha256": "d6f531652bcd1ff43913e1020f890efc63126c83293bf638bbe9838cac61b3b1",
+      "density": 0.9974885441680446,
+      "origin": [
+        133,
+        214
+      ],
+      "size": [
+        246,
+        135
+      ],
+      "relative_body_area": 1.0012072148842495
+    },
+    {
+      "file": "cross_received_akky_elbow_down_00.png",
+      "sha256": "595a7a316f6d38631fb07dc592caf2256f9d69c7811eced91ae22ea9e823339e",
+      "density": 0.9241225938657439,
+      "origin": [
+        119,
+        267
+      ],
+      "size": [
+        274,
+        82
+      ],
+      "relative_body_area": 0.8455475074563272
+    },
+    {
+      "file": "cross_received_akky_elbow_fall_00.png",
+      "sha256": "895fcadcfbb80a50a1edbd52c6b9255b679e0b07abed7888dd987f7cd22f8db0",
+      "density": 0.9997515483821172,
+      "origin": [
+        161,
+        142
+      ],
+      "size": [
+        190,
+        207
+      ],
+      "relative_body_area": 1.0004970884817497
+    },
+    {
+      "file": "cross_received_akky_elbow_hit_00.png",
+      "sha256": "895fcadcfbb80a50a1edbd52c6b9255b679e0b07abed7888dd987f7cd22f8db0",
+      "density": 0.9997515483821172,
+      "origin": [
+        161,
+        142
+      ],
+      "size": [
+        190,
+        207
+      ],
+      "relative_body_area": 1.0004970884817497
+    },
+    {
+      "file": "cross_received_akky_elbow_wall_00.png",
+      "sha256": "d6f531652bcd1ff43913e1020f890efc63126c83293bf638bbe9838cac61b3b1",
+      "density": 0.9974885441680446,
+      "origin": [
+        133,
+        214
+      ],
+      "size": [
+        246,
+        135
+      ],
+      "relative_body_area": 1.0012072148842495
+    },
+    {
+      "file": "cross_received_gou_breaker_air_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_gou_breaker_hit_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_seiya_somersault_air_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_seiya_somersault_fall_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_seiya_somersault_hit_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_seiya_two_fall_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_seiya_two_fly_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    },
+    {
+      "file": "cross_received_seiya_two_lift_00.png",
+      "sha256": "14c091ca1880b0dbd43f12e1c7751999b296a739b34cf03d88c3b081dc1e961d",
+      "density": 1.1103044529719837,
+      "origin": [
+        182,
+        109
+      ],
+      "size": [
+        147,
+        240
+      ],
+      "relative_body_area": 1.0066041755432467
+    }
+  ]
+}

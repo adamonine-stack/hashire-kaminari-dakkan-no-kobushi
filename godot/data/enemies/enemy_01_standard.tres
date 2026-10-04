@@ -1,31 +1,20 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=51 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_01_standard_ai.tres" id="3_ai"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/portrait.png" id="4_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/icon.png" id="5_icon"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy01/battle.png" id="6_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy01/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/shadow.png" id="8_shadow"]
-[ext_resource type="Resource" path="res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.tres" id="9_motion"]
-[ext_resource type="Resource" path="res://assets/characters/enemy01/animations/crusher_v1/air_attack_atlas.tres" id="10_air_motion"]
 
 [ext_resource type="Resource" path="res://data/attacks/crusher_fault_break.tres" id="reversal"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres" id="received_akky"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres" id="received_gou"]
 
-[ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_01_standard/motion_atlas.tres" id="received_seiya"]
 
-[ext_resource type="Resource" path="res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.tres" id="crusher_reversal"]
 
-[ext_resource type="Resource" path="res://assets/characters/seiya_two_received_v1/enemy_01_standard/motion_atlas.tres" id="seiya_two_received"]
 
-[ext_resource type="Resource" path="res://assets/characters/directional_throw_v1/crusher.tres" id="directional_throw_art"]
 
-[ext_resource type="Resource" path="res://assets/characters/directional_throw_v2/crusher.tres" id="directional_throw_release_art"]
 
 [ext_resource type="Resource" path="res://data/attacks/crusher_neutral_punch.tres" id="move_neutral_punch"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_neutral_kick.tres" id="move_neutral_kick"]
@@ -34,45 +23,26 @@
 [ext_resource type="Resource" path="res://data/attacks/crusher_back_kick.tres" id="move_back_kick"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_down_kick.tres" id="move_down_kick"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_upper.tres" id="dedicated_upper"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_back_punch.tres" id="move_back_punch"]
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_air.tres" id="dedicated_air_received"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_launcher.tres" id="dedicated_launcher"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_down_punch.tres" id="move_down_punch"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_forward_kick.tres" id="dedicated_forward_kick"]
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_back_kick.tres" id="dedicated_back_kick"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_grab.tres" id="crusher_throw_grab"]
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_neutral.tres" id="crusher_throw_neutral_art"]
 
 [ext_resource type="Resource" path="res://data/attacks/crusher_neutral_throw.tres" id="move_neutral_throw"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_forward.tres" id="crusher_throw_forward_art"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_forward_throw.tres" id="move_forward_throw"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_air_guard.tres" id="dedicated_air_guard"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_down.tres" id="crusher_throw_down_art"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_down_throw.tres" id="move_down_throw"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_back.tres" id="crusher_throw_back_art"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_back_throw.tres" id="move_back_throw"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_dive_kick.tres" id="dedicated_dive_kick"]
 [ext_resource type="Resource" path="res://data/attacks/crusher_dive_kick.tres" id="move_dive_kick"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_special_guard.tres" id="dedicated_special_guard"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_wall_hit.tres" id="dedicated_wall_hit"]
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.tres" id="dedicated_ground_bounce"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.tres" id="dedicated_heavy_hit"]
 
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_light_hit.tres" id="dedicated_light_hit"]
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_high_hit.tres" id="dedicated_high_hit"]
-[ext_resource type="Resource" path="res://assets/characters/dedicated_pair_v1/crusher_low_hit.tres" id="dedicated_low_hit"]
 
 [resource]
 script = ExtResource("1_def")
@@ -84,11 +54,11 @@ fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
 selection_icon = ExtResource("5_icon")
 portrait = ExtResource("4_portrait")
-battle_texture = ExtResource("6_battle")
+battle_texture_path = "res://assets/characters/enemy01/battle.png"
 icon = ExtResource("5_icon")
-sprite_sheet = ExtResource("7_sheet")
-motion_atlas = ExtResource("9_motion")
-supplemental_motion_atlas = ExtResource("10_air_motion")
+sprite_sheet_path = "res://assets/characters/enemy01/sprite_sheet.png"
+motion_atlas_path = "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.tres"
+supplemental_motion_atlas_path = "res://assets/characters/enemy01/animations/crusher_v1/air_attack_atlas.tres"
 shadow_texture = ExtResource("8_shadow")
 art_folder = "res://assets/characters/enemy01/"
 battle_sprite_height = 174.78516
@@ -202,7 +172,7 @@ combo_rating = 1
 
 reversal_attack = ExtResource("reversal")
 
-extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("crusher_reversal"), ExtResource("seiya_two_received"), ExtResource("directional_throw_art"), ExtResource("directional_throw_release_art"), ExtResource("dedicated_upper"), ExtResource("dedicated_air_received"), ExtResource("dedicated_launcher"), ExtResource("dedicated_forward_kick"), ExtResource("dedicated_back_kick"), ExtResource("crusher_throw_grab"), ExtResource("crusher_throw_neutral_art"), ExtResource("crusher_throw_forward_art"), ExtResource("dedicated_air_guard"), ExtResource("crusher_throw_down_art"), ExtResource("crusher_throw_back_art"), ExtResource("dedicated_dive_kick"), ExtResource("dedicated_special_guard"), ExtResource("dedicated_wall_hit"), ExtResource("dedicated_ground_bounce"), ExtResource("dedicated_heavy_hit"), ExtResource("dedicated_light_hit"), ExtResource("dedicated_high_hit"), ExtResource("dedicated_low_hit")])
+extra_motion_atlas_paths = Array[String](["res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_seiya_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.tres", "res://assets/characters/seiya_two_received_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/directional_throw_v1/crusher.tres", "res://assets/characters/directional_throw_v2/crusher.tres", "res://assets/characters/dedicated_pair_v1/crusher_upper.tres", "res://assets/characters/dedicated_pair_v1/crusher_air.tres", "res://assets/characters/dedicated_pair_v1/crusher_launcher.tres", "res://assets/characters/dedicated_pair_v1/crusher_forward_kick.tres", "res://assets/characters/dedicated_pair_v1/crusher_back_kick.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_grab.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_neutral.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_forward.tres", "res://assets/characters/dedicated_pair_v1/crusher_air_guard.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_down.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_back.tres", "res://assets/characters/dedicated_pair_v1/crusher_dive_kick.tres", "res://assets/characters/dedicated_pair_v1/crusher_special_guard.tres", "res://assets/characters/dedicated_pair_v1/crusher_wall_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.tres", "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_light_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_high_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_low_hit.tres"])
 sync_special_guard_to_stun = true
 special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "wall_hit", "fall": "wall_fall", "guard": "special_guard"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}
 

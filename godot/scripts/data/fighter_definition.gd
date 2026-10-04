@@ -16,11 +16,78 @@ class_name FighterDefinition
 
 @export_group("Official Art Assets")
 @export var portrait: Texture2D
-@export var battle_texture: Texture2D
+@export var battle_texture_path: String = ""
+@export var sprite_sheet_path: String = ""
+@export var battle_texture: Texture2D:
+	get:
+		if battle_texture != null:
+			return battle_texture
+		if not battle_texture_path.is_empty():
+			var loaded := ResourceLoader.load(
+				battle_texture_path,
+				"Texture2D",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			) as Texture2D
+			if loaded == null:
+				push_warning("Failed to lazy-load battle texture: %s" % battle_texture_path)
+			return loaded
+		return null
 @export var icon: Texture2D
-@export var sprite_sheet: Texture2D
-@export var motion_atlas: Resource
-@export var supplemental_motion_atlas: Resource
+@export var sprite_sheet: Texture2D:
+	get:
+		if sprite_sheet != null:
+			return sprite_sheet
+		# Path-backed authored atlases are authoritative. Loading sprite_sheet_path
+		# first would decode the same large atlas PNG a second time before the
+		# motion-atlas resource is built, creating a large mobile-Web memory spike.
+		if not motion_atlas_path.is_empty():
+			return null
+		if not sprite_sheet_path.is_empty():
+			var loaded := ResourceLoader.load(
+				sprite_sheet_path,
+				"Texture2D",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			) as Texture2D
+			if loaded == null:
+				push_warning("Failed to lazy-load sprite sheet: %s" % sprite_sheet_path)
+			return loaded
+		return null
+## Heavy authored motion atlases can be stored as paths so Web builds do not
+## keep every campaign fighter's combat textures resident at battle startup.
+## Direct Resource assignments remain supported for backwards compatibility.
+@export var motion_atlas_path: String = ""
+@export var supplemental_motion_atlas_path: String = ""
+@export var motion_atlas: Resource:
+	get:
+		if motion_atlas != null:
+			return motion_atlas
+		if not motion_atlas_path.is_empty():
+			# Do not retain path-loaded combat art on this definition. SpriteFrames
+			# owns the texture while the fighter is active; keeping it here as well
+			# makes completed campaign stages accumulate in Web memory.
+			var loaded := ResourceLoader.load(
+				motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if loaded == null:
+				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
+			return loaded
+		return null
+@export var supplemental_motion_atlas: Resource:
+	get:
+		if supplemental_motion_atlas != null:
+			return supplemental_motion_atlas
+		if not supplemental_motion_atlas_path.is_empty():
+			var loaded := ResourceLoader.load(
+				supplemental_motion_atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if loaded == null:
+				push_warning("Failed to lazy-load supplemental motion atlas: %s" % supplemental_motion_atlas_path)
+			return loaded
+		return null
 @export var shadow_texture: Texture2D
 @export var idle_pose_texture: Texture2D
 @export var prebattle_pose_texture: Texture2D
@@ -34,7 +101,31 @@ class_name FighterDefinition
 @export var combat_geometry_scale: float = 1.0
 @export var body_width_scale: float = 1.0
 @export var head_scale: float = 1.0
-@export var extra_motion_atlases: Array[Resource] = []
+## Heavy received-special/reversal atlases may be stored as paths so Web builds
+## do not keep every campaign fighter's optional motion textures resident at
+## battle-scene startup. The existing Resource array remains supported for
+## backwards compatibility. Path-backed atlases are returned for the active
+## setup call but are not retained here after SpriteFrames has taken ownership
+## of their textures, preventing completed stages from accumulating in memory.
+@export var extra_motion_atlas_paths: Array[String] = []
+@export var extra_motion_atlases: Array[Resource] = []:
+	get:
+		if not extra_motion_atlases.is_empty():
+			return extra_motion_atlases
+		var loaded_atlases: Array[Resource] = []
+		for atlas_path in extra_motion_atlas_paths:
+			if atlas_path.is_empty():
+				continue
+			var atlas := ResourceLoader.load(
+				atlas_path,
+				"Resource",
+				ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			)
+			if atlas != null:
+				loaded_atlases.append(atlas)
+			else:
+				push_warning("Failed to lazy-load extra motion atlas: %s" % atlas_path)
+		return loaded_atlases
 ## attack_id -> {hit, airborne, down}: poses belong to this receiving fighter.
 @export var special_damage_reactions: Dictionary = {}
 @export var sync_special_guard_to_stun := false

@@ -1,0 +1,36 @@
+{
+  "release_commit": "e2fd41a99990036961b1b480d1752d2c09ebad8f",
+  "implementation_commit": "1e24ac42afe6f18deb825c43786d1e1e603ec382",
+  "evidence_commit": "610998ecb7af61fbf7d7ea1fa835006a8e7e3fdb",
+  "pr": 168,
+  "pages_run": 37112817091,
+  "public_url": "https://adamonine-stack.github.io/hashire-kaminari-dakkan-no-kobushi/",
+  "godot_config": {
+    "args": [],
+    "canvasResizePolicy": 2,
+    "emscriptenPoolSize": 8,
+    "ensureCrossOriginIsolationHeaders": true,
+    "executable": "game-e2fd41a99990",
+    "experimentalVK": false,
+    "fileSizes": {
+      "game-e2fd41a99990.pck": 116390924,
+      "game-e2fd41a99990.wasm": 39509339
+    },
+    "focusCanvas": true,
+    "gdextensionLibs": [],
+    "godotPoolSize": 4
+  },
+  "pack_sha256": "4d53c6789e8eb764ffc510385f4d3f04c96eda7a0b7bd096cac162a8b87560f7",
+  "packed_headless_special": "failures=[]",
+  "packed_native_special": {
+    "screenshots": 111,
+    "failures": []
+  },
+  "packed_native_damage": {
+    "screenshots": 129,
+    "audited_frames": 190,
+    "failures": []
+  },
+  "browser_visual": "Not executed: CUA browser inventory empty; Edge and iab unavailable",
+  "native_renderer": "Godot 4.7 gl_compatibility, downloaded public PCK (project.binary=true), not browser canvas"
+}

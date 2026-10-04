@@ -1,0 +1,77 @@
+{
+  "reference": "art_sources/teki_reversal_v1/references/gou.png",
+  "method": "Reviewed individual poses; offline body-scale correction; fixed runtime transform and floor baseline; intentional prone overlap mass 0.85 for backflip receivers",
+  "baseline": 350,
+  "frames": [
+    {
+      "file": "gou_hit_0.png",
+      "sha256": "7196e96bbb9faa5338eff50faa88b9aec61c4fbab895df55f31339671eca7649",
+      "density": 0.9995579719538266,
+      "origin": [
+        156,
+        164
+      ],
+      "size": [
+        199,
+        186
+      ],
+      "relative_body_area": 1.0008846426043878
+    },
+    {
+      "file": "gou_air_0.png",
+      "sha256": "c7187d15962888aced898880202b580cefa688eaae6c4222018e308ba44d9a91",
+      "density": 0.9999115474767187,
+      "origin": [
+        147,
+        194
+      ],
+      "size": [
+        218,
+        156
+      ],
+      "relative_body_area": 1.0001769285208775
+    },
+    {
+      "file": "gou_down_0.png",
+      "sha256": "351f821943c9eb1f3b6e823a078fc5fd03935801362773bf55342d0cf2b70ad9",
+      "density": 1.003140469319698,
+      "origin": [
+        111,
+        263
+      ],
+      "size": [
+        290,
+        87
+      ],
+      "relative_body_area": 0.9985845718329794
+    },
+    {
+      "file": "gou_guard_0.png",
+      "sha256": "1a507bf8cd3d4bbf41644c7e6137beb4828d96ece53e09ea150bf3767bf5d347",
+      "density": 1.0019519138438817,
+      "origin": [
+        166,
+        159
+      ],
+      "size": [
+        180,
+        191
+      ],
+      "relative_body_area": 0.9961075725406936
+    },
+    {
+      "file": "gou_guard_1.png",
+      "sha256": "56194145168c06345fba433c61d677d4e5740aaeab121815f47f3d8d299777f6",
+      "density": 1.0002359882038752,
+      "origin": [
+        166,
+        154
+      ],
+      "size": [
+        179,
+        196
+      ],
+      "relative_body_area": 0.9995281906109932
+    }
+  ]
+}

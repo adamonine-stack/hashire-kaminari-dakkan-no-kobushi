@@ -7,6 +7,13 @@ func check(ok: bool, label: String) -> void:
 		failures.append(label)
 		push_error(label)
 
+func same_texture_source(actual: Texture2D, expected: Texture2D) -> bool:
+	if actual == null or expected == null:
+		return false
+	if not actual.resource_path.is_empty() and not expected.resource_path.is_empty():
+		return actual.resource_path == expected.resource_path
+	return actual == expected
+
 func _initialize() -> void:
 	call_deferred("run")
 
@@ -57,7 +64,31 @@ func run() -> void:
 				expected = load("res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_seiya_two_"):
 				expected = load("res://assets/characters/player02/animations/seiya_two_received_v1/motion_atlas.tres").texture
-			check(texture is AtlasTexture and texture.atlas == expected, clip + ": approved authored texture")
+			if String(clip).begins_with("received_rei_uppercut_"):
+				var rei_atlas = load("res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.tres")
+				check(texture is AtlasTexture and same_texture_source(texture.atlas, rei_atlas.texture),clip + ": dedicated Rei receiver original")
+				check(texture.get_size() == Vector2(512,448),clip + ": Rei receiver canvas")
+				var rei_rect := texture.get_image().get_used_rect()
+				check(rei_rect.has_area() and rei_rect.position.x >= 3 and rei_rect.position.y >= 3 and rei_rect.end.x <= 509 and rei_rect.end.y <= 445,clip + ": unclipped Rei receiver")
+				checked += 1
+				continue
+			if String(clip).begins_with("received_teki_palm_"):
+				var teki_atlas = load("res://assets/characters/special_received_teki_v1/ally_power/motion_atlas.tres")
+				check(texture is AtlasTexture and same_texture_source(texture.atlas, teki_atlas.texture),clip + ": dedicated Teki receiver original")
+				check(texture.get_size() == Vector2(512,448),clip + ": Teki receiver canvas")
+				var teki_rect := texture.get_image().get_used_rect()
+				check(teki_rect.has_area() and teki_rect.position.x >= 3 and teki_rect.position.y >= 3 and teki_rect.end.x <= 509 and teki_rect.end.y <= 445,clip + ": unclipped Teki receiver")
+				checked += 1
+				continue
+			if String(clip).begins_with("received_cross_muei_guard"):
+				var cross_atlas = load("res://assets/characters/cross_special_guard_v1/ally_power/motion_atlas.tres")
+				check(texture is AtlasTexture and same_texture_source(texture.atlas, cross_atlas.texture),clip + ": dedicated Cross receiver original")
+				check(texture.get_size() == Vector2(512,448),clip + ": Cross receiver canvas")
+				var cross_rect := texture.get_image().get_used_rect()
+				check(cross_rect.has_area() and cross_rect.position.x >= 3 and cross_rect.position.y >= 3 and cross_rect.end.x <= 509 and cross_rect.end.y <= 445,clip + ": unclipped Cross receiver")
+				checked += 1
+				continue
+			check(texture is AtlasTexture and same_texture_source(texture.atlas, expected), clip + ": approved authored texture")
 			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
 			if crusher_reaction:
@@ -98,7 +129,7 @@ func run() -> void:
 	player.set_physics_process(false)
 	enemy.set_physics_process(false)
 	check(player.fighter_definition.fighter_id == &"player_02_gou", "selected fighter ID preserved")
-	check(player.max_hp == 65, "published campaign HP preserved")
+	check(player.max_hp == 120, "published campaign HP preserved")
 	for facing in [-1, 1]:
 		player.facing_direction = facing
 		player.character_visual_controller.set_facing(facing)

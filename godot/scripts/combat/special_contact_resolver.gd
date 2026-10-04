@@ -25,6 +25,16 @@ func resolve_contacts() -> void:
 		var target: Node = contact.target.get_ref()
 		if not is_instance_valid(attacker) or not is_instance_valid(target) or target.current_hp <= 0:
 			continue
+		# A mutual admitted contact trades through the same damage resolver.
+		# Neither special may lock the other actor into a priority grapple.
+		var reciprocal := false
+		for other in batch:
+			if other.attacker.get_ref() == target and other.target.get_ref() == attacker:
+				reciprocal = true
+				break
+		if contact.packet.get("attack_id","") == "cross_muei" and not reciprocal:
+			if attacker._connect_cross_special_grapple(target,contact.packet,contact.point):
+				continue
 		# Invulnerability granted by another contact in this batch must not erase
 		# an already admitted simultaneous hit. Existing immunity was checked above.
 		var invincible_before: bool = target.is_invincible

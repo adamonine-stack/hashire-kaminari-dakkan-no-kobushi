@@ -1,0 +1,32 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: enemy_07_teki_fighter
+[DEV035] Type: Technical Grappler
+[DEV035] HP: 118
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+Damage: 5
+HP: 113
+[Special] gauge_changed=6
+Damage: 5
+HP: 113
+[Special] gauge_changed=12
+Damage: 5
+HP: 113
+[Special] gauge_changed=24
+KNOCKDOWN HIT
+Damage: 5
+HP: 113
+[Special] gauge_changed=31
+Damage: 5
+HP: 113
+[Special] gauge_changed=37
+Damage: 5
+HP: 113
+[Special] gauge_changed=49
+KNOCKDOWN HIT
+TEKI_DAMAGE_PRESENTATION_OK frames=190 screenshots=0 failures=[]

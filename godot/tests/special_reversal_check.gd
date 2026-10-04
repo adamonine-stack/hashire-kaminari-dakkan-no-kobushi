@@ -52,19 +52,51 @@ func run() -> void:
 		"enemies/enemy_01_standard", "enemies/enemy_02_speed", "enemies/enemy_03_guard",
 		"enemies/enemy_04_throw", "enemies/enemy_05_power", "enemies/enemy_06_combo",
 		"enemies/enemy_07_tricky", "enemies/enemy_08_boss", "enemies/enemy_09_seiya"]
+	var expected_stats := {
+		&"player_01_akky": [11,14,18,23],
+		&"player_02_gou": [15,20,26,38],
+		&"player_03_seiya": [9,12,14,13],
+		&"enemy_01_crusher": [8,10,16,12],
+		&"enemy_04_rei_kageyama": [7,10,17,14],
+		&"enemy_07_teki_fighter": [7,9,18,11],
+		&"enemy_05_cross_murasame": [9,12,20,11],
+		&"enemy_02_shadow_boxer": [6,8,11,11],
+		&"enemy_06_rio_flick_garcia": [7,9,15,12],
+		&"enemy_03_masato_takahashi": [6,8,15,9],
+		&"enemy_08_leon_crow": [10,14,21,15],
+		&"enemy_09_seiya": [11,15,18,24],
+	}
 	for definition in definitions:
-		player.apply_character_data(load("res://data/%s.tres" % definition))
+		var definition_resource: Resource = load("res://data/%s.tres" % definition)
+		manager._apply_battle_attack_target_once(definition_resource)
+		player.apply_character_data(definition_resource)
+		var fighter_id := StringName(definition_resource.fighter_id)
+		check(expected_stats.has(fighter_id), definition + " expected balance row")
+		if expected_stats.has(fighter_id):
+			var expected: Array = expected_stats[fighter_id]
+			check(player.punch_damage == expected[0], definition + " punch target")
+			check(player.kick_damage == expected[1], definition + " kick target")
+			check(player.throw_damage == expected[2], definition + " throw target")
 		check(player.character_special_data != null, definition + " reversal resource")
 		if player.character_special_data == null: continue
 		var data: Dictionary = player._get_character_special_attack_dictionary()
-		var expected_multiplier := 1.0 if definition in ["fighters/ally_speed","enemies/enemy_09_seiya"] else 1.5
-		check(data.damage == roundi(maxi(player.punch_damage, player.kick_damage) * expected_multiplier), definition + " authored per-hit damage")
+		if expected_stats.has(fighter_id):
+			check(data.damage == expected_stats[fighter_id][3], definition + " preserved special damage")
 		check(data.is_guardable and data.can_interrupt_attack, definition + " guard/interrupt contract")
 		var launch: Vector2 = enemy._get_knockdown_force(data, player, 1.0)
 		if definition == "fighters/ally_power":
 			check(data.causes_knockdown and not data.wall_slam and player.character_special_data.special_launch_speed_cap == Vector2(420,120),definition + " authored short ground launch")
 			check(is_equal_approx(float(data.special_launch_gravity),300.0),definition + " independent low gravity preserves airtime")
 			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-120.0),definition + " bounded launch after stat modifiers")
+		elif definition == "enemies/enemy_04_throw":
+			check(data.causes_knockdown and data.keep_special_flight_in_view,definition + " upward reversal stays visible")
+			check(player.character_special_data.special_launch_speed_cap == Vector2(420,560),definition + " bounded Rei uppercut")
+			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-560.0),definition + " bounded uppercut after stat modifiers")
+			check(is_equal_approx(float(data.special_launch_gravity),1200.0),definition + " Rei uppercut gravity")
+		elif definition in ["enemies/enemy_07_tricky","enemies/enemy_05_power"]:
+			check(data.causes_knockdown and data.keep_special_flight_in_view,definition + " palm reversal keeps defender visible")
+			check(is_equal_approx(absf(launch.x),420.0) and is_equal_approx(launch.y,-280.0),definition + " horizontal palm launch cap")
+			check(is_equal_approx(float(data.special_launch_gravity),1000.0),definition + " palm flight gravity")
 		elif definition in ["fighters/ally_speed","enemies/enemy_09_seiya"]:
 			check(not data.headfirst_on_launch and data.special_launch_gravity == 850.0,definition + " ascending two-hit first launch")
 			check(is_equal_approx(absf(launch.x),35.0) and is_equal_approx(launch.y,-360.0),definition + " bounded lift near sidekick range")

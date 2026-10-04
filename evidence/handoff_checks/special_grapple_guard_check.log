@@ -1,0 +1,212 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 100
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 98
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV036] Attack started: player1_punch_1
+[Special] hit target=Enemy1
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_full
+THROW STARTUP
+THROW CONNECTED
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 98
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV036] Attack started: player1_punch_1
+[Special] hit target=Enemy1
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_full
+THROW STARTUP
+THROW CONNECTED
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 130
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 25
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 128
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV036] Attack started: player2_punch_1
+[Special] hit target=Enemy1
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_full
+THROW STARTUP
+THROW CONNECTED
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 128
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV036] Attack started: player2_punch_1
+[Special] hit target=Enemy1
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 119
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_full
+THROW STARTUP
+THROW CONNECTED
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 90
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV036] Attack started: player3_punch_1
+[Special] hit target=Enemy1
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_full
+THROW STARTUP
+THROW CONNECTED
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+Damage: 2
+HP: 90
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] blocked
+[Special] gauge_full
+[Special] gauge_full
+[Special] started id=cross_muei
+[Special] active
+[DEV036] Attack started: player3_punch_1
+[Special] hit target=Enemy1
+[Special] finished
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 11
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[Special] gauge_full
+THROW STARTUP
+THROW CONNECTED
+SPECIAL_GRAPPLE_GUARD_CHECK cases=6 captures=0 failures=[]

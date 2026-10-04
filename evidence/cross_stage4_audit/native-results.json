@@ -1,0 +1,43 @@
+{
+  "damage": {
+    "frames": 291,
+    "capture_calls": 129,
+    "failures": [],
+    "log": "compact_native.log"
+  },
+  "special": {
+    "base_cases": 54,
+    "capture_calls": 490,
+    "unique_pngs": 484,
+    "extra_cases": "natural hit/guard/whiff/escape for 3 heroes x 2 directions; both trade queue orders; observed AI; airborne; down refusal",
+    "failures": [],
+    "log": "special_native.log"
+  },
+  "integrity": {
+    "frames": 291,
+    "unique_views": 150,
+    "capture_calls": 170,
+    "failures": [],
+    "log": "integrity_native.log"
+  },
+  "incoming": {
+    "akky": {
+      "capture_calls": 14,
+      "context": "Battle.tscn default background"
+    },
+    "gou": {
+      "capture_calls": 24,
+      "context": "Battle.tscn default background; includes 8 attacker key captures"
+    },
+    "seiya": {
+      "capture_calls": 11,
+      "target_pngs": 10,
+      "context": "TrueBattle.tscn two-hit QA; one auxiliary pillar capture excluded"
+    }
+  },
+  "limits": [
+    "Automated native captures, not manual play",
+    "Browser inventory empty, iab unavailable",
+    "No physical mobile, long balance play, manual multiple-enemy battle"
+  ]
+}

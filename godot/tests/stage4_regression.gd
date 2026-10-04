@@ -142,7 +142,10 @@ func run() -> void:
 	enemy.enter_character_special_active()
 	player.throw_regrab_lock_timer = 0.0
 	player.is_invincible = false
+	enemy.reversal_elapsed = 0.20
 	enemy._on_character_special_hitbox_area_entered(player.hurt_box)
+	await process_frame
+	await process_frame
 	check(enemy.throw_state == "THROW_HOLD" and enemy.cross_throw_variant == 5, "special contact uses face-grab pipeline")
 	check(enemy.special_gauge == 0, "special consumes gauge")
 	player._complete_throw_escape()
@@ -163,7 +166,11 @@ func run() -> void:
 	check(not enemy.attack_data_by_id.has("cross_punch"), "retry clears Cross attacks")
 	manager.cleanup_battle_before_transition()
 	root.get_node("AudioManager").stop_bgm()
+	for audio in root.find_children("*","AudioStreamPlayer",true,false):audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false):audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	print("STAGE4_REGRESSION failures=", failures)
 	quit(0 if failures.is_empty() else 1)

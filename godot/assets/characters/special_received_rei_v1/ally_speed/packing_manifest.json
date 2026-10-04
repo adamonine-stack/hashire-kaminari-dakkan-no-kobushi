@@ -1,0 +1,77 @@
+{
+  "reference": "art_sources/rei_reversal_v1/references/seiya.png",
+  "method": "Individual reviewed originals; idle opaque body area; fixed canvas and floor baseline; unchanged runtime scale",
+  "baseline": 350,
+  "frames": [
+    {
+      "file": "seiya_hit.png",
+      "sha256": "abc52e2cb0f47cd6e1810f1c43d7b09af821d19da826af6c0d81b71db93cdf2b",
+      "density": 0.2162999410123386,
+      "origin": [
+        202,
+        172
+      ],
+      "size": [
+        109,
+        178
+      ],
+      "relative_body_area": 0.9978709814775388
+    },
+    {
+      "file": "seiya_air.png",
+      "sha256": "20ec7b7a105bc30fa0dcf174a45c57c3865bceef266ddb4c8b6bcee5bb235012",
+      "density": 0.24855148190395937,
+      "origin": [
+        194,
+        166
+      ],
+      "size": [
+        123,
+        184
+      ],
+      "relative_body_area": 1.0003193527783691
+    },
+    {
+      "file": "seiya_down.png",
+      "sha256": "4f46e24e24b427fc58ed0e31db83c7db5e17ab8d24902cf79a4a38bdd693fed9",
+      "density": 0.22268480392444792,
+      "origin": [
+        140,
+        270
+      ],
+      "size": [
+        231,
+        80
+      ],
+      "relative_body_area": 1.0032999787098147
+    },
+    {
+      "file": "seiya_guard_impact.png",
+      "sha256": "8992fc3af44d3b7806ac257aabab72bf61b7e17a0074a3dd7c975fd7695666cc",
+      "density": 0.22113766822386297,
+      "origin": [
+        190,
+        185
+      ],
+      "size": [
+        132,
+        165
+      ],
+      "relative_body_area": 1.0
+    },
+    {
+      "file": "seiya_guard_hold.png",
+      "sha256": "7788b18264ee5647caef6b3ea8ef9369698e014a76b683ad654ae256d173be79",
+      "density": 0.23555325140372532,
+      "origin": [
+        194,
+        172
+      ],
+      "size": [
+        123,
+        178
+      ],
+      "relative_body_area": 1.0039386842665532
+    }
+  ]
+}

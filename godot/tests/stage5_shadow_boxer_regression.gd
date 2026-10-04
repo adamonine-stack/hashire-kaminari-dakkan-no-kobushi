@@ -42,7 +42,10 @@ func run() -> void:
 	check(manager._stage_definition_for_enemy_index(4).stage_number == 5, "Stage 5 definition resolves after Stage 4")
 
 	check(definition.motion_atlas != null and definition.motion_atlas.texture.get_size() == Vector2(2560,2048), "Stage 5 uses the measured complete-pose atlas")
-	check(definition.sprite_sheet != null, "existing Shadow Boxer sprite sheet remains assigned")
+	# Authored-atlas fighters deliberately do not materialize the legacy source
+	# sheet during battle setup on mobile Web. Keep validating that the fallback
+	# asset remains addressable without forcing its large texture into memory.
+	check(not String(definition.sprite_sheet_path).is_empty(), "existing Shadow Boxer sprite sheet path remains assigned")
 	check(is_equal_approx(float(definition.character_height_cm), 190.0), "reference height is 190 cm")
 	check(float(definition.backstep_speed_multiplier) >= 1.85, "Shadow Boxer has fast evasive backstep")
 	check(float(definition.attack_speed_scale) >= 1.20, "Shadow Boxer keeps fast hands")

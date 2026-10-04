@@ -1,0 +1,35 @@
+{
+  "reference": "art_sources/teki_reversal_v1/references/seiya.png",
+  "method": "Reviewed individual poses; offline body-scale correction; fixed runtime transform and floor baseline; intentional prone overlap mass 0.85 for backflip receivers",
+  "baseline": 350,
+  "frames": [
+    {
+      "file": "seiya_guard_0.png",
+      "sha256": "7040322b4f12eb330942f2707b15826ede25e2f92a63ccf4d15810a6dc969878",
+      "density": 1.0,
+      "origin": [
+        190,
+        185
+      ],
+      "size": [
+        132,
+        165
+      ],
+      "relative_body_area": 1.0
+    },
+    {
+      "file": "seiya_guard_1.png",
+      "sha256": "cb8e5042d2f4dfc79636b12c166b340bef35f8a0155cb6065c8eac3084d6dfa6",
+      "density": 0.9980364563006628,
+      "origin": [
+        194,
+        172
+      ],
+      "size": [
+        123,
+        178
+      ],
+      "relative_body_area": 1.0039386842665532
+    }
+  ]
+}

@@ -52,6 +52,14 @@ func ticks(n: int) -> void:
 func on_contact(actor: Node, amount: int, guarded: bool, _point: Vector2) -> void:
 	contact_events.append({"target":actor,"damage":amount,"guard":guarded,"y":actor.global_position.y,"vy":actor.velocity.y,"time":Time.get_ticks_msec()})
 
+func expected_two_hit_damage(attacker: Node) -> int:
+	var definition: Resource = attacker.get("fighter_definition")
+	if definition != null:
+		var fighter_id := String(definition.get("fighter_id"))
+		if fighter_id == "enemy_09_seiya": return 24
+		if fighter_id == "player_03_seiya": return 13
+	return maxi(attacker.punch_damage,attacker.kick_damage)
+
 func audit_motions(actor: Node) -> void:
 	actor.set_physics_process(false)
 	actor.position = Vector2(750,520)
@@ -85,7 +93,7 @@ func run_case(manager: Node, attacker: Node, target: Node, direction: int, mode:
 	manager._set_battle_active(true)
 	manager.isRoundActive = true
 	if mode in ["side_only","whiff"]: target.position.x = start_x+390*direction
-	if mode == "ko_second": target.current_hp = maxi(attacker.punch_damage,attacker.kick_damage)+1
+	if mode == "ko_second": target.current_hp = expected_two_hit_damage(attacker)+1
 	if mode in ["guard_both","guard_first"]:
 		target.is_guarding = true
 		target.guard_type = "high"
@@ -142,8 +150,8 @@ func run_case(manager: Node, attacker: Node, target: Node, direction: int, mode:
 	check(saw_second,label+" always executes sidekick")
 	var hits := contact_events.filter(func(e):return not e.guard)
 	var guards := contact_events.filter(func(e):return e.guard)
-	var base := maxi(attacker.punch_damage,attacker.kick_damage)
-	for hit in hits: check(hit.damage==base,label+" independent 1x damage")
+	var base := expected_two_hit_damage(attacker)
+	for hit in hits: check(hit.damage==base,label+" preserved per-hit special damage")
 	if mode in ["both","wall","ko_second","confirmed_guard_displaced"]:
 		check(hits.size()==2,label+" two separate hits")
 		if hits.size()==2:
@@ -154,7 +162,7 @@ func run_case(manager: Node, attacker: Node, target: Node, direction: int, mode:
 		if mode=="confirmed_guard_displaced":
 			check(guards.is_empty(),label+" confirmed second hit cannot be guarded")
 			check(moved_for_second,label+" confirmed hit tracks displaced target")
-	elif mode=="side_only": check(hits.size()==1,label+" sidekick only is 1x")
+	elif mode=="side_only": check(hits.size()==1,label+" sidekick only uses preserved special damage")
 	elif mode=="guard_first": check(guards.size()==1 and hits.size()==1,label+" first guard does not stop second hit")
 	elif mode=="guard_both": check(guards.size()==2 and hits.is_empty(),label+" independently guard both")
 	elif mode=="whiff": check(hits.is_empty() and guards.is_empty(),label+" both misses recover without damage")
@@ -216,6 +224,11 @@ func run() -> void:
 	check(not aura.strike_area.monitoring,"normal pillar cleanup")
 	print("STAGE9_TWO_HIT_RESULT cases=%d frames=%d screenshots=%d failures=%s" % [cases,motions,screenshots,str(failures)])
 	print("SPECIAL_LAUNCH_REACTION_CHECK failures="+str(failures))
+	contact_events.clear()
+	for audio in root.find_children("*","AudioStreamPlayer",true,false): audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false): audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)

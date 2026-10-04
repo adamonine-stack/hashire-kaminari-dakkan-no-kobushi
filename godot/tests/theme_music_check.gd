@@ -51,7 +51,8 @@ func run_check() -> void:
 	await wait_scene("res://scenes/Title.tscn")
 	check(current_scene.TITLE_MAIN == "走れカミナリ" and current_scene.TITLE_ENGLISH == "HASHIRE KAMINARI", "correct Japanese/English title")
 	check(ProjectSettings.get_setting("application/config/name") == "走れカミナリ 奪還の拳", "correct application/window title")
-	check(ProjectSettings.globalize_path("user://").replace("\\", "/").ends_with("Godot/app_userdata/HashireIkazuchi/"), "existing Windows save directory retained")
+	if OS.get_name() == "Windows":
+		check(ProjectSettings.globalize_path("user://").replace("\\", "/").ends_with("Godot/app_userdata/HashireIkazuchi/"), "existing Windows save directory retained")
 	var credit_lines: Array[String] = []
 	for line in FileAccess.get_file_as_string("res://data/story/credits.txt").split("\n"):
 		if not line.strip_edges().is_empty(): credit_lines.append(line.strip_edges())

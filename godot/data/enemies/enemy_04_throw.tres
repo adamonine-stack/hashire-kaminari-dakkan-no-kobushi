@@ -1,15 +1,12 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=21 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
 [ext_resource type="Resource" path="res://data/enemy_ai/enemy_04_throw_ai.tres" id="3_ai"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy04/portrait.png" id="4_portrait"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy04/icon.png" id="5_icon"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy04/battle.png" id="6_battle"]
-[ext_resource type="Texture2D" path="res://assets/characters/enemy04/sprite_sheet.png" id="7_sheet"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemy04/shadow.png" id="8_shadow"]
 
-[ext_resource type="Resource" path="res://assets/characters/enemy04/animations/rei_v1/motion_atlas.tres" id="9_motion"]
 [ext_resource type="Resource" path="res://data/attacks/rei_straight.tres" id="rei_straight"]
 [ext_resource type="Resource" path="res://data/attacks/rei_uppercut.tres" id="rei_uppercut"]
 [ext_resource type="Resource" path="res://data/attacks/rei_roundhouse.tres" id="rei_roundhouse"]
@@ -17,14 +14,6 @@
 [ext_resource type="Resource" path="res://data/attacks/rei_air_punch.tres" id="rei_air_punch"]
 [ext_resource type="Resource" path="res://data/attacks/rei_sweep.tres" id="rei_sweep"]
 [ext_resource type="Resource" path="res://data/attacks/rei_dragon_uppercut.tres" id="rei_dragon_uppercut"]
-
-[ext_resource type="Resource" path="res://assets/characters/special_received_v1/enemy_04_throw/motion_atlas.tres" id="received_akky"]
-
-[ext_resource type="Resource" path="res://assets/characters/special_received_gou_v1/enemy_04_throw/motion_atlas.tres" id="received_gou"]
-
-[ext_resource type="Resource" path="res://assets/characters/special_received_seiya_v1/enemy_04_throw/motion_atlas.tres" id="received_seiya"]
-
-[ext_resource type="Resource" path="res://assets/characters/seiya_two_received_v1/enemy_04_throw/motion_atlas.tres" id="seiya_two_received"]
 
 [resource]
 script = ExtResource("1_def")
@@ -36,10 +25,10 @@ fighter_scene = ExtResource("2_scene")
 selection_portrait = ExtResource("4_portrait")
 selection_icon = ExtResource("5_icon")
 portrait = ExtResource("4_portrait")
-battle_texture = ExtResource("6_battle")
+battle_texture_path = "res://assets/characters/enemy04/battle.png"
 icon = ExtResource("5_icon")
-sprite_sheet = ExtResource("7_sheet")
-motion_atlas = ExtResource("9_motion")
+sprite_sheet_path = "res://assets/characters/enemy04/sprite_sheet.png"
+motion_atlas_path = "res://assets/characters/enemy04/animations/rei_v1/motion_atlas.tres"
 sprite_sheet_format = &"authored_atlas"
 sprite_body_height_px = 209.0
 character_height_cm = 192.0
@@ -77,5 +66,5 @@ speed_rating = 3
 health_rating = 3
 throw_rating = 2
 combo_rating = 3
-extra_motion_atlases = Array[Resource]([ExtResource("received_akky"), ExtResource("received_gou"), ExtResource("received_seiya"), ExtResource("seiya_two_received")])
+extra_motion_atlas_paths = Array[String](["res://assets/characters/special_received_v1/enemy_04_throw/motion_atlas.tres", "res://assets/characters/special_received_gou_v1/enemy_04_throw/motion_atlas.tres", "res://assets/characters/special_received_seiya_v1/enemy_04_throw/motion_atlas.tres", "res://assets/characters/seiya_two_received_v1/enemy_04_throw/motion_atlas.tres", "res://assets/characters/enemy04/animations/rei_reversal_v1/motion_atlas.tres"])
 special_damage_reactions = {"player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "received_akky_elbow_wall", "fall": "received_akky_elbow_fall"}, "player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}

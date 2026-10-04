@@ -1,0 +1,35 @@
+{
+  "reference": "art_sources/teki_reversal_v1/references/akky.png",
+  "method": "Reviewed individual poses; offline body-scale correction; fixed runtime transform and floor baseline; intentional prone overlap mass 0.85 for backflip receivers",
+  "baseline": 319,
+  "frames": [
+    {
+      "file": "akky_guard_0.png",
+      "sha256": "c3973ca9c3277e4b57653ea8c65aebc597f9b04f39d9dd6a56b61286137cf9f0",
+      "density": 0.9996449914094385,
+      "origin": [
+        198,
+        160
+      ],
+      "size": [
+        117,
+        159
+      ],
+      "relative_body_area": 1.000710395453469
+    },
+    {
+      "file": "akky_guard_1.png",
+      "sha256": "b8eb2b9dc36617e8740ec7aaee78856d74b56be97b19d8f40644f31f5c03505c",
+      "density": 0.9976991798664503,
+      "origin": [
+        200,
+        154
+      ],
+      "size": [
+        113,
+        165
+      ],
+      "relative_body_area": 1.004617570447549
+    }
+  ]
+}

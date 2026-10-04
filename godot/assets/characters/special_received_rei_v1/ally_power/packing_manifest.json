@@ -1,0 +1,77 @@
+{
+  "reference": "art_sources/rei_reversal_v1/references/gou.png",
+  "method": "Individual reviewed originals; idle opaque body area; fixed canvas and floor baseline; unchanged runtime scale",
+  "baseline": 350,
+  "frames": [
+    {
+      "file": "gou_hit.png",
+      "sha256": "edcf461811aff4044e2551e4190bb49fd919993cdde8fab4f0a8f739f29f8f49",
+      "density": 0.226302145835922,
+      "origin": [
+        177,
+        152
+      ],
+      "size": [
+        158,
+        198
+      ],
+      "relative_body_area": 0.9989384288747346
+    },
+    {
+      "file": "gou_air.png",
+      "sha256": "a8de10f964b8a7b6b575867c31179fc933a141e1f9abad25517f0a891e557ceb",
+      "density": 0.2517261810526757,
+      "origin": [
+        160,
+        133
+      ],
+      "size": [
+        192,
+        217
+      ],
+      "relative_body_area": 1.0025359754659118
+    },
+    {
+      "file": "gou_down.png",
+      "sha256": "6d496b67cadb6fcd45fb5ee661b9702bb20d3587c822a80b58286cb1dfb0860e",
+      "density": 0.2308696792929431,
+      "origin": [
+        110,
+        230
+      ],
+      "size": [
+        291,
+        120
+      ],
+      "relative_body_area": 1.002064166076905
+    },
+    {
+      "file": "gou_guard_impact.png",
+      "sha256": "502abb4578c1eb36ab8f9c5c2eebaf1af802d939aac3b0caf4311bb26881170c",
+      "density": 0.2525861555235563,
+      "origin": [
+        166,
+        159
+      ],
+      "size": [
+        180,
+        191
+      ],
+      "relative_body_area": 0.9961075725406936
+    },
+    {
+      "file": "gou_guard_hold.png",
+      "sha256": "f820730bd0417343133689ca77c46c0d6be203a95fa9106621ce1fb1d097f4b4",
+      "density": 0.25288749468432536,
+      "origin": [
+        166,
+        154
+      ],
+      "size": [
+        179,
+        196
+      ],
+      "relative_body_area": 0.9995281906109932
+    }
+  ]
+}
