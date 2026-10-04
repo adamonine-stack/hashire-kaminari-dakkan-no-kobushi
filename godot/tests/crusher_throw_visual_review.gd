@@ -51,7 +51,7 @@ func run() -> void:
  battle.get_node("BattleCamera").set_physics_process(false)
  battle.set_process(false)
  for facing in [1.0,-1.0]:
-  for direction in ["neutral","forward"]:
+  for direction in ["neutral","forward","down"]:
    for actor in [player,enemy]:
     actor._finish_throw()
     actor.reset_knockdown_state()
@@ -90,6 +90,15 @@ func run() -> void:
     enemy.global_position.y = enemy.stage_floor_y
     enemy.enter_knockdown()
     await snap("throw_%s_%s_down"%[direction,int(facing)])
+ for actor in [player,enemy]:
+  actor._finish_throw()
+  actor.reset_knockdown_state()
+  actor._cancel_current_action()
+  actor.velocity = Vector2.ZERO
+  actor.global_position.y = actor.stage_floor_y
+  actor.move_and_slide()
+  actor.is_guard_hit = false
+ await snap("standing_pair_comparison")
  print("CRUSHER_THROW_VISUAL_EXPORT_OK")
  root.get_node("AudioManager").stop_bgm()
  manager.cleanup_battle_before_transition()

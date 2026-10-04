@@ -1,16 +1,23 @@
 extends SceneTree
 func _initialize():
  var folder := "res://assets/characters/dedicated_pair_v1/"
- for kind in ["grab","neutral","forward"]:
+ for kind in ["grab","neutral","forward","down"]:
   var src := Image.load_from_file(ProjectSettings.globalize_path("res://../art/dedicated_pair_v1/sources/crusher_"+("grab_strip" if kind=="grab" else "throw_"+kind+"_strip")+".png"))
   var rows := [0,473,930] if kind=="grab" else ([0,550,1050] if kind=="neutral" else [0,532,1024])
   var splits := [500,500] if kind=="grab" else ([570,575,500] if kind=="neutral" else [800,800])
   var feet := [461,921] if kind=="grab" else ([530,1046,1507] if kind=="neutral" else [530,975])
+  if kind=="down":
+   rows = [0,627,1254]
+   splits = [600,555]
+   feet = [580,1138]
   for who in ["crusher","akky"]:
    var cell := Vector2i(400,280) if who=="crusher" else Vector2i(320,224)
    var anchor := Vector2i(200,260) if who=="crusher" else Vector2i(160,208)
    var factor := (.48 if who=="crusher" else .42) if kind=="grab" else ((.42 if who=="crusher" else .36) if kind=="neutral" else (.38 if who=="crusher" else .30))
    var root_x := (200 if who=="crusher" else 700) if kind=="grab" else ((220 if who=="crusher" else 800) if kind=="neutral" else (370 if who=="crusher" else 1230))
+   if kind=="down":
+    factor = .42 if who=="crusher" else .28
+    root_x = 318 if who=="crusher" else 910
    var atlas := Image.create(cell.x*(rows.size()-1),cell.y,false,Image.FORMAT_RGBA8)
    for i in range(rows.size()-1):
     var x0: int = 0 if who=="crusher" else splits[i]

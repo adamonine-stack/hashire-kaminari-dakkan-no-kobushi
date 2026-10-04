@@ -47,6 +47,7 @@ func run() -> void:
  player.ai_enabled = false
  player.ai_profile = null
  player.ai_throw_probability = 0.0
+ player.ai_guard_enabled = false
  enemy.ai_enabled = false
  enemy.ai_throw_probability = 0.0
  enemy.ai_guard_enabled = false
@@ -58,7 +59,7 @@ func run() -> void:
  var scales := [player.animated_character_sprite.scale,enemy.animated_character_sprite.scale]
  var anchors := [player.animated_character_sprite.position,enemy.animated_character_sprite.position]
  for facing in [1.0,-1.0]:
-  for direction in ["neutral","forward"]:
+  for direction in ["neutral","forward","down"]:
    reset_pair(facing)
    var move: PlayerAttackData = player._get_attack_data("crusher_%s_throw"%direction)
    check(player._request_directional_move(move.attack_id,true),"motion start %s"%direction)
@@ -103,28 +104,32 @@ func run() -> void:
    player._finish_throw()
    check(player.directional_throw_data == null and not player.directional_throw_prepared,"throw metadata clears")
  # Run the actual common physics flow, not just manual phase calls.
- for direction in ["neutral","forward"]:
-  reset_pair(1)
-  player.is_backstepping = false
-  enemy.is_backstepping = false
-  player.set_physics_process(true)
-  enemy.set_physics_process(true)
-  for i in range(3): await physics_frame
-  check(player._request_directional_move("crusher_%s_throw"%direction,true),"live throw begins")
-  var saw_release := false
-  var saw_down := false
-  var saw_wake := false
-  for i in range(180):
-   await physics_frame
-   saw_release = saw_release or enemy.current_hp < enemy.max_hp
-   saw_down = saw_down or enemy.knockdown_state == &"KNOCKDOWN"
-   saw_wake = saw_wake or enemy.knockdown_state == &"GET_UP"
-   check(player.animated_character_sprite.scale.is_equal_approx(scales[0]) and enemy.animated_character_sprite.scale.is_equal_approx(scales[1]),"live actor scales stay fixed")
-  check(saw_release and saw_down and saw_wake,"live release/down/wakeup %s"%direction)
-  check(not player._is_throw_busy() and not enemy._is_throw_busy(),"live throw locks clear")
-  check(enemy.knockdown_state == &"" and not enemy.is_hit and enemy.hurt_box.monitorable,"live returns to control")
-  player.set_physics_process(false)
-  enemy.set_physics_process(false)
+ for facing in [1.0,-1.0]:
+  for direction in ["neutral","forward","down"]:
+   reset_pair(facing)
+   player.is_backstepping = false
+   enemy.is_backstepping = false
+   player.set_physics_process(true)
+   enemy.set_physics_process(true)
+   for i in range(12):
+    await physics_frame
+    if player.is_on_floor() and enemy.is_on_floor(): break
+   print("LIVE_THROW_READY %s floor=%s hp=%s round=%s recoil=%s state=%s active=%s/%s guarding=%s crouch=%s hit=%s/%s regrab=%s input=%s"%[direction,player.is_on_floor(),player.current_hp,player.is_round_active,player.guard_recoil_timer,player.current_attack_type,player.attack_active_timer,player.kick_active_timer,player.is_guarding,player.is_crouching,player.is_hit,player.is_guard_hit,player.throw_regrab_lock_timer,player.input_enabled])
+   check(player._request_directional_move("crusher_%s_throw"%direction,true),"live throw begins")
+   var saw_release := false
+   var saw_down := false
+   var saw_wake := false
+   for i in range(180):
+    await physics_frame
+    saw_release = saw_release or enemy.current_hp < enemy.max_hp
+    saw_down = saw_down or enemy.knockdown_state == &"KNOCKDOWN"
+    saw_wake = saw_wake or enemy.knockdown_state == &"GET_UP"
+    check(player.animated_character_sprite.scale.is_equal_approx(scales[0]) and enemy.animated_character_sprite.scale.is_equal_approx(scales[1]),"live actor scales stay fixed")
+   check(saw_release and saw_down and saw_wake,"live release/down/wakeup %s"%direction)
+   check(not player._is_throw_busy() and not enemy._is_throw_busy(),"live throw locks clear")
+   check(enemy.knockdown_state == &"" and not enemy.is_hit and enemy.hurt_box.monitorable,"live returns to control")
+   player.set_physics_process(false)
+   enemy.set_physics_process(false)
  print("CRUSHER_THROW_MOTION_CHECK failures=%s"%[failures])
  root.get_node("AudioManager").stop_bgm()
  manager.cleanup_battle_before_transition()

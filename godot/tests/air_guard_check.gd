@@ -132,7 +132,9 @@ func run():
  check(not bot._try_ai_air_guard(.3),"one guard roll per jump")
  target.reset_attack_state()
  print("AIR_GUARD_CHECK failures=%s"%[failures])
+ root.get_node("AudioManager").stop_bgm()
  manager.cleanup_battle_before_transition()
  battle.queue_free()
  await process_frame
+ await create_timer(1.0).timeout
  quit(0 if failures.is_empty() else 1)
