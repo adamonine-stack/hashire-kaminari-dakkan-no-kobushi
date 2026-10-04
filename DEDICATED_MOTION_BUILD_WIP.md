@@ -27,3 +27,5 @@
 2026-10-04 special guard checkpoint: three dedicated grounded guard phases for both actors, receiver-data mapping and opt-in guard-stun synchronization. Air guard retained. Runtime receiver sources inventoried in PAIR_REACTION_INVENTORY.json; wall/ground-bounce and high/low/heavy hit review remain. See SPECIAL_GUARD_REACTION_CHECKPOINT.md.
 
 2026-10-04 wall/bounce checkpoint: both dedicated wall_hit/wall_fall and ground_impact/ground_bounce atlases connected. Down throws have one bounded bounce before existing down/wake-up. See WALL_BOUNCE_REACTION_CHECKPOINT.md for verification boundaries. High/low/heavy receiver coverage remains pending.
+
+2026-10-04 receiver checkpoint: rendered Seiya launch sampling resolved, middle-hit routing repaired; newly authored three-phase dedicated heavy-hit clips for AKKY/Crusher replace shared frames. High/low/light distinct source authoring remains pending. See RECEIVER_ROUTING_CHECKPOINT.md.

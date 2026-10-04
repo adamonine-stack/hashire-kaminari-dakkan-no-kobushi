@@ -2970,8 +2970,8 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 	if _has_visual_animation(cross_reaction):
 		return cross_reaction
 	var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
-	var height_animation: StringName = &"damage_low" if attack_height == "low" else &"damage_high"
-	if _has_visual_animation(height_animation):
+	var height_animation: StringName = &"damage_low" if attack_height == "low" else (&"damage_high" if attack_height == "high" else &"")
+	if height_animation != &"" and _has_visual_animation(height_animation):
 		return height_animation
 	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	var damage_value := float(attack_data.get("damage", 0))

@@ -38,12 +38,16 @@
       "exists": true,
       "frames": [
         {
-          "region": "[P: (400.0, 1120.0), S: (400.0, 280.0)]",
-          "texture": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.png"
         },
         {
-          "region": "[P: (800.0, 1120.0), S: (400.0, 280.0)]",
-          "texture": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.png"
         }
       ]
     },
@@ -216,20 +220,16 @@
       "exists": true,
       "frames": [
         {
-          "region": "[P: (0.0, 2912.0), S: (320.0, 224.0)]",
-          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png"
         },
         {
-          "region": "[P: (320.0, 2912.0), S: (320.0, 224.0)]",
-          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png"
         },
         {
-          "region": "[P: (640.0, 2912.0), S: (320.0, 224.0)]",
-          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
-        },
-        {
-          "region": "[P: (960.0, 2912.0), S: (320.0, 224.0)]",
-          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png"
         }
       ]
     },
