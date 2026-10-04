@@ -1,6 +1,15 @@
 extends Resource
 class_name FighterDefinition
 
+# Akky's authored atlas is a direct source texture (not a measured/repacked
+# atlas). SpriteFrames already keep that Texture2D alive for the active player,
+# so retaining this lightweight Resource wrapper does not add another texture
+# copy. It prevents animation-state checks from repeatedly decoding the same
+# ~25 MB RGBA atlas on mobile Web. Enemy atlases remain non-retained so prior
+# campaign stages can still release their heavy source art.
+static var _akky_runtime_motion_atlas: Resource
+static var _akky_runtime_motion_atlas_path := ""
+
 @export var fighter_id: StringName
 @export var display_name: String
 @export var hud_name_katakana: String
@@ -58,9 +67,8 @@ class_name FighterDefinition
 		if motion_atlas != null:
 			return motion_atlas
 		if not motion_atlas_path.is_empty():
-			# Do not retain path-loaded combat art on this definition. SpriteFrames
-			# owns the texture while the fighter is active; keeping it here as well
-			# makes completed campaign stages accumulate in Web memory.
+			if fighter_id == &"player_01_akky" and _akky_runtime_motion_atlas_path == motion_atlas_path and _akky_runtime_motion_atlas != null:
+				return _akky_runtime_motion_atlas
 			var loaded := ResourceLoader.load(
 				motion_atlas_path,
 				"Resource",
@@ -68,6 +76,10 @@ class_name FighterDefinition
 			)
 			if loaded == null:
 				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
+				return null
+			if fighter_id == &"player_01_akky":
+				_akky_runtime_motion_atlas_path = motion_atlas_path
+				_akky_runtime_motion_atlas = loaded
 			return loaded
 		return null
 @export var supplemental_motion_atlas: Resource:
