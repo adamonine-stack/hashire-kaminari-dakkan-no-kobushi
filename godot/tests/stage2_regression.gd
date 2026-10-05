@@ -48,7 +48,7 @@ func run() -> void:
 	player = battle.get_node("Player")
 	enemy = battle.get_node("Enemy")
 	check(manager.enemy_team.size() == 2, "published campaign slice has two playable stages")
-	check(manager.STAGE_DEFINITIONS.size() == 9, "campaign structure contains nine stage definitions")
+	check(manager.STAGE_DEFINITION_PATHS.size() == 9, "campaign structure contains nine stage definitions")
 	check(manager.validate_enemy_definitions(), "all eight implemented enemy roster IDs and orders remain valid")
 	check(manager.enemy_order[1] == &"enemy_04_rei_kageyama", "Rei occupies stage 2")
 	check(int(manager.player_team[0]["max_health"]) == 100, "Akky maximum HP is 100")

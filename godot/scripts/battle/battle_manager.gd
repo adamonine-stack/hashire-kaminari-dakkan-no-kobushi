@@ -67,26 +67,26 @@ const CHARACTER_SELECTION_SCENE := preload("res://ui/character_selection/charact
 const ALLY_BALANCE := preload("res://data/fighters/ally_balance.tres")
 const ALLY_POWER := preload("res://data/fighters/ally_power.tres")
 const ALLY_SPEED := preload("res://data/fighters/ally_speed.tres")
-const ENEMY_DEFINITIONS: Array[Resource] = [
-	preload("res://data/enemies/enemy_01_standard.tres"),
-	preload("res://data/enemies/enemy_04_throw.tres"),
-	preload("res://data/enemies/enemy_07_tricky.tres"),
-	preload("res://data/enemies/enemy_05_power.tres"),
-	preload("res://data/enemies/enemy_02_speed.tres"),
-	preload("res://data/enemies/enemy_06_combo.tres"),
-	preload("res://data/enemies/enemy_03_guard.tres"),
-	preload("res://data/enemies/enemy_08_boss.tres"),
+const ENEMY_MANIFESTS: Array[Dictionary] = [
+	{"fighter_id": &"enemy_01_crusher", "display_name": "クラッシャー", "fighter_type": "POWER", "max_health": 125, "definition_path": "res://data/enemies/enemy_01_standard.tres"},
+	{"fighter_id": &"enemy_04_rei_kageyama", "display_name": "レイ・カゲヤマ", "fighter_type": "KARATE", "max_health": 112, "definition_path": "res://data/enemies/enemy_04_throw.tres"},
+	{"fighter_id": &"enemy_07_teki_fighter", "display_name": "テキ・ファイター", "fighter_type": "TECHNICAL_GRAPPLER", "max_health": 118, "definition_path": "res://data/enemies/enemy_07_tricky.tres"},
+	{"fighter_id": &"enemy_05_cross_murasame", "display_name": "クロス・ムラサメ", "fighter_type": "JUJUTSU", "max_health": 108, "definition_path": "res://data/enemies/enemy_05_power.tres"},
+	{"fighter_id": &"enemy_02_shadow_boxer", "display_name": "シャドウボクサー", "fighter_type": "BOXER", "max_health": 88, "definition_path": "res://data/enemies/enemy_02_speed.tres"},
+	{"fighter_id": &"enemy_06_rio_flick_garcia", "display_name": "リオ・“フリック”・ガルシア", "fighter_type": "GRAPPLE_SPEED", "max_health": 102, "definition_path": "res://data/enemies/enemy_06_combo.tres"},
+	{"fighter_id": &"enemy_03_masato_takahashi", "display_name": "マサト・タカハシ", "fighter_type": "JUDO", "max_health": 96, "definition_path": "res://data/enemies/enemy_03_guard.tres"},
+	{"fighter_id": &"enemy_08_leon_crow", "display_name": "レオン・クロウ", "fighter_type": "BOSS", "max_health": 170, "definition_path": "res://data/enemies/enemy_08_boss.tres"},
 ]
-const STAGE_DEFINITIONS: Array[Resource] = [
-	preload("res://data/stages/stage_01_crusher.tres"),
-	preload("res://data/stages/stage_02_rei.tres"),
-	preload("res://data/stages/stage_03_teki.tres"),
-	preload("res://data/stages/stage_04_cross.tres"),
-	preload("res://data/stages/stage_05_shadow.tres"),
-	preload("res://data/stages/stage_06_rio.tres"),
-	preload("res://data/stages/stage_07_masato.tres"),
-	preload("res://data/stages/stage_08_leon.tres"),
-	preload("res://data/stages/stage_09_secret_boss.tres"),
+const STAGE_DEFINITION_PATHS: Array[String] = [
+	"res://data/stages/stage_01_crusher.tres",
+	"res://data/stages/stage_02_rei.tres",
+	"res://data/stages/stage_03_teki.tres",
+	"res://data/stages/stage_04_cross.tres",
+	"res://data/stages/stage_05_shadow.tres",
+	"res://data/stages/stage_06_rio.tres",
+	"res://data/stages/stage_07_masato.tres",
+	"res://data/stages/stage_08_leon.tres",
+	"res://data/stages/stage_09_secret_boss.tres",
 ]
 const CAMPAIGN_STAGE_COUNT := 9
 const INTRO_TYPEWRITER_CHARS_PER_SECOND := 44.0
@@ -165,6 +165,10 @@ var _current_battle_start_player_hp := 0
 var _current_battle_start_enemy_hp := 0
 var _current_battle_statistics_recorded := false
 var battle_statistics: Array[Dictionary] = []
+var _current_enemy_definition: Resource = null
+var _current_enemy_definition_index := -1
+var _current_stage_definition: Resource = null
+var _current_stage_definition_index := -1
 
 var _selection_panel: PanelContainer
 var _selection_title: Label
@@ -312,6 +316,8 @@ func initialize_game_progress() -> void:
 	_current_battle_start_enemy_hp = 0
 	_current_battle_statistics_recorded = false
 	battle_statistics.clear()
+	_release_enemy_definition_cache()
+	_release_stage_definition_cache()
 	selected_player_ids.clear()
 	defeated_player_ids.clear()
 	defeated_enemy_ids.clear()
@@ -344,14 +350,100 @@ func initialize_enemy_team() -> void:
 		return
 
 	for index in range(active_enemy_count):
-		enemy_order.append(ENEMY_DEFINITIONS[index].fighter_id)
-		enemy_team.append(_create_progress_entry_from_definition(ENEMY_DEFINITIONS[index], index))
+		var manifest: Dictionary = ENEMY_MANIFESTS[index]
+		var fighter_id := StringName(manifest["fighter_id"])
+		enemy_order.append(fighter_id)
+		enemy_team.append(_create_enemy_progress_entry_from_manifest(manifest, index))
 
 
 func _active_enemy_definition_count() -> int:
 	if active_enemy_count_limit <= 0:
-		return ENEMY_DEFINITIONS.size()
-	return clampi(active_enemy_count_limit, 1, ENEMY_DEFINITIONS.size())
+		return ENEMY_MANIFESTS.size()
+	return clampi(active_enemy_count_limit, 1, ENEMY_MANIFESTS.size())
+
+
+func _create_enemy_progress_entry_from_manifest(manifest: Dictionary, battle_order: int) -> Dictionary:
+	var fighter_id := StringName(manifest["fighter_id"])
+	var max_health := _enemy_progress_max_health(fighter_id, int(manifest["max_health"]))
+	return {
+		"definition": null,
+		"definition_path": String(manifest["definition_path"]),
+		"character_id": fighter_id,
+		"fighter_id": fighter_id,
+		"display_name": String(manifest["display_name"]),
+		"fighter_type": String(manifest["fighter_type"]),
+		"scene_path": "",
+		"max_health": max_health,
+		"current_health": max_health,
+		"special_gauge": 0.0,
+		"is_defeated": false,
+		"is_available": true,
+		"battle_order": battle_order,
+		"has_been_selected": false,
+	}
+
+
+func _enemy_progress_max_health(_fighter_id: StringName, authored_max_health: int) -> int:
+	return authored_max_health
+
+
+func _prepare_loaded_enemy_definition(definition: Resource) -> Resource:
+	return definition
+
+
+func _release_enemy_definition_cache() -> void:
+	_current_enemy_definition = null
+	_current_enemy_definition_index = -1
+
+
+func _release_stage_definition_cache() -> void:
+	_current_stage_definition = null
+	_current_stage_definition_index = -1
+
+
+func _ensure_current_enemy_definition() -> Resource:
+	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
+		return null
+	if _current_enemy_definition != null and _current_enemy_definition_index == current_enemy_index:
+		return _current_enemy_definition
+
+	_release_enemy_definition_cache()
+	var data := enemy_team[current_enemy_index]
+	var definition_path := String(data.get("definition_path", ""))
+	if definition_path.is_empty() or not ResourceLoader.exists(definition_path):
+		push_warning("Enemy definition path is missing: %s" % definition_path)
+		return null
+	var definition := ResourceLoader.load(definition_path)
+	if definition == null:
+		push_warning("Failed to load enemy definition: %s" % definition_path)
+		return null
+	definition = _prepare_loaded_enemy_definition(definition)
+	if definition == null or StringName(definition.fighter_id) != StringName(data["fighter_id"]):
+		push_warning("Enemy definition ID mismatch at stage %d" % (current_enemy_index + 1))
+		return null
+	if int(definition.enemy_order) != current_enemy_index + 1:
+		push_warning("Enemy order mismatch: %s" % definition.fighter_id)
+		return null
+	if definition.fighter_scene == null or definition.ai_profile == null or int(round(definition.max_health)) <= 0:
+		push_warning("Enemy definition is incomplete: %s" % definition.fighter_id)
+		return null
+
+	_current_enemy_definition = definition
+	_current_enemy_definition_index = current_enemy_index
+	var resolved_max := _enemy_progress_max_health(StringName(data["fighter_id"]), int(round(definition.max_health)))
+	data["max_health"] = resolved_max
+	if not bool(data["is_defeated"]):
+		data["current_health"] = clampi(int(data["current_health"]), 1, resolved_max)
+	return _current_enemy_definition
+
+
+func _enemy_view_data(enemy_index: int) -> Dictionary:
+	if enemy_index < 0 or enemy_index >= enemy_team.size():
+		return {}
+	var view := enemy_team[enemy_index].duplicate(true)
+	if enemy_index == current_enemy_index:
+		view["definition"] = _ensure_current_enemy_definition()
+	return view
 
 
 func reset_player_roster() -> void:
@@ -479,33 +571,25 @@ func clear_run_save() -> void:
 
 
 func validate_enemy_definitions(required_count: int = -1) -> bool:
-	var count := ENEMY_DEFINITIONS.size() if required_count < 0 else clampi(required_count, 0, ENEMY_DEFINITIONS.size())
+	var count := ENEMY_MANIFESTS.size() if required_count < 0 else clampi(required_count, 0, ENEMY_MANIFESTS.size())
 	if count <= 0:
 		push_warning("No enemy definitions are enabled for this battle.")
 		return false
 
 	var seen_ids := {}
 	for index in range(count):
-		var definition: Resource = ENEMY_DEFINITIONS[index]
-		var expected_order := index + 1
-		if definition == null:
-			push_warning("Enemy definition is missing.")
+		var manifest: Dictionary = ENEMY_MANIFESTS[index]
+		var fighter_id := StringName(manifest.get("fighter_id", &""))
+		var definition_path := String(manifest.get("definition_path", ""))
+		if fighter_id == &"" or seen_ids.has(fighter_id):
+			push_warning("Enemy manifest has an empty or duplicated fighter_id.")
 			return false
-		if definition.fighter_id == &"" or seen_ids.has(definition.fighter_id):
-			push_warning("Enemy definition has an empty or duplicated fighter_id.")
+		seen_ids[fighter_id] = true
+		if int(manifest.get("max_health", 0)) <= 0:
+			push_warning("Enemy manifest max health is invalid: %s" % fighter_id)
 			return false
-		seen_ids[definition.fighter_id] = true
-		if int(definition.enemy_order) != expected_order:
-			push_warning("Enemy order mismatch: %s" % definition.fighter_id)
-			return false
-		if definition.fighter_scene == null:
-			push_warning("Enemy scene is missing: %s" % definition.fighter_id)
-			return false
-		if int(round(definition.max_health)) <= 0:
-			push_warning("Enemy max health is invalid: %s" % definition.fighter_id)
-			return false
-		if definition.ai_profile == null:
-			push_warning("Enemy AI profile is missing: %s" % definition.fighter_id)
+		if definition_path.is_empty() or not ResourceLoader.exists(definition_path):
+			push_warning("Enemy definition path is missing: %s" % definition_path)
 			return false
 	return true
 
@@ -828,10 +912,12 @@ func spawn_active_enemy(restore_full_health := true) -> void:
 		return
 
 	var data := enemy_team[current_enemy_index]
+	var definition := _ensure_current_enemy_definition()
+	if definition == null:
+		return
 	# Applying a definition emits HP signals from the reused Enemy. Preserve the
 	# checkpoint before those signals update its progress dictionary.
 	var current_health := int(clampi(data["current_health"], 1, data["max_health"]))
-	var definition: Resource = data.get("definition", null)
 	if definition != null and enemy.has_method("apply_fighter_definition"):
 		enemy.apply_fighter_definition(definition)
 	if definition != null and enemy.has_method("apply_ai_profile"):
@@ -854,11 +940,13 @@ func spawn_active_enemy(restore_full_health := true) -> void:
 		data["current_health"] = enemy.current_hp
 		enemy.hp_changed.emit(enemy.current_hp, enemy.max_hp)
 	_update_battle_hud_enemy()
-	hud_enemy_spawned.emit(enemy, current_enemy_index, data.duplicate(true))
+	hud_enemy_spawned.emit(enemy, current_enemy_index, _enemy_view_data(current_enemy_index))
 
 
 func prepare_battle() -> void:
 	if _should_finish_game():
+		return
+	if _ensure_current_enemy_definition() == null:
 		return
 
 	_apply_current_stage_definition()
@@ -881,8 +969,9 @@ func prepare_battle() -> void:
 	update_camera_target()
 
 	if _should_show_enemy_intro():
-		_notify_hud_enemy_intro(enemy_team[current_enemy_index], current_enemy_index)
-		await start_enemy_intro(enemy_team[current_enemy_index])
+		var enemy_view := _enemy_view_data(current_enemy_index)
+		_notify_hud_enemy_intro(enemy_view, current_enemy_index)
+		await start_enemy_intro(enemy_view)
 
 	await start_battle_countdown(sequence_id)
 
@@ -1382,6 +1471,8 @@ func cleanup_battle_before_transition() -> void:
 		player.reset_special_attack_state(false)
 	if enemy.has_method("reset_special_attack_state"):
 		enemy.reset_special_attack_state(false)
+	_release_enemy_definition_cache()
+	_release_stage_definition_cache()
 	if battle_hud != null:
 		if battle_hud.has_method("hide_pause_menu"):
 			battle_hud.hide_pause_menu()
@@ -1469,6 +1560,8 @@ func transition_to_next_enemy() -> void:
 	_clear_active_fighter_actions(enemy)
 	player.visible = false
 	enemy.visible = false
+	_release_enemy_definition_cache()
+	_release_stage_definition_cache()
 	await fade_out(0.4)
 	await fade_in(0.4)
 	_selection_reason = "NEXT_STAGE"
@@ -2145,7 +2238,7 @@ func _update_battle_hud_enemy() -> void:
 	if battle_hud.has_method("update_enemy_status"):
 		battle_hud.update_enemy_status(enemy)
 	if battle_hud.has_method("update_enemy_information") and current_enemy_index >= 0 and current_enemy_index < enemy_team.size():
-		battle_hud.update_enemy_information(enemy_team[current_enemy_index], current_enemy_index)
+		battle_hud.update_enemy_information(_enemy_view_data(current_enemy_index), current_enemy_index)
 
 
 func _notify_hud_enemy_intro(enemy_data: Dictionary, enemy_index: int) -> void:
@@ -2901,10 +2994,7 @@ func _active_enemy_name() -> String:
 func _active_enemy_type() -> String:
 	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
 		return ""
-	var definition: Resource = enemy_team[current_enemy_index].get("definition", null)
-	if definition == null:
-		return ""
-	return String(definition.fighter_type)
+	return String(enemy_team[current_enemy_index].get("fighter_type", ""))
 
 
 func _active_enemy_order_text() -> String:
@@ -2918,9 +3008,18 @@ func _campaign_stage_count_for_ui() -> int:
 
 
 func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
-	if enemy_index < 0 or enemy_index >= STAGE_DEFINITIONS.size():
+	if enemy_index < 0 or enemy_index >= STAGE_DEFINITION_PATHS.size():
 		return null
-	return STAGE_DEFINITIONS[enemy_index]
+	if _current_stage_definition != null and _current_stage_definition_index == enemy_index:
+		return _current_stage_definition
+	_release_stage_definition_cache()
+	var stage_path := STAGE_DEFINITION_PATHS[enemy_index]
+	if not ResourceLoader.exists(stage_path):
+		push_warning("Stage definition path is missing: %s" % stage_path)
+		return null
+	_current_stage_definition = ResourceLoader.load(stage_path)
+	_current_stage_definition_index = enemy_index if _current_stage_definition != null else -1
+	return _current_stage_definition
 
 
 func _apply_current_stage_definition() -> void:
