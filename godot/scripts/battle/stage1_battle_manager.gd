@@ -102,6 +102,15 @@ func _prepare_loaded_enemy_definition(definition: Resource) -> Resource:
 	return definition
 
 
+func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
+	var stage_definition := super._stage_definition_for_enemy_index(enemy_index)
+	if stage_definition != null:
+		var stage_enemy_definition := stage_definition.get("enemy_definition") as Resource
+		if stage_enemy_definition != null:
+			_prepare_loaded_enemy_definition(stage_enemy_definition)
+	return stage_definition
+
+
 func _apply_battle_hp_target_once(definition: Resource) -> void:
 	if definition == null or definition.has_meta(BATTLE_HP_TARGET_META):
 		return
