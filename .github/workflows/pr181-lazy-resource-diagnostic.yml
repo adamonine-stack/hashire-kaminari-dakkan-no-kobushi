@@ -47,45 +47,32 @@ jobs:
       - name: Import project resources
         run: godot --headless --path "$GODOT_PROJECT_DIR" --editor --quit
 
-      - name: 01 special_reversal_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/special_reversal_check.gd 2>&1 | tee /tmp/01.log; grep -Fq 'failures=[]' /tmp/01.log
-      - name: 02 special_ai_situation_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/special_ai_situation_check.gd 2>&1 | tee /tmp/02.log; grep -Fq 'failures=[]' /tmp/02.log
-      - name: 03 special_grapple_guard_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/special_grapple_guard_check.gd 2>&1 | tee /tmp/03.log; grep -Fq 'failures=[]' /tmp/03.log
-      - name: 04 cross_motion_integrity_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/cross_motion_integrity_check.gd 2>&1 | tee /tmp/04.log; grep -Fq 'failures=[]' /tmp/04.log
-      - name: 05 cross_stage4_reversal_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/cross_stage4_reversal_check.gd 2>&1 | tee /tmp/05.log; grep -Fq 'failures=[]' /tmp/05.log
-      - name: 06 cross_stage4_damage_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/cross_stage4_damage_check.gd 2>&1 | tee /tmp/06.log; grep -Fq 'failures=[]' /tmp/06.log
-      - name: 07 cross_received_akky_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/cross_received_akky_check.gd 2>&1 | tee /tmp/07.log; grep -Fq 'failures=[]' /tmp/07.log
-      - name: 08 cross_received_gou_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/cross_received_gou_check.gd 2>&1 | tee /tmp/08.log; grep -Fq 'failures=[]' /tmp/08.log
-      - name: 09 cross_received_seiya_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/cross_received_seiya_check.gd 2>&1 | tee /tmp/09.log; grep -Fq 'failures=[]' /tmp/09.log
-      - name: 10 akky_reversal_motion_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/akky_reversal_motion_check.gd 2>&1 | tee /tmp/10.log; grep -Fq 'failures=[]' /tmp/10.log
-      - name: 11 akky_wall_launch_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/akky_wall_launch_check.gd 2>&1 | tee /tmp/11.log; grep -Fq 'failures=[]' /tmp/11.log
-      - name: 12 gou_reversal_presentation_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/gou_reversal_presentation_check.gd 2>&1 | tee /tmp/12.log; grep -Fq 'failures=[]' /tmp/12.log
-      - name: 13 seiya_somersault_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/seiya_somersault_check.gd 2>&1 | tee /tmp/13.log; grep -Fq 'failures=[]' /tmp/13.log
-      - name: 14 crusher_reversal_presentation_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/crusher_reversal_presentation_check.gd 2>&1 | tee /tmp/14.log; grep -Fq 'failures=[]' /tmp/14.log
-      - name: 15 rei_reversal_presentation_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/rei_reversal_presentation_check.gd 2>&1 | tee /tmp/15.log; grep -Fq 'failures=[]' /tmp/15.log
-      - name: 16 teki_reversal_presentation_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/teki_reversal_presentation_check.gd 2>&1 | tee /tmp/16.log; grep -Fq 'failures=[]' /tmp/16.log
-      - name: 17 teki_damage_presentation_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/teki_damage_presentation_check.gd 2>&1 | tee /tmp/17.log; grep -Fq 'failures=[]' /tmp/17.log
-      - name: 18 teki_received_akky_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/teki_received_akky_check.gd 2>&1 | tee /tmp/18.log; grep -Fq 'failures=[]' /tmp/18.log
-      - name: 19 teki_received_gou_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/teki_received_gou_check.gd 2>&1 | tee /tmp/19.log; grep -Fq 'failures=[]' /tmp/19.log
-      - name: 20 teki_received_seiya_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/teki_received_seiya_check.gd 2>&1 | tee /tmp/20.log; grep -Fq 'failures=[]' /tmp/20.log
-      - name: 21 combat_pose_flow_check
-        run: timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/combat_pose_flow_check.gd 2>&1 | tee /tmp/21.log; grep -Fq 'failures=[]' /tmp/21.log
+      - name: Diagnose remaining reversal and pose checks
+        shell: bash
+        run: |
+          set +e
+          overall=0
+          index=15
+          tests=(
+            rei_reversal_presentation_check
+            teki_reversal_presentation_check
+            teki_damage_presentation_check
+            teki_received_akky_check
+            teki_received_gou_check
+            teki_received_seiya_check
+            combat_pose_flow_check
+          )
+          for test_name in "${tests[@]}"; do
+            log="/tmp/${index}-${test_name}.log"
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script "res://tests/${test_name}.gd" >"$log" 2>&1
+            rc=$?
+            if [ "$rc" -eq 0 ] && grep -Fq 'failures=[]' "$log"; then
+              echo "RESULT ${index} ${test_name}: PASS"
+            else
+              echo "RESULT ${index} ${test_name}: FAIL rc=${rc}"
+              grep -E 'failures=|ERROR|SCRIPT ERROR|expected|actual|FAIL|fail' "$log" | tail -n 30 || true
+              overall=1
+            fi
+            index=$((index + 1))
+          done
+          exit "$overall"
