@@ -1,0 +1,46 @@
+"""Technical sprite isolation/atlas packing. Preserve RGBA and anatomy; use ONE scale."""
+from pathlib import Path
+from PIL import Image,ImageFilter
+import json
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'art_sources/seiya_forward_punch_v7/key_poses.png'
+DEST=ROOT/'godot/assets/characters/player03/animations/slim_forward_punch_v7'
+def main():
+ src=Image.open(SOURCE).convert('RGBA');w,h=src.size
+ alpha=bytearray(1 if x>=128 else 0 for x in src.getchannel('A').get_flattened_data())
+ figures=[]
+ for k in range(len(alpha)):
+  if not alpha[k]:continue
+  todo=[k];alpha[k]=0;pixels=[];lx=w;ly=h;hx=hy=0
+  while todo:
+   p=todo.pop();x=p%w;y=p//w;pixels.append(p);lx=min(lx,x);ly=min(ly,y);hx=max(hx,x);hy=max(hy,y)
+   for j in [p-1 if x else -1,p+1 if x<w-1 else -1,p-w,p+w]:
+    if 0<=j<len(alpha) and alpha[j]:alpha[j]=0;todo.append(j)
+  if len(pixels)>10000:figures.append(([lx,ly,hx+1,hy+1],pixels))
+ assert len(figures)==5,len(figures)
+ # Layout has unequal row heights; rectangular crops would mix adjacent figure pixels.
+ figures.sort(key=lambda f: (0 if f[0][1]<512 else 1,f[0][0]))
+ ref=Image.open(ROOT/'art_sources/seiya_slim_v3/formal_standing.png')
+ rb=ref.getchannel('A').point(lambda a:255 if a>=128 else 0).getbbox()
+ scale=195/(figures[0][0][3]-figures[0][0][1])
+ atlas=Image.new('RGBA',(1152,576));records=[]
+ for i,(box,pixels) in enumerate(figures):
+  # Isolate the supplied figure, retaining its original RGBA including the soft outer edge.
+  mask=Image.new('L',(w,h));raw=bytearray(w*h)
+  for p in pixels:raw[p]=255
+  mask.frombytes(bytes(raw));mask=mask.filter(ImageFilter.MaxFilter(5))
+  pose=Image.new('RGBA',src.size);pose.paste(src,(0,0),mask)
+  crop=pose.getchannel('A').getbbox();pose=pose.crop(crop)
+  anchor=pose.width/2
+  pose=pose.resize((round(pose.width*scale),round(pose.height*scale)),Image.Resampling.NEAREST)
+  x=160-round(anchor*scale);y=270-pose.height
+  assert x>=0 and y>=0 and x+pose.width<=384 and y+pose.height<=288,(i,x,y,pose.size)
+  atlas.alpha_composite(pose,(i%3*384+x,i//3*288+y))
+  records.append({'index':i,'source_bbox':box,'crop':crop,'scale':scale,'offset':[x,y]})
+ DEST.mkdir(parents=True,exist_ok=True);atlas.save(DEST/'motion_atlas.png')
+ clips={'seiya_forward_punch':{'frames':[1,1,2,3,4],'fps':12,'loop':False}}
+ text='[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]\n[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]\n[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.png" id="2"]\n[resource]\nscript = ExtResource("1")\ntexture = ExtResource("2")\ncell_size = Vector2i(384,288)\ncolumns = 3\nhead_scale_override = 1.0\nclips = '+json.dumps(clips)+'\n'
+ (DEST/'motion_atlas.tres').write_text(text,encoding='utf-8');(DEST/'packing_manifest.json').write_text(json.dumps({'source':str(SOURCE.relative_to(ROOT)),'reference_height':rb[3]-rb[1],'scale':scale,'resampling':'nearest','frames':records},indent=2),encoding='utf-8')
+ review=Image.new('RGBA',(1552,576),(48,52,60,255));review.alpha_composite(ref,(0,0));review.alpha_composite(atlas,(400,0));review.save(ROOT/'art_sources/seiya_forward_punch_v7/same_scale_review.png')
+ print('SEIYA_FORWARD_PUNCH_PACK_OK',scale)
+if __name__=='__main__':main()
