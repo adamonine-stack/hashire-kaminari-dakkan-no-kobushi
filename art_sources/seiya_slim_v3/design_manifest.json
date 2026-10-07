@@ -1146,7 +1146,7 @@
     "atlas": "godot/assets/characters/player03/animations/slim_sweep_v3/motion_atlas.tres",
     "source": "art_sources/seiya_slim_v3/sweep_sequence_source.png",
     "playback_frames": 6,
-    "uniform_scale": 0.37924151696606784,
+    "uniform_scale": 0.38922155688622756,
     "head_scale_override": 1.0,
     "hitbox_size": [
       60,
@@ -1162,6 +1162,7 @@
       "ground hit and knockdown both facings",
       "airborne miss both facings",
       "118 clips / 331 frames atlas regression"
-    ]
+    ],
+    "size_calibration": "195px approved standing, formerly 190px combat idle; anatomy and leg length unchanged"
   }
 }

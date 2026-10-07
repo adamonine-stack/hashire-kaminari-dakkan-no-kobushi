@@ -10,7 +10,10 @@ CUTS=[(0,0,512,570),(512,0,1024,570),(1024,0,1536,570),
       (0,570,570,1000),(570,570,1050,1000),(1050,570,1536,1000)]
 ROOTS=[(295,548),(726,540),(1132,540),(188,969),(742,969),(1239,969)]
 STANDING_HEIGHT=501
-SCALE=190.0/STANDING_HEIGHT
+# Approved idle_prebattle standing occupies 195px; combat idle is only 190px.
+# Calibrate the entire authored sequence to the approved standing, not combat idle.
+TARGET_STANDING_HEIGHT=195
+SCALE=TARGET_STANDING_HEIGHT/STANDING_HEIGHT
 CLIPS={
  "crouch_kick":{"frames":[1,2,3,4,5,1],"fps":10,"loop":False},
  "crouch_kick_sweep":{"frames":[1,2,3,4,5,1],"fps":10,"loop":False},
@@ -43,6 +46,6 @@ def main():
  text+='[resource]\nscript = ExtResource("1")\ntexture = ExtResource("2")\ncell_size = Vector2i(384,288)\ncolumns = 3\nhead_scale_override = 1.0\n'
  text+='clips = '+json.dumps(CLIPS)+'\n'
  (DEST/'motion_atlas.tres').write_text(text,encoding='utf-8')
- (DEST/'packing_manifest.json').write_text(json.dumps({'formal_reference':'art_sources/seiya_slim_v3/formal_standing.png','body_balance_reference':'art_sources/seiya_slim_v3/akky_balance_reference.png','source':str(SOURCE.relative_to(ROOT)),'standing_source_height':STANDING_HEIGHT,'target_source_height':190,'frames':records},indent=2),encoding='utf-8')
+ (DEST/'packing_manifest.json').write_text(json.dumps({'formal_reference':'art_sources/seiya_slim_v3/formal_standing.png','body_balance_reference':'art_sources/seiya_slim_v3/akky_balance_reference.png','source':str(SOURCE.relative_to(ROOT)),'standing_source_height':STANDING_HEIGHT,'target_source_height':TARGET_STANDING_HEIGHT,'frames':records},indent=2),encoding='utf-8')
  print('SEIYA_SLIM_SWEEP_PACK_OK frames=6 one_scale=',SCALE)
 if __name__=='__main__':main()
