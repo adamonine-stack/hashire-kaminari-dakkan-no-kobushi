@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384,288)
+columns = 4
+head_scale_override = 1.0
+clips = {"guard": {"frames": [1, 1], "fps": 6, "loop": true}, "crouch_guard": {"frames": [2, 2], "fps": 6, "loop": true}, "air_guard": {"frames": [3, 3], "fps": 6, "loop": true}, "guard_hit": {"frames": [4, 1], "fps": 12, "loop": false}, "air_guard_hit": {"frames": [5, 3], "fps": 12, "loop": false}, "damage_light": {"frames": [6, 6, 0], "fps": 14, "loop": false}, "damage_heavy": {"frames": [7, 6, 0], "fps": 12, "loop": false}}

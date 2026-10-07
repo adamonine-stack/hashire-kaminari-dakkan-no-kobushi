@@ -69,6 +69,8 @@ func run() -> void:
 				expected = load("res://assets/characters/player02/animations/air_kick_v8/motion_atlas.tres").texture
 			if clip in [&"gou_dive_kick",&"gou_dive_land"]:
 				expected = load("res://assets/characters/player02/animations/dive_kick_v9/motion_atlas.tres").texture
+			if clip in [&"guard",&"crouch_guard",&"air_guard",&"guard_hit",&"air_guard_hit",&"damage_light",&"damage_heavy"]:
+				expected = load("res://assets/characters/player02/animations/guard_v10/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_power/motion_atlas.tres").texture
