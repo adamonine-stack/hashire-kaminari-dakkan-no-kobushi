@@ -90,6 +90,27 @@ func _create_progress_entry_from_definition(definition: Resource, battle_order: 
 	return super._create_progress_entry_from_definition(definition, battle_order)
 
 
+func _enemy_progress_max_health(fighter_id: StringName, authored_max_health: int) -> int:
+	if BATTLE_HP_RESOURCE_TARGETS.has(fighter_id):
+		return int(round(float(BATTLE_HP_RESOURCE_TARGETS[fighter_id])))
+	return authored_max_health
+
+
+func _prepare_loaded_enemy_definition(definition: Resource) -> Resource:
+	_apply_battle_hp_target_once(definition)
+	_apply_battle_attack_target_once(definition)
+	return definition
+
+
+func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
+	var stage_definition := super._stage_definition_for_enemy_index(enemy_index)
+	if stage_definition != null:
+		var stage_enemy_definition := stage_definition.get("enemy_definition") as Resource
+		if stage_enemy_definition != null:
+			_prepare_loaded_enemy_definition(stage_enemy_definition)
+	return stage_definition
+
+
 func _apply_battle_hp_target_once(definition: Resource) -> void:
 	if definition == null or definition.has_meta(BATTLE_HP_TARGET_META):
 		return

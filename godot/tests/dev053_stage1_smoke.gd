@@ -21,6 +21,7 @@ func _run_stage1_smoke() -> void:
 	assert(manager.enemy_team.size() == 1)
 	assert(manager.enemy_order.size() == 1)
 	assert(String(manager.enemy_team[0]["fighter_id"]) == "enemy_01_crusher")
+	assert(manager.enemy_team[0].get("definition", null) == null)
 	assert(manager.current_enemy_index == 0)
 
 	await manager.select_player_by_id(String(manager.player_team[0]["fighter_id"]))
@@ -35,8 +36,14 @@ func _run_stage1_smoke() -> void:
 	assert(hud.enemy_name_label.visible)
 	assert(hud.enemy_name_label.text == "クラッシャー")
 	assert(hud.enemy_icon_rect.texture != null)
-	var stage_1: Resource = manager.STAGE_DEFINITIONS[0]
-	var stage_2: Resource = manager.STAGE_DEFINITIONS[1]
+	assert(manager._current_enemy_definition != null)
+	assert(manager._current_enemy_definition_index == 0)
+	var stage_1: Resource = manager._stage_definition_for_enemy_index(0)
+	assert(stage_1 != null)
+	assert(manager._current_stage_definition_index == 0)
+	assert(manager.STAGE_DEFINITION_PATHS.size() >= 2)
+	var stage_2: Resource = ResourceLoader.load(manager.STAGE_DEFINITION_PATHS[1])
+	assert(stage_2 != null)
 	assert(stage_1.backdrop_id == &"downtown_street")
 	assert(stage_2.backdrop_id == &"back_alley")
 	var backdrop := battle.get_node("Stage1Backdrop")
@@ -53,7 +60,7 @@ func _run_stage1_smoke() -> void:
 	assert(String(stage_1.enemy_dialogues.get("player_03_seiya", "")) != "")
 
 	# Stage 1 uses an unlimited timer: the Stage1 manager must not decrement it.
-	var initial_round_time := manager.roundTime
+	var initial_round_time: int = int(manager.roundTime)
 	manager.flow_state = BattleManager.BattleState.BATTLE
 	manager.currentBattleState = BattleManager.BattleState.BATTLE
 	manager.isRoundActive = true

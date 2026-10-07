@@ -5,6 +5,16 @@ class_name FighterDefinition
 ## Default preserves saved definitions and existing balance.
 @export_range(0.25, 1.0, 0.05) var throw_received_damage_scale: float = 1.0
 
+# Keep only the currently selected player's primary authored atlas alive.
+# SpriteFrames already keep that Texture2D alive for the active player, so
+# retaining this lightweight Resource wrapper does not add another texture
+# copy. It prevents animation-state checks from repeatedly decoding the same
+# large authored atlas on mobile Web. Switching players replaces this single
+# slot, while enemy atlases remain non-retained so completed campaign stages
+# can still release their heavy source art.
+static var _active_player_motion_atlas: Resource
+static var _active_player_motion_atlas_path := ""
+
 @export var fighter_id: StringName
 @export var display_name: String
 @export var hud_name_katakana: String
@@ -62,9 +72,9 @@ class_name FighterDefinition
 		if motion_atlas != null:
 			return motion_atlas
 		if not motion_atlas_path.is_empty():
-			# Do not retain path-loaded combat art on this definition. SpriteFrames
-			# owns the texture while the fighter is active; keeping it here as well
-			# makes completed campaign stages accumulate in Web memory.
+			var is_selectable_player := String(fighter_id).begins_with("player_")
+			if is_selectable_player and _active_player_motion_atlas_path == motion_atlas_path and _active_player_motion_atlas != null:
+				return _active_player_motion_atlas
 			var loaded := ResourceLoader.load(
 				motion_atlas_path,
 				"Resource",
@@ -72,6 +82,10 @@ class_name FighterDefinition
 			)
 			if loaded == null:
 				push_warning("Failed to lazy-load motion atlas: %s" % motion_atlas_path)
+				return null
+			if is_selectable_player:
+				_active_player_motion_atlas_path = motion_atlas_path
+				_active_player_motion_atlas = loaded
 			return loaded
 		return null
 @export var supplemental_motion_atlas: Resource:

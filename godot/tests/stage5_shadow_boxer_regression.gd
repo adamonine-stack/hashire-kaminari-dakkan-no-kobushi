@@ -24,12 +24,12 @@ func run() -> void:
 
 	check(definition != null, "Shadow Boxer definition loads")
 	check(stage != null, "Stage 5 definition loads")
-	check(manager.STAGE_DEFINITIONS.size() == 9, "campaign keeps nine stage definitions")
+	check(manager.STAGE_DEFINITION_PATHS.size() == 9, "campaign keeps nine stage definitions")
 	check(manager.enemy_team.size() == 8, "published campaign exposes all eight implemented opponents")
 	check(manager.enemy_order.size() == 8, "published enemy order exposes eight implemented opponents")
 	check(manager.enemy_order[4] == &"enemy_02_shadow_boxer", "fifth published opponent is Shadow Boxer")
-	check(manager.STAGE_DEFINITIONS[4].stage_number == 5, "Shadow Boxer remains Stage 5")
-	check(manager.STAGE_DEFINITIONS[4].enemy_definition.fighter_id == &"enemy_02_shadow_boxer", "Stage 5 points to Shadow Boxer")
+	check(manager._stage_definition_for_enemy_index(4).stage_number == 5, "Shadow Boxer remains Stage 5")
+	check(manager._stage_definition_for_enemy_index(4).enemy_definition.fighter_id == &"enemy_02_shadow_boxer", "Stage 5 points to Shadow Boxer")
 	check(stage.enemy_definition.fighter_id == &"enemy_02_shadow_boxer", "Stage 5 resource points to Shadow Boxer")
 
 	# Regression for the published progression bug: after the first four opponents
