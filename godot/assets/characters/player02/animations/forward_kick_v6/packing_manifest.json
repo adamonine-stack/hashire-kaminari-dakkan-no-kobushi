@@ -1,0 +1,108 @@
+{
+  "source": "art_sources\\gou_forward_kick_v6\\key_poses.png",
+  "reference_height": 203,
+  "scale": 0.453125,
+  "resampling": "nearest",
+  "frames": [
+    {
+      "index": 0,
+      "source_bbox": [
+        124,
+        48,
+        419,
+        496
+      ],
+      "crop": [
+        122,
+        46,
+        421,
+        498
+      ],
+      "scale": 0.453125,
+      "offset": [
+        92,
+        65
+      ]
+    },
+    {
+      "index": 1,
+      "source_bbox": [
+        620,
+        51,
+        917,
+        496
+      ],
+      "crop": [
+        618,
+        49,
+        919,
+        498
+      ],
+      "scale": 0.453125,
+      "offset": [
+        92,
+        67
+      ]
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        1052,
+        64,
+        1505,
+        496
+      ],
+      "crop": [
+        1050,
+        62,
+        1507,
+        498
+      ],
+      "scale": 0.453125,
+      "offset": [
+        56,
+        72
+      ]
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        141,
+        528,
+        430,
+        977
+      ],
+      "crop": [
+        139,
+        526,
+        432,
+        979
+      ],
+      "scale": 0.453125,
+      "offset": [
+        94,
+        65
+      ]
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        591,
+        531,
+        911,
+        977
+      ],
+      "crop": [
+        589,
+        529,
+        913,
+        979
+      ],
+      "scale": 0.453125,
+      "offset": [
+        87,
+        66
+      ]
+    }
+  ]
+}
