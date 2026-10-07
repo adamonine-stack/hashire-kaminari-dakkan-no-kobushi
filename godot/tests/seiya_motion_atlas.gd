@@ -41,6 +41,8 @@ func run() -> void:
 			if String(clip).begins_with("seiya_somersault_"):
 				for extra_atlas in fighter.extra_motion_atlases:
 					if extra_atlas.resource_path.contains("somersault_v1"): expected = extra_atlas.texture
+			if String(clip) in ["crouch_kick", "crouch_kick_sweep", "crouch_sweep_kick"]:
+				expected = load("res://assets/characters/player03/animations/slim_sweep_v3/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.tres").texture

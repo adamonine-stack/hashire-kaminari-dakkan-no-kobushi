@@ -28,6 +28,9 @@ func update_head() -> void:
 	if sprite.animation == &"": return
 	var texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
 	if texture == null: return
+	# New artwork already matches the approved head; avoid double shrinking it.
+	var authored_scale := float(texture.get_meta("head_scale_override", -1.0))
+	material.set_shader_parameter("head_scale", authored_scale if authored_scale >= 0.0 else definition.head_scale)
 	var key := "%s:%s" % [sprite.animation, sprite.frame]
 	if texture is AtlasTexture and not cache.has(key):
 		var file: String = texture.atlas.resource_path
