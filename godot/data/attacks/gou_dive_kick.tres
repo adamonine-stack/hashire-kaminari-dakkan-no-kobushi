@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "gou_dive_kick"
+display_name = "gou descending kick"
+attack_type = "kick"
+attack_category = "air"
+command_direction = "down"
+command_priority = 120
+ground_only = false
+airborne_only = true
+startup_time = 0.18
+active_time = 0.16
+recovery_time = 0.36
+base_damage = 0.9
+damage_multiplier = 1.0
+hitbox_size = Vector2(48, 46)
+hitbox_offset = Vector2(42, -24)
+knockback = Vector2(130, -40)
+hitstun_time = 0.24
+animation_name = "gou_dive_kick"
+contact_start_frame = 1
+contact_end_frame = 1
+is_guardable = true
+attack_height = "overhead"
+hitstop_time = 0.045
+can_cancel_on_whiff = false
+cancel_start = 0.0
+cancel_end = 0.0
+cancel_targets = Array[String]([])
+dive_velocity = Vector2(70, 520)
+landing_recovery = 0.36
+landing_animation = &"gou_dive_land"
+ai_tags = Array[String](["dive"])
+ai_distance_min = 0.0
+ai_distance_max = 90.0
