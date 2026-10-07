@@ -132,6 +132,14 @@ func _draw() -> void:
 			for i in range(3): draw_arc(Vector2(0,25-i*20),r*0.6,PI,TAU,24,Color(0.7,0.3,1),3)
 
 func _draw_body_aura() -> void:
+	if style == "player_02_gou":
+		# Power is shown around the fists/ground, keeping the authored body visible.
+		if phase == "startup":
+			for i in range(2):
+				draw_arc(Vector2(30, -35), 15.0 + i * 7.0, -PI * 0.7, PI * 0.7, 20, Color(tint, 0.45), 2.0, true)
+		elif phase == "finish":
+			draw_arc(Vector2(0, 62), 42.0, PI, TAU, 24, Color(tint, 0.3), 2.0, true)
+		return
 	if style == "enemy_04_rei_kageyama":
 		# Thin ground spiral and side lift lines preserve mohawk, face and vest.
 		var progress := elapsed/duration

@@ -67,7 +67,7 @@ func run() -> void:
 				expected = load("res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
-				expected = load("res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			if String(clip).begins_with("grapple_"):
 				expected = load("res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("cross_muei_"):
@@ -75,9 +75,9 @@ func run() -> void:
 			if String(clip).begins_with("received_shadow_counter_"):
 				expected = load("res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_seiya_two_"):
-				expected = load("res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			if String(clip).begins_with("seiya_two_"):
-				expected = load("res://assets/characters/player03/animations/two_hit_v1/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player03/animations/slim_special_v14/motion_atlas.tres").texture
 			if String(clip).begins_with("received_rei_uppercut_"):
 				var rei_atlas = load("res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.tres")
 				check(texture is AtlasTexture and same_texture_source(texture.atlas, rei_atlas.texture),clip + ": dedicated Rei receiver original")
@@ -102,10 +102,12 @@ func run() -> void:
 				check(cross_rect.has_area() and cross_rect.position.x >= 3 and cross_rect.position.y >= 3 and cross_rect.end.x <= 509 and cross_rect.end.y <= 445,clip + ": unclipped Cross receiver")
 				checked += 1
 				continue
+			if clip == &"special_guard":
+				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			check(texture is AtlasTexture and same_texture_source(texture.atlas, expected), clip + ": approved authored texture")
-			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
+			check(texture.get_size() == Vector2(384,288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
-			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < (510 if crusher_reaction else 382) and rect.end.y <= (318 if crusher_reaction else 270), clip + ": unclipped body and baseline")
+			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
 			checked += 1
 	for required in ["idle_prebattle", "walk_forward", "walk_backward", "dash", "jump_start", "jump_air", "jump_fall", "jump_land", "guard", "crouch_guard", "punch_1", "punch_2", "kick_1", "crouch_punch", "crouch_kick_sweep", "jump_punch_down", "jump_kick", "throw", "special_clear_counter", "victory", "stand_up", "ko"]:
 		check(frames.has_animation(required), required + ": explicit motion")

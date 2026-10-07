@@ -1918,7 +1918,7 @@ func _get_character_special_attack_dictionary() -> Dictionary:
 		packet["headfirst_on_launch"] = false
 		packet["hitstop_attacker"] = 0.065
 		packet["hitstop_defender"] = 0.065
-		packet["special_guard_reaction"] = &"guard_hit"
+		packet["special_guard_reaction"] = character_special_data.special_guard_reaction
 		packet["keep_special_flight_in_view"] = true
 		packet["special_launch_gravity"] = 850.0
 		if seiya_two_hit_stage == 0:

@@ -52,7 +52,7 @@ func run() -> void:
 			var texture := frames.get_frame_texture(clip, index)
 			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
 			if String(clip).begins_with("gou_reversal_"):
-				expected = load("res://assets/characters/player02/animations/reversal_v1/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player02/animations/special_v12/motion_atlas.tres").texture
 			if clip == &"gou_back_punch":
 				expected = load("res://assets/characters/player02/animations/anti_air_v2/motion_atlas.tres").texture
 			if clip == &"gou_down_punch":
@@ -77,7 +77,7 @@ func run() -> void:
 				expected = load("res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
-				expected = load("res://assets/characters/special_received_crusher_v1/ally_power/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player02/animations/special_v12_received/motion_atlas.tres").texture
 			if String(clip).begins_with("grapple_"):
 				expected = load("res://assets/characters/player02/animations/readable_grapple_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("cross_muei_"):
@@ -85,7 +85,7 @@ func run() -> void:
 			if String(clip).begins_with("received_shadow_counter_"):
 				expected = load("res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_seiya_two_"):
-				expected = load("res://assets/characters/player02/animations/seiya_two_received_v1/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player02/animations/special_v12_received/motion_atlas.tres").texture
 			if String(clip).begins_with("received_rei_uppercut_"):
 				var rei_atlas = load("res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.tres")
 				check(texture is AtlasTexture and same_texture_source(texture.atlas, rei_atlas.texture),clip + ": dedicated Rei receiver original")
@@ -110,11 +110,13 @@ func run() -> void:
 				check(cross_rect.has_area() and cross_rect.position.x >= 3 and cross_rect.position.y >= 3 and cross_rect.end.x <= 509 and cross_rect.end.y <= 445,clip + ": unclipped Cross receiver")
 				checked += 1
 				continue
+			if clip == &"special_guard":
+				expected = load("res://assets/characters/player02/animations/special_v12_received/motion_atlas.tres").texture
 			check(texture is AtlasTexture and same_texture_source(texture.atlas, expected), clip + ": approved authored texture")
-			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
+			check(texture.get_size() == Vector2(384,288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
 			if crusher_reaction:
-				check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 510 and rect.end.y <= 318,clip + ": corrected idle baseline and unclipped body")
+				check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270,clip + ": corrected idle baseline and unclipped body")
 			elif String(clip).begins_with("gou_reversal_"):
 				# Measure solid sandals against the same 270px baseline; separately
 				# require all generated soft alpha to remain inside the display cell.
