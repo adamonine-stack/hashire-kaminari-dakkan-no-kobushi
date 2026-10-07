@@ -51,6 +51,8 @@ func run() -> void:
 				expected = load("res://assets/characters/player03/animations/slim_back_kick_v6/motion_atlas.tres").texture
 			if clip == &"seiya_forward_punch":
 				expected = load("res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.tres").texture
+			if clip == &"seiya_forward_kick":
+				expected = load("res://assets/characters/player03/animations/slim_forward_kick_v8/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.tres").texture
