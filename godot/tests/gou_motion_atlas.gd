@@ -53,6 +53,8 @@ func run() -> void:
 			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
 			if String(clip).begins_with("gou_reversal_"):
 				expected = load("res://assets/characters/player02/animations/reversal_v1/motion_atlas.tres").texture
+			if clip == &"gou_back_punch":
+				expected = load("res://assets/characters/player02/animations/anti_air_v2/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_power/motion_atlas.tres").texture
