@@ -55,6 +55,8 @@ func run() -> void:
 				expected = load("res://assets/characters/player02/animations/reversal_v1/motion_atlas.tres").texture
 			if clip == &"gou_back_punch":
 				expected = load("res://assets/characters/player02/animations/anti_air_v2/motion_atlas.tres").texture
+			if clip == &"gou_down_punch":
+				expected = load("res://assets/characters/player02/animations/launcher_v3/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_power/motion_atlas.tres").texture
