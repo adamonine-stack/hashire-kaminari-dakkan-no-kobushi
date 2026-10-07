@@ -71,6 +71,10 @@ func run() -> void:
 				expected = load("res://assets/characters/player02/animations/dive_kick_v9/motion_atlas.tres").texture
 			if clip in [&"guard",&"crouch_guard",&"air_guard",&"guard_hit",&"air_guard_hit",&"damage_light",&"damage_heavy"]:
 				expected = load("res://assets/characters/player02/animations/guard_v10/motion_atlas.tres").texture
+			if clip in [&"throw_start",&"throw_hold",&"directional_throw_hold",&"throw_release",&"gou_throw_neutral_release",&"gou_throw_forward_release",&"gou_throw_down_release",&"gou_throw_back_release",&"gou_throw_whiff"]:
+				expected = load("res://assets/characters/player02/animations/throw_v11/motion_atlas.tres").texture
+			if clip in [&"directional_throw_held",&"grabbed",&"throw_victim_neutral_air",&"throw_victim_forward_air",&"throw_victim_down_air",&"throw_victim_back_air",&"throw_victim_slam_down",&"down",&"knockdown",&"standup",&"getup",&"stand_up",&"get_up",&"ko",&"defeat"] or String(clip).begins_with("crusher_throw_"):
+				expected = load("res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/special_received_crusher_v1/ally_power/motion_atlas.tres").texture

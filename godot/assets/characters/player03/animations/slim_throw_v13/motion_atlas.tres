@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384,288)
+columns = 4
+head_scale_override = 1.0
+clips = {"throw_start": {"frames": [1, 2], "fps": 14, "loop": false}, "throw_hold": {"frames": [2], "fps": 10, "loop": true}, "directional_throw_hold": {"frames": [2], "fps": 10, "loop": true}, "throw_release": {"frames": [3, 1, 0], "fps": 10, "loop": false}, "seiya_throw_neutral_release": {"frames": [3, 1, 0], "fps": 10, "loop": false}, "seiya_throw_forward_release": {"frames": [4, 1, 0], "fps": 10, "loop": false}, "seiya_throw_down_release": {"frames": [5, 1, 0], "fps": 10, "loop": false}, "seiya_throw_back_release": {"frames": [6, 1, 0], "fps": 10, "loop": false}, "seiya_throw_whiff": {"frames": [7, 1, 0], "fps": 8, "loop": false}}

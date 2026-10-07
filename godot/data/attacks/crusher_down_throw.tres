@@ -34,3 +34,5 @@ throw_victim_hold_animation = &"crusher_throw_held"
 
 ground_bounces = 1
 ground_bounce_velocity = Vector2(0, -160)
+
+throw_hold_offsets_by_fighter = {"player_02_gou": Vector2(75, 0), "player_03_seiya": Vector2(75, 0)}

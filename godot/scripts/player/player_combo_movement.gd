@@ -516,6 +516,8 @@ func _fail_throw() -> void:
 	super._fail_throw()
 	if directional_throw_data != null:
 		throw_recovery_timer = directional_throw_data.throw_whiff_seconds
+		if _has_visual_animation(directional_throw_data.throw_whiff_animation):
+			_play_visual_animation(directional_throw_data.throw_whiff_animation, true)
 
 
 func _finish_throw() -> void:
@@ -525,10 +527,18 @@ func _finish_throw() -> void:
 
 
 func _lock_throw_target_position(target: Node) -> void:
-	if directional_throw_data == null or directional_throw_data.throw_hold_offset == Vector2.ZERO:
+	if directional_throw_data == null:
 		super._lock_throw_target_position(target)
 		return
 	var offset := directional_throw_data.throw_hold_offset
+	var target_definition: Resource = target.get("fighter_definition")
+	if target_definition != null:
+		var configured = directional_throw_data.throw_hold_offsets_by_fighter.get(String(target_definition.fighter_id), offset)
+		if configured is Vector2:
+			offset = configured
+	if offset == Vector2.ZERO:
+		super._lock_throw_target_position(target)
+		return
 	offset.x *= directional_throw_facing
 	var target_x := clampf(global_position.x + offset.x, _stage_min_x() + 64.0, _stage_max_x() - 64.0)
 	global_position.x = clampf(target_x - offset.x, _stage_min_x(), _stage_max_x())
@@ -563,7 +573,9 @@ func _directional_throw_visual_animation() -> StringName:
 	if directional_throw_data == null:
 		return &""
 	var clip: StringName = &""
-	if throw_state in ["THROW_STARTUP", "THROW_WHIFF"]:
+	if throw_state == "THROW_WHIFF" and _has_visual_animation(directional_throw_data.throw_whiff_animation):
+		clip = directional_throw_data.throw_whiff_animation
+	elif throw_state in ["THROW_STARTUP", "THROW_WHIFF"]:
 		clip = directional_throw_data.throw_start_animation
 	elif throw_state == "THROW_HOLD" and directional_throw_prepared:
 		clip = directional_throw_data.throw_prepare_animation

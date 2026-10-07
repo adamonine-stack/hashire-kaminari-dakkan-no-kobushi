@@ -32,3 +32,5 @@ throw_hold_animation = &"crusher_throw_hold"
 throw_victim_hold_animation = &"crusher_throw_held"
 
 throw_face_swapped_target = true
+
+throw_hold_offsets_by_fighter = {"player_02_gou": Vector2(75, 0), "player_03_seiya": Vector2(75, 0)}

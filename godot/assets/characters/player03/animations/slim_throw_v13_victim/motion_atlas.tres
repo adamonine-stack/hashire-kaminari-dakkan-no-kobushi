@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384,288)
+columns = 4
+head_scale_override = 1.0
+clips = {"directional_throw_held": {"frames": [1], "fps": 10, "loop": true}, "grabbed": {"frames": [1], "fps": 10, "loop": true}, "throw_victim_neutral_air": {"frames": [2, 2], "fps": 10, "loop": false}, "throw_victim_forward_air": {"frames": [3, 3], "fps": 10, "loop": false}, "throw_victim_down_air": {"frames": [4, 4], "fps": 10, "loop": false}, "throw_victim_back_air": {"frames": [5, 5], "fps": 10, "loop": false}, "throw_victim_slam_down": {"frames": [6], "fps": 8, "loop": true}, "down": {"frames": [6], "fps": 8, "loop": true}, "knockdown": {"frames": [6], "fps": 8, "loop": true}, "standup": {"frames": [6, 7, 0], "fps": 8, "loop": false}, "getup": {"frames": [6, 7, 0], "fps": 8, "loop": false}, "stand_up": {"frames": [6, 7, 0], "fps": 8, "loop": false}, "get_up": {"frames": [6, 7, 0], "fps": 8, "loop": false}, "ko": {"frames": [4, 6, 6], "fps": 10, "loop": false}, "defeat": {"frames": [4, 6, 6], "fps": 10, "loop": false}, "crusher_throw_held": {"frames": [1], "fps": 10, "loop": true}, "crusher_throw_neutral_air": {"frames": [2], "fps": 10, "loop": false}, "crusher_throw_forward_air": {"frames": [3], "fps": 10, "loop": false}, "crusher_throw_down_air": {"frames": [4], "fps": 10, "loop": false}, "crusher_throw_back_air": {"frames": [5], "fps": 10, "loop": false}, "crusher_throw_slam_down": {"frames": [6], "fps": 10, "loop": true}}
