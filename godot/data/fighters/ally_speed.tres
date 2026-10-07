@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=13 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -11,6 +11,12 @@
 [ext_resource type="Texture2D" path="res://assets/characters/player03/icon.png" id="9_icon"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/shadow.png" id="12_shadow"]
 [ext_resource type="Texture2D" path="res://assets/characters/player03/selection_portrait.png" id="13_selection_portrait"]
+
+[ext_resource type="Resource" path="res://data/attacks/seiya_forward_punch.tres" id="direction_forward_punch"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_forward_kick.tres" id="direction_forward_kick"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_down_kick.tres" id="direction_down_kick"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_air_punch.tres" id="direction_air_punch"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_air_kick.tres" id="direction_air_kick"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -179,7 +185,7 @@ guard_damage_multiplier = 0.32
 guard_stamina_multiplier = 1.2
 attack_knockback_multiplier = 0.8
 received_knockback_multiplier = 1.25
-attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_punch_3"), ExtResource("6_kick_finish")])
+attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_punch_3"), ExtResource("6_kick_finish"), ExtResource("direction_forward_punch"), ExtResource("direction_forward_kick"), ExtResource("direction_down_kick"), ExtResource("direction_air_punch"), ExtResource("direction_air_kick")])
 max_attack_chain_count = 4
 special_attack_sequence = Array[Resource]([ExtResource("7_special")])
 punch_damage_scale = 0.9

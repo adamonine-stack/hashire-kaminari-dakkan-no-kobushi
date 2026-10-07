@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "gou_down_kick"
+display_name = "GOU down kick"
+attack_type = "kick"
+attack_category = "directional"
+command_direction = "down"
+command_priority = 10
+base_damage = 0.9
+startup_time = 0.26
+active_time = 0.09
+recovery_time = 0.32
+hitbox_size = Vector2(82, 28)
+hitbox_offset = Vector2(98, -20)
+forward_move_distance = 0
+forward_move_duration = 0
+knockback = Vector2(150, -65)
+hitstop_time = 0.075
+hitstun_time = 0.32
+animation_name = "crouch_kick"
+contact_start_frame = 2
+contact_end_frame = 2
+hurtbox_height_scale = 0.52
+hurtbox_offset = Vector2(0, 0)
+hurtbox_start = 0.02
+hurtbox_end = 0.27
+launch_velocity = Vector2(0, 0)
+knockdown = true
+counter_hitstun_bonus = 0.0
+attack_height = "low"
+cancel_start = -1
+cancel_end = -1
+cancel_targets = Array[String]([])
+guard_hit_time = 0.16
+guard_knockback = Vector2(65, 0)

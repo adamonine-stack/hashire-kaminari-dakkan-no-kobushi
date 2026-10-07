@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "gou_forward_kick"
+display_name = "GOU forward kick"
+attack_type = "kick"
+attack_category = "directional"
+command_direction = "forward"
+command_priority = 10
+base_damage = 1.15
+startup_time = 0.32
+active_time = 0.1
+recovery_time = 0.46
+hitbox_size = Vector2(78, 38)
+hitbox_offset = Vector2(89, -105)
+forward_move_distance = 65
+forward_move_duration = 0.32
+knockback = Vector2(320, -68)
+hitstop_time = 0.075
+hitstun_time = 0.32
+animation_name = "kick_1"
+contact_start_frame = 2
+contact_end_frame = 2
+hurtbox_height_scale = 1
+hurtbox_offset = Vector2(0, 0)
+hurtbox_start = 0.02
+hurtbox_end = 0.35
+launch_velocity = Vector2(0, 0)
+knockdown = false
+counter_hitstun_bonus = 0.0
+attack_height = "middle"
+cancel_start = -1
+cancel_end = -1
+cancel_targets = Array[String]([])
+guard_hit_time = 0.16
+guard_knockback = Vector2(65, 0)

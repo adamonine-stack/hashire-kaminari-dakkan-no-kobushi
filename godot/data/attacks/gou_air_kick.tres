@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "gou_air_kick"
+attack_type = "kick"
+attack_category = "air"
+command_direction = "any"
+command_priority = 20
+ground_only = false
+airborne_only = true
+startup_time = 0.12
+active_time = 0.14
+recovery_time = 0.26
+base_damage = 1.0
+hitbox_size = Vector2(68, 40)
+hitbox_offset = Vector2(100, -82)
+knockback = Vector2(200, -90)
+hitstun_time = 0.30
+animation_name = "jump_kick"
+contact_start_frame = 2
+contact_end_frame = 2
+is_guardable = true
+attack_height = "overhead"
+hitstop_time = 0.04
+can_cancel_on_whiff = false
