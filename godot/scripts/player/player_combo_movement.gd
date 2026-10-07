@@ -1,6 +1,12 @@
 extends "res://scripts/player/player_movement.gd"
 
 const PlayerAttackDataScript := preload("res://scripts/data/player_attack_data.gd")
+const CombatCommandBufferScript := preload("res://scripts/input/combat_command_buffer.gd")
+
+@export_range(0.10, 0.18, 0.01) var directional_input_buffer_seconds := 0.15
+var combat_commands := CombatCommandBufferScript.new()
+var last_combat_command: Dictionary = {}
+var command_attack_elapsed := 0.0
 
 signal attack_started(attack_id)
 signal attack_became_active(attack_id)
@@ -73,10 +79,12 @@ var attack_recovery_time_actual := 0.0
 var crouch_sweep_hurtbox_adjusted := false
 var crouch_sweep_hurtbox_restore_position := Vector2.ZERO
 var crouch_sweep_hurtbox_restore_size := Vector2.ZERO
+var pending_air_landing_data: PlayerAttackData
 var air_kick_attack_data: Resource
 var air_punch_down_attack_data: Resource
 var crouch_kick_sweep_attack_data: Resource
 var has_used_air_attack := false
+var jump_combo_pending := false
 var is_air_attack_active := false
 var jump_kick_air_control_multiplier := 0.65
 var ai_jump_launch_pending := false
@@ -85,9 +93,11 @@ var ai_jump_launch_speed_multiplier := 1.0
 
 
 func _physics_process(delta: float) -> void:
+	_sample_combat_commands(delta)
 	if _update_hit_stop(delta):
 		return
 	_update_guard_recoil(delta)
+	landing_recovery_remaining = maxf(landing_recovery_remaining-delta,0.0)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
@@ -108,10 +118,11 @@ func _physics_process(delta: float) -> void:
 		_update_ai_guard(delta)
 	if not is_backstepping:
 		_face_opponent()
-	_update_double_tap_movement(delta)
+	if not _is_landing_recovery_busy():
+		_update_double_tap_movement(delta)
 
 	var is_air_attack_current := _is_air_attack_currently_active()
-	if current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0 or is_backstepping:
+	if _is_landing_recovery_busy() or current_attack_type != "" or is_kicking or is_crouching or is_crouch_guarding or is_hit or _is_throw_busy() or is_character_special_busy() or guard_recoil_timer > 0.0 or is_backstepping:
 		direction = 0.0
 		if is_air_attack_current and input_enabled:
 			direction = _get_horizontal_movement_input() * jump_kick_air_control_multiplier
@@ -133,8 +144,8 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		jump_pressed_this_airtime = false
 		has_used_air_attack = false
-		var ai_jump_requested := not input_enabled and guard_recoil_timer <= 0.0 and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
-		var player_jump_requested := input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_backstepping and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var ai_jump_requested := not _is_landing_recovery_busy() and not input_enabled and guard_recoil_timer <= 0.0 and ai_jump_launch_pending and current_attack_type == "" and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
+		var player_jump_requested := not _is_landing_recovery_busy() and input_enabled and guard_recoil_timer <= 0.0 and current_attack_type == "" and _is_jump_input_just_pressed() and not jump_pressed_this_airtime and not is_backstepping and not is_crouching and not is_kicking and not is_guarding and not is_crouch_guarding and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy()
 		if player_jump_requested or ai_jump_requested:
 			has_used_air_attack = false
 			_prepare_jump_visual_state()
@@ -151,29 +162,163 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y += gravity * delta
 
-	var did_cancel_attack := try_continue_combo()
-	if input_enabled and not did_cancel_attack and _is_throw_input_pressed():
-		request_combat_input(CombatInput.THROW)
-	if not did_cancel_attack and _is_special_input_just_pressed():
-		request_combat_input(CombatInput.SPECIAL)
-	if not did_cancel_attack and Input.is_action_just_pressed("attack"):
-		request_combat_input(CombatInput.PUNCH)
-	if not did_cancel_attack and Input.is_action_just_pressed("kick"):
-		request_combat_input(CombatInput.KICK)
+	_dispatch_combat_command()
 
 	if not is_hit and not is_guard_hit and not _is_throw_busy():
 		_update_attack(delta)
 		_update_kick(delta)
+	_apply_dive_motion()
 	_update_visual_state()
+	var was_air_attack := is_air_attack_active and current_attack_type != ""
 	move_and_slide()
 	_apply_post_move_stabilization()
-	if not was_on_floor_before_move and is_on_floor() and _is_air_attack_currently_active():
-		_finish_air_attack_on_landing()
+	if not was_on_floor_before_move and is_on_floor():
+		jump_combo_pending = false
+		if was_air_attack or pending_air_landing_data != null:
+			_finish_air_attack_on_landing()
 	_update_movement_feedback(direction, was_on_floor_before_move)
 
 	if is_guard_hit and is_on_floor():
 		velocity.x = move_toward(velocity.x, 0.0, move_speed * delta)
 
+
+
+func _sample_combat_commands(delta: float) -> void:
+	combat_commands.buffer_seconds = directional_input_buffer_seconds
+	combat_commands.advance(delta)
+	if not input_enabled or not is_round_active or current_hp <= 0:
+		combat_commands.clear()
+		return
+	for entry in [["left", "move_left"], ["right", "move_right"], ["down", "down"], ["punch", "attack"], ["kick", "kick"], ["throw", "throw_attack"], ["jump", "jump"]]:
+		combat_commands.record(entry[0], Input.is_action_pressed(entry[1]), facing_direction)
+	combat_commands.record("special", Input.is_action_pressed("special_attack") or Input.is_action_pressed("special"), facing_direction)
+
+
+func _dispatch_combat_command() -> void:
+	if not input_enabled:
+		try_continue_combo()
+		return
+	var command: Dictionary = combat_commands.peek()
+	if command.is_empty():
+		try_continue_combo()
+		return
+	last_combat_command = command.duplicate()
+	if command.kind == "jump":
+		if _request_jump_cancel():
+			combat_commands.consume(command)
+		return
+	var move_id := _resolve_directional_move(command)
+	if not move_id.is_empty():
+		# A directional command never falls back to a normal attack when its
+		# recovery/cancel rules prevent execution.
+		if _request_directional_move(move_id):
+			combat_commands.consume(command)
+		return
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty() and command.kind in ["punch", "kick"]:
+		var target := _directional_cancel_target(String(command.kind))
+		if not target.is_empty() and _request_directional_move(target):
+			combat_commands.consume(command)
+		return
+	var accepted := false
+	match String(command.kind):
+		"special": accepted = request_combat_input(CombatInput.SPECIAL)
+		"throw": accepted = request_combat_input(CombatInput.THROW)
+		"punch": accepted = request_combat_input(CombatInput.PUNCH)
+		"kick": accepted = request_combat_input(CombatInput.KICK)
+	# Legacy combo buffering stores the request even before it can cancel.
+	if accepted or (command.kind in ["punch", "kick"] and dev_buffered_attack != &""):
+		combat_commands.consume(command)
+
+
+func _directional_cancel_target(kind: String) -> String:
+	for target_id in current_attack_data.cancel_targets:
+		var target := _get_attack_data(target_id)
+		if target != null and String(target.command_direction).is_empty() and String(target.attack_type).to_lower() == kind:
+			return target_id
+	return ""
+
+
+func _resolve_directional_move(command: Dictionary) -> String:
+	var best_id := ""
+	var best_priority := -2147483648
+	for move in attack_data_sequence:
+		if move == null or (String(move.command_direction).is_empty() and not bool(move.airborne_only)):
+			continue
+		if (String(move.command_direction) != "any" and String(move.command_direction) != String(command.direction)) or String(move.attack_type).to_lower() != String(command.kind):
+			continue
+		if bool(move.ground_only) and not is_on_floor():
+			continue
+		if bool(move.airborne_only) and is_on_floor():
+			continue
+		if int(move.command_priority) > best_priority:
+			best_id = String(move.attack_id)
+			best_priority = int(move.command_priority)
+	return best_id
+
+
+func _request_directional_move(move_id: String, is_ai_request := false) -> bool:
+	var move := _get_attack_data(move_id)
+	if move != null and String(move.attack_type) == "throw":
+		return _request_directional_throw(move, is_ai_request)
+	if move == null or not _can_accept_attack_input(is_ai_request):
+		return false
+	if bool(move.ground_only) and not is_on_floor():
+		return false
+	if bool(move.airborne_only) and is_on_floor():
+		return false
+	if current_attack_type != "":
+		if current_attack_data == null or float(current_attack_data.cancel_start) < 0.0:
+			return false
+		if command_attack_elapsed < float(current_attack_data.cancel_start) or command_attack_elapsed > float(current_attack_data.cancel_end):
+			return false
+		if not current_attack_data.cancel_targets.has(move_id):
+			return false
+		if not dev_current_attack_connected and not bool(current_attack_data.can_cancel_on_whiff):
+			return false
+		if dev_current_attack_connected and not bool(current_attack_data.can_cancel_on_hit):
+			return false
+		if combo_count >= dev026_max_combo_hits:
+			return false
+		start_combo_attack(StringName(move_id))
+	else:
+		if bool(move.airborne_only):
+			if not (_can_start_air_kick_attack(is_ai_request) if String(move.attack_type).to_lower() == "kick" else _can_start_air_punch_down_attack(is_ai_request)):
+				return false
+		elif not _can_start_attack_from_input(_attack_type_to_state_name(String(move.attack_type)), is_ai_request):
+			return false
+		if bool(move.airborne_only) and jump_combo_pending and combo_count > 0:
+			start_combo_attack(StringName(move_id))
+		else:
+			start_attack(move_id)
+		jump_combo_pending = false
+	if bool(move.airborne_only) and current_attack_id == move_id:
+		is_air_attack_active = true
+		has_used_air_attack = true
+	return current_attack_id == move_id
+
+
+func _request_jump_cancel(is_ai_request := false) -> bool:
+	if not is_on_floor() or current_attack_data == null or not _can_accept_attack_input(is_ai_request):
+		return false
+	if not current_attack_data.cancel_targets.has("jump") or not current_attack_data.can_cancel_on_hit or not dev_current_attack_connected:
+		return false
+	if command_attack_elapsed < current_attack_data.cancel_start or command_attack_elapsed > current_attack_data.cancel_end:
+		return false
+	if combo_count >= dev026_max_combo_hits:
+		return false
+	reset_attack_state(false)
+	close_combo_window()
+	is_crouching = false
+	jump_combo_pending = true
+	has_used_air_attack = false
+	jump_pressed_this_airtime = true
+	_prepare_jump_visual_state()
+	velocity.y = -jump_power
+	var direction := _get_horizontal_input_direction()
+	if direction != 0.0:
+		velocity.x = direction * jump_horizontal_speed
+	_play_audio_manager_se("jump")
+	return true
 
 
 func _update_air_movement(direction: float, delta: float) -> void:
@@ -189,6 +334,9 @@ func _sync_attack_visual_phase() -> void:
 	if current_attack_data == null or animated_character_sprite == null:
 		return
 	var contact_frames := {"player1_punch_1": Vector2i(2, 2), "player1_punch_2": Vector2i(2, 2), "player1_kick_finish": Vector2i(2, 3)}
+	var authored_contact := int(current_attack_data.contact_start_frame) >= 0
+	if authored_contact:
+		contact_frames[current_attack_id] = Vector2i(current_attack_data.contact_start_frame, maxi(current_attack_data.contact_end_frame, current_attack_data.contact_start_frame))
 	var definition: Resource = get("fighter_definition")
 	var is_gou := definition != null and String(definition.get("fighter_id")) == "player_02_gou" and definition.get("motion_atlas") != null
 	var is_seiya := definition != null and String(definition.get("fighter_id")) == "player_03_seiya" and definition.get("motion_atlas") != null
@@ -220,7 +368,7 @@ func _sync_attack_visual_phase() -> void:
 	if definition != null and String(definition.get("fighter_id")) == "enemy_05_cross_murasame":
 		for id in ["cross_punch","cross_chop","cross_wrist_finish","cross_kick","cross_knee","cross_joint_finish","cross_sweep","cross_air_punch","cross_air_kick"]:
 			contact_frames[id] = Vector2i(2, 2) if id.ends_with("finish") else Vector2i(1, 1)
-	if not contact_frames.has(current_attack_id) or (is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya and not is_leon and not _uses_readable_grapple()):
+	if not contact_frames.has(current_attack_id) or (not authored_contact and is_crouching and current_attack_id != "rei_sweep" and current_attack_id != "teki_sweep" and current_attack_id != "cross_sweep" and not is_gou and not is_seiya and not is_leon and not _uses_readable_grapple()):
 		return
 	var contact: Vector2i = contact_frames[current_attack_id]
 	var count := animated_character_sprite.sprite_frames.get_frame_count(animated_character_sprite.animation)
@@ -251,8 +399,193 @@ func _dev_start_kick() -> void:
 
 
 func _start_throw() -> void:
+	directional_throw_data = null
 	interrupt_combo()
 	super._start_throw()
+
+
+var directional_throw_data: PlayerAttackData
+var directional_throw_origin := Vector2.ZERO
+var directional_throw_victim_origin := Vector2.ZERO
+var directional_throw_facing := 1.0
+var directional_throw_elapsed := 0.0
+var directional_throw_prepared := false
+
+
+func _request_directional_throw(move: PlayerAttackData, is_ai_request := false) -> bool:
+	if not is_ai_request and not input_enabled:
+		return false
+	# Down is a command, so allow it to leave the crouch pose before grabbing.
+	var crouched := is_crouching
+	is_crouching = false
+	if is_backstepping or is_character_special_busy() or not _can_start_throw():
+		is_crouching = crouched
+		return false
+	_start_throw()
+	directional_throw_data = move
+	directional_throw_origin = global_position
+	directional_throw_facing = facing_direction
+	directional_throw_elapsed = 0.0
+	directional_throw_prepared = false
+	throw_startup_timer = move.startup_time
+	_play_throw_animation("throw_start")
+	return true
+
+
+func _update_active_throw(delta: float) -> void:
+	directional_throw_elapsed += delta
+	if directional_throw_data != null and throw_state == "THROW_HOLD" and not directional_throw_prepared and directional_throw_data.throw_prepare_seconds > 0.0:
+		if throw_hold_timer <= directional_throw_data.throw_prepare_seconds + delta and _is_valid_throw_target(current_throw_target):
+			directional_throw_prepared = true
+			if _has_visual_animation(directional_throw_data.throw_prepare_animation):
+				_play_visual_animation(directional_throw_data.throw_prepare_animation, true)
+			if current_throw_target._has_visual_animation(directional_throw_data.throw_victim_prepare_animation):
+				current_throw_target._play_visual_animation(directional_throw_data.throw_victim_prepare_animation, true)
+	super._update_active_throw(delta)
+
+
+func _get_throw_target() -> Node:
+	var target := super._get_throw_target()
+	if target != null or directional_throw_data == null or not is_throwing or throw_state != "THROW_STARTUP":
+		return target
+	var move := directional_throw_data
+	if move.throw_counter_range <= 0.0 or directional_throw_elapsed > move.throw_counter_window:
+		return null
+	target = _get_opponent()
+	if target == null or not target.can_be_thrown(self) or not _is_facing_attacker(target):
+		return null
+	if absf(target.global_position.y - global_position.y) > throw_vertical_tolerance or _get_throw_gap_to(target) > move.throw_counter_range:
+		return null
+	# Observe motion toward us, not the opponent's input or a move-ID matchup.
+	if target.velocity.x * signf(global_position.x - target.global_position.x) < 80.0:
+		return null
+	return target
+
+
+func _connect_throw(target: Node, damage_override: int = -1) -> void:
+	if directional_throw_data == null:
+		super._connect_throw(target, damage_override)
+		return
+	directional_throw_victim_origin = target.global_position
+	var saved_damage := throw_damage
+	var saved_hold := throw_hold_time
+	var saved_force := throw_knockback
+	var saved_vertical := throw_vertical_force
+	var resistance := 1.0
+	var definition: Resource = target.get("fighter_definition")
+	if definition != null:
+		resistance = clampf(float(definition.throw_received_damage_scale), 0.25, 1.0)
+	throw_damage = maxi(1, roundi(saved_damage * directional_throw_data.damage_multiplier * resistance))
+	throw_hold_time = directional_throw_data.throw_hold_seconds
+	throw_knockback = directional_throw_data.throw_velocity.x
+	throw_vertical_force = directional_throw_data.throw_velocity.y
+	super._connect_throw(target, damage_override)
+	throw_damage = saved_damage
+	throw_hold_time = saved_hold
+	throw_knockback = saved_force
+	throw_vertical_force = saved_vertical
+
+
+func _release_throw() -> void:
+	if directional_throw_data == null:
+		super._release_throw()
+		return
+	if has_throw_damage_applied:
+		return
+	var target := current_throw_target
+	if _is_valid_throw_target(target) and directional_throw_data.throw_release_offset != Vector2.ZERO:
+		var offset := directional_throw_data.throw_release_offset
+		target.global_position.x += offset.x * directional_throw_facing
+		target.global_position.y = minf(target.global_position.y, stage_floor_y + directional_throw_data.throw_hold_offset.y + offset.y)
+	if _is_valid_throw_target(target) and directional_throw_data.throw_swap_positions:
+		global_position.x = clampf(directional_throw_victim_origin.x, _stage_min_x(), _stage_max_x())
+		target.global_position.x = clampf(directional_throw_origin.x, _stage_min_x(), _stage_max_x())
+		target.global_position.y = stage_floor_y
+		if directional_throw_data.throw_face_swapped_target:
+			facing_direction = -directional_throw_facing
+			target.facing_direction = directional_throw_facing
+			_set_visual_facing()
+			target._set_visual_facing()
+		target.pending_throw_velocity = Vector2(-directional_throw_data.throw_velocity.x * directional_throw_facing, directional_throw_data.throw_velocity.y)
+		target.pending_throw_direction = -directional_throw_facing
+	super._release_throw()
+	throw_recovery_timer = directional_throw_data.recovery_time
+
+
+func _fail_throw() -> void:
+	super._fail_throw()
+	if directional_throw_data != null:
+		throw_recovery_timer = directional_throw_data.throw_whiff_seconds
+
+
+func _finish_throw() -> void:
+	super._finish_throw()
+	directional_throw_data = null
+	directional_throw_prepared = false
+
+
+func _lock_throw_target_position(target: Node) -> void:
+	if directional_throw_data == null or directional_throw_data.throw_hold_offset == Vector2.ZERO:
+		super._lock_throw_target_position(target)
+		return
+	var offset := directional_throw_data.throw_hold_offset
+	offset.x *= directional_throw_facing
+	var target_x := clampf(global_position.x + offset.x, _stage_min_x() + 64.0, _stage_max_x() - 64.0)
+	global_position.x = clampf(target_x - offset.x, _stage_min_x(), _stage_max_x())
+	var preparation := 0.0
+	if directional_throw_data.throw_prepare_seconds > 0.0:
+		preparation = clampf(1.0 - throw_hold_timer / directional_throw_data.throw_prepare_seconds, 0.0, 1.0)
+	target.global_position = Vector2(target_x, stage_floor_y + offset.y + directional_throw_data.throw_release_offset.y * preparation)
+	target.velocity = Vector2.ZERO
+	target.facing_direction = -directional_throw_facing
+	target._set_visual_facing()
+
+
+func _play_throw_animation(animation_name := "Throw") -> void:
+	if directional_throw_data != null:
+		var authored := directional_throw_data.throw_release_animation if animation_name == "throw_release" else directional_throw_data.throw_start_animation
+		if authored == &"":
+			authored = directional_throw_data.throw_prepare_animation
+		if animation_name in ["throw_start", "throw_release"] and _has_visual_animation(authored):
+			_play_visual_animation(authored, true)
+			return
+	if directional_throw_data != null and animation_name == "throw_hold":
+		var hold_clip := directional_throw_data.throw_hold_animation
+		if hold_clip == &"":
+			hold_clip = &"directional_throw_hold"
+		if _has_visual_animation(hold_clip):
+			_play_visual_animation(hold_clip, true)
+			return
+	super._play_throw_animation(animation_name)
+
+
+func _directional_throw_visual_animation() -> StringName:
+	if directional_throw_data == null:
+		return &""
+	var clip: StringName = &""
+	if throw_state in ["THROW_STARTUP", "THROW_WHIFF"]:
+		clip = directional_throw_data.throw_start_animation
+	elif throw_state == "THROW_HOLD" and directional_throw_prepared:
+		clip = directional_throw_data.throw_prepare_animation
+	elif throw_state == "THROW_HOLD":
+		clip = directional_throw_data.throw_hold_animation
+	elif throw_state == "THROW_RECOVERY":
+		clip = directional_throw_data.throw_release_animation
+	return clip if _has_visual_animation(clip) else &""
+
+
+func _directional_throw_victim_animation() -> StringName:
+	if not is_instance_valid(pending_throw_attacker) or pending_throw_attacker.get("directional_throw_data") == null:
+		return &""
+	var holder := pending_throw_attacker
+	if holder.directional_throw_prepared:
+		var clip: StringName = holder.directional_throw_data.throw_victim_prepare_animation
+		if _has_visual_animation(clip):
+			return clip
+	var hold_clip: StringName = holder.directional_throw_data.throw_victim_hold_animation
+	if _has_visual_animation(hold_clip):
+		return hold_clip
+	return &""
 
 
 func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_direction: float, throw_velocity: Vector2) -> void:
@@ -403,7 +736,7 @@ func request_attack_input(attack_type: StringName, is_ai_request := false) -> bo
 func _can_accept_attack_input(is_ai_request: bool) -> bool:
 	if not is_ai_request and not input_enabled:
 		return false
-	return current_hp > 0 and is_round_active and guard_recoil_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
+	return not _is_landing_recovery_busy() and current_hp > 0 and is_round_active and guard_recoil_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_character_special_busy() and (is_ai_request or not _is_throw_input_held())
 
 
 func _can_start_attack_from_input(attack_type: StringName, is_ai_request: bool) -> bool:
@@ -484,8 +817,13 @@ func start_attack(attack_id: String) -> void:
 
 	reset_attack_state(false)
 	current_attack_data = attack_data
+	if attack_data.airborne_only and attack_data.landing_recovery > 0.0:
+		pending_air_landing_data = attack_data
 	current_attack_id = attack_id
+	command_attack_elapsed = 0.0
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
+	if not String(attack_data.command_direction).is_empty():
+		is_crouching = false
 	_play_audio_manager_se("kick_whiff" if current_attack_type == "Kick" else "punch_whiff")
 	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
 	dev_current_attack_connected = false
@@ -657,11 +995,15 @@ func get_next_attack_id(input_type: String) -> String:
 	if current_attack_data != null and not current_attack_id.is_empty():
 		for next_id in current_attack_data.next_attack_ids:
 			var attack_data := _get_attack_data(String(next_id))
+			if attack_data != null and String(attack_data.command_direction) not in ["", "neutral"]:
+				continue
 			if attack_data != null and String(attack_data.attack_type).to_lower() == normalized_type:
 				return String(attack_data.attack_id)
 		return ""
 
 	for attack_data in attack_data_sequence:
+		if attack_data != null and String(attack_data.command_direction) not in ["", "neutral"]:
+			continue
 		if attack_data != null and String(attack_data.attack_type).to_lower() == normalized_type:
 			return String(attack_data.attack_id)
 	return ""
@@ -681,7 +1023,10 @@ func apply_attack_forward_movement(delta: float) -> void:
 	if attack_forward_timer <= 0.0:
 		return
 	var step := minf(delta, attack_forward_timer)
-	position.x += attack_forward_speed * step
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty():
+		velocity.x = attack_forward_speed * step / maxf(delta, 0.001)
+	else:
+		position.x += attack_forward_speed * step
 	attack_forward_timer = maxf(attack_forward_timer - delta, 0.0)
 
 
@@ -810,7 +1155,7 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
-	special_guard_animation = StringName(attack_data.get("special_guard_reaction", &""))
+	_select_special_guard_reaction(attack_data)
 	reset_attack_state(false)
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
@@ -830,6 +1175,7 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	var authored_guard_time := float(attack_data.get("guard_hit_time", guard_hit_timer))
 	var guarded_attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	guard_hit_timer = authored_guard_time if guarded_attack_type == "special" or guarded_attack_type == "ultimate" else minf(authored_guard_time, 0.09)
+	special_guard_duration = guard_hit_timer if special_guard_animation != &"" else 0.0
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
 	if has_method("gain_special_gauge_from_damage"):
@@ -863,6 +1209,7 @@ func _update_kick(delta: float) -> void:
 func _update_current_attack(delta: float) -> void:
 	if current_attack_data == null:
 		return
+	command_attack_elapsed += delta
 
 	apply_attack_forward_movement(delta)
 	attack_cooldown_timer = maxf(attack_cooldown_timer - delta, 0.0)
@@ -982,12 +1329,6 @@ func _update_attack_buffer(delta: float) -> void:
 		if dev_attack_buffer_timer == 0.0:
 			clear_attack_buffer()
 
-	if not input_enabled or current_attack_type == "" or _is_throw_input_held():
-		return
-	if Input.is_action_just_pressed("attack"):
-		request_combat_input(CombatInput.PUNCH)
-	elif Input.is_action_just_pressed("kick"):
-		request_combat_input(CombatInput.KICK)
 
 
 func _try_cancel_attack_from_input() -> bool:
@@ -1011,6 +1352,12 @@ func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bo
 
 
 func try_continue_combo() -> bool:
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty():
+		var target := _directional_cancel_target(String(dev_buffered_attack).to_lower())
+		if not target.is_empty() and _request_directional_move(target, not input_enabled):
+			clear_attack_buffer()
+			return true
+		return false
 	if not _can_cancel_attack():
 		return false
 	if dev_buffered_attack == &"":
@@ -1066,7 +1413,7 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 	# The receiver must judge finishers from the attacker's combo definition, not its own.
 	scaled_attack_data["combo_hit_max"] = dev026_max_combo_hits
 	scaled_attack_data["damage_scale"] = damage_scale
-	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and not current_attack_data.next_attack_ids.is_empty()
+	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and (not current_attack_data.next_attack_ids.is_empty() or not current_attack_data.cancel_targets.is_empty())
 	return scaled_attack_data
 
 
@@ -1176,6 +1523,7 @@ func _get_combo_knockback_scale_for_hit(hit_index: int) -> float:
 
 
 func interrupt_combo() -> void:
+	jump_combo_pending = false
 	reset_attack_state(false)
 	clear_attack_buffer()
 	close_combo_window()
@@ -1282,7 +1630,7 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 	# Air attacks are overheads: standing guard blocks them, crouch guard does not.
 	if String(attack_data.get("attack_category")).to_lower() == "air":
 		attack_height = "overhead"
-	return {
+	var result := {
 		"damage": maxi(1, int(round(float(base_damage) * float(attack_data.base_damage)))),
 		"attacker_archetype": String(_get_combat_archetype()),
 		"attack_height": attack_height,
@@ -1300,6 +1648,21 @@ func _get_attack_data_dictionary(fallback_attack_type: String) -> Dictionary:
 		"attack_id": current_attack_id,
 		"attack_type": String(attack_data.attack_type),
 	}
+	if not String(attack_data.command_direction).is_empty():
+		result.merge({
+		"launch_velocity": Vector2(attack_data.launch_velocity),
+		"causes_knockdown": bool(attack_data.knockdown),
+		"hit_reaction": StringName(attack_data.hit_reaction),
+		"ground_bounces": int(attack_data.ground_bounces),
+		"ground_bounce_velocity": Vector2(attack_data.ground_bounce_velocity),
+		"counter_hitstun_bonus": float(attack_data.counter_hitstun_bonus),
+		"hitstun_time": float(attack_data.hitstun_time),
+		"is_guardable": bool(attack_data.is_guardable),
+		"guard_damage_multiplier": float(attack_data.guard_damage_multiplier),
+		"guard_hit_time": float(attack_data.guard_hit_time),
+		"guard_knockback": Vector2(attack_data.guard_knockback),
+		}, true)
+	return result
 
 
 func _get_attack_data(attack_id: String) -> Resource:
@@ -1480,6 +1843,8 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
+	if attack_data != null and not String(attack_data.command_direction).is_empty():
+		return StringName(attack_data.animation_name)
 	if _is_cross_grappler() and attack_data != null:
 		return StringName(attack_data.animation_name)
 	if attack_data != null:
@@ -1497,7 +1862,24 @@ func _attack_animation_name(attack_data: Resource) -> StringName:
 	return _get_attack_animation_name(StringName(current_attack_type))
 
 
+func _update_pose_collision() -> void:
+	super._update_pose_collision()
+	if current_attack_data == null or String(current_attack_data.command_direction).is_empty():
+		return
+	if hurt_box == null or hurt_shape == null or not (hurt_shape.shape is RectangleShape2D):
+		return
+	if command_attack_elapsed < float(current_attack_data.hurtbox_start) or command_attack_elapsed > float(current_attack_data.hurtbox_end):
+		return
+	var height := default_hurt_box_size.y * clampf(float(current_attack_data.hurtbox_height_scale), 0.25, 1.25)
+	hurt_shape.shape.size = Vector2(default_hurt_box_size.x * clampf(float(current_attack_data.hurtbox_width_scale), 0.25, 1.25), height)
+	var offset: Vector2 = current_attack_data.hurtbox_offset * battle_visual_scale_multiplier
+	offset.x *= facing_direction
+	hurt_box.position = default_hurt_box_position + Vector2(0.0, (default_hurt_box_size.y - height) * 0.5) + offset
+
+
 func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) -> float:
+	if attack_data != null and not String(attack_data.command_direction).is_empty():
+		return float(attack_data.hitstop_time)
 	if attack_type == "Kick":
 		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
 			return dev052_kick_1_hitstop_attacker
@@ -1510,6 +1892,8 @@ func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) ->
 
 
 func _get_attack_hitstop_defender(attack_data: Resource, attack_type: String) -> float:
+	if attack_data != null and not String(attack_data.command_direction).is_empty():
+		return float(attack_data.hitstop_time)
 	if attack_type == "Kick":
 		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
 			return 0.09
@@ -1560,10 +1944,33 @@ func _is_air_attack_currently_active() -> bool:
 	return is_air_attack_active and current_attack_type != "" and not is_on_floor()
 
 
+func clear_pending_air_landing() -> void:
+	pending_air_landing_data = null
+
+
+func _apply_dive_motion() -> void:
+	if is_on_floor() or is_hit or is_guard_hit or current_attack_data == null or attack_phase == AttackPhase.STARTUP:
+		return
+	var dive: Vector2 = current_attack_data.dive_velocity
+	if dive.y > 0.0:
+		velocity = Vector2(dive.x*facing_direction,maxf(velocity.y,dive.y))
+
+
 func _finish_air_attack_on_landing() -> void:
+	var landing_data := pending_air_landing_data
+	if landing_data == null and current_attack_data != null:
+		landing_data = current_attack_data
 	finish_attack()
 	has_used_air_attack = false
-	_play_visual_animation(&"jump_land", true)
+	jump_combo_pending = false
+	pending_air_landing_data = null
+	landing_recovery_remaining = float(landing_data.landing_recovery) if landing_data != null else 0.0
+	landing_recovery_animation = landing_data.landing_animation if landing_data != null else &"jump_land"
+	if _is_landing_recovery_busy():
+		velocity.x = 0.0
+		is_crouching = false
+		_clear_guard_state()
+	_play_visual_animation(landing_recovery_animation, true)
 
 
 func _target_debug_name(target: Node) -> String:
@@ -1579,6 +1986,8 @@ func _update_visual_state() -> void:
 	_sync_attack_visual_phase()
 	if not debug_state_label_enabled:
 		return
+	if _is_landing_recovery_busy():
+		state_label.text += "\nLANDING RECOVERY: %.2fs" % landing_recovery_remaining
 	if combo_count == 0 and not dev_combo_window_open and dev_buffered_attack == &"":
 		return
 

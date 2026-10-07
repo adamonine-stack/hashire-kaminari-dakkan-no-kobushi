@@ -28,7 +28,7 @@ func _initialize() -> void:
 		&"jump_kick": 4, &"jump_punch": 4, &"jump_punch_down": 4,
 		&"guard": 1, &"crouch": 1, &"crouch_guard": 1,
 		&"crouch_punch": 3, &"crouch_kick": 3,
-		&"damage_high": 2, &"knockdown": 3,
+		&"damage_high": 3, &"knockdown": 3,
 		&"stand_up": 4, &"ko": 2, &"throw": 4,
 	}
 	for animation_name in required:

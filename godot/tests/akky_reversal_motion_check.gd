@@ -64,14 +64,15 @@ func run() -> void:
 	var fixed_pivot := sprite.position
 	var atlas_paths: Array[String] = []
 	var clips := {"akky_reversal_startup":2, "akky_reversal_elbow":1, "akky_reversal_finish":1,
-		"special_hit":2, "special_knockback":2, "special_knockdown":1, "special_guard":2}
+		"special_hit":2, "special_knockback":2, "special_knockdown":1, "special_guard":3}
 	for clip in clips:
 		check(sprite.sprite_frames.has_animation(clip), "dedicated clip " + clip)
 		check(sprite.sprite_frames.get_frame_count(clip) == clips[clip], "frame count " + clip)
 		for frame_number in range(clips[clip]):
 			var frame := sprite.sprite_frames.get_frame_texture(clip, frame_number) as AtlasTexture
 			check(frame != null and frame.region.size == Vector2(320,224), "fixed cell " + clip)
-			check(frame != null and String(frame.atlas.resource_path).contains("reversal_v1"), "authored source " + clip)
+			var expected_source := "akky_special_guard.png" if clip == "special_guard" else ("down_v2/motion_atlas.png" if clip == "special_knockdown" else "reversal_v1/motion_atlas.png")
+			check(frame != null and String(frame.atlas.resource_path).ends_with(expected_source), "authored source " + clip)
 			if frame != null: atlas_paths.append(frame.atlas.resource_path)
 			for facing in [1.0, -1.0]:
 				actor.facing_direction = facing

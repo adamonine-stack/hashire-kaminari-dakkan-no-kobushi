@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/directional_throw_v2/akky.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(320, 224)
+columns = 3
+clips = {"akky_throw_neutral_start": {"frames": [0], "fps": 10.0, "loop": false}, "akky_throw_neutral_release": {"frames": [1, 2], "fps": 10.0, "loop": false}, "akky_throw_forward_start": {"frames": [3], "fps": 10.0, "loop": false}, "akky_throw_forward_release": {"frames": [4, 5], "fps": 10.0, "loop": false}, "akky_throw_down_start": {"frames": [6], "fps": 10.0, "loop": false}, "akky_throw_down_release": {"frames": [7, 8], "fps": 10.0, "loop": false}, "akky_throw_back_start": {"frames": [9], "fps": 10.0, "loop": false}, "akky_throw_back_release": {"frames": [10, 11], "fps": 10.0, "loop": false}}

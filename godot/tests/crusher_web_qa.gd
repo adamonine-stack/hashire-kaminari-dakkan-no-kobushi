@@ -63,7 +63,12 @@ func extra_checks(manager: Node, attacker: Node, target: Node) -> void:
 			check(not target.receive_attack(packet,direction,target.global_position,attacker),definition+" blocks hammer")
 			check(target.current_hp == hp,definition+" guard has zero chip damage")
 			target._update_visual_state()
-			check(sprite.animation == &"received_crusher_hammer_guard",definition+" dedicated hammer guard")
+			var expected_guard: StringName = &"special_guard" if definition == "ally_balance" else &"received_crusher_hammer_guard"
+			check(sprite.animation == expected_guard,definition+" dedicated hammer guard")
+			if definition == "ally_balance":
+				check(sprite.sprite_frames.get_frame_count(expected_guard)==3,"AKKY paired guard has three phases")
+				var guard_texture: AtlasTexture = sprite.sprite_frames.get_frame_texture(expected_guard,0)
+				check(guard_texture.atlas.resource_path.ends_with("akky_special_guard.png"),"AKKY paired guard source")
 			check_visible_art(sprite,definition+" guard")
 			await capture(definition+"_guard_"+str(direction))
 	await reset(manager,attacker,Vector2(600,520),1)

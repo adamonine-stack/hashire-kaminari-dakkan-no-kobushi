@@ -1,6 +1,10 @@
 extends Resource
 class_name FighterDefinition
 
+## Directional-throw resistance complements the existing AI throw escape rate.
+## Default preserves saved definitions and existing balance.
+@export_range(0.25, 1.0, 0.05) var throw_received_damage_scale: float = 1.0
+
 # Keep only the currently selected player's primary authored atlas alive.
 # SpriteFrames already keep that Texture2D alive for the active player, so
 # retaining this lightweight Resource wrapper does not add another texture
@@ -138,6 +142,7 @@ static var _active_player_motion_atlas_path := ""
 		return loaded_atlases
 ## attack_id -> {hit, airborne, down}: poses belong to this receiving fighter.
 @export var special_damage_reactions: Dictionary = {}
+@export var sync_special_guard_to_stun := false
 @export var aura_attack: Resource
 @export var reversal_attack: Resource
 @export var use_direct_combat_stats: bool = false

@@ -115,6 +115,10 @@ func _notification(what: int) -> void:
 
 
 func release_all_touch_inputs() -> void:
+	# Tap actions can still be waiting for their deferred physics/frame release.
+	for action_name in TAP_BUTTON_ACTIONS.values():
+		Input.action_release(String(action_name))
+	Input.action_release("jump")
 	for action_name in _held_action_counts.keys():
 		Input.action_release(action_name)
 	_held_action_counts.clear()

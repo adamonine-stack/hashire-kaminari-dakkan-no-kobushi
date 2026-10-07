@@ -19,7 +19,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.pull_request.number) || 'pages' }}
   cancel-in-progress: true
 
 env:
@@ -140,6 +140,18 @@ jobs:
           set -o pipefail
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev_audio_smoke.gd 2>&1 | tee /tmp/dev-audio.log || true
           grep -q "DEV_AUDIO_OK" /tmp/dev-audio.log
+
+      - name: Verify AKKY and Crusher one-on-one combat
+        shell: bash
+        run: |
+          set -euo pipefail
+          for spec in "duel_mobile_input_check:DUEL_MOBILE_INPUT_CHECK" "combat_flow_check:COMBAT_FLOW_CHECK" "directional_attacks_check:DIRECTIONAL_ATTACKS_CHECK" "directional_throws_check:DIRECTIONAL_THROWS_CHECK" "air_combo_check:AIR_COMBO_CHECK" "air_guard_check:AIR_GUARD_CHECK" "dedicated_special_guard_check:DEDICATED_SPECIAL_GUARD_CHECK" "receiver_routing_check:RECEIVER_ROUTING_CHECK" "wall_bounce_check:WALL_BOUNCE_CHECK"; do
+            test="${spec%%:*}"
+            marker="${spec#*:}"
+            timeout 180s godot --headless --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/pair-$test.log"
+            grep -Fq "$marker failures=[]" "/tmp/pair-$test.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/pair-$test.log"; then exit 1; fi
+          done
 
       - name: Verify Stage 1 battle slice
         shell: bash

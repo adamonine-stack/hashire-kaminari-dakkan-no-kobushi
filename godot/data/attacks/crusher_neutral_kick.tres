@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "crusher_neutral_kick"
+attack_type = "kick"
+command_direction = "neutral"
+command_priority = 10
+startup_time = 0.18
+active_time = 0.1
+recovery_time = 0.3
+base_damage = 1.0
+hitbox_size = Vector2(68, 44)
+hitbox_offset = Vector2(84, -82)
+forward_move_distance = 0
+forward_move_duration = 0
+animation_name = "kick_1"
+contact_start_frame = 1
+contact_end_frame = 1
+hitstun_time = 0.25
+hitstop_time = 0.05
+ai_tags = Array[String](["middle"])
+ai_distance_min = 65
+ai_distance_max = 130
+can_cancel_on_whiff = false
+knockback = Vector2(120, -40)

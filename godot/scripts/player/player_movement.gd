@@ -121,6 +121,12 @@ var attack_active_timer := 0.0
 var attack_cooldown_timer := 0.0
 var kick_active_timer := 0.0
 var kick_cooldown_timer := 0.0
+var landing_recovery_remaining := 0.0
+var landing_recovery_animation: StringName = &"jump_land"
+
+func _is_landing_recovery_busy() -> bool:
+	return landing_recovery_remaining > 0.0
+
 var is_guarding := false
 var is_crouching := false
 var is_crouch_guarding := false
@@ -142,6 +148,7 @@ var victory_pose_active := false
 var hit_reaction_timer := 0.0
 var invincibility_timer := 0.0
 var special_guard_animation: StringName = &""
+var special_guard_duration := 0.0
 var hit_stop_timer := 0.0
 var guard_hit_timer := 0.0
 var guard_motion_timer := 0.0
@@ -515,6 +522,9 @@ func _update_defensive_state(delta := 0.0) -> void:
 	guard_motion_timer = maxf(guard_motion_timer - delta, 0.0)
 	crouch_motion_timer = maxf(crouch_motion_timer - delta, 0.0)
 
+	# Preserve air blockstun until its timer expires; releasing G cannot cancel it.
+	if is_guard_hit and not is_on_floor():
+		return
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
 		crouch_motion_state = "none"
@@ -531,7 +541,7 @@ func _update_defensive_state(delta := 0.0) -> void:
 		is_crouching = false
 		crouch_motion_state = "none"
 		crouch_motion_timer = 0.0
-		guard_type = "low" if is_crouch_guarding else "high"
+		guard_type = "air" if not is_on_floor() else ("low" if is_crouch_guarding else "high")
 		if not was_guarding:
 			guard_motion_state = "enter"
 		elif guard_motion_state != "enter":
@@ -675,6 +685,8 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 		_play_throw_animation("cross_muei_held")
 	else:
 		_play_throw_animation("grapple_held" if held_by_readable and _has_visual_animation(&"grapple_held") else ("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown")))
+	if attacker.get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_held"):
+		_play_visual_animation(&"directional_throw_held", true)
 
 
 func _get_throw_target() -> Node:
@@ -693,7 +705,7 @@ func _get_throw_target() -> Node:
 
 
 func _can_start_throw() -> bool:
-	return is_round_active and current_hp > 0 and is_on_floor() and guard_recoil_timer <= 0.0 and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
+	return not _is_landing_recovery_busy() and is_round_active and current_hp > 0 and is_on_floor() and guard_recoil_timer <= 0.0 and throw_regrab_lock_timer <= 0.0 and current_attack_type == "" and not is_hit and not is_guard_hit and not _is_throw_busy() and not is_guarding and not is_crouching and not is_crouch_guarding and attack_active_timer <= 0.0 and kick_active_timer <= 0.0
 
 
 func can_be_thrown(attacker: Node) -> bool:
@@ -1307,6 +1319,11 @@ func _get_hit_position(target: Node) -> Vector2:
 
 
 func _cancel_current_action() -> void:
+	special_guard_animation = &""
+	special_guard_duration = 0.0
+	landing_recovery_remaining = 0.0
+	if has_method("clear_pending_air_landing"):
+		call("clear_pending_air_landing")
 	_cancel_mobility_burst()
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
@@ -1377,6 +1394,7 @@ func _apply_knockback(attack_data: Dictionary, attack_direction: float) -> void:
 
 
 func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> void:
+	_select_special_guard_reaction(attack_data)
 	attack_active_timer = 0.0
 	kick_active_timer = 0.0
 	_set_punch_hitbox_active(false)
@@ -1393,6 +1411,7 @@ func _receive_guarded_attack(attack_data: Dictionary, attack_direction: float, h
 	var authored_guard_time := float(attack_data.get("guard_hit_time", guard_hit_timer))
 	var guarded_attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	guard_hit_timer = authored_guard_time if guarded_attack_type == "special" or guarded_attack_type == "ultimate" else minf(authored_guard_time, 0.09)
+	special_guard_duration = guard_hit_timer if special_guard_animation != &"" else 0.0
 	var guard_damage := _get_guard_damage_from_attack_data(attack_data)
 	apply_damage(guard_damage)
 	damage_feedback_requested.emit(self, guard_damage, true, hit_position)
@@ -1414,7 +1433,7 @@ func _enter_guard_hit_state() -> void:
 	is_hit = false
 	guard_hit_timer = guard_hit_time
 	guard_motion_state = "hit_stun"
-	_play_visual_animation(&"crouch_guard" if is_crouch_guarding else &"guard_hit", true)
+	_play_visual_animation(_get_current_visual_animation(), true)
 
 
 func _get_guard_damage(damage: int) -> int:
@@ -1444,9 +1463,9 @@ func _apply_guard_knockback(attack_data: Dictionary, attack_direction: float) ->
 func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 	if not bool(attack_data.get("is_guardable", true)):
 		return false
-	if not can_guard or not is_round_active or is_guard_hit:
+	if not can_guard or not is_round_active or current_hp <= 0 or (is_guard_hit and is_on_floor()):
 		return false
-	if is_hit or is_invincible or not is_on_floor():
+	if is_hit or is_invincible or _is_throw_busy():
 		return false
 	if attack_active_timer > 0.0 or kick_active_timer > 0.0:
 		return false
@@ -1454,6 +1473,8 @@ func _can_guard_attack(attack_data: Dictionary, attacker: Node) -> bool:
 		return false
 	if not _is_facing_attacker(attacker):
 		return false
+	if not is_on_floor():
+		return str(attack_data.get("attack_height", "middle")) != "throw" and str(attack_data.get("attack_type", "")) != "throw"
 	return _is_attack_height_guardable(str(attack_data.get("attack_height", "middle")))
 
 
@@ -1476,7 +1497,7 @@ func _is_attack_height_guardable(attack_height: String) -> bool:
 
 
 func _can_start_guard_or_crouch() -> bool:
-	return can_guard and is_round_active and is_on_floor() and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
+	return not _is_landing_recovery_busy() and can_guard and is_round_active and current_hp > 0 and not (has_method("_is_knockdown_busy") and call("_is_knockdown_busy")) and guard_recoil_timer <= 0.0 and current_attack_type == "" and attack_active_timer <= 0.0 and kick_active_timer <= 0.0 and not is_hit and not is_guard_hit and not _is_throw_busy()
 
 
 func _can_guard_back_walk() -> bool:
@@ -1620,6 +1641,8 @@ func _choose_ai_combo_attack() -> StringName:
 
 
 func _update_ai_guard(delta: float) -> void:
+	if is_guard_hit and not is_on_floor():
+		return
 	if not _can_start_guard_or_crouch():
 		_clear_guard_state()
 		ai_guard_timer = 0.0
@@ -1812,6 +1835,8 @@ func _update_guard_hit(delta: float) -> void:
 		return
 
 	is_guard_hit = false
+	special_guard_animation = &""
+	special_guard_duration = 0.0
 	_clear_guard_state()
 	if input_enabled:
 		_update_defensive_state(0.0)
@@ -2638,6 +2663,8 @@ func _can_start_double_tap_movement() -> bool:
 
 
 func _can_continue_mobility_burst() -> bool:
+	if _is_landing_recovery_busy():
+		return false
 	if not is_on_floor() or is_hit or is_guard_hit or is_guarding or is_crouching or is_crouch_guarding or _is_throw_busy():
 		return false
 	if current_attack_type != "" or attack_active_timer > 0.0 or kick_active_timer > 0.0 or guard_recoil_timer > 0.0:
@@ -2790,6 +2817,9 @@ func clear_victory_pose() -> void:
 
 
 func _get_current_visual_animation() -> StringName:
+	if _is_knockdown_state(&"KNOCKBACK") and String(get("ground_bounce_phase")) in ["impact","air"]:
+		var bounce_clip: StringName = &"ground_impact" if String(get("ground_bounce_phase")) == "impact" else &"ground_bounce"
+		if _has_visual_animation(bounce_clip): return bounce_clip
 	if _is_knockdown_state(&"KNOCKBACK") and bool(get("special_headfirst_enabled")) and String(get("special_headfirst_phase")) in ["fall","head_impact","collapse"]:
 		var headfirst_clip := StringName(get("last_special_headfirst_fall_animation"))
 		if _has_visual_animation(headfirst_clip): return headfirst_clip
@@ -2819,15 +2849,29 @@ func _get_current_visual_animation() -> StringName:
 	if _is_knockdown_state(&"KNOCKBACK"):
 		if _has_visual_animation(last_special_knockback_animation):
 			return last_special_knockback_animation
+		if last_damage_animation == &"damage_low" and hit_stop_timer > 0.0 and _has_visual_animation(last_damage_animation):
+			return last_damage_animation
 		if _has_visual_animation(last_knockdown_animation):
 			return last_knockdown_animation
 		return &"knockback"
 	if throw_state == "THROW_STARTUP" or throw_state == "THROW_HOLD" or throw_state == "THROW_RECOVERY" or throw_state == "THROW_WHIFF":
+		if has_method("_directional_throw_visual_animation"):
+			var authored: StringName = call("_directional_throw_visual_animation")
+			if authored != &"":
+				return authored
+		if throw_state == "THROW_HOLD" and get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_hold"):
+			return &"directional_throw_hold"
 		if _is_authored_grappler() or _is_leon_crow() or _uses_readable_grapple():
 			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if has_method("_directional_throw_victim_animation"):
+			var authored: StringName = call("_directional_throw_victim_animation")
+			if authored != &"":
+				return authored
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_held"):
+			return &"directional_throw_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_muei_throw") and pending_throw_attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_held"):
 			return &"cross_muei_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_uses_readable_grapple") and pending_throw_attacker._uses_readable_grapple() and _has_visual_animation(&"grapple_held"):
@@ -2840,11 +2884,17 @@ func _get_current_visual_animation() -> StringName:
 	if is_throw_escaping:
 		return &"getup"
 	if is_guard_hit:
+		if not is_on_floor() and _has_visual_animation(&"air_guard_hit"):
+			return &"air_guard_hit"
 		if _has_visual_animation(special_guard_animation):
 			return special_guard_animation
 		return &"crouch_guard" if is_crouch_guarding else &"guard_hit"
 	if is_hit:
 		return last_damage_animation
+	if _is_landing_recovery_busy() and _has_visual_animation(landing_recovery_animation):
+		return landing_recovery_animation
+	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty() and current_attack_type in ["Punch", "Kick"] and _has_visual_animation(StringName(current_attack_data.animation_name)):
+		return StringName(current_attack_data.animation_name)
 	if _is_cross_grappler() and current_attack_data != null and current_attack_type in ["Punch", "Kick"]:
 		return StringName(current_attack_data.animation_name)
 	if current_attack_type == "Punch":
@@ -2878,10 +2928,10 @@ func _get_current_visual_animation() -> StringName:
 	if is_crouch_guarding:
 		return &"crouch_guard"
 	if is_guarding:
-		return &"guard"
+		return &"air_guard" if not is_on_floor() and _has_visual_animation(&"air_guard") else &"guard"
 	if guard_motion_state == "crouch_release" and guard_motion_timer > 0.0:
 		return &"crouch_guard_release"
-	if guard_motion_state == "release" and guard_motion_timer > 0.0:
+	if guard_motion_state == "release" and guard_motion_timer > 0.0 and is_on_floor():
 		return &"guard_release"
 	if not is_on_floor():
 		if uses_animated_character_art and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_01_akky" and velocity.y >= -80.0:
@@ -2914,6 +2964,9 @@ func _get_walk_animation_for_direction(direction: float) -> StringName:
 
 
 func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
+	var authored_hit := StringName(attack_data.get("hit_reaction", &""))
+	if authored_hit != &"" and _has_visual_animation(authored_hit):
+		return authored_hit
 	var authored_special := _get_special_received_animation(attack_data, "hit")
 	if authored_special != &"": return authored_special
 	if bool(attack_data.get("is_special", false)):
@@ -2926,8 +2979,8 @@ func _get_damage_animation_from_attack(attack_data: Dictionary) -> StringName:
 	if _has_visual_animation(cross_reaction):
 		return cross_reaction
 	var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
-	var height_animation: StringName = &"damage_low" if attack_height == "low" else &"damage_high"
-	if _has_visual_animation(height_animation):
+	var height_animation: StringName = &"damage_low" if attack_height == "low" else (&"damage_high" if attack_height == "high" else &"")
+	if height_animation != &"" and _has_visual_animation(height_animation):
 		return height_animation
 	var attack_type := String(attack_data.get("attack_type", "")).to_lower()
 	var damage_value := float(attack_data.get("damage", 0))
@@ -2963,7 +3016,7 @@ func _get_knockdown_animation_from_attack(attack_data: Dictionary) -> StringName
 
 func _get_special_received_animation(attack_data: Dictionary, reaction_phase: String) -> StringName:
 	if not bool(attack_data.get("is_special", false)): return &""
-	if attack_data.has("seiya_two_hit_stage"):
+	if reaction_phase != "guard" and attack_data.has("seiya_two_hit_stage"):
 		var stage := int(attack_data.seiya_two_hit_stage)
 		var pose := "down" if reaction_phase == "down" else ("lift" if stage == 0 else "fly")
 		var dedicated := StringName("received_seiya_two_"+pose)
@@ -3000,6 +3053,7 @@ func _update_visual_state() -> void:
 	_sync_single_character_visual()
 	_update_pose_collision()
 	_play_visual_animation(_get_current_visual_animation())
+	_sync_special_guard_pose()
 	_apply_character_visual_pose()
 
 	if not debug_state_label_enabled:
@@ -3097,3 +3151,26 @@ func _draw() -> void:
 func _is_shadow_boxer() -> bool:
 	var definition: Resource = get("fighter_definition")
 	return definition != null and String(definition.get("fighter_id")) == "enemy_02_shadow_boxer"
+
+
+func _select_special_guard_reaction(attack_data: Dictionary) -> void:
+	special_guard_duration = 0.0
+	special_guard_animation = _get_special_received_animation(attack_data, "guard")
+	if special_guard_animation == &"" and bool(attack_data.get("is_special", false)):
+		special_guard_animation = StringName(attack_data.get("special_guard_reaction", &"special_guard"))
+
+
+func _sync_special_guard_pose() -> void:
+	if not is_guard_hit or special_guard_duration <= 0.0 or animated_character_sprite == null:
+		return
+	# Opt-in per fighter; legacy guard clips keep their authored playback.
+	var definition: Resource = get("fighter_definition")
+	if definition == null or not definition.sync_special_guard_to_stun:
+		return
+	if animated_character_sprite.animation != &"special_guard":
+		return
+	var count := animated_character_sprite.sprite_frames.get_frame_count(&"special_guard")
+	if count != 3: return
+	var progress := clampf(1.0-guard_hit_timer/special_guard_duration,0.0,0.9999)
+	animated_character_sprite.pause()
+	animated_character_sprite.set_frame_and_progress(int(progress*count),0.0)

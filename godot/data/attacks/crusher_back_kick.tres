@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "crusher_back_kick"
+attack_type = "kick"
+command_direction = "back"
+command_priority = 10
+startup_time = 0.17
+active_time = 0.1
+recovery_time = 0.32
+base_damage = 0.9
+hitbox_size = Vector2(70, 42)
+hitbox_offset = Vector2(86, -82)
+forward_move_distance = -30
+forward_move_duration = 0.14
+animation_name = "crusher_back_kick"
+contact_start_frame = 2
+contact_end_frame = 2
+hitstun_time = 0.25
+hitstop_time = 0.05
+ai_tags = Array[String](["evade"])
+ai_distance_min = 50
+ai_distance_max = 120
+can_cancel_on_whiff = false
+knockback = Vector2(120, -40)
+
+hurtbox_offset = Vector2(-16, 0)
+hurtbox_height_scale = 0.85
+hurtbox_start = 0.02
+hurtbox_end = 0.22

@@ -1,0 +1,442 @@
+{
+  "enemy_01_crusher": {
+    "air_guard_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air_guard.png"
+        },
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air_guard.png"
+        }
+      ]
+    },
+    "air_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        },
+        {
+          "region": "[P: (1200.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        }
+      ]
+    },
+    "damage_heavy": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.png"
+        }
+      ]
+    },
+    "damage_high": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_high_hit.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_high_hit.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_high_hit.png"
+        }
+      ]
+    },
+    "damage_light": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_light_hit.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_light_hit.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_light_hit.png"
+        }
+      ]
+    },
+    "damage_low": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_low_hit.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_low_hit.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_low_hit.png"
+        }
+      ]
+    },
+    "down": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (1200.0, 1120.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+        }
+      ]
+    },
+    "ground_bounce": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.png"
+        }
+      ]
+    },
+    "knockback": {
+      "exists": false,
+      "frames": []
+    },
+    "knockdown": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (400.0, 1120.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+        },
+        {
+          "region": "[P: (800.0, 1120.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+        },
+        {
+          "region": "[P: (1200.0, 1120.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+        }
+      ]
+    },
+    "launch_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        },
+        {
+          "region": "[P: (1200.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_air.png"
+        }
+      ]
+    },
+    "special_guard": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_special_guard.png"
+        },
+        {
+          "region": "[P: (400.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_special_guard.png"
+        },
+        {
+          "region": "[P: (800.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_special_guard.png"
+        }
+      ]
+    },
+    "special_hit": {
+      "exists": false,
+      "frames": []
+    },
+    "special_knockback": {
+      "exists": false,
+      "frames": []
+    },
+    "special_knockdown": {
+      "exists": false,
+      "frames": []
+    },
+    "wall_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (400.0, 280.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/crusher_wall_hit.png"
+        }
+      ]
+    }
+  },
+  "player_01_akky": {
+    "air_guard_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_air_guard.png"
+        },
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_air_guard.png"
+        }
+      ]
+    },
+    "air_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_upper.png"
+        },
+        {
+          "region": "[P: (960.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_upper.png"
+        }
+      ]
+    },
+    "damage_heavy": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png"
+        }
+      ]
+    },
+    "damage_high": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_high_hit.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_high_hit.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_high_hit.png"
+        }
+      ]
+    },
+    "damage_light": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_light_hit.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_light_hit.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_light_hit.png"
+        }
+      ]
+    },
+    "damage_low": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_low_hit.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_low_hit.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_low_hit.png"
+        }
+      ]
+    },
+    "down": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (960.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/down_v2/motion_atlas.png"
+        }
+      ]
+    },
+    "ground_bounce": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_ground_bounce.png"
+        }
+      ]
+    },
+    "knockback": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 3136.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+        },
+        {
+          "region": "[P: (320.0, 3136.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+        },
+        {
+          "region": "[P: (640.0, 3136.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+        },
+        {
+          "region": "[P: (960.0, 3136.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png"
+        }
+      ]
+    },
+    "knockdown": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/down_v2/motion_atlas.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/down_v2/motion_atlas.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/down_v2/motion_atlas.png"
+        },
+        {
+          "region": "[P: (960.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/down_v2/motion_atlas.png"
+        }
+      ]
+    },
+    "launch_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_upper.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_upper.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_upper.png"
+        },
+        {
+          "region": "[P: (960.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_upper.png"
+        }
+      ]
+    },
+    "special_guard": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_special_guard.png"
+        },
+        {
+          "region": "[P: (320.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_special_guard.png"
+        },
+        {
+          "region": "[P: (640.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_special_guard.png"
+        }
+      ]
+    },
+    "special_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 224.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png"
+        },
+        {
+          "region": "[P: (320.0, 224.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png"
+        }
+      ]
+    },
+    "special_knockback": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 224.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png"
+        },
+        {
+          "region": "[P: (320.0, 224.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png"
+        }
+      ]
+    },
+    "special_knockdown": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (960.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/player01/animations/down_v2/motion_atlas.png"
+        }
+      ]
+    },
+    "wall_hit": {
+      "exists": true,
+      "frames": [
+        {
+          "region": "[P: (0.0, 0.0), S: (320.0, 224.0)]",
+          "texture": "res://assets/characters/dedicated_pair_v1/akky_wall_hit.png"
+        }
+      ]
+    }
+  }
+}

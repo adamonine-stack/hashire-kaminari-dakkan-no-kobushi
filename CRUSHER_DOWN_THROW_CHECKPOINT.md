@@ -1,0 +1,14 @@
+# Crusher down throw paired motion checkpoint
+
+Branch start/end: codex/directional-combat-20261003. Start HEAD: 9e8621f8ad42dbe7919f3ded51c855eab688c366. Existing user/import metadata changes preserved and excluded from this commit.
+
+Added crusher_down_throw to Crusher's common move data: down+Throw command, startup 0.20s, recovery 0.42s, whiff 0.65s, damage multiplier 1.30 (current runtime damage 25 vs normal throw 19), release velocity (0,80), release offset (0,-32), extended down 1.10s. Uses shared close-range grab and hold, new dedicated Crusher slam release, AKKY falling receiver, and AKKY supine landing/down pose. No bounce/cancel route is granted; down victims remain unthrowable under existing common rules.
+
+The selected source was produced in the preceding authoring work: exec-f38a4c43-9d7b-4602-a072-6c2e52291923.png. Copied to art/dedicated_pair_v1/sources/crusher_throw_down_strip.png. No new imagegen request in this checkpoint. Source has two rows/two characters, with full sleeves and black undershirt covering abdomen, detailed face, natural body/limb proportions. Packed with one uniform factor per actor (Crusher 0.42, AKKY 0.28) across both source poses, fixed atlas anchors and fixed runtime Sprite transform. These factors calibrate source resolution against existing character art; no per-frame fitting/rescaling. Custom bottom-row crop divider preserves AKKY's boot and avoids importing Crusher pixels.
+
+Tests extended to all three Crusher throws in both facing directions, including actual shared physics startup, release, landing/down/get-up/control recovery; release damage occurs once, hold/release timing synchronized, opaque sprite bounds do not clip, fixed runtime scale/anchor. Initial expanded live test failure was caused by legacy AI guard left enabled in the test fixture, not a move-data defect. Disabled that fixture guard and added explicit grounded readiness before each live run. Final CRUSHER_THROW_MOTION_CHECK failures=[].
+
+CRUSHER_THROW_VISUAL_EXPORT_OK: rendered real battle scene scripted snapshots for start, hold, release and down in both facings. Inspected right-side release/down, mirrored down, and same-location standing comparison; AKKY down face/body retained at appropriate size. Screenshots under crusher_throw_evidence/. This is controlled rendering, not hands-on play. Smartphone hardware, public Web, enemy collision/wall scenarios and full stage regression not rerun in this checkpoint.
+
+Enemy AI automatic selection of the new directional throw resources is pending together with the dedicated back throw pair. This checkpoint does not complete all requested two-character motions or the overall combat extension. Windows Godot root-certificate-store error remains separate from scripts.
+Regression: AIR_GUARD_CHECK failures=[], THROW_MOTION_SYNC_CHECK failures=[], SPECIAL_REVERSAL_CHECK failures=[]. Air guard test teardown now stops BGM and waits briefly for deferred cleanup.

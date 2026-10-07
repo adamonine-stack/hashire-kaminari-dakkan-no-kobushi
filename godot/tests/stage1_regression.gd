@@ -25,9 +25,9 @@ func run() -> void:
 	root.add_child(battle)
 	await process_frame
 	manager = battle.get_node("BattleManager")
-	check(int(manager.player_team[0]["max_health"]) == 50, "Akky campaign max HP is half of the legacy value")
-	check(int(manager.player_team[1]["max_health"]) == 65, "Gou campaign max HP is half of the legacy value")
-	check(int(manager.player_team[2]["max_health"]) == 46, "Seiya campaign max HP is half of the legacy value")
+	check(int(manager.player_team[0]["max_health"]) == 100, "Akky campaign max HP matches published target")
+	check(int(manager.player_team[1]["max_health"]) == 120, "Gou campaign max HP matches published target")
+	check(int(manager.player_team[2]["max_health"]) == 90, "Seiya campaign max HP matches published target")
 	await manager.select_player_by_id(String(manager.player_team[0].fighter_id))
 	for i in range(360):
 		await physics_frame
@@ -104,7 +104,7 @@ func run() -> void:
 		player.start_attack("player1_punch_1")
 		player._update_visual_state()
 		var initial_hp: int = enemy.current_hp
-		await ticks(8)
+		await ticks(maxi(1, floori(player.attack_startup_time_actual * 60.0) - 2))
 		check(enemy.current_hp == initial_hp, "startup cannot deal damage")
 		var saw_contact := false
 		for i in range(45):

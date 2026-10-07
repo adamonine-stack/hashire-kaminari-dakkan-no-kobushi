@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=17 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_def"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_scene"]
@@ -8,6 +8,41 @@
 [ext_resource type="Texture2D" path="res://assets/characters/enemy01/shadow.png" id="8_shadow"]
 
 [ext_resource type="Resource" path="res://data/attacks/crusher_fault_break.tres" id="reversal"]
+
+
+
+
+
+
+
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_neutral_punch.tres" id="move_neutral_punch"]
+[ext_resource type="Resource" path="res://data/attacks/crusher_neutral_kick.tres" id="move_neutral_kick"]
+[ext_resource type="Resource" path="res://data/attacks/crusher_forward_punch.tres" id="move_forward_punch"]
+[ext_resource type="Resource" path="res://data/attacks/crusher_forward_kick.tres" id="move_forward_kick"]
+[ext_resource type="Resource" path="res://data/attacks/crusher_back_kick.tres" id="move_back_kick"]
+[ext_resource type="Resource" path="res://data/attacks/crusher_down_kick.tres" id="move_down_kick"]
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_back_punch.tres" id="move_back_punch"]
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_down_punch.tres" id="move_down_punch"]
+
+
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_neutral_throw.tres" id="move_neutral_throw"]
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_forward_throw.tres" id="move_forward_throw"]
+
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_down_throw.tres" id="move_down_throw"]
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_back_throw.tres" id="move_back_throw"]
+
+[ext_resource type="Resource" path="res://data/attacks/crusher_dive_kick.tres" id="move_dive_kick"]
+
+
+
+
 
 [resource]
 script = ExtResource("1_def")
@@ -137,5 +172,8 @@ combo_rating = 1
 
 reversal_attack = ExtResource("reversal")
 
-extra_motion_atlas_paths = Array[String](["res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_seiya_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.tres", "res://assets/characters/seiya_two_received_v1/enemy_01_standard/motion_atlas.tres"])
-special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "received_akky_elbow_wall", "fall": "received_akky_elbow_fall"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}
+extra_motion_atlas_paths = Array[String](["res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/special_received_seiya_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.tres", "res://assets/characters/seiya_two_received_v1/enemy_01_standard/motion_atlas.tres", "res://assets/characters/directional_throw_v1/crusher.tres", "res://assets/characters/directional_throw_v2/crusher.tres", "res://assets/characters/dedicated_pair_v1/crusher_upper.tres", "res://assets/characters/dedicated_pair_v1/crusher_air.tres", "res://assets/characters/dedicated_pair_v1/crusher_launcher.tres", "res://assets/characters/dedicated_pair_v1/crusher_forward_kick.tres", "res://assets/characters/dedicated_pair_v1/crusher_back_kick.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_grab.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_neutral.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_forward.tres", "res://assets/characters/dedicated_pair_v1/crusher_air_guard.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_down.tres", "res://assets/characters/dedicated_pair_v1/crusher_crusher_throw_back.tres", "res://assets/characters/dedicated_pair_v1/crusher_dive_kick.tres", "res://assets/characters/dedicated_pair_v1/crusher_special_guard.tres", "res://assets/characters/dedicated_pair_v1/crusher_wall_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.tres", "res://assets/characters/dedicated_pair_v1/crusher_heavy_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_light_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_high_hit.tres", "res://assets/characters/dedicated_pair_v1/crusher_low_hit.tres"])
+sync_special_guard_to_stun = true
+special_damage_reactions = {"player2_special_iron_breaker": {"hit": "received_gou_breaker_hit", "airborne": "received_gou_breaker_air", "down": "received_gou_breaker_down"}, "player1_special_thunder_drive": {"hit": "received_akky_elbow_hit", "airborne": "received_akky_elbow_air", "down": "received_akky_elbow_down", "wall": "wall_hit", "fall": "wall_fall", "guard": "special_guard"}, "player3_special_clear_counter": {"hit": "received_seiya_two_lift", "airborne": "received_seiya_two_lift", "down": "received_seiya_two_down", "wall": "received_seiya_two_fly", "fall": "received_seiya_two_fly"}}
+
+attack_sequence = Array[Resource]([ExtResource("move_neutral_punch"), ExtResource("move_neutral_kick"), ExtResource("move_forward_punch"), ExtResource("move_forward_kick"), ExtResource("move_back_kick"), ExtResource("move_down_kick"), ExtResource("move_back_punch"), ExtResource("move_down_punch"), ExtResource("move_neutral_throw"), ExtResource("move_forward_throw"), ExtResource("move_down_throw"), ExtResource("move_back_throw"), ExtResource("move_dive_kick")])

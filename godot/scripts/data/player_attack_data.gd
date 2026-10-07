@@ -6,6 +6,62 @@ class_name PlayerAttackData
 @export var attack_type: String = "punch"
 @export var attack_category: String = "normal"
 
+@export_group("Directional Command")
+## Empty keeps legacy input routing until a fighter has reviewed move resources.
+@export var command_direction: String = ""
+@export var command_priority: int = 0
+@export var ground_only: bool = true
+@export var airborne_only: bool = false
+## Seconds from attack start. Negative values preserve the legacy cancel window.
+@export var cancel_start: float = -1.0
+@export var cancel_end: float = -1.0
+@export var cancel_targets: Array[String] = []
+## Reviewed contact poses; negative retains the legacy clip phase map.
+@export var contact_start_frame: int = -1
+@export var contact_end_frame: int = -1
+## Temporary collision geometry about the foot anchor; sprite scale stays fixed.
+@export var hurtbox_height_scale: float = 1.0
+@export var hurtbox_width_scale: float = 1.0
+@export var hurtbox_offset: Vector2 = Vector2.ZERO
+@export var hurtbox_start: float = 0.0
+@export var hurtbox_end: float = 0.0
+@export var launch_velocity: Vector2 = Vector2.ZERO
+@export var knockdown: bool = false
+@export var hit_reaction: StringName = &""
+@export var counter_hitstun_bonus: float = 0.0
+
+@export_group("Air Movement / Landing")
+## Zero preserves existing air attacks. Applied after startup, never during hitstun.
+@export var dive_velocity: Vector2 = Vector2.ZERO
+@export var landing_recovery: float = 0.0
+@export var landing_animation: StringName = &"jump_land"
+
+@export_group("Situation AI")
+@export var ai_tags: Array[String] = []
+@export var ai_distance_min: float = 0.0
+@export var ai_distance_max: float = 0.0
+
+@export_group("Directional Throw")
+@export var throw_hold_seconds: float = 0.20
+@export var throw_whiff_seconds: float = 0.50
+@export var throw_velocity: Vector2 = Vector2(120.0, -120.0)
+@export var throw_face_swapped_target := false
+@export var throw_swap_positions: bool = false
+@export var throw_counter_range: float = 0.0
+@export var throw_counter_window: float = 0.0
+@export var throw_down_seconds: float = 0.0
+@export var throw_hold_offset: Vector2 = Vector2.ZERO
+@export var throw_prepare_seconds: float = 0.0
+@export var throw_start_animation: StringName = &""
+@export var throw_hold_animation: StringName = &""
+@export var throw_victim_hold_animation: StringName = &""
+@export var throw_release_offset: Vector2 = Vector2.ZERO
+@export var throw_prepare_animation: StringName = &""
+@export var throw_release_animation: StringName = &""
+@export var throw_victim_prepare_animation: StringName = &""
+@export var throw_victim_air_animation: StringName = &""
+@export var throw_victim_down_animation: StringName = &""
+
 @export_group("Damage")
 @export var base_damage: float = 1.0
 @export var damage_multiplier: float = 1.0
@@ -87,3 +143,7 @@ class_name PlayerAttackData
 @export var special_resource_cost: float = -1.0
 @export var whiff_recovery_multiplier: float = 1.25
 @export var ai_special_tags: Array[String] = []
+
+@export_group("Ground Bounce")
+@export_range(0, 1, 1) var ground_bounces := 0
+@export var ground_bounce_velocity := Vector2(0, -160)
