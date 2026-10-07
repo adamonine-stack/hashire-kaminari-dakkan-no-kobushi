@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FighterDefinition" load_steps=21 format=3]
+[gd_resource type="Resource" script_class="FighterDefinition" load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/fighter_definition.gd" id="1_definition"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
@@ -21,6 +21,11 @@
 [ext_resource type="Resource" path="res://data/attacks/seiya_back_punch.tres" id="direction_back_punch"]
 [ext_resource type="Resource" path="res://data/attacks/seiya_down_punch.tres" id="direction_down_punch"]
 [ext_resource type="Resource" path="res://data/attacks/seiya_back_kick.tres" id="direction_back_kick"]
+
+[ext_resource type="Resource" path="res://data/attacks/seiya_neutral_throw.tres" id="direction_neutral_throw"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_forward_throw.tres" id="direction_forward_throw"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_down_throw.tres" id="direction_down_throw"]
+[ext_resource type="Resource" path="res://data/attacks/seiya_back_throw.tres" id="direction_back_throw"]
 
 [resource]
 script = ExtResource("1_definition")
@@ -189,7 +194,7 @@ guard_damage_multiplier = 0.32
 guard_stamina_multiplier = 1.2
 attack_knockback_multiplier = 0.8
 received_knockback_multiplier = 1.25
-attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_punch_3"), ExtResource("6_kick_finish"), ExtResource("direction_forward_punch"), ExtResource("direction_forward_kick"), ExtResource("direction_down_kick"), ExtResource("direction_air_punch"), ExtResource("direction_air_kick"), ExtResource("direction_back_punch"), ExtResource("direction_down_punch"), ExtResource("direction_back_kick")])
+attack_sequence = Array[Resource]([ExtResource("3_punch_1"), ExtResource("4_punch_2"), ExtResource("5_punch_3"), ExtResource("6_kick_finish"), ExtResource("direction_forward_punch"), ExtResource("direction_forward_kick"), ExtResource("direction_down_kick"), ExtResource("direction_air_punch"), ExtResource("direction_air_kick"), ExtResource("direction_back_punch"), ExtResource("direction_down_punch"), ExtResource("direction_back_kick"), ExtResource("direction_neutral_throw"), ExtResource("direction_forward_throw"), ExtResource("direction_down_throw"), ExtResource("direction_back_throw")])
 max_attack_chain_count = 4
 special_attack_sequence = Array[Resource]([ExtResource("7_special")])
 punch_damage_scale = 0.9

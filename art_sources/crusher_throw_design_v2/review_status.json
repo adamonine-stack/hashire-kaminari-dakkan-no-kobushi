@@ -1,0 +1,12 @@
+{
+  "formal_reference": "formal_standing.png",
+  "integrated": [
+    "crusher_throw_start",
+    "crusher_throw_hold",
+    "crusher_throw_down_release"
+  ],
+  "remaining_candidate": "remaining_release_candidate.png",
+  "candidate_status": "preview only, not integrated; scale, anatomy and sprite separation still need review",
+  "stage1_representative_poses": 64,
+  "full_character_design_unification_complete": false
+}

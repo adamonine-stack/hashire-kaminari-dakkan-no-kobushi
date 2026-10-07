@@ -585,6 +585,10 @@ func _directional_throw_victim_animation() -> StringName:
 	var hold_clip: StringName = holder.directional_throw_data.throw_victim_hold_animation
 	if _has_visual_animation(hold_clip):
 		return hold_clip
+	# A fighter without a dedicated directional victim atlas must still show a
+	# held pose, rather than falling through to a flying/thrown pose while held.
+	if _has_visual_animation(&"grabbed"):
+		return &"grabbed"
 	return &""
 
 

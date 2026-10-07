@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1")
-attack_id = "crusher_neutral_throw"
-display_name = "Crusher short throw"
+attack_id = "seiya_neutral_throw"
+display_name = "SEIYA neutral throw"
 attack_type = "throw"
 command_direction = "neutral"
 command_priority = 200
@@ -21,12 +21,9 @@ throw_counter_window = 0
 throw_down_seconds = 0
 throw_hold_offset = Vector2(125, 0)
 throw_prepare_seconds = 0.08
-throw_start_animation = &"crusher_throw_start"
-throw_prepare_animation = &"crusher_throw_hold"
-throw_release_animation = &"crusher_throw_neutral_release"
-throw_victim_prepare_animation = &"crusher_throw_held"
-throw_victim_air_animation = &"crusher_throw_neutral_air"
+throw_start_animation = &"throw_start"
+throw_prepare_animation = &"throw_hold"
+throw_release_animation = &"throw_release"
+throw_victim_prepare_animation = &"directional_throw_held"
+throw_victim_air_animation = &"throw_victim_neutral_air"
 throw_victim_down_animation = &"down"
-
-throw_hold_animation = &"crusher_throw_hold"
-throw_victim_hold_animation = &"crusher_throw_held"

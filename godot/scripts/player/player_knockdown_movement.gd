@@ -283,6 +283,13 @@ func _complete_throw_hit() -> void:
 		last_special_knockback_animation = directional_move.throw_victim_air_animation
 		if _has_visual_animation(directional_move.throw_victim_down_animation):
 			last_knockdown_animation = directional_move.throw_victim_down_animation
+	elif directional_move != null and _has_visual_animation(&"thrown"):
+		# Keep an airborne throw reaction when the requested dedicated victim
+		# clip is unavailable; a standing heavy-hit pose is not a throw flight.
+		last_damage_animation = &"thrown"
+		last_special_knockback_animation = &"thrown"
+		if _has_visual_animation(&"knockdown"):
+			last_knockdown_animation = &"knockdown"
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)

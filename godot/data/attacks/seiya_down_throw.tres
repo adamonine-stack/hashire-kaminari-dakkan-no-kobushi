@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1")
-attack_id = "crusher_down_throw"
-display_name = "Crusher down throw"
+attack_id = "seiya_down_throw"
+display_name = "SEIYA down throw"
 attack_type = "throw"
 command_direction = "down"
 command_priority = 200
@@ -21,16 +21,13 @@ throw_counter_window = 0
 throw_down_seconds = 1.1
 throw_hold_offset = Vector2(125, 0)
 throw_prepare_seconds = 0.08
-throw_start_animation = &"crusher_throw_start"
-throw_prepare_animation = &"crusher_throw_hold"
-throw_release_animation = &"crusher_throw_down_release"
-throw_victim_prepare_animation = &"crusher_throw_held"
-throw_victim_air_animation = &"crusher_throw_down_air"
-throw_victim_down_animation = &"crusher_throw_slam_down"
+throw_start_animation = &"throw_start"
+throw_prepare_animation = &"throw_hold"
+throw_release_animation = &"throw_release"
+throw_victim_prepare_animation = &"directional_throw_held"
+throw_victim_air_animation = &"throw_victim_down_air"
+throw_victim_down_animation = &"throw_victim_slam_down"
 throw_release_offset = Vector2(0, -32)
-
-throw_hold_animation = &"crusher_throw_hold"
-throw_victim_hold_animation = &"crusher_throw_held"
 
 ground_bounces = 1
 ground_bounce_velocity = Vector2(0, -160)

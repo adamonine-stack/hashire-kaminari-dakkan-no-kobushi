@@ -1,0 +1,98 @@
+{
+  "reference": "art_sources\\crusher_throw_design_v2\\formal_standing.png",
+  "standing_height": 228,
+  "source": "art_sources\\crusher_throw_design_v2\\key_pose_source.png",
+  "scale": 0.5010989010989011,
+  "frames": [
+    {
+      "index": 0,
+      "crop": [
+        146,
+        39,
+        450,
+        494
+      ],
+      "feet_midpoint": 288.25,
+      "scale": 0.5010989010989011,
+      "offset": [
+        129,
+        32
+      ]
+    },
+    {
+      "index": 1,
+      "crop": [
+        24,
+        73,
+        456,
+        494
+      ],
+      "feet_midpoint": 192.75,
+      "scale": 0.5010989010989011,
+      "offset": [
+        115,
+        49
+      ]
+    },
+    {
+      "index": 2,
+      "crop": [
+        34,
+        64,
+        402,
+        494
+      ],
+      "feet_midpoint": 198.75,
+      "scale": 0.5010989010989011,
+      "offset": [
+        117,
+        45
+      ]
+    },
+    {
+      "index": 3,
+      "crop": [
+        103,
+        70,
+        476,
+        468
+      ],
+      "feet_midpoint": 280.0,
+      "scale": 0.5010989010989011,
+      "offset": [
+        111,
+        61
+      ]
+    },
+    {
+      "index": 4,
+      "crop": [
+        60,
+        113,
+        460,
+        469
+      ],
+      "feet_midpoint": 230.25,
+      "scale": 0.5010989010989011,
+      "offset": [
+        115,
+        82
+      ]
+    },
+    {
+      "index": 5,
+      "crop": [
+        79,
+        19,
+        390,
+        469
+      ],
+      "feet_midpoint": 223.25,
+      "scale": 0.5010989010989011,
+      "offset": [
+        128,
+        35
+      ]
+    }
+  ]
+}
