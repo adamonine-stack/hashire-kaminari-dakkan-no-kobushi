@@ -1,0 +1,48 @@
+{
+  "source": "art_sources\\crusher_victim_held_v7\\key_poses.png",
+  "reference_height": 228,
+  "scale": 0.29882044560943644,
+  "resampling": "nearest",
+  "frames": [
+    {
+      "index": 0,
+      "source_bbox": [
+        340,
+        81,
+        846,
+        844
+      ],
+      "crop": [
+        338,
+        80,
+        848,
+        846
+      ],
+      "scale": 0.29882044560943644,
+      "offset": [
+        124,
+        31
+      ]
+    },
+    {
+      "index": 1,
+      "source_bbox": [
+        987,
+        120,
+        1500,
+        844
+      ],
+      "crop": [
+        985,
+        118,
+        1502,
+        846
+      ],
+      "scale": 0.29882044560943644,
+      "offset": [
+        123,
+        42
+      ]
+    }
+  ]
+}
