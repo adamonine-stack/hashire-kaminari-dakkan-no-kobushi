@@ -24,3 +24,5 @@ is_guardable = true
 attack_height = "overhead"
 hitstop_time = 0.04
 can_cancel_on_whiff = false
+
+combo_route_hit_limit = 3

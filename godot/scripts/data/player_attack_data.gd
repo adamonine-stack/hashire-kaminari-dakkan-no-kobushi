@@ -27,6 +27,8 @@ class_name PlayerAttackData
 @export var hurtbox_end: float = 0.0
 @export var launch_velocity: Vector2 = Vector2.ZERO
 @export var knockdown: bool = false
+# Zero keeps the fighter normal-chain limit; explicit routes may have a bounded limit.
+@export_range(0, 6) var combo_route_hit_limit: int = 0
 @export var hit_reaction: StringName = &""
 @export var counter_hitstun_bonus: float = 0.0
 

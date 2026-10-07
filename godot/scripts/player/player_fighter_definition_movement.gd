@@ -1975,7 +1975,7 @@ func gain_special_gauge_for_attack_hit(attack_data: Dictionary) -> void:
 	var combo_index := int(attack_data.get("combo_hit_index", 1))
 	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
 		return
-	if combo_index >= dev026_max_combo_hits:
+	if combo_index >= _combo_hit_limit():
 		add_special_gauge(special_gauge_finisher_hit_gain)
 	elif combo_index >= 2:
 		add_special_gauge(special_gauge_combo_hit_gain)

@@ -25,10 +25,10 @@ func run() -> void:
   var sprite: AnimatedSprite2D = player.animated_character_sprite
   var baseline := sprite.scale
   for facing in [1.0, -1.0]:
-   for suffix in ["forward_punch", "forward_kick", "down_kick"]:
+   for suffix in ["forward_punch", "forward_kick", "down_kick", "back_punch", "down_punch", "back_kick"]:
     reset_pair()
     player.facing_direction = facing
-    var direction := "down" if suffix == "down_kick" else ("right" if facing > 0 else "left")
+    var direction := "down" if suffix.begins_with("down") else ("right" if (facing > 0) == suffix.begins_with("forward") else "left")
     player.combat_commands.record(direction, true, facing)
     player.combat_commands.record(direction, false, facing)
     player.combat_commands.advance(0.12)
@@ -43,7 +43,7 @@ func run() -> void:
     if DisplayServer.get_name() != "headless":
      sprite.pause()
      await process_frame
-     await RenderingServer.frame_post_draw
+     RenderingServer.force_draw(false)
      var output := ProjectSettings.globalize_path("res://../audit_evidence/stage1_heroes")
      DirAccess.make_dir_recursive_absolute(output)
      root.get_texture().get_image().save_png(output.path_join("%s_%s_%s.png" % [hero,suffix,facing]))

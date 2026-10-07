@@ -277,7 +277,7 @@ func _request_directional_move(move_id: String, is_ai_request := false) -> bool:
 			return false
 		if dev_current_attack_connected and not bool(current_attack_data.can_cancel_on_hit):
 			return false
-		if combo_count >= dev026_max_combo_hits:
+		if combo_count >= _combo_hit_limit():
 			return false
 		start_combo_attack(StringName(move_id))
 	else:
@@ -304,7 +304,7 @@ func _request_jump_cancel(is_ai_request := false) -> bool:
 		return false
 	if command_attack_elapsed < current_attack_data.cancel_start or command_attack_elapsed > current_attack_data.cancel_end:
 		return false
-	if combo_count >= dev026_max_combo_hits:
+	if combo_count >= _combo_hit_limit():
 		return false
 	reset_attack_state(false)
 	close_combo_window()
@@ -813,7 +813,7 @@ func start_attack(attack_id: String) -> void:
 		dev_combo_step = 1
 		dev_last_attack_type = &""
 	else:
-		dev_combo_step = mini(combo_count + 1, dev026_max_combo_hits)
+		dev_combo_step = mini(combo_count + 1, _combo_hit_limit())
 
 	reset_attack_state(false)
 	current_attack_data = attack_data
@@ -897,7 +897,7 @@ func finish_attack() -> void:
 		_play_visual_animation(&"crouch_idle", true)
 	clear_attack_buffer()
 	close_combo_window()
-	if combo_count >= dev026_max_combo_hits:
+	if combo_count >= _combo_hit_limit():
 		reset_combo()
 	if not finished_attack_id.is_empty():
 		attack_finished.emit(finished_attack_id)
@@ -1119,7 +1119,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		# The first two hits may confirm, but the defender recovers before later
 		# technical hits so holding guard or countering can break the sequence.
 		hit_reaction_timer = minf(hit_reaction_timer, technical_combo_escape_hitstun)
-	elif combo_hit_index < dev026_max_combo_hits:
+	elif combo_hit_index < _combo_hit_limit():
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(attack_data["damage"])
 	damage_feedback_requested.emit(self, int(attack_data["damage"]), false, hit_position)
@@ -1241,7 +1241,7 @@ func register_combo_hit(target: Node) -> void:
 		reset_combo()
 		dev_combo_target = target
 
-	combo_count = mini(combo_count + 1, dev026_max_combo_hits)
+	combo_count = mini(combo_count + 1, _combo_hit_limit())
 	dev_current_attack_connected = true
 	dev_last_attack_type = StringName(current_attack_type)
 	dev_combo_step = combo_count
@@ -1251,7 +1251,7 @@ func register_combo_hit(target: Node) -> void:
 	if combo_log_enabled and combo_count >= 2:
 		print("Combo: %s %d HIT" % [_get_combo_log_name(), combo_count])
 
-	if combo_count < dev026_max_combo_hits and current_hp > 0:
+	if combo_count < _combo_hit_limit() and current_hp > 0:
 		open_combo_window()
 	else:
 		close_combo_window()
@@ -1336,7 +1336,7 @@ func _try_cancel_attack_from_input() -> bool:
 
 
 func _can_cancel_attack() -> bool:
-	return is_round_active and dev_combo_window_open and can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and (dev_current_attack_connected or can_chain_on_whiff()) and combo_count < dev026_max_combo_hits and is_on_floor() and not is_hit and not is_guard_hit and not is_guarding and not is_crouching and not is_crouch_guarding and not _is_throw_busy()
+	return is_round_active and dev_combo_window_open and can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and (dev_current_attack_connected or can_chain_on_whiff()) and combo_count < _combo_hit_limit() and is_on_floor() and not is_hit and not is_guard_hit and not is_guarding and not is_crouching and not is_crouch_guarding and not _is_throw_busy()
 
 
 func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bool:
@@ -1382,7 +1382,7 @@ func start_combo_attack(next_attack_type: StringName) -> void:
 	close_combo_window()
 	dev_current_attack_connected = false
 	dev_starting_combo_attack = true
-	dev_combo_step = mini(combo_count + 1, dev026_max_combo_hits)
+	dev_combo_step = mini(combo_count + 1, _combo_hit_limit())
 	print("Cancel: %s -> %s" % [previous_attack_id, next_attack_type])
 	start_attack(String(next_attack_type))
 	print("[DEV036] Combo advanced: %s" % String(next_attack_type))
@@ -1411,7 +1411,7 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 	scaled_attack_data["combo_hit_index"] = hit_index
 	scaled_attack_data["attacker_archetype"] = String(_get_combat_archetype())
 	# The receiver must judge finishers from the attacker's combo definition, not its own.
-	scaled_attack_data["combo_hit_max"] = dev026_max_combo_hits
+	scaled_attack_data["combo_hit_max"] = _combo_hit_limit()
 	scaled_attack_data["damage_scale"] = damage_scale
 	scaled_attack_data["allows_combo_followup"] = current_attack_data != null and (not current_attack_data.next_attack_ids.is_empty() or not current_attack_data.cancel_targets.is_empty())
 	return scaled_attack_data
@@ -1420,7 +1420,7 @@ func _build_combo_scaled_attack_data(attack_data: Dictionary, target: Node) -> D
 func _get_next_combo_hit_index(target: Node) -> int:
 	if combo_timer <= 0.0 or dev_combo_target == null or not is_instance_valid(dev_combo_target) or dev_combo_target != target:
 		return 1
-	return mini(combo_count + 1, dev026_max_combo_hits)
+	return mini(combo_count + 1, _combo_hit_limit())
 
 
 func get_combo_damage_scale() -> float:
@@ -1517,7 +1517,7 @@ func get_combo_knockback_scale() -> float:
 func _get_combo_knockback_scale_for_hit(hit_index: int) -> float:
 	if hit_index <= 1:
 		return dev026_first_combo_knockback_scale
-	if hit_index == 2 and dev026_max_combo_hits > 2:
+	if hit_index == 2 and _combo_hit_limit() > 2:
 		return dev026_second_combo_knockback_scale
 	return 1.0
 
@@ -1538,7 +1538,7 @@ func _finish_combo_after_ko() -> void:
 func _maybe_buffer_ai_combo() -> void:
 	if name != "Enemy" or input_enabled:
 		return
-	if not dev_combo_window_open or dev_buffered_attack != &"" or combo_count >= dev026_max_combo_hits:
+	if not dev_combo_window_open or dev_buffered_attack != &"" or combo_count >= _combo_hit_limit():
 		return
 	if not dev_current_attack_connected or current_attack_type == "":
 		return
@@ -1591,7 +1591,7 @@ func _get_attack_animation_name(attack_type: StringName) -> StringName:
 		var configured_animation := StringName(current_attack_data.animation_name)
 		if configured_animation == &"kick_1" or configured_animation == &"kick_2":
 			return configured_animation
-	if dev_combo_step >= dev026_max_combo_hits:
+	if dev_combo_step >= _combo_hit_limit():
 		return &"combo_finisher"
 	return &"kick_1"
 
@@ -1855,7 +1855,7 @@ func _attack_animation_name(attack_data: Resource) -> StringName:
 		return &"jump_kick"
 	if String(current_attack_type) == "Kick" and combo_count <= 0 and not dev_starting_combo_attack:
 		return &"kick_1"
-	if String(current_attack_type) == "Kick" and dev_combo_step >= dev026_max_combo_hits:
+	if String(current_attack_type) == "Kick" and dev_combo_step >= _combo_hit_limit():
 		return &"combo_finisher"
 	if attack_data != null and not String(attack_data.animation_name).is_empty():
 		return StringName(attack_data.animation_name)
@@ -1883,7 +1883,7 @@ func _get_attack_hitstop_attacker(attack_data: Resource, attack_type: String) ->
 	if attack_type == "Kick":
 		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
 			return dev052_kick_1_hitstop_attacker
-		if dev_combo_step >= dev026_max_combo_hits or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
+		if dev_combo_step >= _combo_hit_limit() or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
 			return dev052_finisher_hitstop_attacker
 		return dev052_kick_1_hitstop_attacker
 	if dev_combo_step == 2:
@@ -1897,7 +1897,7 @@ func _get_attack_hitstop_defender(attack_data: Resource, attack_type: String) ->
 	if attack_type == "Kick":
 		if attack_data != null and String(attack_data.animation_name) == "jump_kick":
 			return 0.09
-		if dev_combo_step >= dev026_max_combo_hits or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
+		if dev_combo_step >= _combo_hit_limit() or (attack_data != null and String(attack_data.animation_name) == "combo_finisher"):
 			return dev052_finisher_hitstop_defender
 		return dev052_kick_1_hitstop_defender
 	if dev_combo_step == 2:
@@ -2003,3 +2003,9 @@ func _update_visual_state() -> void:
 		str(dev_current_attack_connected).to_upper(),
 		get_combo_damage_scale(),
 	]
+
+
+func _combo_hit_limit() -> int:
+	if current_attack_data != null and current_attack_data.combo_route_hit_limit > 0:
+		return clampi(current_attack_data.combo_route_hit_limit, 1, 6)
+	return dev026_max_combo_hits
