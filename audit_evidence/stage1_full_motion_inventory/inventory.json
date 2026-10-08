@@ -1,0 +1,4862 @@
+[
+  {
+    "actor": "akky",
+    "clip": "air_guard",
+    "file": "akky_00_air_guard.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_air_guard.png",
+    "visible": "[P: (159, 127), S: (102, 174)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "air_guard_hit",
+    "file": "akky_01_air_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_air_guard.png",
+    "visible": "[P: (159, 127), S: (102, 174)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "air_hit",
+    "file": "akky_02_air_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_upper.png",
+    "visible": "[P: (108, 118), S: (175, 169)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_air_punch",
+    "file": "akky_03_akky_air_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_air.png",
+    "visible": "[P: (115, 85), S: (202, 193)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_back_kick",
+    "file": "akky_04_akky_back_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_back_kick.png",
+    "visible": "[P: (100, 105), S: (222, 196)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_back_punch",
+    "file": "akky_05_akky_back_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (112, 75), S: (169, 228)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_dive_kick",
+    "file": "akky_06_akky_dive_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_dive_kick.png",
+    "visible": "[P: (153, 132), S: (121, 163)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_dive_land",
+    "file": "akky_07_akky_dive_land.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_dive_kick.png",
+    "visible": "[P: (130, 173), S: (133, 128)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_down_kick",
+    "file": "akky_08_akky_down_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (154, 126), S: (221, 175)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_down_punch",
+    "file": "akky_09_akky_down_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_launcher.png",
+    "visible": "[P: (100, 104), S: (211, 195)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_forward_kick",
+    "file": "akky_10_akky_forward_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (141, 77), S: (208, 224)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_forward_punch",
+    "file": "akky_11_akky_forward_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (114, 76), S: (245, 227)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_reversal_elbow",
+    "file": "akky_12_akky_reversal_elbow.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (117, 105), S: (165, 196)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_reversal_finish",
+    "file": "akky_13_akky_reversal_finish.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (135, 72), S: (144, 229)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_reversal_startup",
+    "file": "akky_14_akky_reversal_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (127, 76), S: (152, 225)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_back_release",
+    "file": "akky_15_akky_throw_back_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (94, 93), S: (203, 210)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_back_start",
+    "file": "akky_16_akky_throw_back_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (101, 96), S: (198, 207)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_down_release",
+    "file": "akky_17_akky_throw_down_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (118, 99), S: (167, 202)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_down_start",
+    "file": "akky_18_akky_throw_down_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (122, 95), S: (159, 208)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_forward_release",
+    "file": "akky_19_akky_throw_forward_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (119, 102), S: (164, 201)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_forward_start",
+    "file": "akky_20_akky_throw_forward_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (121, 96), S: (156, 205)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_neutral_release",
+    "file": "akky_21_akky_throw_neutral_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (121, 99), S: (164, 202)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "akky_throw_neutral_start",
+    "file": "akky_22_akky_throw_neutral_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/directional_throw_v2/akky.png",
+    "visible": "[P: (118, 96), S: (163, 205)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "backstep",
+    "file": "akky_23_backstep.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (144, 127), S: (119, 173)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "combo_finisher",
+    "file": "akky_24_combo_finisher.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (153, 87), S: (199, 213)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_muei_air",
+    "file": "akky_25_cross_muei_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (99, 158), S: (201, 142)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_muei_down",
+    "file": "akky_26_cross_muei_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (62, 199), S: (275, 101)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_muei_held",
+    "file": "akky_27_cross_muei_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (103, 137), S: (193, 163)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_joint",
+    "file": "akky_28_cross_react_joint.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (137, 149), S: (126, 148)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_joint_down",
+    "file": "akky_29_cross_react_joint_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (98, 245), S: (215, 55)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_pull",
+    "file": "akky_30_cross_react_pull.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (118, 93), S: (165, 204)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_pull_down",
+    "file": "akky_31_cross_react_pull_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (90, 126), S: (220, 171)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_reap",
+    "file": "akky_32_cross_react_reap.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (90, 126), S: (220, 171)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_reap_down",
+    "file": "akky_33_cross_react_reap_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (98, 245), S: (215, 55)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_shoulder",
+    "file": "akky_34_cross_react_shoulder.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (90, 126), S: (220, 171)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "cross_react_shoulder_down",
+    "file": "akky_35_cross_react_shoulder_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/cross_reactions/reactions.png",
+    "visible": "[P: (90, 126), S: (220, 171)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch",
+    "file": "akky_36_crouch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (146, 160), S: (118, 140)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_guard",
+    "file": "akky_37_crouch_guard.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (144, 158), S: (114, 142)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_guard_release",
+    "file": "akky_38_crouch_guard_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (145, 119), S: (107, 181)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_idle",
+    "file": "akky_39_crouch_idle.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (146, 160), S: (118, 140)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_kick",
+    "file": "akky_40_crouch_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (130, 185), S: (193, 115)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_kick_sweep",
+    "file": "akky_41_crouch_kick_sweep.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (130, 185), S: (193, 115)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_punch",
+    "file": "akky_42_crouch_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (87, 153), S: (215, 147)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_release",
+    "file": "akky_43_crouch_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (141, 80), S: (120, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crouch_sweep_kick",
+    "file": "akky_44_crouch_sweep_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (130, 185), S: (193, 115)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crusher_throw_back_air",
+    "file": "akky_45_crusher_throw_back_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_crusher_throw_back.png",
+    "visible": "[P: (107, 99), S: (203, 156)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crusher_throw_down_air",
+    "file": "akky_46_crusher_throw_down_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_crusher_throw_down.png",
+    "visible": "[P: (86, 192), S: (213, 104)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crusher_throw_forward_air",
+    "file": "akky_47_crusher_throw_forward_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_crusher_throw_forward.png",
+    "visible": "[P: (66, 141), S: (262, 127)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crusher_throw_held",
+    "file": "akky_48_crusher_throw_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_crusher_throw_grab.png",
+    "visible": "[P: (119, 71), S: (169, 230)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crusher_throw_neutral_air",
+    "file": "akky_49_crusher_throw_neutral_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_crusher_throw_neutral.png",
+    "visible": "[P: (96, 99), S: (205, 168)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "crusher_throw_slam_down",
+    "file": "akky_50_crusher_throw_slam_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_crusher_throw_down.png",
+    "visible": "[P: (78, 226), S: (244, 71)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "damage",
+    "file": "akky_51_damage.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 98), S: (138, 202)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "damage_heavy",
+    "file": "akky_52_damage_heavy.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_heavy_hit.png",
+    "visible": "[P: (95, 77), S: (191, 223)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "damage_high",
+    "file": "akky_53_damage_high.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_high_hit.png",
+    "visible": "[P: (112, 39), S: (192, 261)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "damage_light",
+    "file": "akky_54_damage_light.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_light_hit.png",
+    "visible": "[P: (114, 48), S: (172, 252)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "damage_low",
+    "file": "akky_55_damage_low.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_low_hit.png",
+    "visible": "[P: (105, 73), S: (194, 227)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "dash",
+    "file": "akky_56_dash.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (105, 114), S: (172, 186)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "defeat",
+    "file": "akky_57_defeat.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (94, 235), S: (217, 65)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "directional_throw_hold",
+    "file": "akky_58_directional_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/directional_throw_v1/akky.png",
+    "visible": "[P: (117, 89), S: (249, 215)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "down",
+    "file": "akky_59_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (71, 210), S: (257, 93)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "fall",
+    "file": "akky_60_fall.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 102), S: (145, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "get_up",
+    "file": "akky_61_get_up.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (108, 158), S: (155, 145)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "getup",
+    "file": "akky_62_getup.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 135), S: (142, 165)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "grapple_air",
+    "file": "akky_63_grapple_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (98, 141), S: (204, 159)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "grapple_down",
+    "file": "akky_64_grapple_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (100, 249), S: (200, 51)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "grapple_held",
+    "file": "akky_65_grapple_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (123, 111), S: (154, 189)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "ground_bounce",
+    "file": "akky_66_ground_bounce.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_ground_bounce.png",
+    "visible": "[P: (76, 186), S: (266, 114)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "ground_impact",
+    "file": "akky_67_ground_impact.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_ground_bounce.png",
+    "visible": "[P: (60, 192), S: (276, 108)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "guard",
+    "file": "akky_68_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (131, 81), S: (132, 219)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "guard_hit",
+    "file": "akky_69_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (131, 81), S: (132, 219)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "guard_release",
+    "file": "akky_70_guard_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (136, 80), S: (128, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "heavy_attack",
+    "file": "akky_71_heavy_attack.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (153, 87), S: (199, 213)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "idle",
+    "file": "akky_72_idle.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (148, 80), S: (111, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "idle_prebattle",
+    "file": "akky_73_idle_prebattle.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (148, 80), S: (111, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "idle_ready",
+    "file": "akky_74_idle_ready.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (148, 80), S: (111, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump",
+    "file": "akky_75_jump.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 102), S: (145, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_air",
+    "file": "akky_76_jump_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 102), S: (145, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_fall",
+    "file": "akky_77_jump_fall.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 102), S: (145, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_kick",
+    "file": "akky_78_jump_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (117, 96), S: (229, 180)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_land",
+    "file": "akky_79_jump_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (141, 80), S: (120, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_punch",
+    "file": "akky_80_jump_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (103, 100), S: (188, 142)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_punch_down",
+    "file": "akky_81_jump_punch_down.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (103, 100), S: (188, 142)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_start",
+    "file": "akky_82_jump_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 102), S: (145, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_up",
+    "file": "akky_83_jump_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (132, 102), S: (145, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "kick",
+    "file": "akky_84_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (153, 87), S: (199, 213)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "kick_1",
+    "file": "akky_85_kick_1.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (141, 77), S: (208, 224)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "kick_2",
+    "file": "akky_86_kick_2.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (110, 107), S: (245, 193)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockback",
+    "file": "akky_87_knockback.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (94, 235), S: (217, 65)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockdown",
+    "file": "akky_88_knockdown.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (82, 223), S: (236, 80)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockdown_high",
+    "file": "akky_89_knockdown_high.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (82, 223), S: (236, 80)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockdown_low",
+    "file": "akky_90_knockdown_low.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (82, 223), S: (236, 80)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "ko",
+    "file": "akky_91_ko.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (82, 223), S: (236, 80)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "land",
+    "file": "akky_92_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (141, 80), S: (120, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "landing",
+    "file": "akky_93_landing.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (141, 80), S: (120, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "launch_hit",
+    "file": "akky_94_launch_hit.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_upper.png",
+    "visible": "[P: (98, 89), S: (238, 169)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "light_attack",
+    "file": "akky_95_light_attack.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (117, 85), S: (206, 215)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "punch",
+    "file": "akky_96_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (117, 85), S: (206, 215)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "punch_1",
+    "file": "akky_97_punch_1.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (114, 76), S: (245, 227)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "punch_2",
+    "file": "akky_98_punch_2.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/directional_v1/motion_atlas.png",
+    "visible": "[P: (114, 76), S: (245, 227)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_cross_muei_guard",
+    "file": "akky_99_received_cross_muei_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/cross_special_guard_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (128, 87), S: (145, 212)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_crusher_hammer_air",
+    "file": "akky_100_received_crusher_hammer_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (122, 117), S: (156, 182)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_crusher_hammer_down",
+    "file": "akky_101_received_crusher_hammer_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (59, 224), S: (281, 75)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_crusher_hammer_guard",
+    "file": "akky_102_received_crusher_hammer_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (136, 80), S: (129, 219)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_crusher_hammer_hit",
+    "file": "akky_103_received_crusher_hammer_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_crusher_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (131, 128), S: (139, 171)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_rei_uppercut_air",
+    "file": "akky_104_received_rei_uppercut_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_rei_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (128, 94), S: (145, 205)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_rei_uppercut_down",
+    "file": "akky_105_received_rei_uppercut_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_rei_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (55, 208), S: (290, 91)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_rei_uppercut_guard",
+    "file": "akky_106_received_rei_uppercut_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_rei_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (128, 87), S: (145, 212)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_rei_uppercut_hit",
+    "file": "akky_107_received_rei_uppercut_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_rei_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (133, 89), S: (132, 210)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_seiya_two_down",
+    "file": "akky_108_received_seiya_two_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/seiya_two_received_v1/motion_atlas.png",
+    "visible": "[P: (62, 231), S: (276, 69)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_seiya_two_fall",
+    "file": "akky_109_received_seiya_two_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/seiya_two_received_v1/motion_atlas.png",
+    "visible": "[P: (142, 108), S: (116, 192)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_seiya_two_fly",
+    "file": "akky_110_received_seiya_two_fly.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/seiya_two_received_v1/motion_atlas.png",
+    "visible": "[P: (87, 182), S: (224, 118)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_seiya_two_lift",
+    "file": "akky_111_received_seiya_two_lift.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/seiya_two_received_v1/motion_atlas.png",
+    "visible": "[P: (112, 107), S: (175, 193)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_shadow_counter_air",
+    "file": "akky_112_received_shadow_counter_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (94, 160), S: (214, 140)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_shadow_counter_down",
+    "file": "akky_113_received_shadow_counter_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (60, 215), S: (277, 85)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_shadow_counter_hit",
+    "file": "akky_114_received_shadow_counter_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (107, 114), S: (186, 186)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_teki_palm_air",
+    "file": "akky_115_received_teki_palm_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (92, 159), S: (214, 140)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_teki_palm_down",
+    "file": "akky_116_received_teki_palm_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (62, 214), S: (275, 85)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_teki_palm_guard",
+    "file": "akky_117_received_teki_palm_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (128, 87), S: (145, 212)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "received_teki_palm_hit",
+    "file": "akky_118_received_teki_palm_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_teki_v1/ally_balance/motion_atlas.png",
+    "visible": "[P: (107, 113), S: (186, 186)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special",
+    "file": "akky_119_special.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (76, 103), S: (252, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_01",
+    "file": "akky_120_special_01.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (76, 103), S: (252, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_02",
+    "file": "akky_121_special_02.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (76, 103), S: (252, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_attack",
+    "file": "akky_122_special_attack.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (76, 103), S: (252, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_guard",
+    "file": "akky_123_special_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_special_guard.png",
+    "visible": "[P: (115, 77), S: (173, 223)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_hit",
+    "file": "akky_124_special_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (114, 80), S: (165, 221)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_knockback",
+    "file": "akky_125_special_knockback.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (114, 80), S: (165, 221)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_knockdown",
+    "file": "akky_126_special_knockdown.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (71, 210), S: (257, 93)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_recovery",
+    "file": "akky_127_special_recovery.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (141, 80), S: (120, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_startup",
+    "file": "akky_128_special_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (62, 119), S: (208, 181)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "special_thunder_drive",
+    "file": "akky_129_special_thunder_drive.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (76, 103), S: (252, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "stand_up",
+    "file": "akky_130_stand_up.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "visible": "[P: (108, 158), S: (155, 145)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "throw",
+    "file": "akky_131_throw.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (140, 77), S: (170, 223)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "thrown",
+    "file": "akky_132_thrown.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (94, 235), S: (217, 65)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "ultimate_attack",
+    "file": "akky_133_ultimate_attack.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (76, 103), S: (252, 197)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "ultimate_recovery",
+    "file": "akky_134_ultimate_recovery.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (141, 80), S: (120, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "ultimate_startup",
+    "file": "akky_135_ultimate_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (62, 119), S: (208, 181)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "victory",
+    "file": "akky_136_victory.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (148, 80), S: (111, 220)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "walk",
+    "file": "akky_137_walk.png",
+    "fixed_scale": true,
+    "frame": 4,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (94, 85), S: (185, 215)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "walk_backward",
+    "file": "akky_138_walk_backward.png",
+    "fixed_scale": true,
+    "frame": 4,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (105, 78), S: (167, 222)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "walk_forward",
+    "file": "akky_139_walk_forward.png",
+    "fixed_scale": true,
+    "frame": 4,
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "visible": "[P: (94, 85), S: (185, 215)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "wall_fall",
+    "file": "akky_140_wall_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_wall_hit.png",
+    "visible": "[P: (127, 100), S: (158, 200)]"
+  },
+  {
+    "actor": "akky",
+    "clip": "wall_hit",
+    "file": "akky_141_wall_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/akky_wall_hit.png",
+    "visible": "[P: (122, 78), S: (169, 222)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "air_guard",
+    "file": "gou_00_air_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (105, 86), S: (123, 173)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "air_guard_hit",
+    "file": "gou_01_air_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (105, 86), S: (123, 173)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "air_hit",
+    "file": "gou_02_air_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (115, 86), S: (103, 164)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "backstep",
+    "file": "gou_03_backstep.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 148), S: (148, 152)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "combo_finisher",
+    "file": "gou_04_combo_finisher.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (110, 74), S: (214, 226)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_muei_air",
+    "file": "gou_05_cross_muei_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (89, 139), S: (222, 161)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_muei_down",
+    "file": "gou_06_cross_muei_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (59, 193), S: (281, 107)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_muei_held",
+    "file": "gou_07_cross_muei_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (95, 121), S: (210, 179)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_joint",
+    "file": "gou_08_cross_react_joint.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (135, 148), S: (131, 152)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_joint_down",
+    "file": "gou_09_cross_react_joint_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (78, 227), S: (225, 73)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_pull",
+    "file": "gou_10_cross_react_pull.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (117, 101), S: (167, 199)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_pull_down",
+    "file": "gou_11_cross_react_pull_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (97, 124), S: (206, 176)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_reap",
+    "file": "gou_12_cross_react_reap.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (97, 124), S: (206, 176)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_reap_down",
+    "file": "gou_13_cross_react_reap_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (78, 227), S: (225, 73)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_shoulder",
+    "file": "gou_14_cross_react_shoulder.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (97, 124), S: (206, 176)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "cross_react_shoulder_down",
+    "file": "gou_15_cross_react_shoulder_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/cross_reactions/reactions.png",
+    "visible": "[P: (97, 124), S: (206, 176)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch",
+    "file": "gou_16_crouch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 170), S: (140, 130)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_guard",
+    "file": "gou_17_crouch_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (91, 142), S: (150, 158)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_guard_hold",
+    "file": "gou_18_crouch_guard_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 156), S: (133, 144)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_guard_release",
+    "file": "gou_19_crouch_guard_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (107, 163), S: (149, 137)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_guard_start",
+    "file": "gou_20_crouch_guard_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 156), S: (133, 144)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_idle",
+    "file": "gou_21_crouch_idle.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (107, 163), S: (149, 137)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_kick",
+    "file": "gou_22_crouch_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 167), S: (233, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_kick_sweep",
+    "file": "gou_23_crouch_kick_sweep.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 167), S: (233, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_punch",
+    "file": "gou_24_crouch_punch.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (100, 137), S: (238, 163)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_release",
+    "file": "gou_25_crouch_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 148), S: (148, 152)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_start",
+    "file": "gou_26_crouch_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 170), S: (140, 130)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crouch_sweep_kick",
+    "file": "gou_27_crouch_sweep_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 167), S: (233, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crusher_throw_back_air",
+    "file": "gou_28_crusher_throw_back_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (69, 146), S: (194, 154)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crusher_throw_down_air",
+    "file": "gou_29_crusher_throw_down_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (94, 154), S: (145, 146)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crusher_throw_forward_air",
+    "file": "gou_30_crusher_throw_forward_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (54, 157), S: (225, 143)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crusher_throw_held",
+    "file": "gou_31_crusher_throw_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (79, 98), S: (166, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crusher_throw_neutral_air",
+    "file": "gou_32_crusher_throw_neutral_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (96, 103), S: (142, 197)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "crusher_throw_slam_down",
+    "file": "gou_33_crusher_throw_slam_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "damage",
+    "file": "gou_34_damage.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (100, 108), S: (166, 192)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "damage_heavy",
+    "file": "gou_35_damage_heavy.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (95, 104), S: (143, 196)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "damage_high",
+    "file": "gou_36_damage_high.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (88, 101), S: (157, 199)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "damage_light",
+    "file": "gou_37_damage_light.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (95, 104), S: (143, 196)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "damage_low",
+    "file": "gou_38_damage_low.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (100, 156), S: (133, 144)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "dash",
+    "file": "gou_39_dash.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (86, 113), S: (196, 187)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "defeat",
+    "file": "gou_40_defeat.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "directional_throw_held",
+    "file": "gou_41_directional_throw_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (79, 98), S: (166, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "directional_throw_hold",
+    "file": "gou_42_directional_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (84, 97), S: (183, 203)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "down",
+    "file": "gou_43_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "fall",
+    "file": "gou_44_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (102, 113), S: (162, 187)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "get_up",
+    "file": "gou_45_get_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (86, 167), S: (162, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "getup",
+    "file": "gou_46_getup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (86, 167), S: (162, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_air_kick",
+    "file": "gou_47_gou_air_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/air_kick_v8/motion_atlas.png",
+    "visible": "[P: (52, 87), S: (228, 171)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_air_punch",
+    "file": "gou_48_gou_air_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/air_punch_v7/motion_atlas.png",
+    "visible": "[P: (64, 86), S: (206, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_back_kick",
+    "file": "gou_49_gou_back_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/back_kick_v4/motion_atlas.png",
+    "visible": "[P: (49, 87), S: (233, 213)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_back_punch",
+    "file": "gou_50_gou_back_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/anti_air_v2/motion_atlas.png",
+    "visible": "[P: (87, 57), S: (159, 243)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_dive_kick",
+    "file": "gou_51_gou_dive_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/dive_kick_v9/motion_atlas.png",
+    "visible": "[P: (98, 86), S: (137, 176)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_dive_land",
+    "file": "gou_52_gou_dive_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/dive_kick_v9/motion_atlas.png",
+    "visible": "[P: (95, 128), S: (144, 172)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_down_punch",
+    "file": "gou_53_gou_down_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/launcher_v3/motion_atlas.png",
+    "visible": "[P: (56, 127), S: (220, 173)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_forward_kick",
+    "file": "gou_54_gou_forward_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/forward_kick_v6/motion_atlas.png",
+    "visible": "[P: (57, 91), S: (218, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_forward_punch",
+    "file": "gou_55_gou_forward_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/forward_punch_v5/motion_atlas.png",
+    "visible": "[P: (62, 92), S: (208, 208)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_reversal_breaker",
+    "file": "gou_56_gou_reversal_breaker.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12/motion_atlas.png",
+    "visible": "[P: (66, 103), S: (200, 197)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_reversal_finish",
+    "file": "gou_57_gou_reversal_finish.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12/motion_atlas.png",
+    "visible": "[P: (85, 91), S: (161, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_reversal_startup",
+    "file": "gou_58_gou_reversal_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12/motion_atlas.png",
+    "visible": "[P: (86, 106), S: (160, 194)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_throw_back_release",
+    "file": "gou_59_gou_throw_back_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (87, 91), S: (183, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_throw_down_release",
+    "file": "gou_60_gou_throw_down_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (87, 91), S: (183, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_throw_forward_release",
+    "file": "gou_61_gou_throw_forward_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (87, 91), S: (183, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_throw_neutral_release",
+    "file": "gou_62_gou_throw_neutral_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (87, 91), S: (183, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "gou_throw_whiff",
+    "file": "gou_63_gou_throw_whiff.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (87, 91), S: (183, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "grabbed",
+    "file": "gou_64_grabbed.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (79, 98), S: (166, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "grapple_air",
+    "file": "gou_65_grapple_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (97, 125), S: (205, 175)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "grapple_down",
+    "file": "gou_66_grapple_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (87, 227), S: (225, 73)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "grapple_held",
+    "file": "gou_67_grapple_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (117, 102), S: (166, 198)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "ground_bounce",
+    "file": "gou_68_ground_bounce.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (115, 86), S: (103, 164)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "ground_impact",
+    "file": "gou_69_ground_impact.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (48, 200), S: (235, 100)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "guard",
+    "file": "gou_70_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (90, 94), S: (153, 206)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "guard_hit",
+    "file": "gou_71_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/guard_v10/motion_atlas.png",
+    "visible": "[P: (90, 94), S: (153, 206)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "guard_hold",
+    "file": "gou_72_guard_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 130), S: (128, 170)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "guard_release",
+    "file": "gou_73_guard_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (122, 86), S: (135, 214)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "guard_start",
+    "file": "gou_74_guard_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 130), S: (128, 170)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "heavy_attack",
+    "file": "gou_75_heavy_attack.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (110, 74), S: (214, 226)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "hit_high",
+    "file": "gou_76_hit_high.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (100, 108), S: (166, 192)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "hit_low",
+    "file": "gou_77_hit_low.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (119, 157), S: (167, 143)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "idle",
+    "file": "gou_78_idle.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 85), S: (137, 215)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "idle_prebattle",
+    "file": "gou_79_idle_prebattle.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (116, 76), S: (135, 224)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "idle_ready",
+    "file": "gou_80_idle_ready.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 85), S: (137, 215)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump",
+    "file": "gou_81_jump.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (107, 118), S: (135, 182)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_air",
+    "file": "gou_82_jump_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (106, 149), S: (150, 151)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_attack",
+    "file": "gou_83_jump_attack.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (90, 105), S: (216, 195)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_fall",
+    "file": "gou_84_jump_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (102, 113), S: (162, 187)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_kick",
+    "file": "gou_85_jump_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (118, 127), S: (188, 173)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_land",
+    "file": "gou_86_jump_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 148), S: (148, 152)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_punch",
+    "file": "gou_87_jump_punch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (90, 105), S: (216, 195)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_punch_down",
+    "file": "gou_88_jump_punch_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (90, 105), S: (216, 195)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_start",
+    "file": "gou_89_jump_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (107, 118), S: (135, 182)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "jump_up",
+    "file": "gou_90_jump_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (106, 149), S: (150, 151)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "kick",
+    "file": "gou_91_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (110, 74), S: (214, 226)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "kick_1",
+    "file": "gou_92_kick_1.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (110, 74), S: (214, 226)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "kick_2",
+    "file": "gou_93_kick_2.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (110, 74), S: (214, 226)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockback",
+    "file": "gou_94_knockback.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (61, 86), S: (211, 187)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockdown",
+    "file": "gou_95_knockdown.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockdown_high",
+    "file": "gou_96_knockdown_high.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockdown_low",
+    "file": "gou_97_knockdown_low.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "ko",
+    "file": "gou_98_ko.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "land",
+    "file": "gou_99_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 148), S: (148, 152)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "landing",
+    "file": "gou_100_landing.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (109, 148), S: (148, 152)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "launch_hit",
+    "file": "gou_101_launch_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (98, 86), S: (138, 195)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "light_attack",
+    "file": "gou_102_light_attack.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (120, 98), S: (226, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "punch",
+    "file": "gou_103_punch.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (120, 98), S: (226, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "punch_1",
+    "file": "gou_104_punch_1.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (120, 98), S: (226, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "punch_2",
+    "file": "gou_105_punch_2.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (124, 77), S: (163, 223)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_cross_muei_guard",
+    "file": "gou_106_received_cross_muei_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/cross_special_guard_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (105, 93), S: (189, 207)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_crusher_hammer_air",
+    "file": "gou_107_received_crusher_hammer_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (38, 86), S: (257, 136)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_crusher_hammer_down",
+    "file": "gou_108_received_crusher_hammer_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (55, 237), S: (222, 63)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_crusher_hammer_guard",
+    "file": "gou_109_received_crusher_hammer_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (88, 100), S: (156, 200)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_crusher_hammer_hit",
+    "file": "gou_110_received_crusher_hammer_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (80, 98), S: (173, 202)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_rei_uppercut_air",
+    "file": "gou_111_received_rei_uppercut_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (99, 71), S: (202, 229)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_rei_uppercut_down",
+    "file": "gou_112_received_rei_uppercut_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (46, 174), S: (307, 126)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_rei_uppercut_guard",
+    "file": "gou_113_received_rei_uppercut_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (105, 93), S: (189, 207)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_rei_uppercut_hit",
+    "file": "gou_114_received_rei_uppercut_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_rei_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (117, 91), S: (166, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_seiya_two_down",
+    "file": "gou_115_received_seiya_two_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (55, 237), S: (222, 63)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_seiya_two_fall",
+    "file": "gou_116_received_seiya_two_fall.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (38, 86), S: (257, 136)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_seiya_two_fly",
+    "file": "gou_117_received_seiya_two_fly.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (38, 86), S: (257, 136)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_seiya_two_lift",
+    "file": "gou_118_received_seiya_two_lift.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (79, 78), S: (176, 222)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_shadow_counter_air",
+    "file": "gou_119_received_shadow_counter_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (85, 136), S: (230, 164)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_shadow_counter_down",
+    "file": "gou_120_received_shadow_counter_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (47, 207), S: (306, 93)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_shadow_counter_hit",
+    "file": "gou_121_received_shadow_counter_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (95, 104), S: (209, 196)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_teki_palm_air",
+    "file": "gou_122_received_teki_palm_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_teki_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (85, 136), S: (230, 164)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_teki_palm_down",
+    "file": "gou_123_received_teki_palm_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_teki_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (47, 208), S: (306, 92)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_teki_palm_guard",
+    "file": "gou_124_received_teki_palm_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_teki_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (105, 93), S: (189, 207)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "received_teki_palm_hit",
+    "file": "gou_125_received_teki_palm_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_teki_v1/ally_power/motion_atlas.png",
+    "visible": "[P: (95, 104), S: (209, 196)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "special",
+    "file": "gou_126_special.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (75, 126), S: (237, 174)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "special_attack",
+    "file": "gou_127_special_attack.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (75, 126), S: (237, 174)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "special_guard",
+    "file": "gou_128_special_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/special_v12_received/motion_atlas.png",
+    "visible": "[P: (88, 100), S: (156, 200)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "special_iron_breaker",
+    "file": "gou_129_special_iron_breaker.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (75, 126), S: (237, 174)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "special_recovery",
+    "file": "gou_130_special_recovery.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (122, 86), S: (135, 214)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "special_startup",
+    "file": "gou_131_special_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (81, 126), S: (180, 174)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "stand_up",
+    "file": "gou_132_stand_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (86, 167), S: (162, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "standup",
+    "file": "gou_133_standup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (86, 167), S: (162, 133)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw",
+    "file": "gou_134_throw.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (99, 105), S: (157, 195)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_hold",
+    "file": "gou_135_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (84, 97), S: (183, 203)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_release",
+    "file": "gou_136_throw_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (87, 91), S: (183, 209)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_start",
+    "file": "gou_137_throw_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11/motion_atlas.png",
+    "visible": "[P: (84, 97), S: (183, 203)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_victim_back_air",
+    "file": "gou_138_throw_victim_back_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (69, 146), S: (194, 154)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_victim_down_air",
+    "file": "gou_139_throw_victim_down_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (94, 154), S: (145, 146)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_victim_forward_air",
+    "file": "gou_140_throw_victim_forward_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (54, 157), S: (225, 143)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_victim_neutral_air",
+    "file": "gou_141_throw_victim_neutral_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (96, 103), S: (142, 197)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "throw_victim_slam_down",
+    "file": "gou_142_throw_victim_slam_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "visible": "[P: (39, 234), S: (256, 66)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "thrown",
+    "file": "gou_143_thrown.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (72, 240), S: (243, 60)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "victory",
+    "file": "gou_144_victory.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (110, 53), S: (141, 247)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "walk",
+    "file": "gou_145_walk.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (101, 83), S: (170, 217)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "walk_backward",
+    "file": "gou_146_walk_backward.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (102, 85), S: (150, 215)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "walk_forward",
+    "file": "gou_147_walk_forward.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "visible": "[P: (101, 83), S: (170, 217)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "wall_fall",
+    "file": "gou_148_wall_fall.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (61, 86), S: (211, 187)]"
+  },
+  {
+    "actor": "gou",
+    "clip": "wall_hit",
+    "file": "gou_149_wall_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "visible": "[P: (108, 98), S: (115, 202)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "air_guard",
+    "file": "seiya_00_air_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (130, 84), S: (75, 151)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "air_guard_hit",
+    "file": "seiya_01_air_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (130, 84), S: (75, 151)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "air_hit",
+    "file": "seiya_02_air_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (130, 84), S: (75, 137)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "backstep",
+    "file": "seiya_03_backstep.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (124, 111), S: (152, 189)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "combo_finisher",
+    "file": "seiya_04_combo_finisher.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 95), S: (215, 205)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_muei_air",
+    "file": "seiya_05_cross_muei_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (109, 161), S: (181, 139)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_muei_down",
+    "file": "seiya_06_cross_muei_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (78, 211), S: (244, 89)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_muei_held",
+    "file": "seiya_07_cross_muei_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png",
+    "visible": "[P: (108, 148), S: (183, 152)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_joint",
+    "file": "seiya_08_cross_react_joint.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (143, 165), S: (114, 135)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_joint_down",
+    "file": "seiya_09_cross_react_joint_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (76, 240), S: (212, 60)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_pull",
+    "file": "seiya_10_cross_react_pull.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (125, 121), S: (151, 179)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_pull_down",
+    "file": "seiya_11_cross_react_pull_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (99, 137), S: (202, 163)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_reap",
+    "file": "seiya_12_cross_react_reap.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (99, 137), S: (202, 163)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_reap_down",
+    "file": "seiya_13_cross_react_reap_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (76, 240), S: (212, 60)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_shoulder",
+    "file": "seiya_14_cross_react_shoulder.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (99, 137), S: (202, 163)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "cross_react_shoulder_down",
+    "file": "seiya_15_cross_react_shoulder_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "visible": "[P: (99, 137), S: (202, 163)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch",
+    "file": "seiya_16_crouch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (146, 154), S: (107, 146)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_guard",
+    "file": "seiya_17_crouch_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (125, 159), S: (85, 141)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_guard_hold",
+    "file": "seiya_18_crouch_guard_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (143, 164), S: (114, 136)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_guard_release",
+    "file": "seiya_19_crouch_guard_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (143, 178), S: (113, 122)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_guard_start",
+    "file": "seiya_20_crouch_guard_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (143, 164), S: (114, 136)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_idle",
+    "file": "seiya_21_crouch_idle.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (143, 178), S: (113, 122)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_kick",
+    "file": "seiya_22_crouch_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/slim_sweep_v3/motion_atlas.png",
+    "visible": "[P: (132, 183), S: (98, 117)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_kick_sweep",
+    "file": "seiya_23_crouch_kick_sweep.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/slim_sweep_v3/motion_atlas.png",
+    "visible": "[P: (132, 183), S: (98, 117)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_punch",
+    "file": "seiya_24_crouch_punch.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (102, 153), S: (195, 147)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_release",
+    "file": "seiya_25_crouch_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (138, 114), S: (123, 186)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_start",
+    "file": "seiya_26_crouch_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (146, 154), S: (107, 146)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crouch_sweep_kick",
+    "file": "seiya_27_crouch_sweep_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/slim_sweep_v3/motion_atlas.png",
+    "visible": "[P: (132, 183), S: (98, 117)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crusher_throw_back_air",
+    "file": "seiya_28_crusher_throw_back_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (75, 197), S: (186, 103)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crusher_throw_down_air",
+    "file": "seiya_29_crusher_throw_down_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (111, 181), S: (112, 119)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crusher_throw_forward_air",
+    "file": "seiya_30_crusher_throw_forward_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (59, 170), S: (215, 130)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crusher_throw_held",
+    "file": "seiya_31_crusher_throw_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (110, 86), S: (123, 214)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crusher_throw_neutral_air",
+    "file": "seiya_32_crusher_throw_neutral_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (90, 106), S: (155, 194)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "crusher_throw_slam_down",
+    "file": "seiya_33_crusher_throw_slam_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "damage",
+    "file": "seiya_34_damage.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (145, 135), S: (110, 165)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "damage_heavy",
+    "file": "seiya_35_damage_heavy.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (117, 104), S: (100, 196)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "damage_high",
+    "file": "seiya_36_damage_high.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (104, 90), S: (127, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "damage_light",
+    "file": "seiya_37_damage_light.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (117, 104), S: (100, 196)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "damage_low",
+    "file": "seiya_38_damage_low.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (118, 138), S: (99, 162)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "dash",
+    "file": "seiya_39_dash.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (114, 106), S: (171, 194)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "defeat",
+    "file": "seiya_40_defeat.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "directional_throw_held",
+    "file": "seiya_41_directional_throw_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (110, 86), S: (123, 214)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "directional_throw_hold",
+    "file": "seiya_42_directional_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (109, 92), S: (141, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "down",
+    "file": "seiya_43_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "fall",
+    "file": "seiya_44_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (146, 113), S: (107, 187)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "get_up",
+    "file": "seiya_45_get_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (91, 159), S: (123, 141)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "getup",
+    "file": "seiya_46_getup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (91, 159), S: (123, 141)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "grabbed",
+    "file": "seiya_47_grabbed.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (110, 86), S: (123, 214)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "grapple_air",
+    "file": "seiya_48_grapple_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (104, 146), S: (191, 154)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "grapple_down",
+    "file": "seiya_49_grapple_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (102, 243), S: (199, 57)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "grapple_held",
+    "file": "seiya_50_grapple_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png",
+    "visible": "[P: (128, 130), S: (143, 170)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "ground_bounce",
+    "file": "seiya_51_ground_bounce.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (130, 84), S: (75, 137)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "ground_impact",
+    "file": "seiya_52_ground_impact.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (67, 221), S: (200, 79)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "guard",
+    "file": "seiya_53_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (111, 94), S: (111, 206)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "guard_hit",
+    "file": "seiya_54_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "visible": "[P: (111, 94), S: (111, 206)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "guard_hold",
+    "file": "seiya_55_guard_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (136, 109), S: (127, 191)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "guard_release",
+    "file": "seiya_56_guard_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (151, 95), S: (98, 205)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "guard_start",
+    "file": "seiya_57_guard_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (136, 109), S: (127, 191)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "heavy_attack",
+    "file": "seiya_58_heavy_attack.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 95), S: (215, 205)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "hit_high",
+    "file": "seiya_59_hit_high.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (145, 135), S: (110, 165)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "hit_low",
+    "file": "seiya_60_hit_low.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (132, 171), S: (136, 129)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "idle",
+    "file": "seiya_61_idle.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (148, 94), S: (104, 206)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "idle_prebattle",
+    "file": "seiya_62_idle_prebattle.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (139, 84), S: (121, 216)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "idle_ready",
+    "file": "seiya_63_idle_ready.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (148, 94), S: (104, 206)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump",
+    "file": "seiya_64_jump.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (137, 123), S: (126, 177)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_air",
+    "file": "seiya_65_jump_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (126, 139), S: (148, 161)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_attack",
+    "file": "seiya_66_jump_attack.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (103, 102), S: (194, 198)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_fall",
+    "file": "seiya_67_jump_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (146, 113), S: (107, 187)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_kick",
+    "file": "seiya_68_jump_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (90, 114), S: (219, 186)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_land",
+    "file": "seiya_69_jump_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (138, 114), S: (123, 186)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_punch",
+    "file": "seiya_70_jump_punch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (103, 102), S: (194, 198)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_punch_down",
+    "file": "seiya_71_jump_punch_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (103, 102), S: (194, 198)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_start",
+    "file": "seiya_72_jump_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (137, 123), S: (126, 177)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_up",
+    "file": "seiya_73_jump_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (126, 139), S: (148, 161)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "kick",
+    "file": "seiya_74_kick.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 95), S: (215, 205)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "kick_1",
+    "file": "seiya_75_kick_1.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 95), S: (215, 205)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "kick_2",
+    "file": "seiya_76_kick_2.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 95), S: (215, 205)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockback",
+    "file": "seiya_77_knockback.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (74, 84), S: (187, 153)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockdown",
+    "file": "seiya_78_knockdown.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockdown_high",
+    "file": "seiya_79_knockdown_high.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockdown_low",
+    "file": "seiya_80_knockdown_low.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "ko",
+    "file": "seiya_81_ko.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "land",
+    "file": "seiya_82_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (138, 114), S: (123, 186)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "landing",
+    "file": "seiya_83_landing.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (138, 114), S: (123, 186)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "launch_hit",
+    "file": "seiya_84_launch_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (112, 84), S: (109, 200)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "light_attack",
+    "file": "seiya_85_light_attack.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (106, 93), S: (187, 207)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "punch",
+    "file": "seiya_86_punch.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (106, 93), S: (187, 207)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "punch_1",
+    "file": "seiya_87_punch_1.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (106, 93), S: (187, 207)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "punch_2",
+    "file": "seiya_88_punch_2.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (103, 88), S: (194, 212)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "punch_3",
+    "file": "seiya_89_punch_3.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (103, 88), S: (194, 212)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_cross_muei_guard",
+    "file": "seiya_90_received_cross_muei_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/cross_special_guard_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (137, 105), S: (125, 195)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_crusher_hammer_air",
+    "file": "seiya_91_received_crusher_hammer_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (65, 84), S: (203, 138)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_crusher_hammer_down",
+    "file": "seiya_92_received_crusher_hammer_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (60, 257), S: (213, 43)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_crusher_hammer_guard",
+    "file": "seiya_93_received_crusher_hammer_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (113, 106), S: (108, 194)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_crusher_hammer_hit",
+    "file": "seiya_94_received_crusher_hammer_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (102, 93), S: (132, 207)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_rei_uppercut_air",
+    "file": "seiya_95_received_rei_uppercut_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (137, 101), S: (125, 199)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_rei_uppercut_down",
+    "file": "seiya_96_received_rei_uppercut_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (82, 214), S: (235, 86)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_rei_uppercut_guard",
+    "file": "seiya_97_received_rei_uppercut_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (137, 105), S: (125, 195)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_rei_uppercut_hit",
+    "file": "seiya_98_received_rei_uppercut_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (146, 108), S: (110, 192)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_seiya_two_down",
+    "file": "seiya_99_received_seiya_two_down.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (60, 257), S: (213, 43)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_seiya_two_fall",
+    "file": "seiya_100_received_seiya_two_fall.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (65, 84), S: (203, 138)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_seiya_two_fly",
+    "file": "seiya_101_received_seiya_two_fly.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (65, 84), S: (203, 138)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_seiya_two_lift",
+    "file": "seiya_102_received_seiya_two_lift.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (108, 84), S: (119, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_shadow_counter_air",
+    "file": "seiya_103_received_shadow_counter_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (106, 160), S: (187, 140)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_shadow_counter_down",
+    "file": "seiya_104_received_shadow_counter_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (86, 225), S: (223, 75)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_shadow_counter_hit",
+    "file": "seiya_105_received_shadow_counter_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
+    "visible": "[P: (122, 125), S: (156, 175)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_teki_palm_air",
+    "file": "seiya_106_received_teki_palm_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (110, 165), S: (180, 135)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_teki_palm_down",
+    "file": "seiya_107_received_teki_palm_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (91, 228), S: (214, 72)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_teki_palm_guard",
+    "file": "seiya_108_received_teki_palm_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (137, 105), S: (125, 195)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "received_teki_palm_hit",
+    "file": "seiya_109_received_teki_palm_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
+    "visible": "[P: (125, 134), S: (150, 166)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_air_kick",
+    "file": "seiya_110_seiya_air_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_air_kick_v10/motion_atlas.png",
+    "visible": "[P: (91, 84), S: (152, 166)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_air_punch",
+    "file": "seiya_111_seiya_air_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.png",
+    "visible": "[P: (96, 84), S: (143, 172)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_back_kick",
+    "file": "seiya_112_seiya_back_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_back_kick_v6/motion_atlas.png",
+    "visible": "[P: (84, 94), S: (167, 206)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_back_punch",
+    "file": "seiya_113_seiya_back_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_anti_air_v4/motion_atlas.png",
+    "visible": "[P: (108, 66), S: (117, 234)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_dive_kick",
+    "file": "seiya_114_seiya_dive_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.png",
+    "visible": "[P: (107, 84), S: (122, 157)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_dive_land",
+    "file": "seiya_115_seiya_dive_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.png",
+    "visible": "[P: (106, 122), S: (123, 178)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_down_punch",
+    "file": "seiya_116_seiya_down_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_launcher_v5/motion_atlas.png",
+    "visible": "[P: (87, 117), S: (160, 183)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_forward_kick",
+    "file": "seiya_117_seiya_forward_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_forward_kick_v8/motion_atlas.png",
+    "visible": "[P: (92, 96), S: (151, 204)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_forward_punch",
+    "file": "seiya_118_seiya_forward_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.png",
+    "visible": "[P: (88, 93), S: (159, 207)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_somersault_kick",
+    "file": "seiya_119_seiya_somersault_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
+    "visible": "[P: (96, 102), S: (207, 186)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_somersault_landing",
+    "file": "seiya_120_seiya_somersault_landing.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
+    "visible": "[P: (149, 102), S: (101, 198)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_somersault_startup",
+    "file": "seiya_121_seiya_somersault_startup.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
+    "visible": "[P: (143, 125), S: (114, 175)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_throw_back_release",
+    "file": "seiya_122_seiya_throw_back_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (115, 90), S: (135, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_throw_down_release",
+    "file": "seiya_123_seiya_throw_down_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (115, 90), S: (135, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_throw_forward_release",
+    "file": "seiya_124_seiya_throw_forward_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (115, 90), S: (135, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_throw_neutral_release",
+    "file": "seiya_125_seiya_throw_neutral_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (115, 90), S: (135, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_throw_whiff",
+    "file": "seiya_126_seiya_throw_whiff.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (115, 90), S: (135, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_two_finish",
+    "file": "seiya_127_seiya_two_finish.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
+    "visible": "[P: (108, 96), S: (119, 204)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_two_sidekick",
+    "file": "seiya_128_seiya_two_sidekick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
+    "visible": "[P: (83, 97), S: (169, 203)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_two_somersault",
+    "file": "seiya_129_seiya_two_somersault.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
+    "visible": "[P: (128, 84), S: (79, 153)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "seiya_two_start",
+    "file": "seiya_130_seiya_two_start.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
+    "visible": "[P: (117, 115), S: (101, 185)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "special",
+    "file": "seiya_131_special.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 96), S: (216, 204)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "special_attack",
+    "file": "seiya_132_special_attack.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 96), S: (216, 204)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "special_clear_counter",
+    "file": "seiya_133_special_clear_counter.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (92, 96), S: (216, 204)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "special_guard",
+    "file": "seiya_134_special_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "visible": "[P: (113, 106), S: (108, 194)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "special_recovery",
+    "file": "seiya_135_special_recovery.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (122, 90), S: (156, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "special_startup",
+    "file": "seiya_136_special_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (119, 101), S: (161, 199)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "stand_up",
+    "file": "seiya_137_stand_up.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (91, 159), S: (123, 141)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "standup",
+    "file": "seiya_138_standup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (91, 159), S: (123, 141)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw",
+    "file": "seiya_139_throw.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (84, 146), S: (232, 154)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_hold",
+    "file": "seiya_140_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (109, 92), S: (141, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_release",
+    "file": "seiya_141_throw_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (115, 90), S: (135, 210)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_start",
+    "file": "seiya_142_throw_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "visible": "[P: (109, 92), S: (141, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_victim_back_air",
+    "file": "seiya_143_throw_victim_back_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (75, 197), S: (186, 103)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_victim_down_air",
+    "file": "seiya_144_throw_victim_down_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (111, 181), S: (112, 119)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_victim_forward_air",
+    "file": "seiya_145_throw_victim_forward_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (59, 170), S: (215, 130)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_victim_neutral_air",
+    "file": "seiya_146_throw_victim_neutral_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (90, 106), S: (155, 194)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "throw_victim_slam_down",
+    "file": "seiya_147_throw_victim_slam_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "visible": "[P: (42, 235), S: (250, 65)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "thrown",
+    "file": "seiya_148_thrown.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (97, 240), S: (210, 60)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "victory",
+    "file": "seiya_149_victory.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (152, 88), S: (95, 212)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "walk",
+    "file": "seiya_150_walk.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (131, 92), S: (137, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "walk_backward",
+    "file": "seiya_151_walk_backward.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (146, 92), S: (108, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "walk_forward",
+    "file": "seiya_152_walk_forward.png",
+    "fixed_scale": true,
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "visible": "[P: (131, 92), S: (137, 208)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "wall_fall",
+    "file": "seiya_153_wall_fall.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (74, 84), S: (187, 153)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "wall_hit",
+    "file": "seiya_154_wall_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "visible": "[P: (111, 115), S: (111, 185)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "air_guard",
+    "file": "crusher_00_air_guard.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_air_guard.png",
+    "visible": "[P: (104, 60), S: (189, 228)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "air_guard_hit",
+    "file": "crusher_01_air_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_air_guard.png",
+    "visible": "[P: (104, 60), S: (189, 228)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "air_hit",
+    "file": "crusher_02_air_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_air_received_v9/motion_atlas.png",
+    "visible": "[P: (71, 50), S: (259, 177)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "backstep",
+    "file": "crusher_03_backstep.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (116, 50), S: (204, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crouch",
+    "file": "crusher_04_crouch.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 79), S: (234, 224)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crouch_guard",
+    "file": "crusher_05_crouch_guard.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 79), S: (234, 224)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crouch_idle",
+    "file": "crusher_06_crouch_idle.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 79), S: (234, 224)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crouch_kick",
+    "file": "crusher_07_crouch_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (70, 110), S: (266, 191)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crouch_kick_sweep",
+    "file": "crusher_08_crouch_kick_sweep.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (70, 110), S: (266, 191)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crouch_punch",
+    "file": "crusher_09_crouch_punch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (73, 51), S: (254, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_back_kick",
+    "file": "crusher_10_crusher_back_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_back_kick.png",
+    "visible": "[P: (90, 77), S: (284, 222)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_back_punch",
+    "file": "crusher_11_crusher_back_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_upper.png",
+    "visible": "[P: (86, 36), S: (210, 264)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_dive_kick",
+    "file": "crusher_12_crusher_dive_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_dive_kick.png",
+    "visible": "[P: (132, 122), S: (136, 177)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_dive_land",
+    "file": "crusher_13_crusher_dive_land.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_dive_kick.png",
+    "visible": "[P: (125, 161), S: (144, 139)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_down_punch",
+    "file": "crusher_14_crusher_down_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_launcher.png",
+    "visible": "[P: (90, 84), S: (232, 213)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_forward_kick",
+    "file": "crusher_15_crusher_forward_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_forward_kick.png",
+    "visible": "[P: (75, 53), S: (247, 247)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_hammer_active",
+    "file": "crusher_16_crusher_hammer_active.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (89, 79), S: (221, 220)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_hammer_finish",
+    "file": "crusher_17_crusher_hammer_finish.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (106, 55), S: (188, 244)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_hammer_startup",
+    "file": "crusher_18_crusher_hammer_startup.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/reversal_v1/motion_atlas.png",
+    "visible": "[P: (110, 16), S: (180, 283)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_throw_back_release",
+    "file": "crusher_19_crusher_throw_back_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_throw_release_v2/motion_atlas.png",
+    "visible": "[P: (80, 81), S: (251, 218)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_throw_down_release",
+    "file": "crusher_20_crusher_throw_down_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_throw_v2/motion_atlas.png",
+    "visible": "[P: (121, 53), S: (171, 246)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_throw_forward_release",
+    "file": "crusher_21_crusher_throw_forward_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_throw_release_v2/motion_atlas.png",
+    "visible": "[P: (82, 99), S: (295, 200)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_throw_hold",
+    "file": "crusher_22_crusher_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/unified_throw_v2/motion_atlas.png",
+    "visible": "[P: (109, 64), S: (201, 235)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_throw_neutral_release",
+    "file": "crusher_23_crusher_throw_neutral_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_throw_release_v2/motion_atlas.png",
+    "visible": "[P: (98, 79), S: (250, 220)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "crusher_throw_start",
+    "file": "crusher_24_crusher_throw_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_throw_v2/motion_atlas.png",
+    "visible": "[P: (109, 64), S: (201, 235)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "damage_heavy",
+    "file": "crusher_25_damage_heavy.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_ground_received_v10/motion_atlas.png",
+    "visible": "[P: (117, 58), S: (166, 241)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "damage_high",
+    "file": "crusher_26_damage_high.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_ground_received_v10/motion_atlas.png",
+    "visible": "[P: (117, 58), S: (166, 241)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "damage_light",
+    "file": "crusher_27_damage_light.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_ground_received_v10/motion_atlas.png",
+    "visible": "[P: (117, 58), S: (166, 241)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "damage_low",
+    "file": "crusher_28_damage_low.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_ground_received_v10/motion_atlas.png",
+    "visible": "[P: (117, 58), S: (166, 241)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "dash",
+    "file": "crusher_29_dash.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (75, 55), S: (259, 246)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "directional_throw_held",
+    "file": "crusher_30_directional_throw_held.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/unified_victim_held_v7/motion_atlas.png",
+    "visible": "[P: (116, 61), S: (168, 238)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "down",
+    "file": "crusher_31_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "visible": "[P: (52, 209), S: (296, 90)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "fall",
+    "file": "crusher_32_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (94, 54), S: (226, 247)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "getup",
+    "file": "crusher_33_getup.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "visible": "[P: (113, 102), S: (173, 197)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "grabbed",
+    "file": "crusher_34_grabbed.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 65), S: (235, 237)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "ground_bounce",
+    "file": "crusher_35_ground_bounce.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.png",
+    "visible": "[P: (50, 162), S: (300, 137)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "ground_impact",
+    "file": "crusher_36_ground_impact.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_ground_bounce.png",
+    "visible": "[P: (44, 172), S: (307, 127)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "guard",
+    "file": "crusher_37_guard.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (83, 41), S: (230, 260)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "guard_hit",
+    "file": "crusher_38_guard_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 65), S: (235, 237)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "idle",
+    "file": "crusher_39_idle.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (86, 49), S: (207, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "idle_ready",
+    "file": "crusher_40_idle_ready.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (86, 49), S: (207, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump",
+    "file": "crusher_41_jump.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 42), S: (236, 258)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_air",
+    "file": "crusher_42_jump_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 42), S: (236, 258)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_fall",
+    "file": "crusher_43_jump_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (94, 54), S: (226, 247)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_kick",
+    "file": "crusher_44_jump_kick.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "",
+    "visible": "[P: (97, 115), S: (206, 175)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_land",
+    "file": "crusher_45_jump_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (86, 49), S: (207, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_punch",
+    "file": "crusher_46_jump_punch.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "",
+    "visible": "[P: (97, 84), S: (206, 206)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_punch_down",
+    "file": "crusher_47_jump_punch_down.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "",
+    "visible": "[P: (97, 84), S: (206, 206)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "jump_start",
+    "file": "crusher_48_jump_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 42), S: (236, 258)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "kick",
+    "file": "crusher_49_kick.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (77, 50), S: (254, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "kick_1",
+    "file": "crusher_50_kick_1.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (77, 50), S: (254, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "kick_2",
+    "file": "crusher_51_kick_2.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (77, 50), S: (254, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "knockback",
+    "file": "crusher_52_knockback.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_air_received_v9/motion_atlas.png",
+    "visible": "[P: (62, 50), S: (276, 152)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "knockdown",
+    "file": "crusher_53_knockdown.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "visible": "[P: (64, 123), S: (272, 176)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "ko",
+    "file": "crusher_54_ko.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "visible": "[P: (52, 209), S: (296, 90)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "land",
+    "file": "crusher_55_land.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (86, 49), S: (207, 251)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "launch_hit",
+    "file": "crusher_56_launch_hit.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_air_received_v9/motion_atlas.png",
+    "visible": "[P: (128, 50), S: (144, 217)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "punch",
+    "file": "crusher_57_punch.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (83, 51), S: (248, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "punch_1",
+    "file": "crusher_58_punch_1.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (83, 51), S: (248, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "punch_2",
+    "file": "crusher_59_punch_2.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (87, 56), S: (230, 244)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_akky_elbow_air",
+    "file": "crusher_60_received_akky_elbow_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (54, 158), S: (291, 142)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_akky_elbow_down",
+    "file": "crusher_61_received_akky_elbow_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (21, 179), S: (360, 134)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_akky_elbow_fall",
+    "file": "crusher_62_received_akky_elbow_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (78, 63), S: (236, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_akky_elbow_hit",
+    "file": "crusher_63_received_akky_elbow_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (78, 63), S: (236, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_akky_elbow_wall",
+    "file": "crusher_64_received_akky_elbow_wall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (54, 158), S: (291, 142)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_gou_breaker_air",
+    "file": "crusher_65_received_gou_breaker_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_gou_breaker_down",
+    "file": "crusher_66_received_gou_breaker_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (14, 201), S: (369, 115)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_gou_breaker_hit",
+    "file": "crusher_67_received_gou_breaker_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_somersault_air",
+    "file": "crusher_68_received_seiya_somersault_air.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_somersault_down",
+    "file": "crusher_69_received_seiya_somersault_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (14, 201), S: (369, 115)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_somersault_fall",
+    "file": "crusher_70_received_seiya_somersault_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_somersault_hit",
+    "file": "crusher_71_received_seiya_somersault_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_two_down",
+    "file": "crusher_72_received_seiya_two_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (14, 201), S: (369, 115)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_two_fall",
+    "file": "crusher_73_received_seiya_two_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_two_fly",
+    "file": "crusher_74_received_seiya_two_fly.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "received_seiya_two_lift",
+    "file": "crusher_75_received_seiya_two_lift.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/special_received_gou_v1/enemy_01_standard/motion_atlas.png",
+    "visible": "[P: (123, 49), S: (162, 250)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "special_guard",
+    "file": "crusher_76_special_guard.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_special_guard.png",
+    "visible": "[P: (92, 50), S: (215, 249)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "stand_up",
+    "file": "crusher_77_stand_up.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "visible": "[P: (113, 102), S: (173, 197)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw",
+    "file": "crusher_78_throw.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 44), S: (243, 258)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_hold",
+    "file": "crusher_79_throw_hold.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (90, 56), S: (230, 244)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_release",
+    "file": "crusher_80_throw_release.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 44), S: (243, 258)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_start",
+    "file": "crusher_81_throw_start.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (90, 56), S: (230, 244)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_victim_back_air",
+    "file": "crusher_82_throw_victim_back_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_victim_back_v6/motion_atlas.png",
+    "visible": "[P: (43, 164), S: (313, 135)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_victim_down_air",
+    "file": "crusher_83_throw_victim_down_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_victim_slam_v3/motion_atlas.png",
+    "visible": "[P: (62, 170), S: (275, 129)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_victim_forward_air",
+    "file": "crusher_84_throw_victim_forward_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_victim_forward_v5/motion_atlas.png",
+    "visible": "[P: (71, 136), S: (257, 163)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_victim_neutral_air",
+    "file": "crusher_85_throw_victim_neutral_air.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/unified_victim_neutral_v4/motion_atlas.png",
+    "visible": "[P: (59, 134), S: (282, 165)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "throw_victim_slam_down",
+    "file": "crusher_86_throw_victim_slam_down.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/enemy01/animations/unified_victim_slam_v3/motion_atlas.png",
+    "visible": "[P: (49, 207), S: (301, 92)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "thrown",
+    "file": "crusher_87_thrown.png",
+    "fixed_scale": true,
+    "frame": 1,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (11, 204), S: (325, 97)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "walk",
+    "file": "crusher_88_walk.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (78, 44), S: (239, 256)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "walk_backward",
+    "file": "crusher_89_walk_backward.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (84, 52), S: (237, 248)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "walk_forward",
+    "file": "crusher_90_walk_forward.png",
+    "fixed_scale": true,
+    "frame": 2,
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "visible": "[P: (78, 44), S: (239, 256)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "wall_fall",
+    "file": "crusher_91_wall_fall.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_wall_hit.png",
+    "visible": "[P: (87, 74), S: (198, 225)]"
+  },
+  {
+    "actor": "crusher",
+    "clip": "wall_hit",
+    "file": "crusher_92_wall_hit.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/dedicated_pair_v1/crusher_wall_hit.png",
+    "visible": "[P: (78, 46), S: (213, 253)]"
+  }
+]
