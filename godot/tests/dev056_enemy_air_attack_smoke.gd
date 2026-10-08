@@ -26,7 +26,7 @@ func _run() -> void:
 	assert(not enemy.is_on_floor())
 
 	assert(enemy.request_attack_input(&"Kick", true))
-	assert(enemy.current_attack_id == "fallback_jump_kick")
+	assert(enemy.current_attack_id == "crusher_air_kick")
 	assert(enemy.current_attack_type == "Kick")
 	assert(enemy.has_used_air_attack)
 	enemy._update_visual_state()
@@ -37,7 +37,7 @@ func _run() -> void:
 	enemy.has_used_air_attack = false
 	enemy.velocity = Vector2(80.0, 40.0)
 	assert(enemy.request_attack_input(&"Punch", true))
-	assert(enemy.current_attack_id == "player1_jump_punch_down")
+	assert(enemy.current_attack_id == "crusher_air_punch")
 	assert(enemy.current_attack_type == "Punch")
 	assert(enemy.has_used_air_attack)
 	enemy._update_visual_state()
