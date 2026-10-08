@@ -2,6 +2,7 @@ extends "res://tests/special_launch_reaction_check.gd"
 
 func _initialize() -> void:
 	attacker_definition = "ally_power"
+	attack_original_folder = "player02/animations/special_v12"
 	victim_definitions = ["enemy_01_standard","enemy_02_speed","enemy_03_guard","enemy_04_throw",
 		"enemy_05_power","enemy_06_combo","enemy_07_tricky","enemy_08_boss","enemy_09_seiya"]
 	reaction_prefix = "received_gou_breaker"
