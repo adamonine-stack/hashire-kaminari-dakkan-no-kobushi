@@ -47,11 +47,17 @@ func run() -> void:
     var captured: Dictionary={}
     var stages:Dictionary={}
     var hero_scale:Vector2=player.animated_character_sprite.scale
+    var crusher_scale:Vector2=enemy.animated_character_sprite.scale
+    var hero_origin:Vector2=player.animated_character_sprite.position
+    var crusher_origin:Vector2=enemy.animated_character_sprite.position
     for tick in range(210):
      await physics_frame
      Input.action_release("throw_attack")
      held=held or victim.is_throw_locked
      check(player.animated_character_sprite.scale.is_equal_approx(hero_scale),"fixed hero scale throughout throw")
+     check(enemy.animated_character_sprite.scale.is_equal_approx(crusher_scale),"fixed Crusher scale throughout throw and wakeup")
+     check(player.animated_character_sprite.position.is_equal_approx(hero_origin),"fixed hero sprite origin throughout throw and wakeup")
+     check(enemy.animated_character_sprite.position.is_equal_approx(crusher_origin),"fixed Crusher sprite origin throughout throw and wakeup")
      for actor in [player]:
       if actor==player and actor.animated_character_sprite.animation in [&"throw_hold",&"throw_start",&"directional_throw_held",&"crusher_throw_held",&"down",&"stand_up"] or actor==player and (String(actor.animated_character_sprite.animation).begins_with(hero+"_throw_") or String(actor.animated_character_sprite.animation).begins_with("crusher_throw_") or String(actor.animated_character_sprite.animation).begins_with("throw_victim_")):
        var tex:AtlasTexture=actor.animated_character_sprite.sprite_frames.get_frame_texture(actor.animated_character_sprite.animation,actor.animated_character_sprite.frame)
