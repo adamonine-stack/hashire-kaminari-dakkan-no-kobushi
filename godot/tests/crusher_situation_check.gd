@@ -35,9 +35,10 @@ func run() -> void:
  current_scene = battle
  await process_frame
  var manager: Node = battle.get_node("BattleManager")
- await manager.select_player_by_id("player_01_akky")
+ manager.select_player_by_id("player_01_akky")
  for i in range(360):
   await physics_frame
+  if manager._enemy_intro_panel != null and manager._enemy_intro_panel.visible: manager.enemy_intro_finished.emit()
   if manager.isRoundActive: break
  player = battle.get_node("Player")
  enemy = battle.get_node("Enemy")
@@ -102,7 +103,8 @@ func run() -> void:
    enemy.ai_enabled = false
    enemy.ai_profile = null
    enemy.global_position = Vector2(600,520)
-   player.global_position = Vector2(600+(45 if id.ends_with("punch") else 90)*facing,520)
+    # Long approach kick is tested inside its authored 115..205 range, rather than close-range overshoot.
+   player.global_position = Vector2(600+(175 if id=="crusher_forward_kick" else (45 if id.ends_with("punch") else 90))*facing,520)
    enemy.facing_direction = facing
    player.facing_direction = -facing
    enemy.set_physics_process(true)
