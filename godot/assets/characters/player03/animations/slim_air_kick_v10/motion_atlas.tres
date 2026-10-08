@@ -7,4 +7,4 @@ texture = ExtResource("2")
 cell_size = Vector2i(384,288)
 columns = 3
 head_scale_override = 1.0
-clips = {"seiya_air_kick": {"frames": [1, 1, 2, 3, 4], "fps": 12, "loop": false}}
+clips = {"seiya_air_kick": {"frames": [1, 1, 2, 3, 4], "fps": 12, "loop": false}, "jump_kick": {"frames": [1, 1, 2, 3, 4], "fps": 12, "loop": false}}

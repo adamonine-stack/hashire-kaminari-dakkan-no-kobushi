@@ -220,6 +220,7 @@ var uses_animated_character_art := false
 var visual_sort_offset_y := 0.0
 var jump_pressed_this_airtime := false
 var jump_landing_visual_timer := 0.0
+var jump_start_visual_timer := 0.0
 var default_hurt_box_position := Vector2.ZERO
 var default_hurt_box_size := Vector2.ZERO
 
@@ -427,6 +428,7 @@ func _physics_process(delta: float) -> void:
 		return
 	_update_guard_recoil(delta)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
+	jump_start_visual_timer = maxf(jump_start_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
 	var is_kicking := kick_active_timer > 0.0
@@ -579,6 +581,7 @@ func _update_defensive_state(delta := 0.0) -> void:
 			crouch_motion_state = "enter"
 		is_crouching = true
 		jump_landing_visual_timer = 0.0
+		jump_start_visual_timer = 0.0
 		velocity.x = 0.0
 	elif is_crouching:
 		is_crouching = false
@@ -2692,6 +2695,7 @@ func _start_dash(direction: float) -> void:
 	is_dashing = true
 	dash_direction = normalized_direction
 	jump_landing_visual_timer = 0.0
+	jump_start_visual_timer = 0.0
 	_play_visual_animation(&"dash", true)
 	_spawn_movement_dust(global_position + Vector2(-normalized_direction * 18.0, -4.0), 0.9)
 	_spawn_afterimage()
@@ -2713,6 +2717,7 @@ func _start_backstep(direction: float) -> void:
 	velocity.x = backstep_direction * move_speed * backstep_speed_multiplier
 	velocity.y = 0.0
 	jump_landing_visual_timer = 0.0
+	jump_start_visual_timer = 0.0
 	_play_visual_animation(&"backstep", true)
 	_play_audio_manager_se("dash")
 	_spawn_movement_dust(global_position + Vector2(facing_direction * 18.0, -4.0), 0.9)
@@ -2742,6 +2747,7 @@ func _prepare_walk_visual_state(direction: float) -> void:
 	if is_crouching or is_crouch_guarding or is_guarding or is_hit or is_guard_hit or _is_throw_busy():
 		return
 	jump_landing_visual_timer = 0.0
+	jump_start_visual_timer = 0.0
 	if crouch_motion_state == "release":
 		crouch_motion_state = "none"
 		crouch_motion_timer = 0.0
@@ -2770,6 +2776,7 @@ func _prepare_jump_visual_state() -> void:
 	_cancel_mobility_burst()
 	jump_pressed_this_airtime = true
 	jump_landing_visual_timer = 0.0
+	jump_start_visual_timer = 0.0
 	is_crouching = false
 	is_crouch_guarding = false
 	is_guarding = false
@@ -2788,6 +2795,12 @@ func _prepare_jump_visual_state() -> void:
 		visual_root.scale.y = 1.0
 	_sync_single_character_visual()
 	_play_visual_animation(&"jump_start", true)
+	if _has_visual_animation(&"jump_ascent") and animated_character_sprite != null:
+		var frames := animated_character_sprite.sprite_frames
+		var duration := 0.0
+		for index in range(frames.get_frame_count(&"jump_start")):
+			duration += frames.get_frame_duration(&"jump_start",index)
+		jump_start_visual_timer = duration / maxf(frames.get_animation_speed(&"jump_start"),1.0)
 
 
 func _play_visual_animation(animation_name: StringName, force := false) -> void:
@@ -2936,6 +2949,13 @@ func _get_current_visual_animation() -> StringName:
 	if guard_motion_state == "release" and guard_motion_timer > 0.0 and is_on_floor():
 		return &"guard_release"
 	if not is_on_floor():
+		# Authored phase clips opt in without changing legacy fighters' jump flow.
+		if _has_visual_animation(&"jump_ascent") and _has_visual_animation(&"jump_fall"):
+			if velocity.y >= -80.0:
+				return &"jump_fall"
+			if jump_start_visual_timer > 0.0:
+				return &"jump_start"
+			return &"jump_ascent"
 		if uses_animated_character_art and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_01_akky" and velocity.y >= -80.0:
 			return &"jump_fall"
 		return &"jump_start"

@@ -99,6 +99,7 @@ func _physics_process(delta: float) -> void:
 	_update_guard_recoil(delta)
 	landing_recovery_remaining = maxf(landing_recovery_remaining-delta,0.0)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
+	jump_start_visual_timer = maxf(jump_start_visual_timer - delta, 0.0)
 
 	var direction := _get_horizontal_movement_input()
 	var is_kicking := kick_active_timer > 0.0

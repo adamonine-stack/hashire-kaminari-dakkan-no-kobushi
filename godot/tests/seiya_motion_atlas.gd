@@ -53,10 +53,12 @@ func run() -> void:
 				expected = load("res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.tres").texture
 			if clip == &"seiya_forward_kick":
 				expected = load("res://assets/characters/player03/animations/slim_forward_kick_v8/motion_atlas.tres").texture
-			if clip == &"seiya_air_punch":
+			if clip in [&"seiya_air_punch",&"jump_punch",&"jump_punch_down",&"jump_attack"]:
 				expected = load("res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.tres").texture
-			if clip == &"seiya_air_kick":
+			if clip in [&"seiya_air_kick",&"jump_kick"]:
 				expected = load("res://assets/characters/player03/animations/slim_air_kick_v10/motion_atlas.tres").texture
+			if clip in [&"jump",&"jump_start",&"jump_up",&"jump_ascent",&"jump_air",&"jump_fall",&"jump_land",&"fall",&"land",&"landing"]:
+				expected = load("res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.tres").texture
 			if clip in [&"seiya_dive_kick",&"seiya_dive_land"]:
 				expected = load("res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.tres").texture
 			if clip in [&"guard",&"crouch_guard",&"air_guard",&"guard_hit",&"air_guard_hit",&"damage_light",&"damage_heavy"]:

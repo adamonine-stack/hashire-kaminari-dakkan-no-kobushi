@@ -3029,8 +3029,8 @@
     "file": "seiya_44_fall.png",
     "fixed_scale": true,
     "frame": 0,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (146, 113), S: (107, 187)]"
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (98, 84), S: (138, 209)]"
   },
   {
     "actor": "seiya",
@@ -3208,95 +3208,104 @@
     "clip": "jump",
     "file": "seiya_64_jump.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (137, 123), S: (126, 177)]"
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (98, 84), S: (138, 209)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_air",
     "file": "seiya_65_jump_air.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (126, 139), S: (148, 161)]"
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (129, 84), S: (78, 185)]"
+  },
+  {
+    "actor": "seiya",
+    "clip": "jump_ascent",
+    "file": "seiya_66_jump_ascent.png",
+    "fixed_scale": true,
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (129, 84), S: (78, 185)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_attack",
-    "file": "seiya_66_jump_attack.png",
+    "file": "seiya_67_jump_attack.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (103, 102), S: (194, 198)]"
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.png",
+    "visible": "[P: (96, 84), S: (143, 172)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_fall",
-    "file": "seiya_67_jump_fall.png",
+    "file": "seiya_68_jump_fall.png",
     "fixed_scale": true,
     "frame": 0,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (146, 113), S: (107, 187)]"
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (98, 84), S: (138, 209)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_kick",
-    "file": "seiya_68_jump_kick.png",
+    "file": "seiya_69_jump_kick.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (90, 114), S: (219, 186)]"
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_air_kick_v10/motion_atlas.png",
+    "visible": "[P: (91, 84), S: (152, 166)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_land",
-    "file": "seiya_69_jump_land.png",
+    "file": "seiya_70_jump_land.png",
     "fixed_scale": true,
     "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (138, 114), S: (123, 186)]"
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (114, 87), S: (107, 213)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_punch",
-    "file": "seiya_70_jump_punch.png",
+    "file": "seiya_71_jump_punch.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (103, 102), S: (194, 198)]"
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.png",
+    "visible": "[P: (96, 84), S: (143, 172)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_punch_down",
-    "file": "seiya_71_jump_punch_down.png",
+    "file": "seiya_72_jump_punch_down.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (103, 102), S: (194, 198)]"
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.png",
+    "visible": "[P: (96, 84), S: (143, 172)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_start",
-    "file": "seiya_72_jump_start.png",
+    "file": "seiya_73_jump_start.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (137, 123), S: (126, 177)]"
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (126, 114), S: (83, 186)]"
   },
   {
     "actor": "seiya",
     "clip": "jump_up",
-    "file": "seiya_73_jump_up.png",
+    "file": "seiya_74_jump_up.png",
     "fixed_scale": true,
-    "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (126, 139), S: (148, 161)]"
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (129, 84), S: (78, 185)]"
   },
   {
     "actor": "seiya",
     "clip": "kick",
-    "file": "seiya_74_kick.png",
+    "file": "seiya_75_kick.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3305,7 +3314,7 @@
   {
     "actor": "seiya",
     "clip": "kick_1",
-    "file": "seiya_75_kick_1.png",
+    "file": "seiya_76_kick_1.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3314,7 +3323,7 @@
   {
     "actor": "seiya",
     "clip": "kick_2",
-    "file": "seiya_76_kick_2.png",
+    "file": "seiya_77_kick_2.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3323,7 +3332,7 @@
   {
     "actor": "seiya",
     "clip": "knockback",
-    "file": "seiya_77_knockback.png",
+    "file": "seiya_78_knockback.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
@@ -3332,7 +3341,7 @@
   {
     "actor": "seiya",
     "clip": "knockdown",
-    "file": "seiya_78_knockdown.png",
+    "file": "seiya_79_knockdown.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3341,7 +3350,7 @@
   {
     "actor": "seiya",
     "clip": "knockdown_high",
-    "file": "seiya_79_knockdown_high.png",
+    "file": "seiya_80_knockdown_high.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3350,7 +3359,7 @@
   {
     "actor": "seiya",
     "clip": "knockdown_low",
-    "file": "seiya_80_knockdown_low.png",
+    "file": "seiya_81_knockdown_low.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3359,7 +3368,7 @@
   {
     "actor": "seiya",
     "clip": "ko",
-    "file": "seiya_81_ko.png",
+    "file": "seiya_82_ko.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3368,25 +3377,25 @@
   {
     "actor": "seiya",
     "clip": "land",
-    "file": "seiya_82_land.png",
+    "file": "seiya_83_land.png",
     "fixed_scale": true,
     "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (138, 114), S: (123, 186)]"
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (114, 87), S: (107, 213)]"
   },
   {
     "actor": "seiya",
     "clip": "landing",
-    "file": "seiya_83_landing.png",
+    "file": "seiya_84_landing.png",
     "fixed_scale": true,
     "frame": 1,
-    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
-    "visible": "[P: (138, 114), S: (123, 186)]"
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "visible": "[P: (114, 87), S: (107, 213)]"
   },
   {
     "actor": "seiya",
     "clip": "launch_hit",
-    "file": "seiya_84_launch_hit.png",
+    "file": "seiya_85_launch_hit.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
@@ -3395,7 +3404,7 @@
   {
     "actor": "seiya",
     "clip": "light_attack",
-    "file": "seiya_85_light_attack.png",
+    "file": "seiya_86_light_attack.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3404,7 +3413,7 @@
   {
     "actor": "seiya",
     "clip": "punch",
-    "file": "seiya_86_punch.png",
+    "file": "seiya_87_punch.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3413,7 +3422,7 @@
   {
     "actor": "seiya",
     "clip": "punch_1",
-    "file": "seiya_87_punch_1.png",
+    "file": "seiya_88_punch_1.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3422,7 +3431,7 @@
   {
     "actor": "seiya",
     "clip": "punch_2",
-    "file": "seiya_88_punch_2.png",
+    "file": "seiya_89_punch_2.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3431,7 +3440,7 @@
   {
     "actor": "seiya",
     "clip": "punch_3",
-    "file": "seiya_89_punch_3.png",
+    "file": "seiya_90_punch_3.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3440,7 +3449,7 @@
   {
     "actor": "seiya",
     "clip": "received_cross_muei_guard",
-    "file": "seiya_90_received_cross_muei_guard.png",
+    "file": "seiya_91_received_cross_muei_guard.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/cross_special_guard_v1/ally_speed/motion_atlas.png",
@@ -3449,7 +3458,7 @@
   {
     "actor": "seiya",
     "clip": "received_crusher_hammer_air",
-    "file": "seiya_91_received_crusher_hammer_air.png",
+    "file": "seiya_92_received_crusher_hammer_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3458,7 +3467,7 @@
   {
     "actor": "seiya",
     "clip": "received_crusher_hammer_down",
-    "file": "seiya_92_received_crusher_hammer_down.png",
+    "file": "seiya_93_received_crusher_hammer_down.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3467,7 +3476,7 @@
   {
     "actor": "seiya",
     "clip": "received_crusher_hammer_guard",
-    "file": "seiya_93_received_crusher_hammer_guard.png",
+    "file": "seiya_94_received_crusher_hammer_guard.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3476,7 +3485,7 @@
   {
     "actor": "seiya",
     "clip": "received_crusher_hammer_hit",
-    "file": "seiya_94_received_crusher_hammer_hit.png",
+    "file": "seiya_95_received_crusher_hammer_hit.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3485,7 +3494,7 @@
   {
     "actor": "seiya",
     "clip": "received_rei_uppercut_air",
-    "file": "seiya_95_received_rei_uppercut_air.png",
+    "file": "seiya_96_received_rei_uppercut_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
@@ -3494,7 +3503,7 @@
   {
     "actor": "seiya",
     "clip": "received_rei_uppercut_down",
-    "file": "seiya_96_received_rei_uppercut_down.png",
+    "file": "seiya_97_received_rei_uppercut_down.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
@@ -3503,7 +3512,7 @@
   {
     "actor": "seiya",
     "clip": "received_rei_uppercut_guard",
-    "file": "seiya_97_received_rei_uppercut_guard.png",
+    "file": "seiya_98_received_rei_uppercut_guard.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
@@ -3512,7 +3521,7 @@
   {
     "actor": "seiya",
     "clip": "received_rei_uppercut_hit",
-    "file": "seiya_98_received_rei_uppercut_hit.png",
+    "file": "seiya_99_received_rei_uppercut_hit.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
@@ -3521,7 +3530,7 @@
   {
     "actor": "seiya",
     "clip": "received_seiya_two_down",
-    "file": "seiya_99_received_seiya_two_down.png",
+    "file": "seiya_100_received_seiya_two_down.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3530,7 +3539,7 @@
   {
     "actor": "seiya",
     "clip": "received_seiya_two_fall",
-    "file": "seiya_100_received_seiya_two_fall.png",
+    "file": "seiya_101_received_seiya_two_fall.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3539,7 +3548,7 @@
   {
     "actor": "seiya",
     "clip": "received_seiya_two_fly",
-    "file": "seiya_101_received_seiya_two_fly.png",
+    "file": "seiya_102_received_seiya_two_fly.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3548,7 +3557,7 @@
   {
     "actor": "seiya",
     "clip": "received_seiya_two_lift",
-    "file": "seiya_102_received_seiya_two_lift.png",
+    "file": "seiya_103_received_seiya_two_lift.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3557,7 +3566,7 @@
   {
     "actor": "seiya",
     "clip": "received_shadow_counter_air",
-    "file": "seiya_103_received_shadow_counter_air.png",
+    "file": "seiya_104_received_shadow_counter_air.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
@@ -3566,7 +3575,7 @@
   {
     "actor": "seiya",
     "clip": "received_shadow_counter_down",
-    "file": "seiya_104_received_shadow_counter_down.png",
+    "file": "seiya_105_received_shadow_counter_down.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
@@ -3575,7 +3584,7 @@
   {
     "actor": "seiya",
     "clip": "received_shadow_counter_hit",
-    "file": "seiya_105_received_shadow_counter_hit.png",
+    "file": "seiya_106_received_shadow_counter_hit.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
@@ -3584,7 +3593,7 @@
   {
     "actor": "seiya",
     "clip": "received_teki_palm_air",
-    "file": "seiya_106_received_teki_palm_air.png",
+    "file": "seiya_107_received_teki_palm_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
@@ -3593,7 +3602,7 @@
   {
     "actor": "seiya",
     "clip": "received_teki_palm_down",
-    "file": "seiya_107_received_teki_palm_down.png",
+    "file": "seiya_108_received_teki_palm_down.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
@@ -3602,7 +3611,7 @@
   {
     "actor": "seiya",
     "clip": "received_teki_palm_guard",
-    "file": "seiya_108_received_teki_palm_guard.png",
+    "file": "seiya_109_received_teki_palm_guard.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
@@ -3611,7 +3620,7 @@
   {
     "actor": "seiya",
     "clip": "received_teki_palm_hit",
-    "file": "seiya_109_received_teki_palm_hit.png",
+    "file": "seiya_110_received_teki_palm_hit.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
@@ -3620,7 +3629,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_air_kick",
-    "file": "seiya_110_seiya_air_kick.png",
+    "file": "seiya_111_seiya_air_kick.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_air_kick_v10/motion_atlas.png",
@@ -3629,7 +3638,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_air_punch",
-    "file": "seiya_111_seiya_air_punch.png",
+    "file": "seiya_112_seiya_air_punch.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.png",
@@ -3638,7 +3647,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_back_kick",
-    "file": "seiya_112_seiya_back_kick.png",
+    "file": "seiya_113_seiya_back_kick.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_back_kick_v6/motion_atlas.png",
@@ -3647,7 +3656,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_back_punch",
-    "file": "seiya_113_seiya_back_punch.png",
+    "file": "seiya_114_seiya_back_punch.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_anti_air_v4/motion_atlas.png",
@@ -3656,7 +3665,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_dive_kick",
-    "file": "seiya_114_seiya_dive_kick.png",
+    "file": "seiya_115_seiya_dive_kick.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.png",
@@ -3665,7 +3674,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_dive_land",
-    "file": "seiya_115_seiya_dive_land.png",
+    "file": "seiya_116_seiya_dive_land.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.png",
@@ -3674,7 +3683,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_down_punch",
-    "file": "seiya_116_seiya_down_punch.png",
+    "file": "seiya_117_seiya_down_punch.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_launcher_v5/motion_atlas.png",
@@ -3683,7 +3692,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_forward_kick",
-    "file": "seiya_117_seiya_forward_kick.png",
+    "file": "seiya_118_seiya_forward_kick.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_forward_kick_v8/motion_atlas.png",
@@ -3692,7 +3701,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_forward_punch",
-    "file": "seiya_118_seiya_forward_punch.png",
+    "file": "seiya_119_seiya_forward_punch.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.png",
@@ -3701,7 +3710,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_somersault_kick",
-    "file": "seiya_119_seiya_somersault_kick.png",
+    "file": "seiya_120_seiya_somersault_kick.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
@@ -3710,7 +3719,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_somersault_landing",
-    "file": "seiya_120_seiya_somersault_landing.png",
+    "file": "seiya_121_seiya_somersault_landing.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
@@ -3719,7 +3728,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_somersault_startup",
-    "file": "seiya_121_seiya_somersault_startup.png",
+    "file": "seiya_122_seiya_somersault_startup.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
@@ -3728,7 +3737,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_throw_back_release",
-    "file": "seiya_122_seiya_throw_back_release.png",
+    "file": "seiya_123_seiya_throw_back_release.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3737,7 +3746,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_throw_down_release",
-    "file": "seiya_123_seiya_throw_down_release.png",
+    "file": "seiya_124_seiya_throw_down_release.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3746,7 +3755,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_throw_forward_release",
-    "file": "seiya_124_seiya_throw_forward_release.png",
+    "file": "seiya_125_seiya_throw_forward_release.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3755,7 +3764,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_throw_neutral_release",
-    "file": "seiya_125_seiya_throw_neutral_release.png",
+    "file": "seiya_126_seiya_throw_neutral_release.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3764,7 +3773,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_throw_whiff",
-    "file": "seiya_126_seiya_throw_whiff.png",
+    "file": "seiya_127_seiya_throw_whiff.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3773,7 +3782,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_two_finish",
-    "file": "seiya_127_seiya_two_finish.png",
+    "file": "seiya_128_seiya_two_finish.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
@@ -3782,7 +3791,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_two_sidekick",
-    "file": "seiya_128_seiya_two_sidekick.png",
+    "file": "seiya_129_seiya_two_sidekick.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
@@ -3791,7 +3800,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_two_somersault",
-    "file": "seiya_129_seiya_two_somersault.png",
+    "file": "seiya_130_seiya_two_somersault.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
@@ -3800,7 +3809,7 @@
   {
     "actor": "seiya",
     "clip": "seiya_two_start",
-    "file": "seiya_130_seiya_two_start.png",
+    "file": "seiya_131_seiya_two_start.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
@@ -3809,7 +3818,7 @@
   {
     "actor": "seiya",
     "clip": "special",
-    "file": "seiya_131_special.png",
+    "file": "seiya_132_special.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3818,7 +3827,7 @@
   {
     "actor": "seiya",
     "clip": "special_attack",
-    "file": "seiya_132_special_attack.png",
+    "file": "seiya_133_special_attack.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3827,7 +3836,7 @@
   {
     "actor": "seiya",
     "clip": "special_clear_counter",
-    "file": "seiya_133_special_clear_counter.png",
+    "file": "seiya_134_special_clear_counter.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3836,7 +3845,7 @@
   {
     "actor": "seiya",
     "clip": "special_guard",
-    "file": "seiya_134_special_guard.png",
+    "file": "seiya_135_special_guard.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
@@ -3845,7 +3854,7 @@
   {
     "actor": "seiya",
     "clip": "special_recovery",
-    "file": "seiya_135_special_recovery.png",
+    "file": "seiya_136_special_recovery.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3854,7 +3863,7 @@
   {
     "actor": "seiya",
     "clip": "special_startup",
-    "file": "seiya_136_special_startup.png",
+    "file": "seiya_137_special_startup.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3863,7 +3872,7 @@
   {
     "actor": "seiya",
     "clip": "stand_up",
-    "file": "seiya_137_stand_up.png",
+    "file": "seiya_138_stand_up.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3872,7 +3881,7 @@
   {
     "actor": "seiya",
     "clip": "standup",
-    "file": "seiya_138_standup.png",
+    "file": "seiya_139_standup.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3881,7 +3890,7 @@
   {
     "actor": "seiya",
     "clip": "throw",
-    "file": "seiya_139_throw.png",
+    "file": "seiya_140_throw.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3890,7 +3899,7 @@
   {
     "actor": "seiya",
     "clip": "throw_hold",
-    "file": "seiya_140_throw_hold.png",
+    "file": "seiya_141_throw_hold.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3899,7 +3908,7 @@
   {
     "actor": "seiya",
     "clip": "throw_release",
-    "file": "seiya_141_throw_release.png",
+    "file": "seiya_142_throw_release.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3908,7 +3917,7 @@
   {
     "actor": "seiya",
     "clip": "throw_start",
-    "file": "seiya_142_throw_start.png",
+    "file": "seiya_143_throw_start.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
@@ -3917,7 +3926,7 @@
   {
     "actor": "seiya",
     "clip": "throw_victim_back_air",
-    "file": "seiya_143_throw_victim_back_air.png",
+    "file": "seiya_144_throw_victim_back_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3926,7 +3935,7 @@
   {
     "actor": "seiya",
     "clip": "throw_victim_down_air",
-    "file": "seiya_144_throw_victim_down_air.png",
+    "file": "seiya_145_throw_victim_down_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3935,7 +3944,7 @@
   {
     "actor": "seiya",
     "clip": "throw_victim_forward_air",
-    "file": "seiya_145_throw_victim_forward_air.png",
+    "file": "seiya_146_throw_victim_forward_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3944,7 +3953,7 @@
   {
     "actor": "seiya",
     "clip": "throw_victim_neutral_air",
-    "file": "seiya_146_throw_victim_neutral_air.png",
+    "file": "seiya_147_throw_victim_neutral_air.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3953,7 +3962,7 @@
   {
     "actor": "seiya",
     "clip": "throw_victim_slam_down",
-    "file": "seiya_147_throw_victim_slam_down.png",
+    "file": "seiya_148_throw_victim_slam_down.png",
     "fixed_scale": true,
     "frame": 0,
     "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
@@ -3962,7 +3971,7 @@
   {
     "actor": "seiya",
     "clip": "thrown",
-    "file": "seiya_148_thrown.png",
+    "file": "seiya_149_thrown.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3971,7 +3980,7 @@
   {
     "actor": "seiya",
     "clip": "victory",
-    "file": "seiya_149_victory.png",
+    "file": "seiya_150_victory.png",
     "fixed_scale": true,
     "frame": 2,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3980,7 +3989,7 @@
   {
     "actor": "seiya",
     "clip": "walk",
-    "file": "seiya_150_walk.png",
+    "file": "seiya_151_walk.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3989,7 +3998,7 @@
   {
     "actor": "seiya",
     "clip": "walk_backward",
-    "file": "seiya_151_walk_backward.png",
+    "file": "seiya_152_walk_backward.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -3998,7 +4007,7 @@
   {
     "actor": "seiya",
     "clip": "walk_forward",
-    "file": "seiya_152_walk_forward.png",
+    "file": "seiya_153_walk_forward.png",
     "fixed_scale": true,
     "frame": 3,
     "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
@@ -4007,7 +4016,7 @@
   {
     "actor": "seiya",
     "clip": "wall_fall",
-    "file": "seiya_153_wall_fall.png",
+    "file": "seiya_154_wall_fall.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
@@ -4016,7 +4025,7 @@
   {
     "actor": "seiya",
     "clip": "wall_hit",
-    "file": "seiya_154_wall_hit.png",
+    "file": "seiya_155_wall_hit.png",
     "fixed_scale": true,
     "frame": 1,
     "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
@@ -4424,8 +4433,8 @@
     "file": "crusher_44_jump_kick.png",
     "fixed_scale": true,
     "frame": 2,
-    "source": "",
-    "visible": "[P: (97, 115), S: (206, 175)]"
+    "source": "res://assets/characters/enemy01/animations/unified_air_attack_v11/motion_atlas.png",
+    "visible": "[P: (118, 50), S: (163, 234)]"
   },
   {
     "actor": "crusher",
@@ -4442,8 +4451,8 @@
     "file": "crusher_46_jump_punch.png",
     "fixed_scale": true,
     "frame": 2,
-    "source": "",
-    "visible": "[P: (97, 84), S: (206, 206)]"
+    "source": "res://assets/characters/enemy01/animations/unified_air_attack_v11/motion_atlas.png",
+    "visible": "[P: (108, 50), S: (183, 214)]"
   },
   {
     "actor": "crusher",
@@ -4451,8 +4460,8 @@
     "file": "crusher_47_jump_punch_down.png",
     "fixed_scale": true,
     "frame": 2,
-    "source": "",
-    "visible": "[P: (97, 84), S: (206, 206)]"
+    "source": "res://assets/characters/enemy01/animations/unified_air_attack_v11/motion_atlas.png",
+    "visible": "[P: (108, 50), S: (183, 214)]"
   },
   {
     "actor": "crusher",
