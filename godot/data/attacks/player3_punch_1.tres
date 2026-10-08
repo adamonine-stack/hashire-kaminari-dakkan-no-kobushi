@@ -26,5 +26,5 @@ animation_name = "punch_1"
 cancel_start = 0.11
 cancel_end = 0.23
 cancel_targets = Array[String](["seiya_forward_punch", "player3_punch_2", "player3_kick_finish"])
-contact_start_frame = 2
-contact_end_frame = 2
+contact_start_frame = 3
+contact_end_frame = 3

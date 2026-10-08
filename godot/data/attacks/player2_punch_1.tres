@@ -26,5 +26,5 @@ animation_name = "punch_1"
 cancel_start = 0.28
 cancel_end = 0.46
 cancel_targets = Array[String](["gou_forward_punch", "player2_punch_2", "player2_kick_finish"])
-contact_start_frame = 2
-contact_end_frame = 2
+contact_start_frame = 3
+contact_end_frame = 3

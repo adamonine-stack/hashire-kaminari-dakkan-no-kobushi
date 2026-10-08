@@ -1,0 +1,26 @@
+[
+  {
+    "frame": 0,
+    "source": "godot\\assets\\characters\\dedicated_pair_v1\\akky_launcher.png",
+    "source_cell": 0,
+    "scale": 1.0
+  },
+  {
+    "frame": 1,
+    "source": "godot\\assets\\characters\\dedicated_pair_v1\\akky_launcher.png",
+    "source_cell": 1,
+    "scale": 1.0
+  },
+  {
+    "frame": 2,
+    "source": "godot\\assets\\characters\\player01\\animations\\directional_v1\\motion_atlas.png",
+    "source_cell": 6,
+    "scale": 1.0
+  },
+  {
+    "frame": 3,
+    "source": "godot\\assets\\characters\\player01\\animations\\directional_v1\\motion_atlas.png",
+    "source_cell": 7,
+    "scale": 1.0
+  }
+]
