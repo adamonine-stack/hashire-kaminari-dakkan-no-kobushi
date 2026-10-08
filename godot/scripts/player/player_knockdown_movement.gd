@@ -195,7 +195,10 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	var launch: Vector2 = attack_data.get("launch_velocity", Vector2.ZERO)
 	if launch != Vector2.ZERO and not causes_down:
 		velocity = Vector2(launch.x * attack_direction, -absf(launch.y))
-		if _has_visual_animation(&"launch_hit"):
+		var authored_launch_reaction := StringName(attack_data.get("hit_reaction", &""))
+		if authored_launch_reaction != &"" and _has_visual_animation(authored_launch_reaction):
+			last_damage_animation = authored_launch_reaction
+		elif _has_visual_animation(&"launch_hit"):
 			last_damage_animation = &"launch_hit"
 		elif _has_visual_animation(&"knockback"):
 			last_damage_animation = &"knockback"

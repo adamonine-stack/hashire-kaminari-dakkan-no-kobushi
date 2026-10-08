@@ -65,6 +65,10 @@ func run() -> void:
 				expected = load("res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.tres").texture
 			if clip in [&"directional_throw_held",&"grabbed",&"throw_victim_neutral_air",&"throw_victim_forward_air",&"throw_victim_down_air",&"throw_victim_back_air",&"throw_victim_slam_down",&"down",&"knockdown",&"standup",&"getup",&"stand_up",&"get_up",&"ko",&"defeat"] or String(clip).begins_with("crusher_throw_"):
 				expected = load("res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.tres").texture
+			if clip in [&"damage_high",&"damage_low",&"launch_hit",&"air_hit",&"knockback",&"ground_impact",&"ground_bounce",&"wall_hit",&"wall_fall"]:
+				expected = load("res://assets/characters/player03/animations/slim_received_v15/motion_atlas.tres").texture
+			if clip in [&"knockdown_high",&"knockdown_low"]:
+				expected = load("res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
 				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture

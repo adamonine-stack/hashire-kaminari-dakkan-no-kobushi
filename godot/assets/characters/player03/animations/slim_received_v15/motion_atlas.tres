@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384,288)
+columns = 4
+head_scale_override = 1.0
+clips = {"damage_high": {"frames": [1, 1, 0], "fps": 12, "loop": false}, "damage_low": {"frames": [2, 2, 0], "fps": 12, "loop": false}, "launch_hit": {"frames": [3, 3], "fps": 8, "loop": true}, "air_hit": {"frames": [4, 4], "fps": 8, "loop": true}, "knockback": {"frames": [5, 5], "fps": 8, "loop": true}, "ground_impact": {"frames": [6], "fps": 12, "loop": false}, "ground_bounce": {"frames": [6, 4], "fps": 12, "loop": false}, "wall_hit": {"frames": [7, 7], "fps": 8, "loop": false}, "wall_fall": {"frames": [7, 5], "fps": 8, "loop": false}}
