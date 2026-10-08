@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "crusher_air_kick"
+display_name = "Crusher Air Kick"
+attack_type = "kick"
+attack_category = "air"
+ground_only = false
+airborne_only = true
+base_damage = 1.1
+startup_time = 0.214
+active_time = 0.143
+recovery_time = 0.214
+hitbox_size = Vector2(70, 45)
+hitbox_offset = Vector2(90, -95)
+knockback = Vector2(250, -90)
+hitstop_time = 0.09
+hitstun_time = 0.3
+guard_hit_time = 0.22
+guard_knockback = Vector2(95,0)
+can_cancel_on_hit = false
+can_cancel_on_whiff = false
+animation_name = "jump_kick"
+contact_start_frame = 1
+contact_end_frame = 1

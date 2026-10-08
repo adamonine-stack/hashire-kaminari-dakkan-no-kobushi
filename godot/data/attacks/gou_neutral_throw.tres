@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+attack_id = "gou_neutral_throw"
+display_name = "GOU neutral throw"
+attack_type = "throw"
+command_direction = "neutral"
+command_priority = 200
+ground_only = true
+startup_time = 0.12
+recovery_time = 0.3
+damage_multiplier = 1.0
+throw_whiff_seconds = 0.5
+throw_velocity = Vector2(120, -120)
+throw_swap_positions = false
+throw_counter_range = 0.0
+throw_counter_window = 0
+throw_down_seconds = 0
+throw_hold_offset = Vector2(75, 0)
+throw_prepare_seconds = 0.08
+throw_start_animation = &"throw_start"
+throw_prepare_animation = &"throw_hold"
+throw_release_animation = &"gou_throw_neutral_release"
+throw_victim_prepare_animation = &"directional_throw_held"
+throw_victim_air_animation = &"throw_victim_neutral_air"
+throw_victim_down_animation = &"down"
+
+throw_hold_animation = &"throw_hold"
+throw_victim_hold_animation = &"directional_throw_held"
+throw_whiff_animation = &"gou_throw_whiff"

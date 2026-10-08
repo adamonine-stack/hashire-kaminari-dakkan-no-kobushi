@@ -19,7 +19,7 @@ throw_swap_positions = false
 throw_counter_range = 0.0
 throw_counter_window = 0
 throw_down_seconds = 1.1
-throw_hold_offset = Vector2(160, 0)
+throw_hold_offset = Vector2(125, 0)
 throw_prepare_seconds = 0.08
 throw_start_animation = &"crusher_throw_start"
 throw_prepare_animation = &"crusher_throw_hold"
@@ -34,3 +34,5 @@ throw_victim_hold_animation = &"crusher_throw_held"
 
 ground_bounces = 1
 ground_bounce_velocity = Vector2(0, -160)
+
+throw_hold_offsets_by_fighter = {"player_02_gou": Vector2(75, 0), "player_03_seiya": Vector2(75, 0)}

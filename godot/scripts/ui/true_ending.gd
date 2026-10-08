@@ -134,7 +134,9 @@ func _run() -> void:
 	await _say("アッキー", LINES[4], 2.4)
 	await _wait(0.6)
 	await _say("セイヤ", LINES[5], 2.5)
-	await walk.finished
+	# Accelerated QA can finish the walk while dialogue timers are running.
+	if walk.is_running():
+		await walk.finished
 	seiya.hide()
 	await _fade(1.0)
 	cast.hide()

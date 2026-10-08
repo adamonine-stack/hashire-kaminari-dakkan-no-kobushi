@@ -29,13 +29,14 @@ func _initialize() -> void:
 		&"guard": 1, &"crouch": 1, &"crouch_guard": 1,
 		&"crouch_punch": 3, &"crouch_kick": 3,
 		&"damage_high": 3, &"knockdown": 3,
-		&"stand_up": 4, &"ko": 2, &"throw": 4,
+		&"stand_up": 4, &"ko": 1, &"throw": 4,
 	}
 	for animation_name in required:
 		assert(controller.has_animation(animation_name))
 		assert(animated.sprite_frames.get_frame_count(animation_name) == required[animation_name])
 		controller.play_animation(animation_name, true)
 		assert(animated.animation == animation_name)
+	assert(animated.sprite_frames.get_frame_texture(&"ko",0).atlas.resource_path.ends_with("unified_down_recovery_v8/motion_atlas.png"))
 	controller.set_facing(-1)
 	assert(animated.flip_h)
 	assert(animated.position.is_equal_approx(Vector2(0, -boot_y * crusher_scale)))

@@ -1,0 +1,108 @@
+{
+  "source": "art_sources\\seiya_air_punch_v9\\key_poses.png",
+  "reference_height": 212,
+  "scale": 0.40625,
+  "resampling": "nearest",
+  "frames": [
+    {
+      "index": 0,
+      "source_bbox": [
+        202,
+        31,
+        424,
+        511
+      ],
+      "crop": [
+        200,
+        29,
+        426,
+        513
+      ],
+      "scale": 0.40625,
+      "offset": [
+        114,
+        73
+      ]
+    },
+    {
+      "index": 1,
+      "source_bbox": [
+        625,
+        34,
+        885,
+        417
+      ],
+      "crop": [
+        623,
+        32,
+        887,
+        419
+      ],
+      "scale": 0.40625,
+      "offset": [
+        106,
+        75
+      ]
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        1104,
+        49,
+        1444,
+        427
+      ],
+      "crop": [
+        1102,
+        47,
+        1446,
+        429
+      ],
+      "scale": 0.40625,
+      "offset": [
+        90,
+        75
+      ]
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        179,
+        542,
+        436,
+        928
+      ],
+      "crop": [
+        177,
+        540,
+        438,
+        930
+      ],
+      "scale": 0.40625,
+      "offset": [
+        107,
+        75
+      ]
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        674,
+        533,
+        885,
+        921
+      ],
+      "crop": [
+        672,
+        531,
+        887,
+        923
+      ],
+      "scale": 0.40625,
+      "offset": [
+        116,
+        75
+      ]
+    }
+  ]
+}

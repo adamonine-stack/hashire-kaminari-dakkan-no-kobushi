@@ -50,7 +50,20 @@ func extra_checks(manager: Node, attacker: Node, target: Node) -> void:
 		for clip in ["received_crusher_hammer_hit","received_crusher_hammer_air","received_crusher_hammer_down","received_crusher_hammer_guard"]:
 			for frame in range(sprite.sprite_frames.get_frame_count(clip)):
 				var ratio := opaque_body_area(sprite.sprite_frames.get_frame_texture(clip,frame))/idle_area
-				check(ratio > 0.90 and ratio < 1.10,definition+" retains anatomical body mass "+clip)
+				if definition=="ally_balance":
+					check(ratio > 0.90 and ratio < 1.10,definition+" retains anatomical body mass "+clip)
+				else:
+					# Prone/guard occlusion changes opaque area; verify calibrated source and invariant display scale instead.
+					var folder := "special_v12_received" if definition=="ally_power" else "slim_special_v14_received"
+					var texture:AtlasTexture=sprite.sprite_frames.get_frame_texture(clip,frame)
+					check(texture.atlas.resource_path.contains(folder),definition+" formal received source "+clip)
+					check(texture.region.size==Vector2(384,288),definition+" fixed received cell "+clip)
+					var calibration=texture.atlas.get_image().get_region(Rect2i(0,0,384,288)).get_used_rect()
+					check(abs(calibration.size.y-(203 if definition=="ally_power" else 195))<=2,definition+" formal source standing height")
+					var baseline=sprite.scale
+					target._play_visual_animation(StringName(clip),true)
+					sprite.frame=frame
+					check(sprite.scale.is_equal_approx(baseline),definition+" fixed received display scale")
 		for direction in [1,-1]:
 			await reset(manager,attacker,Vector2(640-180*direction,520),direction)
 			attacker.set_physics_process(false)
@@ -63,7 +76,7 @@ func extra_checks(manager: Node, attacker: Node, target: Node) -> void:
 			check(not target.receive_attack(packet,direction,target.global_position,attacker),definition+" blocks hammer")
 			check(target.current_hp == hp,definition+" guard has zero chip damage")
 			target._update_visual_state()
-			var expected_guard: StringName = &"special_guard" if definition == "ally_balance" else &"received_crusher_hammer_guard"
+			var expected_guard: StringName = &"special_guard"
 			check(sprite.animation == expected_guard,definition+" dedicated hammer guard")
 			if definition == "ally_balance":
 				check(sprite.sprite_frames.get_frame_count(expected_guard)==3,"AKKY paired guard has three phases")

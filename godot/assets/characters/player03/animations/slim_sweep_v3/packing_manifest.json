@@ -1,0 +1,117 @@
+{
+  "formal_reference": "art_sources/seiya_slim_v3/formal_standing.png",
+  "body_balance_reference": "art_sources/seiya_slim_v3/akky_balance_reference.png",
+  "source": "art_sources\\seiya_slim_v3\\sweep_sequence_source.png",
+  "standing_source_height": 501,
+  "target_source_height": 195,
+  "frames": [
+    {
+      "index": 0,
+      "crop": [
+        192,
+        48,
+        424,
+        549
+      ],
+      "support_foot": [
+        295,
+        548
+      ],
+      "scale": 0.38922155688622756,
+      "offset": [
+        120,
+        75
+      ]
+    },
+    {
+      "index": 1,
+      "crop": [
+        642,
+        282,
+        867,
+        548
+      ],
+      "support_foot": [
+        726,
+        540
+      ],
+      "scale": 0.38922155688622756,
+      "offset": [
+        127,
+        166
+      ]
+    },
+    {
+      "index": 2,
+      "crop": [
+        1040,
+        293,
+        1426,
+        548
+      ],
+      "support_foot": [
+        1132,
+        540
+      ],
+      "scale": 0.38922155688622756,
+      "offset": [
+        124,
+        171
+      ]
+    },
+    {
+      "index": 3,
+      "crop": [
+        112,
+        716,
+        520,
+        981
+      ],
+      "support_foot": [
+        188,
+        969
+      ],
+      "scale": 0.38922155688622756,
+      "offset": [
+        130,
+        167
+      ]
+    },
+    {
+      "index": 4,
+      "crop": [
+        652,
+        706,
+        898,
+        979
+      ],
+      "support_foot": [
+        742,
+        969
+      ],
+      "scale": 0.38922155688622756,
+      "offset": [
+        125,
+        164
+      ]
+    },
+    {
+      "index": 5,
+      "crop": [
+        1151,
+        712,
+        1370,
+        980
+      ],
+      "support_foot": [
+        1239,
+        969
+      ],
+      "scale": 0.38922155688622756,
+      "offset": [
+        126,
+        166
+      ]
+    }
+  ]
+}

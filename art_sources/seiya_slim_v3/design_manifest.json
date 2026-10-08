@@ -1,0 +1,1168 @@
+{
+  "formal_reference": "art_sources/seiya_slim_v3/formal_standing.png",
+  "source_pose": "ally_speed idle_prebattle frame 0; seiya_v2 atlas index 94; actual Godot rendering with existing final proportions",
+  "rules": {
+    "same_person": true,
+    "head_to_height": "match approved standing and Akky balance; never shrink the head independently to an exaggerated tiny size",
+    "build": "slim adult, narrow shoulders/torso, slender limbs",
+    "outfit": "golden hair, long-sleeved white button-down tucked into beige pants, black belt, white sneakers",
+    "anchor": "same ground and actor origin; do not compensate with Sprite scale",
+    "effect": "separate from anatomy",
+    "sweep_leg": "compact thigh and shin, hip-to-toe projection about half standing height; compare with Akky; no stretched limb"
+  },
+  "reviewed_frames": [
+    {
+      "body": "[P: (138, 75), S: (107, 203)]",
+      "clip": "backstep",
+      "file": "000_backstep_00.png",
+      "frame": 0,
+      "head": "[P: (170.0, 78.0), S: (51.0, 73.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (128, 87), S: (127, 191)]",
+      "clip": "backstep",
+      "file": "001_backstep_01.png",
+      "frame": 1,
+      "head": "[P: (169.0, 90.0), S: (50.0, 64.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (116, 89), S: (152, 189)]",
+      "clip": "backstep",
+      "file": "002_backstep_02.png",
+      "frame": 2,
+      "head": "[P: (211.0, 92.0), S: (54.0, 63.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (128, 150), S: (128, 128)]",
+      "clip": "backstep",
+      "file": "003_backstep_03.png",
+      "frame": 3,
+      "head": "[P: (188.0, 148.0), S: (53.0, 50.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (114, 57), S: (155, 221)]",
+      "clip": "combo_finisher",
+      "file": "004_combo_finisher_00.png",
+      "frame": 0,
+      "head": "[P: (173.0, 64.0), S: (58.0, 50.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (134, 53), S: (116, 225)]",
+      "clip": "combo_finisher",
+      "file": "005_combo_finisher_01.png",
+      "frame": 1,
+      "head": "[P: (173.0, 60.0), S: (57.0, 53.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (95, 57), S: (194, 221)]",
+      "clip": "combo_finisher",
+      "file": "006_combo_finisher_02.png",
+      "frame": 2,
+      "head": "[P: (121.0, 65.0), S: (60.0, 50.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (84, 73), S: (215, 205)]",
+      "clip": "combo_finisher",
+      "file": "007_combo_finisher_03.png",
+      "frame": 3,
+      "head": "[P: (113.0, 78.0), S: (57.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (138, 57), S: (107, 221)]",
+      "clip": "combo_finisher",
+      "file": "008_combo_finisher_04.png",
+      "frame": 4,
+      "head": "[P: (175.0, 62.0), S: (56.0, 76.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (121, 61), S: (142, 217)]",
+      "clip": "combo_finisher",
+      "file": "009_combo_finisher_05.png",
+      "frame": 5,
+      "head": "[P: (172.0, 65.0), S: (58.0, 77.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (101, 139), S: (181, 139)]",
+      "clip": "cross_muei_air",
+      "file": "010_cross_muei_air_00.png",
+      "frame": 0,
+      "head": "[P: (171.0, 140.0), S: (28.0, 36.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (70, 189), S: (244, 89)]",
+      "clip": "cross_muei_down",
+      "file": "011_cross_muei_down_00.png",
+      "frame": 0,
+      "head": "[P: (174.0, 210.0), S: (23.0, 31.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (100, 126), S: (183, 152)]",
+      "clip": "cross_muei_held",
+      "file": "012_cross_muei_held_00.png",
+      "frame": 0,
+      "head": "[P: (196.0, 126.0), S: (48.0, 45.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (135, 143), S: (114, 135)]",
+      "clip": "cross_react_joint",
+      "file": "013_cross_react_joint_00.png",
+      "frame": 0,
+      "head": "[P: (196.0, 139.0), S: (43.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_reactions/reactions.png[P: (1152.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (68, 218), S: (212, 60)]",
+      "clip": "cross_react_joint_down",
+      "file": "014_cross_react_joint_down_01.png",
+      "frame": 1,
+      "head": "[P: (66.0, 212.0), S: (37.0, 61.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_reactions/reactions.png[P: (1536.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (117, 99), S: (151, 179)]",
+      "clip": "cross_react_pull",
+      "file": "015_cross_react_pull_00.png",
+      "frame": 0,
+      "head": "[P: (223.0, 102.0), S: (44.0, 42.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_reactions/reactions.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (91, 115), S: (202, 163)]",
+      "clip": "cross_react_pull_down",
+      "file": "016_cross_react_pull_down_01.png",
+      "frame": 1,
+      "head": "[P: (156.0, 128.0), S: (28.0, 33.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_reactions/reactions.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (143, 71), S: (98, 202)]",
+      "clip": "cross_react_shoulder",
+      "file": "017_cross_react_shoulder_00.png",
+      "frame": 0,
+      "head": "[P: (164.0, 227.0), S: (47.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/cross_reactions/reactions.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (130, 92), S: (123, 186)]",
+      "clip": "crouch",
+      "file": "018_crouch_00.png",
+      "frame": 0,
+      "head": "[P: (180.0, 96.0), S: (53.0, 47.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (138, 132), S: (107, 146)]",
+      "clip": "crouch",
+      "file": "019_crouch_01.png",
+      "frame": 1,
+      "head": "[P: (179.0, 132.0), S: (52.0, 47.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (135, 156), S: (113, 122)]",
+      "clip": "crouch",
+      "file": "020_crouch_02.png",
+      "frame": 2,
+      "head": "[P: (176.0, 153.0), S: (52.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (135, 142), S: (114, 136)]",
+      "clip": "crouch_guard",
+      "file": "021_crouch_guard_00.png",
+      "frame": 0,
+      "head": "[P: (186.0, 140.0), S: (51.0, 55.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (132, 122), S: (120, 156)]",
+      "clip": "crouch_kick",
+      "file": "022_crouch_kick_00.png",
+      "frame": 0,
+      "head": "[P: (182.0, 123.0), S: (58.0, 49.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 2304.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (114, 128), S: (156, 150)]",
+      "clip": "crouch_kick",
+      "file": "023_crouch_kick_01.png",
+      "frame": 1,
+      "head": "[P: (177.0, 127.0), S: (58.0, 66.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 2304.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (99, 141), S: (186, 137)]",
+      "clip": "crouch_kick",
+      "file": "024_crouch_kick_02.png",
+      "frame": 2,
+      "head": "[P: (166.0, 140.0), S: (56.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 2304.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (92, 155), S: (200, 123)]",
+      "clip": "crouch_kick",
+      "file": "025_crouch_kick_03.png",
+      "frame": 3,
+      "head": "[P: (149.0, 153.0), S: (57.0, 50.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 2304.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (110, 131), S: (163, 147)]",
+      "clip": "crouch_kick",
+      "file": "026_crouch_kick_04.png",
+      "frame": 4,
+      "head": "[P: (189.0, 130.0), S: (57.0, 58.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 2304.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (131, 125), S: (121, 153)]",
+      "clip": "crouch_kick",
+      "file": "027_crouch_kick_05.png",
+      "frame": 5,
+      "head": "[P: (182.0, 126.0), S: (56.0, 54.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 2304.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (125, 132), S: (134, 146)]",
+      "clip": "crouch_punch",
+      "file": "028_crouch_punch_00.png",
+      "frame": 0,
+      "head": "[P: (183.0, 130.0), S: (61.0, 71.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (121, 128), S: (142, 150)]",
+      "clip": "crouch_punch",
+      "file": "029_crouch_punch_01.png",
+      "frame": 1,
+      "head": "[P: (175.0, 129.0), S: (58.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 1728.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (80, 135), S: (224, 143)]",
+      "clip": "crouch_punch",
+      "file": "030_crouch_punch_02.png",
+      "frame": 2,
+      "head": "[P: (206.0, 137.0), S: (60.0, 57.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 2016.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (94, 131), S: (195, 147)]",
+      "clip": "crouch_punch",
+      "file": "031_crouch_punch_03.png",
+      "frame": 3,
+      "head": "[P: (166.0, 130.0), S: (61.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 2016.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (136, 132), S: (112, 146)]",
+      "clip": "crouch_punch",
+      "file": "032_crouch_punch_04.png",
+      "frame": 4,
+      "head": "[P: (183.0, 130.0), S: (59.0, 73.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 2016.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 135), S: (138, 143)]",
+      "clip": "crouch_punch",
+      "file": "033_crouch_punch_05.png",
+      "frame": 5,
+      "head": "[P: (180.0, 134.0), S: (60.0, 53.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 2016.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (143, 73), S: (98, 205)]",
+      "clip": "crouch_release",
+      "file": "034_crouch_release_02.png",
+      "frame": 2,
+      "head": "[P: (172.0, 77.0), S: (49.0, 69.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (131, 95), S: (121, 183)]",
+      "clip": "damage",
+      "file": "035_damage_00.png",
+      "frame": 0,
+      "head": "[P: (183.0, 97.0), S: (50.0, 66.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (137, 113), S: (110, 165)]",
+      "clip": "damage",
+      "file": "036_damage_01.png",
+      "frame": 1,
+      "head": "[P: (194.0, 114.0), S: (49.0, 55.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (105, 161), S: (178, 117)]",
+      "clip": "damage_heavy",
+      "file": "037_damage_heavy_02.png",
+      "frame": 2,
+      "head": "[P: (101.0, 161.0), S: (61.0, 45.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (124, 149), S: (136, 129)]",
+      "clip": "damage_low",
+      "file": "038_damage_low_01.png",
+      "frame": 1,
+      "head": "[P: (187.0, 147.0), S: (50.0, 60.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (109, 85), S: (166, 193)]",
+      "clip": "dash",
+      "file": "039_dash_00.png",
+      "frame": 0,
+      "head": "[P: (206.0, 88.0), S: (53.0, 70.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 288.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (109, 83), S: (165, 195)]",
+      "clip": "dash",
+      "file": "040_dash_01.png",
+      "frame": 1,
+      "head": "[P: (208.0, 85.0), S: (52.0, 70.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 288.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (108, 88), S: (167, 190)]",
+      "clip": "dash",
+      "file": "041_dash_02.png",
+      "frame": 2,
+      "head": "[P: (216.0, 90.0), S: (54.0, 67.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 288.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (106, 84), S: (171, 194)]",
+      "clip": "dash",
+      "file": "042_dash_03.png",
+      "frame": 3,
+      "head": "[P: (219.0, 88.0), S: (53.0, 62.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 288.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (96, 82), S: (192, 196)]",
+      "clip": "dash",
+      "file": "043_dash_04.png",
+      "frame": 4,
+      "head": "[P: (223.0, 85.0), S: (53.0, 66.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (89, 218), S: (210, 60)]",
+      "clip": "defeat",
+      "file": "044_defeat_02.png",
+      "frame": 2,
+      "head": "[P: (85.0, 212.0), S: (46.0, 55.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (138, 91), S: (107, 187)]",
+      "clip": "fall",
+      "file": "045_fall_00.png",
+      "frame": 0,
+      "head": "[P: (182.0, 94.0), S: (54.0, 64.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (134, 83), S: (115, 195)]",
+      "clip": "get_up",
+      "file": "046_get_up_03.png",
+      "frame": 3,
+      "head": "[P: (169.0, 85.0), S: (50.0, 69.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (96, 124), S: (191, 154)]",
+      "clip": "grapple_air",
+      "file": "047_grapple_air_00.png",
+      "frame": 0,
+      "head": "[P: (157.0, 136.0), S: (27.0, 31.0)]",
+      "texture": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (94, 221), S: (199, 57)]",
+      "clip": "grapple_down",
+      "file": "048_grapple_down_00.png",
+      "frame": 0,
+      "head": "[P: (91.0, 215.0), S: (35.0, 57.0)]",
+      "texture": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (120, 108), S: (143, 170)]",
+      "clip": "grapple_held",
+      "file": "049_grapple_held_00.png",
+      "frame": 0,
+      "head": "[P: (220.0, 111.0), S: (42.0, 40.0)]",
+      "texture": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (126, 88), S: (132, 190)]",
+      "clip": "guard",
+      "file": "050_guard_00.png",
+      "frame": 0,
+      "head": "[P: (177.0, 90.0), S: (53.0, 70.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 864.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (136, 74), S: (111, 204)]",
+      "clip": "idle",
+      "file": "051_idle_01.png",
+      "frame": 1,
+      "head": "[P: (167.0, 76.0), S: (51.0, 72.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (137, 71), S: (109, 207)]",
+      "clip": "idle",
+      "file": "052_idle_02.png",
+      "frame": 2,
+      "head": "[P: (171.0, 76.0), S: (51.0, 50.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (140, 72), S: (104, 206)]",
+      "clip": "idle",
+      "file": "053_idle_03.png",
+      "frame": 3,
+      "head": "[P: (177.0, 77.0), S: (51.0, 53.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (146, 66), S: (91, 212)]",
+      "clip": "idle_prebattle",
+      "file": "054_idle_prebattle_00.png",
+      "frame": 0,
+      "head": "[P: (167.0, 72.0), S: (43.0, 43.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (143, 67), S: (97, 211)]",
+      "clip": "idle_prebattle",
+      "file": "055_idle_prebattle_01.png",
+      "frame": 1,
+      "head": "[P: (164.0, 72.0), S: (45.0, 44.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (131, 62), S: (121, 216)]",
+      "clip": "idle_prebattle",
+      "file": "056_idle_prebattle_02.png",
+      "frame": 2,
+      "head": "[P: (171.0, 78.0), S: (34.0, 39.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 66), S: (138, 212)]",
+      "clip": "idle_prebattle",
+      "file": "057_idle_prebattle_03.png",
+      "frame": 3,
+      "head": "[P: (182.0, 72.0), S: (48.0, 43.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (144, 127), S: (93, 151)]",
+      "clip": "jump",
+      "file": "058_jump_00.png",
+      "frame": 0,
+      "head": "[P: (188.0, 128.0), S: (53.0, 52.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (129, 101), S: (126, 177)]",
+      "clip": "jump",
+      "file": "059_jump_01.png",
+      "frame": 1,
+      "head": "[P: (188.0, 103.0), S: (55.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (138, 54), S: (108, 224)]",
+      "clip": "jump",
+      "file": "060_jump_02.png",
+      "frame": 2,
+      "head": "[P: (181.0, 61.0), S: (53.0, 66.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (118, 117), S: (148, 161)]",
+      "clip": "jump_air",
+      "file": "061_jump_air_01.png",
+      "frame": 1,
+      "head": "[P: (186.0, 117.0), S: (50.0, 71.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 576.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (116, 49), S: (151, 229)]",
+      "clip": "jump_attack",
+      "file": "062_jump_attack_00.png",
+      "frame": 0,
+      "head": "[P: (185.0, 56.0), S: (57.0, 54.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (95, 80), S: (194, 198)]",
+      "clip": "jump_attack",
+      "file": "063_jump_attack_01.png",
+      "frame": 1,
+      "head": "[P: (192.0, 81.0), S: (58.0, 74.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (121, 66), S: (142, 212)]",
+      "clip": "jump_attack",
+      "file": "064_jump_attack_02.png",
+      "frame": 2,
+      "head": "[P: (189.0, 72.0), S: (58.0, 49.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (124, 63), S: (135, 215)]",
+      "clip": "jump_kick",
+      "file": "065_jump_kick_00.png",
+      "frame": 0,
+      "head": "[P: (166.0, 67.0), S: (58.0, 75.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (82, 92), S: (219, 186)]",
+      "clip": "jump_kick",
+      "file": "066_jump_kick_01.png",
+      "frame": 1,
+      "head": "[P: (165.0, 94.0), S: (56.0, 67.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (135, 86), S: (114, 192)]",
+      "clip": "jump_kick",
+      "file": "067_jump_kick_02.png",
+      "frame": 2,
+      "head": "[P: (182.0, 90.0), S: (57.0, 54.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (119, 65), S: (146, 213)]",
+      "clip": "light_attack",
+      "file": "068_light_attack_00.png",
+      "frame": 0,
+      "head": "[P: (182.0, 71.0), S: (57.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (112, 68), S: (160, 210)]",
+      "clip": "light_attack",
+      "file": "069_light_attack_01.png",
+      "frame": 1,
+      "head": "[P: (187.0, 75.0), S: (54.0, 47.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (109, 73), S: (166, 205)]",
+      "clip": "light_attack",
+      "file": "070_light_attack_02.png",
+      "frame": 2,
+      "head": "[P: (192.0, 78.0), S: (56.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (98, 71), S: (187, 207)]",
+      "clip": "light_attack",
+      "file": "071_light_attack_03.png",
+      "frame": 3,
+      "head": "[P: (184.0, 77.0), S: (56.0, 47.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 1152.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (116, 71), S: (151, 207)]",
+      "clip": "light_attack",
+      "file": "072_light_attack_04.png",
+      "frame": 4,
+      "head": "[P: (179.0, 74.0), S: (55.0, 75.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 66), S: (137, 212)]",
+      "clip": "light_attack",
+      "file": "073_light_attack_05.png",
+      "frame": 5,
+      "head": "[P: (177.0, 71.0), S: (56.0, 55.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (114, 58), S: (156, 220)]",
+      "clip": "punch_2",
+      "file": "074_punch_2_00.png",
+      "frame": 0,
+      "head": "[P: (169.0, 65.0), S: (59.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (112, 66), S: (160, 212)]",
+      "clip": "punch_2",
+      "file": "075_punch_2_01.png",
+      "frame": 1,
+      "head": "[P: (197.0, 69.0), S: (60.0, 74.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (114, 64), S: (156, 214)]",
+      "clip": "punch_2",
+      "file": "076_punch_2_02.png",
+      "frame": 2,
+      "head": "[P: (190.0, 71.0), S: (59.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (95, 66), S: (194, 212)]",
+      "clip": "punch_2",
+      "file": "077_punch_2_03.png",
+      "frame": 3,
+      "head": "[P: (165.0, 71.0), S: (60.0, 58.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (117, 68), S: (150, 210)]",
+      "clip": "punch_2",
+      "file": "078_punch_2_04.png",
+      "frame": 4,
+      "head": "[P: (188.0, 72.0), S: (59.0, 73.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 53), S: (137, 225)]",
+      "clip": "punch_2",
+      "file": "079_punch_2_05.png",
+      "frame": 5,
+      "head": "[P: (172.0, 68.0), S: (38.0, 68.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (125, 97), S: (134, 181)]",
+      "clip": "received_cross_muei_guard",
+      "file": "080_received_cross_muei_guard_00.png",
+      "frame": 0,
+      "head": "[P: (266.0, 182.0), S: (35.0, 23.0)]",
+      "texture": "res://assets/characters/cross_special_guard_v1/ally_speed/motion_atlas.png[P: (0.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (129, 83), S: (125, 195)]",
+      "clip": "received_cross_muei_guard",
+      "file": "081_received_cross_muei_guard_01.png",
+      "frame": 1,
+      "head": "[P: (250.0, 169.0), S: (37.0, 24.0)]",
+      "texture": "res://assets/characters/cross_special_guard_v1/ally_speed/motion_atlas.png[P: (512.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (125, 120), S: (135, 158)]",
+      "clip": "received_crusher_hammer_air",
+      "file": "082_received_crusher_hammer_air_00.png",
+      "frame": 0,
+      "head": "[P: (236.0, 168.0), S: (44.0, 44.0)]",
+      "texture": "res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png[P: (512.0, 0.0), S: (512.0, 384.0)]"
+    },
+    {
+      "body": "[P: (74, 210), S: (233, 68)]",
+      "clip": "received_crusher_hammer_down",
+      "file": "083_received_crusher_hammer_down_00.png",
+      "frame": 0,
+      "head": "[P: (336.0, 268.0), S: (39.0, 55.0)]",
+      "texture": "res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png[P: (1024.0, 0.0), S: (512.0, 384.0)]"
+    },
+    {
+      "body": "[P: (139, 101), S: (107, 177)]",
+      "clip": "received_crusher_hammer_guard",
+      "file": "084_received_crusher_hammer_guard_00.png",
+      "frame": 0,
+      "head": "[P: (242.0, 151.0), S: (49.0, 42.0)]",
+      "texture": "res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png[P: (1536.0, 0.0), S: (512.0, 384.0)]"
+    },
+    {
+      "body": "[P: (137, 84), S: (110, 194)]",
+      "clip": "received_crusher_hammer_guard",
+      "file": "085_received_crusher_hammer_guard_01.png",
+      "frame": 1,
+      "head": "[P: (232.0, 136.0), S: (49.0, 46.0)]",
+      "texture": "res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png[P: (2048.0, 0.0), S: (512.0, 384.0)]"
+    },
+    {
+      "body": "[P: (133, 121), S: (119, 157)]",
+      "clip": "received_crusher_hammer_hit",
+      "file": "086_received_crusher_hammer_hit_00.png",
+      "frame": 0,
+      "head": "[P: (250.0, 168.0), S: (47.0, 53.0)]",
+      "texture": "res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.png[P: (0.0, 0.0), S: (512.0, 384.0)]"
+    },
+    {
+      "body": "[P: (138, 86), S: (110, 192)]",
+      "clip": "received_rei_uppercut_air",
+      "file": "087_received_rei_uppercut_air_00.png",
+      "frame": 0,
+      "head": "[P: (199.0, 169.0), S: (59.0, 54.0)]",
+      "texture": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png[P: (0.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (129, 79), S: (125, 199)]",
+      "clip": "received_rei_uppercut_air",
+      "file": "088_received_rei_uppercut_air_01.png",
+      "frame": 1,
+      "head": "[P: (205.0, 163.0), S: (54.0, 50.0)]",
+      "texture": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png[P: (512.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (74, 192), S: (235, 86)]",
+      "clip": "received_rei_uppercut_down",
+      "file": "089_received_rei_uppercut_down_00.png",
+      "frame": 0,
+      "head": "[P: (243.0, 267.0), S: (26.0, 27.0)]",
+      "texture": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png[P: (1024.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (125, 97), S: (134, 181)]",
+      "clip": "received_rei_uppercut_guard",
+      "file": "090_received_rei_uppercut_guard_00.png",
+      "frame": 0,
+      "head": "[P: (266.0, 182.0), S: (35.0, 23.0)]",
+      "texture": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png[P: (1536.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (129, 83), S: (125, 195)]",
+      "clip": "received_rei_uppercut_guard",
+      "file": "091_received_rei_uppercut_guard_01.png",
+      "frame": 1,
+      "head": "[P: (250.0, 169.0), S: (37.0, 24.0)]",
+      "texture": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png[P: (2048.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (71, 215), S: (235, 63)]",
+      "clip": "received_seiya_two_down",
+      "file": "092_received_seiya_two_down_00.png",
+      "frame": 0,
+      "head": "[P: (252.0, 217.0), S: (58.0, 47.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.png[P: (1152.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (144, 107), S: (95, 171)]",
+      "clip": "received_seiya_two_fall",
+      "file": "093_received_seiya_two_fall_00.png",
+      "frame": 0,
+      "head": "[P: (176.0, 109.0), S: (51.0, 62.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (99, 165), S: (182, 113)]",
+      "clip": "received_seiya_two_fly",
+      "file": "094_received_seiya_two_fly_00.png",
+      "frame": 0,
+      "head": "[P: (231.0, 168.0), S: (53.0, 38.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 98), S: (135, 180)]",
+      "clip": "received_seiya_two_lift",
+      "file": "095_received_seiya_two_lift_00.png",
+      "frame": 0,
+      "head": "[P: (212.0, 101.0), S: (47.0, 54.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (98, 138), S: (187, 140)]",
+      "clip": "received_shadow_counter_air",
+      "file": "096_received_shadow_counter_air_00.png",
+      "frame": 0,
+      "head": "[P: (166.0, 137.0), S: (32.0, 38.0)]",
+      "texture": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (78, 203), S: (223, 75)]",
+      "clip": "received_shadow_counter_down",
+      "file": "097_received_shadow_counter_down_00.png",
+      "frame": 0,
+      "head": "[P: (262.0, 215.0), S: (43.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (114, 103), S: (156, 175)]",
+      "clip": "received_shadow_counter_hit",
+      "file": "098_received_shadow_counter_hit_00.png",
+      "frame": 0,
+      "head": "[P: (180.0, 106.0), S: (47.0, 35.0)]",
+      "texture": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (117, 112), S: (150, 166)]",
+      "clip": "received_teki_palm_air",
+      "file": "099_received_teki_palm_air_00.png",
+      "frame": 0,
+      "head": "[P: (244.0, 193.0), S: (46.0, 42.0)]",
+      "texture": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png[P: (0.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (102, 143), S: (180, 135)]",
+      "clip": "received_teki_palm_air",
+      "file": "100_received_teki_palm_air_01.png",
+      "frame": 1,
+      "head": "[P: (231.0, 222.0), S: (31.0, 37.0)]",
+      "texture": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png[P: (512.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (83, 206), S: (214, 72)]",
+      "clip": "received_teki_palm_down",
+      "file": "101_received_teki_palm_down_00.png",
+      "frame": 0,
+      "head": "[P: (323.0, 297.0), S: (42.0, 47.0)]",
+      "texture": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png[P: (1024.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (125, 97), S: (134, 181)]",
+      "clip": "received_teki_palm_guard",
+      "file": "102_received_teki_palm_guard_00.png",
+      "frame": 0,
+      "head": "[P: (266.0, 182.0), S: (35.0, 23.0)]",
+      "texture": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png[P: (1536.0, 0.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (129, 83), S: (125, 195)]",
+      "clip": "received_teki_palm_guard",
+      "file": "103_received_teki_palm_guard_01.png",
+      "frame": 1,
+      "head": "[P: (250.0, 169.0), S: (37.0, 24.0)]",
+      "texture": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png[P: (0.0, 448.0), S: (512.0, 448.0)]"
+    },
+    {
+      "body": "[P: (98, 71), S: (188, 207)]",
+      "clip": "seiya_somersault_kick",
+      "file": "104_seiya_somersault_kick_00.png",
+      "frame": 0,
+      "head": "[P: (133.0, 78.0), S: (49.0, 42.0)]",
+      "texture": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (88, 80), S: (207, 186)]",
+      "clip": "seiya_somersault_kick",
+      "file": "105_seiya_somersault_kick_01.png",
+      "frame": 1,
+      "head": "[P: (172.0, 152.0), S: (30.0, 28.0)]",
+      "texture": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (120, 80), S: (144, 186)]",
+      "clip": "seiya_somersault_kick",
+      "file": "106_seiya_somersault_kick_02.png",
+      "frame": 2,
+      "head": "[P: (210.0, 102.0), S: (45.0, 44.0)]",
+      "texture": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png[P: (1152.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (141, 80), S: (101, 198)]",
+      "clip": "seiya_somersault_landing",
+      "file": "107_seiya_somersault_landing_00.png",
+      "frame": 0,
+      "head": "[P: (179.0, 84.0), S: (51.0, 47.0)]",
+      "texture": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png[P: (1536.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (135, 103), S: (114, 175)]",
+      "clip": "seiya_somersault_startup",
+      "file": "108_seiya_somersault_startup_00.png",
+      "frame": 0,
+      "head": "[P: (154.0, 105.0), S: (52.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (130, 85), S: (123, 193)]",
+      "clip": "seiya_two_finish",
+      "file": "109_seiya_two_finish_00.png",
+      "frame": 0,
+      "head": "[P: (180.0, 89.0), S: (48.0, 42.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (2688.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (147, 55), S: (90, 223)]",
+      "clip": "seiya_two_sidekick",
+      "file": "110_seiya_two_sidekick_00.png",
+      "frame": 0,
+      "head": "[P: (158.0, 61.0), S: (48.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (1536.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (105, 76), S: (173, 202)]",
+      "clip": "seiya_two_sidekick",
+      "file": "111_seiya_two_sidekick_01.png",
+      "frame": 1,
+      "head": "[P: (108.0, 82.0), S: (47.0, 45.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (1920.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (97, 83), S: (190, 195)]",
+      "clip": "seiya_two_sidekick",
+      "file": "112_seiya_two_sidekick_02.png",
+      "frame": 2,
+      "head": "[P: (123.0, 86.0), S: (45.0, 59.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (2304.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (121, 70), S: (144, 205)]",
+      "clip": "seiya_two_somersault",
+      "file": "113_seiya_two_somersault_00.png",
+      "frame": 0,
+      "head": "[P: (118.0, 143.0), S: (52.0, 42.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (384.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (140, 76), S: (107, 185)]",
+      "clip": "seiya_two_somersault",
+      "file": "114_seiya_two_somersault_01.png",
+      "frame": 1,
+      "head": "[P: (138.0, 201.0), S: (52.0, 60.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (768.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (119, 147), S: (145, 131)]",
+      "clip": "seiya_two_somersault",
+      "file": "115_seiya_two_somersault_02.png",
+      "frame": 2,
+      "head": "[P: (200.0, 144.0), S: (49.0, 50.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (1152.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (124, 107), S: (135, 171)]",
+      "clip": "seiya_two_start",
+      "file": "116_seiya_two_start_00.png",
+      "frame": 0,
+      "head": "[P: (194.0, 106.0), S: (47.0, 68.0)]",
+      "texture": "res://assets/characters/player03/animations/two_hit_v1/motion_atlas.png[P: (0.0, 0.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (84, 74), S: (216, 204)]",
+      "clip": "special",
+      "file": "117_special_00.png",
+      "frame": 0,
+      "head": "[P: (177.0, 80.0), S: (55.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (110, 74), S: (164, 204)]",
+      "clip": "special_recovery",
+      "file": "118_special_recovery_00.png",
+      "frame": 0,
+      "head": "[P: (161.0, 80.0), S: (57.0, 53.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (114, 68), S: (156, 210)]",
+      "clip": "special_recovery",
+      "file": "119_special_recovery_01.png",
+      "frame": 1,
+      "head": "[P: (167.0, 74.0), S: (58.0, 53.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (110, 70), S: (164, 208)]",
+      "clip": "special_startup",
+      "file": "120_special_startup_00.png",
+      "frame": 0,
+      "head": "[P: (159.0, 75.0), S: (57.0, 61.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (111, 79), S: (161, 199)]",
+      "clip": "special_startup",
+      "file": "121_special_startup_01.png",
+      "frame": 1,
+      "head": "[P: (169.0, 84.0), S: (57.0, 53.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (124, 132), S: (135, 146)]",
+      "clip": "special_startup",
+      "file": "122_special_startup_02.png",
+      "frame": 2,
+      "head": "[P: (193.0, 131.0), S: (59.0, 52.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (95, 75), S: (194, 203)]",
+      "clip": "throw",
+      "file": "123_throw_00.png",
+      "frame": 0,
+      "head": "[P: (179.0, 81.0), S: (58.0, 51.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (100, 88), S: (183, 190)]",
+      "clip": "throw",
+      "file": "124_throw_01.png",
+      "frame": 1,
+      "head": "[P: (185.0, 89.0), S: (58.0, 75.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 2592.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (92, 84), S: (199, 194)]",
+      "clip": "throw",
+      "file": "125_throw_02.png",
+      "frame": 2,
+      "head": "[P: (179.0, 88.0), S: (60.0, 49.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (0.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (76, 124), S: (232, 154)]",
+      "clip": "throw",
+      "file": "126_throw_03.png",
+      "frame": 3,
+      "head": "[P: (208.0, 129.0), S: (68.0, 46.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (384.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (92, 69), S: (200, 209)]",
+      "clip": "throw",
+      "file": "127_throw_04.png",
+      "frame": 4,
+      "head": "[P: (161.0, 76.0), S: (58.0, 48.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 58), S: (137, 220)]",
+      "clip": "throw",
+      "file": "128_throw_05.png",
+      "frame": 5,
+      "head": "[P: (164.0, 64.0), S: (57.0, 64.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 2880.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (153, 66), S: (78, 212)]",
+      "clip": "victory",
+      "file": "129_victory_00.png",
+      "frame": 0,
+      "head": "[P: (180.0, 71.0), S: (30.0, 41.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (146, 62), S: (92, 216)]",
+      "clip": "victory",
+      "file": "130_victory_01.png",
+      "frame": 1,
+      "head": "[P: (167.0, 79.0), S: (25.0, 35.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (144, 66), S: (95, 212)]",
+      "clip": "victory",
+      "file": "131_victory_02.png",
+      "frame": 2,
+      "head": "[P: (169.0, 72.0), S: (42.0, 41.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (151, 66), S: (82, 212)]",
+      "clip": "victory",
+      "file": "132_victory_03.png",
+      "frame": 3,
+      "head": "[P: (167.0, 72.0), S: (42.0, 42.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 3168.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (122, 70), S: (140, 208)]",
+      "clip": "walk",
+      "file": "133_walk_00.png",
+      "frame": 0,
+      "head": "[P: (176.0, 72.0), S: (53.0, 75.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (768.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (145, 69), S: (94, 209)]",
+      "clip": "walk",
+      "file": "134_walk_01.png",
+      "frame": 1,
+      "head": "[P: (175.0, 72.0), S: (52.0, 67.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1152.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (138, 70), S: (108, 208)]",
+      "clip": "walk",
+      "file": "135_walk_02.png",
+      "frame": 2,
+      "head": "[P: (178.0, 72.0), S: (50.0, 74.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1536.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (123, 70), S: (137, 208)]",
+      "clip": "walk",
+      "file": "136_walk_03.png",
+      "frame": 3,
+      "head": "[P: (173.0, 72.0), S: (53.0, 76.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (1920.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (141, 70), S: (102, 208)]",
+      "clip": "walk",
+      "file": "137_walk_04.png",
+      "frame": 4,
+      "head": "[P: (175.0, 73.0), S: (53.0, 74.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2304.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "body": "[P: (136, 70), S: (111, 208)]",
+      "clip": "walk",
+      "file": "138_walk_05.png",
+      "frame": 5,
+      "head": "[P: (183.0, 73.0), S: (50.0, 74.0)]",
+      "texture": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png[P: (2688.0, 3456.0), S: (384.0, 288.0)]"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "file": "key_pose_corrected.png",
+      "reason": "heads remain too large; colored edge contamination; not adopted"
+    },
+    {
+      "file": "key_pose_clean_candidate.png",
+      "reason": "body too large relative to head; excessive sweep leg reach; unwanted halo"
+    },
+    {
+      "file": "key_pose_small_head.png",
+      "reason": "user rejected oversized body balance; sweep leg too long; not adopted"
+    }
+  ],
+  "status": "Compact crouching kick implemented and validated; remaining motion corrections in progress",
+  "balance_reference": "art_sources/seiya_slim_v3/akky_balance_reference.png",
+  "sweep_reference": "art_sources/seiya_slim_v3/akky_sweep_reference.png",
+  "rejected_runtime_adjustment": "head/body shader contraction introduced neck/arm holes; all changed runtime code restored to phase-start HEAD",
+  "implemented": {
+    "atlas": "godot/assets/characters/player03/animations/slim_sweep_v3/motion_atlas.tres",
+    "source": "art_sources/seiya_slim_v3/sweep_sequence_source.png",
+    "playback_frames": 6,
+    "uniform_scale": 0.38922155688622756,
+    "head_scale_override": 1.0,
+    "hitbox_size": [
+      60,
+      28
+    ],
+    "hitbox_offset": [
+      62,
+      -20
+    ],
+    "validation": [
+      "native Akky/Seiya comparison",
+      "all six frame metadata and fixed scale",
+      "ground hit and knockdown both facings",
+      "airborne miss both facings",
+      "118 clips / 331 frames atlas regression"
+    ],
+    "size_calibration": "195px approved standing, formerly 190px combat idle; anatomy and leg length unchanged"
+  }
+}

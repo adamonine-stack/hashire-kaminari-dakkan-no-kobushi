@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(400,280)
+columns = 3
+clips = {"down": {"frames": [3], "fps": 8, "loop": true}, "ko": {"frames": [3], "fps": 8, "loop": false}, "getup": {"frames": [3, 4, 5, 6], "fps": 8, "loop": false}, "knockdown": {"frames": [1, 2, 3], "fps": 8, "loop": false}, "stand_up": {"frames": [3, 4, 5, 6], "fps": 8, "loop": false}}

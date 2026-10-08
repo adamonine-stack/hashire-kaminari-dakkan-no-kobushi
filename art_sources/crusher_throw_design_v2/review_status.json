@@ -1,0 +1,18 @@
+{
+  "formal_reference": "formal_standing.png",
+  "integrated": [
+    "crusher_throw_start",
+    "crusher_throw_hold",
+    "crusher_throw_down_release",
+    "crusher_throw_neutral_release",
+    "crusher_throw_forward_release",
+    "crusher_throw_back_release"
+  ],
+  "remaining_candidate": "remaining_release_candidate.png",
+  "candidate_status": "integrated after source isolation, fixed-scale atlas packing and native render review",
+  "stage1_representative_poses": 64,
+  "full_character_design_unification_complete": false,
+  "remaining_work": [
+    "other victim/reaction clips and hero dedicated motions still need design review"
+  ]
+}

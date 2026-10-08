@@ -348,6 +348,7 @@ func _build_authored_motion_atlas(atlas: Resource) -> SpriteFrames:
 			frame.atlas = texture
 			frame.region = Rect2(region)
 			frame.filter_clip = true
+			frame.set_meta("head_scale_override", atlas.head_scale_override)
 			frames.add_frame(name, frame)
 	return frames
 
@@ -390,6 +391,7 @@ func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteF
 			frame.atlas = packed_texture
 			frame.region = Rect2((number % atlas.columns) * cell.x, int(number / atlas.columns) * cell.y, cell.x, cell.y)
 			frame.filter_clip = true
+			frame.set_meta("head_scale_override", atlas.head_scale_override)
 			frames.add_frame(key, frame)
 	return frames
 
@@ -422,6 +424,7 @@ func _overlay_authored_motion_atlas(frames: SpriteFrames, atlas: Resource) -> vo
 			frame.atlas = texture
 			frame.region = Rect2(region)
 			frame.filter_clip = true
+			frame.set_meta("head_scale_override", atlas.head_scale_override)
 			frames.add_frame(name, frame)
 
 

@@ -36,7 +36,7 @@ func run() -> void:
  var frames: SpriteFrames = sprite.sprite_frames
  var original_scale := sprite.scale
  var original_anchor := sprite.position
- var texture_path := "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png"
+ var texture_path := "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png"
  for clip in [&"knockdown",&"ko",&"stand_up",&"down",&"getup"]:
   check(frames.has_animation(clip),"reaction exists "+String(clip))
   for frame in range(frames.get_frame_count(clip)):
@@ -49,7 +49,7 @@ func run() -> void:
  var getup_first: AtlasTexture = frames.get_frame_texture(&"stand_up",0)
  check(prone.region == getup_first.region and prone.atlas == getup_first.atlas,"down/getup reuse exact prone frame")
  var prone_bounds := opaque_bounds(prone.get_image())
- check(prone_bounds.size.x >= 290 and prone_bounds.size.x <= 300,"reviewed prone span retained")
+ check(prone_bounds.size.x >= 265 and prone_bounds.size.x <= 271,"prone remains full adult scale without stretched legs")
  print("CRUSHER_DOWN_PRONE_BOUNDS ",prone_bounds)
  # Real down -> wake-up flow, with both mirrored facings, retains scale.
  for facing in [1.0,-1.0]:

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(384,288)
+columns = 4
+head_scale_override = 1.0
+clips = {"jump_start": {"frames": [1], "fps": 12, "loop": false}, "jump_ascent": {"frames": [2], "fps": 10, "loop": true}, "jump_up": {"frames": [2], "fps": 10, "loop": true}, "jump_air": {"frames": [2], "fps": 10, "loop": true}, "jump_fall": {"frames": [3], "fps": 10, "loop": true}, "jump_land": {"frames": [4, 5], "fps": 12, "loop": false}, "jump": {"frames": [1, 2, 3, 4, 5], "fps": 10, "loop": false}, "fall": {"frames": [3], "fps": 10, "loop": true}, "land": {"frames": [4, 5], "fps": 12, "loop": false}, "landing": {"frames": [4, 5], "fps": 12, "loop": false}}

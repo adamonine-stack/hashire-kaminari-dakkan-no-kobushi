@@ -41,9 +41,39 @@ func run() -> void:
 			if String(clip).begins_with("seiya_somersault_"):
 				for extra_atlas in fighter.extra_motion_atlases:
 					if extra_atlas.resource_path.contains("somersault_v1"): expected = extra_atlas.texture
+			if String(clip) in ["crouch_kick", "crouch_kick_sweep", "crouch_sweep_kick"]:
+				expected = load("res://assets/characters/player03/animations/slim_sweep_v3/motion_atlas.tres").texture
+			if clip == &"seiya_back_punch":
+				expected = load("res://assets/characters/player03/animations/slim_anti_air_v4/motion_atlas.tres").texture
+			if clip == &"seiya_down_punch":
+				expected = load("res://assets/characters/player03/animations/slim_launcher_v5/motion_atlas.tres").texture
+			if clip == &"seiya_back_kick":
+				expected = load("res://assets/characters/player03/animations/slim_back_kick_v6/motion_atlas.tres").texture
+			if clip == &"seiya_forward_punch":
+				expected = load("res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.tres").texture
+			if clip == &"seiya_forward_kick":
+				expected = load("res://assets/characters/player03/animations/slim_forward_kick_v8/motion_atlas.tres").texture
+			if clip in [&"seiya_air_punch",&"jump_punch",&"jump_punch_down",&"jump_attack"]:
+				expected = load("res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.tres").texture
+			if clip in [&"seiya_air_kick",&"jump_kick"]:
+				expected = load("res://assets/characters/player03/animations/slim_air_kick_v10/motion_atlas.tres").texture
+			if clip in [&"jump",&"jump_start",&"jump_up",&"jump_ascent",&"jump_air",&"jump_fall",&"jump_land",&"fall",&"land",&"landing"]:
+				expected = load("res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.tres").texture
+			if clip in [&"seiya_dive_kick",&"seiya_dive_land"]:
+				expected = load("res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.tres").texture
+			if clip in [&"guard",&"crouch_guard",&"air_guard",&"guard_hit",&"air_guard_hit",&"damage_light",&"damage_heavy"]:
+				expected = load("res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.tres").texture
+			if clip in [&"throw_start",&"throw_hold",&"directional_throw_hold",&"throw_release",&"seiya_throw_neutral_release",&"seiya_throw_forward_release",&"seiya_throw_down_release",&"seiya_throw_back_release",&"seiya_throw_whiff"]:
+				expected = load("res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.tres").texture
+			if clip in [&"directional_throw_held",&"grabbed",&"throw_victim_neutral_air",&"throw_victim_forward_air",&"throw_victim_down_air",&"throw_victim_back_air",&"throw_victim_slam_down",&"down",&"knockdown",&"standup",&"getup",&"stand_up",&"get_up",&"ko",&"defeat"] or String(clip).begins_with("crusher_throw_"):
+				expected = load("res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.tres").texture
+			if clip in [&"damage_high",&"damage_low",&"launch_hit",&"air_hit",&"knockback",&"ground_impact",&"ground_bounce",&"wall_hit",&"wall_fall"]:
+				expected = load("res://assets/characters/player03/animations/slim_received_v15/motion_atlas.tres").texture
+			if clip in [&"knockdown_high",&"knockdown_low"]:
+				expected = load("res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.tres").texture
 			var crusher_reaction := String(clip).begins_with("received_crusher_hammer_")
 			if crusher_reaction:
-				expected = load("res://assets/characters/special_received_crusher_v1/ally_speed/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			if String(clip).begins_with("grapple_"):
 				expected = load("res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("cross_muei_"):
@@ -51,9 +81,9 @@ func run() -> void:
 			if String(clip).begins_with("received_shadow_counter_"):
 				expected = load("res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.tres").texture
 			if String(clip).begins_with("received_seiya_two_"):
-				expected = load("res://assets/characters/player03/animations/seiya_two_received_v1/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			if String(clip).begins_with("seiya_two_"):
-				expected = load("res://assets/characters/player03/animations/two_hit_v1/motion_atlas.tres").texture
+				expected = load("res://assets/characters/player03/animations/slim_special_v14/motion_atlas.tres").texture
 			if String(clip).begins_with("received_rei_uppercut_"):
 				var rei_atlas = load("res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.tres")
 				check(texture is AtlasTexture and same_texture_source(texture.atlas, rei_atlas.texture),clip + ": dedicated Rei receiver original")
@@ -78,10 +108,12 @@ func run() -> void:
 				check(cross_rect.has_area() and cross_rect.position.x >= 3 and cross_rect.position.y >= 3 and cross_rect.end.x <= 509 and cross_rect.end.y <= 445,clip + ": unclipped Cross receiver")
 				checked += 1
 				continue
+			if clip == &"special_guard":
+				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			check(texture is AtlasTexture and same_texture_source(texture.atlas, expected), clip + ": approved authored texture")
-			check(texture.get_size() == (Vector2(512,384) if crusher_reaction else Vector2(384,288)), clip + ": cell size")
+			check(texture.get_size() == Vector2(384,288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
-			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < (510 if crusher_reaction else 382) and rect.end.y <= (318 if crusher_reaction else 270), clip + ": unclipped body and baseline")
+			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
 			checked += 1
 	for required in ["idle_prebattle", "walk_forward", "walk_backward", "dash", "jump_start", "jump_air", "jump_fall", "jump_land", "guard", "crouch_guard", "punch_1", "punch_2", "kick_1", "crouch_punch", "crouch_kick_sweep", "jump_punch_down", "jump_kick", "throw", "special_clear_counter", "victory", "stand_up", "ko"]:
 		check(frames.has_animation(required), required + ": explicit motion")

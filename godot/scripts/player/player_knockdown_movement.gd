@@ -195,7 +195,10 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	var launch: Vector2 = attack_data.get("launch_velocity", Vector2.ZERO)
 	if launch != Vector2.ZERO and not causes_down:
 		velocity = Vector2(launch.x * attack_direction, -absf(launch.y))
-		if _has_visual_animation(&"launch_hit"):
+		var authored_launch_reaction := StringName(attack_data.get("hit_reaction", &""))
+		if authored_launch_reaction != &"" and _has_visual_animation(authored_launch_reaction):
+			last_damage_animation = authored_launch_reaction
+		elif _has_visual_animation(&"launch_hit"):
 			last_damage_animation = &"launch_hit"
 		elif _has_visual_animation(&"knockback"):
 			last_damage_animation = &"knockback"
@@ -283,6 +286,13 @@ func _complete_throw_hit() -> void:
 		last_special_knockback_animation = directional_move.throw_victim_air_animation
 		if _has_visual_animation(directional_move.throw_victim_down_animation):
 			last_knockdown_animation = directional_move.throw_victim_down_animation
+	elif directional_move != null and _has_visual_animation(&"thrown"):
+		# Keep an airborne throw reaction when the requested dedicated victim
+		# clip is unavailable; a standing heavy-hit pose is not a throw flight.
+		last_damage_animation = &"thrown"
+		last_special_knockback_animation = &"thrown"
+		if _has_visual_animation(&"knockdown"):
+			last_knockdown_animation = &"knockdown"
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)
@@ -357,6 +367,10 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 		_play_state_animation(last_special_knockback_animation, &"Throw")
 	elif last_damage_animation == &"damage_low" and hit_stop_timer > 0.0 and _has_visual_animation(last_damage_animation):
 		_play_state_animation(last_damage_animation, &"Throw")
+	elif _has_visual_animation(&"knockback"):
+		# Hitstop freezes this initial selection before the normal visual update.
+		# Keep the airborne reaction separate from the grounded down pose.
+		_play_state_animation(&"knockback", &"Throw")
 	elif _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(last_knockdown_animation, &"Throw")
 	else:

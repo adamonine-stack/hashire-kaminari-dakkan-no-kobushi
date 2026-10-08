@@ -87,7 +87,13 @@ func run():
      check(sprite.sprite_frames.get_frame_count(item.clip)==3,"dedicated reaction three phases")
      for i in range(3):
       var tex: AtlasTexture=sprite.sprite_frames.get_frame_texture(item.clip,i)
-      check(tex.atlas.resource_path.ends_with(actor_name+"_"+source_name+".png"),"dedicated actor/reaction source")
+      if actor_name=="crusher":
+       check(tex.atlas.resource_path.ends_with("enemy01/animations/unified_ground_received_v10/motion_atlas.png"),"Crusher formal unified reaction source")
+       var ids={&"damage_light":[1,1,5],&"damage_heavy":[2,1,5],&"damage_high":[3,1,5],&"damage_low":[4,1,5]}[item.clip]
+       var cell:int=ids[i]
+       check(tex.region==Rect2((cell%3)*400,(cell/3)*280,400,280),"Crusher reaction contact and recovery cells")
+      else:
+       check(tex.atlas.resource_path.ends_with(actor_name+"_"+source_name+".png"),"dedicated actor/reaction source")
     for frame in range(sprite.sprite_frames.get_frame_count(item.clip)):
      sprite.pause()
      sprite.frame=frame
