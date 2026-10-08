@@ -1,0 +1,72 @@
+{
+  "reference_height": 228,
+  "key_scale": 0.3247863247863248,
+  "intermediate_scale": 0.4,
+  "frames": [
+    {
+      "index": 0,
+      "role": "calibration",
+      "scale": 0.4,
+      "size": [
+        163,
+        228
+      ],
+      "offset": [
+        118,
+        32
+      ]
+    },
+    {
+      "index": 1,
+      "role": "load",
+      "scale": 0.4,
+      "size": [
+        124,
+        224
+      ],
+      "offset": [
+        138,
+        36
+      ]
+    },
+    {
+      "index": 2,
+      "role": "chamber",
+      "scale": 0.4,
+      "size": [
+        134,
+        220
+      ],
+      "offset": [
+        133,
+        40
+      ]
+    },
+    {
+      "index": 3,
+      "role": "contact",
+      "scale": 0.3247863247863248,
+      "size": [
+        227,
+        223
+      ],
+      "offset": [
+        86,
+        37
+      ]
+    },
+    {
+      "index": 4,
+      "role": "retract",
+      "scale": 0.4,
+      "size": [
+        129,
+        222
+      ],
+      "offset": [
+        135,
+        38
+      ]
+    }
+  ]
+}
