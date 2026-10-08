@@ -367,6 +367,10 @@ func enter_knockback(attacker: Node, knockback_force: Vector2) -> void:
 		_play_state_animation(last_special_knockback_animation, &"Throw")
 	elif last_damage_animation == &"damage_low" and hit_stop_timer > 0.0 and _has_visual_animation(last_damage_animation):
 		_play_state_animation(last_damage_animation, &"Throw")
+	elif _has_visual_animation(&"knockback"):
+		# Hitstop freezes this initial selection before the normal visual update.
+		# Keep the airborne reaction separate from the grounded down pose.
+		_play_state_animation(&"knockback", &"Throw")
 	elif _has_visual_animation(last_knockdown_animation):
 		_play_state_animation(last_knockdown_animation, &"Throw")
 	else:

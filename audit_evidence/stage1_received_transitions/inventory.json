@@ -1,0 +1,418 @@
+[
+  {
+    "actor": "akky",
+    "clip": "knockback",
+    "facing": 1.0,
+    "file": "akky_right_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      557.580932617188,
+      535.030883789063
+    ],
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockdown_high",
+    "facing": 1.0,
+    "file": "akky_right_KNOCKDOWN.png",
+    "frame": 3,
+    "ground_anchor": [
+      442.5634765625,
+      518.74853515625
+    ],
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "akky",
+    "clip": "stand_up",
+    "facing": 1.0,
+    "file": "akky_right_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      443.429412841797,
+      518.408325195313
+    ],
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "akky",
+    "clip": "jump_land",
+    "facing": 1.0,
+    "file": "akky_right_RECOVERED.png",
+    "frame": 1,
+    "ground_anchor": [
+      443.548126220703,
+      518.351135253906
+    ],
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockback",
+    "facing": -1.0,
+    "file": "akky_left_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      646.617919921875,
+      525.671997070313
+    ],
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "akky",
+    "clip": "knockdown_high",
+    "facing": -1.0,
+    "file": "akky_left_KNOCKDOWN.png",
+    "frame": 3,
+    "ground_anchor": [
+      797.548278808594,
+      518.648620605469
+    ],
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "akky",
+    "clip": "stand_up",
+    "facing": -1.0,
+    "file": "akky_left_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      796.943115234375,
+      518.393005371094
+    ],
+    "source": "res://assets/characters/player01/animations/down_v2/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "akky",
+    "clip": "idle_ready",
+    "facing": -1.0,
+    "file": "akky_left_RECOVERED.png",
+    "frame": 0,
+    "ground_anchor": [
+      796.862609863281,
+      518.349975585938
+    ],
+    "source": "res://assets/characters/player01/animations/akky_v3/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "crusher",
+    "clip": "knockback",
+    "facing": 1.0,
+    "file": "crusher_right_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      593.623901367188,
+      523.433532714844
+    ],
+    "source": "res://assets/characters/enemy01/animations/unified_air_received_v9/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "crusher",
+    "clip": "knockdown",
+    "facing": 1.0,
+    "file": "crusher_right_KNOCKDOWN.png",
+    "frame": 2,
+    "ground_anchor": [
+      442.921508789063,
+      518.677978515625
+    ],
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "crusher",
+    "clip": "stand_up",
+    "facing": 1.0,
+    "file": "crusher_right_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      443.587097167969,
+      518.423217773438
+    ],
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "crusher",
+    "clip": "idle_ready",
+    "facing": 1.0,
+    "file": "crusher_right_RECOVERED.png",
+    "frame": 0,
+    "ground_anchor": [
+      443.677856445313,
+      518.380432128906
+    ],
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "crusher",
+    "clip": "knockback",
+    "facing": -1.0,
+    "file": "crusher_left_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      648.420654296875,
+      523.728759765625
+    ],
+    "source": "res://assets/characters/enemy01/animations/unified_air_received_v9/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "crusher",
+    "clip": "knockdown",
+    "facing": -1.0,
+    "file": "crusher_left_KNOCKDOWN.png",
+    "frame": 2,
+    "ground_anchor": [
+      797.408874511719,
+      518.678161621094
+    ],
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "crusher",
+    "clip": "stand_up",
+    "facing": -1.0,
+    "file": "crusher_left_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      796.807067871094,
+      518.423278808594
+    ],
+    "source": "res://assets/characters/enemy01/animations/unified_down_recovery_v8/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "crusher",
+    "clip": "idle_ready",
+    "facing": -1.0,
+    "file": "crusher_left_RECOVERED.png",
+    "frame": 0,
+    "ground_anchor": [
+      796.726989746094,
+      518.38037109375
+    ],
+    "source": "res://assets/characters/enemy01/animations/crusher_v1/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockback",
+    "facing": 1.0,
+    "file": "gou_right_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      593.1806640625,
+      523.121765136719
+    ],
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockdown_high",
+    "facing": 1.0,
+    "file": "gou_right_KNOCKDOWN.png",
+    "frame": 0,
+    "ground_anchor": [
+      460.116119384766,
+      522.359497070313
+    ],
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "gou",
+    "clip": "stand_up",
+    "facing": 1.0,
+    "file": "gou_right_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      460.449554443359,
+      522.199462890625
+    ],
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "gou",
+    "clip": "idle_ready",
+    "facing": 1.0,
+    "file": "gou_right_RECOVERED.png",
+    "frame": 1,
+    "ground_anchor": [
+      460.496154785156,
+      522.172607421875
+    ],
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockback",
+    "facing": -1.0,
+    "file": "gou_left_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      638.98974609375,
+      524.864196777344
+    ],
+    "source": "res://assets/characters/player02/animations/received_v13/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "gou",
+    "clip": "knockdown_high",
+    "facing": -1.0,
+    "file": "gou_left_KNOCKDOWN.png",
+    "frame": 0,
+    "ground_anchor": [
+      779.285034179688,
+      522.380920410156
+    ],
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "gou",
+    "clip": "stand_up",
+    "facing": -1.0,
+    "file": "gou_left_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      779.000549316406,
+      522.202758789063
+    ],
+    "source": "res://assets/characters/player02/animations/throw_v11_victim/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "gou",
+    "clip": "idle_ready",
+    "facing": -1.0,
+    "file": "gou_left_RECOVERED.png",
+    "frame": 1,
+    "ground_anchor": [
+      778.960815429688,
+      522.1728515625
+    ],
+    "source": "res://assets/characters/player02/animations/gou_v1/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockback",
+    "facing": 1.0,
+    "file": "seiya_right_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      598.596862792969,
+      526.15380859375
+    ],
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockdown_high",
+    "facing": 1.0,
+    "file": "seiya_right_KNOCKDOWN.png",
+    "frame": 0,
+    "ground_anchor": [
+      417.871856689453,
+      512.4404296875
+    ],
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "seiya",
+    "clip": "stand_up",
+    "facing": 1.0,
+    "file": "seiya_right_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      419.070068359375,
+      512.053588867188
+    ],
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "seiya",
+    "clip": "idle_ready",
+    "facing": 1.0,
+    "file": "seiya_right_RECOVERED.png",
+    "frame": 1,
+    "ground_anchor": [
+      419.233062744141,
+      511.988586425781
+    ],
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "state": "RECOVERED"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockback",
+    "facing": -1.0,
+    "file": "seiya_left_KNOCKBACK.png",
+    "frame": 0,
+    "ground_anchor": [
+      658.703796386719,
+      520.959838867188
+    ],
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "state": "KNOCKBACK"
+  },
+  {
+    "actor": "seiya",
+    "clip": "knockdown_high",
+    "facing": -1.0,
+    "file": "seiya_left_KNOCKDOWN.png",
+    "frame": 0,
+    "ground_anchor": [
+      824.015747070313,
+      512.400817871094
+    ],
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "state": "KNOCKDOWN"
+  },
+  {
+    "actor": "seiya",
+    "clip": "stand_up",
+    "facing": -1.0,
+    "file": "seiya_left_GET_UP.png",
+    "frame": 1,
+    "ground_anchor": [
+      822.913635253906,
+      512.047485351563
+    ],
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "state": "GET_UP"
+  },
+  {
+    "actor": "seiya",
+    "clip": "idle_ready",
+    "facing": -1.0,
+    "file": "seiya_left_RECOVERED.png",
+    "frame": 1,
+    "ground_anchor": [
+      822.769409179688,
+      511.988128662109
+    ],
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "state": "RECOVERED"
+  }
+]
