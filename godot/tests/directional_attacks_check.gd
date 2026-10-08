@@ -181,7 +181,7 @@ func run() -> void:
  for anti_air in [false,true]:
   reset_pair()
   player.position = Vector2(500,520)
-  enemy.position = Vector2(610,360)
+  enemy.position = Vector2(610,435)
   player.facing_direction = 1.0
   enemy.facing_direction = -1.0
   var player_hp: int = player.current_hp
@@ -198,6 +198,17 @@ func run() -> void:
    check(enemy.current_hp < enemy_hp and player.current_hp == player_hp,"anti-air geometry beats elevated jump K")
   else:
    check(player.current_hp < player_hp and enemy.current_hp == enemy_hp,"ordinary P loses to elevated jump K reach")
+ # A high jump kick has no invisible downward extension beyond its authored boot.
+ reset_pair()
+ player.position = Vector2(500,520)
+ enemy.position = Vector2(610,360)
+ player.facing_direction = 1.0
+ enemy.facing_direction = -1.0
+ var high_jump_hp: int = player.current_hp
+ enemy.start_attack(enemy._ensure_air_kick_attack_data())
+ enemy.enter_attack_active()
+ await ticks(3)
+ check(player.current_hp == high_jump_hp,"high jump K misses ground body beyond boot reach")
  # Prone/KO clips must never change the runtime scale or foot transform.
  reset_pair()
  var anchor := sprite.position

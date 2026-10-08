@@ -1,0 +1,93 @@
+{
+  "source": "art_sources\\crusher_air_design_v11\\intermediates.png",
+  "reference_height": 228,
+  "intermediate_scale": 0.4759916492693111,
+  "contact_scale": 0.3486238532110092,
+  "resampling": "nearest",
+  "frames": [
+    {
+      "index": 0,
+      "scale": 0.4759916492693111,
+      "offset": [
+        123,
+        32
+      ],
+      "size": [
+        154,
+        228
+      ]
+    },
+    {
+      "index": 1,
+      "scale": 0.4759916492693111,
+      "offset": [
+        138,
+        32
+      ],
+      "size": [
+        124,
+        193
+      ]
+    },
+    {
+      "index": 2,
+      "scale": 0.3486238532110092,
+      "offset": [
+        110,
+        32
+      ],
+      "size": [
+        180,
+        182
+      ]
+    },
+    {
+      "index": 3,
+      "scale": 0.4759916492693111,
+      "offset": [
+        116,
+        32
+      ],
+      "size": [
+        167,
+        196
+      ]
+    },
+    {
+      "index": 4,
+      "scale": 0.4759916492693111,
+      "offset": [
+        133,
+        32
+      ],
+      "size": [
+        133,
+        197
+      ]
+    },
+    {
+      "index": 5,
+      "scale": 0.4759916492693111,
+      "offset": [
+        125,
+        32
+      ],
+      "size": [
+        149,
+        214
+      ]
+    },
+    {
+      "index": 6,
+      "scale": 0.3486238532110092,
+      "offset": [
+        88,
+        32
+      ],
+      "size": [
+        224,
+        181
+      ]
+    }
+  ]
+}
