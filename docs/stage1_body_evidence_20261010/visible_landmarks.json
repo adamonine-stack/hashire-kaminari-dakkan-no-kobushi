@@ -1,0 +1,422 @@
+[
+  {
+    "frame": "idle_right_000_source.png",
+    "pose": "master",
+    "crown": [
+      163,
+      36
+    ],
+    "chin": [
+      166,
+      69
+    ],
+    "collar": [
+      162,
+      71
+    ],
+    "belt": [
+      160,
+      113
+    ],
+    "head_surface_distance": 33.136,
+    "collar_belt_distance": 42.048,
+    "head_proxy_delta_percent": 0.0,
+    "torso_proxy_delta_percent": 0.0,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "damage_light_right_001_source.png",
+    "pose": "head_down",
+    "crown": [
+      153,
+      40
+    ],
+    "chin": [
+      153,
+      73
+    ],
+    "collar": [
+      152,
+      76
+    ],
+    "belt": [
+      154,
+      112
+    ],
+    "head_surface_distance": 33.0,
+    "collar_belt_distance": 36.056,
+    "head_proxy_delta_percent": -0.41,
+    "torso_proxy_delta_percent": -14.25,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "damage_heavy_right_001_source.png",
+    "pose": "lean_rotation",
+    "crown": [
+      142,
+      39
+    ],
+    "chin": [
+      141,
+      69
+    ],
+    "collar": [
+      144,
+      73
+    ],
+    "belt": [
+      164,
+      110
+    ],
+    "head_surface_distance": 30.017,
+    "collar_belt_distance": 42.059,
+    "head_proxy_delta_percent": -9.41,
+    "torso_proxy_delta_percent": 0.03,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "damage_high_right_000_source.png",
+    "pose": "head_up",
+    "crown": [
+      143,
+      38
+    ],
+    "chin": [
+      151,
+      66
+    ],
+    "collar": [
+      150,
+      70
+    ],
+    "belt": [
+      165,
+      110
+    ],
+    "head_surface_distance": 29.12,
+    "collar_belt_distance": 42.72,
+    "head_proxy_delta_percent": -12.12,
+    "torso_proxy_delta_percent": 1.6,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "damage_low_right_001_source.png",
+    "pose": "forward_fold_occlusion",
+    "crown": [
+      172,
+      75
+    ],
+    "chin": [
+      174,
+      107
+    ],
+    "collar": [
+      162,
+      109
+    ],
+    "belt": [
+      155,
+      128
+    ],
+    "head_surface_distance": 32.062,
+    "collar_belt_distance": 20.248,
+    "head_proxy_delta_percent": -3.24,
+    "torso_proxy_delta_percent": -51.84,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "akky_throw_back_start_right_000_source.png",
+    "pose": "guard_pose",
+    "crown": [
+      163,
+      49
+    ],
+    "chin": [
+      164,
+      78
+    ],
+    "collar": [
+      158,
+      80
+    ],
+    "belt": [
+      160,
+      121
+    ],
+    "head_surface_distance": 29.017,
+    "collar_belt_distance": 41.049,
+    "head_proxy_delta_percent": -12.43,
+    "torso_proxy_delta_percent": -2.38,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "special_guard_right_002_source.png",
+    "pose": "crouch_head_down",
+    "crown": [
+      162,
+      66
+    ],
+    "chin": [
+      168,
+      91
+    ],
+    "collar": [
+      158,
+      94
+    ],
+    "belt": [
+      162,
+      128
+    ],
+    "head_surface_distance": 25.71,
+    "collar_belt_distance": 34.234,
+    "head_proxy_delta_percent": -22.41,
+    "torso_proxy_delta_percent": -18.58,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "partly_occluded",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "wall_hit_right_000_source.png",
+    "pose": "lean_rotation",
+    "crown": [
+      125,
+      56
+    ],
+    "chin": [
+      133,
+      85
+    ],
+    "collar": [
+      134,
+      87
+    ],
+    "belt": [
+      148,
+      119
+    ],
+    "head_surface_distance": 30.083,
+    "collar_belt_distance": 34.928,
+    "head_proxy_delta_percent": -9.21,
+    "torso_proxy_delta_percent": -16.93,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "idle_right_001_source.png",
+    "pose": "idle_reference_variation",
+    "crown": [
+      163,
+      35
+    ],
+    "chin": [
+      166,
+      68
+    ],
+    "collar": [
+      163,
+      70
+    ],
+    "belt": [
+      158,
+      113
+    ],
+    "head_surface_distance": 33.136,
+    "collar_belt_distance": 43.29,
+    "head_proxy_delta_percent": 0.0,
+    "torso_proxy_delta_percent": 2.95,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "idle_right_002_source.png",
+    "pose": "idle_reference_variation",
+    "crown": [
+      163,
+      37
+    ],
+    "chin": [
+      166,
+      70
+    ],
+    "collar": [
+      162,
+      71
+    ],
+    "belt": [
+      159,
+      114
+    ],
+    "head_surface_distance": 33.136,
+    "collar_belt_distance": 43.105,
+    "head_proxy_delta_percent": 0.0,
+    "torso_proxy_delta_percent": 2.51,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "idle_right_003_source.png",
+    "pose": "idle_reference_variation",
+    "crown": [
+      163,
+      36
+    ],
+    "chin": [
+      166,
+      69
+    ],
+    "collar": [
+      163,
+      71
+    ],
+    "belt": [
+      158,
+      114
+    ],
+    "head_surface_distance": 33.136,
+    "collar_belt_distance": 43.29,
+    "head_proxy_delta_percent": 0.0,
+    "torso_proxy_delta_percent": 2.95,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "special_guard_right_000_source.png",
+    "pose": "chin_partly_occluded",
+    "crown": [
+      161,
+      66
+    ],
+    "chin": [
+      164,
+      92
+    ],
+    "collar": [
+      155,
+      94
+    ],
+    "belt": [
+      158,
+      126
+    ],
+    "head_surface_distance": 26.173,
+    "collar_belt_distance": 32.14,
+    "head_proxy_delta_percent": -21.02,
+    "torso_proxy_delta_percent": -23.56,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "partly_occluded",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "special_guard_right_001_source.png",
+    "pose": "chin_partly_occluded",
+    "crown": [
+      162,
+      66
+    ],
+    "chin": [
+      165,
+      92
+    ],
+    "collar": [
+      157,
+      94
+    ],
+    "belt": [
+      161,
+      127
+    ],
+    "head_surface_distance": 26.173,
+    "collar_belt_distance": 33.242,
+    "head_proxy_delta_percent": -21.02,
+    "torso_proxy_delta_percent": -20.94,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "partly_occluded",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  },
+  {
+    "frame": "wall_fall_right_000_source.png",
+    "pose": "head_down_forward_lean",
+    "crown": [
+      162,
+      67
+    ],
+    "chin": [
+      164,
+      95
+    ],
+    "collar": [
+      155,
+      97
+    ],
+    "belt": [
+      148,
+      133
+    ],
+    "head_surface_distance": 28.071,
+    "collar_belt_distance": 36.674,
+    "head_proxy_delta_percent": -15.28,
+    "torso_proxy_delta_percent": -12.78,
+    "endpoint_uncertainty_pixels": 2,
+    "distance_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "target_2percent_status": "未確認",
+    "chin_visibility": "visible_surface",
+    "reason": "Surface proxies, rotation and occlusion do not establish bone dimensions."
+  }
+]

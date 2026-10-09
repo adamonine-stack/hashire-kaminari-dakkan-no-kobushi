@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/animations/body_consistent_hit_v1/high_source.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(320, 224)
+columns = 3
+head_scale_override = 1.0
+frame_regions = Array[Rect2i]([Rect2i(279,66,362,608), Rect2i(905,93,375,581), Rect2i(1632,75,359,599)])
+frame_offsets = Array[Vector2i]([Vector2i(109,38), Vector2i(107,45), Vector2i(110,40)])
+frame_source_scales = PackedFloat32Array(0.28, 0.28, 0.28)
+frame_offsets_are_display_pixels = true
+source_alpha_threshold = 0.03137255
+clips = {"damage_high": {"frames": [0,1,2], "fps": 14.0, "loop": false}}

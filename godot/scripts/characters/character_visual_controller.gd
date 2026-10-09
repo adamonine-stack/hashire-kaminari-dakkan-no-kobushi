@@ -366,10 +366,17 @@ func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteF
 			return null
 		var pose := source_image.get_region(region)
 		pose.convert(Image.FORMAT_RGBA8)
+		if atlas.source_alpha_threshold > 0.0:
+			for y in range(pose.get_height()):
+				for x in range(pose.get_width()):
+					if pose.get_pixel(x, y).a <= atlas.source_alpha_threshold:
+						pose.set_pixel(x, y, Color.TRANSPARENT)
 		var source_scale: float = atlas.frame_source_scales[index] if index < atlas.frame_source_scales.size() else 1.0
 		if not is_equal_approx(source_scale, 1.0):
 			pose.resize(roundi(region.size.x * source_scale), roundi(region.size.y * source_scale), Image.INTERPOLATE_LANCZOS)
 		var padding: Vector2i = offsets[index] + Vector2i((region.size.x - pose.get_width()) / 2, region.size.y - pose.get_height())
+		if atlas.frame_offsets_are_display_pixels:
+			padding = offsets[index]
 		if padding.x < 0 or padding.y < 0 or padding.x + pose.get_width() > cell.x or padding.y + pose.get_height() > cell.y:
 			push_error("Measured pose does not fit display cell: %s/%d" % [_fighter_id(), index])
 			return null
@@ -392,12 +399,28 @@ func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteF
 			frame.region = Rect2((number % atlas.columns) * cell.x, int(number / atlas.columns) * cell.y, cell.x, cell.y)
 			frame.filter_clip = true
 			frame.set_meta("head_scale_override", atlas.head_scale_override)
+			frame.set_meta("source_texture_path", source.resource_path)
+			frame.set_meta("measured_source_region", regions[number])
+			frame.set_meta("source_scale", atlas.frame_source_scales[number] if number < atlas.frame_source_scales.size() else 1.0)
 			frames.add_frame(key, frame)
 	return frames
 
 
 func _overlay_authored_motion_atlas(frames: SpriteFrames, atlas: Resource) -> void:
 	if frames == null or atlas == null:
+		return
+	if not atlas.frame_regions.is_empty():
+		var measured := _build_authored_motion_atlas(atlas)
+		if measured == null:
+			return
+		for name in measured.get_animation_names():
+			if frames.has_animation(name):
+				frames.remove_animation(name)
+			frames.add_animation(name)
+			frames.set_animation_speed(name, measured.get_animation_speed(name))
+			frames.set_animation_loop(name, measured.get_animation_loop(name))
+			for index in range(measured.get_frame_count(name)):
+				frames.add_frame(name, measured.get_frame_texture(name, index), measured.get_frame_duration(name, index))
 		return
 	var texture: Texture2D = _resolve_motion_atlas_texture(atlas)
 	var cell: Vector2i = atlas.get("cell_size")

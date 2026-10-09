@@ -81,7 +81,7 @@ func extra_checks(manager: Node, attacker: Node, target: Node) -> void:
 			if definition == "ally_balance":
 				check(sprite.sprite_frames.get_frame_count(expected_guard)==3,"AKKY paired guard has three phases")
 				var guard_texture: AtlasTexture = sprite.sprite_frames.get_frame_texture(expected_guard,0)
-				check(guard_texture.atlas.resource_path.ends_with("akky_special_guard.png"),"AKKY paired guard source")
+				check(String(guard_texture.get_meta("source_texture_path",guard_texture.atlas.resource_path)).ends_with("body_consistent_guard_v1/guard_source.png"),"AKKY paired guard source")
 			check_visible_art(sprite,definition+" guard")
 			await capture(definition+"_guard_"+str(direction))
 	await reset(manager,attacker,Vector2(600,520),1)

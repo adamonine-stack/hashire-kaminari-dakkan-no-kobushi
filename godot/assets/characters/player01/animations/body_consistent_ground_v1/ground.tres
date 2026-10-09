@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/animations/body_consistent_ground_v1/ground_source.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(320, 224)
+columns = 2
+head_scale_override = 1.0
+frame_regions = Array[Rect2i]([Rect2i(185,401,741,269), Rect2i(1248,383,719,284)])
+frame_offsets = Array[Vector2i]([Vector2i(71,135), Vector2i(75,130)])
+frame_source_scales = PackedFloat32Array(0.2732075471698114, 0.2732075471698114)
+frame_offsets_are_display_pixels = true
+source_alpha_threshold = 0.03137255
+clips = {"ground_impact": {"frames": [0], "fps": 8.0, "loop": false}, "ground_bounce": {"frames": [1], "fps": 8.0, "loop": false}}
