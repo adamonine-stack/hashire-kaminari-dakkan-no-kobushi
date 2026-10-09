@@ -44,7 +44,10 @@ func run() -> void:
 		for action in ["move_left", "move_right", "attack", "kick", "guard", "special_attack", "down"]:
 			Input.action_release(action)
 		var gap: float = enemy.position.x - player.position.x
-		if absf(gap) > 98:
+		# Seiya's close punches need a shorter approach than the power fighters.
+		# This changes only bot input; character stats and attack geometry stay intact.
+		var approach_distance := 65.0 if hero == "player_03_seiya" else 98.0
+		if absf(gap) > approach_distance:
 			Input.action_press("move_right" if gap > 0 else "move_left")
 		if player.special_gauge>=player.special_gauge_cost and absf(gap)<170 and frame%12==0:
 			Input.action_press("special_attack")

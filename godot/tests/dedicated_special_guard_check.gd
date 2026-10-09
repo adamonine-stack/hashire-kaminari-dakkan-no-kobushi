@@ -84,7 +84,7 @@ func run():
      if not air:
       check(sprite.frame==phase,"three phases synchronized to guardstun")
       var tex: AtlasTexture=sprite.sprite_frames.get_frame_texture(expected,phase)
-      check(tex.atlas.resource_path.ends_with(prefix+"_special_guard.png"),"dedicated source art")
+      check(String(tex.get_meta("source_texture_path",tex.atlas.resource_path)).ends_with("body_consistent_guard_v1/guard_source.png" if index==0 else prefix+"_special_guard.png"),"dedicated source art")
      check(sprite.scale==scale and sprite.position==anchor,"fixed guard size/anchor")
     victim._update_guard_hit(duration+1)
     check(not victim.is_guard_hit and victim.special_guard_animation==&"" and victim.special_guard_duration==0,"end clears special guard")

@@ -1,0 +1,4357 @@
+{
+  "baseline": "7d0c79c",
+  "directional_frame_references": 2802,
+  "changed_akky_frames": 26,
+  "failures": [],
+  "anatomy_status": "unverified",
+  "actors": {
+    "player_01_akky": {
+      "motions": {
+        "air_guard": {
+          "fps": 12.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_guard_hit": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_air_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_back_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_back_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_dive_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_dive_land": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_down_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_down_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_forward_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_forward_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_reversal_elbow": {
+          "fps": 5.55555556,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_reversal_finish": {
+          "fps": 2.5,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_reversal_startup": {
+          "fps": 14.28571429,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_back_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_back_start": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_down_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_down_start": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_forward_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_forward_start": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_neutral_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "akky_throw_neutral_start": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "backstep": {
+          "fps": 18.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "combo_finisher": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_held": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_joint": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_joint_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_pull": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_pull_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_reap": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_reap_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_shoulder": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_shoulder_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_idle": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick_sweep": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_punch": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_sweep_kick": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_back_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_down_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_forward_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_held": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_neutral_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_slam_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_heavy": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_high": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_light": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_low": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "dash": {
+          "fps": 14.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "defeat": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "directional_throw_hold": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "down": {
+          "fps": 2.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "get_up": {
+          "fps": 9.090909,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "getup": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_air": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_held": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_bounce": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_impact": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "heavy_attack": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_prebattle": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_ready": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_air": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_kick": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_land": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch_down": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_start": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_up": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_1": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_2": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockback": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown_high": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown_low": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ko": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "land": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "landing": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "launch_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "light_attack": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_1": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_2": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_cross_muei_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_air": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_guard": {
+          "fps": 9.09090909090909,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_air": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fall": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fly": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_lift": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_air": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_01": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_02": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_attack": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_knockback": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_knockdown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_recovery": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_startup": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_thunder_drive": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "stand_up": {
+          "fps": 9.090909,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "thrown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ultimate_attack": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ultimate_recovery": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ultimate_startup": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "victory": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk": {
+          "fps": 16.0,
+          "loop": true,
+          "frames": 8,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_backward": {
+          "fps": 14.0,
+          "loop": true,
+          "frames": 8,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_forward": {
+          "fps": 16.0,
+          "loop": true,
+          "frames": 8,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        }
+      },
+      "directional_frame_references": 752
+    },
+    "player_02_gou": {
+      "motions": {
+        "air_guard": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_guard_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_hit": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "backstep": {
+          "fps": 16.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "combo_finisher": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_held": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_joint": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_joint_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_pull": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_pull_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_reap": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_reap_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_shoulder": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_shoulder_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_hold": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_start": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_idle": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick_sweep": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_sweep_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_back_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_down_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_forward_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_held": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_neutral_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_slam_down": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_heavy": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_high": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_light": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_low": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "dash": {
+          "fps": 12.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "defeat": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "directional_throw_held": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "directional_throw_hold": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "get_up": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "getup": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_air_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_air_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_back_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_back_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_dive_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_dive_land": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_down_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_forward_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_forward_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_reversal_breaker": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_reversal_finish": {
+          "fps": 5.172414,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_reversal_startup": {
+          "fps": 14.285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_throw_back_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_throw_down_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_throw_forward_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_throw_neutral_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "gou_throw_whiff": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grabbed": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_air": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_held": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_bounce": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_impact": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_hold": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "heavy_attack": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "hit_high": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "hit_low": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_prebattle": {
+          "fps": 4.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_ready": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_air": {
+          "fps": 6.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_attack": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_land": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_up": {
+          "fps": 6.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_1": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_2": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockback": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown_high": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown_low": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ko": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "land": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "landing": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "launch_hit": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "light_attack": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_1": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_2": {
+          "fps": 11.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_cross_muei_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_air": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_air": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fall": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fly": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_lift": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_air": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_attack": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_iron_breaker": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_recovery": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_startup": {
+          "fps": 6.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "stand_up": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "standup": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_hold": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_start": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_back_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_down_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_forward_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_neutral_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_slam_down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "thrown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "victory": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk": {
+          "fps": 9.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_backward": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_forward": {
+          "fps": 9.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        }
+      },
+      "directional_frame_references": 802
+    },
+    "player_03_seiya": {
+      "motions": {
+        "air_guard": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_guard_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_hit": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "backstep": {
+          "fps": 20.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "combo_finisher": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_muei_held": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_joint": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_joint_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_pull": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_pull_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_reap": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_reap_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_shoulder": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "cross_react_shoulder_down": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_hold": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard_start": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_idle": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick_sweep": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_sweep_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_back_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_down_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_forward_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_held": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_neutral_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_slam_down": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_heavy": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_high": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_light": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_low": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "dash": {
+          "fps": 12.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "defeat": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "directional_throw_held": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "directional_throw_hold": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "fall": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "get_up": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "getup": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grabbed": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_air": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grapple_held": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_bounce": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_impact": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_hold": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_release": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "heavy_attack": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "hit_high": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "hit_low": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_prebattle": {
+          "fps": 6.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_ready": {
+          "fps": 6.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_air": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_ascent": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_attack": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_fall": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_land": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch_down": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_up": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_1": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_2": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockback": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown_high": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown_low": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ko": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "land": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "landing": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "launch_hit": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "light_attack": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_1": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_2": {
+          "fps": 11.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_3": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_cross_muei_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_air": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_crusher_hammer_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_air": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_rei_uppercut_hit": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fall": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fly": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_lift": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_shadow_counter_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_air": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_guard": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_teki_palm_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_air_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_air_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_back_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_back_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_dive_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_dive_land": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_down_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_forward_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_forward_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_somersault_kick": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_somersault_landing": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_somersault_startup": {
+          "fps": 6.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_throw_back_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_throw_down_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_throw_forward_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_throw_neutral_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_throw_whiff": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_two_finish": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_two_sidekick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_two_somersault": {
+          "fps": 6.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "seiya_two_start": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_attack": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_clear_counter": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_recovery": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_startup": {
+          "fps": 9.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "stand_up": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "standup": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_hold": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_start": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_back_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_down_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_forward_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_neutral_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_slam_down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "thrown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "victory": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk": {
+          "fps": 9.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_backward": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_forward": {
+          "fps": 9.0,
+          "loop": true,
+          "frames": 6,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        }
+      },
+      "directional_frame_references": 846
+    },
+    "enemy_01_crusher": {
+      "motions": {
+        "air_guard": {
+          "fps": 12.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_guard_hit": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "air_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "backstep": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_guard": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_idle": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_kick_sweep": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crouch_punch": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_back_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_back_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_dive_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_dive_land": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_down_punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_forward_kick": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 5,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_hammer_active": {
+          "fps": 7.14285714285714,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_hammer_finish": {
+          "fps": 1.66666666666667,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_hammer_startup": {
+          "fps": 14.2857142857143,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_back_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_down_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_forward_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_hold": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_neutral_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "crusher_throw_start": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_heavy": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_high": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_light": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "damage_low": {
+          "fps": 14.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "dash": {
+          "fps": 10.0,
+          "loop": true,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "directional_throw_held": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "down": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "getup": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "grabbed": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_bounce": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ground_impact": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "guard_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "idle_ready": {
+          "fps": 5.0,
+          "loop": true,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_air": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_land": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_punch_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "jump_start": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_1": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "kick_2": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockback": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "knockdown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "ko": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "land": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "launch_hit": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_1": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "punch_2": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_akky_elbow_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_akky_elbow_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_akky_elbow_fall": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_akky_elbow_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_akky_elbow_wall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_gou_breaker_air": {
+          "fps": 60.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_gou_breaker_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_gou_breaker_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_somersault_air": {
+          "fps": 60.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_somersault_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_somersault_fall": {
+          "fps": 60.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_somersault_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_down": {
+          "fps": 5.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fall": {
+          "fps": 60.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_fly": {
+          "fps": 60.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "received_seiya_two_lift": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "special_guard": {
+          "fps": 12.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "stand_up": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_hold": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_release": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_start": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_back_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_down_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_forward_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_neutral_air": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 3,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "throw_victim_slam_down": {
+          "fps": 10.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "thrown": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 2,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_backward": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "walk_forward": {
+          "fps": 8.0,
+          "loop": true,
+          "frames": 4,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_fall": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        },
+        "wall_hit": {
+          "fps": 8.0,
+          "loop": false,
+          "frames": 1,
+          "scale_flip": "pass",
+          "anatomy_status": "unverified",
+          "all_frames_gui": "unverified"
+        }
+      },
+      "directional_frame_references": 402
+    }
+  }
+}

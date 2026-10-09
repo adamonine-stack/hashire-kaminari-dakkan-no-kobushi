@@ -1,0 +1,7 @@
+# Special Guard採用素材
+
+built-in image_gen使用。入力1は正式Idle、入力2は既存Special Guardシート。生成画像は変更せず `godot/assets/characters/player01/animations/body_consistent_guard_v1/guard_source.png` へコピー。
+
+プロンプト:
+
+Edit game sprite anatomy. Input1 is official Akky Idle immutable design/anatomy master. Input2 is exact THREE-frame Special Guard pose target. Recreate ONLY these three poses in exactly three equal horizontal cells, transparent RGBA. Preserve target timing poses: frames1 and2 arms crossed tightly high in front of face/chest guarding powerful impact, bent knees wide stable stance facing RIGHT; frame3 releases crossed arms into two raised guard fists facing RIGHT, same planted feet. Use master character physique in ALL3: small head with same face/hair ponytail, slender shoulder width, slim arms rather than inflated muscular jacket sleeves, same neck-to-belt torso length and leg segment lengths, same tan short jacket black shirt belt black loose pants boots. The target is too bulky in shoulders and arms; replace with formal idle proportions without uniformly shrinking whole body. Preserve natural bent-knee posture and bodily recoil. Equal drawing units allframes, equal head size, same foot baseline, enough transparent margins for spread feet; no backdrop, brown rectangle, shadow, aura, opponent, labels, effects or detached fragments. Painted/pixel sprite style faithfully match master, no design changes. Whole body visible in every cell.

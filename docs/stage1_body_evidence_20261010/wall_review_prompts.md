@@ -1,0 +1,7 @@
+# Wall Hit/Fall採用素材
+
+built-in image_gen使用。入力1は正式Idle、入力2は旧Wall Hit/Fallシート。生成PNGを変更せず `godot/assets/characters/player01/animations/body_consistent_wall_v1/wall_source.png` へコピーした。
+
+Edit Akky TWO-frame wall impact/wall fall game sprite strip. Input1 is immutable official Idle anatomy/design master. Input2 is ONLY pose and motion reference, its bulky shoulders/sleeves must not be copied. Produce exactly two equal horizontal transparent RGBA cells, same anatomical drawing units. Frame1 faces RIGHT, torso leans backward slightly reacting to wall collision, both hands open in front at chest height with one arm extended right, knees bent, feet planted apart. Frame2 faces RIGHT, head lowers, torso leans slightly forward, hands lowered loosely ahead recovering/falling with flexed knees. Preserve source poses and natural recoil. Use ONLY master's slender build: same small head with exact face and ponytail, shoulder width, neck-to-belt torso length, slim jacket sleeves, upper/lower arm lengths, leg lengths, tan short jacket black shirt belt loose black pants dark boots. Do not inflate chest or arms. Equal head size across both. Whole figures, feet on common baseline, enough transparent margin around hands and boots. Painted pixel sprite style match master. No wall, backdrop, shadow, glow, debris, props, opponent or labels. At source drawing units a standing figure would be approximately 610px tall with head width approximately140px; preserve proportions rather than resizing action bodies independently.
+
+数値は生成への指示であり、身体寸法の実測適合値ではない。

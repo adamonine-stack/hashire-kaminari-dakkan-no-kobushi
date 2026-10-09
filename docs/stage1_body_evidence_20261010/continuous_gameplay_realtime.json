@@ -1,0 +1,17 @@
+{
+  "renderer": "Windows",
+  "cases": 36,
+  "recorded_ticks": 5220,
+  "captures": 0,
+  "failures": [],
+  "physics_enabled": true,
+  "input_actions": true,
+  "hit_fixture": true,
+  "manual_play": false,
+  "all_transitions_gui": "unverified",
+  "anatomy_2percent": "unverified",
+  "png_saving": false,
+  "fixed_fps": false,
+  "camera_condition": "production_dynamic_camera",
+  "observed_camera_zooms": []
+}

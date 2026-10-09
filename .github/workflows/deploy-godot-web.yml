@@ -153,6 +153,35 @@ jobs:
             if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/pair-$test.log"; then exit 1; fi
           done
 
+      - name: Verify Stage 1 motion scale and repair contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/stage1-motion-qa
+          for test in stage1_body_dimensions_check akky_hit_dimensions_check akky_air_dimensions_check akky_back_throw_dimensions_check akky_special_guard_dimensions_check akky_ground_bounce_dimensions_check akky_wall_dimensions_check back_throw_physics_check akky_ground_bounce_physics_check akky_wall_physics_check akky_continuous_gameplay_check stage1_regression; do
+            timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/stage1-motion-qa/$test.log"
+            grep -Fq 'failures=[]' "/tmp/stage1-motion-qa/$test.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/stage1-motion-qa/$test.log"; then exit 1; fi
+          done
+          for hero in akky gou seiya; do
+            args=()
+            if [ "$hero" != akky ]; then args=(-- "--$hero"); fi
+            timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/stage1_release_playthrough.gd "${args[@]}" 2>&1 | tee "/tmp/stage1-motion-qa/playthrough-$hero.log"
+            grep -Fq 'cleared=true' "/tmp/stage1-motion-qa/playthrough-$hero.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/stage1-motion-qa/playthrough-$hero.log"; then exit 1; fi
+          done
+
+      - name: Upload Stage 1 motion QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage1-motion-qa
+          path: |
+            /tmp/stage1-motion-qa/*.log
+            audit_evidence/body_dimensions/stage1_release_gate/inventory.json
+            audit_evidence/body_dimensions/continuous_gameplay/headless/inventory.json
+          if-no-files-found: warn
+
       - name: Verify Stage 1 battle slice
         shell: bash
         run: |

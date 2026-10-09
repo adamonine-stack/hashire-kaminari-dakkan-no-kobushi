@@ -23,3 +23,8 @@ class_name FighterMotionAtlas
 @export var frame_regions: Array[Rect2i] = []
 @export var frame_offsets: Array[Vector2i] = []
 @export var frame_source_scales: PackedFloat32Array = []
+## New measured sources can specify the packed top-left directly in display pixels.
+## False retains the existing source-space, bottom-aligned packing convention.
+@export var frame_offsets_are_display_pixels := false
+## Remove only near-transparent source noise; zero preserves existing sources.
+@export_range(0.0, 1.0) var source_alpha_threshold := 0.0

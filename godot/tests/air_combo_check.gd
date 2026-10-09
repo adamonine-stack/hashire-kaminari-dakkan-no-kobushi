@@ -3,6 +3,8 @@ var failures: Array[String] = []
 var player: Node
 var enemy: Node
 var hit_moves: Array[String] = []
+var capture_rows: Array[Dictionary] = []
+var capture_folder := ""
 func _initialize() -> void:
  call_deferred("run")
 func check(ok: bool, label: String) -> void:
@@ -35,10 +37,14 @@ func run() -> void:
  current_scene = battle
  await process_frame
  var manager: Node = battle.get_node("BattleManager")
- await manager.select_player_by_id("player_01_akky")
+ manager.select_player_by_id("player_01_akky")
  for i in range(360):
   await physics_frame
+  if manager._enemy_intro_panel != null and manager._enemy_intro_panel.visible: manager.enemy_intro_finished.emit()
   if manager.isRoundActive: break
+ if "--capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless":
+  capture_folder = ProjectSettings.globalize_path("res://../audit_evidence/body_dimensions/air_punch_review/physics_capture")
+  DirAccess.make_dir_recursive_absolute(capture_folder)
  player = battle.get_node("Player")
  enemy = battle.get_node("Enemy")
  enemy.ai_enabled = false
@@ -111,8 +117,19 @@ func run() -> void:
   var pressed_jump := false
   var pressed_p := false
   var pressed_k := false
+  var previous_capture := ""
   for i in range(110):
    await physics_frame
+   if not capture_folder.is_empty():
+    var sprite: AnimatedSprite2D = player.animated_character_sprite
+    var key := "%s/%d/%s" % [sprite.animation,sprite.frame,player.is_on_floor()]
+    var record := {"facing":facing,"tick":i,"animation":sprite.animation,"frame":sprite.frame,"position":str(player.position),"velocity":str(player.velocity),"on_floor":player.is_on_floor(),"attack":player.current_attack_id,"connected":player.dev_current_attack_connected,"enemy_hp":enemy.current_hp,"image":""}
+    if key != previous_capture:
+     RenderingServer.force_draw(true)
+     record.image = "%d_%03d.png" % [int(facing),i]
+     root.get_texture().get_image().save_png(capture_folder.path_join(record.image))
+     previous_capture = key
+    capture_rows.append(record)
    if player.current_attack_id == "akky_down_punch" and player.dev_current_attack_connected:
     launcher_hit = true
     if not pressed_jump and player.command_attack_elapsed >= .27:
@@ -142,6 +159,9 @@ func run() -> void:
   player.set_physics_process(false)
   enemy.set_physics_process(false)
  print("AIR_COMBO_CHECK failures=%s"%[failures])
+ if not capture_folder.is_empty():
+  var evidence := FileAccess.open(capture_folder.path_join("inventory.json"),FileAccess.WRITE)
+  evidence.store_string(JSON.stringify({"frames":capture_rows,"failures":failures,"renderer":DisplayServer.get_name(),"manual_play":false},"  "))
  root.get_node("AudioManager").stop_bgm()
  manager.cleanup_battle_before_transition()
  battle.queue_free()

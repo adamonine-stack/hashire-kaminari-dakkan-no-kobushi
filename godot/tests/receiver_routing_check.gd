@@ -82,7 +82,7 @@ func run():
     check(victim.last_damage_animation==item.clip,item.label+" recorded")
     check(sprite.animation==item.clip,item.label+" actual sprite")
     if item.clip in [&"damage_light",&"damage_heavy",&"damage_high",&"damage_low"]:
-     var source_name={&"damage_light":"light_hit",&"damage_heavy":"heavy_hit",&"damage_high":"high_hit",&"damage_low":"low_hit"}[item.clip]
+     var source_name={&"damage_light":"light_source",&"damage_heavy":"heavy_source",&"damage_high":"high_source",&"damage_low":"low_source"}[item.clip]
      var actor_name="akky" if String(victim.fighter_definition.fighter_id)=="player_01_akky" else "crusher"
      check(sprite.sprite_frames.get_frame_count(item.clip)==3,"dedicated reaction three phases")
      for i in range(3):
@@ -93,7 +93,8 @@ func run():
        var cell:int=ids[i]
        check(tex.region==Rect2((cell%3)*400,(cell/3)*280,400,280),"Crusher reaction contact and recovery cells")
       else:
-       check(tex.atlas.resource_path.ends_with(actor_name+"_"+source_name+".png"),"dedicated actor/reaction source")
+       var source_path:=String(tex.get_meta("source_texture_path",tex.atlas.resource_path))
+       check(source_path.ends_with("player01/animations/body_consistent_hit_v1/"+source_name+".png"),"dedicated actor/reaction source")
     for frame in range(sprite.sprite_frames.get_frame_count(item.clip)):
      sprite.pause()
      sprite.frame=frame
