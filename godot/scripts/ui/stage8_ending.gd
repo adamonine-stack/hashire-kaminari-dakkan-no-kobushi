@@ -109,9 +109,7 @@ func advance() -> void:
 	if input_locked or finished or Time.get_ticks_msec() - last_input_msec < 180: return
 	last_input_msec = Time.get_ticks_msec()
 	if terminal_card:
-		finished = true
-		_record_completion()
-		await _roll_normal_credits()
+		_begin_normal_credits()
 		return
 	if story_label.visible_characters >= 0 and story_label.visible_characters < story_label.get_total_character_count():
 		visible_elapsed = 1000.0
@@ -119,6 +117,18 @@ func advance() -> void:
 		return
 	page_index += 1
 	_show_page()
+
+func _auto_begin_normal_credits() -> void:
+	await get_tree().create_timer(3.0).timeout
+	if terminal_card and not finished: _begin_normal_credits()
+
+
+func _begin_normal_credits() -> void:
+	if finished: return
+	finished = true
+	_record_completion()
+	await _roll_normal_credits()
+
 
 func _roll_normal_credits() -> void:
 	credits_started = true
@@ -211,6 +221,7 @@ func _execute_event(event_name: String) -> void:
 			next_button.z_index = 12
 			input_locked = false
 			next_button.disabled = false
+			_auto_begin_normal_credits()
 			return
 		"true_battle":
 			finished = true
