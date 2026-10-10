@@ -93,10 +93,13 @@ func update_head() -> void:
 	material.set_shader_parameter("neck_direction",neck_direction)
 	var offset := Vector2.ZERO
 	var atlas_size := Vector2(texture.get_size())
+	var source_size := Vector2(texture.get_size())
 	if texture is AtlasTexture:
 		offset = texture.region.position
 		atlas_size = texture.atlas.get_size()
+		# Transparent AtlasTexture display margins are not source UV pixels.
+		source_size = texture.region.size
 	material.set_shader_parameter("atlas_size", atlas_size)
-	material.set_shader_parameter("cell_rect", Vector4(offset.x,offset.y,texture.get_width(),texture.get_height()))
+	material.set_shader_parameter("cell_rect", Vector4(offset.x,offset.y,source_size.x,source_size.y))
 	material.set_shader_parameter("head_rect", Vector4(head_bounds.position.x+offset.x,head_bounds.position.y+offset.y,head_bounds.size.x,head_bounds.size.y))
 	material.set_shader_parameter("head_anchor", head_anchor+offset)

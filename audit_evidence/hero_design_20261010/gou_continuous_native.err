@@ -1,0 +1,30 @@
+ERROR: all landing frames observed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/directional_throws_check.gd:10)
+       [1] run (res://tests/akky_continuous_gameplay_check.gd:155)
+       [2] step (res://tests/akky_continuous_gameplay_check.gd:39)
+ERROR: all landing frames observed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/directional_throws_check.gd:10)
+       [1] run (res://tests/akky_continuous_gameplay_check.gd:155)
+       [2] step (res://tests/akky_continuous_gameplay_check.gd:39)
+ERROR: all landing frames observed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/directional_throws_check.gd:10)
+       [1] run (res://tests/akky_continuous_gameplay_check.gd:155)
+       [2] step (res://tests/akky_continuous_gameplay_check.gd:39)
+ERROR: all landing frames observed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/directional_throws_check.gd:10)
+       [1] run (res://tests/akky_continuous_gameplay_check.gd:155)
+       [2] step (res://tests/akky_continuous_gameplay_check.gd:39)
+ERROR: all landing frames observed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/directional_throws_check.gd:10)
+       [1] run (res://tests/akky_continuous_gameplay_check.gd:155)
+       [2] step (res://tests/akky_continuous_gameplay_check.gd:39)

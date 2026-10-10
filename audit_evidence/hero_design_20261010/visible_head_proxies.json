@@ -1,0 +1,92 @@
+[
+  {
+    "actor": "player_03_seiya",
+    "clip": "idle",
+    "frame": 0,
+    "left": [
+      302,
+      250
+    ],
+    "right": [
+      344,
+      250
+    ],
+    "visible_width_pixels": 42,
+    "delta_from_idle_percent": 0.0,
+    "width_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "reason": "Hair silhouette and head rotation are not skeletal dimensions."
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 0,
+    "left": [
+      314,
+      240
+    ],
+    "right": [
+      361,
+      240
+    ],
+    "visible_width_pixels": 47,
+    "delta_from_idle_percent": 11.9,
+    "width_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "reason": "Hair silhouette and head rotation are not skeletal dimensions."
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 0,
+    "left": [
+      305,
+      232
+    ],
+    "right": [
+      353,
+      232
+    ],
+    "visible_width_pixels": 48,
+    "delta_from_idle_percent": 14.29,
+    "width_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "reason": "Hair silhouette and head rotation are not skeletal dimensions."
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_attack",
+    "frame": 0,
+    "left": [
+      309,
+      250
+    ],
+    "right": [
+      356,
+      250
+    ],
+    "visible_width_pixels": 47,
+    "delta_from_idle_percent": 11.9,
+    "width_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "reason": "Hair silhouette and head rotation are not skeletal dimensions."
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "guard",
+    "frame": 0,
+    "left": [
+      272,
+      245
+    ],
+    "right": [
+      309,
+      245
+    ],
+    "visible_width_pixels": 37,
+    "delta_from_idle_percent": -11.9,
+    "width_uncertainty_pixels": 4,
+    "anatomy_status": "未確認",
+    "reason": "Hair silhouette and head rotation are not skeletal dimensions."
+  }
+]

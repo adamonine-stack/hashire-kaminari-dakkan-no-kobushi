@@ -87,7 +87,7 @@ func run() -> void:
 			if String(clip).begins_with("received_rei_uppercut_"):
 				var rei_atlas = load("res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.tres")
 				check(texture is AtlasTexture and same_texture_source(texture.atlas, rei_atlas.texture),clip + ": dedicated Rei receiver original")
-				check(texture.get_size() == Vector2(512,448),clip + ": Rei receiver canvas")
+				check(texture.get_size() == Vector2(768,640) and texture.region.size == Vector2(512,448),clip + ": Rei receiver canvas")
 				var rei_rect := texture.get_image().get_used_rect()
 				check(rei_rect.has_area() and rei_rect.position.x >= 3 and rei_rect.position.y >= 3 and rei_rect.end.x <= 509 and rei_rect.end.y <= 445,clip + ": unclipped Rei receiver")
 				checked += 1
@@ -95,7 +95,7 @@ func run() -> void:
 			if String(clip).begins_with("received_teki_palm_"):
 				var teki_atlas = load("res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.tres")
 				check(texture is AtlasTexture and same_texture_source(texture.atlas, teki_atlas.texture),clip + ": dedicated Teki receiver original")
-				check(texture.get_size() == Vector2(512,448),clip + ": Teki receiver canvas")
+				check(texture.get_size() == Vector2(768,640) and texture.region.size == Vector2(512,448),clip + ": Teki receiver canvas")
 				var teki_rect := texture.get_image().get_used_rect()
 				check(teki_rect.has_area() and teki_rect.position.x >= 3 and teki_rect.position.y >= 3 and teki_rect.end.x <= 509 and teki_rect.end.y <= 445,clip + ": unclipped Teki receiver")
 				checked += 1
@@ -103,7 +103,7 @@ func run() -> void:
 			if String(clip).begins_with("received_cross_muei_guard"):
 				var cross_atlas = load("res://assets/characters/cross_special_guard_v1/ally_speed/motion_atlas.tres")
 				check(texture is AtlasTexture and same_texture_source(texture.atlas, cross_atlas.texture),clip + ": dedicated Cross receiver original")
-				check(texture.get_size() == Vector2(512,448),clip + ": Cross receiver canvas")
+				check(texture.get_size() == Vector2(768,640) and texture.region.size == Vector2(512,448),clip + ": Cross receiver canvas")
 				var cross_rect := texture.get_image().get_used_rect()
 				check(cross_rect.has_area() and cross_rect.position.x >= 3 and cross_rect.position.y >= 3 and cross_rect.end.x <= 509 and cross_rect.end.y <= 445,clip + ": unclipped Cross receiver")
 				checked += 1
@@ -111,7 +111,7 @@ func run() -> void:
 			if clip == &"special_guard":
 				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
 			check(texture is AtlasTexture and same_texture_source(texture.atlas, expected), clip + ": approved authored texture")
-			check(texture.get_size() == Vector2(384,288), clip + ": cell size")
+			check(texture.get_size() == Vector2(768,640) and texture.region.size == Vector2(384,288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
 			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
 			checked += 1
