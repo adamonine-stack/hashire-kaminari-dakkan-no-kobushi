@@ -183,7 +183,7 @@ func run() -> void:
 	# Initialize both real combat actors before the isolated hitbox suite.
 	check(manager._character_selection_screen.is_open, "TRUE boss selection opens before Stage 9 QA")
 	manager.select_player_by_id("player_01_akky")
-	await create_timer(1.35).timeout
+	await get_tree().create_timer(1.35).timeout
 	check(manager.current_player_id == "player_01_akky" and manager.enemy.fighter_definition != null, "Stage 9 test actors initialized")
 	manager._flow_sequence_id+=1
 	manager.set_process(false)
@@ -238,3 +238,4 @@ func run() -> void:
 	await process_frame
 	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
+
