@@ -367,6 +367,15 @@ jobs:
           touch "$WEB_BUILD_DIR/.nojekyll"
           cp "$GODOT_PROJECT_DIR/assets/fonts/OFL.txt" "$WEB_BUILD_DIR/OFL-NotoSansJP.txt"
 
+      - name: Verify exported PCK motion scales
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 180s godot --headless --main-pack "$WEB_BUILD_DIR/index.pck" --script res://tests/motion_atlas_serialization_check.gd 2>&1 | tee /tmp/exported-motion-scales.log
+          grep -F 'failures=[]' /tmp/exported-motion-scales.log
+          timeout 180s godot --headless --main-pack "$WEB_BUILD_DIR/index.pck" --script res://tests/stage1_body_dimensions_check.gd 2>&1 | tee /tmp/exported-body-dimensions.log
+          grep -F 'failures=[]' /tmp/exported-body-dimensions.log
+
       - name: Force PNG web app icons
         shell: bash
         run: |
