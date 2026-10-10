@@ -28,6 +28,9 @@ var input_locked := false
 var finished := false
 var terminal_card := false
 var credits_roll: Label
+var credits_started := false
+var credits_complete := false
+var returning_to_title := false
 var credits_timing_scale := 1.0 # QA may shorten the roll without changing gameplay timing.
 var last_input_msec := -1000
 var visible_elapsed := 0.0
@@ -82,6 +85,21 @@ func _process(delta: float) -> void:
 		visible_elapsed += delta
 		story_label.visible_characters = mini(story_label.get_total_character_count(), int(visible_elapsed * 38.0))
 
+func _input(event: InputEvent) -> void:
+	if not credits_started or returning_to_title: return
+	var tapped := (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
+	if tapped or (event.is_action_pressed("ui_accept") and not event.is_echo()):
+		get_viewport().set_input_as_handled()
+		_return_from_credits()
+
+
+func _return_from_credits() -> void:
+	if returning_to_title: return
+	returning_to_title = true
+	await get_node("/root/AudioManager").fade_out()
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") and not event.is_echo():
 		advance()
@@ -94,8 +112,6 @@ func advance() -> void:
 		finished = true
 		_record_completion()
 		await _roll_normal_credits()
-		await get_node("/root/AudioManager").fade_out()
-		get_tree().change_scene_to_file("res://scenes/Title.tscn")
 		return
 	if story_label.visible_characters >= 0 and story_label.visible_characters < story_label.get_total_character_count():
 		visible_elapsed = 1000.0
@@ -105,6 +121,7 @@ func advance() -> void:
 	_show_page()
 
 func _roll_normal_credits() -> void:
+	credits_started = true
 	terminal_card = false
 	end_card.hide()
 	next_button.hide()
@@ -118,7 +135,11 @@ func _roll_normal_credits() -> void:
 	var tween := create_tween()
 	tween.tween_property(credits_roll, "position:y", CREDITS.offscreen_y(credits_roll), CREDITS.NORMAL_SCROLL_SECONDS * credits_timing_scale)
 	await tween.finished
+	if returning_to_title: return
 	credits_roll.queue_free()
+	credits_complete = true
+	end_card.text = "BAD END" if route == "C" else "TO BE CONTINUED…"
+	end_card.show()
 
 
 func _show_page() -> void:
