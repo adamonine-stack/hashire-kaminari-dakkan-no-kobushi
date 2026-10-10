@@ -241,6 +241,14 @@ jobs:
           grep -Fq 'TRUE_SEIYA_COMBAT_CHECK failures=[]' /tmp/true-seiya-combat.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-seiya-combat.log; then exit 1; fi
 
+      - name: Verify lightweight credits and crash recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/ending_credits_recovery_check.gd 2>&1 | tee /tmp/credits-recovery.log
+          grep -Fq 'ENDING_CREDITS_RECOVERY_CHECK failures=[]' /tmp/credits-recovery.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/credits-recovery.log; then exit 1; fi
+
       - name: Verify cinematic true ending and save compatibility
         shell: bash
         run: |

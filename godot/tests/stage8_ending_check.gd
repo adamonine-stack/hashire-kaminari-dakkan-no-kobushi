@@ -94,24 +94,31 @@ func run_check() -> void:
 			check(ui.terminal_card, "terminal card " + expected_route)
 			check(ui.end_card.text == ("BAD END" if expected_route == "C" else "TO BE CONTINUED…"), "correct ending card " + expected_route)
 			await capture(expected_route + "_end")
-			ui.credits_timing_scale = 0.006
+			root.set_meta(&"ending_credits_qa_scale", 0.006)
 			if expected_route == "A":
 				# Normal routes should start rolling without user input.
 				await create_timer(3.35).timeout
 			else:
 				ui.last_input_msec = -1000
 				ui.advance()
-			await create_timer(0.6).timeout
-			check(ui.credits_started and ui.credits_complete, "credits complete " + expected_route)
-			check(current_scene == ui and ui.end_card.visible, "credits end holds screen " + expected_route)
-			check(ui.end_card.text.contains("画面タップでタイトルへ"), "tap hint visible " + expected_route)
-			var tap := InputEventScreenTouch.new()
-			tap.pressed = true
-			tap.index = 0
-			tap.position = Vector2(422, 195)
-			Input.parse_input_event(tap)
-			await create_timer(1.3).timeout
-			check(current_scene != null and current_scene.scene_file_path == "res://scenes/Title.tscn", "tap returns to title " + expected_route)
+				await create_timer(0.5).timeout
+			check(current_scene != null and current_scene.scene_file_path == "res://scenes/EndingCredits.tscn", "light credits scene " + expected_route)
+			if current_scene != null and current_scene.scene_file_path == "res://scenes/EndingCredits.tscn":
+				var credits = current_scene
+				check(credits.ending_route == ("bad" if expected_route == "C" else "normal"), "saved ending route " + expected_route)
+				check(credits.credits_started, "credits started " + expected_route)
+				check(credits.get_children().size() == 2, "credits contains only lightweight UI " + expected_route)
+				await create_timer(0.55).timeout
+				check(credits.credits_complete, "credits complete " + expected_route)
+				check(current_scene == credits and credits.header.visible, "credits end holds screen " + expected_route)
+				check(credits.hint.text.contains("タップ"), "tap hint visible " + expected_route)
+				var tap := InputEventScreenTouch.new()
+				tap.pressed = true
+				tap.index = 0
+				tap.position = Vector2(422, 195)
+				Input.parse_input_event(tap)
+				await create_timer(1.3).timeout
+				check(current_scene != null and current_scene.scene_file_path == "res://scenes/Title.tscn", "tap returns to title " + expected_route)
 		else:
 			await capture("G_true_boss_card")
 			await create_timer(3.1).timeout
