@@ -7,7 +7,7 @@ const HERO_NAMES := ["アッキー", "ゴウ", "セイヤ"]
 const HERO_ART_IDS := ["ally_balance", "ally_power", "ally_speed"]
 const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
 const CHECKPOINT := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
-const CREDITS := preload("res://scripts/ui/ending_credits.gd")
+const CREDITS_CHECKPOINT := preload("res://scripts/ui/ending_credits_checkpoint.gd")
 const SCRIPT_PATH := "res://data/story/stage8_dialogue.txt"
 const ENDING_VERSION := "STAGE8_TRUE_ENDING_V1"
 
@@ -132,31 +132,21 @@ func _begin_normal_credits() -> void:
 	if finished: return
 	finished = true
 	_record_completion()
-	await _roll_normal_credits()
+	_roll_normal_credits()
 
 
 func _roll_normal_credits() -> void:
+	# Persist the already-determined ending BEFORE unloading scene textures.
+	# The checkpoint survives a browser reload until the player taps to exit.
+	var ending_type := CREDITS_CHECKPOINT.BAD if route == "C" else CREDITS_CHECKPOINT.NORMAL
+	if CREDITS_CHECKPOINT.save_pending(ending_type) != OK:
+		push_error("Cannot save ending credits checkpoint")
+		# Preserve the Stage8 checkpoint if the new one could not be written.
+		finished = false
+		return
 	credits_started = true
 	print("[%s] CREDITS_START route=%s" % [ENDING_VERSION, route])
-	terminal_card = false
-	end_card.hide()
-	next_button.hide()
-	speaker_label.hide()
-	story_label.hide()
-	# The theme has already started during the rescue dialogue; keep it going.
-	# Restart only if it has naturally ended before the credits begin.
-	var audio := get_node("/root/AudioManager")
-	if not audio.bgm_player.playing: audio.play_ending_theme("final_boss")
-	credits_roll = CREDITS.make_roll(safe_content)
-	var tween := create_tween()
-	tween.tween_property(credits_roll, "position:y", CREDITS.offscreen_y(credits_roll), CREDITS.NORMAL_SCROLL_SECONDS * credits_timing_scale)
-	await tween.finished
-	if returning_to_title: return
-	credits_roll.queue_free()
-	credits_complete = true
-	end_card.text = ("BAD END" if route == "C" else "TO BE CONTINUED…") + "\n画面タップでタイトルへ"
-	end_card.show()
-	print("[%s] CREDITS_COMPLETE route=%s" % [ENDING_VERSION, route])
+	get_tree().change_scene_to_file(CREDITS_CHECKPOINT.SCENE)
 
 
 func _show_page() -> void:
@@ -248,7 +238,8 @@ func _audio(method: String, argument: String = "") -> void:
 	else: audio.call(method, argument)
 
 func _record_completion() -> void:
-	CHECKPOINT.clear()
+	# Do not clear the Stage8 snapshot here: a crash before the credits
+	# checkpoint is installed must still be able to resume the dialogue.
 	var cfg := ConfigFile.new()
 	if FileAccess.file_exists("user://story_progress.cfg"): cfg.load("user://story_progress.cfg")
 	cfg.set_value("story", "normal_ending_unlocked", true)
