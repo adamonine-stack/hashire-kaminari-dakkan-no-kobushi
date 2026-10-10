@@ -99,7 +99,11 @@ func run() -> void:
     mobile._on_tap_button_down(mobile.right_controls.get_node("PunchButton" if action == "attack" else "KickButton"),action)
     player._sample_combat_commands(0.0)
     player._dispatch_combat_command()
-    check(player.current_attack_id == "akky_"+key,"mobile handler %s/%s held=%s"%[key,facing,hold])
+    if hold:
+     check(player.current_attack_id == "akky_"+key,"held mobile handler %s/%s"%[key,facing])
+    else:
+     check(player.last_combat_command.get("direction","") == "neutral","released mobile handler neutral %s/%s"%[key,facing])
+     check(player.current_attack_data != null and String(player.current_attack_data.command_direction).is_empty(),"released mobile handler normal %s/%s"%[key,facing])
     mobile._on_direction_button_up(button,data)
     await ticks(2)
     await process_frame

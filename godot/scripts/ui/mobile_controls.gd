@@ -76,6 +76,7 @@ const HOLD_BUTTON_ACTIONS := {
 
 var _held_action_counts: Dictionary = {}
 var _pressed_buttons: Dictionary = {}
+var _pressed_hold_buttons: Dictionary = {}
 var _touch_buttons_by_index: Dictionary = {}
 var _direct_touch_active := false
 var _tap_queues: Dictionary = {}
@@ -102,6 +103,11 @@ func _ready() -> void:
 	_connect_touch_buttons()
 	_apply_touch_visibility()
 	_layout_controls()
+	# Touch controls have their own indexed input path. Never let the
+	# browser's synthetic mouse events press these buttons a second time.
+	if DisplayServer.is_touchscreen_available() or OS.has_feature("web_ios") or OS.has_feature("web_android"):
+		for button in find_children("*", "Button", true, false):
+			button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	get_viewport().size_changed.connect(_on_viewport_size_changed)
 	visibility_changed.connect(_on_visibility_changed)
 
@@ -145,12 +151,14 @@ func _set_touch_button(index: int, next_button: Button) -> void:
 	var current: Button = _touch_buttons_by_index.get(index) as Button
 	if current == next_button:
 		return
-	if current != null and is_instance_valid(current):
-		current.button_up.emit()
 	_touch_buttons_by_index.erase(index)
+	if current != null and is_instance_valid(current) and not _touch_buttons_by_index.values().has(current):
+		current.button_up.emit()
 	if next_button != null:
+		var already_held := _touch_buttons_by_index.values().has(next_button)
 		_touch_buttons_by_index[index] = next_button
-		next_button.button_down.emit()
+		if not already_held:
+			next_button.button_down.emit()
 
 
 func _exit_tree() -> void:
@@ -170,16 +178,19 @@ func release_all_touch_inputs() -> void:
 	_touch_buttons_by_index.clear()
 	if _direct_touch_active:
 		_direct_touch_active = false
+		var touch_device := DisplayServer.is_touchscreen_available() or OS.has_feature("web_ios") or OS.has_feature("web_android")
 		for button in find_children("*", "Button", true, false):
-			button.mouse_filter = Control.MOUSE_FILTER_STOP
+			button.mouse_filter = Control.MOUSE_FILTER_IGNORE if touch_device else Control.MOUSE_FILTER_STOP
 	# Tap actions can still be waiting for their deferred physics/frame release.
 	for action_name in TAP_BUTTON_ACTIONS.values():
 		Input.action_release(String(action_name))
 	Input.action_release("jump")
 	for action_name in _held_action_counts.keys():
 		Input.action_release(action_name)
+		_forget_player_touch_direction(String(action_name))
 	_held_action_counts.clear()
 	_pressed_buttons.clear()
+	_pressed_hold_buttons.clear()
 	_set_all_button_pressed_visuals(false)
 
 
@@ -371,14 +382,37 @@ func _release_virtual_action(action_name: String) -> void:
 	if count <= 1:
 		_held_action_counts.erase(action_name)
 		Input.action_release(action_name)
+		_forget_player_touch_direction(action_name)
 	else:
 		_held_action_counts[action_name] = count - 1
 
 
-func _on_direction_button_down(button: Button, data: Dictionary) -> void:
-	if not visible or button.disabled:
+func _forget_player_touch_direction(action_name: String) -> void:
+	var kind := ""
+	match action_name:
+		"move_left":
+			kind = "left"
+		"move_right":
+			kind = "right"
+		"down":
+			kind = "down"
+	if kind.is_empty():
 		return
-	_pressed_buttons[button] = int(_pressed_buttons.get(button, 0)) + 1
+	# MobileControls lives under Battle/UI/BattleUIRoot and only the
+	# player receives touch input. Never erase enemy AI's command history.
+	var fighter := get_node_or_null("../../../Player")
+	if fighter == null:
+		return
+	var commands: RefCounted = fighter.get("combat_commands") as RefCounted
+	if commands != null and commands.has_method("forget_released_touch_direction"):
+		commands.call("forget_released_touch_direction", kind)
+
+
+func _on_direction_button_down(button: Button, data: Dictionary) -> void:
+	if not visible or button.disabled or _pressed_buttons.has(button):
+		return
+	# Idempotent: mixed touch and emulated mouse must never count as two holds.
+	_pressed_buttons[button] = true
 	for action_name in data.get("hold", []):
 		_press_virtual_action(String(action_name))
 	for action_name in data.get("tap", []):
@@ -390,15 +424,10 @@ func _on_direction_button_down(button: Button, data: Dictionary) -> void:
 func _on_direction_button_up(button: Button, data: Dictionary) -> void:
 	if not _pressed_buttons.has(button):
 		return
-	var count := int(_pressed_buttons.get(button, 0))
-	if count > 1:
-		_pressed_buttons[button] = count - 1
-	else:
-		_pressed_buttons.erase(button)
+	_pressed_buttons.erase(button)
 	for action_name in data.get("hold", []):
 		_release_virtual_action(String(action_name))
-	if count <= 1:
-		button.modulate.a = button_opacity
+	button.modulate.a = button_opacity
 
 
 func _on_tap_button_down(button: Button, action_name: String) -> void:
@@ -411,13 +440,17 @@ func _on_tap_button_down(button: Button, action_name: String) -> void:
 
 
 func _on_hold_button_down(button: Button, action_name: String) -> void:
-	if not visible or button.disabled:
+	if not visible or button.disabled or _pressed_hold_buttons.has(button):
 		return
+	_pressed_hold_buttons[button] = true
 	_press_virtual_action(action_name)
 	button.modulate.a = pressed_opacity
 
 
 func _on_hold_button_up(button: Button, action_name: String) -> void:
+	if not _pressed_hold_buttons.has(button):
+		return
+	_pressed_hold_buttons.erase(button)
 	_release_virtual_action(action_name)
 	if is_instance_valid(button):
 		button.modulate.a = button_opacity

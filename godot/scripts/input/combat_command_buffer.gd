@@ -34,6 +34,17 @@ func record(kind: String, pressed: bool, facing: float) -> void:
 		event["priority"] = int(PRIORITIES[kind]) + (1 if event.direction != "neutral" else 0)
 		pending.append(event)
 
+## A virtual D-pad release must not leave a stale 150-ms command memory.
+## Physical keyboard direction taps retain the old grace window.
+func forget_released_touch_direction(kind: String) -> void:
+	if kind not in ["left", "right", "down"]:
+		return
+	held[kind] = false
+	for i in range(history.size() - 1, -1, -1):
+		if String(history[i].kind) == kind:
+			history.remove_at(i)
+
+
 func logical_direction(facing: float) -> String:
 	if bool(held.get("down", false)):
 		return "down"
