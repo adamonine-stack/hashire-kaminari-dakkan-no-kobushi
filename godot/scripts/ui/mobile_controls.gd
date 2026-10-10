@@ -121,11 +121,11 @@ func _input(event: InputEvent) -> void:
 			for button in find_children("*", "Button", true, false):
 				button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var touch := event as InputEventScreenTouch
-		if touch.pressed:
-			_set_touch_button(touch.index, _button_at_touch_position(touch.position))
-		else:
-			_set_touch_button(touch.index, null)
-		get_viewport().set_input_as_handled()
+		var controlled := _touch_buttons_by_index.has(touch.index)
+		var target := _button_at_touch_position(touch.position) if touch.pressed else null
+		_set_touch_button(touch.index, target)
+		if controlled or target != null:
+			get_viewport().set_input_as_handled()
 	elif event is InputEventScreenDrag and _direct_touch_active:
 		var drag := event as InputEventScreenDrag
 		if _touch_buttons_by_index.has(drag.index):
@@ -168,6 +168,10 @@ func release_all_touch_inputs() -> void:
 	_tap_queues.clear()
 	_tap_running.clear()
 	_touch_buttons_by_index.clear()
+	if _direct_touch_active:
+		_direct_touch_active = false
+		for button in find_children("*", "Button", true, false):
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
 	# Tap actions can still be waiting for their deferred physics/frame release.
 	for action_name in TAP_BUTTON_ACTIONS.values():
 		Input.action_release(String(action_name))
@@ -393,7 +397,8 @@ func _on_direction_button_up(button: Button, data: Dictionary) -> void:
 		_pressed_buttons.erase(button)
 	for action_name in data.get("hold", []):
 		_release_virtual_action(String(action_name))
-	button.modulate.a = button_opacity
+	if count <= 1:
+		button.modulate.a = button_opacity
 
 
 func _on_tap_button_down(button: Button, action_name: String) -> void:
@@ -421,7 +426,7 @@ func _on_hold_button_up(button: Button, action_name: String) -> void:
 # Every button_down is one separate action, even when two taps happen
 # before the previous pulse has been released by the physics loop.
 func _tap_action(action_name: String) -> void:
-	_tap_queues[action_name] = int(_tap_queues.get(action_name, 0)) + 1
+	_tap_queues[action_name] = mini(int(_tap_queues.get(action_name, 0)) + 1, 4)
 	if bool(_tap_running.get(action_name, false)):
 		return
 	_tap_running[action_name] = true
