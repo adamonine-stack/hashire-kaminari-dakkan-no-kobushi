@@ -113,7 +113,7 @@ func _process(delta: float) -> void:
 # Use each touch identifier independently instead of relying on emulated mouse
 # clicks, which cannot reliably hold a D-pad key while tapping attack buttons.
 func _input(event: InputEvent) -> void:
-	if not visible or _combat_buttons_paused:
+	if not visible:
 		return
 	if event is InputEventScreenTouch:
 		if not _direct_touch_active:
