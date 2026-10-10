@@ -179,6 +179,12 @@ func run() -> void:
 	root.add_child(battle)
 	await process_frame
 	var manager: Node=battle.get_node("BattleManager")
+	# TrueBattle now waits for the user to choose a surviving hero.
+	# Initialize both real combat actors before the isolated hitbox suite.
+	check(manager._character_selection_screen.is_open, "TRUE boss selection opens before Stage 9 QA")
+	manager.select_player_by_id("player_01_akky")
+	await create_timer(1.35).timeout
+	check(manager.current_player_id == "player_01_akky" and manager.enemy.fighter_definition != null, "Stage 9 test actors initialized")
 	manager._flow_sequence_id+=1
 	manager.set_process(false)
 	manager.set_physics_process(false)
