@@ -21,6 +21,14 @@ func check(ok: bool, label: String) -> void:
 
 func inspect_beat(beat: String) -> void:
 	if beat == "escape":
+		for actor in [ending.akky, ending.seiya]:
+			check(actor.poses.is_empty(), "cast resources released before CG")
+	if beat == "credits":
+		check(ending.backdrop.texture == null, "CG released before credits")
+		check(ending.effects.get_child_count() == 0, "explosion nodes released before credits")
+		for player in ending.sound_players.values():
+			check(player.stream == null, "film SFX released before credits")
+	if beat == "escape":
 		check(not ending.seiya.visible, "Seiya gone before escape")
 		check(ending.switch_light.color == Color("ff2525") and ending.switch_lever.rotation > 0.5, "switch actuated and red lamp on")
 	if beat == "boat":
@@ -59,6 +67,20 @@ func run_check() -> void:
 	current_scene = ending
 	await process_frame
 	check(ending.cast.get_child_count() == 5, "four survivors plus Seiya")
+	check(not ResourceLoader.has_cached("res://scenes/Player.tscn"), "film does not load combat scene")
+	var cast_bytes := 0
+	for actor in [ending.akky, ending.cast.get_child(1), ending.seiya]:
+		check(not actor is CharacterBody2D, "cast has no combat physics")
+		var frames: SpriteFrames = actor.animated_character_sprite.sprite_frames
+		for clip in frames.get_animation_names():
+			for index in range(frames.get_frame_count(clip)):
+				var texture := frames.get_frame_texture(clip, index)
+				cast_bytes += texture.get_width() * texture.get_height() * 4
+	check(cast_bytes < 4 * 1024 * 1024, "hero cast stays under 4 MiB RGBA")
+	check(ending.seiya.animated_character_sprite.sprite_frames.get_frame_count("walk_forward") == 6, "Seiya keeps six authored walking frames")
+	for pose in ending.seiya.poses.walk_forward.frames:
+		check(pose.has("head"), "walking preserves head transform")
+	print("TRUE_ENDING_CAST_RGBA_BYTES ", cast_bytes)
 	var hero_height: float = ending.CAST_SCALE.hero_height(ending.akky)
 	for item in [["mio", 0.97], ["ren", 1.0]]:
 		var rescued: Sprite2D = ending.cast.get_node(String(item[0]))
@@ -94,6 +116,13 @@ func run_check() -> void:
 	current_scene.queue_free()
 	await process_frame
 	await process_frame
-	get_root().get_node("AudioManager").stop_bgm()
-	await create_timer(0.15).timeout
+	var audio := get_root().get_node("AudioManager")
+	audio.stop_bgm()
+	audio.bgm_player.stream = null
+	for sound in audio.se_players:
+		sound.stop()
+		sound.stream = null
+	await create_timer(0.3).timeout
+	# --fixed-fps can finish simulated cleanup before the audio mixer runs.
+	OS.delay_msec(250)
 	quit(0 if failures.is_empty() else 1)

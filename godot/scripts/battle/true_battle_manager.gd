@@ -98,6 +98,7 @@ func enter_game_clear() -> void:
 		fighter.ai_enabled = false
 		fighter.is_round_active = false
 		if fighter.aura_controller != null: fighter.aura_controller.cancel()
+		fighter.process_mode = Node.PROCESS_MODE_DISABLED
 	_hide_end_panel()
 	battle_ui_root.hide()
 	if mobile_controls != null: mobile_controls.hide()
@@ -105,6 +106,8 @@ func enter_game_clear() -> void:
 	set_process_input(false)
 	set_process_unhandled_input(false)
 	clear_run_save()
+	if preload("res://scripts/ui/true_ending_checkpoint.gd").save_pending() != OK:
+		push_warning("Could not save the true ending checkpoint")
 	get_node("/root/AudioManager").fade_out()
 	var cfg := ConfigFile.new()
 	if not FileAccess.file_exists("user://story_progress.cfg") or cfg.load("user://story_progress.cfg") == OK:
@@ -122,4 +125,7 @@ func enter_game_clear() -> void:
 	var tween := create_tween()
 	tween.tween_property(fade, "color:a", 1.0, 0.9)
 	await tween.finished
-	if is_inside_tree(): get_tree().change_scene_to_file("res://scenes/TrueEnding.tscn")
+	if is_inside_tree():
+		is_scene_transitioning = true
+		cleanup_battle_before_transition()
+		preload("res://scripts/ui/ending_transition.gd").new().start(get_tree(), "res://scenes/TrueEnding.tscn")
