@@ -147,7 +147,7 @@ func _enter_battle_scene(is_continue: bool) -> void:
 		var cfg := ConfigFile.new()
 		if cfg.load(RUN_SAVE_PATH) == OK:
 			var saved_scene := String(cfg.get_value("run", "scene", ""))
-			if saved_scene in ["res://scenes/TrueBattle.tscn", "res://scenes/TrueEnding.tscn"]: target_scene = saved_scene
+			if saved_scene in ["res://scenes/TrueBattle.tscn", "res://scenes/TrueEnding.tscn", "res://scenes/EndingCredits.tscn"]: target_scene = saved_scene
 			elif saved_scene == "res://scenes/Stage8Ending.tscn":
 				target_scene = saved_scene
 				var checkpoint := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
