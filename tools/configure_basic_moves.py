@@ -86,15 +86,20 @@ for n,(actor,slug) in enumerate(zip(actors,SLUGS)):
         path=f'res://data/basic_moves/{slug}/{key}.tres';paths[key]=path
         startup,active,recovery=TIMES[i];startup=round(startup*PACE[n],4);recovery=round(recovery*PACE[n],4)
         tags={'neutral_punch':['close'],'neutral_kick':['middle'],'forward_punch':['approach','punish'],'down_punch':['close','evade'],'back_punch':['anti_air'],'up_punch':['air'],'forward_kick':['middle','punish'],'down_kick':['low'],'back_kick':['evade'],'up_kick':['air']}[key]
-        # Existing neutral jab chains remain available through their original IDs.
+        # Keep each actor's existing neutral chains, including enemy strike finishers.
         next_ids=[]
-        if key=='neutral_punch':
-            first=re.search(r'path="res://data/attacks/([^\"]*punch_1\.tres)"',s)
-            if first:
-                old=(ROOT/'godot/data/attacks'/first[1]).read_text(encoding='utf-8')
+        if key in ['neutral_punch','neutral_kick']:
+            refs=dict((m[2],m[1]) for m in re.finditer(r'\[ext_resource type="Resource" path="(res://data/attacks/[^\"]+)" id="([^\"]+)"\]',s))
+            sequence=re.search(r'^attack_sequence = (.*)$',s,re.M)
+            for rid in re.findall(r'ExtResource\("([^\"]+)"\)',sequence[1] if sequence else ''):
+                if rid not in refs: continue
+                old=(ROOT/'godot'/refs[rid].removeprefix('res://')).read_text(encoding='utf-8')
+                if not re.search(r'^attack_type = "'+kind+'"$',old,re.M): continue
+                direction=re.search(r'^command_direction = "([^\"]*)"',old,re.M)
+                if direction and direction[1] not in ['', 'neutral']: continue
                 m=re.search(r'^next_attack_ids = (.*)$',old,re.M)
-                if m:
-                    next_ids=re.findall(r'"([^"]+)"',m[1])
+                if m: next_ids=re.findall(r'"([^\"]+)"',m[1])
+                break
         values={
             'attack_id':f'basic_{slug}_{key}','display_name':TITLES[n]+SUFFIXES[i],
             'attack_type':kind,'attack_category':'basic_air' if is_air else 'basic',
