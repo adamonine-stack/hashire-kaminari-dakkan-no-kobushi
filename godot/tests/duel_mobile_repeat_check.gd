@@ -85,25 +85,48 @@ func run() -> void:
 				var direction_button := controls.left_controls.get_node(direction_button_name) as Button
 				var attack_button := controls.right_controls.get_node("PunchButton" if action == "punch" else "KickButton") as Button
 				var expected := "akky_%s_%s" % [direction, action]
-				# Independent screen-touch identifiers: the direction finger never lifts.
+				var held_action := "down" if direction == "down" else ("move_right" if direction_button_name == "MoveRightButton" else "move_left")
+				# First test: an early repeat must NOT create a delayed ghost move.
 				touch(0, true, direction_button)
 				await ticks(3)
-				check(Input.is_action_pressed("down" if direction == "down" else ("move_right" if direction_button_name == "MoveRightButton" else "move_left")), "D-pad held %s %s" % [direction, action])
+				check(Input.is_action_pressed(held_action), "D-pad held %s %s" % [direction, action])
 				touch(1, true, attack_button)
 				await ticks(3)
 				touch(1, false, attack_button)
 				check(started.size() == 1 and started[0] == expected, "first attack %s / facing %s / got %s" % [expected, facing, started])
-				# A rapid second tap occurs during the first attack animation.
 				touch(1, true, attack_button)
 				await ticks(3)
 				touch(1, false, attack_button)
-				await ticks(8)
-				check(started.size() == 1, "animation not cancelled %s / facing %s" % [expected, facing])
 				await ticks(90)
-				check(started.size() == 2 and started[0] == expected and started[1] == expected, "two full directional attacks %s / facing %s / got %s" % [expected, facing, started])
+				check(started.size() == 1, "early repeat discarded %s facing %s got %s" % [expected, facing, started])
 				touch(0, false, direction_button)
 				await ticks(3)
-				check(not Input.is_action_pressed("down" if direction == "down" else ("move_right" if direction_button_name == "MoveRightButton" else "move_left")), "D-pad releases %s" % direction)
+				check(not Input.is_action_pressed(held_action), "D-pad released early case %s" % direction)
+
+				# Second test: one new press in the last 120ms of recovery
+				# must start exactly one new full animation after the old one.
+				await reset_pair(facing)
+				touch(0, true, direction_button)
+				await ticks(3)
+				touch(1, true, attack_button)
+				await ticks(3)
+				touch(1, false, attack_button)
+				check(started.size() == 1 and started[0] == expected, "late case starts first %s" % expected)
+				var waited := 0
+				while player.current_attack_type != "" and (player.attack_phase != player.AttackPhase.RECOVERY or player.attack_phase_timer > 0.08) and waited < 180:
+					await ticks(1)
+					waited += 1
+				check(player.current_attack_type != "" and player.attack_phase == player.AttackPhase.RECOVERY and player.attack_phase_timer > 0.0, "recovery window reached %s" % expected)
+				touch(1, true, attack_button)
+				await ticks(2)
+				touch(1, false, attack_button)
+				check(started.size() == 1, "no animation self-cancel %s" % expected)
+				await ticks(15)
+				check(started.size() == 2 and started[0] == expected and started[1] == expected, "late repeat starts after recovery %s facing %s got %s" % [expected, facing, started])
+				touch(0, false, direction_button)
+				await ticks(90)
+				check(started.size() == 2, "no late phantom repeat %s got %s" % [expected, started])
+				check(not Input.is_action_pressed(held_action), "D-pad releases %s" % direction)
 	controls.release_all_touch_inputs()
 	print("DUEL_MOBILE_REPEAT_CHECK failures=", failures)
 	manager.cleanup_battle_before_transition()
