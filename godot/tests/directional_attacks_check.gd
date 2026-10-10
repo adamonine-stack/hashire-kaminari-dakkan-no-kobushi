@@ -80,6 +80,9 @@ func run() -> void:
  for facing in [1.0,-1.0]:
   for key in cases:
    for hold in [false,true]:
+    # Each synthetic test must start with the mobile pulse coroutine reset.
+    # Otherwise a previous tap's deferred release can delay this case.
+    mobile.release_all_touch_inputs()
     reset_pair()
     player.facing_direction = facing
     var direction: String = key.split("_")[0]

@@ -4,6 +4,7 @@ const PlayerAttackDataScript := preload("res://scripts/data/player_attack_data.g
 const CombatCommandBufferScript := preload("res://scripts/input/combat_command_buffer.gd")
 
 @export_range(0.10, 0.18, 0.01) var directional_input_buffer_seconds := 0.15
+@export_range(0.06, 0.15, 0.01) var directional_repeat_grace_seconds := 0.12
 var combat_commands := CombatCommandBufferScript.new()
 var last_combat_command: Dictionary = {}
 var command_attack_elapsed := 0.0
@@ -210,8 +211,15 @@ func _dispatch_combat_command() -> void:
 		return
 	var move_id := _resolve_directional_move(command)
 	if not move_id.is_empty():
-		# A directional command never falls back to a normal attack when its
-		# recovery/cancel rules prevent execution.
+		if current_attack_type != "" and move_id == current_attack_id:
+			# Street Fighter-like control: never cancel a move into itself.
+			# Only a fresh tap in the final 120 ms may fire on recovery.
+			# Older taps are dropped, never stacked for later execution.
+			if attack_phase != AttackPhase.RECOVERY or attack_phase_timer > directional_repeat_grace_seconds:
+				combat_commands.consume(command)
+			return
+		# Keep the existing explicitly authored cancel rules for DIFFERENT
+		# moves, but do not add new animation cancellations for repeats.
 		if _request_directional_move(move_id):
 			combat_commands.consume(command)
 		return

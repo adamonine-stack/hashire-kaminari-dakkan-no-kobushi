@@ -121,6 +121,8 @@ func run() -> void:
  for facing in [1.0,-1.0]:
   for direction in ["forward","back","down"]:
    for hold in [false,true]:
+    # Synthetic cases must not inherit a prior touch-tap coroutine.
+    mobile.release_all_touch_inputs()
     reset_pair(facing)
     var button_name := "CrouchButton" if direction == "down" else ("MoveRightButton" if (direction == "forward") == (facing > 0) else "MoveLeftButton")
     var button: Button = mobile.left_controls.get_node(button_name)
