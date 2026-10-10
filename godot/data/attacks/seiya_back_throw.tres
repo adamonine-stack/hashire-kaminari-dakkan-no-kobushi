@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "seiya_back_throw"
-display_name = "SEIYA back throw"
+display_name = "燕返し投げ"
 attack_type = "throw"
 command_direction = "back"
 command_priority = 200

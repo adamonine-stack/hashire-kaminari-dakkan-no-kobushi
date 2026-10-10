@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "gou_back_throw"
-display_name = "GOU back throw"
+display_name = "岩崩し返し"
 attack_type = "throw"
 command_direction = "back"
 command_priority = 200

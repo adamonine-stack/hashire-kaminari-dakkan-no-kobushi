@@ -1,6 +1,9 @@
 extends Resource
 class_name FighterDefinition
 
+## Eight basic controls; path-backed resources preserve lazy character loading.
+@export var basic_move_paths: Dictionary = {}
+
 ## Directional-throw resistance complements the existing AI throw escape rate.
 ## Default preserves saved definitions and existing balance.
 @export_range(0.25, 1.0, 0.05) var throw_received_damage_scale: float = 1.0
@@ -124,9 +127,7 @@ static var _active_player_motion_atlas_path := ""
 @export var extra_motion_atlas_paths: Array[String] = []
 @export var extra_motion_atlases: Array[Resource] = []:
 	get:
-		if not extra_motion_atlases.is_empty():
-			return extra_motion_atlases
-		var loaded_atlases: Array[Resource] = []
+		var loaded_atlases: Array[Resource] = extra_motion_atlases.duplicate()
 		for atlas_path in extra_motion_atlas_paths:
 			if atlas_path.is_empty():
 				continue
@@ -223,3 +224,6 @@ static var _active_player_motion_atlas_path := ""
 @export_range(1, 5) var health_rating: int = 3
 @export_range(1, 5) var throw_rating: int = 3
 @export_range(1, 5) var combo_rating: int = 3
+
+## Sequences preserve authored source textures and their scale metadata.
+@export var original_motion_sequences: Dictionary = {}

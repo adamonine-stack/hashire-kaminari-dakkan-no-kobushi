@@ -1,0 +1,1682 @@
+[
+	{
+		"actor": "player_01_akky",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 15.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 14.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 15.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 14.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 16.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 15.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 14.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 15.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 14.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "player_01_akky",
+		"damage": 16.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 14.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 12.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 13.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 13.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 22.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 20.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 21.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 20.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 23.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 14.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 12.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 13.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 13.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 22.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 20.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 21.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 20.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "player_02_gou",
+		"damage": 23.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 13.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 12.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 13.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 12.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 14.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 13.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 12.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 13.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 12.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "player_03_seiya",
+		"damage": 14.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 12.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_01_crusher",
+		"damage": 12.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_02_shadow_boxer",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 3.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_03_masato_takahashi",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 12.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_04_rei_kageyama",
+		"damage": 12.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 7.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 7.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_05_cross_murasame",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 8.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 4.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 8.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_06_rio_flick_garcia",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 9.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 6.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 9.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_07_teki_fighter",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 11.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 10.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 12.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 5.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 11.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 10.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_08_leon_crow",
+		"damage": 12.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 14.0,
+		"facing": 1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 16.0,
+		"facing": 1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 14.0,
+		"facing": 1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 15.0,
+		"facing": 1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 15.0,
+		"facing": 1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 26.0,
+		"facing": 1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 24.0,
+		"facing": 1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 25.0,
+		"facing": 1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 24.0,
+		"facing": 1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 28.0,
+		"facing": 1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 14.0,
+		"facing": -1.0,
+		"key": "neutral_punch",
+		"source": "basic_neutral_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 16.0,
+		"facing": -1.0,
+		"key": "forward_punch",
+		"source": "basic_forward_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 14.0,
+		"facing": -1.0,
+		"key": "down_punch",
+		"source": "basic_down_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 15.0,
+		"facing": -1.0,
+		"key": "back_punch",
+		"source": "basic_back_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 15.0,
+		"facing": -1.0,
+		"key": "up_punch",
+		"source": "basic_up_punch"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 26.0,
+		"facing": -1.0,
+		"key": "neutral_kick",
+		"source": "basic_neutral_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 24.0,
+		"facing": -1.0,
+		"key": "forward_kick",
+		"source": "basic_forward_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 25.0,
+		"facing": -1.0,
+		"key": "down_kick",
+		"source": "basic_down_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 24.0,
+		"facing": -1.0,
+		"key": "back_kick",
+		"source": "basic_back_kick"
+	},
+	{
+		"actor": "enemy_09_seiya",
+		"damage": 28.0,
+		"facing": -1.0,
+		"key": "up_kick",
+		"source": "basic_up_kick"
+	}
+]

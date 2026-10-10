@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "seiya_forward_throw"
-display_name = "SEIYA forward throw"
+display_name = "疾風送り"
 attack_type = "throw"
 command_direction = "forward"
 command_priority = 200

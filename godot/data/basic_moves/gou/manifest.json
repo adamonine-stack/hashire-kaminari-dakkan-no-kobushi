@@ -1,0 +1,115 @@
+{
+  "actor": "player_02_gou",
+  "moves": [
+    {
+      "key": "neutral_punch",
+      "source": "punch_1",
+      "contact": 2,
+      "offset": [
+        116.8,
+        -118.03
+      ],
+      "startup": 0.069,
+      "recovery": 0.1725
+    },
+    {
+      "key": "forward_punch",
+      "source": "gou_forward_punch",
+      "contact": 2,
+      "offset": [
+        52.69,
+        -121.11
+      ],
+      "startup": 0.092,
+      "recovery": 0.207
+    },
+    {
+      "key": "down_punch",
+      "source": "crouch_punch",
+      "contact": 2,
+      "offset": [
+        109.78,
+        -84.4
+      ],
+      "startup": 0.1035,
+      "recovery": 0.1955
+    },
+    {
+      "key": "back_punch",
+      "source": "gou_back_punch",
+      "contact": 2,
+      "offset": [
+        -2.2,
+        -195.85
+      ],
+      "startup": 0.138,
+      "recovery": 0.253
+    },
+    {
+      "key": "up_punch",
+      "source": "gou_air_punch",
+      "contact": 2,
+      "offset": [
+        52.69,
+        -97.34
+      ],
+      "startup": 0.1495,
+      "recovery": 0.207
+    },
+    {
+      "key": "neutral_kick",
+      "source": "kick_1",
+      "contact": 2,
+      "offset": [
+        98.36,
+        -112.76
+      ],
+      "startup": 0.1725,
+      "recovery": 0.3565
+    },
+    {
+      "key": "forward_kick",
+      "source": "gou_forward_kick",
+      "contact": 2,
+      "offset": [
+        57.09,
+        -104.33
+      ],
+      "startup": 0.1265,
+      "recovery": 0.345
+    },
+    {
+      "key": "down_kick",
+      "source": "crouch_kick_sweep",
+      "contact": 2,
+      "offset": [
+        120.32,
+        -24.34
+      ],
+      "startup": 0.184,
+      "recovery": 0.4025
+    },
+    {
+      "key": "back_kick",
+      "source": "gou_back_kick",
+      "contact": 2,
+      "offset": [
+        63.23,
+        -106.44
+      ],
+      "startup": 0.184,
+      "recovery": 0.391
+    },
+    {
+      "key": "up_kick",
+      "source": "gou_air_kick",
+      "contact": 2,
+      "offset": [
+        61.48,
+        -103.42
+      ],
+      "startup": 0.184,
+      "recovery": 0.3795
+    }
+  ]
+}

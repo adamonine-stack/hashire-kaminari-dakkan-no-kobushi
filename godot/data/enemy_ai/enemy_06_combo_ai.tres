@@ -61,3 +61,5 @@ can_combo = true
 can_feint = false
 can_request_special_attack = false
 can_jump = true
+
+use_situation_moves = true

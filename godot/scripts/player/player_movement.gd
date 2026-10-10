@@ -2914,7 +2914,7 @@ func _get_current_visual_animation() -> StringName:
 		return last_damage_animation
 	if _is_landing_recovery_busy() and _has_visual_animation(landing_recovery_animation):
 		return landing_recovery_animation
-	if current_attack_data != null and not String(current_attack_data.command_direction).is_empty() and current_attack_type in ["Punch", "Kick"] and _has_visual_animation(StringName(current_attack_data.animation_name)):
+	if current_attack_data != null and (not String(current_attack_data.command_direction).is_empty() or current_attack_data.attack_category in ["basic", "basic_air"]) and current_attack_type in ["Punch", "Kick"] and _has_visual_animation(StringName(current_attack_data.animation_name)):
 		return StringName(current_attack_data.animation_name)
 	if _is_cross_grappler() and current_attack_data != null and current_attack_type in ["Punch", "Kick"]:
 		return StringName(current_attack_data.animation_name)

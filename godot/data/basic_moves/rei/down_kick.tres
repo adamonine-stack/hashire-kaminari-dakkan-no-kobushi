@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="PlayerAttackData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/player_attack_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+attack_id = "basic_rei_down_kick"
+display_name = "昇龍足払い"
+attack_type = "kick"
+attack_category = "basic"
+command_direction = "down"
+command_priority = 100
+ground_only = true
+airborne_only = false
+jump_on_start = false
+crouch_on_start = true
+base_damage = 1.05
+startup_time = 0.1728
+active_time = 0.1
+recovery_time = 0.378
+hitbox_size = Vector2(46, 32)
+hitbox_offset = Vector2(76.11, -26.28)
+forward_move_distance = 0
+forward_move_duration = 0
+knockback = Vector2(135, 0)
+launch_velocity = Vector2(0, 0)
+hit_reaction = &"damage_low"
+knockdown = true
+hitstop_time = 0.06
+hitstun_time = 0.3
+is_guardable = true
+attack_height = "low"
+guard_knockback = Vector2(35, 0)
+guard_hit_time = 0.17
+hurtbox_height_scale = 0.55
+hurtbox_start = 0.0
+hurtbox_end = 0.6508
+landing_recovery = 0.0
+animation_name = "basic_down_kick"
+contact_start_frame = 1
+contact_end_frame = 1
+can_cancel_on_hit = false
+can_cancel_on_whiff = false
+combo_input_start = 0.27280000000000004
+combo_input_end = 0.6508
+ai_distance_min = 0.0
+ai_distance_max = 121
+next_attack_ids = Array[String]([])
+ai_tags = Array[String](["low"])

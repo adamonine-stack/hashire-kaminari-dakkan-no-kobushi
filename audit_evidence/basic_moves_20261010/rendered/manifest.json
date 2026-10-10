@@ -1,0 +1,1913 @@
+[
+	{
+		"active": 0.07,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__neutral_punch__00.png",
+			"player_01_akky__neutral_punch__01.png",
+			"player_01_akky__neutral_punch__02.png",
+			"player_01_akky__neutral_punch__03.png",
+			"player_01_akky__neutral_punch__04.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.15,
+		"startup": 0.06,
+		"title": "雷ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__forward_punch__00.png",
+			"player_01_akky__forward_punch__01.png",
+			"player_01_akky__forward_punch__02.png",
+			"player_01_akky__forward_punch__03.png",
+			"player_01_akky__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.18,
+		"startup": 0.08,
+		"title": "雷踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__down_punch__00.png",
+			"player_01_akky__down_punch__01.png",
+			"player_01_akky__down_punch__02.png",
+			"player_01_akky__down_punch__03.png",
+			"player_01_akky__down_punch__04.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.17,
+		"startup": 0.09,
+		"title": "雷低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__back_punch__00.png",
+			"player_01_akky__back_punch__01.png",
+			"player_01_akky__back_punch__02.png",
+			"player_01_akky__back_punch__03.png",
+			"player_01_akky__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.22,
+		"startup": 0.12,
+		"title": "雷かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__up_punch__00.png",
+			"player_01_akky__up_punch__01.png",
+			"player_01_akky__up_punch__02.png",
+			"player_01_akky__up_punch__03.png",
+			"player_01_akky__up_punch__04.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.18,
+		"startup": 0.13,
+		"title": "雷飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__neutral_kick__00.png",
+			"player_01_akky__neutral_kick__01.png",
+			"player_01_akky__neutral_kick__02.png",
+			"player_01_akky__neutral_kick__03.png",
+			"player_01_akky__neutral_kick__04.png",
+			"player_01_akky__neutral_kick__05.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.31,
+		"startup": 0.15,
+		"title": "雷前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__forward_kick__00.png",
+			"player_01_akky__forward_kick__01.png",
+			"player_01_akky__forward_kick__02.png",
+			"player_01_akky__forward_kick__03.png",
+			"player_01_akky__forward_kick__04.png",
+			"player_01_akky__forward_kick__05.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.3,
+		"startup": 0.11,
+		"title": "雷速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__down_kick__00.png",
+			"player_01_akky__down_kick__01.png",
+			"player_01_akky__down_kick__02.png",
+			"player_01_akky__down_kick__03.png",
+			"player_01_akky__down_kick__04.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.35,
+		"startup": 0.16,
+		"title": "雷足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__back_kick__00.png",
+			"player_01_akky__back_kick__01.png",
+			"player_01_akky__back_kick__02.png",
+			"player_01_akky__back_kick__03.png",
+			"player_01_akky__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.34,
+		"startup": 0.16,
+		"title": "雷押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "player_01_akky",
+		"contact": 2,
+		"frames": [
+			"player_01_akky__up_kick__00.png",
+			"player_01_akky__up_kick__01.png",
+			"player_01_akky__up_kick__02.png",
+			"player_01_akky__up_kick__03.png",
+			"player_01_akky__up_kick__04.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.33,
+		"startup": 0.16,
+		"title": "雷飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__neutral_punch__00.png",
+			"player_02_gou__neutral_punch__01.png",
+			"player_02_gou__neutral_punch__02.png",
+			"player_02_gou__neutral_punch__03.png",
+			"player_02_gou__neutral_punch__04.png",
+			"player_02_gou__neutral_punch__05.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.1725,
+		"startup": 0.069,
+		"title": "剛ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__forward_punch__00.png",
+			"player_02_gou__forward_punch__01.png",
+			"player_02_gou__forward_punch__02.png",
+			"player_02_gou__forward_punch__03.png",
+			"player_02_gou__forward_punch__04.png",
+			"player_02_gou__forward_punch__05.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.207,
+		"startup": 0.092,
+		"title": "剛踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__down_punch__00.png",
+			"player_02_gou__down_punch__01.png",
+			"player_02_gou__down_punch__02.png",
+			"player_02_gou__down_punch__03.png",
+			"player_02_gou__down_punch__04.png",
+			"player_02_gou__down_punch__05.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1955,
+		"startup": 0.1035,
+		"title": "剛低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__back_punch__00.png",
+			"player_02_gou__back_punch__01.png",
+			"player_02_gou__back_punch__02.png",
+			"player_02_gou__back_punch__03.png",
+			"player_02_gou__back_punch__04.png",
+			"player_02_gou__back_punch__05.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.253,
+		"startup": 0.138,
+		"title": "剛かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__up_punch__00.png",
+			"player_02_gou__up_punch__01.png",
+			"player_02_gou__up_punch__02.png",
+			"player_02_gou__up_punch__03.png",
+			"player_02_gou__up_punch__04.png",
+			"player_02_gou__up_punch__05.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.207,
+		"startup": 0.1495,
+		"title": "剛飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__neutral_kick__00.png",
+			"player_02_gou__neutral_kick__01.png",
+			"player_02_gou__neutral_kick__02.png",
+			"player_02_gou__neutral_kick__03.png",
+			"player_02_gou__neutral_kick__04.png",
+			"player_02_gou__neutral_kick__05.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.3565,
+		"startup": 0.1725,
+		"title": "剛前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__forward_kick__00.png",
+			"player_02_gou__forward_kick__01.png",
+			"player_02_gou__forward_kick__02.png",
+			"player_02_gou__forward_kick__03.png",
+			"player_02_gou__forward_kick__04.png",
+			"player_02_gou__forward_kick__05.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.345,
+		"startup": 0.1265,
+		"title": "剛速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__down_kick__00.png",
+			"player_02_gou__down_kick__01.png",
+			"player_02_gou__down_kick__02.png",
+			"player_02_gou__down_kick__03.png",
+			"player_02_gou__down_kick__04.png",
+			"player_02_gou__down_kick__05.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.4025,
+		"startup": 0.184,
+		"title": "剛足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__back_kick__00.png",
+			"player_02_gou__back_kick__01.png",
+			"player_02_gou__back_kick__02.png",
+			"player_02_gou__back_kick__03.png",
+			"player_02_gou__back_kick__04.png",
+			"player_02_gou__back_kick__05.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.391,
+		"startup": 0.184,
+		"title": "剛押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "player_02_gou",
+		"contact": 2,
+		"frames": [
+			"player_02_gou__up_kick__00.png",
+			"player_02_gou__up_kick__01.png",
+			"player_02_gou__up_kick__02.png",
+			"player_02_gou__up_kick__03.png",
+			"player_02_gou__up_kick__04.png",
+			"player_02_gou__up_kick__05.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.3795,
+		"startup": 0.184,
+		"title": "剛飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__neutral_punch__00.png",
+			"player_03_seiya__neutral_punch__01.png",
+			"player_03_seiya__neutral_punch__02.png",
+			"player_03_seiya__neutral_punch__03.png",
+			"player_03_seiya__neutral_punch__04.png",
+			"player_03_seiya__neutral_punch__05.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.123,
+		"startup": 0.0492,
+		"title": "閃ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__forward_punch__00.png",
+			"player_03_seiya__forward_punch__01.png",
+			"player_03_seiya__forward_punch__02.png",
+			"player_03_seiya__forward_punch__03.png",
+			"player_03_seiya__forward_punch__04.png",
+			"player_03_seiya__forward_punch__05.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.1476,
+		"startup": 0.0656,
+		"title": "閃踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__down_punch__00.png",
+			"player_03_seiya__down_punch__01.png",
+			"player_03_seiya__down_punch__02.png",
+			"player_03_seiya__down_punch__03.png",
+			"player_03_seiya__down_punch__04.png",
+			"player_03_seiya__down_punch__05.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1394,
+		"startup": 0.0738,
+		"title": "閃低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__back_punch__00.png",
+			"player_03_seiya__back_punch__01.png",
+			"player_03_seiya__back_punch__02.png",
+			"player_03_seiya__back_punch__03.png",
+			"player_03_seiya__back_punch__04.png",
+			"player_03_seiya__back_punch__05.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.1804,
+		"startup": 0.0984,
+		"title": "閃かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__up_punch__00.png",
+			"player_03_seiya__up_punch__01.png",
+			"player_03_seiya__up_punch__02.png",
+			"player_03_seiya__up_punch__03.png",
+			"player_03_seiya__up_punch__04.png",
+			"player_03_seiya__up_punch__05.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.1476,
+		"startup": 0.1066,
+		"title": "閃飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__neutral_kick__00.png",
+			"player_03_seiya__neutral_kick__01.png",
+			"player_03_seiya__neutral_kick__02.png",
+			"player_03_seiya__neutral_kick__03.png",
+			"player_03_seiya__neutral_kick__04.png",
+			"player_03_seiya__neutral_kick__05.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.2542,
+		"startup": 0.123,
+		"title": "閃前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__forward_kick__00.png",
+			"player_03_seiya__forward_kick__01.png",
+			"player_03_seiya__forward_kick__02.png",
+			"player_03_seiya__forward_kick__03.png",
+			"player_03_seiya__forward_kick__04.png",
+			"player_03_seiya__forward_kick__05.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.246,
+		"startup": 0.0902,
+		"title": "閃速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__down_kick__00.png",
+			"player_03_seiya__down_kick__01.png",
+			"player_03_seiya__down_kick__02.png",
+			"player_03_seiya__down_kick__03.png",
+			"player_03_seiya__down_kick__04.png",
+			"player_03_seiya__down_kick__05.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.287,
+		"startup": 0.1312,
+		"title": "閃足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__back_kick__00.png",
+			"player_03_seiya__back_kick__01.png",
+			"player_03_seiya__back_kick__02.png",
+			"player_03_seiya__back_kick__03.png",
+			"player_03_seiya__back_kick__04.png",
+			"player_03_seiya__back_kick__05.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.2788,
+		"startup": 0.1312,
+		"title": "閃押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "player_03_seiya",
+		"contact": 2,
+		"frames": [
+			"player_03_seiya__up_kick__00.png",
+			"player_03_seiya__up_kick__01.png",
+			"player_03_seiya__up_kick__02.png",
+			"player_03_seiya__up_kick__03.png",
+			"player_03_seiya__up_kick__04.png",
+			"player_03_seiya__up_kick__05.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.2706,
+		"startup": 0.1312,
+		"title": "閃飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_01_crusher",
+		"contact": 1,
+		"frames": [
+			"enemy_01_crusher__neutral_punch__00.png",
+			"enemy_01_crusher__neutral_punch__01.png",
+			"enemy_01_crusher__neutral_punch__02.png",
+			"enemy_01_crusher__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.1875,
+		"startup": 0.075,
+		"title": "鉄塊ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_01_crusher",
+		"contact": 2,
+		"frames": [
+			"enemy_01_crusher__forward_punch__00.png",
+			"enemy_01_crusher__forward_punch__01.png",
+			"enemy_01_crusher__forward_punch__02.png",
+			"enemy_01_crusher__forward_punch__03.png",
+			"enemy_01_crusher__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.225,
+		"startup": 0.1,
+		"title": "鉄塊踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_01_crusher",
+		"contact": 1,
+		"frames": [
+			"enemy_01_crusher__down_punch__00.png",
+			"enemy_01_crusher__down_punch__01.png",
+			"enemy_01_crusher__down_punch__02.png",
+			"enemy_01_crusher__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.2125,
+		"startup": 0.1125,
+		"title": "鉄塊低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_01_crusher",
+		"contact": 2,
+		"frames": [
+			"enemy_01_crusher__back_punch__00.png",
+			"enemy_01_crusher__back_punch__01.png",
+			"enemy_01_crusher__back_punch__02.png",
+			"enemy_01_crusher__back_punch__03.png",
+			"enemy_01_crusher__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.275,
+		"startup": 0.15,
+		"title": "鉄塊かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_01_crusher",
+		"contact": 2,
+		"frames": [
+			"enemy_01_crusher__up_punch__00.png",
+			"enemy_01_crusher__up_punch__01.png",
+			"enemy_01_crusher__up_punch__02.png",
+			"enemy_01_crusher__up_punch__03.png",
+			"enemy_01_crusher__up_punch__04.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.225,
+		"startup": 0.1625,
+		"title": "鉄塊飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_01_crusher",
+		"contact": 1,
+		"frames": [
+			"enemy_01_crusher__neutral_kick__00.png",
+			"enemy_01_crusher__neutral_kick__01.png",
+			"enemy_01_crusher__neutral_kick__02.png",
+			"enemy_01_crusher__neutral_kick__03.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.3875,
+		"startup": 0.1875,
+		"title": "鉄塊前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_01_crusher",
+		"contact": 2,
+		"frames": [
+			"enemy_01_crusher__forward_kick__00.png",
+			"enemy_01_crusher__forward_kick__01.png",
+			"enemy_01_crusher__forward_kick__02.png",
+			"enemy_01_crusher__forward_kick__03.png",
+			"enemy_01_crusher__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.375,
+		"startup": 0.1375,
+		"title": "鉄塊速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_01_crusher",
+		"contact": 1,
+		"frames": [
+			"enemy_01_crusher__down_kick__00.png",
+			"enemy_01_crusher__down_kick__01.png",
+			"enemy_01_crusher__down_kick__02.png",
+			"enemy_01_crusher__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.4375,
+		"startup": 0.2,
+		"title": "鉄塊足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_01_crusher",
+		"contact": 2,
+		"frames": [
+			"enemy_01_crusher__back_kick__00.png",
+			"enemy_01_crusher__back_kick__01.png",
+			"enemy_01_crusher__back_kick__02.png",
+			"enemy_01_crusher__back_kick__03.png",
+			"enemy_01_crusher__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.425,
+		"startup": 0.2,
+		"title": "鉄塊押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_01_crusher",
+		"contact": 2,
+		"frames": [
+			"enemy_01_crusher__up_kick__00.png",
+			"enemy_01_crusher__up_kick__01.png",
+			"enemy_01_crusher__up_kick__02.png",
+			"enemy_01_crusher__up_kick__03.png",
+			"enemy_01_crusher__up_kick__04.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.4125,
+		"startup": 0.2,
+		"title": "鉄塊飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 1,
+		"frames": [
+			"enemy_02_shadow_boxer__neutral_punch__00.png",
+			"enemy_02_shadow_boxer__neutral_punch__01.png",
+			"enemy_02_shadow_boxer__neutral_punch__02.png",
+			"enemy_02_shadow_boxer__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.12,
+		"startup": 0.048,
+		"title": "影ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__forward_punch__00.png",
+			"enemy_02_shadow_boxer__forward_punch__01.png",
+			"enemy_02_shadow_boxer__forward_punch__02.png",
+			"enemy_02_shadow_boxer__forward_punch__03.png",
+			"enemy_02_shadow_boxer__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.144,
+		"startup": 0.064,
+		"title": "影踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__down_punch__00.png",
+			"enemy_02_shadow_boxer__down_punch__01.png",
+			"enemy_02_shadow_boxer__down_punch__02.png",
+			"enemy_02_shadow_boxer__down_punch__03.png",
+			"enemy_02_shadow_boxer__down_punch__04.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.136,
+		"startup": 0.072,
+		"title": "影低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__back_punch__00.png",
+			"enemy_02_shadow_boxer__back_punch__01.png",
+			"enemy_02_shadow_boxer__back_punch__02.png",
+			"enemy_02_shadow_boxer__back_punch__03.png",
+			"enemy_02_shadow_boxer__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.176,
+		"startup": 0.096,
+		"title": "影かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__up_punch__00.png",
+			"enemy_02_shadow_boxer__up_punch__01.png",
+			"enemy_02_shadow_boxer__up_punch__02.png",
+			"enemy_02_shadow_boxer__up_punch__03.png",
+			"enemy_02_shadow_boxer__up_punch__04.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.144,
+		"startup": 0.104,
+		"title": "影飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__neutral_kick__00.png",
+			"enemy_02_shadow_boxer__neutral_kick__01.png",
+			"enemy_02_shadow_boxer__neutral_kick__02.png",
+			"enemy_02_shadow_boxer__neutral_kick__03.png",
+			"enemy_02_shadow_boxer__neutral_kick__04.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.248,
+		"startup": 0.12,
+		"title": "影前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__forward_kick__00.png",
+			"enemy_02_shadow_boxer__forward_kick__01.png",
+			"enemy_02_shadow_boxer__forward_kick__02.png",
+			"enemy_02_shadow_boxer__forward_kick__03.png",
+			"enemy_02_shadow_boxer__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.24,
+		"startup": 0.088,
+		"title": "影速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 1,
+		"frames": [
+			"enemy_02_shadow_boxer__down_kick__00.png",
+			"enemy_02_shadow_boxer__down_kick__01.png",
+			"enemy_02_shadow_boxer__down_kick__02.png",
+			"enemy_02_shadow_boxer__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.28,
+		"startup": 0.128,
+		"title": "影足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 2,
+		"frames": [
+			"enemy_02_shadow_boxer__back_kick__00.png",
+			"enemy_02_shadow_boxer__back_kick__01.png",
+			"enemy_02_shadow_boxer__back_kick__02.png",
+			"enemy_02_shadow_boxer__back_kick__03.png",
+			"enemy_02_shadow_boxer__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.272,
+		"startup": 0.128,
+		"title": "影押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_02_shadow_boxer",
+		"contact": 1,
+		"frames": [
+			"enemy_02_shadow_boxer__up_kick__00.png",
+			"enemy_02_shadow_boxer__up_kick__01.png",
+			"enemy_02_shadow_boxer__up_kick__02.png",
+			"enemy_02_shadow_boxer__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.264,
+		"startup": 0.128,
+		"title": "影飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 1,
+		"frames": [
+			"enemy_03_masato_takahashi__neutral_punch__00.png",
+			"enemy_03_masato_takahashi__neutral_punch__01.png",
+			"enemy_03_masato_takahashi__neutral_punch__02.png",
+			"enemy_03_masato_takahashi__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.168,
+		"startup": 0.0672,
+		"title": "静ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 2,
+		"frames": [
+			"enemy_03_masato_takahashi__forward_punch__00.png",
+			"enemy_03_masato_takahashi__forward_punch__01.png",
+			"enemy_03_masato_takahashi__forward_punch__02.png",
+			"enemy_03_masato_takahashi__forward_punch__03.png",
+			"enemy_03_masato_takahashi__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.2016,
+		"startup": 0.0896,
+		"title": "静踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 1,
+		"frames": [
+			"enemy_03_masato_takahashi__down_punch__00.png",
+			"enemy_03_masato_takahashi__down_punch__01.png",
+			"enemy_03_masato_takahashi__down_punch__02.png",
+			"enemy_03_masato_takahashi__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1904,
+		"startup": 0.1008,
+		"title": "静低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 2,
+		"frames": [
+			"enemy_03_masato_takahashi__back_punch__00.png",
+			"enemy_03_masato_takahashi__back_punch__01.png",
+			"enemy_03_masato_takahashi__back_punch__02.png",
+			"enemy_03_masato_takahashi__back_punch__03.png",
+			"enemy_03_masato_takahashi__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.2464,
+		"startup": 0.1344,
+		"title": "静かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 2,
+		"frames": [
+			"enemy_03_masato_takahashi__up_punch__00.png",
+			"enemy_03_masato_takahashi__up_punch__01.png",
+			"enemy_03_masato_takahashi__up_punch__02.png",
+			"enemy_03_masato_takahashi__up_punch__03.png",
+			"enemy_03_masato_takahashi__up_punch__04.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.2016,
+		"startup": 0.1456,
+		"title": "静飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 2,
+		"frames": [
+			"enemy_03_masato_takahashi__neutral_kick__00.png",
+			"enemy_03_masato_takahashi__neutral_kick__01.png",
+			"enemy_03_masato_takahashi__neutral_kick__02.png",
+			"enemy_03_masato_takahashi__neutral_kick__03.png",
+			"enemy_03_masato_takahashi__neutral_kick__04.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.3472,
+		"startup": 0.168,
+		"title": "静前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 2,
+		"frames": [
+			"enemy_03_masato_takahashi__forward_kick__00.png",
+			"enemy_03_masato_takahashi__forward_kick__01.png",
+			"enemy_03_masato_takahashi__forward_kick__02.png",
+			"enemy_03_masato_takahashi__forward_kick__03.png",
+			"enemy_03_masato_takahashi__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.336,
+		"startup": 0.1232,
+		"title": "静速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 1,
+		"frames": [
+			"enemy_03_masato_takahashi__down_kick__00.png",
+			"enemy_03_masato_takahashi__down_kick__01.png",
+			"enemy_03_masato_takahashi__down_kick__02.png",
+			"enemy_03_masato_takahashi__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.392,
+		"startup": 0.1792,
+		"title": "静足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 2,
+		"frames": [
+			"enemy_03_masato_takahashi__back_kick__00.png",
+			"enemy_03_masato_takahashi__back_kick__01.png",
+			"enemy_03_masato_takahashi__back_kick__02.png",
+			"enemy_03_masato_takahashi__back_kick__03.png",
+			"enemy_03_masato_takahashi__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.3808,
+		"startup": 0.1792,
+		"title": "静押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_03_masato_takahashi",
+		"contact": 1,
+		"frames": [
+			"enemy_03_masato_takahashi__up_kick__00.png",
+			"enemy_03_masato_takahashi__up_kick__01.png",
+			"enemy_03_masato_takahashi__up_kick__02.png",
+			"enemy_03_masato_takahashi__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.3696,
+		"startup": 0.1792,
+		"title": "静飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 1,
+		"frames": [
+			"enemy_04_rei_kageyama__neutral_punch__00.png",
+			"enemy_04_rei_kageyama__neutral_punch__01.png",
+			"enemy_04_rei_kageyama__neutral_punch__02.png",
+			"enemy_04_rei_kageyama__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.162,
+		"startup": 0.0648,
+		"title": "昇龍ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 2,
+		"frames": [
+			"enemy_04_rei_kageyama__forward_punch__00.png",
+			"enemy_04_rei_kageyama__forward_punch__01.png",
+			"enemy_04_rei_kageyama__forward_punch__02.png",
+			"enemy_04_rei_kageyama__forward_punch__03.png",
+			"enemy_04_rei_kageyama__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.1944,
+		"startup": 0.0864,
+		"title": "昇龍踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 1,
+		"frames": [
+			"enemy_04_rei_kageyama__down_punch__00.png",
+			"enemy_04_rei_kageyama__down_punch__01.png",
+			"enemy_04_rei_kageyama__down_punch__02.png",
+			"enemy_04_rei_kageyama__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1836,
+		"startup": 0.0972,
+		"title": "昇龍低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 2,
+		"frames": [
+			"enemy_04_rei_kageyama__back_punch__00.png",
+			"enemy_04_rei_kageyama__back_punch__01.png",
+			"enemy_04_rei_kageyama__back_punch__02.png",
+			"enemy_04_rei_kageyama__back_punch__03.png",
+			"enemy_04_rei_kageyama__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.2376,
+		"startup": 0.1296,
+		"title": "昇龍かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 1,
+		"frames": [
+			"enemy_04_rei_kageyama__up_punch__00.png",
+			"enemy_04_rei_kageyama__up_punch__01.png",
+			"enemy_04_rei_kageyama__up_punch__02.png",
+			"enemy_04_rei_kageyama__up_punch__03.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.1944,
+		"startup": 0.1404,
+		"title": "昇龍飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 1,
+		"frames": [
+			"enemy_04_rei_kageyama__neutral_kick__00.png",
+			"enemy_04_rei_kageyama__neutral_kick__01.png",
+			"enemy_04_rei_kageyama__neutral_kick__02.png",
+			"enemy_04_rei_kageyama__neutral_kick__03.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.3348,
+		"startup": 0.162,
+		"title": "昇龍前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 2,
+		"frames": [
+			"enemy_04_rei_kageyama__forward_kick__00.png",
+			"enemy_04_rei_kageyama__forward_kick__01.png",
+			"enemy_04_rei_kageyama__forward_kick__02.png",
+			"enemy_04_rei_kageyama__forward_kick__03.png",
+			"enemy_04_rei_kageyama__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.324,
+		"startup": 0.1188,
+		"title": "昇龍速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 1,
+		"frames": [
+			"enemy_04_rei_kageyama__down_kick__00.png",
+			"enemy_04_rei_kageyama__down_kick__01.png",
+			"enemy_04_rei_kageyama__down_kick__02.png",
+			"enemy_04_rei_kageyama__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.378,
+		"startup": 0.1728,
+		"title": "昇龍足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 2,
+		"frames": [
+			"enemy_04_rei_kageyama__back_kick__00.png",
+			"enemy_04_rei_kageyama__back_kick__01.png",
+			"enemy_04_rei_kageyama__back_kick__02.png",
+			"enemy_04_rei_kageyama__back_kick__03.png",
+			"enemy_04_rei_kageyama__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.3672,
+		"startup": 0.1728,
+		"title": "昇龍押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_04_rei_kageyama",
+		"contact": 1,
+		"frames": [
+			"enemy_04_rei_kageyama__up_kick__00.png",
+			"enemy_04_rei_kageyama__up_kick__01.png",
+			"enemy_04_rei_kageyama__up_kick__02.png",
+			"enemy_04_rei_kageyama__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.3564,
+		"startup": 0.1728,
+		"title": "昇龍飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 1,
+		"frames": [
+			"enemy_05_cross_murasame__neutral_punch__00.png",
+			"enemy_05_cross_murasame__neutral_punch__01.png",
+			"enemy_05_cross_murasame__neutral_punch__02.png",
+			"enemy_05_cross_murasame__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.144,
+		"startup": 0.0576,
+		"title": "無影ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 2,
+		"frames": [
+			"enemy_05_cross_murasame__forward_punch__00.png",
+			"enemy_05_cross_murasame__forward_punch__01.png",
+			"enemy_05_cross_murasame__forward_punch__02.png",
+			"enemy_05_cross_murasame__forward_punch__03.png",
+			"enemy_05_cross_murasame__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.1728,
+		"startup": 0.0768,
+		"title": "無影踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 1,
+		"frames": [
+			"enemy_05_cross_murasame__down_punch__00.png",
+			"enemy_05_cross_murasame__down_punch__01.png",
+			"enemy_05_cross_murasame__down_punch__02.png",
+			"enemy_05_cross_murasame__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1632,
+		"startup": 0.0864,
+		"title": "無影低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 2,
+		"frames": [
+			"enemy_05_cross_murasame__back_punch__00.png",
+			"enemy_05_cross_murasame__back_punch__01.png",
+			"enemy_05_cross_murasame__back_punch__02.png",
+			"enemy_05_cross_murasame__back_punch__03.png",
+			"enemy_05_cross_murasame__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.2112,
+		"startup": 0.1152,
+		"title": "無影かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 1,
+		"frames": [
+			"enemy_05_cross_murasame__up_punch__00.png",
+			"enemy_05_cross_murasame__up_punch__01.png",
+			"enemy_05_cross_murasame__up_punch__02.png",
+			"enemy_05_cross_murasame__up_punch__03.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.1728,
+		"startup": 0.1248,
+		"title": "無影飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 1,
+		"frames": [
+			"enemy_05_cross_murasame__neutral_kick__00.png",
+			"enemy_05_cross_murasame__neutral_kick__01.png",
+			"enemy_05_cross_murasame__neutral_kick__02.png",
+			"enemy_05_cross_murasame__neutral_kick__03.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.2976,
+		"startup": 0.144,
+		"title": "無影前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 2,
+		"frames": [
+			"enemy_05_cross_murasame__forward_kick__00.png",
+			"enemy_05_cross_murasame__forward_kick__01.png",
+			"enemy_05_cross_murasame__forward_kick__02.png",
+			"enemy_05_cross_murasame__forward_kick__03.png",
+			"enemy_05_cross_murasame__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.288,
+		"startup": 0.1056,
+		"title": "無影速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 1,
+		"frames": [
+			"enemy_05_cross_murasame__down_kick__00.png",
+			"enemy_05_cross_murasame__down_kick__01.png",
+			"enemy_05_cross_murasame__down_kick__02.png",
+			"enemy_05_cross_murasame__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.336,
+		"startup": 0.1536,
+		"title": "無影足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 2,
+		"frames": [
+			"enemy_05_cross_murasame__back_kick__00.png",
+			"enemy_05_cross_murasame__back_kick__01.png",
+			"enemy_05_cross_murasame__back_kick__02.png",
+			"enemy_05_cross_murasame__back_kick__03.png",
+			"enemy_05_cross_murasame__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.3264,
+		"startup": 0.1536,
+		"title": "無影押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_05_cross_murasame",
+		"contact": 1,
+		"frames": [
+			"enemy_05_cross_murasame__up_kick__00.png",
+			"enemy_05_cross_murasame__up_kick__01.png",
+			"enemy_05_cross_murasame__up_kick__02.png",
+			"enemy_05_cross_murasame__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.3168,
+		"startup": 0.1536,
+		"title": "無影飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 1,
+		"frames": [
+			"enemy_06_rio_flick_garcia__neutral_punch__00.png",
+			"enemy_06_rio_flick_garcia__neutral_punch__01.png",
+			"enemy_06_rio_flick_garcia__neutral_punch__02.png",
+			"enemy_06_rio_flick_garcia__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.141,
+		"startup": 0.0564,
+		"title": "疾駆ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 2,
+		"frames": [
+			"enemy_06_rio_flick_garcia__forward_punch__00.png",
+			"enemy_06_rio_flick_garcia__forward_punch__01.png",
+			"enemy_06_rio_flick_garcia__forward_punch__02.png",
+			"enemy_06_rio_flick_garcia__forward_punch__03.png",
+			"enemy_06_rio_flick_garcia__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.1692,
+		"startup": 0.0752,
+		"title": "疾駆踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 1,
+		"frames": [
+			"enemy_06_rio_flick_garcia__down_punch__00.png",
+			"enemy_06_rio_flick_garcia__down_punch__01.png",
+			"enemy_06_rio_flick_garcia__down_punch__02.png",
+			"enemy_06_rio_flick_garcia__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1598,
+		"startup": 0.0846,
+		"title": "疾駆低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 2,
+		"frames": [
+			"enemy_06_rio_flick_garcia__back_punch__00.png",
+			"enemy_06_rio_flick_garcia__back_punch__01.png",
+			"enemy_06_rio_flick_garcia__back_punch__02.png",
+			"enemy_06_rio_flick_garcia__back_punch__03.png",
+			"enemy_06_rio_flick_garcia__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.2068,
+		"startup": 0.1128,
+		"title": "疾駆かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 1,
+		"frames": [
+			"enemy_06_rio_flick_garcia__up_punch__00.png",
+			"enemy_06_rio_flick_garcia__up_punch__01.png",
+			"enemy_06_rio_flick_garcia__up_punch__02.png",
+			"enemy_06_rio_flick_garcia__up_punch__03.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.1692,
+		"startup": 0.1222,
+		"title": "疾駆飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 1,
+		"frames": [
+			"enemy_06_rio_flick_garcia__neutral_kick__00.png",
+			"enemy_06_rio_flick_garcia__neutral_kick__01.png",
+			"enemy_06_rio_flick_garcia__neutral_kick__02.png",
+			"enemy_06_rio_flick_garcia__neutral_kick__03.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.2914,
+		"startup": 0.141,
+		"title": "疾駆前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 2,
+		"frames": [
+			"enemy_06_rio_flick_garcia__forward_kick__00.png",
+			"enemy_06_rio_flick_garcia__forward_kick__01.png",
+			"enemy_06_rio_flick_garcia__forward_kick__02.png",
+			"enemy_06_rio_flick_garcia__forward_kick__03.png",
+			"enemy_06_rio_flick_garcia__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.282,
+		"startup": 0.1034,
+		"title": "疾駆速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 1,
+		"frames": [
+			"enemy_06_rio_flick_garcia__down_kick__00.png",
+			"enemy_06_rio_flick_garcia__down_kick__01.png",
+			"enemy_06_rio_flick_garcia__down_kick__02.png",
+			"enemy_06_rio_flick_garcia__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.329,
+		"startup": 0.1504,
+		"title": "疾駆足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 2,
+		"frames": [
+			"enemy_06_rio_flick_garcia__back_kick__00.png",
+			"enemy_06_rio_flick_garcia__back_kick__01.png",
+			"enemy_06_rio_flick_garcia__back_kick__02.png",
+			"enemy_06_rio_flick_garcia__back_kick__03.png",
+			"enemy_06_rio_flick_garcia__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.3196,
+		"startup": 0.1504,
+		"title": "疾駆押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_06_rio_flick_garcia",
+		"contact": 1,
+		"frames": [
+			"enemy_06_rio_flick_garcia__up_kick__00.png",
+			"enemy_06_rio_flick_garcia__up_kick__01.png",
+			"enemy_06_rio_flick_garcia__up_kick__02.png",
+			"enemy_06_rio_flick_garcia__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.3102,
+		"startup": 0.1504,
+		"title": "疾駆飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 1,
+		"frames": [
+			"enemy_07_teki_fighter__neutral_punch__00.png",
+			"enemy_07_teki_fighter__neutral_punch__01.png",
+			"enemy_07_teki_fighter__neutral_punch__02.png",
+			"enemy_07_teki_fighter__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.1605,
+		"startup": 0.0642,
+		"title": "封ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 2,
+		"frames": [
+			"enemy_07_teki_fighter__forward_punch__00.png",
+			"enemy_07_teki_fighter__forward_punch__01.png",
+			"enemy_07_teki_fighter__forward_punch__02.png",
+			"enemy_07_teki_fighter__forward_punch__03.png",
+			"enemy_07_teki_fighter__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.1926,
+		"startup": 0.0856,
+		"title": "封踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 1,
+		"frames": [
+			"enemy_07_teki_fighter__down_punch__00.png",
+			"enemy_07_teki_fighter__down_punch__01.png",
+			"enemy_07_teki_fighter__down_punch__02.png",
+			"enemy_07_teki_fighter__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1819,
+		"startup": 0.0963,
+		"title": "封低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 2,
+		"frames": [
+			"enemy_07_teki_fighter__back_punch__00.png",
+			"enemy_07_teki_fighter__back_punch__01.png",
+			"enemy_07_teki_fighter__back_punch__02.png",
+			"enemy_07_teki_fighter__back_punch__03.png",
+			"enemy_07_teki_fighter__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.2354,
+		"startup": 0.1284,
+		"title": "封かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 1,
+		"frames": [
+			"enemy_07_teki_fighter__up_punch__00.png",
+			"enemy_07_teki_fighter__up_punch__01.png",
+			"enemy_07_teki_fighter__up_punch__02.png",
+			"enemy_07_teki_fighter__up_punch__03.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.1926,
+		"startup": 0.1391,
+		"title": "封飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 1,
+		"frames": [
+			"enemy_07_teki_fighter__neutral_kick__00.png",
+			"enemy_07_teki_fighter__neutral_kick__01.png",
+			"enemy_07_teki_fighter__neutral_kick__02.png",
+			"enemy_07_teki_fighter__neutral_kick__03.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.3317,
+		"startup": 0.1605,
+		"title": "封前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 2,
+		"frames": [
+			"enemy_07_teki_fighter__forward_kick__00.png",
+			"enemy_07_teki_fighter__forward_kick__01.png",
+			"enemy_07_teki_fighter__forward_kick__02.png",
+			"enemy_07_teki_fighter__forward_kick__03.png",
+			"enemy_07_teki_fighter__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.321,
+		"startup": 0.1177,
+		"title": "封速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 1,
+		"frames": [
+			"enemy_07_teki_fighter__down_kick__00.png",
+			"enemy_07_teki_fighter__down_kick__01.png",
+			"enemy_07_teki_fighter__down_kick__02.png",
+			"enemy_07_teki_fighter__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.3745,
+		"startup": 0.1712,
+		"title": "封足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 2,
+		"frames": [
+			"enemy_07_teki_fighter__back_kick__00.png",
+			"enemy_07_teki_fighter__back_kick__01.png",
+			"enemy_07_teki_fighter__back_kick__02.png",
+			"enemy_07_teki_fighter__back_kick__03.png",
+			"enemy_07_teki_fighter__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.3638,
+		"startup": 0.1712,
+		"title": "封押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_07_teki_fighter",
+		"contact": 1,
+		"frames": [
+			"enemy_07_teki_fighter__up_kick__00.png",
+			"enemy_07_teki_fighter__up_kick__01.png",
+			"enemy_07_teki_fighter__up_kick__02.png",
+			"enemy_07_teki_fighter__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.3531,
+		"startup": 0.1712,
+		"title": "封飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_08_leon_crow",
+		"contact": 1,
+		"frames": [
+			"enemy_08_leon_crow__neutral_punch__00.png",
+			"enemy_08_leon_crow__neutral_punch__01.png",
+			"enemy_08_leon_crow__neutral_punch__02.png",
+			"enemy_08_leon_crow__neutral_punch__03.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.132,
+		"startup": 0.0528,
+		"title": "黒翼ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_08_leon_crow",
+		"contact": 2,
+		"frames": [
+			"enemy_08_leon_crow__forward_punch__00.png",
+			"enemy_08_leon_crow__forward_punch__01.png",
+			"enemy_08_leon_crow__forward_punch__02.png",
+			"enemy_08_leon_crow__forward_punch__03.png",
+			"enemy_08_leon_crow__forward_punch__04.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.1584,
+		"startup": 0.0704,
+		"title": "黒翼踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_08_leon_crow",
+		"contact": 1,
+		"frames": [
+			"enemy_08_leon_crow__down_punch__00.png",
+			"enemy_08_leon_crow__down_punch__01.png",
+			"enemy_08_leon_crow__down_punch__02.png",
+			"enemy_08_leon_crow__down_punch__03.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.1496,
+		"startup": 0.0792,
+		"title": "黒翼低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_08_leon_crow",
+		"contact": 2,
+		"frames": [
+			"enemy_08_leon_crow__back_punch__00.png",
+			"enemy_08_leon_crow__back_punch__01.png",
+			"enemy_08_leon_crow__back_punch__02.png",
+			"enemy_08_leon_crow__back_punch__03.png",
+			"enemy_08_leon_crow__back_punch__04.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.1936,
+		"startup": 0.1056,
+		"title": "黒翼かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_08_leon_crow",
+		"contact": 1,
+		"frames": [
+			"enemy_08_leon_crow__up_punch__00.png",
+			"enemy_08_leon_crow__up_punch__01.png",
+			"enemy_08_leon_crow__up_punch__02.png",
+			"enemy_08_leon_crow__up_punch__03.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.1584,
+		"startup": 0.1144,
+		"title": "黒翼飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_08_leon_crow",
+		"contact": 1,
+		"frames": [
+			"enemy_08_leon_crow__neutral_kick__00.png",
+			"enemy_08_leon_crow__neutral_kick__01.png",
+			"enemy_08_leon_crow__neutral_kick__02.png",
+			"enemy_08_leon_crow__neutral_kick__03.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.2728,
+		"startup": 0.132,
+		"title": "黒翼前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_08_leon_crow",
+		"contact": 2,
+		"frames": [
+			"enemy_08_leon_crow__forward_kick__00.png",
+			"enemy_08_leon_crow__forward_kick__01.png",
+			"enemy_08_leon_crow__forward_kick__02.png",
+			"enemy_08_leon_crow__forward_kick__03.png",
+			"enemy_08_leon_crow__forward_kick__04.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.264,
+		"startup": 0.0968,
+		"title": "黒翼速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_08_leon_crow",
+		"contact": 1,
+		"frames": [
+			"enemy_08_leon_crow__down_kick__00.png",
+			"enemy_08_leon_crow__down_kick__01.png",
+			"enemy_08_leon_crow__down_kick__02.png",
+			"enemy_08_leon_crow__down_kick__03.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.308,
+		"startup": 0.1408,
+		"title": "黒翼足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_08_leon_crow",
+		"contact": 2,
+		"frames": [
+			"enemy_08_leon_crow__back_kick__00.png",
+			"enemy_08_leon_crow__back_kick__01.png",
+			"enemy_08_leon_crow__back_kick__02.png",
+			"enemy_08_leon_crow__back_kick__03.png",
+			"enemy_08_leon_crow__back_kick__04.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.2992,
+		"startup": 0.1408,
+		"title": "黒翼押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_08_leon_crow",
+		"contact": 1,
+		"frames": [
+			"enemy_08_leon_crow__up_kick__00.png",
+			"enemy_08_leon_crow__up_kick__01.png",
+			"enemy_08_leon_crow__up_kick__02.png",
+			"enemy_08_leon_crow__up_kick__03.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.2904,
+		"startup": 0.1408,
+		"title": "黒翼飛び蹴り"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__neutral_punch__00.png",
+			"enemy_09_seiya__neutral_punch__01.png",
+			"enemy_09_seiya__neutral_punch__02.png",
+			"enemy_09_seiya__neutral_punch__03.png",
+			"enemy_09_seiya__neutral_punch__04.png",
+			"enemy_09_seiya__neutral_punch__05.png"
+		],
+		"key": "neutral_punch",
+		"recovery": 0.135,
+		"startup": 0.054,
+		"title": "冥ジャブ"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__forward_punch__00.png",
+			"enemy_09_seiya__forward_punch__01.png",
+			"enemy_09_seiya__forward_punch__02.png",
+			"enemy_09_seiya__forward_punch__03.png",
+			"enemy_09_seiya__forward_punch__04.png",
+			"enemy_09_seiya__forward_punch__05.png"
+		],
+		"key": "forward_punch",
+		"recovery": 0.162,
+		"startup": 0.072,
+		"title": "冥踏み込み拳"
+	},
+	{
+		"active": 0.07,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__down_punch__00.png",
+			"enemy_09_seiya__down_punch__01.png",
+			"enemy_09_seiya__down_punch__02.png",
+			"enemy_09_seiya__down_punch__03.png",
+			"enemy_09_seiya__down_punch__04.png",
+			"enemy_09_seiya__down_punch__05.png"
+		],
+		"key": "down_punch",
+		"recovery": 0.153,
+		"startup": 0.081,
+		"title": "冥低突き"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__back_punch__00.png",
+			"enemy_09_seiya__back_punch__01.png",
+			"enemy_09_seiya__back_punch__02.png",
+			"enemy_09_seiya__back_punch__03.png",
+			"enemy_09_seiya__back_punch__04.png",
+			"enemy_09_seiya__back_punch__05.png"
+		],
+		"key": "back_punch",
+		"recovery": 0.198,
+		"startup": 0.108,
+		"title": "冥かち上げ"
+	},
+	{
+		"active": 0.09,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__up_punch__00.png",
+			"enemy_09_seiya__up_punch__01.png",
+			"enemy_09_seiya__up_punch__02.png",
+			"enemy_09_seiya__up_punch__03.png",
+			"enemy_09_seiya__up_punch__04.png",
+			"enemy_09_seiya__up_punch__05.png"
+		],
+		"key": "up_punch",
+		"recovery": 0.162,
+		"startup": 0.117,
+		"title": "冥飛び拳"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__neutral_kick__00.png",
+			"enemy_09_seiya__neutral_kick__01.png",
+			"enemy_09_seiya__neutral_kick__02.png",
+			"enemy_09_seiya__neutral_kick__03.png",
+			"enemy_09_seiya__neutral_kick__04.png",
+			"enemy_09_seiya__neutral_kick__05.png"
+		],
+		"key": "neutral_kick",
+		"recovery": 0.279,
+		"startup": 0.135,
+		"title": "冥前蹴り"
+	},
+	{
+		"active": 0.08,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__forward_kick__00.png",
+			"enemy_09_seiya__forward_kick__01.png",
+			"enemy_09_seiya__forward_kick__02.png",
+			"enemy_09_seiya__forward_kick__03.png",
+			"enemy_09_seiya__forward_kick__04.png",
+			"enemy_09_seiya__forward_kick__05.png"
+		],
+		"key": "forward_kick",
+		"recovery": 0.27,
+		"startup": 0.099,
+		"title": "冥速蹴り"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__down_kick__00.png",
+			"enemy_09_seiya__down_kick__01.png",
+			"enemy_09_seiya__down_kick__02.png",
+			"enemy_09_seiya__down_kick__03.png",
+			"enemy_09_seiya__down_kick__04.png",
+			"enemy_09_seiya__down_kick__05.png"
+		],
+		"key": "down_kick",
+		"recovery": 0.315,
+		"startup": 0.144,
+		"title": "冥足払い"
+	},
+	{
+		"active": 0.1,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__back_kick__00.png",
+			"enemy_09_seiya__back_kick__01.png",
+			"enemy_09_seiya__back_kick__02.png",
+			"enemy_09_seiya__back_kick__03.png",
+			"enemy_09_seiya__back_kick__04.png",
+			"enemy_09_seiya__back_kick__05.png"
+		],
+		"key": "back_kick",
+		"recovery": 0.306,
+		"startup": 0.144,
+		"title": "冥押し蹴り"
+	},
+	{
+		"active": 0.11,
+		"actor": "enemy_09_seiya",
+		"contact": 2,
+		"frames": [
+			"enemy_09_seiya__up_kick__00.png",
+			"enemy_09_seiya__up_kick__01.png",
+			"enemy_09_seiya__up_kick__02.png",
+			"enemy_09_seiya__up_kick__03.png",
+			"enemy_09_seiya__up_kick__04.png",
+			"enemy_09_seiya__up_kick__05.png"
+		],
+		"key": "up_kick",
+		"recovery": 0.297,
+		"startup": 0.144,
+		"title": "冥飛び蹴り"
+	}
+]

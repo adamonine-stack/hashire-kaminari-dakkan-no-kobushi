@@ -3,7 +3,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "gou_down_punch"
-display_name = "GOU down punch"
+display_name = "剛昇拳"
 attack_type = "punch"
 attack_category = "directional"
 command_direction = "down"

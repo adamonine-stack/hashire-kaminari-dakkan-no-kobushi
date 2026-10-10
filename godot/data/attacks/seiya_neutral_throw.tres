@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "seiya_neutral_throw"
-display_name = "SEIYA neutral throw"
+display_name = "流星落とし"
 attack_type = "throw"
 command_direction = "neutral"
 command_priority = 200
