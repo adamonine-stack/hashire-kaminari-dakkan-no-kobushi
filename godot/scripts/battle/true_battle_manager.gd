@@ -72,10 +72,18 @@ func reset_player_roster() -> void:
 	player_roster = player_team
 
 func start_initial_player_selection() -> void:
-	if flow_state == BattleState.CLEAR: return
-	selected_player_order.assign(["player_01_akky", "player_02_gou"])
-	is_player_order_confirmed = true
-	select_player_by_id("player_01_akky")
+	# Start the same interactive selection used throughout the campaign.
+	# Never pick Akky automatically: the player chooses either surviving hero.
+	super.start_initial_player_selection()
+
+
+func _show_player_selection() -> void:
+	# reset_player_roster() limits the real roster to Akky and Gou. The same
+	# restricted roster is reused for START, CONTINUE and KO replacement.
+	super._show_player_selection()
+	if _character_selection_screen != null and _character_selection_screen.is_open:
+		_character_selection_screen.title_label.text = "TRUE FINAL BATTLE — SELECT FIGHTER"
+		_character_selection_screen.guide_label.text = "セイヤは敵です。アッキーかゴウを選択してください。"
 
 func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
 	return TRUE_STAGE if enemy_index == 8 else super._stage_definition_for_enemy_index(enemy_index)

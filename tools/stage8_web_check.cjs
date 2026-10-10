@@ -41,8 +41,21 @@ function fixture(route){let s='[run]\nversion=1\nscene="res://scenes/Battle.tscn
   for(let i=0;i<12&&!logs.some(t=>t.includes('ENDING route='));i++)await page.waitForTimeout(500);
   await page.waitForTimeout(600);await page.screenshot({path:out('rescue')});
   if(!logs.some(t=>t.includes('ENDING route='+route))){fs.writeFileSync(path.join(__dirname,'../logs',`web_failed_${route}.log`),logs.join('\n'));throw new Error(route+' did not enter ending');}
+  const firstEndingLog=logs.length;
   const count=route==='G'?380:route==='C'?20:85;
-  for(let i=0;i<count;i++){if(mobile)await page.touchscreen.tap(671,364);else await page.keyboard.press('Enter',{delay:60});await page.waitForTimeout(210);if(logs.some(t=>t.includes('VS enemy_09_seiya')||t.includes('END_CARD')))break;}
+  for(let i=0;i<count;i++){
+    if(mobile)await page.touchscreen.tap(671,364);else await page.keyboard.press('Enter',{delay:60});
+    await page.waitForTimeout(210);
+    if(route==='G' && logs.slice(firstEndingLog).some(t=>t.includes('Player select opened')))break;
+    if(route!=='G' && logs.some(t=>t.includes('END_CARD route='+route)))break;
+  }
+  if(route==='G'){
+    if(!logs.slice(firstEndingLog).some(t=>t.includes('Player select opened')))throw new Error('TRUE boss fighter selection missing');
+    await page.waitForTimeout(650);await page.screenshot({path:out('true_fighter_choice')});
+    if(logs.some(t=>t.includes('VS enemy_09_seiya')))throw new Error('TRUE boss should wait for fighter choice');
+    await page.keyboard.press('Enter',{delay:60});
+    for(let i=0;i<30&&!logs.some(t=>t.includes('VS enemy_09_seiya'));i++)await page.waitForTimeout(250);
+  }
   await page.waitForTimeout(1500);await page.screenshot({path:out('end')});
   if(route==='G'&&!logs.some(t=>t.includes('VS enemy_09_seiya')))throw new Error('G true battle missing');
   if(route!=='G'&&!logs.some(t=>t.includes('END_CARD route='+route)))throw new Error(route+' end card missing');

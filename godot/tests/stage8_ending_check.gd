@@ -118,8 +118,15 @@ func run_check() -> void:
 			check(current_scene.scene_file_path == "res://scenes/TrueBattle.tscn", "TRUE battle transition")
 			await create_timer(1.8).timeout
 			var boss_manager = current_scene.get_node("BattleManager")
-			check(boss_manager.enemy.fighter_definition.fighter_id == &"enemy_09_seiya", "boss identity")
 			check(boss_manager.get_available_players() == ["player_01_akky", "player_02_gou"], "Seiya not selectable")
+			check(boss_manager._character_selection_screen.is_open, "TRUE fighter choice opens")
+			check(boss_manager._character_selection_screen.cards.size() == 2, "TRUE only two fighter cards")
+			check(not boss_manager.isRoundActive, "TRUE does not auto-start")
+			boss_manager.select_player_by_id("player_03_seiya")
+			check(boss_manager._character_selection_screen.is_open and boss_manager.current_player_id == "", "enemy Seiya cannot be chosen")
+			boss_manager.select_player_by_id("player_01_akky")
+			await create_timer(1.5).timeout
+			check(boss_manager.enemy.fighter_definition.fighter_id == &"enemy_09_seiya", "boss identity")
 			check(boss_manager.isRoundActive and boss_manager.player.input_enabled, "TRUE battle controllable")
 			check(boss_manager.enemy.uses_animated_character_art, "TRUE uses Seiya atlas")
 			await capture("G_true_battle")
@@ -135,7 +142,11 @@ func run_check() -> void:
 			await create_timer(1.5).timeout
 			check(boss_manager.player.fighter_definition.fighter_id == &"player_02_gou", "Gou replacement")
 			boss_manager.restart_current_game()
+			await create_timer(0.25).timeout
+			check(boss_manager._character_selection_screen.is_open and not boss_manager.isRoundActive, "TRUE retry selects fighter")
+			boss_manager.select_player_by_id("player_02_gou")
 			await create_timer(1.5).timeout
+			check(boss_manager.player.fighter_definition.fighter_id == &"player_02_gou", "TRUE retry chooses Gou")
 			check(boss_manager.enemy.current_hp > 0 and boss_manager.player.current_hp > 0 and boss_manager.isRoundActive, "TRUE retry")
 			boss_manager._set_battle_active(false)
 			boss_manager._mark_enemy_defeated()

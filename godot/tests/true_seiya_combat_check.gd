@@ -11,6 +11,16 @@ func run_check() -> void:
 	change_scene_to_file("res://scenes/TrueBattle.tscn")
 	await create_timer(1.4).timeout
 	var manager = current_scene.get_node("BattleManager")
+	check(manager._character_selection_screen.is_open, "TRUE boss opens character selection")
+	check(manager.get_available_players() == ["player_01_akky", "player_02_gou"], "only Akky and Gou selectable")
+	check(manager._character_selection_screen.cards.size() == 2, "Seiya absent from selection cards")
+	check(not manager.isRoundActive, "battle waits for manual fighter selection")
+	manager.select_player_by_id("player_03_seiya")
+	check(manager.current_player_id == "", "enemy Seiya cannot be selected")
+	# First battle intentionally plays as Gou to cover the alternate fighter.
+	manager.select_player_by_id("player_02_gou")
+	await create_timer(1.35).timeout
+	check(manager.isRoundActive and manager.current_player_id == "player_02_gou", "Gou chosen as playable fighter")
 	var player = manager.player
 	var enemy = manager.enemy
 	# Movement and hitbox contact through the actual fighter physics.
@@ -60,6 +70,8 @@ func run_check() -> void:
 	manager = current_scene.get_node("BattleManager")
 	check(manager.current_enemy_index == 8, "continue stage 9")
 	check(manager.enemy_team[8]["current_health"] == saved_boss_hp, "continued Seiya HP")
+	check(manager._character_selection_screen.is_open, "CONTINUE reopens Akky/Gou choice")
+	check(not manager.isRoundActive, "CONTINUE waits for fighter")
 	manager.select_player_by_id("player_01_akky")
 	await create_timer(1.3).timeout
 	player = manager.player
