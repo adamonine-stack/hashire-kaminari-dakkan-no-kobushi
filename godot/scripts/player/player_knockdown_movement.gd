@@ -611,6 +611,9 @@ func _is_knockdown_busy() -> bool:
 	return knockdown_state == &"KNOCKBACK" or knockdown_state == &"KNOCKDOWN" or knockdown_state == &"GET_UP"
 
 
+func _texture_display_offset(texture: Texture2D) -> Vector2:
+	return texture.margin.position if texture is AtlasTexture else Vector2.ZERO
+
 func _cache_special_reaction_edge_padding() -> void:
 	special_reaction_edge_padding = Vector2.ZERO
 	if last_special_knockback_animation == &"" or animated_character_sprite == null: return
@@ -620,6 +623,10 @@ func _cache_special_reaction_edge_padding() -> void:
 		for index in range(sprite.sprite_frames.get_frame_count(clip)):
 			var texture := sprite.sprite_frames.get_frame_texture(clip,index)
 			var used := texture.get_image().get_used_rect()
+			# AtlasTexture.get_image() is source-cell-local; transparent margins
+			# shift those pixels within the display canvas, not the stage bounds.
+			if texture is AtlasTexture:
+				used.position += Vector2i(texture.margin.position)
 			var left := float(used.position.x)-texture.get_width()*0.5
 			var right := float(used.end.x)-texture.get_width()*0.5
 			if sprite.flip_h:
@@ -661,7 +668,7 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 		special_headfirst_apex_time = maxf(0.1,absf(velocity.y)/maxf(special_flight_gravity,1.0))
 		var texture := animated_character_sprite.sprite_frames.get_frame_texture(last_special_knockback_animation,0)
 		var bounds := texture.get_image().get_used_rect()
-		special_headfirst_anchor = Vector2(bounds.get_center())-texture.get_size()*0.5
+		special_headfirst_anchor = Vector2(bounds.get_center())+_texture_display_offset(texture)-texture.get_size()*0.5
 		# Anchor the actual topmost opaque head pixel, not an empty AABB corner.
 		var image := texture.get_image()
 		var head_point := Vector2(bounds.get_center().x,bounds.position.y)
@@ -675,7 +682,7 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 			if first != -1:
 				head_point = Vector2((first+last)*0.5,y+0.5)
 				break
-		special_headfirst_tip = head_point-texture.get_size()*0.5
+		special_headfirst_tip = head_point+_texture_display_offset(texture)-texture.get_size()*0.5
 		if animated_character_sprite.flip_h:
 			special_headfirst_anchor.x = -special_headfirst_anchor.x
 			special_headfirst_tip.x = -special_headfirst_tip.x
@@ -688,9 +695,9 @@ func _begin_special_wall_launch(attack_data: Dictionary) -> void:
 		if _has_visual_animation(last_knockdown_animation):
 			var prone_texture := animated_character_sprite.sprite_frames.get_frame_texture(last_knockdown_animation,0)
 			var prone_bounds := prone_texture.get_image().get_used_rect()
-			var prone_center := Vector2(prone_bounds.get_center())-prone_texture.get_size()*0.5
+			var prone_center := Vector2(prone_bounds.get_center())+_texture_display_offset(prone_texture)-prone_texture.get_size()*0.5
 			var air_texture := animated_character_sprite.sprite_frames.get_frame_texture(last_special_knockback_animation,0)
-			var air_center := Vector2(air_texture.get_image().get_used_rect().get_center())-air_texture.get_size()*0.5
+			var air_center := Vector2(air_texture.get_image().get_used_rect().get_center())+_texture_display_offset(air_texture)-air_texture.get_size()*0.5
 			if animated_character_sprite.flip_h:
 				prone_center.x = -prone_center.x
 				air_center.x = -air_center.x
@@ -892,7 +899,7 @@ func _begin_special_headfirst_impact() -> void:
 	special_headfirst_root_x = global_position.x
 	var texture := sprite.sprite_frames.get_frame_texture(last_knockdown_animation,0)
 	var bounds := texture.get_image().get_used_rect()
-	var down_head := Vector2(bounds.end.x-bounds.size.x*0.18,bounds.get_center().y)-texture.get_size()*0.5
+	var down_head := Vector2(bounds.end.x-bounds.size.x*0.18,bounds.get_center().y)+_texture_display_offset(texture)-texture.get_size()*0.5
 	if sprite.flip_h: down_head.x = -down_head.x
 	special_headfirst_prone_root_x = special_headfirst_contact.x-(sprite.global_position.x-global_position.x+down_head.x*sprite.scale.x)
 	var impact: Node2D = load("res://scripts/combat/reversal_effect.gd").new()
@@ -918,13 +925,13 @@ func _update_special_headfirst_ground(delta: float) -> void:
 	sprite.offset = sprite.to_local(special_headfirst_contact)-special_headfirst_tip
 	# Let the head roll over as the torso settles into the final prone drawing.
 	var texture := sprite.sprite_frames.get_frame_texture(last_knockdown_animation,0)
-	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	var center := Vector2(texture.get_image().get_used_rect().get_center())+_texture_display_offset(texture)-texture.get_size()*0.5
 	if sprite.flip_h: center.x = -center.x
 	var goal := sprite.global_position+center*sprite.scale
 	var settling_center := special_headfirst_anchor
 	if _is_rio_garcia() or _is_shadow_boxer():
 		var current_texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
-		settling_center = Vector2(current_texture.get_image().get_used_rect().get_center())-current_texture.get_size()*0.5
+		settling_center = Vector2(current_texture.get_image().get_used_rect().get_center())+_texture_display_offset(current_texture)-current_texture.get_size()*0.5
 		if sprite.flip_h: settling_center.x = -settling_center.x
 	var actual := sprite.global_transform*(settling_center+sprite.offset)
 	var settle_start := 0.0 if (_is_rio_garcia() or _is_shadow_boxer()) else 0.65
