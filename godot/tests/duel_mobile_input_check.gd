@@ -54,8 +54,12 @@ func run():
      controls.right_controls.get_node("PunchButton" if action=="punch" else "KickButton").button_down.emit()
      await ticks(2)
      var expected="akky_"+direction+"_"+action
-     check(player.current_attack_id==expected,"UI direction/action "+expected+str(facing)+str(held)+" actual="+player.current_attack_id)
-     check(player.last_combat_command.get("direction","")==direction,"logical facing "+direction)
+     if held:
+      check(player.current_attack_id==expected,"held UI direction/action "+expected+str(facing)+" actual="+player.current_attack_id)
+      check(player.last_combat_command.get("direction","")==direction,"held logical facing "+direction)
+     else:
+      check(player.last_combat_command.get("direction","")=="neutral","released UI direction is neutral "+direction+"/"+action)
+      check(player.current_attack_data!=null and String(player.current_attack_data.command_direction).is_empty(),"release produces ordinary attack "+direction+"/"+action)
      button.button_up.emit()
      await ticks(2)
   await reset_pair(facing)
