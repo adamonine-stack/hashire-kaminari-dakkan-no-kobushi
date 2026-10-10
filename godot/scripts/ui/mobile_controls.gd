@@ -187,6 +187,7 @@ func release_all_touch_inputs() -> void:
 	Input.action_release("jump")
 	for action_name in _held_action_counts.keys():
 		Input.action_release(action_name)
+		_forget_player_touch_direction(String(action_name))
 	_held_action_counts.clear()
 	_pressed_buttons.clear()
 	_pressed_hold_buttons.clear()
@@ -381,8 +382,30 @@ func _release_virtual_action(action_name: String) -> void:
 	if count <= 1:
 		_held_action_counts.erase(action_name)
 		Input.action_release(action_name)
+		_forget_player_touch_direction(action_name)
 	else:
 		_held_action_counts[action_name] = count - 1
+
+
+func _forget_player_touch_direction(action_name: String) -> void:
+	var kind := ""
+	match action_name:
+		"move_left":
+			kind = "left"
+		"move_right":
+			kind = "right"
+		"down":
+			kind = "down"
+	if kind.is_empty():
+		return
+	# MobileControls lives under Battle/UI/BattleUIRoot and only the
+	# player receives touch input. Never erase enemy AI's command history.
+	var fighter := get_node_or_null("../../../Player")
+	if fighter == null:
+		return
+	var commands: RefCounted = fighter.get("combat_commands") as RefCounted
+	if commands != null and commands.has_method("forget_released_touch_direction"):
+		commands.call("forget_released_touch_direction", kind)
 
 
 func _on_direction_button_down(button: Button, data: Dictionary) -> void:
