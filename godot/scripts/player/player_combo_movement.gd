@@ -200,9 +200,6 @@ func _dispatch_combat_command() -> void:
 	if not input_enabled:
 		try_continue_combo()
 		return
-	if is_hit or is_guard_hit or _is_throw_busy() or is_character_special_busy():
-		combat_commands.pending.clear()
-		return
 	var command: Dictionary = combat_commands.peek()
 	if command.is_empty():
 		try_continue_combo()
