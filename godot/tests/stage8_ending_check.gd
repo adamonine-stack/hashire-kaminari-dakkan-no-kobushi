@@ -48,6 +48,11 @@ func run_check() -> void:
 		check(not ui.actors.has("ユイ"), "Yui never appears")
 		for actor_name in ui.actors:
 			check(is_equal_approx(ui.actors[actor_name].position.y, 478), "feet " + actor_name)
+		for hero_name in ["アッキー", "ゴウ", "セイヤ"]:
+			if not ui.actors.has(hero_name): continue
+			var hero = ui.actors[hero_name]
+			check(not hero is CharacterBody2D, "no combat actor in ending " + hero_name)
+			check(hero.animated_character_sprite.sprite_frames.get_animation_names().size() == 2, "only dialogue poses loaded " + hero_name)
 		for item in [["ミオ", "アッキー", 0.97], ["レン", "ゴウ", 1.0]]:
 			if not ui.actors.has(item[0]): continue
 			var reference: Node2D = ui.actors.get("アッキー", ui.actors[item[1]])
