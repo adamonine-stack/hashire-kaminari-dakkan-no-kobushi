@@ -25,6 +25,11 @@ func _ready() -> void:
 		# A corrupt or stale save must never strand the player on an empty screen.
 		get_tree().change_scene_to_file(TITLE_SCENE)
 		return
+	# The shortened speed is available only to Godot test runs, never a
+	# release Web player.
+	if OS.has_feature("debug") and get_tree().root.has_meta(&"ending_credits_qa_scale"):
+		timing_scale = float(get_tree().root.get_meta(&"ending_credits_qa_scale"))
+		get_tree().root.remove_meta(&"ending_credits_qa_scale")
 	_build()
 	credits_started = true
 	var audio := get_node("/root/AudioManager")
