@@ -117,6 +117,9 @@ func run() -> void:
 		await clean_reset(manager,shadow,Vector2(660,520),-direction)
 		player.set_physics_process(false)
 		shadow.input_enabled = true
+		var kick := shadow._get_attack_data(shadow.basic_move_ids.neutral_kick)
+		var geometry_scale: float = shadow.battle_visual_scale_multiplier * definition.combat_geometry_scale
+		player.global_position = Vector2(660-kick.hitbox_offset.x*geometry_scale*direction,520+kick.hitbox_offset.y*geometry_scale-player.hurt_box.position.y)
 		hp = player.current_hp
 		shadow.request_attack_input(&"Kick",true)
 		var attack_seen := false
