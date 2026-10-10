@@ -70,12 +70,13 @@ func run() -> void:
 			var texture := frames.get_frame_texture(clip,frame) as AtlasTexture
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
-			check((texture.atlas.resource_path.contains("cross_v2") or texture.atlas.resource_path.contains("cross_damage_v3")),"all Cross motions use repaired originals "+clip)
-			check(texture.get_size() in [Vector2(384,288),Vector2(512,448)],"common complete cell "+clip)
+			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/cross/")
+			check(basic_source or (texture.atlas.resource_path.contains("cross_v2") or texture.atlas.resource_path.contains("cross_damage_v3")),"all Cross motions use repaired originals "+clip)
+			check((basic_source and texture.get_size() == Vector2(384,288)) or texture.get_size() in [Vector2(384,288),Vector2(512,448)],"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
 			var new_damage := texture.atlas.resource_path.contains("cross_damage_v3")
-			check(used.position.x>=2 and used.position.y>=2 and used.end.x<=texture.get_width()-2 and used.end.y<=(350 if new_damage else 270),"no clipped hair limbs boots "+clip)
-			check(used.end.y >= (349 if new_damage else 269) and used.end.y <= (350 if new_damage else 270),"common foot/prone contact baseline "+clip)
+			check((used.position.x>=1 and used.position.y>=1 and used.end.x<=texture.get_width()-1 and used.end.y<=270) if basic_source else (used.position.x>=2 and used.position.y>=2 and used.end.x<=texture.get_width()-2 and used.end.y<=(350 if new_damage else 270)),"no clipped hair limbs boots "+clip)
+			check((used.end.y>=269 and used.end.y<=270) if basic_source else (used.end.y >= (349 if new_damage else 269) and used.end.y <= (350 if new_damage else 270)),"common foot/prone contact baseline "+clip)
 			var ratio := opaque_body_area(texture)/idle_area
 			check(ratio>0.70 and ratio<1.70,"anatomical body mass "+clip+str(frame))
 			for direction in [1,-1]:

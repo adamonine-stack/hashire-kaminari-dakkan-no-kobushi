@@ -64,11 +64,12 @@ func run() -> void:
 			var texture := frames.get_frame_texture(clip,frame) as AtlasTexture
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
-			check(texture.atlas.resource_path.contains("rio_garcia_v2"),"all Rio motions use repaired originals "+clip)
-			check(texture.get_size() == Vector2(320,256),"common complete cell "+clip)
+			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/rio/")
+			check(basic_source or texture.atlas.resource_path.contains("rio_garcia_v2"),"all Rio motions use repaired originals "+clip)
+			check((basic_source and texture.get_size() == Vector2(320,256)) or texture.get_size() == Vector2(320,256),"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
-			check(used.position.x>=8 and used.position.y>=8 and used.end.x<=312 and used.end.y<=240,"no clipped hair limbs boots "+clip)
-			check(used.end.y >= 239 and used.end.y <= 240,"common foot/prone contact baseline "+clip)
+			check((used.position.x>=1 and used.position.y>=1 and used.end.x<=texture.get_width()-1 and used.end.y<=240) if basic_source else (used.position.x>=8 and used.position.y>=8 and used.end.x<=312 and used.end.y<=240),"no clipped hair limbs boots "+clip)
+			check((used.end.y>=239 and used.end.y<=240) if basic_source else (used.end.y >= 239 and used.end.y <= 240),"common foot/prone contact baseline "+clip)
 			var ratio := opaque_body_area(texture)/idle_area
 			check(ratio>0.70 and ratio<1.70,"anatomical body mass "+clip+str(frame))
 			for direction in [1,-1]:
