@@ -28,7 +28,9 @@ func _ready() -> void:
 	_build()
 	credits_started = true
 	var audio := get_node("/root/AudioManager")
-	if not audio.is_music_playing(audio.THEME_ID):
+	# CONTINUE can arrive from Title, whose theme loops. Switch that loop
+	# to non-looping credits playback, even when the audio ID is unchanged.
+	if not audio.is_music_playing(audio.THEME_ID) or audio.theme_repeat:
 		audio.play_ending_theme("true_ending" if ending_route == CHECKPOINT.TRUE else "final_boss")
 	print("[ENDING_CREDITS] started route=%s" % ending_route)
 	_play_roll()
