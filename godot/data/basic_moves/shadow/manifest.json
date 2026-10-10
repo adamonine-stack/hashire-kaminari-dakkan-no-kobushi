@@ -1,0 +1,115 @@
+{
+  "actor": "enemy_02_shadow_boxer",
+  "moves": [
+    {
+      "key": "neutral_punch",
+      "source": "punch_1",
+      "contact": 1,
+      "offset": [
+        90.43,
+        -132.84
+      ],
+      "startup": 0.048,
+      "recovery": 0.12
+    },
+    {
+      "key": "forward_punch",
+      "source": "basic_source_forward_punch",
+      "contact": 2,
+      "offset": [
+        124.81,
+        -137.55
+      ],
+      "startup": 0.064,
+      "recovery": 0.144
+    },
+    {
+      "key": "down_punch",
+      "source": "crouch_punch",
+      "contact": 2,
+      "offset": [
+        85.33,
+        -100.28
+      ],
+      "startup": 0.072,
+      "recovery": 0.136
+    },
+    {
+      "key": "back_punch",
+      "source": "basic_source_back_punch",
+      "contact": 2,
+      "offset": [
+        11.72,
+        -232.25
+      ],
+      "startup": 0.096,
+      "recovery": 0.176
+    },
+    {
+      "key": "up_punch",
+      "source": "basic_source_up_punch",
+      "contact": 2,
+      "offset": [
+        137.55,
+        -104.31
+      ],
+      "startup": 0.104,
+      "recovery": 0.144
+    },
+    {
+      "key": "neutral_kick",
+      "source": "basic_source_neutral_kick",
+      "contact": 2,
+      "offset": [
+        157.93,
+        -124.76
+      ],
+      "startup": 0.12,
+      "recovery": 0.248
+    },
+    {
+      "key": "forward_kick",
+      "source": "basic_source_forward_kick",
+      "contact": 2,
+      "offset": [
+        146.46,
+        -122.27
+      ],
+      "startup": 0.088,
+      "recovery": 0.24
+    },
+    {
+      "key": "down_kick",
+      "source": "crouch_kick_sweep",
+      "contact": 1,
+      "offset": [
+        89.15,
+        -26.62
+      ],
+      "startup": 0.128,
+      "recovery": 0.28
+    },
+    {
+      "key": "back_kick",
+      "source": "basic_source_back_kick",
+      "contact": 2,
+      "offset": [
+        147.74,
+        -138.19
+      ],
+      "startup": 0.128,
+      "recovery": 0.272
+    },
+    {
+      "key": "up_kick",
+      "source": "jump_kick",
+      "contact": 1,
+      "offset": [
+        47.12,
+        -86.2
+      ],
+      "startup": 0.128,
+      "recovery": 0.264
+    }
+  ]
+}

@@ -39,6 +39,11 @@ var orientation_overlay: PanelContainer
 
 
 func _ready() -> void:
+	var basic_qa_path := "user://basic_moves_qa.txt"
+	if OS.has_feature("web") and FileAccess.file_exists(basic_qa_path) and FileAccess.get_file_as_string(basic_qa_path).strip_edges() == "basic_moves_v1":
+		DirAccess.remove_absolute(basic_qa_path)
+		get_tree().call_deferred("change_scene_to_file", "res://tests/basic_moves_web_qa.tscn")
+		return
 	var stage9_qa_path := "user://qa/stage9_motion.flag"
 	if OS.has_feature("web") and FileAccess.file_exists(stage9_qa_path) and FileAccess.get_file_as_string(stage9_qa_path).strip_edges() == "stage9_motion_v1":
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(stage9_qa_path))

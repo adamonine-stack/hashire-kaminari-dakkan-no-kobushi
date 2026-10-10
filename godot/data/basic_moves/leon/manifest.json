@@ -1,0 +1,115 @@
+{
+  "actor": "enemy_08_leon_crow",
+  "moves": [
+    {
+      "key": "neutral_punch",
+      "source": "punch_1",
+      "contact": 1,
+      "offset": [
+        66.32,
+        -98.48
+      ],
+      "startup": 0.0528,
+      "recovery": 0.132
+    },
+    {
+      "key": "forward_punch",
+      "source": "basic_source_forward_punch",
+      "contact": 2,
+      "offset": [
+        167.34,
+        -132.09
+      ],
+      "startup": 0.0704,
+      "recovery": 0.1584
+    },
+    {
+      "key": "down_punch",
+      "source": "crouch_punch",
+      "contact": 1,
+      "offset": [
+        71.89,
+        -83.39
+      ],
+      "startup": 0.0792,
+      "recovery": 0.1496
+    },
+    {
+      "key": "back_punch",
+      "source": "basic_source_back_punch",
+      "contact": 2,
+      "offset": [
+        59.18,
+        -220.64
+      ],
+      "startup": 0.1056,
+      "recovery": 0.1936
+    },
+    {
+      "key": "up_punch",
+      "source": "jump_punch",
+      "contact": 1,
+      "offset": [
+        72.51,
+        -74.13
+      ],
+      "startup": 0.1144,
+      "recovery": 0.1584
+    },
+    {
+      "key": "neutral_kick",
+      "source": "kick_1",
+      "contact": 1,
+      "offset": [
+        73.13,
+        -90.74
+      ],
+      "startup": 0.132,
+      "recovery": 0.2728
+    },
+    {
+      "key": "forward_kick",
+      "source": "basic_source_forward_kick",
+      "contact": 2,
+      "offset": [
+        125.82,
+        -104.87
+      ],
+      "startup": 0.0968,
+      "recovery": 0.264
+    },
+    {
+      "key": "down_kick",
+      "source": "crouch_kick_sweep",
+      "contact": 1,
+      "offset": [
+        89.87,
+        -19.23
+      ],
+      "startup": 0.1408,
+      "recovery": 0.308
+    },
+    {
+      "key": "back_kick",
+      "source": "basic_source_back_kick",
+      "contact": 2,
+      "offset": [
+        122.1,
+        -121.04
+      ],
+      "startup": 0.1408,
+      "recovery": 0.2992
+    },
+    {
+      "key": "up_kick",
+      "source": "jump_kick",
+      "contact": 1,
+      "offset": [
+        97.31,
+        -77.94
+      ],
+      "startup": 0.1408,
+      "recovery": 0.2904
+    }
+  ]
+}

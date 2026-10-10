@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://tests/basic_moves_web_qa.gd" id="1"]
+[node name="BasicMovesWebQA" type="Node"]
+script = ExtResource("1")

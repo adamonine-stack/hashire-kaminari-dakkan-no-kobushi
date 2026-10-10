@@ -60,11 +60,11 @@ func run() -> void:
    player.combat_commands.advance(0.12)
    player.combat_commands.record("punch" if key.ends_with("punch") else "kick",true,facing)
    player._dispatch_combat_command()
-   check(player.current_attack_id == "akky_"+key,"delayed direction routing %s/%s"%[key,facing])
+   check(player.current_attack_id == "basic_akky_"+key,"delayed direction routing %s/%s"%[key,facing])
    check(not player.punch_hitbox_active and not player.kick_hitbox_active,"startup inactive "+key)
    player.enter_attack_active()
    player._sync_attack_visual_phase()
-   check(sprite.animation == StringName("akky_"+key),"authored animation "+key)
+   check(sprite.animation == StringName("basic_"+key),"authored animation "+key)
    check(sprite.frame == player.current_attack_data.contact_start_frame,"contact pose "+key)
    var area: Area2D = player.punch_area if key.ends_with("punch") else player.kick_area
    check(signf(area.position.x) == facing,"mirrored hitbox "+key)
@@ -100,7 +100,7 @@ func run() -> void:
     player._sample_combat_commands(0.0)
     player._dispatch_combat_command()
     if hold:
-     check(player.current_attack_id == "akky_"+key,"held mobile handler %s/%s"%[key,facing])
+     check(player.current_attack_id == "basic_akky_"+key,"held mobile handler %s/%s"%[key,facing])
     else:
      check(player.last_combat_command.get("direction","") == "neutral","released mobile handler neutral %s/%s"%[key,facing])
      check(player.current_attack_data != null and String(player.current_attack_data.command_direction).is_empty(),"released mobile handler normal %s/%s"%[key,facing])

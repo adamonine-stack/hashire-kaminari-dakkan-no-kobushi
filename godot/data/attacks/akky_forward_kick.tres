@@ -3,7 +3,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "akky_forward_kick"
-display_name = "AKKY forward kick"
+display_name = "稲妻前蹴り"
 attack_type = "kick"
 attack_category = "directional"
 command_direction = "forward"

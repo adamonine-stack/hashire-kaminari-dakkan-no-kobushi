@@ -50,6 +50,15 @@ func run() -> void:
 		check(sprite.position.is_equal_approx(position_before), clip + ": fixed origin")
 		for index in range(frames.get_frame_count(clip)):
 			var texture := frames.get_frame_texture(clip, index)
+			if fighter.original_motion_sequences.has(String(clip)):
+				var cells: Array = fighter.original_motion_sequences[String(clip)].cells
+				check(frames.get_frame_count(clip) == cells.size(), clip + ": full original sequence")
+				var cell: Array = cells[index]
+				var source: AtlasTexture = frames.get_frame_texture(cell[0], int(cell[1]))
+				check(texture is AtlasTexture and same_texture_source(texture.atlas,source.atlas) and texture.region == source.region,clip + ": authored action source")
+				check(texture.get_size() == Vector2(768,640),clip + ": shared display canvas")
+				checked += 1
+				continue
 			var expected: Texture2D = fighter.supplemental_motion_atlas.texture if String(clip).begins_with("cross_react_") else fighter.motion_atlas.texture
 			if String(clip).begins_with("gou_reversal_"):
 				expected = load("res://assets/characters/player02/animations/special_v12/motion_atlas.tres").texture
@@ -187,7 +196,7 @@ func run() -> void:
 				player._play_visual_animation(&"crouch_punch", true)
 			player.enter_attack_active()
 			player._sync_attack_visual_phase()
-			check(player.animated_character_sprite.frame == (3 if action.begins_with("crouch") else 1), action + ": contact frame")
+			check(player.animated_character_sprite.frame == (player.current_attack_data.contact_start_frame if action.begins_with("crouch") else 1), action + ": contact frame")
 			var area: Area2D = player.kick_area if action.ends_with("kick") else player.punch_area
 			check(signf(area.position.x) == float(facing) and area.position.y < 0, action + ": hitbox stays above ground")
 			player.finish_attack()

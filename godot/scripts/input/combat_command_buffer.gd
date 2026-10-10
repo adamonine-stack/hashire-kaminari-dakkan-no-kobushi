@@ -24,8 +24,8 @@ func record(kind: String, pressed: bool, facing: float) -> void:
 		return
 	held[kind] = pressed
 	var direction := logical_direction(facing)
-	if kind in ["left", "right", "down"] and pressed:
-		direction = "down" if kind == "down" else ("forward" if (kind == "right") == (facing > 0.0) else "back")
+	if kind in ["left", "right", "down", "up"] and pressed:
+		direction = kind if kind in ["down", "up"] else ("forward" if (kind == "right") == (facing > 0.0) else "back")
 	var event := {"kind": kind, "timestamp": clock, "direction": direction, "facing": facing, "press": pressed, "release": not pressed}
 	history.append(event)
 	if pressed and PRIORITIES.has(kind):
@@ -46,8 +46,12 @@ func forget_released_touch_direction(kind: String) -> void:
 
 
 func logical_direction(facing: float) -> String:
+	if bool(held.get("down", false)) and bool(held.get("up", false)):
+		return "neutral"
 	if bool(held.get("down", false)):
 		return "down"
+	if bool(held.get("up", false)):
+		return "up"
 	var axis := int(bool(held.get("right", false))) - int(bool(held.get("left", false)))
 	if axis == 0:
 		return "neutral"
@@ -57,14 +61,14 @@ func command_direction(facing: float) -> String:
 	var current := logical_direction(facing)
 	if current != "neutral":
 		return current
-	if bool(held.get("left", false)) and bool(held.get("right", false)):
+	if (bool(held.get("left", false)) and bool(held.get("right", false))) or (bool(held.get("up", false)) and bool(held.get("down", false))):
 		return "neutral"
 	# A short gap between thumb presses retains the direction at entry time.
 	for i in range(history.size() - 1, -1, -1):
 		var event: Dictionary = history[i]
 		if clock - float(event.timestamp) > buffer_seconds:
 			break
-		if event.kind in ["left", "right", "down"] and bool(event.press):
+		if event.kind in ["left", "right", "down", "up"] and bool(event.press):
 			return String(event.direction)
 	return "neutral"
 

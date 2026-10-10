@@ -245,6 +245,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 			_overlay_authored_motion_atlas(authored_frames, supplemental_motion_atlas)
 		for extra_atlas in character_data.extra_motion_atlases:
 			_overlay_authored_motion_atlas(authored_frames, extra_atlas)
+		_add_original_motion_sequences(authored_frames, character_data)
 		_expand_authored_display_canvas(authored_frames, character_data.motion_display_canvas_size)
 		return authored_frames
 
@@ -1441,3 +1442,22 @@ func _fighter_id() -> String:
 	if definition == null:
 		return "unknown"
 	return String(definition.get("fighter_id"))
+
+
+func _add_original_motion_sequences(frames: SpriteFrames, character_data: Resource) -> void:
+	for name in character_data.original_motion_sequences:
+		var recipe: Dictionary = character_data.original_motion_sequences[name]
+		var cells: Array = recipe.get("cells", [])
+		var valid := not cells.is_empty()
+		for cell in cells:
+			valid = valid and frames.has_animation(String(cell[0])) and int(cell[1]) >= 0 and int(cell[1]) < frames.get_frame_count(String(cell[0]))
+		if not valid:
+			push_error("Invalid original motion: %s/%s" % [_fighter_id(), name])
+			continue
+		if frames.has_animation(name):
+			frames.remove_animation(name)
+		frames.add_animation(name)
+		frames.set_animation_loop(name, false)
+		frames.set_animation_speed(name, float(recipe.get("fps", 10.0)))
+		for cell in cells:
+			frames.add_frame(name, frames.get_frame_texture(String(cell[0]), int(cell[1])), float(cell[2]))

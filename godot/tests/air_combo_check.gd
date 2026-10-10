@@ -92,7 +92,8 @@ func run() -> void:
  player.attack_hit.connect(func(id, _target): hit_moves.append(String(id)))
  var mobile: Node = battle.find_child("MobileControls",true,false)
  mobile.visible = true
- # Actual mobile handlers + collision + physics flow. No injected connected flags.
+ # Down+P now crouch-jabs. Retained launcher compatibility starts by ID;
+ # followups still use actual mobile handlers, collision and physics.
  for facing in [1.0,-1.0]:
   reset_pair()
   player.global_position = Vector2(600,520)
@@ -102,12 +103,8 @@ func run() -> void:
   player.set_physics_process(true)
   enemy.set_physics_process(true)
   await ticks(3)
-  mobile._on_direction_button_down(mobile.left_controls.get_node("CrouchButton"),mobile.DIRECTION_BUTTONS["CrouchButton"])
-  await ticks(7)
-  mobile._on_tap_button_down(mobile.right_controls.get_node("PunchButton"),"attack")
+  player._request_directional_move("akky_down_punch")
   await ticks(1)
-  Input.action_release("attack")
-  mobile._on_direction_button_up(mobile.left_controls.get_node("CrouchButton"),mobile.DIRECTION_BUTTONS["CrouchButton"])
   hit_moves.clear()
   var launcher_hit := false
   var air_p_started := false

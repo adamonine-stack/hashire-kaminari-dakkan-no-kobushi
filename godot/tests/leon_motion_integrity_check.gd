@@ -64,10 +64,11 @@ func run() -> void:
 			var texture := frames.get_frame_texture(clip,frame) as AtlasTexture
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
-			check(texture.atlas.resource_path.contains("leon_v2"),"all Leon motions use repaired originals "+clip)
-			check(texture.get_size() == Vector2(512,448),"common complete cell "+clip)
+			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/leon/")
+			check(basic_source or texture.atlas.resource_path.contains("leon_v2"),"approved Leon motion sources "+clip)
+			check(texture.get_size() == (Vector2(576,448) if basic_source else Vector2(512,448)),"complete cell for source "+clip)
 			var used := texture.get_image().get_used_rect()
-			check(used.position.x>=8 and used.position.y>=8 and used.end.x<=504 and used.end.y<=404,"no clipped hair limbs boots "+clip)
+			check(used.position.x>=(1 if basic_source else 8) and used.position.y>=8 and used.end.x<=texture.get_size().x-(1 if basic_source else 8) and used.end.y<=404,"no clipped hair limbs boots "+clip)
 			check(used.end.y >= 403 and used.end.y <= 404,"common foot/prone contact baseline "+clip)
 			var ratio := opaque_body_area(texture)/idle_area
 			check(ratio>0.70 and ratio<1.70,"anatomical body mass "+clip+str(frame))

@@ -33,7 +33,7 @@ func run() -> void:
 		actor.apply_fighter_definition(after)
 		for property in before.get_property_list():
 			var name := String(property.name)
-			if (int(property.usage) & PROPERTY_USAGE_STORAGE) == 0 or name in ["motion_display_canvas_size", "extra_motion_atlas_paths", "extra_motion_atlases", "resource_path", "resource_name"]: continue
+			if (int(property.usage) & PROPERTY_USAGE_STORAGE) == 0 or name in ["motion_display_canvas_size", "extra_motion_atlas_paths", "extra_motion_atlases", "basic_move_paths", "original_motion_sequences", "resource_path", "resource_name"]: continue
 			var a: Variant = before.get(name)
 			var b: Variant = after.get(name)
 			check(a.resource_path == b.resource_path if a is Resource and b is Resource else a == b, hero + " unchanged property " + name)
@@ -42,9 +42,11 @@ func run() -> void:
 		var frames := sprite.sprite_frames
 		check(sprite.scale.is_equal_approx(old_sprite.scale), hero + " master scale unchanged")
 		check(sprite.position.is_equal_approx(old_sprite.position), hero + " master origin unchanged")
-		check(frames.get_animation_names() == old_sprite.sprite_frames.get_animation_names(), hero + " animation names unchanged")
+		for old_clip in old_sprite.sprite_frames.get_animation_names():
+			check(frames.has_animation(old_clip), hero + " legacy animation preserved " + old_clip)
+		check(after.basic_move_paths.size() == 10, hero + " ten original actions")
 		var changed := 0
-		for clip in frames.get_animation_names():
+		for clip in old_sprite.sprite_frames.get_animation_names():
 			var old_frames := old_sprite.sprite_frames
 			check(frames.get_frame_count(clip) == old_frames.get_frame_count(clip), hero + "/" + clip + " count unchanged")
 			check(frames.get_animation_speed(clip) == old_frames.get_animation_speed(clip) and frames.get_animation_loop(clip) == old_frames.get_animation_loop(clip), hero + "/" + clip + " timing unchanged")

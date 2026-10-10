@@ -321,6 +321,7 @@ func apply_attack_sequence_stats() -> void:
 		set_air_punch_down_attack_data(fighter_definition.air_punch_down_attack)
 	if has_method("set_crouch_kick_sweep_attack_data"):
 		set_crouch_kick_sweep_attack_data(fighter_definition.crouch_kick_sweep_attack)
+	apply_basic_move_paths(fighter_definition.basic_move_paths)
 
 
 func apply_character_special_stats() -> void:
@@ -1375,6 +1376,10 @@ func _select_situation_move() -> String:
 	if not opponent.is_on_floor():
 		if situation_observed_state != "air" or situation_observed_time < _profile_float(&"move_observation_seconds", 0.22):
 			return ""
+		if basic_move_ids.has("back_punch"):
+			var upper := _get_attack_data(basic_move_ids.back_punch)
+			if distance <= upper.ai_distance_max:
+				return String(upper.attack_id)
 		for move in attack_data_sequence:
 			if move != null and move.ai_tags.has("anti_air") and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
 				return String(move.attack_id)
@@ -1389,10 +1394,32 @@ func _select_situation_move() -> String:
 			tag = "low"
 	elif opponent.current_attack_type != "":
 		return ""
+	var basic := _select_basic_situation_move(tag, distance)
+	if not basic.is_empty():
+		return basic
 	for move in attack_data_sequence:
 		if move != null and move.ai_tags.has(tag) and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
 			return String(move.attack_id)
 	return ""
+
+
+func _select_basic_situation_move(tag: String, distance: float) -> String:
+	var choices: Array = {
+		"close": ["neutral_punch", "down_punch", "back_kick"],
+		"middle": ["forward_kick", "neutral_kick", "down_kick"],
+		"approach": ["forward_punch"],
+		"punish": ["forward_punch", "forward_kick"],
+		"evade": ["back_kick", "down_punch"],
+		"low": ["down_kick"]
+	}.get(tag, [])
+	var candidates: Array[String] = []
+	for key in choices:
+		if not basic_move_ids.has(key):
+			continue
+		var move := _get_attack_data(basic_move_ids[key])
+		if distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+			candidates.append(String(move.attack_id))
+	return candidates[randi() % candidates.size()] if not candidates.is_empty() else ""
 
 
 func _try_situation_move() -> bool:

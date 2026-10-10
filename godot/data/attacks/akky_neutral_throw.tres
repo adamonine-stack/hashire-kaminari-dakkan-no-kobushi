@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "akky_neutral_throw"
-display_name = "AKKY neutral throw"
+display_name = "雷絡み落とし"
 attack_type = "throw"
 command_direction = "neutral"
 command_priority = 200

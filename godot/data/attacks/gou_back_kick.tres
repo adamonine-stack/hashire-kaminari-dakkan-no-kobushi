@@ -3,7 +3,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "gou_back_kick"
-display_name = "GOU back kick"
+display_name = "岩壁返し"
 attack_type = "kick"
 attack_category = "directional"
 command_direction = "back"

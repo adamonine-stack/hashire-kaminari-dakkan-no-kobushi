@@ -1,6 +1,11 @@
 extends Resource
 class_name PlayerAttackData
 
+## Up + attack launches from the ground and also works during an existing jump.
+@export var jump_on_start := false
+## Crouching attacks preserve their low stance until recovery ends.
+@export var crouch_on_start := false
+
 @export var attack_id: String = ""
 @export var display_name: String = ""
 @export var attack_type: String = "punch"

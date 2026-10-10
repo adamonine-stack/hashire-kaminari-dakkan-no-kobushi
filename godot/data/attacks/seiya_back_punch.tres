@@ -3,7 +3,7 @@
 [resource]
 script = ExtResource("1")
 attack_id = "seiya_back_punch"
-display_name = "SEIYA back punch"
+display_name = "燕返し拳"
 attack_type = "punch"
 attack_category = "directional"
 command_direction = "back"

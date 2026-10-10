@@ -84,7 +84,7 @@ func run() -> void:
 				var direction_button_name := "CrouchButton" if direction == "down" else ("MoveRightButton" if (direction == "forward") == (facing > 0.0) else "MoveLeftButton")
 				var direction_button := controls.left_controls.get_node(direction_button_name) as Button
 				var attack_button := controls.right_controls.get_node("PunchButton" if action == "punch" else "KickButton") as Button
-				var expected := "akky_%s_%s" % [direction, action]
+				var expected := "basic_akky_%s_%s" % [direction, action]
 				var held_action := "down" if direction == "down" else ("move_right" if direction_button_name == "MoveRightButton" else "move_left")
 				# First test: an early repeat must NOT create a delayed ghost move.
 				touch(0, true, direction_button)

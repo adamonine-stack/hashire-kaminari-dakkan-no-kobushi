@@ -1,0 +1,115 @@
+{
+  "actor": "player_01_akky",
+  "moves": [
+    {
+      "key": "neutral_punch",
+      "source": "punch_1",
+      "contact": 2,
+      "offset": [
+        125.91,
+        -130.07
+      ],
+      "startup": 0.06,
+      "recovery": 0.15
+    },
+    {
+      "key": "forward_punch",
+      "source": "akky_forward_punch",
+      "contact": 2,
+      "offset": [
+        125.91,
+        -130.07
+      ],
+      "startup": 0.08,
+      "recovery": 0.18
+    },
+    {
+      "key": "down_punch",
+      "source": "crouch_punch",
+      "contact": 2,
+      "offset": [
+        78.96,
+        -76.08
+      ],
+      "startup": 0.09,
+      "recovery": 0.17
+    },
+    {
+      "key": "back_punch",
+      "source": "akky_back_punch",
+      "contact": 2,
+      "offset": [
+        18.67,
+        -179.26
+      ],
+      "startup": 0.12,
+      "recovery": 0.22
+    },
+    {
+      "key": "up_punch",
+      "source": "akky_air_punch",
+      "contact": 2,
+      "offset": [
+        88.56,
+        -95.26
+      ],
+      "startup": 0.13,
+      "recovery": 0.18
+    },
+    {
+      "key": "neutral_kick",
+      "source": "kick_1",
+      "contact": 2,
+      "offset": [
+        117.37,
+        -110.97
+      ],
+      "startup": 0.15,
+      "recovery": 0.31
+    },
+    {
+      "key": "forward_kick",
+      "source": "akky_forward_kick",
+      "contact": 2,
+      "offset": [
+        117.37,
+        -110.97
+      ],
+      "startup": 0.11,
+      "recovery": 0.3
+    },
+    {
+      "key": "down_kick",
+      "source": "crouch_kick_sweep",
+      "contact": 2,
+      "offset": [
+        96.03,
+        -21.13
+      ],
+      "startup": 0.16,
+      "recovery": 0.35
+    },
+    {
+      "key": "back_kick",
+      "source": "akky_back_kick",
+      "contact": 2,
+      "offset": [
+        94.96,
+        -96.88
+      ],
+      "startup": 0.16,
+      "recovery": 0.34
+    },
+    {
+      "key": "up_kick",
+      "source": "jump_kick",
+      "contact": 2,
+      "offset": [
+        115.24,
+        -91.98
+      ],
+      "startup": 0.16,
+      "recovery": 0.33
+    }
+  ]
+}
