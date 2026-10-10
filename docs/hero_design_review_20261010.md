@@ -6,7 +6,7 @@
 
 PR #183 は main 90daf2228628fbe43bdc54a15b2de67e759571fe にマージ済み。Actions 38005686052 の build/deploy は success。公開Webの第一ステージ操作検証でアッキーの `Measured pose does not fit display cell` を検出したため、公開版の実行時検証は不合格。CI成功と公開実行時合格を区別する。
 
-公開版の不具合はPCK書き出し後に `PackedFloat32Array` の素材倍率が空になることを、同じPCKのWindows実行でも再現した。`Array[float]` で値を保持する修正後、PCKの2,802フレーム検証（変更26）が合格し、ローカルWebの第一ステージで歩行・ジャンプ・攻撃・MAX必殺技の操作が実行時エラーなしで合格した。公開修正版の配信は未完了。CIには元プロジェクトだけでなく書き出したPCKの倍率と全フレームを検査する工程を追加した。
+公開版の不具合はPCK書き出し後に `PackedFloat32Array` の素材倍率が空になることを、同じPCKのWindows実行でも再現した。`Array[float]` で値を保持する修正後、PCKの2,802フレーム検証（変更26）が合格し、ローカルWebの第一ステージで歩行・ジャンプ・攻撃・MAX必殺技の操作が実行時エラーなしで合格した。公開修正版はaab50418786fの配信後にデスクトップ・844×390タッチ条件で第一ステージの自動操作確認が合格。CIには元プロジェクトだけでなく書き出したPCKの倍率と全フレームを検査する工程を追加した。
 
 ## ローカルの変更
 
@@ -68,8 +68,14 @@ SEIYA_MOTION_ATLAS_OK clips=156 frames=423 failures=[]。既存の通常入力6�
 
 修正図はseiya_crouch_corrected_sequence.png、判定はcrouch_review.json。台帳にcrouch_pose_reviewを追加し、ポーズ修正合格と身体寸法未確認を区別した。
 
-公開用PR #184はCI38008356408 success後にmain aab50418786f11765e8a4cdd7c661e95bc3d7421へマージ済み。PagesのCI38009328165は進行中。これにはローカルのゴウ・セイヤ修正は含まれない。
+公開用PR #184はCI38008356408 success後にmain aab50418786f11765e8a4cdd7c661e95bc3d7421へマージ済み。PagesのCI38009328165はbuild/deployともsuccess。これにはローカルのゴウ・セイヤ修正は含まれない。
 
 追加のサイズ点検でcrouch_punch/0と/4の頭部補正矩形が胸や腕まで含むことを確認し、矩形高さ71/73pxを頭だけの51pxへ変更した。身体全体のscaleと正式Idleは維持。再描画24枚では変更は該当2姿勢の左右4枚のみ。準備・戻り姿勢で胴体へ頭部縮小補正が及ばないことを比較した。crouch_size_review.jsonとseiya_crouch_head_body_review.pngへ保存。全モーション最終再取得はheroes_final_nativeへ行う。
 
 最終再取得heroes_final_nativeは全1,648枚で完了。修正前との変更はセイヤの頭部補正としゃがみパンチに限定した左右12枚。ゴウ全802枚と正式Idle全フレームは同一、全フレームのscale/position/canvasは同一、GPU画像の端接触は0。結果はheroes_final_review.json。しゃがみパンチのクリップ連続再生は両方向3回ずつ、SEIYA_CROUCH_VISUAL_REPLAY failures=[]。ポーズと倍率の修正合格を、Idleとの頭部寸法の最終合格とは区別する。しゃがみパンチを含むセイヤの大きく見える頭部は台帳で不合格として保持し、身体各部±2%も未確認。
+
+公開完了確認: PR184をmain aab50418786f11765e8a4cdd7c661e95bc3d7421へマージ、Actions38009328165 build/deploy success。公開版game-aab50418786fのデスクトップ1280×720・タッチ844×390でST_ACTION_WEB_STAGE_OK 1を確認。通常攻撃、ジャンプ、歩行、MAX必殺技の操作を実行し、Godot実行時エラーなし。変更していない公開PCK/WASMへQAセーブを投入した自動操作であり、手動プレイや通常New Game経路の証明とは区別する。WebGLドライバのbindBuffer等の警告はログへ残す。証跡はevidence/web/release_aab50418_desktop、_mobile。ゴウ・セイヤのローカル修正は公開版に未反映。
+
+固定カメラ640×480の基準Idle描画はゴウ214px高・セイヤ203px高（可視α外接矩形、身体寸法そのものの証明ではない）。足元の可視画像下端は両者430px。セイヤしゃがみパンチは全6フレーム・左右とも同じ430px下端で、接地アンカーがIdleと一致。しゃがみによる高さの減少を倍率の減少と混同しない。キャラクターごとの既存基準表示倍率を維持している。
+
+共有頭部設定の回帰確認としてDARK_SEIYA_COMBAT_CHECK failures=[]も確認。既存テスト終了時にObjectDBの2インスタンス漏れ警告があり、ログに残した。
