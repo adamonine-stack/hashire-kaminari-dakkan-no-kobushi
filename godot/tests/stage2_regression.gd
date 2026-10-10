@@ -139,7 +139,7 @@ func run() -> void:
 	enemy.ai_enabled = true
 	enemy.ai_attack_cooldown_timer = 0.0
 	enemy.enter_crouch_sweep()
-	check(enemy.current_attack_id == "rei_sweep", "Rei AI can initiate crouch sweep")
+	check(enemy.current_attack_id == "basic_rei_down_kick", "Rei AI can initiate crouch sweep")
 	enemy.finish_attack()
 	enemy.reset_attack_state()
 	enemy.ai_enabled = true
@@ -171,3 +171,4 @@ func run() -> void:
 	await process_frame
 	print("STAGE2_REGRESSION failures=", failures)
 	quit(0 if failures.is_empty() else 1)
+
