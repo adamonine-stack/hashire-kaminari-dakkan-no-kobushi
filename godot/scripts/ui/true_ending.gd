@@ -3,6 +3,7 @@ extends Control
 ## Autonomous film: all gameplay input is consumed, including pause and touch.
 signal beat_started(beat: String)
 const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
+const CREDITS := preload("res://scripts/ui/ending_credits.gd")
 const ART := "res://assets/endings/true/"
 const PLAYER := preload("res://scenes/Player.tscn")
 const HEROES := [preload("res://data/fighters/ally_balance.tres"), preload("res://data/fighters/ally_power.tres"), preload("res://data/fighters/ally_speed.tres")]
@@ -35,6 +36,9 @@ var alarm := false
 var timing_scale := 1.0 # Set before entering tree by QA only; normal playback is real time.
 var auto_return := true
 var theme_completed := false
+var credits_started := false
+var credits_complete := false
+var returning_to_title := false
 const AURA := preload("res://assets/effects/special_v1/aura.png")
 
 func _ready() -> void:
@@ -46,8 +50,25 @@ func _ready() -> void:
 	get_node("/root/AudioManager").fade_out()
 	_run()
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# The cinematic stays unskippable until the credits begin.
 	get_viewport().set_input_as_handled()
+	if not credits_started or returning_to_title: return
+	var tapped := false
+	if event is InputEventScreenTouch:
+		tapped = (event as InputEventScreenTouch).pressed
+	elif event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		tapped = mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
+	if tapped or (event.is_action_pressed("ui_accept") and not event.is_echo()):
+		_return_from_credits()
+
+
+func _return_from_credits() -> void:
+	if returning_to_title: return
+	returning_to_title = true
+	await get_node("/root/AudioManager").fade_out()
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
 func _on_music_finished(music_id: String) -> void:
 	if music_id == get_node("/root/AudioManager").THEME_ID:
@@ -201,20 +222,16 @@ func _run() -> void:
 	await _card("TRUE ENDING", 4.0)
 	_record_completion()
 	_beat("credits")
+	credits_started = true
 	await _credits()
-	# Preserve the autonomous film and allow the whole song to finish.
-	# QA with auto_return=false keeps the existing short sequence.
-	var audio := get_node("/root/AudioManager")
-	if auto_return and audio.current_bgm_id == audio.THEME_ID:
-		title_card.text = "TRUE ENDING"
-		title_card.modulate.a = 1.0
-		title_card.show()
-		# playing can become false a frame before AudioStreamPlayer.finished.
-		# Do not start title playback until the old track's signal is delivered.
-		while not theme_completed and audio.current_bgm_id == audio.THEME_ID:
-			await get_tree().process_frame
+	if returning_to_title: return
+	credits_complete = true
+	title_card.text = "TRUE ENDING\n画面タップでタイトルへ"
+	title_card.modulate.a = 1.0
+	title_card.show()
+	# Stay here indefinitely, even after the full theme has finished.
+	# The player returns only by tapping/clicking/confirming.
 	_beat("complete")
-	if auto_return: get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
 func _cg(id: String, hold: float, pull_back := false) -> void:
 	if veil.color.a < 0.99: await _fade(1.0, 0.7)
@@ -244,17 +261,16 @@ func _card(text: String, hold: float) -> void:
 	title_card.hide()
 
 func _credits() -> void:
-	var roll := _label(FileAccess.get_file_as_string("res://data/story/credits.txt"), Vector2(180, 735), Vector2(920, 1100), 29)
-	roll.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	roll.z_index = 12
+	var roll := CREDITS.make_roll(content)
 	var tween := create_tween()
 	var roll_duration := 30.0 * timing_scale
 	var audio := get_node("/root/AudioManager")
 	if auto_return and audio.is_music_playing(audio.THEME_ID):
-		roll_duration = maxf(roll_duration, audio.bgm_player.stream.get_length() - audio.bgm_player.get_playback_position() - 1.0)
-	# Credit contributors can grow without clipping the last line of the roll.
-	var final_y := -maxf(1150.0, roll.get_combined_minimum_size().y + 50.0)
-	tween.tween_property(roll, "position:y", final_y, roll_duration)
+		# Finish scrolling sooner than the theme, leaving a calm end card
+		# while the complete song plays before returning to the title.
+		var remaining: float = audio.bgm_player.stream.get_length() - audio.bgm_player.get_playback_position()
+		roll_duration = maxf(roll_duration, (remaining - 1.0) * CREDITS.TRUE_SONG_REMAINING_SHARE)
+	tween.tween_property(roll, "position:y", CREDITS.offscreen_y(roll), roll_duration)
 	await tween.finished
 	roll.queue_free()
 	await _wait(1.0)

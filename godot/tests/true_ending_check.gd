@@ -84,11 +84,17 @@ func run_check() -> void:
 	cfg.load("user://story_progress.cfg")
 	check(cfg.get_value("story", "true_ending_unlocked", false), "true ending saved")
 	check(cfg.get_value("story", "normal_ending_unlocked", false) and cfg.get_value("custom", "preserve", 0) == 73, "existing save entries retained")
-	ending.queue_free()
-	await process_frame
-	change_scene_to_file("res://scenes/Title.tscn")
-	for i in range(5): await process_frame
-	check(current_scene.title_menu.get_child(0).text.contains("TRUE ENDING CLEAR"), "title reflects completion")
+	check(ending.credits_complete and ending.title_card.visible, "true credits hold their final screen")
+	check(current_scene == ending, "no automatic title return")
+	var tap := InputEventScreenTouch.new()
+	tap.pressed = true
+	tap.index = 0
+	tap.position = Vector2(422, 195)
+	Input.parse_input_event(tap)
+	await create_timer(1.3).timeout
+	check(current_scene != null and current_scene.scene_file_path == "res://scenes/Title.tscn", "tap returns from true credits")
+	if current_scene != null and current_scene.scene_file_path == "res://scenes/Title.tscn":
+		check(current_scene.title_menu.get_child(0).text.contains("TRUE ENDING CLEAR"), "title reflects completion")
 	if rendered: await capture("title_complete")
 	print("TRUE_ENDING_CHECK failures=%s" % JSON.stringify(failures))
 	current_scene.queue_free()
