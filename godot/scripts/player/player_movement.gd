@@ -682,9 +682,12 @@ func receive_throw(attacker: Node, damage: int, hit_position: Vector2, throw_dir
 	_set_kick_hitbox_active(false)
 	var held_by_readable: bool = attacker.has_method("_uses_readable_grapple") and attacker._uses_readable_grapple()
 	var held_by_teki: bool = attacker.has_method("_is_authored_grappler") and attacker._is_authored_grappler()
+	held_by_teki = held_by_teki or (attacker.has_method("_is_rei_thrower") and attacker._is_rei_thrower())
 	var held_by_cross: bool = attacker.has_method("_is_cross_grappler") and attacker._is_cross_grappler()
 	var muei_held: bool = attacker.has_method("_is_cross_muei_throw") and attacker._is_cross_muei_throw() and _has_visual_animation(&"cross_muei_held")
-	if muei_held:
+	if attacker.has_method("_is_rei_thrower") and attacker._is_rei_thrower() and _has_visual_animation(&"crusher_throw_held"):
+		_play_throw_animation("crusher_throw_held")
+	elif muei_held:
 		_play_throw_animation("cross_muei_held")
 	else:
 		_play_throw_animation("grapple_held" if held_by_readable and _has_visual_animation(&"grapple_held") else ("cross_react_pull" if held_by_cross and _has_visual_animation(&"cross_react_pull") else ("grabbed" if held_by_teki else "thrown")))
@@ -2877,11 +2880,13 @@ func _get_current_visual_animation() -> StringName:
 				return authored
 		if throw_state == "THROW_HOLD" and get("directional_throw_data") != null and _has_visual_animation(&"directional_throw_hold"):
 			return &"directional_throw_hold"
-		if _is_authored_grappler() or _is_leon_crow() or _uses_readable_grapple():
+		if _is_authored_grappler() or _is_leon_crow() or _uses_readable_grapple() or _is_rei_thrower():
 			var phase := "throw_start" if throw_state == "THROW_STARTUP" else ("throw_hold" if throw_state == "THROW_HOLD" else "throw_release")
 			return StringName(_teki_throw_animation(phase))
 		return &"throw"
 	if throw_state == "THROWN" or is_throw_locked or is_throw_escape_pending:
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_rei_thrower") and pending_throw_attacker._is_rei_thrower() and _has_visual_animation(&"crusher_throw_held"):
+			return &"crusher_throw_held"
 		if has_method("_directional_throw_victim_animation"):
 			var authored: StringName = call("_directional_throw_victim_animation")
 			if authored != &"":
@@ -2894,7 +2899,7 @@ func _get_current_visual_animation() -> StringName:
 			return &"grapple_held"
 		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_cross_grappler") and pending_throw_attacker._is_cross_grappler() and _has_visual_animation(&"cross_react_pull"):
 			return &"cross_react_pull"
-		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_authored_grappler") and pending_throw_attacker._is_authored_grappler():
+		if is_instance_valid(pending_throw_attacker) and pending_throw_attacker.has_method("_is_authored_grappler") and (pending_throw_attacker._is_authored_grappler() or pending_throw_attacker._is_rei_thrower()):
 			return &"grabbed"
 		return &"thrown"
 	if is_throw_escaping:
@@ -3203,3 +3208,8 @@ func _sync_special_guard_pose() -> void:
 	var progress := clampf(1.0-guard_hit_timer/special_guard_duration,0.0,0.9999)
 	animated_character_sprite.pause()
 	animated_character_sprite.set_frame_and_progress(int(progress*count),0.0)
+
+
+func _is_rei_thrower() -> bool:
+	var definition: Resource = get("fighter_definition")
+	return definition != null and String(definition.get("fighter_id")) == "enemy_04_rei_kageyama"

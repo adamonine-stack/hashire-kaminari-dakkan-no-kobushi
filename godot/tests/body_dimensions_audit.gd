@@ -44,6 +44,8 @@ func run() -> void:
 			if file.ends_with(".tres") and not path in paths:
 				paths.append(path)
 	for path in paths:
+		if "--rei-only" in args and path != "enemies/enemy_04_throw.tres": continue
+		if "--stage2" in args and path not in ["fighters/ally_balance.tres", "fighters/ally_power.tres", "fighters/ally_speed.tres", "enemies/enemy_04_throw.tres"]: continue
 		if "--seiya-only" in args and path != "fighters/ally_speed.tres": continue
 		if "--heroes" in args and path not in ["fighters/ally_power.tres", "fighters/ally_speed.tres"]:
 			continue

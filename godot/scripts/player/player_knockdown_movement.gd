@@ -293,6 +293,11 @@ func _complete_throw_hit() -> void:
 		last_special_knockback_animation = &"thrown"
 		if _has_visual_animation(&"knockdown"):
 			last_knockdown_animation = &"knockdown"
+	if is_instance_valid(attacker) and attacker.has_method("_is_rei_thrower") and attacker._is_rei_thrower() and _has_visual_animation(&"crusher_throw_neutral_air"):
+		last_damage_animation = &"crusher_throw_neutral_air"
+		last_special_knockback_animation = &"crusher_throw_neutral_air"
+		if _has_visual_animation(&"down"):
+			last_knockdown_animation = &"down"
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	apply_damage(damage)

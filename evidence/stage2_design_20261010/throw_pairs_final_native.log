@@ -1,0 +1,257 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+Vulkan 1.4.309 - Forward Mobile - Using Device #0: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 200
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 14
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 100
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 180
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 8
+[DEV035] Kick damage: 10
+[DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_01_crusher
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 160
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 7
+[DEV035] Kick damage: 10
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 200
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 14
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 18
+HP: 142
+[Special] gauge_changed=12
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 16
+HP: 144
+[Special] gauge_changed=26
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 23
+HP: 137
+[Special] gauge_changed=39
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 16
+HP: 144
+[Special] gauge_changed=53
+REI_THROW_ACTOR enemy_04_rei_kageyama helper=true
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 17
+HP: 183
+[Special] gauge_changed=19
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 18
+HP: 142
+[Special] gauge_changed=68
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 16
+HP: 144
+[Special] gauge_changed=82
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 23
+HP: 137
+[Special] gauge_changed=95
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 16
+HP: 144
+[Special] gauge_full
+[Special] gauge_changed=100
+REI_THROW_ACTOR enemy_04_rei_kageyama helper=true
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 17
+HP: 183
+[Special] gauge_changed=39
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 240
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 15
+[DEV035] Kick damage: 20
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 26
+HP: 134
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 23
+HP: 137
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 34
+HP: 126
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 23
+HP: 137
+[Special] gauge_full
+[Special] gauge_changed=100
+REI_THROW_ACTOR enemy_04_rei_kageyama helper=true
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 17
+HP: 223
+[Special] gauge_changed=59
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 26
+HP: 134
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 23
+HP: 137
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 34
+HP: 126
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 23
+HP: 137
+[Special] gauge_full
+[Special] gauge_changed=100
+REI_THROW_ACTOR enemy_04_rei_kageyama helper=true
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 17
+HP: 223
+[Special] gauge_changed=79
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 180
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 12
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 14
+HP: 146
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 13
+HP: 147
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 18
+HP: 142
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 13
+HP: 147
+[Special] gauge_full
+[Special] gauge_changed=100
+REI_THROW_ACTOR enemy_04_rei_kageyama helper=true
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 17
+HP: 163
+[Special] gauge_changed=99
+[Special] gauge_full
+THROW STARTUP
+[Special] gauge_full
+THROW CONNECTED
+THROW RELEASE
+Damage: 14
+HP: 146
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 13
+HP: 147
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 18
+HP: 142
+[Special] gauge_full
+[Special] gauge_changed=100
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 13
+HP: 147
+[Special] gauge_full
+[Special] gauge_changed=100
+REI_THROW_ACTOR enemy_04_rei_kageyama helper=true
+THROW STARTUP
+THROW CONNECTED
+THROW RELEASE
+Damage: 17
+HP: 163
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV041][GameFlow] Battle cleanup completed
+STAGE2_THROW_PAIRS cases=30 failures=[]
