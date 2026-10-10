@@ -62,7 +62,10 @@ async function main() {
   await tap(mobile ? 422 : 640, mobile ? 212 : 390);
   await page.waitForTimeout(2200);
   await screenshot('selection');
+  if (logs.some(v => v.includes('VS enemy_09_seiya'))) throw Error('True boss auto-started without fighter selection');
+  // Choose a fighter on the actual selection screen, including touch-sized viewports.
   await tap(mobile ? 422 : 640, mobile ? 286 : 528);
+  if (!logs.some(v => v.includes('VS enemy_09_seiya'))) await page.keyboard.press('Enter');
   for (let i = 0; i < 40 && !logs.some(v => v.includes('VS enemy_09_seiya')); i++) await page.waitForTimeout(300);
   if (!logs.some(v => v.includes('VS enemy_09_seiya'))) throw Error('Checkpoint did not enter true boss combat');
   await screenshot('combat');
