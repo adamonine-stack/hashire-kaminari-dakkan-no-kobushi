@@ -5,8 +5,10 @@ signal beat_started(beat: String)
 const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
 const CREDITS := preload("res://scripts/ui/ending_credits.gd")
 const ART := "res://assets/endings/true/"
-const PLAYER := preload("res://scenes/Player.tscn")
-const HEROES := [preload("res://data/fighters/ally_balance.tres"), preload("res://data/fighters/ally_power.tres"), preload("res://data/fighters/ally_speed.tres")]
+const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
+const HERO_IDS := ["ally_balance", "ally_power", "ally_speed"]
+const CAST_MANIFEST := "res://assets/endings/true_cast/poses.json"
+const CHECKPOINT := preload("res://scripts/ui/true_ending_checkpoint.gd")
 const LINES := ["……俺の負けだ。", "ブラックスパロウは……大きくなりすぎた。", "ここで終わらせる。", "行け。", "セイヤ……！", "早く行け。", "あれだ！"]
 var stage := ""
 var history: Array[String] = []
@@ -39,10 +41,11 @@ var theme_completed := false
 var credits_started := false
 var credits_complete := false
 var returning_to_title := false
-const AURA := preload("res://assets/effects/special_v1/aura.png")
 
 func _ready() -> void:
 	get_tree().paused = false
+	if get_tree().root.has_meta(&"st_action_continue_run"):
+		get_tree().root.remove_meta(&"st_action_continue_run")
 	_build()
 	_layout()
 	get_viewport().size_changed.connect(_layout)
@@ -91,9 +94,10 @@ func _process(delta: float) -> void:
 	else: shot.position = Vector2.ZERO
 	if explosion:
 		for particle in effects.get_children():
-			if particle is GPUParticles2D: continue
 			particle.position.y -= delta * float(particle.get_meta("rise", 24.0))
 			particle.position.x += sin(clock + particle.get_index()) * delta * 10.0
+			if particle.has_meta("flame"):
+				particle.scale.y = 1.0 + sin(clock * 6.0 + particle.get_index()) * 0.12
 
 func _beat(value: String) -> void:
 	stage = value
@@ -123,7 +127,7 @@ func _say(who: String, text: String, seconds: float) -> void:
 func _run() -> void:
 	_beat("defeat")
 	var aura := Sprite2D.new()
-	aura.texture = AURA
+	aura.texture = load("res://assets/effects/special_v1/aura.png")
 	aura.position = Vector2(0,-100)
 	aura.scale = Vector2(0.27,0.43)
 	aura.modulate = Color(0.32,0.16,0.50,0.35)
@@ -162,8 +166,10 @@ func _run() -> void:
 	seiya.hide()
 	await _fade(1.0)
 	cast.hide()
+	_release_cast_images()
 	_beat("switch")
 	backdrop.hide()
+	backdrop.texture = null
 	_switch_device()
 	await _fade(0.0, 0.6)
 	await _wait(1.0)
@@ -196,7 +202,7 @@ func _run() -> void:
 	shaking = 3.5
 	var flare := create_tween()
 	flare.tween_property(flash, "color:a", 0.0, 0.7 * timing_scale)
-	backdrop.texture = load(ART + "explosion.png")
+	await _replace_backdrop(ART + "explosion.png")
 	effects.show()
 	_explosion_effects()
 	explosion = true
@@ -212,12 +218,18 @@ func _run() -> void:
 	await _fade(1.0, 1.8)
 	explosion = false
 	effects.hide()
+	_clear_effects()
 	_stop_sound("explosion")
 	_stop_sound("engine")
 	get_node("/root/AudioManager").play_ending_theme()
 	await _cg("dawn", 8.0, true)
 	await _fade(1.0, 2.0)
+	backdrop.texture = null
 	_stop_sound("waves")
+	for id in sound_players.keys(): _stop_sound(String(id))
+	if shot_tween != null: shot_tween.kill()
+	shot.position = Vector2.ZERO
+	set_process(false)
 	await _card("BLACK SPARROW", 3.0)
 	await _card("TRUE ENDING", 4.0)
 	_record_completion()
@@ -237,7 +249,7 @@ func _cg(id: String, hold: float, pull_back := false) -> void:
 	if veil.color.a < 0.99: await _fade(1.0, 0.7)
 	_beat(id)
 	backdrop.show()
-	backdrop.texture = load(ART + id + ".png")
+	await _replace_backdrop(ART + id + ".png")
 	if shot_tween != null: shot_tween.kill()
 	backdrop.pivot_offset = Vector2(640, 360)
 	backdrop.scale = Vector2(1.07, 1.07) if pull_back else Vector2.ONE
@@ -245,6 +257,26 @@ func _cg(id: String, hold: float, pull_back := false) -> void:
 	shot_tween.tween_property(backdrop, "scale", Vector2.ONE if pull_back else Vector2(1.045, 1.045), (hold + 2.0) * timing_scale)
 	await _fade(0.0, 1.0)
 	await _wait(hold)
+
+func _replace_backdrop(path: String) -> void:
+	# Release the previous decoded plate before allocating the next one.
+	backdrop.texture = null
+	await get_tree().process_frame
+	backdrop.texture = load(path)
+
+func _release_cast_images() -> void:
+	for actor in cast.get_children():
+		if actor is Sprite2D:
+			actor.texture = null
+		else:
+			actor.animated_character_sprite.stop()
+			actor.animated_character_sprite.sprite_frames = SpriteFrames.new()
+			actor.animated_character_sprite.material = null
+			actor.poses.clear()
+
+func _clear_effects() -> void:
+	for child in effects.get_children():
+		child.queue_free()
 
 func _card(text: String, hold: float) -> void:
 	_beat(text)
@@ -285,6 +317,7 @@ func _record_completion() -> void:
 	cfg.set_value("story", "true_ending_unlocked", true)
 	var result := cfg.save("user://story_progress.cfg")
 	if result != OK: push_error("Cannot save true ending: %s" % result)
+	else: CHECKPOINT.clear()
 
 func _sound(id: String, db: float) -> void:
 	var player: AudioStreamPlayer
@@ -292,14 +325,16 @@ func _sound(id: String, db: float) -> void:
 	else:
 		player = AudioStreamPlayer.new()
 		player.bus = &"SFX"
-		player.stream = load(ART + id + ".wav")
 		add_child(player)
 		sound_players[id] = player
+	if player.stream == null: player.stream = load(ART + id + ".wav")
 	player.volume_db = db + linear_to_db(maxf(get_node("/root/AudioManager").se_volume, 0.00001))
 	player.play()
 
 func _stop_sound(id: String) -> void:
-	if sound_players.has(id): sound_players[id].stop()
+	if sound_players.has(id):
+		sound_players[id].stop()
+		sound_players[id].stream = null
 
 func _build() -> void:
 	var black := ColorRect.new()
@@ -320,12 +355,9 @@ func _build() -> void:
 	cast = Node2D.new()
 	shot.add_child(cast)
 	for i in range(3):
-		var actor = PLAYER.instantiate()
-		actor.process_mode = Node.PROCESS_MODE_DISABLED
-		actor.collision_layer = 0
-		actor.collision_mask = 0
+		var actor = ENDING_HERO.new()
+		actor.setup(HERO_IDS[i], CAST_MANIFEST)
 		cast.add_child(actor)
-		actor.apply_fighter_definition(HEROES[i])
 		actor.input_enabled = false
 		actor.ai_enabled = false
 		actor.is_round_active = false
@@ -422,47 +454,23 @@ func _circle(radius: float) -> PackedVector2Array:
 	return points
 
 func _explosion_effects() -> void:
-	for child in effects.get_children(): child.queue_free()
+	_clear_effects()
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 90817
 	# Fire columns animate independently of the CG in the distant base only.
 	for i in range(5):
-		var flame := Sprite2D.new()
-		flame.texture = AURA
+		var flame := _polygon(PackedVector2Array([Vector2(-18, 25), Vector2(-12, -20), Vector2(0, -90), Vector2(15, -25), Vector2(20, 25)]), Color(1,0.55,0.16,0.24), effects)
 		flame.position = Vector2(925 + i * 55, 160)
-		flame.modulate = Color(1,0.55,0.16,0.30)
-		flame.scale = Vector2(0.13,0.22)
-		effects.add_child(flame)
 		flame.set_meta("rise", 0.0)
-		var flicker := create_tween().set_loops()
-		flicker.tween_property(flame, "scale", Vector2(0.11,0.28), 0.23 + i * 0.04)
-		flicker.tween_property(flame, "scale", Vector2(0.15,0.19), 0.30)
-	var smoke_shader := Shader.new()
-	smoke_shader.code = "shader_type canvas_item; void fragment(){ float d=length(UV-vec2(0.5)); float a=1.0-smoothstep(0.06,0.5,d); COLOR=vec4(0.10,0.09,0.12,a*0.11); }"
-	for i in range(16):
-		var smoke := ColorRect.new()
-		smoke.size = Vector2(110,95)
-		var smoke_material := ShaderMaterial.new()
-		smoke_material.shader = smoke_shader
-		smoke.material = smoke_material
-		effects.add_child(smoke)
+		flame.set_meta("flame", true)
+	for i in range(6):
+		var smoke := _polygon(_circle(42), Color(0.10,0.09,0.12,0.075), effects)
 		smoke.position = Vector2(rng.randf_range(890,1160),rng.randf_range(-30,130))
 		smoke.set_meta("rise", rng.randf_range(12,30))
-	var embers := GPUParticles2D.new()
-	embers.position = Vector2(1060,210)
-	embers.amount = 130
-	embers.lifetime = 4.0
-	var material := ParticleProcessMaterial.new()
-	material.direction = Vector3(0,-1,0)
-	material.spread = 55
-	material.initial_velocity_min = 35
-	material.initial_velocity_max = 110
-	material.gravity = Vector3(0,-12,0)
-	material.color = Color("ffab45")
-	embers.process_material = material
-	embers.visibility_rect = Rect2(-700,-500,1400,1000)
-	effects.add_child(embers)
-	embers.emitting = true
+	for i in range(12):
+		var ember := _polygon(PackedVector2Array([Vector2(-1,-2),Vector2(1,-2),Vector2(1,2),Vector2(-1,2)]), Color("ffab45"), effects)
+		ember.position = Vector2(rng.randf_range(890,1160),rng.randf_range(100,230))
+		ember.set_meta("rise", rng.randf_range(25,65))
 
 func _layout() -> void:
 	var size_now := get_viewport_rect().size

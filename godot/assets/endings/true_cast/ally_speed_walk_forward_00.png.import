@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iw2baek24phq"
-path="res://.godot/imported/boat.png-f912815def7483ee1bca69e775a8e428.ctex"
+uid="uid://5bfb0pc5aggx"
+path="res://.godot/imported/ally_speed_walk_forward_00.png-ff502b471c2548b477400638a954cac6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/endings/true/boat.png"
-dest_files=["res://.godot/imported/boat.png-f912815def7483ee1bca69e775a8e428.ctex"]
+source_file="res://assets/endings/true_cast/ally_speed_walk_forward_00.png"
+dest_files=["res://.godot/imported/ally_speed_walk_forward_00.png-ff502b471c2548b477400638a954cac6.ctex"]
 
 [params]
 
@@ -36,5 +36,5 @@ process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
-process/size_limit=1280
+process/size_limit=0
 detect_3d/compress_to=1

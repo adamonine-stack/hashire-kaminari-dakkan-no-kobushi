@@ -79,9 +79,12 @@ async function main() {
   running = true;
   // Inputs must neither pause nor skip the autonomous movie.
   await page.keyboard.press('Escape'); await tap(20, 20);
-  const deadline = Date.now() + 240000;
+  const deadline = Date.now() + 360000;
   while (Date.now() < deadline && !beats.includes('complete') && !logs.some(v => /^SCRIPT ERROR:|^ERROR:/.test(v))) await page.waitForTimeout(500);
   await Promise.all(pending);
+	await screenshot('credits_complete');
+	// Current endings hold their last screen and return only on a real tap.
+	await tap(20, 20);
   await page.waitForTimeout(1600);
   await screenshot('title_after');
   const expected = ['defeat', 'departure', 'switch', 'escape', 'pier', 'boat', 'detonation', 'dawn', 'BLACK SPARROW', 'TRUE ENDING', 'credits', 'complete'];

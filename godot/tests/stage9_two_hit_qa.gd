@@ -238,3 +238,4 @@ func run() -> void:
 	await process_frame
 	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
+
