@@ -209,7 +209,17 @@ func run() -> void:
 				var air_area := opaque_body_area(sprite.sprite_frames.get_frame_texture(target.last_special_knockback_animation,0))
 				var down_area := opaque_body_area(sprite.sprite_frames.get_frame_texture(target.last_knockdown_animation,0))
 				check(air_area/idle_area >= 0.70 and air_area/idle_area <= 1.10,label + " received body keeps ordinary character size")
-				check(down_area/air_area >= 0.80 and down_area/air_area <= 0.90,label + " prone body retains flight body mass")
+				if target.fighter_definition.fighter_id == &"enemy_04_rei_kageyama":
+					# The official supine pose overlaps limbs, unlike the former
+					# separately generated prone art. Projected opaque area cannot
+					# measure its anatomy. Require exact approved source pixels.
+					var master: Texture2D = load("res://assets/characters/enemy04/animations/rei_v1/motion_atlas.png")
+					var air := sprite.sprite_frames.get_frame_texture(target.last_special_knockback_animation,0)
+					var down := sprite.sprite_frames.get_frame_texture(target.last_knockdown_animation,0)
+					check(air.get_image().get_data() == master.get_image().get_region(Rect2i(320,1200,320,300)).get_data(),label + " airborne body is exact official pose 25")
+					check(down.get_image().get_data() == master.get_image().get_region(Rect2i(640,1200,320,300)).get_data(),label + " grounded body is exact official pose 26")
+				else:
+					check(down_area/air_area >= 0.80 and down_area/air_area <= 0.90,label + " prone body retains flight body mass")
 			for frame in range(150):
 				await physics_frame
 				check(root.get_camera_2d().zoom.is_equal_approx(camera_zoom_before),label + " no camera enlargement during flight")

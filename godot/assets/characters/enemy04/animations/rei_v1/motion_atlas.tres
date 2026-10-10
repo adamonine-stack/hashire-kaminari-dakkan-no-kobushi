@@ -20,6 +20,7 @@ clips = {
 "jump": {"frames": [8,9], "fps": 10.0, "loop": false},
 "jump_start": {"frames": [8,9], "fps": 10.0, "loop": false},
 "jump_air": {"frames": [9], "fps": 8.0, "loop": false},
+"jump_ascent": {"frames": [9], "fps": 8.0, "loop": false},
 "jump_up": {"frames": [9], "fps": 8.0, "loop": false},
 "jump_fall": {"frames": [10], "fps": 8.0, "loop": false},
 "fall": {"frames": [10], "fps": 8.0, "loop": false},

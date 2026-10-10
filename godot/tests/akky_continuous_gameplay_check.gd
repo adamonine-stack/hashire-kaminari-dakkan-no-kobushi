@@ -21,6 +21,12 @@ func qa_name() -> String:
 func special_clips() -> Array:
 	return ["akky_reversal_startup","akky_reversal_elbow","akky_reversal_finish"]
 
+func battle_stage_index() -> int:
+	return 0
+
+func controlled_actor_name() -> String:
+	return "Player"
+
 func step(count: int) -> void:
 	for tick in range(count):
 		await physics_frame
@@ -51,7 +57,7 @@ func incoming_hit() -> void:
 
 func run() -> void:
 	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
-	battle.get_node("BattleManager").active_enemy_count_limit = 1
+	battle.get_node("BattleManager").active_enemy_count_limit = battle_stage_index() + 1
 	root.add_child(battle)
 	current_scene = battle
 	await process_frame
@@ -62,8 +68,16 @@ func run() -> void:
 		if manager._enemy_intro_panel != null and manager._enemy_intro_panel.visible: manager.enemy_intro_finished.emit()
 		if manager.isRoundActive: break
 	check(manager.isRoundActive,"round ready")
-	player = battle.get_node("Player")
-	enemy = battle.get_node("Enemy")
+	if battle_stage_index() != 0:
+		manager.current_enemy_index = battle_stage_index()
+		manager.spawn_active_enemy()
+		manager._apply_current_stage_definition()
+		manager._update_battle_hud_enemy()
+		check(battle.get_node("Enemy").fighter_definition.fighter_id == &"enemy_04_rei_kageyama","actual Stage 2 actor is Rei")
+	player = battle.get_node(controlled_actor_name())
+	enemy = battle.get_node("Enemy" if controlled_actor_name() == "Player" else "Player")
+	player.ai_enabled = false
+	player.ai_profile = null
 	enemy.ai_enabled = false
 	enemy.ai_profile = null
 	enemy.ai_guard_enabled = false
@@ -81,6 +95,8 @@ func run() -> void:
 	if "--fixed-camera" in OS.get_cmdline_user_args(): folder += "_fixed_camera"
 	if selected_fighter_id() != "player_01_akky":
 		folder = ProjectSettings.globalize_path("res://../audit_evidence/hero_design_20261010/continuous/" + qa_name().to_lower() + ("_native" if DisplayServer.get_name() != "headless" else "_headless") + ("_fixed" if "--fixed-camera" in OS.get_cmdline_user_args() else ""))
+	if battle_stage_index() == 1:
+		folder = ProjectSettings.globalize_path("res://../audit_evidence/stage2_design_20261010/continuous/" + qa_name().to_lower())
 	DirAccess.make_dir_recursive_absolute(folder)
 	var layer := CanvasLayer.new()
 	root.add_child(layer)
