@@ -15,3 +15,5 @@ Validation:
 - Normal opening path reported `OPENING_FLOW_OK`; its pre-existing shutdown resource warning remains in that isolated smoke test.
 
 Automated Edge touch viewport evidence is not a physical iPhone Safari/home-screen play test. Software WebGL buffer warnings also occur in the existing combat renderer. The public deployed build is verified separately after Pages completes.
+
+Final visual comparison also preserves Seiya's original head shader using recorded pose-local landmarks and multipliers (idle 0.9; authored guard 1.0). The Akky, Gou and Seiya body regions in the final local rescue screenshot each have no pixel differences against the pre-fix public rescue screenshot. All seven ending routes passed again with this correction.
