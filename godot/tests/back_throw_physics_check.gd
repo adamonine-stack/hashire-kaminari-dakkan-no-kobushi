@@ -37,13 +37,15 @@ func run() -> void:
 		var button_name := "MoveLeftButton" if facing>0 else "MoveRightButton"
 		var button: Button = mobile.left_controls.get_node(button_name)
 		mobile._on_direction_button_down(button,mobile.DIRECTION_BUTTONS[button_name])
-		player._sample_combat_commands(0.0)
-		mobile._on_direction_button_up(button,mobile.DIRECTION_BUTTONS[button_name])
 		player._sample_combat_commands(0.12)
+		# Directional throw is valid while the back D-pad is HELD.
+		# Releasing it before the throw must now produce a neutral throw.
 		mobile._on_tap_button_down(mobile.right_controls.get_node("ThrowButton"),"throw_attack")
 		player._sample_combat_commands(0.0)
 		player._dispatch_combat_command()
-		check(player.directional_throw_data == move, "back command selected %s"%facing)
+		check(player.directional_throw_data == move, "held back command selected %s"%facing)
+		mobile._on_direction_button_up(button,mobile.DIRECTION_BUTTONS[button_name])
+		check(not Input.is_action_pressed("move_left" if facing > 0 else "move_right"), "back D-pad releases immediately %s"%facing)
 		player.set_physics_process(true)
 		enemy.set_physics_process(true)
 		var held := false
