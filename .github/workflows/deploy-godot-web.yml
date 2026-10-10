@@ -145,7 +145,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for spec in "duel_mobile_input_check:DUEL_MOBILE_INPUT_CHECK" "combat_flow_check:COMBAT_FLOW_CHECK" "directional_attacks_check:DIRECTIONAL_ATTACKS_CHECK" "directional_throws_check:DIRECTIONAL_THROWS_CHECK" "air_combo_check:AIR_COMBO_CHECK" "air_guard_check:AIR_GUARD_CHECK" "dedicated_special_guard_check:DEDICATED_SPECIAL_GUARD_CHECK" "receiver_routing_check:RECEIVER_ROUTING_CHECK" "wall_bounce_check:WALL_BOUNCE_CHECK"; do
+          for spec in "duel_mobile_input_check:DUEL_MOBILE_INPUT_CHECK" "duel_mobile_repeat_check:DUEL_MOBILE_REPEAT_CHECK" "combat_flow_check:COMBAT_FLOW_CHECK" "directional_attacks_check:DIRECTIONAL_ATTACKS_CHECK" "directional_throws_check:DIRECTIONAL_THROWS_CHECK" "air_combo_check:AIR_COMBO_CHECK" "air_guard_check:AIR_GUARD_CHECK" "dedicated_special_guard_check:DEDICATED_SPECIAL_GUARD_CHECK" "receiver_routing_check:RECEIVER_ROUTING_CHECK" "wall_bounce_check:WALL_BOUNCE_CHECK"; do
             test="${spec%%:*}"
             marker="${spec#*:}"
             timeout 180s godot --headless --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/pair-$test.log"
