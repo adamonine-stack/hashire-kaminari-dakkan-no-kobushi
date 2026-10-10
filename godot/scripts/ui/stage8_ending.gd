@@ -7,6 +7,7 @@ const HERO_NAMES := ["アッキー", "ゴウ", "セイヤ"]
 const HERO_ART_IDS := ["ally_balance", "ally_power", "ally_speed"]
 const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
 const CHECKPOINT := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
+const CREDITS := preload("res://scripts/ui/ending_credits.gd")
 const SCRIPT_PATH := "res://data/story/stage8_dialogue.txt"
 const ENDING_VERSION := "STAGE8_TRUE_ENDING_V1"
 
@@ -26,6 +27,8 @@ var veil: ColorRect
 var input_locked := false
 var finished := false
 var terminal_card := false
+var credits_roll: Label
+var credits_timing_scale := 1.0 # QA may shorten the roll without changing gameplay timing.
 var last_input_msec := -1000
 var visible_elapsed := 0.0
 var script_events: Array[String] = []
@@ -75,7 +78,7 @@ func _ready() -> void:
 	print("[%s] ENDING route=%s mio=%s ren=%s" % [ENDING_VERSION, route, living.has(HERO_IDS[0]), living.has(HERO_IDS[1])])
 
 func _process(delta: float) -> void:
-	if not input_locked and not terminal_card:
+	if not input_locked and not terminal_card and not finished:
 		visible_elapsed += delta
 		story_label.visible_characters = mini(story_label.get_total_character_count(), int(visible_elapsed * 38.0))
 
@@ -90,6 +93,7 @@ func advance() -> void:
 	if terminal_card:
 		finished = true
 		_record_completion()
+		await _roll_normal_credits()
 		await get_node("/root/AudioManager").fade_out()
 		get_tree().change_scene_to_file("res://scenes/Title.tscn")
 		return
@@ -99,6 +103,23 @@ func advance() -> void:
 		return
 	page_index += 1
 	_show_page()
+
+func _roll_normal_credits() -> void:
+	terminal_card = false
+	end_card.hide()
+	next_button.hide()
+	speaker_label.hide()
+	story_label.hide()
+	# The theme has already started during the rescue dialogue; keep it going.
+	# Restart only if it has naturally ended before the credits begin.
+	var audio := get_node("/root/AudioManager")
+	if not audio.bgm_player.playing: audio.play_ending_theme("final_boss")
+	credits_roll = CREDITS.make_roll(safe_content)
+	var tween := create_tween()
+	tween.tween_property(credits_roll, "position:y", CREDITS.offscreen_y(credits_roll), CREDITS.NORMAL_SCROLL_SECONDS * credits_timing_scale)
+	await tween.finished
+	credits_roll.queue_free()
+
 
 func _show_page() -> void:
 	if page_index >= pages.size(): return
@@ -163,7 +184,7 @@ func _execute_event(event_name: String) -> void:
 			terminal_card = true
 			print("[%s] END_CARD route=%s card=%s" % [ENDING_VERSION, route, end_card.text])
 			_record_completion()
-			next_button.text = "タイトルへ"
+			next_button.text = "エンドロールへ"
 			next_button.z_index = 12
 			input_locked = false
 			next_button.disabled = false
