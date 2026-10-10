@@ -127,6 +127,32 @@ func run() -> void:
 				await ticks(90)
 				check(started.size() == 2, "no late phantom repeat %s got %s" % [expected, started])
 				check(not Input.is_action_pressed(held_action), "D-pad releases %s" % direction)
+	# Regression: a synthetic/emulated duplicate press cannot latch the D-pad.
+	await reset_pair(1.0)
+	var down_button := controls.left_controls.get_node("CrouchButton") as Button
+	var punch_button := controls.right_controls.get_node("PunchButton") as Button
+	down_button.button_down.emit()
+	down_button.button_down.emit()
+	check(Input.is_action_pressed("down"), "duplicate down starts one hold")
+	down_button.button_up.emit()
+	check(not Input.is_action_pressed("down"), "single release cancels duplicate down")
+	await ticks(2)
+	check(player.combat_commands.command_direction(player.facing_direction) == "neutral", "duplicate down does not survive as buffered command")
+	touch(1, true, punch_button)
+	await ticks(3)
+	touch(1, false, punch_button)
+	check(player.last_combat_command.get("direction", "") == "neutral", "punch after released down is neutral")
+	await reset_pair(1.0)
+	# Two real touch identifiers on the same D-pad button share one hold;
+	# releasing the final finger must clear the virtual direction immediately.
+	touch(0, true, down_button)
+	touch(2, true, down_button)
+	check(Input.is_action_pressed("down"), "two touches share D-pad hold")
+	touch(0, false, down_button)
+	check(Input.is_action_pressed("down"), "first finger release retains second hold")
+	touch(2, false, down_button)
+	check(not Input.is_action_pressed("down"), "final finger release clears D-pad")
+	check(player.combat_commands.command_direction(player.facing_direction) == "neutral", "last touch removes direction history")
 	controls.release_all_touch_inputs()
 	print("DUEL_MOBILE_REPEAT_CHECK failures=", failures)
 	manager.cleanup_battle_before_transition()
