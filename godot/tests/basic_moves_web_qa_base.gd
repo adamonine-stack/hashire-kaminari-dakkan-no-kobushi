@@ -8,7 +8,9 @@ var current_scene: Node:
 	set(value): get_tree().current_scene = value
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	if OS.has_feature("web"): Engine.physics_ticks_per_second = 240
+	if OS.has_feature("web"):
+		Engine.physics_ticks_per_second = 240
+		Engine.max_physics_steps_per_frame = 32
 	get_tree().process_frame.connect(func(): process_frame.emit())
 	get_tree().physics_frame.connect(func(): physics_frame.emit())
 	_initialize()
