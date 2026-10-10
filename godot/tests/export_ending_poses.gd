@@ -32,6 +32,13 @@ func run() -> void:
 			if image.is_compressed(): image.decompress()
 			assert(image.save_png(folder.path_join("%s_%s.png" % [id, clip])) == OK)
 			poses[clip] = {"scale": [sprite.scale.x, sprite.scale.y], "position": [sprite.position.x, sprite.position.y], "height": image.get_used_rect().size.y * absf(sprite.scale.y)}
+			if sprite.material is ShaderMaterial:
+				var material: ShaderMaterial = sprite.material
+				var cell: Vector4 = material.get_shader_parameter("cell_rect")
+				var head: Vector4 = material.get_shader_parameter("head_rect")
+				var anchor: Vector2 = material.get_shader_parameter("head_anchor")
+				var neck: Vector2 = material.get_shader_parameter("neck_direction")
+				poses[clip]["head"] = {"rect": [head.x - cell.x, head.y - cell.y, head.z, head.w], "anchor": [anchor.x - cell.x, anchor.y - cell.y], "neck": [neck.x, neck.y], "scale": material.get_shader_parameter("head_scale")}
 		manifest[id] = poses
 		actor.queue_free()
 		await process_frame
