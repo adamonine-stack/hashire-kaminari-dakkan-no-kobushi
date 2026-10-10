@@ -25,14 +25,15 @@ var visible_outline_cache: Dictionary = {}
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
 	var used := texture.get_image().get_used_rect()
-	var left := float(used.position.x)-texture.get_width()*0.5
-	var right := float(used.end.x)-texture.get_width()*0.5
+	var display_offset: Vector2 = texture.margin.position if texture is AtlasTexture else Vector2.ZERO
+	var left := float(used.position.x)+display_offset.x-texture.get_width()*0.5
+	var right := float(used.end.x)+display_offset.x-texture.get_width()*0.5
 	if sprite.flip_h:
 		var old_left := left
 		left = -right
 		right = -old_left
-	var top := float(used.position.y)-texture.get_height()*0.5
-	var bottom := float(used.end.y)-texture.get_height()*0.5
+	var top := float(used.position.y)+display_offset.y-texture.get_height()*0.5
+	var bottom := float(used.end.y)+display_offset.y-texture.get_height()*0.5
 	var transform := sprite.get_global_transform_with_canvas()
 	var screen := root.get_visible_rect().size
 	var points: Array = [Vector2(left,top),Vector2(right,top),Vector2(left,bottom),Vector2(right,bottom)]
@@ -51,8 +52,8 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 						if first == -1: first = x
 						last = x
 				if first != -1:
-					outline.append(Vector2(first,y)-texture.get_size()*0.5)
-					outline.append(Vector2(last+1,y+1)-texture.get_size()*0.5)
+					outline.append(Vector2(first,y)+display_offset-texture.get_size()*0.5)
+					outline.append(Vector2(last+1,y+1)+display_offset-texture.get_size()*0.5)
 			visible_outline_cache[id] = Geometry2D.convex_hull(outline)
 		points.clear()
 		for original_point in visible_outline_cache[id]:
@@ -66,7 +67,8 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 
 func visible_body_center_y(sprite: AnimatedSprite2D) -> float:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
-	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	var display_offset: Vector2 = texture.margin.position if texture is AtlasTexture else Vector2.ZERO
+	var center := Vector2(texture.get_image().get_used_rect().get_center())+display_offset-texture.get_size()*0.5
 	if sprite.flip_h: center.x = -center.x
 	return (sprite.global_transform*(center+sprite.offset)).y
 

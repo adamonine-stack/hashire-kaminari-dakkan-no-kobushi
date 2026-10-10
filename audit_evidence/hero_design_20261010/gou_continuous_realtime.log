@@ -1,0 +1,89 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 - Build 32.0.101.6737 - Compatibility - Using Device: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_02_gou
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 240
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 15
+[DEV035] Kick damage: 20
+[DEV035] player_02_gou stats applied
+[DEV035] HUD max HP updated: 120
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 180
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 8
+[DEV035] Kick damage: 10
+[DEV033] Enemy target updated: player_02_gou
+[Music] play=battle position=0.00
+BGM: BattleBGM
+Battle Start: player_02_gou VS enemy_01_crusher
+[DEV036] Attack started: player2_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_1
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_1
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+CONTINUOUS_GAMEPLAY sequence=0 facing=1.0 observed=["idle_ready", "punch_1"]
+[DEV036] Attack started: player2_kick_finish
+Kick HitBox ON
+[DEV036] Attack active: player2_kick_finish
+Kick HitBox OFF
+[DEV036] Attack finished: player2_kick_finish
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+CONTINUOUS_GAMEPLAY sequence=1 facing=1.0 observed=["idle_ready", "kick_1"]
+Damage: 1
+HP: 119
+[Special] gauge_changed=8
+CONTINUOUS_GAMEPLAY sequence=2 facing=1.0 observed=["idle_ready", "damage_light"]
+CONTINUOUS_GAMEPLAY sequence=3 facing=1.0 observed=["idle_ready", "walk_forward", "jump_start", "jump_air", "jump_fall", "jump_land"]
+[DEV036] Attack started: player2_punch_1
+Damage: 1
+HP: 119
+[Special] gauge_changed=16
+CONTINUOUS_GAMEPLAY sequence=4 facing=1.0 observed=["idle_ready", "walk_forward", "punch_1", "damage_light"]
+[Special] gauge_full
+[Special] started id=player2_special_iron_breaker
+[Special] active
+[Special] finished
+CONTINUOUS_GAMEPLAY sequence=5 facing=1.0 observed=["idle_ready", "gou_reversal_startup", "gou_reversal_breaker", "gou_reversal_finish"]
+[DEV036] Attack started: player2_punch_1
+Punch HitBox ON
+[DEV036] Attack active: player2_punch_1
+Punch HitBox OFF
+[DEV036] Attack finished: player2_punch_1
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+CONTINUOUS_GAMEPLAY sequence=0 facing=-1.0 observed=["idle_ready", "punch_1"]
+[DEV036] Attack started: player2_kick_finish
+Kick HitBox ON
+[DEV036] Attack active: player2_kick_finish
+Kick HitBox OFF
+[DEV036] Attack finished: player2_kick_finish
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+CONTINUOUS_GAMEPLAY sequence=1 facing=-1.0 observed=["idle_ready", "kick_1"]
+Damage: 1
+HP: 119
+[Special] gauge_changed=8
+CONTINUOUS_GAMEPLAY sequence=2 facing=-1.0 observed=["idle_ready", "damage_light"]
+CONTINUOUS_GAMEPLAY sequence=3 facing=-1.0 observed=["idle_ready", "walk_forward", "jump_start", "jump_air", "jump_fall", "jump_land"]
+[DEV036] Attack started: player2_punch_1
+Damage: 1
+HP: 119
+[Special] gauge_changed=17
+CONTINUOUS_GAMEPLAY sequence=4 facing=-1.0 observed=["idle_ready", "walk_forward", "punch_1", "damage_light"]
+[Special] gauge_full
+[Special] started id=player2_special_iron_breaker
+[Special] active
+[Special] finished
+CONTINUOUS_GAMEPLAY sequence=5 facing=-1.0 observed=["idle_ready", "gou_reversal_startup", "gou_reversal_breaker", "gou_reversal_finish"]
+GOU_CONTINUOUS_GAMEPLAY_CHECK failures=[]
+[DEV041][GameFlow] Battle cleanup completed

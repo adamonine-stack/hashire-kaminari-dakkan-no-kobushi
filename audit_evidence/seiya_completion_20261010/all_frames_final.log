@@ -1,0 +1,12 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 - Build 32.0.101.6737 - Compatibility - Using Device: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 92
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 13
+BODY_DIMENSIONS actor=player_03_seiya cumulative_frames=846
+BODY_DIMENSIONS frames=846 renderer=Windows

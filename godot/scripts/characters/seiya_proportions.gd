@@ -39,7 +39,7 @@ func update_head() -> void:
 			var r: Array = landmarks[landmark_key]
 			cache[key] = Rect2(r[0],r[1],r[2],r[3])
 	if not cache.has(key):
-		var img: Image = texture.get_image()
+		var img: Image = texture.atlas.get_image().get_region(texture.region) if texture is AtlasTexture else texture.get_image()
 		var low := Vector2i(img.get_width(), img.get_height())
 		var high := Vector2i.ZERO
 		var mask := PackedByteArray()
@@ -80,7 +80,11 @@ func update_head() -> void:
 	head_anchor = Vector2(head_bounds.get_center().x, head_bounds.end.y)
 	# The neck is above the head in inverted poses and beside it when prone.
 	# An always-bottom anchor cuts a rectangular gap through those bodies.
-	if not body_centers.has(key): body_centers[key] = Vector2(texture.get_image().get_used_rect().get_center())
+	if not body_centers.has(key):
+		# Landmarks are in source-cell pixels. Display margins must not change
+		# the inferred neck direction, especially for prone/inverted poses.
+		var source_image: Image = texture.atlas.get_image().get_region(texture.region) if texture is AtlasTexture else texture.get_image()
+		body_centers[key] = Vector2(source_image.get_used_rect().get_center())
 	var body_center: Vector2 = body_centers[key]
 	var toward_head := head_bounds.get_center()-body_center
 	var neck_direction := Vector2(0,-1)
@@ -93,10 +97,13 @@ func update_head() -> void:
 	material.set_shader_parameter("neck_direction",neck_direction)
 	var offset := Vector2.ZERO
 	var atlas_size := Vector2(texture.get_size())
+	var source_size := Vector2(texture.get_size())
 	if texture is AtlasTexture:
 		offset = texture.region.position
 		atlas_size = texture.atlas.get_size()
+		# Transparent AtlasTexture display margins are not source UV pixels.
+		source_size = texture.region.size
 	material.set_shader_parameter("atlas_size", atlas_size)
-	material.set_shader_parameter("cell_rect", Vector4(offset.x,offset.y,texture.get_width(),texture.get_height()))
+	material.set_shader_parameter("cell_rect", Vector4(offset.x,offset.y,source_size.x,source_size.y))
 	material.set_shader_parameter("head_rect", Vector4(head_bounds.position.x+offset.x,head_bounds.position.y+offset.y,head_bounds.size.x,head_bounds.size.y))
 	material.set_shader_parameter("head_anchor", head_anchor+offset)

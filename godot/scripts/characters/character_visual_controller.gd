@@ -245,6 +245,7 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 			_overlay_authored_motion_atlas(authored_frames, supplemental_motion_atlas)
 		for extra_atlas in character_data.extra_motion_atlases:
 			_overlay_authored_motion_atlas(authored_frames, extra_atlas)
+		_expand_authored_display_canvas(authored_frames, character_data.motion_display_canvas_size)
 		return authored_frames
 
 	if sprite_sheet == null:
@@ -273,6 +274,33 @@ func _build_sprite_frames(sprite_sheet: Texture2D, character_data: Resource) -> 
 		_add_enemy_backstep_motion(frames)
 	_add_required_aliases(frames)
 	return frames
+
+
+func _expand_authored_display_canvas(frames: SpriteFrames, minimum: Vector2i) -> void:
+	if minimum.x <= 0 or minimum.y <= 0:
+		return
+	# Pick one canvas for every motion, including supplementary large poses.
+	# Atlas margins add transparent vertices; they never scale or crop the art.
+	var canvas := minimum
+	for clip in frames.get_animation_names():
+		for index in range(frames.get_frame_count(clip)):
+			var size := Vector2i(frames.get_frame_texture(clip, index).get_size())
+			canvas = Vector2i(maxi(canvas.x, size.x), maxi(canvas.y, size.y))
+	for clip in frames.get_animation_names():
+		for index in range(frames.get_frame_count(clip)):
+			var texture := frames.get_frame_texture(clip, index) as AtlasTexture
+			if texture == null:
+				push_error("Authored display canvas requires an atlas: %s/%s" % [_fighter_id(), clip])
+				continue
+			var padded := AtlasTexture.new()
+			padded.atlas = texture.atlas
+			padded.region = texture.region
+			padded.filter_clip = texture.filter_clip
+			for key in texture.get_meta_list():
+				padded.set_meta(key, texture.get_meta(key))
+			var growth := Vector2(canvas) - texture.get_size()
+			padded.margin = Rect2(texture.margin.position + growth * 0.5, texture.margin.size + growth)
+			frames.set_frame(clip, index, padded, frames.get_frame_duration(clip, index))
 
 
 func _resolve_motion_atlas_texture(atlas: Resource) -> Texture2D:
@@ -378,7 +406,7 @@ func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteF
 		if atlas.frame_offsets_are_display_pixels:
 			padding = offsets[index]
 		if padding.x < 0 or padding.y < 0 or padding.x + pose.get_width() > cell.x or padding.y + pose.get_height() > cell.y:
-			push_error("Measured pose does not fit display cell: %s/%d" % [_fighter_id(), index])
+			push_error("Measured pose does not fit display cell: %s/%d source=%s scale=%s pose=%s offset=%s display_offsets=%s cell=%s" % [_fighter_id(), index, source.resource_path, source_scale, pose.get_size(), padding, atlas.frame_offsets_are_display_pixels, cell])
 			return null
 		var origin := Vector2i((index % atlas.columns) * cell.x, int(index / atlas.columns) * cell.y)
 		packed.blit_rect(pose, Rect2i(Vector2i.ZERO, pose.get_size()), origin + padding)

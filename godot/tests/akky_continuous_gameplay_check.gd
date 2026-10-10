@@ -12,13 +12,22 @@ var baseline := Vector2.ZERO
 var iteration := 0
 var camera: Camera2D
 
+func selected_fighter_id() -> String:
+	return "player_01_akky"
+
+func qa_name() -> String:
+	return "Akky"
+
+func special_clips() -> Array:
+	return ["akky_reversal_startup","akky_reversal_elbow","akky_reversal_finish"]
+
 func step(count: int) -> void:
 	for tick in range(count):
 		await physics_frame
 		var sprite: AnimatedSprite2D = player.animated_character_sprite
 		var key := "%s/%d" % [sprite.animation,sprite.frame]
 		check(sprite.scale.is_equal_approx(baseline),"runtime scale case %d facing %s tick %d" % [case_index,facing,tick_index])
-		label.text = "QA Akky | run %d facing %d | sequence %d | %s frame %d" % [iteration,int(facing),case_index,String(sprite.animation),sprite.frame]
+		label.text = "QA %s | run %d facing %d | sequence %d | %s frame %d" % [qa_name(),iteration,int(facing),case_index,String(sprite.animation),sprite.frame]
 		var row := {"iteration":iteration,"facing":facing,"sequence":case_index,"tick":tick_index,"clip":sprite.animation,"frame":sprite.frame,"position":str(player.position),"on_floor":player.is_on_floor(),"scale":str(sprite.scale),"camera_zoom":str(camera.zoom),"hp":player.current_hp,"image":""}
 		if "--fixed-camera" in OS.get_cmdline_user_args(): check(camera.zoom.is_equal_approx(Vector2.ONE),"fixed comparison camera")
 		if capture and key != previous:
@@ -47,7 +56,7 @@ func run() -> void:
 	current_scene = battle
 	await process_frame
 	var manager: Node = battle.get_node("BattleManager")
-	manager.select_player_by_id("player_01_akky")
+	manager.select_player_by_id(selected_fighter_id())
 	for tick in range(360):
 		await physics_frame
 		if manager._enemy_intro_panel != null and manager._enemy_intro_panel.visible: manager.enemy_intro_finished.emit()
@@ -70,6 +79,8 @@ func run() -> void:
 	capture = "--capture" in OS.get_cmdline_user_args() and DisplayServer.get_name() != "headless"
 	folder = ProjectSettings.globalize_path("res://../audit_evidence/body_dimensions/continuous_gameplay/" + ("capture" if capture else ("headless" if DisplayServer.get_name() == "headless" else "realtime")))
 	if "--fixed-camera" in OS.get_cmdline_user_args(): folder += "_fixed_camera"
+	if selected_fighter_id() != "player_01_akky":
+		folder = ProjectSettings.globalize_path("res://../audit_evidence/hero_design_20261010/continuous/" + qa_name().to_lower() + ("_native" if DisplayServer.get_name() != "headless" else "_headless") + ("_fixed" if "--fixed-camera" in OS.get_cmdline_user_args() else ""))
 	DirAccess.make_dir_recursive_absolute(folder)
 	var layer := CanvasLayer.new()
 	root.add_child(layer)
@@ -128,10 +139,14 @@ func run() -> void:
 					player.set_special_gauge(100)
 					await tap("special_attack")
 					await step(150)
+			# Slower fighters finish at their production recovery duration.
+			for settle_tick in range(60):
+				if not player.is_hit and player.is_on_floor() and player.current_attack_type == "": break
+				await step(1)
 			var observed: Array[String] = []
 			for row in rows:
 				if row.iteration == iteration and row.sequence == case_index and String(row.clip) not in observed: observed.append(String(row.clip))
-			var required: Array = [["punch_1"],["kick_1"],["damage_light"],["walk_forward","jump_start","jump_fall","jump_land"],["walk_forward","punch_1","damage_light"],["akky_reversal_startup","akky_reversal_elbow","akky_reversal_finish"]][case_index]
+			var required: Array = [["punch_1"],["kick_1"],["damage_light"],["walk_forward","jump_start","jump_fall","jump_land"],["walk_forward","punch_1","damage_light"],special_clips()][case_index]
 			for clip in required: check(clip in observed,"required clip %s sequence %d facing %s" % [clip,case_index,facing])
 			if case_index == 3:
 				var landing_frames: Array[int] = []
@@ -143,7 +158,7 @@ func run() -> void:
 			print("CONTINUOUS_GAMEPLAY sequence=",case_index," facing=",facing," observed=",observed)
 	var output := FileAccess.open(folder.path_join("inventory.json"),FileAccess.WRITE)
 	output.store_string(JSON.stringify({"frames":rows,"failures":failures,"renderer":DisplayServer.get_name(),"physics_enabled":true,"input_actions":true,"hit_fixture":true,"manual_play":false},"  "))
-	print("AKKY_CONTINUOUS_GAMEPLAY_CHECK failures=",failures)
+	print(qa_name().to_upper(),"_CONTINUOUS_GAMEPLAY_CHECK failures=",failures)
 	root.get_node("AudioManager").stop_bgm()
 	manager.cleanup_battle_before_transition()
 	battle.queue_free()

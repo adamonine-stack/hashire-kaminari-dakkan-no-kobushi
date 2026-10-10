@@ -1564,7 +1564,7 @@ var seiya_pose_centers := {}
 func _seiya_pose_center(texture: Texture2D) -> Vector2:
 	var key := texture.get_instance_id()
 	if not seiya_pose_centers.has(key):
-		seiya_pose_centers[key] = Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+		seiya_pose_centers[key] = Vector2(texture.get_image().get_used_rect().get_center())+_texture_display_offset(texture)-texture.get_size()*0.5
 	return seiya_pose_centers[key]
 
 func _is_seiya_two_hit() -> bool:
@@ -3056,10 +3056,10 @@ func _update_seiya_somersault_visual() -> void:
 	var authored_angles := [0.0,-PI,-TAU+PI*0.25]
 	sprite.rotation = character_special_direction*(-seiya_somersault_turn-authored_angles[index])
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,index)
-	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	var center := Vector2(texture.get_image().get_used_rect().get_center())+_texture_display_offset(texture)-texture.get_size()*0.5
 	if sprite.flip_h: center.x = -center.x
 	var idle := sprite.sprite_frames.get_frame_texture(&"idle",0)
-	var anchor := Vector2(idle.get_image().get_used_rect().get_center())-idle.get_size()*0.5
+	var anchor := Vector2(idle.get_image().get_used_rect().get_center())+_texture_display_offset(idle)-idle.get_size()*0.5
 	if sprite.flip_h: anchor.x = -anchor.x
 	var jump := Vector2(0,-105.0*sin(PI*progress))
 	sprite.offset = (anchor*sprite.scale+jump).rotated(-sprite.rotation)/sprite.scale-center

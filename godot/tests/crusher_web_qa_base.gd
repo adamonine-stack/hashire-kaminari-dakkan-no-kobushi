@@ -45,14 +45,15 @@ var visible_outline_cache: Dictionary = {}
 func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
 	var used := texture.get_image().get_used_rect()
-	var left := float(used.position.x)-texture.get_width()*0.5
-	var right := float(used.end.x)-texture.get_width()*0.5
+	var display_offset: Vector2 = texture.margin.position if texture is AtlasTexture else Vector2.ZERO
+	var left := float(used.position.x)+display_offset.x-texture.get_width()*0.5
+	var right := float(used.end.x)+display_offset.x-texture.get_width()*0.5
 	if sprite.flip_h:
 		var old_left := left
 		left = -right
 		right = -old_left
-	var top := float(used.position.y)-texture.get_height()*0.5
-	var bottom := float(used.end.y)-texture.get_height()*0.5
+	var top := float(used.position.y)+display_offset.y-texture.get_height()*0.5
+	var bottom := float(used.end.y)+display_offset.y-texture.get_height()*0.5
 	var transform := sprite.get_global_transform_with_canvas()
 	var screen := root.get_visible_rect().size
 	var points: Array = [Vector2(left,top),Vector2(right,top),Vector2(left,bottom),Vector2(right,bottom)]
@@ -71,8 +72,8 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 						if first == -1: first = x
 						last = x
 				if first != -1:
-					outline.append(Vector2(first,y)-texture.get_size()*0.5)
-					outline.append(Vector2(last+1,y+1)-texture.get_size()*0.5)
+					outline.append(Vector2(first,y)+display_offset-texture.get_size()*0.5)
+					outline.append(Vector2(last+1,y+1)+display_offset-texture.get_size()*0.5)
 			visible_outline_cache[id] = Geometry2D.convex_hull(outline)
 		points.clear()
 		for original_point in visible_outline_cache[id]:
@@ -86,7 +87,8 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 
 func visible_body_center_y(sprite: AnimatedSprite2D) -> float:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
-	var center := Vector2(texture.get_image().get_used_rect().get_center())-texture.get_size()*0.5
+	var display_offset: Vector2 = texture.margin.position if texture is AtlasTexture else Vector2.ZERO
+	var center := Vector2(texture.get_image().get_used_rect().get_center())+display_offset-texture.get_size()*0.5
 	if sprite.flip_h: center.x = -center.x
 	return (sprite.global_transform*(center+sprite.offset)).y
 
@@ -109,7 +111,7 @@ func check(ok: bool, label: String) -> void:
 
 func capture(label: String) -> void:
 	if DisplayServer.get_name() == "headless": return
-	await process_frame
+	# Capture the observed physics phase without advancing its short impact window.
 	RenderingServer.force_draw(false)
 	check(root.get_texture().get_image().save_png(output.path_join(label + ".png")) == OK, "capture " + label)
 	screenshots += 1
@@ -193,6 +195,9 @@ func run() -> void:
 			var start: Vector2 = target.position
 			check(attacker._get_character_special_hit_position(target).y < start.y-minimum_contact_height,label + " effect at special contact height")
 			var camera_zoom_before: Vector2 = root.get_camera_2d().zoom
+			# Observe the launch impulse before render stalls can advance several
+			# physics ticks and carry the victim into a wall. Gameplay resumes below.
+			target.set_physics_process(false)
 			attacker._on_character_special_hitbox_area_entered(target.get_node("HurtBox"))
 			await process_frame
 			await process_frame
@@ -201,6 +206,7 @@ func run() -> void:
 			check(target.velocity.x * direction > minimum_launch_velocity, label + " outward launch velocity")
 			var wall_launch := bool(packet.get("wall_slam",false))
 			if wall_launch: check(target.velocity.x * direction >= 1800,label + " faster wall launch")
+			target.set_physics_process(true)
 			await capture(label + "_impact")
 			var apex := start.y
 			var distance := 0.0
@@ -251,7 +257,7 @@ func run() -> void:
 				if headfirst and target.knockdown_state == &"KNOCKBACK":
 					var body_y := visible_body_center_y(sprite)
 					var sampled_frames := maxi(1,Engine.get_physics_frames()-previous_body_frame)
-					check(absf(body_y-previous_body_y) < 30.0*sampled_frames+5.0,label + " continuous headfirst body position")
+					check(absf(body_y-previous_body_y) < 30.0*sampled_frames+5.0,label + " continuous headfirst body position phase=%s previous=%.2f current=%.2f sampled=%d" % [target.special_headfirst_phase,previous_body_y,body_y,sampled_frames])
 					previous_body_frame = Engine.get_physics_frames()
 					previous_body_y = body_y
 					check(sprite.flip_h == (direction > 0),label + " victim facing stays toward Seiya")
@@ -275,7 +281,7 @@ func run() -> void:
 					check(target.velocity == Vector2.ZERO,label + " wall contact stops motion")
 					if not captured_wall:
 						target._update_visual_state()
-						check(sprite.animation == &"received_akky_elbow_wall",label + " wall recoil pose")
+						check(sprite.animation == (&"wall_hit" if definition == "enemy_01_standard" else &"received_akky_elbow_wall"),label + " wall recoil pose")
 						check_visible_art(sprite,label + " wall")
 						await capture(label + "_wall")
 						captured_wall = true
@@ -283,7 +289,7 @@ func run() -> void:
 					check(captured_wall and is_zero_approx(target.velocity.x),label + " drops after wall contact")
 					if not captured_fall:
 						target._update_visual_state()
-						check(sprite.animation == &"received_akky_elbow_fall",label + " falling pose")
+						check(sprite.animation == (&"wall_fall" if definition == "enemy_01_standard" else &"received_akky_elbow_fall"),label + " falling pose")
 						await capture(label + "_fall")
 						captured_fall = true
 				if definition == "enemy_01_standard" and direction == 1 and frame % 4 == 0:
@@ -315,7 +321,7 @@ func run() -> void:
 			if headfirst:
 				check(captured_head_fall and captured_head_impact and captured_collapse,label + " headfirst descent impact and collapse sequence")
 				check(is_zero_approx(sprite.rotation) and sprite.offset.is_zero_approx(),label + " headfirst grounded transform restored")
-				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no size or body-position jump into prone pose")
+				check(absf(visible_body_center_y(sprite)-previous_body_y) < 45.0,label + " no size or body-position jump into prone pose previous=%.2f current=%.2f" % [previous_body_y,visible_body_center_y(sprite)])
 			if backflip:
 				check(captured_spin and captured_prone and is_equal_approx(target.special_backflip_turn,PI*1.5),label + " completes backward 270-degree prone rotation")
 				check(is_zero_approx(sprite.rotation),label + " grounded pose restores rotation")

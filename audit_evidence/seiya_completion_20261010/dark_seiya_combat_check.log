@@ -1,0 +1,147 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[ROTATION] Fighter selected for stage 9: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 200
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 14
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 100
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 250
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 15
+[DEV033] Enemy target updated: player_01_akky
+[Music] play=secret_boss position=0.00
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_09_seiya
+DARK_AURA_START target=(320.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(320.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+Damage: 26
+HP: 74
+[Special] gauge_changed=9
+DARK_AURA_HIT count=1
+DARK_SEIYA_CHECK registered final boss component PASS
+DARK_SEIYA_CHECK boss direct stats PASS
+DARK_SEIYA_CHECK identical hero and boss proportions PASS
+DARK_AURA_START target=(360.0, 520.0) cooldown=2.8
+DARK_SEIYA_CHECK special begins PASS
+DARK_SEIYA_CHECK no hitbox during charge PASS
+DARK_AURA_WARNING target=(360.0, 520.0)
+DARK_SEIYA_CHECK charge and slam do no remote damage PASS
+DARK_SEIYA_CHECK warning has no hitbox PASS
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+Damage: 26
+HP: 74
+[Special] gauge_changed=18
+DARK_AURA_HIT count=2
+DARK_SEIYA_CHECK one pillar deals exactly 26 PASS
+DARK_SEIYA_CHECK one pillar contacts once PASS
+DARK_SEIYA_CHECK no lingering hitbox PASS
+DARK_SEIYA_CHECK cooldown blocks repetition PASS
+DARK_AURA_START target=(360.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(360.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+DARK_SEIYA_CHECK target coordinate remains fixed PASS
+DARK_SEIYA_CHECK walk evades pillar PASS
+DARK_AURA_START target=(360.0, 520.0) cooldown=2.8
+DARK_AURA_WARNING target=(360.0, 520.0)
+DARK_AURA_ACTIVE size=(84.0, 96.0)
+DARK_SEIYA_CHECK jump clears matching 96px pillar PASS
+DARK_AURA_START target=(360.0, 520.0) cooldown=2.8
+Damage: 1
+HP: 249
+[Special] gauge_changed=6
+DARK_SEIYA_CHECK hit interrupts and cleans special PASS
+DARK_AURA_START target=(360.0, 520.0) cooldown=2.8
+DARK_SEIYA_CHECK far AI chooses pillar PASS
+DARK_SEIYA_CHECK far AI cannot spam pillar PASS
+[DEV036] Attack started: dark_seiya_kick_finish
+DARK_SEIYA_CHECK mid AI chooses advancing aura kick PASS
+[DEV036] Attack finished: dark_seiya_kick_finish
+[DEV036] Attack missed
+[DEV036] Combo chain blocked on whiff
+[DEV036] Attack started: dark_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: dark_seiya_punch_1
+Punch Hit
+Damage: 10
+HP: 90
+[Special] gauge_changed=26
+[DEV036] Attack hit: Player
+[Special] gauge_changed=14
+Punch HitBox OFF
+[DEV036] Attack finished: dark_seiya_punch_1
+DARK_SEIYA_CHECK visible extended punch contacts at 165px PASS
+DARK_SEIYA_CHECK idle fixed frame scale PASS
+DARK_SEIYA_CHECK idle fixed frame scale PASS
+DARK_SEIYA_CHECK idle fixed frame scale PASS
+DARK_SEIYA_CHECK idle fixed frame scale PASS
+DARK_SEIYA_CHECK idle fixed frame scale PASS
+DARK_SEIYA_CHECK idle fixed frame scale PASS
+DARK_SEIYA_CHECK walk_forward fixed frame scale PASS
+DARK_SEIYA_CHECK walk_forward fixed frame scale PASS
+DARK_SEIYA_CHECK walk_forward fixed frame scale PASS
+DARK_SEIYA_CHECK walk_forward fixed frame scale PASS
+DARK_SEIYA_CHECK walk_forward fixed frame scale PASS
+DARK_SEIYA_CHECK walk_forward fixed frame scale PASS
+DARK_SEIYA_CHECK dash fixed frame scale PASS
+DARK_SEIYA_CHECK dash fixed frame scale PASS
+DARK_SEIYA_CHECK dash fixed frame scale PASS
+DARK_SEIYA_CHECK dash fixed frame scale PASS
+DARK_SEIYA_CHECK dash fixed frame scale PASS
+DARK_SEIYA_CHECK dash fixed frame scale PASS
+DARK_SEIYA_CHECK jump_start fixed frame scale PASS
+DARK_SEIYA_CHECK jump_start fixed frame scale PASS
+DARK_SEIYA_CHECK jump_start fixed frame scale PASS
+DARK_SEIYA_CHECK jump_air fixed frame scale PASS
+DARK_SEIYA_CHECK jump_air fixed frame scale PASS
+DARK_SEIYA_CHECK jump_fall fixed frame scale PASS
+DARK_SEIYA_CHECK punch_1 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_1 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_1 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_1 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_1 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_1 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_2 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_2 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_2 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_2 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_2 fixed frame scale PASS
+DARK_SEIYA_CHECK punch_2 fixed frame scale PASS
+DARK_SEIYA_CHECK kick_1 fixed frame scale PASS
+DARK_SEIYA_CHECK kick_1 fixed frame scale PASS
+DARK_SEIYA_CHECK kick_1 fixed frame scale PASS
+DARK_SEIYA_CHECK kick_1 fixed frame scale PASS
+DARK_SEIYA_CHECK kick_1 fixed frame scale PASS
+DARK_SEIYA_CHECK kick_1 fixed frame scale PASS
+DARK_SEIYA_CHECK guard fixed frame scale PASS
+DARK_SEIYA_CHECK guard fixed frame scale PASS
+DARK_SEIYA_CHECK damage_high fixed frame scale PASS
+DARK_SEIYA_CHECK damage_high fixed frame scale PASS
+DARK_SEIYA_CHECK damage_high fixed frame scale PASS
+DARK_SEIYA_CHECK ko fixed frame scale PASS
+DARK_SEIYA_CHECK ko fixed frame scale PASS
+DARK_SEIYA_CHECK ko fixed frame scale PASS
+DARK_SEIYA_CHECK aura_charge fixed frame scale PASS
+DARK_SEIYA_CHECK aura_charge fixed frame scale PASS
+DARK_SEIYA_CHECK aura_charge_max fixed frame scale PASS
+DARK_SEIYA_CHECK aura_slam fixed frame scale PASS
+DARK_SEIYA_CHECK aura_slam fixed frame scale PASS
+DARK_SEIYA_CHECK aura_slam fixed frame scale PASS
+DARK_SEIYA_CHECK aura_contact fixed frame scale PASS
+DARK_SEIYA_CHECK aura_recovery fixed frame scale PASS
+DARK_SEIYA_CHECK aura_recovery fixed frame scale PASS
+DARK_SEIYA_CHECK aura_recovery fixed frame scale PASS
+DARK_SEIYA_CHECK aura_recovery fixed frame scale PASS
+DARK_SEIYA_COMBAT_CHECK failures=[]
+[DEV041][GameFlow] Battle cleanup completed
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)

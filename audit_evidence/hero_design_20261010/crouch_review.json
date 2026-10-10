@@ -1,0 +1,20 @@
+{
+  "frames": 24,
+  "changed": [
+    [
+      "crouch_punch",
+      2,
+      1
+    ],
+    [
+      "crouch_punch",
+      2,
+      -1
+    ]
+  ],
+  "formal_idle_identical": true,
+  "scale_position_unchanged": true,
+  "frame_count": 6,
+  "fps": 12,
+  "source_contact_cell": 56
+}

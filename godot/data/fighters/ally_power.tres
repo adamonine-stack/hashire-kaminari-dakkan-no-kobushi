@@ -45,6 +45,7 @@ sprite_sheet_path = "res://assets/characters/player02/sprite_sheet.png"
 motion_atlas_path = "res://assets/characters/player02/animations/gou_v1/motion_atlas.tres"
 sprite_sheet_format = &"authored_atlas"
 sprite_body_height_px = 203.0
+motion_display_canvas_size = Vector2i(768, 640)
 character_height_cm = 170.0
 battle_sprite_height = 174.78516
 visual_scale_adjustment = 1.05

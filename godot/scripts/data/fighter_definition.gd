@@ -148,6 +148,8 @@ static var _active_player_motion_atlas_path := ""
 @export var use_direct_combat_stats: bool = false
 @export var sprite_body_height_px: float = 0.0
 @export var foot_offset: Vector2 = Vector2.ZERO
+## Transparent display room for authored poses. Pixels and world pivots stay fixed.
+@export var motion_display_canvas_size := Vector2i.ZERO
 @export var animation_definitions: Array[FighterAnimationDefinition] = []
 @export var sprite_sheet_format: StringName = &"legacy"
 @export var sprite_frame_size: Vector2i = Vector2i(96, 96)

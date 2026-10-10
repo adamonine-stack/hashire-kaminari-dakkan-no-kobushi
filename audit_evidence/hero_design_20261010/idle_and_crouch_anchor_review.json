@@ -1,0 +1,21 @@
+{
+  "viewport": [
+    640,
+    480
+  ],
+  "gou_idle_bbox": [
+    242,
+    216,
+    377,
+    430
+  ],
+  "seiya_idle_bbox": [
+    266,
+    227,
+    373,
+    430
+  ],
+  "seiya_crouch_all_frames_both_faces_bottom": 430,
+  "uniform_transform": true,
+  "anatomy_2percent": "unverified"
+}

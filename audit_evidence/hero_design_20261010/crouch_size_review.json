@@ -1,0 +1,28 @@
+{
+  "frames": 24,
+  "changed": [
+    [
+      "crouch_punch",
+      0,
+      1
+    ],
+    [
+      "crouch_punch",
+      4,
+      1
+    ],
+    [
+      "crouch_punch",
+      0,
+      -1
+    ],
+    [
+      "crouch_punch",
+      4,
+      -1
+    ]
+  ],
+  "scale_position_unchanged": true,
+  "idle_identical": true,
+  "anatomy_2percent": "unverified"
+}

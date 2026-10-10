@@ -34,7 +34,7 @@ func run() -> void:
    if sprite.animation==&"gou_down_punch":
     saw_authored=true
     var texture: Texture2D=sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
-    check(texture is AtlasTexture and "launcher_v3" in texture.atlas.resource_path,"dedicated source during active attack")
+    check(texture is AtlasTexture and "anti_air_v2" in texture.atlas.resource_path,"dedicated source during active attack")
     if sprite.frame==2 and DisplayServer.get_name()!="headless":
      RenderingServer.force_draw(false)
      var folder:=ProjectSettings.globalize_path("res://../audit_evidence/gou_launcher_live")

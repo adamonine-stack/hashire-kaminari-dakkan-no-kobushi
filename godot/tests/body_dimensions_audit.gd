@@ -27,6 +27,8 @@ func run() -> void:
 	if "--revision-ground-bounce" in args: stage = "ground_bounce_all_headless" if DisplayServer.get_name() == "headless" else "ground_bounce_all_native"
 	if "--wall" in args: stage = "wall_after"
 	if "--revision-wall" in args: stage = "wall_all_headless" if DisplayServer.get_name() == "headless" else "wall_all_native"
+	for arg in args:
+		if arg.begins_with("--label="): stage = arg.trim_prefix("--label=")
 	folder = ProjectSettings.globalize_path("res://../audit_evidence/body_dimensions/" + stage)
 	DirAccess.make_dir_recursive_absolute(folder)
 	var viewport := SubViewport.new()
@@ -42,6 +44,9 @@ func run() -> void:
 			if file.ends_with(".tres") and not path in paths:
 				paths.append(path)
 	for path in paths:
+		if "--seiya-only" in args and path != "fighters/ally_speed.tres": continue
+		if "--heroes" in args and path not in ["fighters/ally_power.tres", "fighters/ally_speed.tres"]:
+			continue
 		if "--akky-only" in args and path != "fighters/ally_balance.tres":
 			continue
 		var definition: Resource = load("res://data/" + path)
@@ -58,6 +63,10 @@ func run() -> void:
 		var actor_folder := folder.path_join(String(definition.fighter_id))
 		DirAccess.make_dir_recursive_absolute(actor_folder)
 		for clip in sprite.sprite_frames.get_animation_names():
+			var selected_clips: PackedStringArray = []
+			for arg in args:
+				if arg.begins_with("--clips="): selected_clips = arg.trim_prefix("--clips=").split(",")
+			if not selected_clips.is_empty() and String(clip) not in selected_clips: continue
 			if "--wall" in args and clip not in [&"idle", &"wall_hit", &"wall_fall"]: continue
 			if "--ground-bounce" in args and clip not in [&"idle", &"ground_impact", &"ground_bounce"]: continue
 			if "--special-guard" in args and clip not in [&"idle", &"special_guard"]: continue
@@ -93,6 +102,9 @@ func run() -> void:
 						"scale": str(sprite.scale), "global_scale": str(sprite.global_scale), "position": str(sprite.position), "offset": str(sprite.offset), "fps": sprite.sprite_frames.get_animation_speed(clip),
 						"scale_status": "pass" if sprite.scale.is_equal_approx(baseline) else "fail", "flip_status": "pass" if sprite.flip_h == (facing < 0) else "fail",
 						"anatomy_status": "unverified", "ground_status": "unverified", "render_file": render_file})
+					if definition.fighter_id == &"player_03_seiya" and sprite.material is ShaderMaterial:
+						rows[-1]["render_head_scale"] = sprite.material.get_shader_parameter("head_scale")
+						rows[-1]["source_head_rect"] = str(sprite.material.get_shader_parameter("head_rect"))
 		actor.queue_free()
 		await process_frame
 		print("BODY_DIMENSIONS actor=", definition.fighter_id, " cumulative_frames=", rows.size())

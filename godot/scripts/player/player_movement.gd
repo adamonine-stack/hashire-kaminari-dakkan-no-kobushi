@@ -2795,7 +2795,8 @@ func _prepare_jump_visual_state() -> void:
 		visual_root.scale.y = 1.0
 	_sync_single_character_visual()
 	_play_visual_animation(&"jump_start", true)
-	if _has_visual_animation(&"jump_ascent") and animated_character_sprite != null:
+	var gou_air_phases: bool = character_visual_controller != null and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_02_gou"
+	if (_has_visual_animation(&"jump_ascent") or gou_air_phases) and animated_character_sprite != null:
 		var frames := animated_character_sprite.sprite_frames
 		var duration := 0.0
 		for index in range(frames.get_frame_count(&"jump_start")):
@@ -2956,6 +2957,12 @@ func _get_current_visual_animation() -> StringName:
 			if jump_start_visual_timer > 0.0:
 				return &"jump_start"
 			return &"jump_ascent"
+		if uses_animated_character_art and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_02_gou":
+			# Gou already has authored air/fall poses; route them by actual velocity.
+			if velocity.y >= -80.0:
+				return &"jump_fall"
+			if jump_start_visual_timer <= 0.0:
+				return &"jump_air"
 		if uses_animated_character_art and character_visual_controller.definition != null and String(character_visual_controller.definition.fighter_id) == "player_01_akky" and velocity.y >= -80.0:
 			return &"jump_fall"
 		return &"jump_start"
