@@ -9,15 +9,6 @@ var clock := 0.0
 var history: Array[Dictionary] = []
 var pending: Array[Dictionary] = []
 var held: Dictionary = {}
-# Directional repeats are one-shot buffered commands, not animation cancels.
-# A second tap during recovery plays after the first move finishes.
-var deferred_directional_moves: Array[String] = []
-const MAX_DEFERRED_DIRECTIONAL_MOVES := 3
-
-func defer_directional_move(move_id: String) -> void:
-	if not move_id.is_empty() and deferred_directional_moves.size() < MAX_DEFERRED_DIRECTIONAL_MOVES:
-		deferred_directional_moves.append(move_id)
-
 const PRIORITIES := {"special": 100, "throw": 80, "punch": 60, "kick": 60, "jump": 20}
 
 func advance(delta: float) -> void:
@@ -83,4 +74,3 @@ func clear() -> void:
 	history.clear()
 	pending.clear()
 	held.clear()
-	deferred_directional_moves.clear()
