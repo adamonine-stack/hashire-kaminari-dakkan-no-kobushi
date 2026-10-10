@@ -197,8 +197,18 @@ func _sample_combat_commands(delta: float) -> void:
 
 func _dispatch_combat_command() -> void:
 	if not input_enabled:
+		combat_commands.deferred_directional_moves.clear()
 		try_continue_combo()
 		return
+	if is_hit or is_guard_hit or _is_throw_busy() or is_character_special_busy():
+		combat_commands.deferred_directional_moves.clear()
+	# A repeated directional input must wait for the complete attack animation.
+	# Re-use the resolved move id captured at button press, even if facing changes.
+	if current_attack_type == "" and not combat_commands.deferred_directional_moves.is_empty():
+		var deferred_move_id: String = combat_commands.deferred_directional_moves[0]
+		if _request_directional_move(deferred_move_id):
+			combat_commands.deferred_directional_moves.pop_front()
+			return
 	var command: Dictionary = combat_commands.peek()
 	if command.is_empty():
 		try_continue_combo()
@@ -210,6 +220,14 @@ func _dispatch_combat_command() -> void:
 		return
 	var move_id := _resolve_directional_move(command)
 	if not move_id.is_empty():
+		# Directional taps made during an uncancellable animation queue as
+		# separate attacks. The current animation is NEVER shortened.
+		# Keep explicitly authored combo-cancel routes on their existing path.
+		if current_attack_type != "" and current_attack_data != null and not current_attack_data.cancel_targets.has(move_id):
+			if not is_hit and not is_guard_hit and not _is_throw_busy():
+				combat_commands.defer_directional_move(move_id)
+				combat_commands.consume(command)
+			return
 		# A directional command never falls back to a normal attack when its
 		# recovery/cancel rules prevent execution.
 		if _request_directional_move(move_id):
