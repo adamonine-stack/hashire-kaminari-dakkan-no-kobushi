@@ -7,6 +7,7 @@ const HERO_NAMES := ["アッキー", "ゴウ", "セイヤ"]
 const HERO_ART_IDS := ["ally_balance", "ally_power", "ally_speed"]
 const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
 const CHECKPOINT := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
+const CREDITS := preload("res://scripts/ui/ending_credits.gd")
 const SCRIPT_PATH := "res://data/story/stage8_dialogue.txt"
 const ENDING_VERSION := "STAGE8_TRUE_ENDING_V1"
 
@@ -26,6 +27,11 @@ var veil: ColorRect
 var input_locked := false
 var finished := false
 var terminal_card := false
+var credits_roll: Label
+var credits_started := false
+var credits_complete := false
+var returning_to_title := false
+var credits_timing_scale := 1.0 # QA may shorten the roll without changing gameplay timing.
 var last_input_msec := -1000
 var visible_elapsed := 0.0
 var script_events: Array[String] = []
@@ -75,9 +81,29 @@ func _ready() -> void:
 	print("[%s] ENDING route=%s mio=%s ren=%s" % [ENDING_VERSION, route, living.has(HERO_IDS[0]), living.has(HERO_IDS[1])])
 
 func _process(delta: float) -> void:
-	if not input_locked and not terminal_card:
+	if not input_locked and not terminal_card and not finished:
 		visible_elapsed += delta
 		story_label.visible_characters = mini(story_label.get_total_character_count(), int(visible_elapsed * 38.0))
+
+func _input(event: InputEvent) -> void:
+	if not credits_started or returning_to_title: return
+	var tapped := false
+	if event is InputEventScreenTouch:
+		tapped = (event as InputEventScreenTouch).pressed
+	elif event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		tapped = mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
+	if tapped or (event.is_action_pressed("ui_accept") and not event.is_echo()):
+		get_viewport().set_input_as_handled()
+		_return_from_credits()
+
+
+func _return_from_credits() -> void:
+	if returning_to_title: return
+	returning_to_title = true
+	await get_node("/root/AudioManager").fade_out()
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") and not event.is_echo():
@@ -88,10 +114,7 @@ func advance() -> void:
 	if input_locked or finished or Time.get_ticks_msec() - last_input_msec < 180: return
 	last_input_msec = Time.get_ticks_msec()
 	if terminal_card:
-		finished = true
-		_record_completion()
-		await get_node("/root/AudioManager").fade_out()
-		get_tree().change_scene_to_file("res://scenes/Title.tscn")
+		_begin_normal_credits()
 		return
 	if story_label.visible_characters >= 0 and story_label.visible_characters < story_label.get_total_character_count():
 		visible_elapsed = 1000.0
@@ -99,6 +122,42 @@ func advance() -> void:
 		return
 	page_index += 1
 	_show_page()
+
+func _auto_begin_normal_credits() -> void:
+	await get_tree().create_timer(3.0).timeout
+	if terminal_card and not finished: _begin_normal_credits()
+
+
+func _begin_normal_credits() -> void:
+	if finished: return
+	finished = true
+	_record_completion()
+	await _roll_normal_credits()
+
+
+func _roll_normal_credits() -> void:
+	credits_started = true
+	print("[%s] CREDITS_START route=%s" % [ENDING_VERSION, route])
+	terminal_card = false
+	end_card.hide()
+	next_button.hide()
+	speaker_label.hide()
+	story_label.hide()
+	# The theme has already started during the rescue dialogue; keep it going.
+	# Restart only if it has naturally ended before the credits begin.
+	var audio := get_node("/root/AudioManager")
+	if not audio.bgm_player.playing: audio.play_ending_theme("final_boss")
+	credits_roll = CREDITS.make_roll(safe_content)
+	var tween := create_tween()
+	tween.tween_property(credits_roll, "position:y", CREDITS.offscreen_y(credits_roll), CREDITS.NORMAL_SCROLL_SECONDS * credits_timing_scale)
+	await tween.finished
+	if returning_to_title: return
+	credits_roll.queue_free()
+	credits_complete = true
+	end_card.text = ("BAD END" if route == "C" else "TO BE CONTINUED…") + "\n画面タップでタイトルへ"
+	end_card.show()
+	print("[%s] CREDITS_COMPLETE route=%s" % [ENDING_VERSION, route])
+
 
 func _show_page() -> void:
 	if page_index >= pages.size(): return
@@ -163,10 +222,11 @@ func _execute_event(event_name: String) -> void:
 			terminal_card = true
 			print("[%s] END_CARD route=%s card=%s" % [ENDING_VERSION, route, end_card.text])
 			_record_completion()
-			next_button.text = "タイトルへ"
+			next_button.text = "エンドロールへ"
 			next_button.z_index = 12
 			input_locked = false
 			next_button.disabled = false
+			_auto_begin_normal_credits()
 			return
 		"true_battle":
 			finished = true
