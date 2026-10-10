@@ -9,18 +9,18 @@ enum TouchControlsMode {
 const DIRECTION_BUTTONS := {
 	"UpLeftButton": {
 		"text": "↖",
-		"hold": ["move_left"],
-		"tap": ["jump"],
+		"hold": ["move_left", "jump"],
+		"tap": [],
 	},
 	"UpButton": {
 		"text": "↑",
-		"hold": [],
-		"tap": ["jump"],
+		"hold": ["jump"],
+		"tap": [],
 	},
 	"UpRightButton": {
 		"text": "↗",
-		"hold": ["move_right"],
-		"tap": ["jump"],
+		"hold": ["move_right", "jump"],
+		"tap": [],
 	},
 	"MoveLeftButton": {
 		"text": "←",
@@ -76,6 +76,11 @@ const HOLD_BUTTON_ACTIONS := {
 
 var _held_action_counts: Dictionary = {}
 var _pressed_buttons: Dictionary = {}
+var _touch_buttons_by_index: Dictionary = {}
+var _direct_touch_active := false
+var _tap_queues: Dictionary = {}
+var _tap_running: Dictionary = {}
+var _tap_generation := 0
 var _special_cooldown_remaining := 0.0
 var _special_cooldown_total := 0.0
 var _combat_buttons_paused := false
@@ -105,6 +110,49 @@ func _process(delta: float) -> void:
 	_update_special_cooldown(delta)
 
 
+# Use each touch identifier independently instead of relying on emulated mouse
+# clicks, which cannot reliably hold a D-pad key while tapping attack buttons.
+func _input(event: InputEvent) -> void:
+	if not visible or _combat_buttons_paused:
+		return
+	if event is InputEventScreenTouch:
+		if not _direct_touch_active:
+			_direct_touch_active = true
+			for button in find_children("*", "Button", true, false):
+				button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var touch := event as InputEventScreenTouch
+		if touch.pressed:
+			_set_touch_button(touch.index, _button_at_touch_position(touch.position))
+		else:
+			_set_touch_button(touch.index, null)
+		get_viewport().set_input_as_handled()
+	elif event is InputEventScreenDrag and _direct_touch_active:
+		var drag := event as InputEventScreenDrag
+		if _touch_buttons_by_index.has(drag.index):
+			_set_touch_button(drag.index, _button_at_touch_position(drag.position))
+			get_viewport().set_input_as_handled()
+
+
+func _button_at_touch_position(screen_position: Vector2) -> Button:
+	for item in find_children("*", "Button", true, false):
+		var button := item as Button
+		if button != null and button.is_visible_in_tree() and not button.disabled and button.get_global_rect().has_point(screen_position):
+			return button
+	return null
+
+
+func _set_touch_button(index: int, next_button: Button) -> void:
+	var current: Button = _touch_buttons_by_index.get(index) as Button
+	if current == next_button:
+		return
+	if current != null and is_instance_valid(current):
+		current.button_up.emit()
+	_touch_buttons_by_index.erase(index)
+	if next_button != null:
+		_touch_buttons_by_index[index] = next_button
+		next_button.button_down.emit()
+
+
 func _exit_tree() -> void:
 	release_all_touch_inputs()
 
@@ -115,6 +163,11 @@ func _notification(what: int) -> void:
 
 
 func release_all_touch_inputs() -> void:
+	# Invalidate async tap pulses so an old timer cannot release a fresh input.
+	_tap_generation += 1
+	_tap_queues.clear()
+	_tap_running.clear()
+	_touch_buttons_by_index.clear()
 	# Tap actions can still be waiting for their deferred physics/frame release.
 	for action_name in TAP_BUTTON_ACTIONS.values():
 		Input.action_release(String(action_name))
@@ -319,9 +372,9 @@ func _release_virtual_action(action_name: String) -> void:
 
 
 func _on_direction_button_down(button: Button, data: Dictionary) -> void:
-	if not visible:
+	if not visible or button.disabled:
 		return
-	_pressed_buttons[button] = true
+	_pressed_buttons[button] = int(_pressed_buttons.get(button, 0)) + 1
 	for action_name in data.get("hold", []):
 		_press_virtual_action(String(action_name))
 	for action_name in data.get("tap", []):
@@ -333,7 +386,11 @@ func _on_direction_button_down(button: Button, data: Dictionary) -> void:
 func _on_direction_button_up(button: Button, data: Dictionary) -> void:
 	if not _pressed_buttons.has(button):
 		return
-	_pressed_buttons.erase(button)
+	var count := int(_pressed_buttons.get(button, 0))
+	if count > 1:
+		_pressed_buttons[button] = count - 1
+	else:
+		_pressed_buttons.erase(button)
 	for action_name in data.get("hold", []):
 		_release_virtual_action(String(action_name))
 	button.modulate.a = button_opacity
@@ -361,9 +418,34 @@ func _on_hold_button_up(button: Button, action_name: String) -> void:
 		button.modulate.a = button_opacity
 
 
+# Every button_down is one separate action, even when two taps happen
+# before the previous pulse has been released by the physics loop.
 func _tap_action(action_name: String) -> void:
-	Input.action_press(action_name)
-	await _release_tap_action_deferred(action_name)
+	_tap_queues[action_name] = int(_tap_queues.get(action_name, 0)) + 1
+	if bool(_tap_running.get(action_name, false)):
+		return
+	_tap_running[action_name] = true
+	var generation := _tap_generation
+	while generation == _tap_generation and int(_tap_queues.get(action_name, 0)) > 0:
+		_tap_queues[action_name] = int(_tap_queues[action_name]) - 1
+		Input.action_press(action_name)
+		await get_tree().physics_frame
+		if generation != _tap_generation or not is_inside_tree():
+			return
+		await get_tree().process_frame
+		if generation != _tap_generation or not is_inside_tree():
+			return
+		Input.action_release(action_name)
+		# A full physics sample in the released state is required for the
+		# combat command buffer to recognize the next press as a new tap.
+		await get_tree().physics_frame
+		if generation != _tap_generation or not is_inside_tree():
+			return
+		await get_tree().process_frame
+		if generation != _tap_generation or not is_inside_tree():
+			return
+	_tap_queues.erase(action_name)
+	_tap_running.erase(action_name)
 
 
 func _release_tap_action_deferred(action_name: String) -> void:
