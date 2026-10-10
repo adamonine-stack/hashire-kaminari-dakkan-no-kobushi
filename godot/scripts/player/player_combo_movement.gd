@@ -67,6 +67,9 @@ var dev_combo_target: Node
 var dev_current_attack_connected := false
 var dev_combo_step := 0
 var dev_starting_combo_attack := false
+# One launcher per grounded recovery. Repeating the same launcher cannot juggle
+# a victim that is still airborne or in hitstun; alternate air attacks remain valid.
+var directional_launcher_rehit_locked := false
 var attack_data_sequence: Array[Resource] = []
 var attack_data_by_id: Dictionary = {}
 var current_attack_id := ""
@@ -1129,7 +1132,22 @@ func _is_special_input_just_pressed() -> bool:
 	return primary or legacy
 
 
+func _is_directional_launcher_hit(attack_data: Dictionary) -> bool:
+	return String(attack_data.get("attack_category", "")).to_lower() == "directional" and String(attack_data.get("hit_reaction", "")) == "launch_hit"
+
+
+func _has_recovered_from_directional_launcher() -> bool:
+	return is_on_floor() and not is_hit and not is_guard_hit and get("knockdown_state") == &"" and current_hp > 0
+
+
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	# A launcher is a combo opener, not a self-repeating juggle. Reject it
+	# before damage, hitstop, combo counters and victim recoil are applied.
+	# An air punch/kick or other DIFFERENT follow-up can still connect.
+	if directional_launcher_rehit_locked and _has_recovered_from_directional_launcher():
+		directional_launcher_rehit_locked = false
+	if directional_launcher_rehit_locked and _is_directional_launcher_hit(attack_data):
+		return false
 	if _try_guard_technical_combo_escape(attack_data, attack_direction, hit_position, attacker):
 		return false
 	if _can_guard_attack(attack_data, attacker):
@@ -1155,6 +1173,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 		if current_hp == 0 and attacker.has_method("_finish_combo_after_ko"):
 			attacker._finish_combo_after_ko()
 	_apply_knockback(attack_data, attack_direction)
+	if _is_directional_launcher_hit(attack_data):
+		directional_launcher_rehit_locked = true
 	if not bool(attack_data.get("allows_combo_followup", false)):
 		_start_invincibility()
 	_start_hit_stop_seconds(_get_defender_hitstop_duration(attack_data))
