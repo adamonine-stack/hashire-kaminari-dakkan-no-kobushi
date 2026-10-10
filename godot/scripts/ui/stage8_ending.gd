@@ -87,7 +87,12 @@ func _process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if not credits_started or returning_to_title: return
-	var tapped := (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
+	var tapped := false
+	if event is InputEventScreenTouch:
+		tapped = (event as InputEventScreenTouch).pressed
+	elif event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		tapped = mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
 	if tapped or (event.is_action_pressed("ui_accept") and not event.is_echo()):
 		get_viewport().set_input_as_handled()
 		_return_from_credits()
