@@ -44,6 +44,7 @@ func run() -> void:
 			if file.ends_with(".tres") and not path in paths:
 				paths.append(path)
 	for path in paths:
+		if "--seiya-only" in args and path != "fighters/ally_speed.tres": continue
 		if "--heroes" in args and path not in ["fighters/ally_power.tres", "fighters/ally_speed.tres"]:
 			continue
 		if "--akky-only" in args and path != "fighters/ally_balance.tres":
@@ -62,6 +63,10 @@ func run() -> void:
 		var actor_folder := folder.path_join(String(definition.fighter_id))
 		DirAccess.make_dir_recursive_absolute(actor_folder)
 		for clip in sprite.sprite_frames.get_animation_names():
+			var selected_clips: PackedStringArray = []
+			for arg in args:
+				if arg.begins_with("--clips="): selected_clips = arg.trim_prefix("--clips=").split(",")
+			if not selected_clips.is_empty() and String(clip) not in selected_clips: continue
 			if "--wall" in args and clip not in [&"idle", &"wall_hit", &"wall_fall"]: continue
 			if "--ground-bounce" in args and clip not in [&"idle", &"ground_impact", &"ground_bounce"]: continue
 			if "--special-guard" in args and clip not in [&"idle", &"special_guard"]: continue

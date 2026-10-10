@@ -1,0 +1,82 @@
+{
+  "frames": 1648,
+  "changed": [
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 0,
+      "facing": 1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 2,
+      "facing": 1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 4,
+      "facing": 1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 0,
+      "facing": -1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 2,
+      "facing": -1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 4,
+      "facing": -1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "idle_prebattle",
+      "frame": 2,
+      "facing": 1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "idle_prebattle",
+      "frame": 2,
+      "facing": -1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_2",
+      "frame": 5,
+      "facing": 1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_2",
+      "frame": 5,
+      "facing": -1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_3",
+      "frame": 5,
+      "facing": 1
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_3",
+      "frame": 5,
+      "facing": -1
+    }
+  ],
+  "edge_contacts": [],
+  "all_gou_identical": true,
+  "formal_idle_identical": true,
+  "scale_position_canvas_unchanged": true,
+  "anatomy_2percent": "unverified"
+}

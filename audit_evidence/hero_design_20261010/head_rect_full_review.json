@@ -1,0 +1,72 @@
+{
+  "frames": 1648,
+  "changed": [
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 2,
+      "facing": 1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (384.0, 2016.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "crouch_punch",
+      "frame": 2,
+      "facing": -1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (384.0, 2016.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "idle_prebattle",
+      "frame": 2,
+      "facing": 1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (0.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "idle_prebattle",
+      "frame": 2,
+      "facing": -1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (0.0, 3456.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_2",
+      "frame": 5,
+      "facing": 1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_2",
+      "frame": 5,
+      "facing": -1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_3",
+      "frame": 5,
+      "facing": 1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]"
+    },
+    {
+      "actor": "player_03_seiya",
+      "clip": "punch_3",
+      "frame": 5,
+      "facing": -1,
+      "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+      "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]"
+    }
+  ],
+  "all_gou_identical": true,
+  "all_formal_idle_identical": true,
+  "scale_position_source_unchanged": true
+}

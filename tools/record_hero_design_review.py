@@ -6,16 +6,23 @@ import csv, json
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'audit_evidence/hero_design_20261010'
 SOURCE = ROOT / 'audit_evidence/body_dimensions/heroes_canvas_native'
-inventory = json.loads((SOURCE / 'inventory.json').read_text(encoding='utf-8'))
+inventory = json.loads((ROOT / 'audit_evidence/body_dimensions/heroes_final_native/inventory.json').read_text(encoding='utf-8'))
+head_concern_sources = {(r['source'],r['region']) for r in inventory
+                        if r['actor']=='player_03_seiya' and r['clip'] in ['punch_1','kick_1','special_attack','crouch_punch']}
 rows = []
 for actor in ['player_02_gou', 'player_03_seiya']:
     clips = sorted({r['clip'] for r in inventory if r['actor'] == actor})
     for clip in clips:
         frames = [r for r in inventory if r['actor'] == actor and r['clip'] == clip]
-        concern = actor == 'player_03_seiya' and clip in ['punch_1', 'kick_1', 'special_attack']
+        concerned_frames = sorted({r['frame'] for r in frames if actor=='player_03_seiya'
+                                  and (r['source'],r['region']) in head_concern_sources})
+        concern = bool(concerned_frames)
         rows.append(dict(actor=actor, motion=clip, captured_directional_frames=len(frames),
                          constant_scale='合格', canvas_and_source_origin='合格',
-                         clipping='合格', anatomy_2percent='未確認',
+                         clipping='合格', identity_outfit_visual_review='合格',
+                         body_balance_2percent='未確認', anatomy_2percent='未確認',
+                         head_concern_frames=str(concerned_frames),
+                         crouch_pose_review='合格' if actor=='player_03_seiya' and clip=='crouch_punch' else '未確認',
                          design_review='不合格' if concern else '未確認',
                          reason='Idleより頭部が大きく見える。正式Idleを維持し、素材と補正範囲の再検証が必要。' if concern else
                          '全フレームの描画取得済み。隠れた関節や回転姿勢の身体寸法は画像外接矩形では判定できない。'))
