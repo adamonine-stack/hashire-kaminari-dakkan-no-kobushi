@@ -117,6 +117,31 @@ func run() -> void:
  check(enemy.receive_attack(packet,1.0,enemy.global_position,player),"launcher connects")
  check(enemy.velocity.y <= -410.0 and enemy.knockdown_state == &"","launcher floats without down lock")
  check(not enemy.is_invincible,"launcher leaves followup vulnerable")
+ # Repeating the launcher alone must not add damage or combo hits.
+ var launcher_hp: int = enemy.current_hp
+ var launcher_combo_hits: int = player.combo_count
+ player.start_attack("akky_down_punch")
+ packet = player._build_combo_scaled_attack_data(player._get_punch_attack_data(),enemy)
+ check(not enemy.receive_attack(packet,1.0,enemy.global_position,player),"same launcher blocked during hitstun")
+ check(enemy.current_hp == launcher_hp and player.combo_count == launcher_combo_hits,"no free launcher spam combo")
+ # A different air attack is still a legitimate follow-up.
+ player.start_attack("akky_air_punch")
+ packet = player._build_combo_scaled_attack_data(player._get_punch_attack_data(),enemy)
+ check(enemy.receive_attack(packet,1.0,enemy.global_position,player),"different air punch may follow launcher")
+ check(enemy.current_hp < launcher_hp and player.combo_count > launcher_combo_hits,"alternate air followup deals damage and scores combo")
+ # Full neutral grounded recovery permits the NEXT independent launcher.
+ enemy.reset_knockdown_state()
+ enemy.is_hit = false
+ enemy.is_guard_hit = false
+ enemy.is_invincible = false
+ enemy.hit_reaction_timer = 0.0
+ enemy.global_position = Vector2(620,520)
+ enemy.velocity = Vector2.ZERO
+ enemy.move_and_slide()
+ check(enemy.is_on_floor(),"launcher recovery test grounded")
+ player.start_attack("akky_down_punch")
+ packet = player._build_combo_scaled_attack_data(player._get_punch_attack_data(),enemy)
+ check(enemy.receive_attack(packet,1.0,enemy.global_position,player),"new launcher allowed after full recovery")
  reset_pair()
  player.start_attack("akky_down_kick")
  packet = player._build_combo_scaled_attack_data(player._get_kick_attack_data(),enemy)
