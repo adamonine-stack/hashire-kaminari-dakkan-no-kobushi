@@ -309,7 +309,8 @@ func _build_title_layout() -> void:
 	_style_title_button(game_start_button, true)
 	title_menu.add_child(game_start_button)
 
-	continue_button = _make_menu_button("CONTINUE" if FileAccess.file_exists(RUN_SAVE_PATH) else "エンディングを再生")
+	var offer_replay := not FileAccess.file_exists(RUN_SAVE_PATH) and not _completed_credits_route().is_empty()
+	continue_button = _make_menu_button("エンディングを再生" if offer_replay else "CONTINUE")
 	continue_button.disabled = not _has_continue_data()
 	continue_button.tooltip_text = "Save data is not available yet." if continue_button.disabled else ""
 	continue_button.pressed.connect(continue_game)
