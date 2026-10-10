@@ -22,7 +22,7 @@ class_name FighterMotionAtlas
 ## Complete source poses are packed into common display cells at load time.
 @export var frame_regions: Array[Rect2i] = []
 @export var frame_offsets: Array[Vector2i] = []
-@export var frame_source_scales: PackedFloat32Array = []
+@export var frame_source_scales: Array[float] = []
 ## New measured sources can specify the packed top-left directly in display pixels.
 ## False retains the existing source-space, bottom-aligned packing convention.
 @export var frame_offsets_are_display_pixels := false
