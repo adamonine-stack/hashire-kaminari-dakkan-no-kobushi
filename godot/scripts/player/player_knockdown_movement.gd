@@ -104,6 +104,12 @@ func can_be_thrown(attacker: Node) -> bool:
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
+	# This subclass owns actual fighter damage. Reject a second launcher
+	# during the SAME airborne/hitstun sequence before any combo registration.
+	if directional_launcher_rehit_locked and _has_recovered_from_directional_launcher():
+		directional_launcher_rehit_locked = false
+	if directional_launcher_rehit_locked and _is_directional_launcher_hit(attack_data):
+		return false
 	if not can_receive_attack():
 		return false
 	if _try_guard_technical_combo_escape(attack_data, attack_direction, hit_position, attacker):
@@ -164,6 +170,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	elif causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)
 	apply_damage(final_damage)
+	if _is_directional_launcher_hit(attack_data):
+		directional_launcher_rehit_locked = true
 	if has_method("gain_special_gauge_from_damage"):
 		call("gain_special_gauge_from_damage", final_damage, attack_data)
 	damage_feedback_requested.emit(self, final_damage, false, hit_position)
