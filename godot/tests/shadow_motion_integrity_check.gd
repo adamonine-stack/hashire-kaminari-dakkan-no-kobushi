@@ -117,7 +117,7 @@ func run() -> void:
 		await clean_reset(manager,shadow,Vector2(660,520),-direction)
 		player.set_physics_process(false)
 		shadow.input_enabled = true
-		var kick := shadow._get_attack_data(shadow.basic_move_ids.neutral_kick)
+		var kick: PlayerAttackData = shadow._get_attack_data(shadow.basic_move_ids.neutral_kick)
 		var geometry_scale: float = shadow.battle_visual_scale_multiplier * definition.combat_geometry_scale
 		player.global_position = Vector2(660-kick.hitbox_offset.x*geometry_scale*direction,520+kick.hitbox_offset.y*geometry_scale-player.hurt_box.position.y)
 		hp = player.current_hp
@@ -210,3 +210,4 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 		if sprite.flip_h: point.x = -point.x
 		var actual: Vector2 = t*(point+sprite.offset)
 		check(actual.x>=0 and actual.x<=screen.x and actual.y>=0 and actual.y<=screen.y,label+" art inside rendered viewport")
+
