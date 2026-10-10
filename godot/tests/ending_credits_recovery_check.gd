@@ -50,7 +50,40 @@ func run_check() -> void:
 		Input.parse_input_event(tap)
 		await wait_for_scene("res://scenes/Title.tscn", 4.0)
 		check(not CHECKPOINT.is_pending(), "only explicit title exit clears checkpoint " + route)
-		check(current_scene != null and current_scene.continue_button.disabled, "CONTINUE disabled after exit " + route)
+		check(not FileAccess.file_exists(CHECKPOINT.SAVE_PATH), "completed end has no pending run " + route)
+	# Upgrade path: older published versions erased the run save too early.
+	# The persistent story progress must offer a replay without another boss win.
+	var progress := ConfigFile.new()
+	progress.set_value("story", "normal_ending_unlocked", true)
+	progress.set_value("story", "last_stage8_route", "C")
+	check(progress.save("user://story_progress.cfg") == OK, "legacy bad ending flags saved")
+	change_scene_to_file("res://scenes/Title.tscn")
+	await wait_for_scene("res://scenes/Title.tscn")
+	check(current_scene.continue_button.text == "エンディングを再生" and not current_scene.continue_button.disabled, "legacy replay offered")
+	root.set_meta(&"ending_credits_qa_scale", 0.006)
+	current_scene.continue_game()
+	await wait_for_scene(CHECKPOINT.SCENE)
+	if current_scene != null and current_scene.scene_file_path == CHECKPOINT.SCENE:
+		check(current_scene.ending_route == CHECKPOINT.BAD, "legacy bad ending restored")
+		var tap := InputEventScreenTouch.new()
+		tap.pressed = true
+		tap.position = Vector2(422, 195)
+		Input.parse_input_event(tap)
+		await wait_for_scene("res://scenes/Title.tscn")
+	progress.set_value("story", "true_ending_unlocked", true)
+	check(progress.save("user://story_progress.cfg") == OK, "legacy true ending flags saved")
+	change_scene_to_file("res://scenes/Title.tscn")
+	await wait_for_scene("res://scenes/Title.tscn")
+	root.set_meta(&"ending_credits_qa_scale", 0.006)
+	current_scene.continue_game()
+	await wait_for_scene(CHECKPOINT.SCENE)
+	if current_scene != null and current_scene.scene_file_path == CHECKPOINT.SCENE:
+		check(current_scene.ending_route == CHECKPOINT.TRUE, "legacy true ending restored")
+		var tap := InputEventScreenTouch.new()
+		tap.pressed = true
+		tap.position = Vector2(422, 195)
+		Input.parse_input_event(tap)
+		await wait_for_scene("res://scenes/Title.tscn")
 	print("ENDING_CREDITS_RECOVERY_CHECK failures=%s" % JSON.stringify(failures))
 	if current_scene != null: current_scene.queue_free()
 	await process_frame
