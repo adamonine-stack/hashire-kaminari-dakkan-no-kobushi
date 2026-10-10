@@ -95,8 +95,12 @@ func run_check() -> void:
 			check(ui.end_card.text == ("BAD END" if expected_route == "C" else "TO BE CONTINUED…"), "correct ending card " + expected_route)
 			await capture(expected_route + "_end")
 			ui.credits_timing_scale = 0.006
-			ui.last_input_msec = -1000
-			ui.advance()
+			if expected_route == "A":
+				# Normal routes should start rolling without user input.
+				await create_timer(3.35).timeout
+			else:
+				ui.last_input_msec = -1000
+				ui.advance()
 			await create_timer(0.6).timeout
 			check(ui.credits_started and ui.credits_complete, "credits complete " + expected_route)
 			check(current_scene == ui and ui.end_card.visible, "credits end holds screen " + expected_route)
