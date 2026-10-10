@@ -162,10 +162,18 @@ func run() -> void:
 					check(not victim.is_throw_locked and not victim.is_throw_escape_pending,"grip lock clears after "+mode)
 					await capture("stage%d_%s_%d_complete" % [stage+1,mode,direction])
 				cases_checked += 1
+	await extra_reversal_checks(manager,actor,victim)
 	print("CROSS_MUEI_RESULT cases=%d screenshots=%d failures=%s" % [cases_checked,screenshots,failures])
+	for audio in root.find_children("*","AudioStreamPlayer",true,false):audio.stop()
+	for audio in root.find_children("*","AudioStreamPlayer2D",true,false):audio.stop()
+	OS.delay_msec(200)
 	battle.queue_free()
 	await process_frame
+	OS.delay_msec(200)
 	quit(0 if failures.is_empty() else 1)
+
+func extra_reversal_checks(_manager: Node,_actor: Node,_victim: Node) -> void:
+	pass
 var motion_area_cache := {}
 var motion_bounds_cache := {}
 func motion_key(texture: Texture2D) -> String:
@@ -185,6 +193,7 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var t := sprite.get_global_transform_with_canvas()
 	var screen := root.get_visible_rect().size
 	for point in [Vector2(bounds.position),Vector2(bounds.end),Vector2(bounds.position.x,bounds.end.y),Vector2(bounds.end.x,bounds.position.y)]:
+		if texture is AtlasTexture: point += texture.margin.position
 		point -= texture.get_size()*0.5
 		if sprite.flip_h: point.x = -point.x
 		var actual: Vector2 = t*(point+sprite.offset)

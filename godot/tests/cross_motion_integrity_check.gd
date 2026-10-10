@@ -203,6 +203,7 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 	var t := sprite.get_global_transform_with_canvas()
 	var screen := root.get_visible_rect().size
 	for point in [Vector2(bounds.position),Vector2(bounds.end),Vector2(bounds.position.x,bounds.end.y),Vector2(bounds.end.x,bounds.position.y)]:
+		if texture is AtlasTexture: point += texture.margin.position
 		point -= texture.get_size()*0.5
 		if sprite.flip_h: point.x = -point.x
 		var actual: Vector2 = t*(point+sprite.offset)
