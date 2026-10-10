@@ -36,6 +36,9 @@ var alarm := false
 var timing_scale := 1.0 # Set before entering tree by QA only; normal playback is real time.
 var auto_return := true
 var theme_completed := false
+var credits_started := false
+var credits_complete := false
+var returning_to_title := false
 const AURA := preload("res://assets/effects/special_v1/aura.png")
 
 func _ready() -> void:
@@ -47,8 +50,20 @@ func _ready() -> void:
 	get_node("/root/AudioManager").fade_out()
 	_run()
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# The cinematic stays unskippable until the credits begin.
 	get_viewport().set_input_as_handled()
+	if not credits_started or returning_to_title: return
+	var tapped := (event is InputEventScreenTouch and event.pressed) or (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
+	if tapped or (event.is_action_pressed("ui_accept") and not event.is_echo()):
+		_return_from_credits()
+
+
+func _return_from_credits() -> void:
+	if returning_to_title: return
+	returning_to_title = true
+	await get_node("/root/AudioManager").fade_out()
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
 func _on_music_finished(music_id: String) -> void:
 	if music_id == get_node("/root/AudioManager").THEME_ID:
@@ -202,20 +217,16 @@ func _run() -> void:
 	await _card("TRUE ENDING", 4.0)
 	_record_completion()
 	_beat("credits")
+	credits_started = true
 	await _credits()
-	# Preserve the autonomous film and allow the whole song to finish.
-	# QA with auto_return=false keeps the existing short sequence.
-	var audio := get_node("/root/AudioManager")
-	if auto_return and audio.current_bgm_id == audio.THEME_ID:
-		title_card.text = "TRUE ENDING"
-		title_card.modulate.a = 1.0
-		title_card.show()
-		# playing can become false a frame before AudioStreamPlayer.finished.
-		# Do not start title playback until the old track's signal is delivered.
-		while not theme_completed and audio.current_bgm_id == audio.THEME_ID:
-			await get_tree().process_frame
+	if returning_to_title: return
+	credits_complete = true
+	title_card.text = "TRUE ENDING\n画面タップでタイトルへ"
+	title_card.modulate.a = 1.0
+	title_card.show()
+	# Stay here indefinitely, even after the full theme has finished.
+	# The player returns only by tapping/clicking/confirming.
 	_beat("complete")
-	if auto_return: get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
 func _cg(id: String, hold: float, pull_back := false) -> void:
 	if veil.color.a < 0.99: await _fade(1.0, 0.7)
