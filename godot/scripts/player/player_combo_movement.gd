@@ -1137,7 +1137,7 @@ func _is_directional_launcher_hit(attack_data: Dictionary) -> bool:
 
 
 func _has_recovered_from_directional_launcher() -> bool:
-	return is_on_floor() and not is_hit and not is_guard_hit and knockdown_state == &"" and current_hp > 0
+	return is_on_floor() and not is_hit and not is_guard_hit and get("knockdown_state") == &"" and current_hp > 0
 
 
 func receive_attack(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
