@@ -122,6 +122,7 @@ func advance() -> void:
 
 func _roll_normal_credits() -> void:
 	credits_started = true
+	print("[%s] CREDITS_START route=%s" % [ENDING_VERSION, route])
 	terminal_card = false
 	end_card.hide()
 	next_button.hide()
@@ -138,8 +139,9 @@ func _roll_normal_credits() -> void:
 	if returning_to_title: return
 	credits_roll.queue_free()
 	credits_complete = true
-	end_card.text = "BAD END" if route == "C" else "TO BE CONTINUED…"
+	end_card.text = ("BAD END" if route == "C" else "TO BE CONTINUED…") + "\n画面タップでタイトルへ"
 	end_card.show()
+	print("[%s] CREDITS_COMPLETE route=%s" % [ENDING_VERSION, route])
 
 
 func _show_page() -> void:
