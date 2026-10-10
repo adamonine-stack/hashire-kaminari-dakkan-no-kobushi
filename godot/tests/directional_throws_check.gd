@@ -136,7 +136,7 @@ func run() -> void:
     mobile._on_tap_button_down(mobile.right_controls.get_node("ThrowButton"),"throw_attack")
     player._sample_combat_commands(0.0)
     player._dispatch_combat_command()
-    var intended_direction := direction if hold else "neutral"
+    var intended_direction: String = direction if hold else "neutral"
     check(player.directional_throw_data != null and player.directional_throw_data.command_direction == intended_direction,"mobile direction throw %s/%s/%s"%[direction,facing,hold])
     mobile._on_direction_button_up(button,data)
     for i in range(2): await physics_frame
