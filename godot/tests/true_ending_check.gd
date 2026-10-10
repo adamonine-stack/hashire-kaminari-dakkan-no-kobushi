@@ -24,6 +24,7 @@ func inspect_beat(beat: String) -> void:
 		for actor in [ending.akky, ending.seiya]:
 			check(actor.poses.is_empty(), "cast resources released before CG")
 	if beat == "credits":
+		check(not ending.is_processing(), "per-frame effects stop before credits")
 		check(ending.backdrop.texture == null, "CG released before credits")
 		check(ending.effects.get_child_count() == 0, "explosion nodes released before credits")
 		for player in ending.sound_players.values():

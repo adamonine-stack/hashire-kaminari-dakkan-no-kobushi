@@ -206,6 +206,9 @@ func _run() -> void:
 	backdrop.texture = null
 	_stop_sound("waves")
 	for id in sound_players.keys(): _stop_sound(String(id))
+	if shot_tween != null: shot_tween.kill()
+	shot.position = Vector2.ZERO
+	set_process(false)
 	await _card("BLACK SPARROW", 3.0)
 	await _card("TRUE ENDING", 4.0)
 	_record_completion()
