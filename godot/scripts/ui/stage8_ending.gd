@@ -4,8 +4,9 @@ const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
 const SNAPSHOT_META := &"stage8_ending_snapshot"
 const HERO_IDS := ["player_01_akky", "player_02_gou", "player_03_seiya"]
 const HERO_NAMES := ["アッキー", "ゴウ", "セイヤ"]
-const HERO_DEFINITIONS := [preload("res://data/fighters/ally_balance.tres"), preload("res://data/fighters/ally_power.tres"), preload("res://data/fighters/ally_speed.tres")]
-const ACTOR_SCENE := preload("res://scenes/Player.tscn")
+const HERO_ART_IDS := ["ally_balance", "ally_power", "ally_speed"]
+const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
+const CHECKPOINT := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
 const SCRIPT_PATH := "res://data/story/stage8_dialogue.txt"
 const ENDING_VERSION := "STAGE8_TRUE_ENDING_V1"
 
@@ -50,7 +51,11 @@ static func dialogue_for(selected_route: String) -> Array[Dictionary]:
 
 func _ready() -> void:
 	get_tree().paused = false
+	get_tree().root.set_meta(&"st_action_continue_run", false)
 	stage8_snapshot = get_tree().root.get_meta(SNAPSHOT_META, [])
+	if stage8_snapshot.is_empty():
+		stage8_snapshot = CHECKPOINT.load_snapshot()
+		get_tree().root.set_meta(SNAPSHOT_META, stage8_snapshot)
 	var living: Array = []
 	for data in stage8_snapshot:
 		if not bool(data.get("is_defeated", false)) and int(data.get("current_health", 0)) > 0:
@@ -183,6 +188,7 @@ func _audio(method: String, argument: String = "") -> void:
 	else: audio.call(method, argument)
 
 func _record_completion() -> void:
+	CHECKPOINT.clear()
 	var cfg := ConfigFile.new()
 	if FileAccess.file_exists("user://story_progress.cfg"): cfg.load("user://story_progress.cfg")
 	cfg.set_value("story", "normal_ending_unlocked", true)
@@ -216,16 +222,11 @@ func _build(living: Array) -> void:
 	if route == "C": slots["セイヤ"] = 640.0
 	for i in range(3):
 		if not living.has(HERO_IDS[i]): continue
-		var actor := ACTOR_SCENE.instantiate()
+		var actor := ENDING_HERO.new()
 		actor.name = "EndingHero%d" % i
 		actor.process_mode = Node.PROCESS_MODE_DISABLED
-		actor.collision_layer = 0
-		actor.collision_mask = 0
 		safe_content.add_child(actor)
-		actor.apply_fighter_definition(HERO_DEFINITIONS[i])
-		actor.input_enabled = false
-		actor.ai_enabled = false
-		actor.is_round_active = false
+		actor.setup(HERO_ART_IDS[i])
 		actor.position = Vector2(slots[HERO_NAMES[i]], 478)
 		actor.character_visual_controller.play_animation(&"idle_prebattle", true)
 		actor.animated_character_sprite.stop()

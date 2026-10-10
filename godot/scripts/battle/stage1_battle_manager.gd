@@ -1,6 +1,8 @@
 extends BattleManager
 class_name Stage1BattleManager
 
+const ENDING_CHECKPOINT := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
+
 ## Published campaign slice (one or two stages).
 ## Enemy scoping is configured by BattleManager.active_enemy_count_limit on
 ## Battle.tscn. This script keeps Stage 1's unlimited timer and clear presentation.
@@ -248,13 +250,18 @@ func enter_game_clear() -> void:
 		for data in player_team:
 			snapshot.append({"character_id":String(data["character_id"]), "current_health":int(data["current_health"]), "max_health":int(data["max_health"]), "is_defeated":bool(data["is_defeated"]), "special_gauge":float(data.get("special_gauge", 0.0))})
 		get_tree().root.set_meta(&"stage8_ending_snapshot", snapshot)
-		clear_run_save()
+		# Preserve the completed battle through a mobile/PWA process restart.
+		if ENDING_CHECKPOINT.save_snapshot(snapshot) != OK:
+			push_warning("Could not save the Stage 8 ending checkpoint")
+		_release_touch_inputs()
 		_show_message("STAGE 8 CLEAR")
 		_switch_bgm("WinBGM")
 		_flow_sequence_id += 1
 		var sequence := _flow_sequence_id
 		await get_tree().create_timer(2.5).timeout
 		if sequence != _flow_sequence_id or not is_inside_tree(): return
+		is_scene_transitioning = true
+		cleanup_battle_before_transition()
 		get_tree().change_scene_to_file("res://scenes/Stage8Ending.tscn")
 		return
 	_switch_bgm("WinBGM")

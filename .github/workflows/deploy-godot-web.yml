@@ -222,6 +222,9 @@ jobs:
           timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage8_ending_check.gd 2>&1 | tee /tmp/stage8-ending.log
           grep -Fq 'STAGE8_ENDING_CHECK failures=[]' /tmp/stage8-ending.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/stage8-ending.log; then exit 1; fi
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage8_checkpoint_check.gd 2>&1 | tee /tmp/stage8-checkpoint.log
+          grep -Fq 'STAGE8_CHECKPOINT_CHECK failures=[]' /tmp/stage8-checkpoint.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/stage8-checkpoint.log; then exit 1; fi
           timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/true_seiya_combat_check.gd 2>&1 | tee /tmp/true-seiya-combat.log
           grep -Fq 'TRUE_SEIYA_COMBAT_CHECK failures=[]' /tmp/true-seiya-combat.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-seiya-combat.log; then exit 1; fi

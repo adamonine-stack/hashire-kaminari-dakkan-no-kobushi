@@ -145,8 +145,13 @@ func _enter_battle_scene(is_continue: bool) -> void:
 	var target_scene := BATTLE_SCENE
 	if is_continue:
 		var cfg := ConfigFile.new()
-		if cfg.load(RUN_SAVE_PATH) == OK and cfg.get_value("run", "scene", "") == "res://scenes/TrueBattle.tscn":
-			target_scene = "res://scenes/TrueBattle.tscn"
+		if cfg.load(RUN_SAVE_PATH) == OK:
+			var saved_scene := String(cfg.get_value("run", "scene", ""))
+			if saved_scene == "res://scenes/TrueBattle.tscn": target_scene = saved_scene
+			elif saved_scene == "res://scenes/Stage8Ending.tscn":
+				target_scene = saved_scene
+				var checkpoint := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
+				get_tree().root.set_meta(checkpoint.META, checkpoint.load_snapshot())
 	_play_ui_se("confirm")
 	is_scene_transitioning = true
 	if not is_continue:
