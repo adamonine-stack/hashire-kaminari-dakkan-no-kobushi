@@ -3,6 +3,7 @@ extends Control
 ## Autonomous film: all gameplay input is consumed, including pause and touch.
 signal beat_started(beat: String)
 const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
+const CREDITS := preload("res://scripts/ui/ending_credits.gd")
 const ART := "res://assets/endings/true/"
 const PLAYER := preload("res://scenes/Player.tscn")
 const HEROES := [preload("res://data/fighters/ally_balance.tres"), preload("res://data/fighters/ally_power.tres"), preload("res://data/fighters/ally_speed.tres")]
@@ -244,17 +245,16 @@ func _card(text: String, hold: float) -> void:
 	title_card.hide()
 
 func _credits() -> void:
-	var roll := _label(FileAccess.get_file_as_string("res://data/story/credits.txt"), Vector2(180, 735), Vector2(920, 1100), 29)
-	roll.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	roll.z_index = 12
+	var roll := CREDITS.make_roll(content)
 	var tween := create_tween()
 	var roll_duration := 30.0 * timing_scale
 	var audio := get_node("/root/AudioManager")
 	if auto_return and audio.is_music_playing(audio.THEME_ID):
-		roll_duration = maxf(roll_duration, audio.bgm_player.stream.get_length() - audio.bgm_player.get_playback_position() - 1.0)
-	# Credit contributors can grow without clipping the last line of the roll.
-	var final_y := -maxf(1150.0, roll.get_combined_minimum_size().y + 50.0)
-	tween.tween_property(roll, "position:y", final_y, roll_duration)
+		# Finish scrolling sooner than the theme, leaving a calm end card
+		# while the complete song plays before returning to the title.
+		var remaining: float = audio.bgm_player.stream.get_length() - audio.bgm_player.get_playback_position()
+		roll_duration = maxf(roll_duration, (remaining - 1.0) * CREDITS.TRUE_SONG_REMAINING_SHARE)
+	tween.tween_property(roll, "position:y", CREDITS.offscreen_y(roll), roll_duration)
 	await tween.finished
 	roll.queue_free()
 	await _wait(1.0)
