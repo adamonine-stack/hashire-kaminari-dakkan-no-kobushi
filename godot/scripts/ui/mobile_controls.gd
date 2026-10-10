@@ -78,10 +78,11 @@ var _held_action_counts: Dictionary = {}
 var _pressed_buttons: Dictionary = {}
 var _pressed_hold_buttons: Dictionary = {}
 var _touch_buttons_by_index: Dictionary = {}
+var _tracked_touch_indices: Dictionary = {}
 var _direct_touch_active := false
-var _tap_queues: Dictionary = {}
 var _tap_running: Dictionary = {}
 var _tap_generation := 0
+var _tap_serial := 0
 var _special_cooldown_remaining := 0.0
 var _special_cooldown_total := 0.0
 var _combat_buttons_paused := false
@@ -128,14 +129,22 @@ func _input(event: InputEvent) -> void:
 				button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var touch := event as InputEventScreenTouch
 		var controlled := _touch_buttons_by_index.has(touch.index)
-		var target := _button_at_touch_position(touch.position) if touch.pressed else null
+		var target := _button_at_touch_position(touch.position) if touch.pressed and not touch.canceled else null
+		if touch.pressed and target != null:
+			_tracked_touch_indices[touch.index] = true
 		_set_touch_button(touch.index, target)
+		if not touch.pressed or touch.canceled:
+			_tracked_touch_indices.erase(touch.index)
 		if controlled or target != null:
 			get_viewport().set_input_as_handled()
 	elif event is InputEventScreenDrag and _direct_touch_active:
 		var drag := event as InputEventScreenDrag
-		if _touch_buttons_by_index.has(drag.index):
-			_set_touch_button(drag.index, _button_at_touch_position(drag.position))
+		if _tracked_touch_indices.has(drag.index):
+			var current := _touch_buttons_by_index.get(drag.index) as Button
+			# Keep action/guard ownership until finger-up. Sliding a thumb
+			# must not fire another attack or silently release a guard.
+			if current == null or current.get_parent() == left_controls:
+				_set_touch_button(drag.index, _direction_button_at_position(drag.position))
 			get_viewport().set_input_as_handled()
 
 
@@ -144,7 +153,26 @@ func _button_at_touch_position(screen_position: Vector2) -> Button:
 		var button := item as Button
 		if button != null and button.is_visible_in_tree() and not button.disabled and button.get_global_rect().has_point(screen_position):
 			return button
-	return null
+	return _direction_button_at_position(screen_position)
+
+
+func _direction_button_at_position(screen_position: Vector2) -> Button:
+	# Fill half the spacing around each D-pad cell, selecting the nearest
+	# center. The pad stays continuous without overlapping the attack area.
+	var nearest: Button = null
+	var distance := INF
+	for button_name in DIRECTION_BUTTONS:
+		var button := left_controls.get_node_or_null(String(button_name)) as Button
+		if button == null or not button.is_visible_in_tree() or button.disabled:
+			continue
+		var rect := button.get_global_rect()
+		if not rect.grow(8.0).has_point(screen_position):
+			continue
+		var candidate := rect.get_center().distance_squared_to(screen_position)
+		if candidate < distance:
+			distance = candidate
+			nearest = button
+	return nearest
 
 
 func _set_touch_button(index: int, next_button: Button) -> void:
@@ -173,9 +201,9 @@ func _notification(what: int) -> void:
 func release_all_touch_inputs() -> void:
 	# Invalidate async tap pulses so an old timer cannot release a fresh input.
 	_tap_generation += 1
-	_tap_queues.clear()
 	_tap_running.clear()
 	_touch_buttons_by_index.clear()
+	_tracked_touch_indices.clear()
 	if _direct_touch_active:
 		_direct_touch_active = false
 		var touch_device := DisplayServer.is_touchscreen_available() or OS.has_feature("web_ios") or OS.has_feature("web_android")
@@ -192,6 +220,11 @@ func release_all_touch_inputs() -> void:
 	_pressed_buttons.clear()
 	_pressed_hold_buttons.clear()
 	_set_all_button_pressed_visuals(false)
+	var fighter := get_node_or_null("../../../Player")
+	if fighter != null:
+		var commands: RefCounted = fighter.get("combat_commands") as RefCounted
+		if commands != null:
+			commands.call("clear")
 
 
 func set_paused_input_mode(is_paused: bool) -> void:
@@ -272,6 +305,7 @@ func _connect_touch_buttons() -> void:
 			"PauseButton":
 				button.text = "II"
 		button.button_down.connect(_on_tap_button_down.bind(button, action_name))
+		button.button_up.connect(_on_tap_button_up.bind(button))
 
 	for button_name in HOLD_BUTTON_ACTIONS:
 		var button := get_node_or_null("LeftControls/%s" % button_name) as Button
@@ -419,6 +453,7 @@ func _on_direction_button_down(button: Button, data: Dictionary) -> void:
 		Input.action_press(String(action_name))
 		_release_tap_action_deferred(String(action_name))
 	button.modulate.a = pressed_opacity
+	button.set_pressed_no_signal(true)
 
 
 func _on_direction_button_up(button: Button, data: Dictionary) -> void:
@@ -428,15 +463,23 @@ func _on_direction_button_up(button: Button, data: Dictionary) -> void:
 	for action_name in data.get("hold", []):
 		_release_virtual_action(String(action_name))
 	button.modulate.a = button_opacity
+	button.set_pressed_no_signal(false)
 
 
 func _on_tap_button_down(button: Button, action_name: String) -> void:
 	if not visible or button.disabled:
 		return
 	button.modulate.a = pressed_opacity
-	await _tap_action(action_name)
-	if is_instance_valid(button):
-		button.modulate.a = button_opacity
+	button.set_pressed_no_signal(true)
+	var fighter := get_node_or_null("../../../Player")
+	if fighter != null and fighter.has_method("record_touch_combat_press"):
+		fighter.call("record_touch_combat_press", action_name)
+	_tap_action(action_name)
+
+
+func _on_tap_button_up(button: Button) -> void:
+	button.set_pressed_no_signal(false)
+	button.modulate.a = disabled_opacity if button.disabled else button_opacity
 
 
 func _on_hold_button_down(button: Button, action_name: String) -> void:
@@ -445,6 +488,7 @@ func _on_hold_button_down(button: Button, action_name: String) -> void:
 	_pressed_hold_buttons[button] = true
 	_press_virtual_action(action_name)
 	button.modulate.a = pressed_opacity
+	button.set_pressed_no_signal(true)
 
 
 func _on_hold_button_up(button: Button, action_name: String) -> void:
@@ -454,35 +498,26 @@ func _on_hold_button_up(button: Button, action_name: String) -> void:
 	_release_virtual_action(action_name)
 	if is_instance_valid(button):
 		button.modulate.a = button_opacity
+		button.set_pressed_no_signal(false)
 
 
-# Every button_down is one separate action, even when two taps happen
-# before the previous pulse has been released by the physics loop.
+# Combat presses are delivered at finger-down, while this short pulse keeps
+# legacy just-pressed consumers working. A newer press owns its release timer.
 func _tap_action(action_name: String) -> void:
-	_tap_queues[action_name] = mini(int(_tap_queues.get(action_name, 0)) + 1, 4)
-	if bool(_tap_running.get(action_name, false)):
-		return
-	_tap_running[action_name] = true
+	_tap_serial += 1
+	var serial := _tap_serial
 	var generation := _tap_generation
-	while generation == _tap_generation and int(_tap_queues.get(action_name, 0)) > 0:
-		_tap_queues[action_name] = int(_tap_queues[action_name]) - 1
-		Input.action_press(action_name)
-		await get_tree().physics_frame
-		if generation != _tap_generation or not is_inside_tree():
-			return
-		await get_tree().process_frame
-		if generation != _tap_generation or not is_inside_tree():
-			return
-		Input.action_release(action_name)
-		# A full physics sample in the released state is required for the
-		# combat command buffer to recognize the next press as a new tap.
-		await get_tree().physics_frame
-		if generation != _tap_generation or not is_inside_tree():
-			return
-		await get_tree().process_frame
-		if generation != _tap_generation or not is_inside_tree():
-			return
-	_tap_queues.erase(action_name)
+	_tap_running[action_name] = serial
+	Input.action_press(action_name)
+	await get_tree().physics_frame
+	if generation != _tap_generation or not is_inside_tree():
+		return
+	await get_tree().process_frame
+	if generation != _tap_generation or not is_inside_tree():
+		return
+	if int(_tap_running.get(action_name, -1)) != serial:
+		return
+	Input.action_release(action_name)
 	_tap_running.erase(action_name)
 
 
@@ -549,8 +584,8 @@ func _layout_controls() -> void:
 	var gap := maxf(10.0, 16.0 * scale_factor)
 	var margin := Vector2(maxf(safe_margin.x * scale_factor, 18.0), maxf(safe_margin.y * scale_factor, 16.0))
 	var bottom_margin := margin.y + (8.0 if not is_portrait else 0.0)
-	var dpad_button_size := button_size * 0.78
-	var action_button_size := button_size * 0.86
+	var dpad_button_size := (button_size * 0.78).max(Vector2(44.0, 44.0))
+	var action_button_size := (button_size * 0.86).max(Vector2(48.0, 48.0))
 	var left_group_size := Vector2(dpad_button_size.x * 3.0 + gap * 2.0, dpad_button_size.y * 3.0 + gap * 2.0)
 	var right_group_size := Vector2(action_button_size.x * 3.0 + gap * 2.0, action_button_size.y * 2.0 + gap)
 	var left_top_y := viewport_size.y - bottom_margin - left_group_size.y
@@ -611,5 +646,6 @@ func _update_special_button_state() -> void:
 func _set_all_button_pressed_visuals(is_pressed: bool) -> void:
 	for button in find_children("*", "Button", true, false):
 		if button is Button:
+			button.set_pressed_no_signal(is_pressed)
 			button.modulate.a = pressed_opacity if is_pressed else button_opacity
 	_update_special_button_state()

@@ -248,6 +248,16 @@ jobs:
             if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/$test.log"; then exit 1; fi
           done
 
+      - name: Verify touch drift, rapid taps and recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          for hero in akky gou seiya; do
+            timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/control_response_check.gd -- "--$hero" 2>&1 | tee "/tmp/control-response-$hero.log"
+            grep -Fq 'failures=[]' "/tmp/control-response-$hero.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/control-response-$hero.log"; then exit 1; fi
+          done
+
       - name: Verify enemy pressure profiles
         shell: bash
         run: |

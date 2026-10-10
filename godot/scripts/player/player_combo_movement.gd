@@ -188,6 +188,30 @@ func _physics_process(delta: float) -> void:
 
 
 
+func record_touch_combat_press(action_name: String) -> void:
+	if not input_enabled or not is_round_active or current_hp <= 0 or is_character_special_busy():
+		return
+	if has_method("_is_knockdown_busy") and bool(call("_is_knockdown_busy")):
+		return
+	var kind := ""
+	match action_name:
+		"attack": kind = "punch"
+		"kick": kind = "kick"
+		"throw_attack": kind = "throw"
+	if kind.is_empty():
+		return
+	# A quick finger-up/down can occur between physics samples. Record
+	# each real press now, with its direction, and replace stale same-key
+	# requests rather than manufacturing delayed presses from UI pulses.
+	for entry in [["left", "move_left"], ["right", "move_right"], ["down", "down"]]:
+		combat_commands.record(entry[0], Input.is_action_pressed(entry[1]), facing_direction)
+	for i in range(combat_commands.pending.size() - 1, -1, -1):
+		if String(combat_commands.pending[i].kind) == kind:
+			combat_commands.pending.remove_at(i)
+	combat_commands.record(kind, false, facing_direction)
+	combat_commands.record(kind, true, facing_direction)
+
+
 func _sample_combat_commands(delta: float) -> void:
 	combat_commands.buffer_seconds = directional_input_buffer_seconds
 	combat_commands.advance(delta)
