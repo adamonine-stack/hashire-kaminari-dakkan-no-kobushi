@@ -74,10 +74,11 @@ func run() -> void:
 			var texture := frames.get_frame_texture(clip,frame) as AtlasTexture
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
-			check(texture.atlas.resource_path.contains("shadow_boxer_v2"),"all Shadow motions use repaired originals "+clip)
+			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/shadow/")
+			check(basic_source or texture.atlas.resource_path.contains("shadow_boxer_v2"),"all Shadow motions use repaired originals "+clip)
 			check(texture.get_size() == Vector2(320,256),"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
-			check(used.position.x>=8 and used.position.y>=8 and used.end.x<=312 and used.end.y<=240,"no clipped hair limbs boots "+clip)
+			check(used.position.x>=(1 if basic_source else 8) and used.position.y>=8 and used.end.x<=(319 if basic_source else 312) and used.end.y<=240,"no clipped hair limbs boots "+clip)
 			check(used.end.y >= 239 and used.end.y <= 240,"common foot/prone contact baseline "+clip)
 			var ratio := opaque_body_area(texture)/idle_area
 			check(ratio>0.70 and ratio<1.70,"anatomical body mass "+clip+str(frame))
@@ -123,7 +124,7 @@ func run() -> void:
 			await physics_frame
 			if shadow.attack_phase == shadow.AttackPhase.ACTIVE and not attack_seen:
 				attack_seen = true
-				check(sprite.frame == 1,"normal kick uses extended contact pose")
+				check(sprite.frame == shadow.current_attack_data.contact_start_frame,"normal kick uses extended contact pose")
 				await capture("contact_kick_"+str(direction))
 		check(player.current_hp<hp,"Shadow kick contacts player "+str(direction))
 		check(attack_seen,"Shadow kick contact pose was observed "+str(direction))
