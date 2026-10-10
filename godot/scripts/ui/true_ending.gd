@@ -9,6 +9,7 @@ const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
 const HERO_IDS := ["ally_balance", "ally_power", "ally_speed"]
 const CAST_MANIFEST := "res://assets/endings/true_cast/poses.json"
 const CHECKPOINT := preload("res://scripts/ui/true_ending_checkpoint.gd")
+const CREDITS_CHECKPOINT := preload("res://scripts/ui/ending_credits_checkpoint.gd")
 const LINES := ["……俺の負けだ。", "ブラックスパロウは……大きくなりすぎた。", "ここで終わらせる。", "行け。", "セイヤ……！", "早く行け。", "あれだ！"]
 var stage := ""
 var history: Array[String] = []
@@ -70,6 +71,7 @@ func _input(event: InputEvent) -> void:
 func _return_from_credits() -> void:
 	if returning_to_title: return
 	returning_to_title = true
+	if not auto_return: CHECKPOINT.clear()
 	await get_node("/root/AudioManager").fade_out()
 	get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
@@ -234,6 +236,17 @@ func _run() -> void:
 	await _card("TRUE ENDING", 4.0)
 	_record_completion()
 	_beat("credits")
+	if auto_return:
+		# The heavyweight film scenes and CG are unloaded BEFORE scrolling.
+		# Save first: if the browser reloads, CONTINUE opens the roll directly.
+		var saved := CREDITS_CHECKPOINT.save_pending(CREDITS_CHECKPOINT.TRUE)
+		if saved != OK:
+			push_error("Could not persist true ending credits checkpoint: %s" % saved)
+			# Keep the previous TrueEnding save and use the legacy presentation.
+		else:
+			credits_started = true
+			get_tree().change_scene_to_file(CREDITS_CHECKPOINT.SCENE)
+			return
 	credits_started = true
 	await _credits()
 	if returning_to_title: return
@@ -317,7 +330,8 @@ func _record_completion() -> void:
 	cfg.set_value("story", "true_ending_unlocked", true)
 	var result := cfg.save("user://story_progress.cfg")
 	if result != OK: push_error("Cannot save true ending: %s" % result)
-	else: CHECKPOINT.clear()
+	# Keep the pending scene save until lightweight credits replace it.
+	# Otherwise a crash during the transition would lose CONTINUE.
 
 func _sound(id: String, db: float) -> void:
 	var player: AudioStreamPlayer
