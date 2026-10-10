@@ -53,7 +53,7 @@ func run():
      await ticks(6)
      controls.right_controls.get_node("PunchButton" if action=="punch" else "KickButton").button_down.emit()
      await ticks(2)
-     var expected="akky_"+direction+"_"+action
+     var expected="basic_akky_"+direction+"_"+action
      if held:
       check(player.current_attack_id==expected,"held UI direction/action "+expected+str(facing)+" actual="+player.current_attack_id)
       check(player.last_combat_command.get("direction","")==direction,"held logical facing "+direction)
@@ -67,12 +67,12 @@ func run():
   button.button_down.emit(); await ticks(2); button.button_up.emit()
   await ticks(13)
   controls.right_controls.get_node("PunchButton").button_down.emit(); await ticks(2)
-  check(player.current_attack_id=="player1_punch_1","expired direction becomes neutral "+str(facing))
+  check(player.current_attack_id=="basic_akky_neutral_punch","expired direction becomes neutral "+str(facing))
   await reset_pair(facing)
   controls.left_controls.get_node("UpButton").button_down.emit()
   await ticks(7)
   controls.right_controls.get_node("KickButton").button_down.emit(); await ticks(2)
-  check(player.current_attack_id=="akky_air_kick","UI jump then air K "+str(facing))
+  check(player.current_attack_id=="basic_akky_up_kick","UI jump then air K "+str(facing))
  controls.right_controls.get_node("PunchButton").button_down.emit()
  check(Input.is_action_pressed("attack"),"tap pending before cleanup")
  controls.release_all_touch_inputs()

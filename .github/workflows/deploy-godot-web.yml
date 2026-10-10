@@ -141,6 +141,18 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev_audio_smoke.gd 2>&1 | tee /tmp/dev-audio.log || true
           grep -q "DEV_AUDIO_OK" /tmp/dev-audio.log
 
+      - name: Verify all character basic moves
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/basic_moves_combat_check.gd 2>&1 | tee /tmp/basic-moves.log
+          grep -Fq 'BASIC_MOVES_COMBAT_CHECK cases=240 failures=[]' /tmp/basic-moves.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/basic-moves.log; then exit 1; fi
+          python3 tools/build_basic_moves_web_qa.py
+          timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/basic_moves_web_qa.tscn 2>&1 | tee /tmp/basic-moves-web.log
+          grep -Fq 'BASIC_MOVES_COMBAT_CHECK cases=240 failures=[]' /tmp/basic-moves-web.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/basic-moves-web.log; then exit 1; fi
+
       - name: Verify AKKY and Crusher one-on-one combat
         shell: bash
         run: |
