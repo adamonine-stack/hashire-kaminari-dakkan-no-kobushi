@@ -137,6 +137,15 @@ func continue_game() -> void:
 	if _is_portrait_viewport():
 		_refresh_orientation_overlay()
 		return
+	if not FileAccess.file_exists(RUN_SAVE_PATH):
+		# Legacy releases cleared their save before starting credits.
+		# Use the persistent completion flags to replay without boss combat.
+		var replay_route := _completed_credits_route()
+		if replay_route.is_empty(): return
+		var checkpoint := preload("res://scripts/ui/ending_credits_checkpoint.gd")
+		if checkpoint.save_pending(replay_route) != OK:
+			push_error("Could not restore completed ending from story progress")
+			return
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, true)
 	await _enter_battle_scene(true)
 
@@ -300,7 +309,7 @@ func _build_title_layout() -> void:
 	_style_title_button(game_start_button, true)
 	title_menu.add_child(game_start_button)
 
-	continue_button = _make_menu_button("CONTINUE")
+	continue_button = _make_menu_button("CONTINUE" if FileAccess.file_exists(RUN_SAVE_PATH) else "エンディングを再生")
 	continue_button.disabled = not _has_continue_data()
 	continue_button.tooltip_text = "Save data is not available yet." if continue_button.disabled else ""
 	continue_button.pressed.connect(continue_game)
@@ -733,7 +742,17 @@ func _make_menu_button(text: String) -> Button:
 	return button
 
 func _has_continue_data() -> bool:
-	return FileAccess.file_exists("user://save.cfg")
+	return FileAccess.file_exists(RUN_SAVE_PATH) or not _completed_credits_route().is_empty()
+
+
+func _completed_credits_route() -> String:
+	var cfg := ConfigFile.new()
+	if cfg.load("user://story_progress.cfg") != OK: return ""
+	if bool(cfg.get_value("story", "true_ending_unlocked", false)):
+		return "true"
+	if bool(cfg.get_value("story", "normal_ending_unlocked", false)):
+		return "bad" if String(cfg.get_value("story", "last_stage8_route", "")) == "C" else "normal"
+	return ""
 
 
 func _settings() -> Node:
