@@ -2,6 +2,7 @@ extends Control
 
 ## Autonomous film: all gameplay input is consumed, including pause and touch.
 signal beat_started(beat: String)
+const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
 const ART := "res://assets/endings/true/"
 const PLAYER := preload("res://scenes/Player.tscn")
 const HEROES := [preload("res://data/fighters/ally_balance.tres"), preload("res://data/fighters/ally_power.tres"), preload("res://data/fighters/ally_speed.tres")]
@@ -320,18 +321,12 @@ func _build() -> void:
 			seiya.visual_root.scale.x = -absf(seiya.visual_root.scale.x)
 		else:
 			if i == 0: akky = actor
-	for item in [["mio", 290.0, 162.0], ["ren", 500.0, 173.0]]:
+	var reference_height := CAST_SCALE.hero_height(akky)
+	for item in [["mio", 290.0, CAST_SCALE.MIO_HEIGHT_RATIO], ["ren", 500.0, CAST_SCALE.REN_HEIGHT_RATIO]]:
 		var sprite := Sprite2D.new()
-		var texture: Texture2D = load("res://assets/characters/rescued/" + item[0] + ".png")
-		var img := texture.get_image()
-		if img.is_compressed(): img.decompress()
-		var rect := img.get_used_rect()
-		sprite.texture = texture
-		sprite.region_enabled = true
-		sprite.region_rect = rect
-		sprite.centered = false
-		sprite.offset = Vector2(-rect.size.x / 2.0, -rect.size.y)
-		sprite.scale = Vector2.ONE * float(item[2]) / rect.size.y
+		sprite.name = String(item[0])
+		sprite.texture = load("res://assets/characters/rescued/" + item[0] + ".png")
+		CAST_SCALE.fit_rescued(sprite, reference_height, float(item[2]))
 		sprite.position = Vector2(item[1], 530)
 		cast.add_child(sprite)
 	effects = Node2D.new()

@@ -59,6 +59,13 @@ func run_check() -> void:
 	current_scene = ending
 	await process_frame
 	check(ending.cast.get_child_count() == 5, "four survivors plus Seiya")
+	var hero_height: float = ending.CAST_SCALE.hero_height(ending.akky)
+	for item in [["mio", 0.97], ["ren", 1.0]]:
+		var rescued: Sprite2D = ending.cast.get_node(String(item[0]))
+		var height := rescued.region_rect.size.y * absf(rescued.scale.y)
+		check(absf(height / hero_height - float(item[1])) < 0.01, "matching body scale " + String(item[0]))
+		check(is_equal_approx(rescued.position.y, ending.akky.position.y), "matching ground " + String(item[0]))
+
 	check(not ending.akky.input_enabled and not ending.seiya.ai_enabled, "cast cannot fight")
 	var start: Vector2 = ending.akky.position
 	Input.action_press("move_right")

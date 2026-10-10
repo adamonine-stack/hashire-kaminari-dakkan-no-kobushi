@@ -1,5 +1,6 @@
 extends Control
 
+const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
 const SNAPSHOT_META := &"stage8_ending_snapshot"
 const HERO_IDS := ["player_01_akky", "player_02_gou", "player_03_seiya"]
 const HERO_NAMES := ["アッキー", "ゴウ", "セイヤ"]
@@ -229,20 +230,16 @@ func _build(living: Array) -> void:
 		actor.character_visual_controller.play_animation(&"idle_prebattle", true)
 		actor.animated_character_sprite.stop()
 		actors[HERO_NAMES[i]] = actor
-	for data in [["ミオ", HERO_IDS[0], "mio.png", 204.0], ["レン", HERO_IDS[1], "ren.png", 210.0]]:
+	for data in [["ミオ", HERO_IDS[0], "mio.png", CAST_SCALE.MIO_HEIGHT_RATIO], ["レン", HERO_IDS[1], "ren.png", CAST_SCALE.REN_HEIGHT_RATIO]]:
 		if not living.has(data[1]): continue
 		var texture: Texture2D = load("res://assets/characters/rescued/%s" % data[2])
 		var sprite := Sprite2D.new()
 		sprite.texture = texture
-		var image := texture.get_image()
-		if image.is_compressed(): image.decompress()
-		var body_rect := image.get_used_rect()
-		sprite.region_enabled = true
-		sprite.region_rect = body_rect
-		sprite.centered = false
-		var factor: float = float(data[3]) / body_rect.size.y
-		sprite.scale = Vector2(factor, factor)
-		sprite.offset = Vector2(-body_rect.size.x * 0.5, -body_rect.size.y)
+		# Compare with the rescued character's own hero in single-hero routes.
+		var hero_name: String = "アッキー" if data[0] == "ミオ" else "ゴウ"
+		# Gou's authored height difference remains; use Akky when both survive.
+		var reference_actor: Node2D = actors.get("アッキー", actors[hero_name])
+		CAST_SCALE.fit_rescued(sprite, CAST_SCALE.hero_height(reference_actor), float(data[3]))
 		sprite.position = Vector2(slots[data[0]], 478)
 		safe_content.add_child(sprite)
 		actors[data[0]] = sprite

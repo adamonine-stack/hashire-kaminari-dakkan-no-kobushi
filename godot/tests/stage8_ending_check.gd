@@ -48,6 +48,12 @@ func run_check() -> void:
 		check(not ui.actors.has("ユイ"), "Yui never appears")
 		for actor_name in ui.actors:
 			check(is_equal_approx(ui.actors[actor_name].position.y, 478), "feet " + actor_name)
+		for item in [["ミオ", "アッキー", 0.97], ["レン", "ゴウ", 1.0]]:
+			if not ui.actors.has(item[0]): continue
+			var reference: Node2D = ui.actors.get("アッキー", ui.actors[item[1]])
+			var rescued: Sprite2D = ui.actors[item[0]]
+			var height := rescued.region_rect.size.y * absf(rescued.scale.y)
+			check(absf(height / ui.CAST_SCALE.hero_height(reference) - float(item[2])) < 0.01, "matching body scale " + String(item[0]) + expected_route)
 		ui.visible_elapsed = 1000.0
 		ui.story_label.visible_characters = -1
 		await capture(expected_route + "_rescue")
