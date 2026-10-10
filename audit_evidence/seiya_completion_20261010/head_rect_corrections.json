@@ -1,0 +1,512 @@
+[
+  {
+    "key": "seiya_v2/motion_atlas.png:0:0",
+    "before": [
+      172,
+      77,
+      49,
+      69
+    ],
+    "after": [
+      172,
+      77,
+      49,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:384:0",
+    "before": [
+      171,
+      78,
+      51,
+      72
+    ],
+    "after": [
+      171,
+      78,
+      51,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:768:0",
+    "before": [
+      170,
+      78,
+      51,
+      73
+    ],
+    "after": [
+      170,
+      78,
+      51,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:0",
+    "before": [
+      167,
+      76,
+      51,
+      72
+    ],
+    "after": [
+      167,
+      76,
+      51,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2304:0",
+    "before": [
+      172,
+      76,
+      51,
+      71
+    ],
+    "after": [
+      172,
+      76,
+      51,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2688:0",
+    "before": [
+      180,
+      76,
+      50,
+      72
+    ],
+    "after": [
+      180,
+      76,
+      50,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:768:288",
+    "before": [
+      176,
+      76,
+      50,
+      70
+    ],
+    "after": [
+      176,
+      76,
+      50,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1536:288",
+    "before": [
+      206,
+      88,
+      53,
+      70
+    ],
+    "after": [
+      206,
+      88,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1920:288",
+    "before": [
+      208,
+      85,
+      52,
+      70
+    ],
+    "after": [
+      208,
+      85,
+      52,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2304:288",
+    "before": [
+      216,
+      90,
+      54,
+      67
+    ],
+    "after": [
+      216,
+      90,
+      54,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:0:576",
+    "before": [
+      223,
+      85,
+      53,
+      66
+    ],
+    "after": [
+      223,
+      85,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1536:576",
+    "before": [
+      181,
+      61,
+      53,
+      66
+    ],
+    "after": [
+      181,
+      61,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1920:576",
+    "before": [
+      186,
+      117,
+      50,
+      71
+    ],
+    "after": [
+      186,
+      117,
+      50,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:864",
+    "before": [
+      177,
+      90,
+      53,
+      70
+    ],
+    "after": [
+      177,
+      90,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2304:864",
+    "before": [
+      183,
+      97,
+      50,
+      66
+    ],
+    "after": [
+      183,
+      97,
+      50,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:1152",
+    "before": [
+      169,
+      85,
+      50,
+      69
+    ],
+    "after": [
+      169,
+      85,
+      50,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:0:1440",
+    "before": [
+      179,
+      74,
+      55,
+      75
+    ],
+    "after": [
+      179,
+      74,
+      55,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:1440",
+    "before": [
+      197,
+      69,
+      60,
+      74
+    ],
+    "after": [
+      197,
+      69,
+      60,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2304:1440",
+    "before": [
+      188,
+      72,
+      59,
+      73
+    ],
+    "after": [
+      188,
+      72,
+      59,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1536:1728",
+    "before": [
+      175,
+      62,
+      56,
+      76
+    ],
+    "after": [
+      175,
+      62,
+      56,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1920:1728",
+    "before": [
+      172,
+      65,
+      58,
+      77
+    ],
+    "after": [
+      172,
+      65,
+      58,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2688:2016",
+    "before": [
+      173,
+      42,
+      54,
+      74
+    ],
+    "after": [
+      173,
+      42,
+      54,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:0:2304",
+    "before": [
+      158,
+      81,
+      60,
+      71
+    ],
+    "after": [
+      158,
+      81,
+      60,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:2304",
+    "before": [
+      177,
+      127,
+      58,
+      66
+    ],
+    "after": [
+      177,
+      127,
+      58,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:384:2592",
+    "before": [
+      192,
+      81,
+      58,
+      74
+    ],
+    "after": [
+      192,
+      81,
+      58,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:2592",
+    "before": [
+      166,
+      67,
+      58,
+      75
+    ],
+    "after": [
+      166,
+      67,
+      58,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1536:2592",
+    "before": [
+      165,
+      94,
+      56,
+      67
+    ],
+    "after": [
+      165,
+      94,
+      56,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2688:2592",
+    "before": [
+      185,
+      89,
+      58,
+      75
+    ],
+    "after": [
+      185,
+      89,
+      58,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:768:3456",
+    "before": [
+      176,
+      72,
+      53,
+      75
+    ],
+    "after": [
+      176,
+      72,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1152:3456",
+    "before": [
+      175,
+      72,
+      52,
+      67
+    ],
+    "after": [
+      175,
+      72,
+      52,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1536:3456",
+    "before": [
+      178,
+      72,
+      50,
+      74
+    ],
+    "after": [
+      178,
+      72,
+      50,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:1920:3456",
+    "before": [
+      173,
+      72,
+      53,
+      76
+    ],
+    "after": [
+      173,
+      72,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2304:3456",
+    "before": [
+      175,
+      73,
+      53,
+      74
+    ],
+    "after": [
+      175,
+      73,
+      53,
+      53
+    ]
+  },
+  {
+    "key": "seiya_v2/motion_atlas.png:2688:3456",
+    "before": [
+      183,
+      73,
+      50,
+      74
+    ],
+    "after": [
+      183,
+      73,
+      50,
+      53
+    ]
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "source": "res://assets/characters/cross_special_guard_v1/ally_speed/motion_atlas.png",
+    "sha256": "36b6c80eca2caaf2c557732d605cebbbe3f6ae619c9fca6a10176b9191e85b45",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/cross_muei_received_v1/motion_atlas.png",
+    "sha256": "64db571d76ab59f24d5aa4eff7772c10a98644d7c41226e6702d56587f4aaeaf",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/cross_reactions/reactions.png",
+    "sha256": "a60e7dae441bb75592f1ed7c4a0b101400cd974cc83881b17f9a1abe899f3eb9",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/readable_grapple_v1/motion_atlas.png",
+    "sha256": "c150fd244b55d07060f7d9096523c8b031cd35f6ba56957689971c40e6342f56",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "sha256": "e4a0ca63bccd49b2d411b7f6fae3b2d2e85056a3f61c5a1ee9cb8cf58b7c0b6c",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/shadow_counter_received_v1/motion_atlas.png",
+    "sha256": "ff5bbe6546eeae87f9aaf52887aa9a88a8f05c8d9478c97602e6a77c8551d10c",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_air_kick_v10/motion_atlas.png",
+    "sha256": "34bf324930c2ec455a9d72342a931a531b17be86928a739b689e24e5c55e132e",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_air_punch_v9/motion_atlas.png",
+    "sha256": "506f8bcac2b8a65ae9b737906c98e539f567ab3624d06cad3e7da39e55a9f661",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_anti_air_v4/motion_atlas.png",
+    "sha256": "7c8cdabeaa6e40e146028c153b5f5c9ffdebc709812b765767acce6938ac2462",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_back_kick_v6/motion_atlas.png",
+    "sha256": "4332d6eba73fabfa92716aadef3e1f8e81710577343f4cef6e8118aa08c26a37",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_dive_kick_v11/motion_atlas.png",
+    "sha256": "916b197ba2a7eac77d0886e78537fc3bcb5af6dc503c90016d52108e2b30e7c7",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_forward_kick_v8/motion_atlas.png",
+    "sha256": "c1c098023cfa6e090b2f3d52944d4d37719336c560ff566a5d6aaae8792d59ed",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_forward_punch_v7/motion_atlas.png",
+    "sha256": "f964d9d132cd97c3261532e50b788ed2b8de65b8f28781783110d3e91d1e111d",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_guard_v12/motion_atlas.png",
+    "sha256": "856d49559a6759d9463c364f57d5e308f497a2d8de9b41d548540e40f5fbbc2c",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_jump_v16/motion_atlas.png",
+    "sha256": "0db02225995ef206ff04dc38ab732edbbc52c38fc7badf095b22b634d99aaec5",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_received_v15/motion_atlas.png",
+    "sha256": "e8406c6005441c86da48b3cb0728d83e6220245a07620820ff124b984791d180",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_special_v14/motion_atlas.png",
+    "sha256": "65cc14b140da1edc35335ddf6dacd2fafefba5d716439fc3f9b74ab89088e682",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.png",
+    "sha256": "dae1ff29c4912ccda4b73a984603585914e81d895a383165c4d95591650987b8",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_sweep_v3/motion_atlas.png",
+    "sha256": "6d1f9e79bb1463b10691874f51296a2fe7d0782268c1728e2070f283ec618cfd",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_throw_v13/motion_atlas.png",
+    "sha256": "9b763764c839269ca0bb02067e85567eac60787ef0380e8d5d1c47bb381a7cb7",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/slim_throw_v13_victim/motion_atlas.png",
+    "sha256": "57952e687582acc92dd9d815207ad2fc288d418516c90dab98e5d659101289d4",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/player03/animations/somersault_v1/motion_atlas.png",
+    "sha256": "07a2560f73ee620596413ce98990917bb5e237d97ce519fd80c7c845d19cb98d",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/special_received_rei_v1/ally_speed/motion_atlas.png",
+    "sha256": "f9a69f0ae6d935692e841c3c18a7277a829a3b545ec91cfb3032b09903d93bf3",
+    "official_source_unchanged": true
+  },
+  {
+    "source": "res://assets/characters/special_received_teki_v1/ally_speed/motion_atlas.png",
+    "sha256": "626fcde81dddedb87525f1eb09cfcfe55b076ac8d00d418efd58b931993a0cec",
+    "official_source_unchanged": true
+  }
+]

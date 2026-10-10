@@ -344,6 +344,14 @@ jobs:
           timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/seiya_motion_atlas.gd 2>&1 | tee /tmp/seiya-motion.log
           grep -q "SEIYA_MOTION_ATLAS_OK.*failures=\[\]" /tmp/seiya-motion.log
 
+      - name: Verify Seiya source coordinates across display margins
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 120s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/seiya_source_basis_check.gd 2>&1 | tee /tmp/seiya-source-basis.log
+          grep -Fq 'SEIYA_SOURCE_BASIS_CHECK frames=423 failures=[]' /tmp/seiya-source-basis.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/seiya-source-basis.log; then exit 1; fi
+
       - name: Verify Stage 7 and 8 character motion and backdrops
         shell: bash
         run: |
