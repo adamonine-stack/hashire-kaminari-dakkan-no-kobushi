@@ -10,12 +10,14 @@ var head_anchor := Vector2.ZERO
 var head_bounds := Rect2()
 var cache := {}
 var landmarks := {}
+var reviewed_head_sizes := {}
 var body_centers := {}
 
 func setup(target: AnimatedSprite2D, data: Resource) -> void:
 	sprite = target
 	definition = data
 	landmarks = JSON.parse_string(FileAccess.get_file_as_string("res://assets/characters/player03/animations/dark_seiya_v1/head_landmarks.json"))
+	reviewed_head_sizes = JSON.parse_string(FileAccess.get_file_as_string("res://assets/characters/player03/animations/dark_seiya_v1/head_sizes_reviewed.json"))
 	material = ShaderMaterial.new()
 	material.shader = HEAD_SHADER
 	material.set_shader_parameter("head_scale", data.head_scale)
@@ -30,7 +32,17 @@ func update_head() -> void:
 	if texture == null: return
 	# New artwork already matches the approved head; avoid double shrinking it.
 	var authored_scale := float(texture.get_meta("head_scale_override", -1.0))
-	material.set_shader_parameter("head_scale", authored_scale if authored_scale >= 0.0 else definition.head_scale)
+	var resolved_scale: float = authored_scale if authored_scale >= 0.0 else definition.head_scale
+	var reviewed_source_key := ""
+	if authored_scale < 0.0 and texture is AtlasTexture:
+		var source: String = texture.atlas.resource_path
+		var source_key := "%s/%s:%d:%d" % [source.get_base_dir().get_file(), source.get_file(), texture.region.position.x, texture.region.position.y]
+		# Reviewed source-cell measurements follow every alias of this pose.
+		# Keep authored overrides, Idle, and all full-body transforms intact.
+		resolved_scale = float(reviewed_head_sizes.get(source_key, resolved_scale))
+		if reviewed_head_sizes.has(source_key):
+			reviewed_source_key = source_key
+	material.set_shader_parameter("head_scale", resolved_scale)
 	var key := "%s:%s" % [sprite.animation, sprite.frame]
 	if texture is AtlasTexture and not cache.has(key):
 		var file: String = texture.atlas.resource_path
@@ -77,6 +89,12 @@ func update_head() -> void:
 		if high.x <= low.x: rect = Rect2(150,70,50,50)
 		cache[key] = rect
 	head_bounds = cache[key]
+	if not reviewed_source_key.is_empty():
+		# The old gold-color landmarks miss the dark hair outline just outside
+		# the ROI. Include its three-pixel fringe so shrinking leaves no sliver
+		# of the original head behind. Keep the neck edge/anchor unchanged.
+		head_bounds.position -= Vector2(3, 3)
+		head_bounds.size += Vector2(6, 3)
 	head_anchor = Vector2(head_bounds.get_center().x, head_bounds.end.y)
 	# The neck is above the head in inverted poses and beside it when prone.
 	# An always-bottom anchor cuts a rectangular gap through those bodies.

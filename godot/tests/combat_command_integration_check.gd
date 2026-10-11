@@ -37,9 +37,15 @@ func run() -> void:
 	move.animation_name = "punch_1"
 	move.cancel_start = 0.10
 	move.cancel_end = 0.25
-	move.cancel_targets.assign(["test_back_punch"])
+	move.cancel_targets.assign(["test_forward_followup"])
 	player.attack_data_sequence.append(move)
 	player.attack_data_by_id[move.attack_id] = move
+	var followup := move.duplicate(true)
+	followup.attack_id = "test_forward_followup"
+	followup.command_direction = "forward"
+	followup.cancel_targets.clear()
+	player.attack_data_sequence.append(followup)
+	player.attack_data_by_id[followup.attack_id] = followup
 	for facing in [1.0, -1.0]:
 		player.reset_attack_state()
 		player.attack_cooldown_timer = 0.0
@@ -56,8 +62,16 @@ func run() -> void:
 		check(player.attack_phase == player.AttackPhase.STARTUP, "startup has no active hit")
 		check(not player.punch_hitbox_active, "hitbox disabled during startup")
 		player.combat_commands.record("punch", false, facing)
+		# Same-move repeats are deliberately dropped outside late recovery.
 		player.combat_commands.record("punch", true, facing)
 		player.command_attack_elapsed = 0.05
+		player._dispatch_combat_command()
+		check(player.combat_commands.peek().is_empty(), "early same-move repeat dropped")
+		check(player.current_attack_id == move.attack_id, "same move not cancelled")
+		player.combat_commands.record("punch", false, facing)
+		var forward := "right" if facing > 0.0 else "left"
+		player.combat_commands.record(forward, true, facing)
+		player.combat_commands.record("punch", true, facing)
 		player._dispatch_combat_command()
 		check(not player.combat_commands.peek().is_empty(), "early request retained")
 		player.command_attack_elapsed = 0.15
@@ -67,6 +81,7 @@ func run() -> void:
 		player._dispatch_combat_command()
 		check(player.combat_commands.peek().is_empty(), "hit confirm cancel accepted")
 		check(player.command_attack_elapsed == 0.0, "cancel begins new move")
+		check(player.current_attack_id == followup.attack_id, "authored different-move followup accepted")
 	player.reset_attack_state()
 	player.combat_commands.clear()
 	player.is_hit = true
