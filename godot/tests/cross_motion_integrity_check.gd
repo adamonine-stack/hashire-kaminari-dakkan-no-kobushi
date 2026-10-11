@@ -71,7 +71,8 @@ func run() -> void:
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
 			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/cross/")
-			check(basic_source or (texture.atlas.resource_path.contains("cross_v2") or texture.atlas.resource_path.contains("cross_damage_v3")),"all Cross motions use repaired originals "+clip)
+			var normal_source := String(texture.get_meta("source_texture_path", "")) == "res://assets/characters/overhead_v1/cross/source.png"
+			check(basic_source or normal_source or (texture.atlas.resource_path.contains("cross_v2") or texture.atlas.resource_path.contains("cross_damage_v3")),"all Cross motions use repaired originals "+clip)
 			check((basic_source and texture.get_size() == Vector2(384,288)) or texture.get_size() in [Vector2(384,288),Vector2(512,448)],"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
 			var new_damage := texture.atlas.resource_path.contains("cross_damage_v3")
@@ -121,7 +122,7 @@ func run() -> void:
 			await physics_frame
 			if cross.attack_phase == cross.AttackPhase.ACTIVE and not attack_seen:
 				attack_seen = true
-				check(sprite.frame == 1,"normal kick uses extended contact pose")
+				check(sprite.frame == cross.current_attack_data.contact_start_frame,"normal kick uses extended contact pose")
 				await capture("contact_kick_"+str(direction))
 		check(player.current_hp<hp,"Cross kick contacts player "+str(direction))
 		check(attack_seen,"Cross kick contact pose was observed "+str(direction))
