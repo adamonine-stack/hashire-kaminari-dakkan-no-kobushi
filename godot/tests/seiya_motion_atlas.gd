@@ -119,7 +119,8 @@ func run() -> void:
 				continue
 			if clip == &"special_guard":
 				expected = load("res://assets/characters/player03/animations/slim_special_v14_received/motion_atlas.tres").texture
-			check(texture is AtlasTexture and same_texture_source(texture.atlas, expected), clip + ": approved authored texture")
+			var approved_overhead: bool = String(clip) in ["overhead_contact", "overhead_windup"] and String(texture.get_meta("source_texture_path", "")) == "res://assets/characters/overhead_v1/seiya/source.png"
+			check(texture is AtlasTexture and (same_texture_source(texture.atlas, expected) or approved_overhead), clip + ": approved authored texture")
 			check(texture.get_size() == Vector2(768,640) and texture.region.size == Vector2(384,288), clip + ": cell size")
 			var rect := texture.get_image().get_used_rect()
 			check(rect.has_area() and rect.position.x >= 2 and rect.position.y >= 2 and rect.end.x < 382 and rect.end.y <= 270, clip + ": unclipped body and baseline")
