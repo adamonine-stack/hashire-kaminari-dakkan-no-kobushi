@@ -72,10 +72,18 @@ func reset_player_roster() -> void:
 	player_roster = player_team
 
 func start_initial_player_selection() -> void:
-	if flow_state == BattleState.CLEAR: return
-	selected_player_order.assign(["player_01_akky", "player_02_gou"])
-	is_player_order_confirmed = true
-	select_player_by_id("player_01_akky")
+	# Start the same interactive selection used throughout the campaign.
+	# Never pick Akky automatically: the player chooses either surviving hero.
+	super.start_initial_player_selection()
+
+
+func _show_player_selection() -> void:
+	# reset_player_roster() limits the real roster to Akky and Gou. The same
+	# restricted roster is reused for START, CONTINUE and KO replacement.
+	super._show_player_selection()
+	if _character_selection_screen != null and _character_selection_screen.is_open:
+		_character_selection_screen.title_label.text = "TRUE FINAL BATTLE — SELECT FIGHTER"
+		_character_selection_screen.guide_label.text = "セイヤは敵です。アッキーかゴウを選択してください。"
 
 func _stage_definition_for_enemy_index(enemy_index: int) -> Resource:
 	return TRUE_STAGE if enemy_index == 8 else super._stage_definition_for_enemy_index(enemy_index)
@@ -98,6 +106,7 @@ func enter_game_clear() -> void:
 		fighter.ai_enabled = false
 		fighter.is_round_active = false
 		if fighter.aura_controller != null: fighter.aura_controller.cancel()
+		fighter.process_mode = Node.PROCESS_MODE_DISABLED
 	_hide_end_panel()
 	battle_ui_root.hide()
 	if mobile_controls != null: mobile_controls.hide()
@@ -105,6 +114,8 @@ func enter_game_clear() -> void:
 	set_process_input(false)
 	set_process_unhandled_input(false)
 	clear_run_save()
+	if preload("res://scripts/ui/true_ending_checkpoint.gd").save_pending() != OK:
+		push_warning("Could not save the true ending checkpoint")
 	get_node("/root/AudioManager").fade_out()
 	var cfg := ConfigFile.new()
 	if not FileAccess.file_exists("user://story_progress.cfg") or cfg.load("user://story_progress.cfg") == OK:
@@ -122,4 +133,7 @@ func enter_game_clear() -> void:
 	var tween := create_tween()
 	tween.tween_property(fade, "color:a", 1.0, 0.9)
 	await tween.finished
-	if is_inside_tree(): get_tree().change_scene_to_file("res://scenes/TrueEnding.tscn")
+	if is_inside_tree():
+		is_scene_transitioning = true
+		cleanup_battle_before_transition()
+		preload("res://scripts/ui/ending_transition.gd").new().start(get_tree(), "res://scenes/TrueEnding.tscn")

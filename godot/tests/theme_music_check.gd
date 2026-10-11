@@ -121,6 +121,9 @@ func run_check() -> void:
 	await wait_scene("res://scenes/TrueBattle.tscn")
 	await create_timer(1.6).timeout
 	manager = current_scene.get_node("BattleManager")
+	check(manager._character_selection_screen.is_open, "TRUE music QA sees fighter selection")
+	manager.select_player_by_id("player_02_gou")
+	await create_timer(1.4).timeout
 	manager._set_battle_active(false)
 	check(audio.current_bgm_id == "secret_boss", "TRUE boss dedicated BGM retained")
 	await capture("true_boss")

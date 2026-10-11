@@ -102,6 +102,11 @@ func _physics_process(delta: float) -> void:
 	if _update_hit_stop(delta):
 		return
 	_update_guard_recoil(delta)
+	# Guard recoil cancels the attack phase but leaves a short cooldown.
+	# With no active attack, _update_current_attack cannot advance it.
+	if current_attack_type == "":
+		attack_cooldown_timer = maxf(attack_cooldown_timer - delta, 0.0)
+		kick_cooldown_timer = maxf(kick_cooldown_timer - delta, 0.0)
 	landing_recovery_remaining = maxf(landing_recovery_remaining-delta,0.0)
 	jump_landing_visual_timer = maxf(jump_landing_visual_timer - delta, 0.0)
 	jump_start_visual_timer = maxf(jump_start_visual_timer - delta, 0.0)

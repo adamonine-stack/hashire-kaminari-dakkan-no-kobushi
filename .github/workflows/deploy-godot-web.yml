@@ -127,6 +127,18 @@ jobs:
             grep -q 'SPECIAL_LAUNCH_REACTION_CHECK.*failures=\[\]' /tmp/counter-web-qa.log
             if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/counter-web-qa.log; then exit 1; fi
 
+      - name: Verify guard recovery and lightweight true ending
+        shell: bash
+        run: |
+          set -euo pipefail
+          for spec in "guard_recoil_recovery_check:GUARD_RECOIL_RECOVERY_CHECK" "true_ending_check:TRUE_ENDING_CHECK" "true_ending_checkpoint_check:TRUE_ENDING_CHECKPOINT_CHECK"; do
+            test="${spec%%:*}"
+            marker="${spec#*:}"
+            timeout 180s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script "res://tests/$test.gd" 2>&1 | tee "/tmp/$test.log"
+            grep -Fq "$marker failures=[]" "/tmp/$test.log"
+            if grep -E 'SCRIPT ERROR:|^ERROR:' "/tmp/$test.log"; then exit 1; fi
+          done
+
       - name: Verify Japanese UI font
         shell: bash
         run: |
@@ -222,9 +234,20 @@ jobs:
           timeout 90s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage8_ending_check.gd 2>&1 | tee /tmp/stage8-ending.log
           grep -Fq 'STAGE8_ENDING_CHECK failures=[]' /tmp/stage8-ending.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/stage8-ending.log; then exit 1; fi
+          timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/stage8_checkpoint_check.gd 2>&1 | tee /tmp/stage8-checkpoint.log
+          grep -Fq 'STAGE8_CHECKPOINT_CHECK failures=[]' /tmp/stage8-checkpoint.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/stage8-checkpoint.log; then exit 1; fi
           timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/true_seiya_combat_check.gd 2>&1 | tee /tmp/true-seiya-combat.log
           grep -Fq 'TRUE_SEIYA_COMBAT_CHECK failures=[]' /tmp/true-seiya-combat.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/true-seiya-combat.log; then exit 1; fi
+
+      - name: Verify lightweight credits and crash recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 60s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/ending_credits_recovery_check.gd 2>&1 | tee /tmp/credits-recovery.log
+          grep -Fq 'ENDING_CREDITS_RECOVERY_CHECK failures=[]' /tmp/credits-recovery.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/credits-recovery.log; then exit 1; fi
 
       - name: Verify cinematic true ending and save compatibility
         shell: bash

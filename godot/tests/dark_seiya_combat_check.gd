@@ -41,6 +41,10 @@ func run() -> void:
 	change_scene_to_file("res://scenes/TrueBattle.tscn")
 	await create_timer(1.5).timeout
 	manager = current_scene.get_node("BattleManager")
+	check(manager._character_selection_screen.is_open, "TRUE boss fighter selection shown")
+	check(manager.get_available_players() == ["player_01_akky", "player_02_gou"], "Seiya excluded from fighter roster")
+	manager.select_player_by_id("player_01_akky")
+	await create_timer(1.35).timeout
 	player = manager.player
 	enemy = manager.enemy
 	aura = enemy.aura_controller

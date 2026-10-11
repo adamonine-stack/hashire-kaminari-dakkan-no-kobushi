@@ -62,7 +62,10 @@ async function main() {
   await tap(mobile ? 422 : 640, mobile ? 212 : 390);
   await page.waitForTimeout(2200);
   await screenshot('selection');
+  if (logs.some(v => v.includes('VS enemy_09_seiya'))) throw Error('True boss auto-started without fighter selection');
+  // Choose a fighter on the actual selection screen, including touch-sized viewports.
   await tap(mobile ? 422 : 640, mobile ? 286 : 528);
+  if (!logs.some(v => v.includes('VS enemy_09_seiya'))) await page.keyboard.press('Enter');
   for (let i = 0; i < 40 && !logs.some(v => v.includes('VS enemy_09_seiya')); i++) await page.waitForTimeout(300);
   if (!logs.some(v => v.includes('VS enemy_09_seiya'))) throw Error('Checkpoint did not enter true boss combat');
   await screenshot('combat');
@@ -76,9 +79,12 @@ async function main() {
   running = true;
   // Inputs must neither pause nor skip the autonomous movie.
   await page.keyboard.press('Escape'); await tap(20, 20);
-  const deadline = Date.now() + 240000;
+  const deadline = Date.now() + 360000;
   while (Date.now() < deadline && !beats.includes('complete') && !logs.some(v => /^SCRIPT ERROR:|^ERROR:/.test(v))) await page.waitForTimeout(500);
   await Promise.all(pending);
+	await screenshot('credits_complete');
+	// Current endings hold their last screen and return only on a real tap.
+	await tap(20, 20);
   await page.waitForTimeout(1600);
   await screenshot('title_after');
   const expected = ['defeat', 'departure', 'switch', 'escape', 'pier', 'boat', 'detonation', 'dawn', 'BLACK SPARROW', 'TRUE ENDING', 'credits', 'complete'];

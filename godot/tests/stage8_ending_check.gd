@@ -48,6 +48,20 @@ func run_check() -> void:
 		check(not ui.actors.has("ユイ"), "Yui never appears")
 		for actor_name in ui.actors:
 			check(is_equal_approx(ui.actors[actor_name].position.y, 478), "feet " + actor_name)
+		for hero_name in ["アッキー", "ゴウ", "セイヤ"]:
+			if not ui.actors.has(hero_name): continue
+			var hero = ui.actors[hero_name]
+			check(not hero is CharacterBody2D, "no combat actor in ending " + hero_name)
+			check(hero.animated_character_sprite.sprite_frames.get_animation_names().size() == 2, "only dialogue poses loaded " + hero_name)
+			if hero_name == "セイヤ":
+				var material: ShaderMaterial = hero.animated_character_sprite.material
+				check(material != null and is_equal_approx(float(material.get_shader_parameter("head_scale")), 0.9), "original Seiya head proportions")
+		for item in [["ミオ", "アッキー", 0.97], ["レン", "ゴウ", 1.0]]:
+			if not ui.actors.has(item[0]): continue
+			var reference: Node2D = ui.actors.get("アッキー", ui.actors[item[1]])
+			var rescued: Sprite2D = ui.actors[item[0]]
+			var height := rescued.region_rect.size.y * absf(rescued.scale.y)
+			check(absf(height / ui.CAST_SCALE.hero_height(reference) - float(item[2])) < 0.01, "matching body scale " + String(item[0]) + expected_route)
 		ui.visible_elapsed = 1000.0
 		ui.story_label.visible_characters = -1
 		await capture(expected_route + "_rescue")
@@ -80,19 +94,46 @@ func run_check() -> void:
 			check(ui.terminal_card, "terminal card " + expected_route)
 			check(ui.end_card.text == ("BAD END" if expected_route == "C" else "TO BE CONTINUED…"), "correct ending card " + expected_route)
 			await capture(expected_route + "_end")
-			ui.last_input_msec = -1000
-			ui.advance()
-			# Returning now waits for the ending music's 1-second fade.
-			await create_timer(1.2).timeout
-			check(current_scene.scene_file_path == "res://scenes/Title.tscn", "title return " + expected_route)
+			root.set_meta(&"ending_credits_qa_scale", 0.006)
+			if expected_route == "A":
+				# Normal routes should start rolling without user input.
+				await create_timer(3.35).timeout
+			else:
+				ui.last_input_msec = -1000
+				ui.advance()
+				await create_timer(0.5).timeout
+			check(current_scene != null and current_scene.scene_file_path == "res://scenes/EndingCredits.tscn", "light credits scene " + expected_route)
+			if current_scene != null and current_scene.scene_file_path == "res://scenes/EndingCredits.tscn":
+				var credits = current_scene
+				check(credits.ending_route == ("bad" if expected_route == "C" else "normal"), "saved ending route " + expected_route)
+				check(credits.credits_started, "credits started " + expected_route)
+				check(credits.get_children().size() == 2, "credits contains only lightweight UI " + expected_route)
+				await create_timer(0.55).timeout
+				check(credits.credits_complete, "credits complete " + expected_route)
+				check(current_scene == credits and credits.header.visible, "credits end holds screen " + expected_route)
+				check(credits.hint.text.contains("タップ"), "tap hint visible " + expected_route)
+				var tap := InputEventScreenTouch.new()
+				tap.pressed = true
+				tap.index = 0
+				tap.position = Vector2(422, 195)
+				Input.parse_input_event(tap)
+				await create_timer(1.3).timeout
+				check(current_scene != null and current_scene.scene_file_path == "res://scenes/Title.tscn", "tap returns to title " + expected_route)
 		else:
 			await capture("G_true_boss_card")
 			await create_timer(3.1).timeout
 			check(current_scene.scene_file_path == "res://scenes/TrueBattle.tscn", "TRUE battle transition")
 			await create_timer(1.8).timeout
 			var boss_manager = current_scene.get_node("BattleManager")
-			check(boss_manager.enemy.fighter_definition.fighter_id == &"enemy_09_seiya", "boss identity")
 			check(boss_manager.get_available_players() == ["player_01_akky", "player_02_gou"], "Seiya not selectable")
+			check(boss_manager._character_selection_screen.is_open, "TRUE fighter choice opens")
+			check(boss_manager._character_selection_screen.cards.size() == 2, "TRUE only two fighter cards")
+			check(not boss_manager.isRoundActive, "TRUE does not auto-start")
+			boss_manager.select_player_by_id("player_03_seiya")
+			check(boss_manager._character_selection_screen.is_open and boss_manager.current_player_id == "", "enemy Seiya cannot be chosen")
+			boss_manager.select_player_by_id("player_01_akky")
+			await create_timer(1.5).timeout
+			check(boss_manager.enemy.fighter_definition.fighter_id == &"enemy_09_seiya", "boss identity")
 			check(boss_manager.isRoundActive and boss_manager.player.input_enabled, "TRUE battle controllable")
 			check(boss_manager.enemy.uses_animated_character_art, "TRUE uses Seiya atlas")
 			await capture("G_true_battle")
@@ -108,7 +149,11 @@ func run_check() -> void:
 			await create_timer(1.5).timeout
 			check(boss_manager.player.fighter_definition.fighter_id == &"player_02_gou", "Gou replacement")
 			boss_manager.restart_current_game()
+			await create_timer(0.25).timeout
+			check(boss_manager._character_selection_screen.is_open and not boss_manager.isRoundActive, "TRUE retry selects fighter")
+			boss_manager.select_player_by_id("player_02_gou")
 			await create_timer(1.5).timeout
+			check(boss_manager.player.fighter_definition.fighter_id == &"player_02_gou", "TRUE retry chooses Gou")
 			check(boss_manager.enemy.current_hp > 0 and boss_manager.player.current_hp > 0 and boss_manager.isRoundActive, "TRUE retry")
 			boss_manager._set_battle_active(false)
 			boss_manager._mark_enemy_defeated()

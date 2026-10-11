@@ -1,10 +1,13 @@
 extends Control
 
+const CAST_SCALE := preload("res://scripts/ui/ending_cast_scale.gd")
 const SNAPSHOT_META := &"stage8_ending_snapshot"
 const HERO_IDS := ["player_01_akky", "player_02_gou", "player_03_seiya"]
 const HERO_NAMES := ["アッキー", "ゴウ", "セイヤ"]
-const HERO_DEFINITIONS := [preload("res://data/fighters/ally_balance.tres"), preload("res://data/fighters/ally_power.tres"), preload("res://data/fighters/ally_speed.tres")]
-const ACTOR_SCENE := preload("res://scenes/Player.tscn")
+const HERO_ART_IDS := ["ally_balance", "ally_power", "ally_speed"]
+const ENDING_HERO := preload("res://scripts/ui/ending_hero.gd")
+const CHECKPOINT := preload("res://scripts/ui/stage8_ending_checkpoint.gd")
+const CREDITS_CHECKPOINT := preload("res://scripts/ui/ending_credits_checkpoint.gd")
 const SCRIPT_PATH := "res://data/story/stage8_dialogue.txt"
 const ENDING_VERSION := "STAGE8_TRUE_ENDING_V1"
 
@@ -24,6 +27,11 @@ var veil: ColorRect
 var input_locked := false
 var finished := false
 var terminal_card := false
+var credits_roll: Label
+var credits_started := false
+var credits_complete := false
+var returning_to_title := false
+var credits_timing_scale := 1.0 # QA may shorten the roll without changing gameplay timing.
 var last_input_msec := -1000
 var visible_elapsed := 0.0
 var script_events: Array[String] = []
@@ -49,7 +57,11 @@ static func dialogue_for(selected_route: String) -> Array[Dictionary]:
 
 func _ready() -> void:
 	get_tree().paused = false
+	get_tree().root.set_meta(&"st_action_continue_run", false)
 	stage8_snapshot = get_tree().root.get_meta(SNAPSHOT_META, [])
+	if stage8_snapshot.is_empty():
+		stage8_snapshot = CHECKPOINT.load_snapshot()
+		get_tree().root.set_meta(SNAPSHOT_META, stage8_snapshot)
 	var living: Array = []
 	for data in stage8_snapshot:
 		if not bool(data.get("is_defeated", false)) and int(data.get("current_health", 0)) > 0:
@@ -69,9 +81,29 @@ func _ready() -> void:
 	print("[%s] ENDING route=%s mio=%s ren=%s" % [ENDING_VERSION, route, living.has(HERO_IDS[0]), living.has(HERO_IDS[1])])
 
 func _process(delta: float) -> void:
-	if not input_locked and not terminal_card:
+	if not input_locked and not terminal_card and not finished:
 		visible_elapsed += delta
 		story_label.visible_characters = mini(story_label.get_total_character_count(), int(visible_elapsed * 38.0))
+
+func _input(event: InputEvent) -> void:
+	if not credits_started or returning_to_title: return
+	var tapped := false
+	if event is InputEventScreenTouch:
+		tapped = (event as InputEventScreenTouch).pressed
+	elif event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		tapped = mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
+	if tapped or (event.is_action_pressed("ui_accept") and not event.is_echo()):
+		get_viewport().set_input_as_handled()
+		_return_from_credits()
+
+
+func _return_from_credits() -> void:
+	if returning_to_title: return
+	returning_to_title = true
+	await get_node("/root/AudioManager").fade_out()
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") and not event.is_echo():
@@ -82,10 +114,7 @@ func advance() -> void:
 	if input_locked or finished or Time.get_ticks_msec() - last_input_msec < 180: return
 	last_input_msec = Time.get_ticks_msec()
 	if terminal_card:
-		finished = true
-		_record_completion()
-		await get_node("/root/AudioManager").fade_out()
-		get_tree().change_scene_to_file("res://scenes/Title.tscn")
+		_begin_normal_credits()
 		return
 	if story_label.visible_characters >= 0 and story_label.visible_characters < story_label.get_total_character_count():
 		visible_elapsed = 1000.0
@@ -93,6 +122,32 @@ func advance() -> void:
 		return
 	page_index += 1
 	_show_page()
+
+func _auto_begin_normal_credits() -> void:
+	await get_tree().create_timer(3.0).timeout
+	if terminal_card and not finished: _begin_normal_credits()
+
+
+func _begin_normal_credits() -> void:
+	if finished: return
+	finished = true
+	_record_completion()
+	_roll_normal_credits()
+
+
+func _roll_normal_credits() -> void:
+	# Persist the already-determined ending BEFORE unloading scene textures.
+	# The checkpoint survives a browser reload until the player taps to exit.
+	var ending_type := CREDITS_CHECKPOINT.BAD if route == "C" else CREDITS_CHECKPOINT.NORMAL
+	if CREDITS_CHECKPOINT.save_pending(ending_type) != OK:
+		push_error("Cannot save ending credits checkpoint")
+		# Preserve the Stage8 checkpoint if the new one could not be written.
+		finished = false
+		return
+	credits_started = true
+	print("[%s] CREDITS_START route=%s" % [ENDING_VERSION, route])
+	get_tree().change_scene_to_file(CREDITS_CHECKPOINT.SCENE)
+
 
 func _show_page() -> void:
 	if page_index >= pages.size(): return
@@ -157,10 +212,11 @@ func _execute_event(event_name: String) -> void:
 			terminal_card = true
 			print("[%s] END_CARD route=%s card=%s" % [ENDING_VERSION, route, end_card.text])
 			_record_completion()
-			next_button.text = "タイトルへ"
+			next_button.text = "エンドロールへ"
 			next_button.z_index = 12
 			input_locked = false
 			next_button.disabled = false
+			_auto_begin_normal_credits()
 			return
 		"true_battle":
 			finished = true
@@ -182,6 +238,8 @@ func _audio(method: String, argument: String = "") -> void:
 	else: audio.call(method, argument)
 
 func _record_completion() -> void:
+	# Do not clear the Stage8 snapshot here: a crash before the credits
+	# checkpoint is installed must still be able to resume the dialogue.
 	var cfg := ConfigFile.new()
 	if FileAccess.file_exists("user://story_progress.cfg"): cfg.load("user://story_progress.cfg")
 	cfg.set_value("story", "normal_ending_unlocked", true)
@@ -215,34 +273,25 @@ func _build(living: Array) -> void:
 	if route == "C": slots["セイヤ"] = 640.0
 	for i in range(3):
 		if not living.has(HERO_IDS[i]): continue
-		var actor := ACTOR_SCENE.instantiate()
+		var actor := ENDING_HERO.new()
 		actor.name = "EndingHero%d" % i
 		actor.process_mode = Node.PROCESS_MODE_DISABLED
-		actor.collision_layer = 0
-		actor.collision_mask = 0
 		safe_content.add_child(actor)
-		actor.apply_fighter_definition(HERO_DEFINITIONS[i])
-		actor.input_enabled = false
-		actor.ai_enabled = false
-		actor.is_round_active = false
+		actor.setup(HERO_ART_IDS[i])
 		actor.position = Vector2(slots[HERO_NAMES[i]], 478)
 		actor.character_visual_controller.play_animation(&"idle_prebattle", true)
 		actor.animated_character_sprite.stop()
 		actors[HERO_NAMES[i]] = actor
-	for data in [["ミオ", HERO_IDS[0], "mio.png", 204.0], ["レン", HERO_IDS[1], "ren.png", 210.0]]:
+	for data in [["ミオ", HERO_IDS[0], "mio.png", CAST_SCALE.MIO_HEIGHT_RATIO], ["レン", HERO_IDS[1], "ren.png", CAST_SCALE.REN_HEIGHT_RATIO]]:
 		if not living.has(data[1]): continue
 		var texture: Texture2D = load("res://assets/characters/rescued/%s" % data[2])
 		var sprite := Sprite2D.new()
 		sprite.texture = texture
-		var image := texture.get_image()
-		if image.is_compressed(): image.decompress()
-		var body_rect := image.get_used_rect()
-		sprite.region_enabled = true
-		sprite.region_rect = body_rect
-		sprite.centered = false
-		var factor: float = float(data[3]) / body_rect.size.y
-		sprite.scale = Vector2(factor, factor)
-		sprite.offset = Vector2(-body_rect.size.x * 0.5, -body_rect.size.y)
+		# Compare with the rescued character's own hero in single-hero routes.
+		var hero_name: String = "アッキー" if data[0] == "ミオ" else "ゴウ"
+		# Gou's authored height difference remains; use Akky when both survive.
+		var reference_actor: Node2D = actors.get("アッキー", actors[hero_name])
+		CAST_SCALE.fit_rescued(sprite, CAST_SCALE.hero_height(reference_actor), float(data[3]))
 		sprite.position = Vector2(slots[data[0]], 478)
 		safe_content.add_child(sprite)
 		actors[data[0]] = sprite
