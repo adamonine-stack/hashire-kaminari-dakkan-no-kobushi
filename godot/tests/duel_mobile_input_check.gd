@@ -67,7 +67,7 @@ func run():
   button.button_down.emit(); await ticks(2); button.button_up.emit()
   await ticks(13)
   controls.right_controls.get_node("PunchButton").button_down.emit(); await ticks(2)
-  check(player.current_attack_id=="basic_akky_neutral_punch","expired direction becomes neutral "+str(facing))
+  check(player.current_attack_id==player.basic_move_ids.neutral_punch,"expired direction becomes neutral "+str(facing))
   await reset_pair(facing)
   controls.left_controls.get_node("UpButton").button_down.emit()
   await ticks(7)
