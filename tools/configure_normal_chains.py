@@ -6,6 +6,7 @@ from pathlib import Path
 import json, re, subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
+BASELINE_REF = 'bdc7ffd'  # Original basic-move resources before normal-chain migration.
 ACTORS = json.loads((ROOT/'audit_evidence/basic_moves_20261010/inventory/inventory.json').read_text(encoding='utf-8'))
 SLUGS = ['akky','gou','seiya','crusher','shadow','masato','rei','cross','rio','teki','leon','dark_seiya']
 STYLES = ['balance','power','speed','power','speed','power','balance','balance','speed','balance','speed','speed']
@@ -21,7 +22,7 @@ SOURCES = {
 }
 
 def baseline(path):
-    return subprocess.check_output(['git','show','HEAD:'+path.relative_to(ROOT).as_posix()],cwd=ROOT).decode('utf-8')
+    return subprocess.check_output(['git','show',BASELINE_REF+':'+path.relative_to(ROOT).as_posix()],cwd=ROOT).decode('utf-8')
 
 def prop(text, key, value):
     line = key+' = '+value
