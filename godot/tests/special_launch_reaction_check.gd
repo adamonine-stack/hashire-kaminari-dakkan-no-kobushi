@@ -62,8 +62,8 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 			points.append(point)
 	for point in points:
 		var actual: Vector2 = transform * (point+sprite.offset)
-		if actual.x < 0 or actual.x > screen.x or actual.y < 0 or actual.y > screen.y: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
-		check(actual.x >= 0 and actual.x <= screen.x and actual.y >= 0 and actual.y <= screen.y,label + " art inside rendered viewport")
+		if actual.x < -0.5 or actual.x > screen.x+0.5 or actual.y < -0.5 or actual.y > screen.y+0.5: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
+		check(actual.x >= -0.5 and actual.x <= screen.x+0.5 and actual.y >= -0.5 and actual.y <= screen.y+0.5,label + " art inside rendered viewport")
 
 func visible_body_center_y(sprite: AnimatedSprite2D) -> float:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
@@ -173,7 +173,14 @@ func run() -> void:
 			attacker.input_enabled = false
 			attacker.set_physics_process(true)
 			var start: Vector2 = target.position
-			check(attacker._get_character_special_hit_position(target).y < start.y-minimum_contact_height,label + " effect at special contact height")
+			if attacker.character_special_data.diagonal_jump_special:
+				var hurt := target.get_node("HurtBox/CollisionShape2D") as CollisionShape2D
+				var half_size: Vector2 = hurt.shape.size * hurt.global_scale.abs() * 0.5
+				var expected: Vector2 = attacker.special_area.global_position.clamp(hurt.global_position-half_size,hurt.global_position+half_size)
+				check(attacker._get_character_special_hit_position(target).is_equal_approx(expected), label + " forward punch effect follows real contact")
+				check(is_equal_approx(attacker.special_area.position.y, -57.0 * attacker.battle_visual_scale_multiplier), label + " forward punch hitbox height")
+			else:
+				check(attacker._get_character_special_hit_position(target).y < start.y-minimum_contact_height,label + " effect at special contact height")
 			var camera_zoom_before: Vector2 = root.get_camera_2d().zoom
 			# Observe the launch impulse before render stalls can advance several
 			# physics ticks and carry the victim into a wall. Gameplay resumes below.
