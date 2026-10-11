@@ -41,15 +41,19 @@ func run() -> void:
 			if active_frames % 120 == 0:
 				print("AI_PROBE distance=", enemy.evaluate_distance(), " state=", enemy.ai_state, " floor=", enemy.is_on_floor(), " active=", enemy.is_round_active, " input=", enemy.input_enabled, " action=", enemy.can_ai_act(), " cooldown=", enemy.ai_attack_cooldown_timer)
 			continue
-		for action in ["move_left", "move_right", "attack", "kick", "guard", "special_attack", "down"]:
+		for action in ["move_left", "move_right", "attack", "kick", "guard", "special_attack", "down", "throw_attack"]:
 			Input.action_release(action)
 		var gap: float = enemy.position.x - player.position.x
 		# Seiya's close punches need a shorter approach than the power fighters.
 		# This changes only bot input; character stats and attack geometry stay intact.
-		var approach_distance := 65.0 if hero == "player_03_seiya" else 98.0
+		var approach_distance := 45.0 if hero == "player_03_seiya" else 60.0
+		if enemy.is_guarding or enemy.is_crouch_guarding:
+			approach_distance = 30.0
 		if absf(gap) > approach_distance:
 			Input.action_press("move_right" if gap > 0 else "move_left")
-		if player.special_gauge>=player.special_gauge_cost and absf(gap)<170 and frame%12==0:
+		if (enemy.is_guarding or enemy.is_crouch_guarding) and absf(gap)<65 and frame%12==0:
+			Input.action_press("throw_attack")
+		elif player.special_gauge>=player.special_gauge_cost and absf(gap)<170 and frame%12==0:
 			Input.action_press("special_attack")
 		elif enemy.current_attack_data!=null and enemy.attack_phase in [enemy.AttackPhase.STARTUP,enemy.AttackPhase.ACTIVE] :
 			Input.action_press("guard")
@@ -61,7 +65,7 @@ func run() -> void:
 			if DisplayServer.get_name() != "headless":
 				RenderingServer.force_draw(false)
 				root.get_texture().get_image().save_png(output.path_join("play_%05d.png" % frame))
-	for action in ["move_left", "move_right", "attack", "kick", "guard", "special_attack", "down"]:
+	for action in ["move_left", "move_right", "attack", "kick", "guard", "special_attack", "down", "throw_attack"]:
 		Input.action_release(action)
 	for i in range(180):
 		await physics_frame
