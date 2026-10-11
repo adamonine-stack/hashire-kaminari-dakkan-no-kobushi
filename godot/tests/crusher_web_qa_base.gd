@@ -82,8 +82,8 @@ func check_visible_art(sprite: AnimatedSprite2D, label: String) -> void:
 			points.append(point)
 	for point in points:
 		var actual: Vector2 = transform * (point+sprite.offset)
-		if actual.x < -0.5 or actual.x > screen.x+0.5 or actual.y < -0.5 or actual.y > screen.y+0.5: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
-		check(actual.x >= -0.5 and actual.x <= screen.x+0.5 and actual.y >= -0.5 and actual.y <= screen.y+0.5,label + " art inside rendered viewport")
+		if actual.x < 0 or actual.x > screen.x or actual.y < 0 or actual.y > screen.y: print("ART_OUT %s point=%s pos=%s scale=%s clip=%s texture=%s image=%s used=%s" % [label,actual,sprite.global_position,sprite.scale,sprite.animation,texture.get_size(),texture.get_image().get_size(),used])
+		check(actual.x >= 0 and actual.x <= screen.x and actual.y >= 0 and actual.y <= screen.y,label + " art inside rendered viewport")
 
 func visible_body_center_y(sprite: AnimatedSprite2D) -> float:
 	var texture := sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
@@ -129,6 +129,10 @@ func reset(manager: Node, actor: Node, point: Vector2, facing: int) -> void:
 	for i in range(3): await physics_frame
 
 func run() -> void:
+	# Measure full-art bounds without the intentional random impact shake.
+	var settings := root.get_node("SettingsManager")
+	var previous_shake: String = settings.screen_shake_mode
+	settings.screen_shake_mode = "OFF"
 	output = ProjectSettings.globalize_path("res://").path_join("../evidence/" + evidence_folder).simplify_path()
 	DirAccess.make_dir_recursive_absolute(output)
 	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
@@ -389,6 +393,7 @@ func run() -> void:
 	battle.queue_free()
 	await process_frame
 	OS.delay_msec(200)
+	settings.screen_shake_mode = previous_shake
 	quit(0 if failures.is_empty() else 1)
 
 func extra_checks(_manager: Node, _attacker: Node, _target: Node) -> void:
