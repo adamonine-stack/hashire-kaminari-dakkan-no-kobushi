@@ -92,6 +92,10 @@ class_name PlayerAttackData
 @export var move_distance: float = 0.0
 @export var move_duration: float = 0.0
 @export var move_speed_multiplier: float = 1.0
+@export var diagonal_jump_special: bool = false
+@export var special_takeoff_delay := 0.0
+@export var special_jump_velocity := Vector2(170, -360)
+@export var special_dive_velocity := Vector2(280, 420)
 
 @export_group("Knockback")
 @export var knockback: Vector2 = Vector2(180.0, -40.0)

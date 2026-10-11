@@ -29,5 +29,5 @@ func special_clips() -> Array:
 	if "--rei" in OS.get_cmdline_user_args():
 		return ["rei_uppercut_startup","rei_dragon_uppercut","rei_uppercut_finish"]
 	if "--akky" in OS.get_cmdline_user_args():
-		return ["akky_reversal_startup","akky_reversal_elbow","akky_reversal_finish"]
+		return ["akky_diagonal_jump","akky_diagonal_punch","akky_diagonal_land"]
 	return super.special_clips()

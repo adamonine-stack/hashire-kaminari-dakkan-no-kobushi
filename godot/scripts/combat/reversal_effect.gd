@@ -10,10 +10,12 @@ var duration := 0.18
 var source: WeakRef
 var tint := Color(0.5, 0.85, 1.0)
 var contact_point := Vector2(40,-20)
+var diagonal_punch := false
 
 func setup(actor: Node, event: String, seconds: float) -> void:
 	source = weakref(actor)
 	style = String(actor.fighter_definition.fighter_id)
+	diagonal_punch = actor.character_special_data != null and actor.character_special_data.diagonal_jump_special
 	tint = _style_color()
 	phase = event
 	duration = maxf(seconds, 0.05)
@@ -22,6 +24,8 @@ func setup(actor: Node, event: String, seconds: float) -> void:
 	if event != "impact": position = Vector2(0, -65)
 	if event == "active" and actor.special_area != null:
 		contact_point = Vector2(actor.special_area.position.x * actor.facing_direction,actor.special_area.position.y) - position
+		if diagonal_punch:
+			contact_point.y -= 48.0 * actor.battle_visual_scale_multiplier
 	queue_redraw()
 
 func _style_color() -> Color:
@@ -52,6 +56,12 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var r := 12.0 + elapsed / duration * 42.0
+	if diagonal_punch and phase in ["startup", "active", "finish"]:
+		# The fist and its trail point straight ahead during the jumping punch.
+		if phase == "active":
+			draw_line(contact_point - Vector2(38, 0), contact_point + Vector2(12, 0), Color(tint, 0.7), 3.0, true)
+			draw_line(contact_point - Vector2(28, 5), contact_point + Vector2(18, -5), Color.WHITE, 1.5, true)
+		return
 	if phase == "wall":
 		_draw_special_impact()
 		draw_line(Vector2(0,-90),Vector2(0,90),Color(tint,0.4),14.0)

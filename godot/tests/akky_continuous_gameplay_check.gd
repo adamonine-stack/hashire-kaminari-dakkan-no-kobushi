@@ -19,7 +19,7 @@ func qa_name() -> String:
 	return "Akky"
 
 func special_clips() -> Array:
-	return ["akky_reversal_startup","akky_reversal_elbow","akky_reversal_finish"]
+	return ["akky_diagonal_jump","akky_diagonal_punch","akky_diagonal_land"]
 
 func battle_stage_index() -> int:
 	return 0

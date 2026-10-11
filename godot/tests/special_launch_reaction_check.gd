@@ -109,6 +109,10 @@ func reset(manager: Node, actor: Node, point: Vector2, facing: int) -> void:
 	for i in range(3): await physics_frame
 
 func run() -> void:
+	# Measure full-art bounds without the intentional random impact shake.
+	var settings := root.get_node("SettingsManager")
+	var previous_shake: String = settings.screen_shake_mode
+	settings.screen_shake_mode = "OFF"
 	output = ProjectSettings.globalize_path("res://").path_join("../evidence/" + evidence_folder).simplify_path()
 	DirAccess.make_dir_recursive_absolute(output)
 	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
@@ -173,7 +177,14 @@ func run() -> void:
 			attacker.input_enabled = false
 			attacker.set_physics_process(true)
 			var start: Vector2 = target.position
-			check(attacker._get_character_special_hit_position(target).y < start.y-minimum_contact_height,label + " effect at special contact height")
+			if attacker.character_special_data.diagonal_jump_special:
+				var hurt := target.get_node("HurtBox/CollisionShape2D") as CollisionShape2D
+				var half_size: Vector2 = hurt.shape.size * hurt.global_scale.abs() * 0.5
+				var expected: Vector2 = attacker.special_area.global_position.clamp(hurt.global_position-half_size,hurt.global_position+half_size)
+				check(attacker._get_character_special_hit_position(target).is_equal_approx(expected), label + " forward punch effect follows real contact")
+				check(is_equal_approx(attacker.special_area.position.y, -57.0 * attacker.battle_visual_scale_multiplier), label + " forward punch hitbox height")
+			else:
+				check(attacker._get_character_special_hit_position(target).y < start.y-minimum_contact_height,label + " effect at special contact height")
 			var camera_zoom_before: Vector2 = root.get_camera_2d().zoom
 			# Observe the launch impulse before render stalls can advance several
 			# physics ticks and carry the victim into a wall. Gameplay resumes below.
@@ -362,6 +373,7 @@ func run() -> void:
 	battle.queue_free()
 	await process_frame
 	OS.delay_msec(200)
+	settings.screen_shake_mode = previous_shake
 	quit(0 if failures.is_empty() else 1)
 
 func extra_checks(_manager: Node, _attacker: Node, _target: Node) -> void:
