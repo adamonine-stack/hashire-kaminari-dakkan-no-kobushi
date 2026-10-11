@@ -948,6 +948,8 @@ func start_attack(attack_id: String) -> void:
 	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
 	dev_current_attack_connected = false
 	attack_startup_time_actual = float(attack_data.startup_time) * _get_attack_startup_multiplier(current_attack_type)
+	if attack_data.attack_category == "normal_chain":
+		attack_startup_time_actual = attack_startup_time_actual * 1.65 + 0.04
 	attack_active_time_actual = float(attack_data.active_time)
 	attack_recovery_time_actual = float(attack_data.recovery_time) * _get_attack_recovery_multiplier(current_attack_type)
 	attack_phase = AttackPhase.STARTUP
@@ -1258,9 +1260,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_enter_hit_state()
 	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
 	if bool(attack_data.get("normal_chain", false)):
-		# Match remaining recovery including asymmetric hitstop. Buffered startup
-		# lands during this window; without continuation both recover together.
-		hit_reaction_timer = float(attack_data["normal_chain_recovery"])
+		# Hold the confirm through the slower followup; held guard can still
+		# interrupt from the second contact via the shared guard-escape path.
+		hit_reaction_timer = float(attack_data["normal_chain_recovery"]) + 0.20
 	elif _is_technical_combo_attack(attack_data) and combo_hit_index >= 2:
 		# The first two hits may confirm, but the defender recovers before later
 		# technical hits so holding guard or countering can break the sequence.
@@ -1515,6 +1517,9 @@ func try_continue_combo() -> bool:
 		return false
 	if not _can_cancel_attack():
 		return false
+	# Preserve the contact beat before moving into the next readable windup.
+	if current_attack_data != null and current_attack_data.attack_category == "normal_chain" and attack_phase == AttackPhase.ACTIVE:
+		return false
 	if dev_buffered_attack == &"":
 		return false
 	if not can_chain_attack(StringName(current_attack_type), dev_buffered_attack):
@@ -1634,9 +1639,10 @@ func _is_technical_combo_attack(attack_data: Dictionary) -> bool:
 
 
 func _try_guard_technical_combo_escape(attack_data: Dictionary, attack_direction: float, hit_position: Vector2, attacker: Node) -> bool:
-	if not _is_technical_combo_attack(attack_data):
+	var normal_chain := bool(attack_data.get("normal_chain", false))
+	if not normal_chain and not _is_technical_combo_attack(attack_data):
 		return false
-	if int(attack_data.get("combo_hit_index", 1)) < 3:
+	if int(attack_data.get("combo_hit_index", 1)) < (2 if normal_chain else 3):
 		return false
 	if not bool(attack_data.get("is_guardable", true)) or current_hp <= 0 or not is_round_active or not is_on_floor():
 		return false
@@ -1651,7 +1657,11 @@ func _try_guard_technical_combo_escape(attack_data: Dictionary, attack_direction
 			is_guarding = true
 			guard_type = "low" if is_crouch_guarding else "high"
 	elif name == "Enemy":
-		wants_guard = randf() <= technical_ai_guard_escape_rate
+		if normal_chain:
+			var profile: Resource = get("ai_profile")
+			if not bool(get("ai_enabled")) or (profile != null and not bool(profile.get("can_guard"))):
+				return false
+		wants_guard = randf() <= (0.75 if normal_chain else technical_ai_guard_escape_rate)
 		if wants_guard:
 			var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
 			is_crouch_guarding = attack_height == "low"

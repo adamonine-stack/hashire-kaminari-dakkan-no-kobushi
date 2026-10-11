@@ -399,11 +399,11 @@ func apply_ai_profile(profile: Resource) -> void:
 	ai_guard_min_time = _profile_float(&"guard_duration_min", ai_guard_min_time)
 	ai_guard_max_time = _profile_float(&"guard_duration_max", ai_guard_max_time)
 	throw_escape_probability = _profile_float(&"throw_escape_probability", throw_escape_probability)
-	dev026_ai_combo_continue_probability = _profile_float(&"second_hit_probability", dev026_ai_combo_continue_probability)
-	dev026_ai_third_hit_probability = _profile_float(&"third_hit_probability", dev026_ai_third_hit_probability)
+	dev026_ai_combo_continue_probability = minf(0.85, _profile_float(&"second_hit_probability", dev026_ai_combo_continue_probability) + 0.15)
+	dev026_ai_third_hit_probability = minf(0.70, _profile_float(&"third_hit_probability", dev026_ai_third_hit_probability) + 0.10)
 	if _profile_bool(&"can_combo", false):
-		dev026_ai_combo_continue_probability = _profile_float(&"combo_rate", dev026_ai_combo_continue_probability)
-		dev026_ai_third_hit_probability = _profile_float(&"combo_rate", dev026_ai_third_hit_probability) * 0.65
+		dev026_ai_combo_continue_probability = minf(0.85, _profile_float(&"combo_rate", dev026_ai_combo_continue_probability) + 0.20)
+		dev026_ai_third_hit_probability = dev026_ai_combo_continue_probability * 0.80
 	show_ai_debug = _profile_bool(&"show_ai_debug", show_ai_debug)
 
 
@@ -1217,6 +1217,9 @@ func should_guard_against_player() -> bool:
 	var is_threatening := _is_player_attack_threatening(opponent)
 	if is_threatening:
 		guard_rate = maxf(guard_rate, _profile_float(&"reactive_guard_rate", 0.45))
+		var incoming = opponent.get("current_attack_data")
+		if incoming != null and incoming.attack_category == "normal_chain":
+			guard_rate = maxf(guard_rate, 0.75)
 	else:
 		var proactive_distance := _profile_float(&"attack_distance", 55.0) * 0.90
 		if evaluate_distance() > proactive_distance:
@@ -1242,6 +1245,8 @@ func _choose_ai_guard_type_against_player() -> String:
 			return "high"
 		if height == "low" or category == "crouch":
 			return "low"
+		if height == "high" and is_on_floor():
+			return "low" # Duck a high strike; overheads above still require standing guard.
 	# Legacy/fallback attacks may not expose a Resource. A crouch state is an
 	# explicit low read; jump startup clears crouch before the fighter becomes airborne.
 	if bool(opponent.get("is_crouching")) and not String(opponent.get("current_attack_type")).is_empty():
@@ -1385,6 +1390,10 @@ func _select_situation_move() -> String:
 				return String(move.attack_id)
 		return ""
 	var tag := "close" if distance < 65.0 else ("middle" if distance <= 130.0 else "approach")
+	if opponent.is_crouching or opponent.is_crouch_guarding:
+		return _select_basic_situation_move("overhead", distance)
+	if opponent.current_attack_type == "" and not opponent.is_guarding and randf() < minf(0.80, _profile_float(&"combo_rate", 0.20) + 0.20):
+		return _select_basic_situation_move("chain", distance)
 	if situation_observed_time >= _profile_float(&"move_observation_seconds", 0.22):
 		if situation_observed_state == "recovery":
 			tag = "punish"
@@ -1405,6 +1414,8 @@ func _select_situation_move() -> String:
 
 func _select_basic_situation_move(tag: String, distance: float) -> String:
 	var choices: Array = {
+		"overhead": ["back_punch"],
+		"chain": ["neutral_punch", "neutral_kick"],
 		"close": ["neutral_punch", "down_punch", "back_kick"],
 		"middle": ["forward_kick", "neutral_kick", "down_kick"],
 		"approach": ["forward_punch"],
@@ -1417,9 +1428,17 @@ func _select_basic_situation_move(tag: String, distance: float) -> String:
 		if not basic_move_ids.has(key):
 			continue
 		var move := _get_attack_data(basic_move_ids[key])
-		if distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+		if move != null and _ai_move_reaches(move, distance):
 			candidates.append(String(move.attack_id))
 	return candidates[randi() % candidates.size()] if not candidates.is_empty() else ""
+
+
+func _ai_move_reaches(move: Resource, distance: float) -> bool:
+	var geometry_scale := battle_visual_scale_multiplier
+	if fighter_definition != null:
+		geometry_scale *= fighter_definition.combat_geometry_scale
+	var reach: float = (absf(move.hitbox_offset.x) + move.hitbox_size.x * 0.5) * geometry_scale + 18.0
+	return distance >= move.ai_distance_min and distance <= minf(move.ai_distance_max, reach)
 
 
 func _try_situation_move() -> bool:
@@ -2117,6 +2136,9 @@ func set_ai_debug_state(state_name: String) -> void:
 
 
 func _update_idle(delta: float) -> void:
+	if _is_player_attack_threatening(_get_opponent()) and should_guard_against_player():
+		enter_guard()
+		return
 	ai_idle_timer = maxf(ai_idle_timer - delta, 0.0)
 	if ai_idle_timer > 0.0:
 		return
@@ -2129,6 +2151,8 @@ func _update_ai_guard_state(delta: float) -> void:
 		return
 	ai_guard_timer = maxf(ai_guard_timer - delta, 0.0)
 	ai_guard_minimum_timer = maxf(ai_guard_minimum_timer - delta, 0.0)
+	if _is_player_attack_threatening(_get_opponent()):
+		ai_guard_type = _choose_ai_guard_type_against_player()
 	is_guarding = true
 	is_crouch_guarding = is_on_floor() and ai_guard_type == "low"
 	is_crouching = false
@@ -2268,6 +2292,10 @@ func _is_player_attack_threatening(opponent: Node) -> bool:
 	var attack_data = opponent.get("current_attack_data")
 	if attack_data != null:
 		estimated_range = absf(float(attack_data.hitbox_offset.x)) + (float(attack_data.hitbox_size.x) * 0.5)
+		estimated_range *= float(opponent.get("battle_visual_scale_multiplier"))
+		var definition = opponent.get("fighter_definition")
+		if definition != null:
+			estimated_range *= float(definition.combat_geometry_scale)
 	return distance <= estimated_range + 20.0
 
 

@@ -167,7 +167,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_play_visual_animation(last_damage_animation, true)
 	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
 	if normal_chain:
-		hit_reaction_timer = float(attack_data["normal_chain_recovery"])
+		hit_reaction_timer = float(attack_data["normal_chain_recovery"]) + 0.20
 	elif _is_technical_combo_attack(attack_data) and combo_hit_index >= 2 and not causes_down:
 		hit_reaction_timer = minf(hit_reaction_timer, technical_combo_escape_hitstun)
 	elif causes_down:
