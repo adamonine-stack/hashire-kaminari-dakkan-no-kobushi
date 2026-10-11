@@ -1260,9 +1260,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_enter_hit_state()
 	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
 	if bool(attack_data.get("normal_chain", false)):
-		# Hold the confirm through the slower followup; held guard can still
-		# interrupt from the second contact via the shared guard-escape path.
-		hit_reaction_timer = float(attack_data["normal_chain_recovery"]) + 0.20
+		# Preserve neutral final recovery; the slower followup leaves room to defend.
+		hit_reaction_timer = float(attack_data["normal_chain_recovery"])
 	elif _is_technical_combo_attack(attack_data) and combo_hit_index >= 2:
 		# The first two hits may confirm, but the defender recovers before later
 		# technical hits so holding guard or countering can break the sequence.

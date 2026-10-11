@@ -51,7 +51,7 @@ func run() -> void:
 				peak=maxi(peak,actor.combo_count)
 				var current: String=actor.current_attack_id
 				if peak>0 and peak<route.size() and not current.is_empty():
-					check(opponent.is_hit,String(definition.fighter_id)+" next hit beats retaliation")
+					# Slower followups may leave a defense gap; actual hitstun still locks attacks.
 					if opponent.is_hit: check(not opponent.request_attack_input(&"Punch",true),String(definition.fighter_id)+" retaliation blocked in hitstun")
 				if not current.is_empty() and not attacks.has(current): attacks.append(current)
 				elapsed=frame
