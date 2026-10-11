@@ -146,7 +146,7 @@ func _roll_normal_credits() -> void:
 		return
 	credits_started = true
 	print("[%s] CREDITS_START route=%s" % [ENDING_VERSION, route])
-	get_tree().change_scene_to_file(CREDITS_CHECKPOINT.SCENE)
+	preload("res://scripts/ui/ending_transition.gd").new().start(get_tree(), CREDITS_CHECKPOINT.SCENE)
 
 
 func _show_page() -> void:

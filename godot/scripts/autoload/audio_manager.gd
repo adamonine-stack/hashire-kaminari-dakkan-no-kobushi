@@ -48,6 +48,9 @@ func _ready() -> void:
 	bgm_player = AudioStreamPlayer.new()
 	bgm_player.name = "BGMPlayer"
 	bgm_player.bus = &"Music"
+	# Web Sample playback expands the whole song into a browser AudioBuffer.
+	# Decode long music incrementally, including on single-threaded Web builds.
+	bgm_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(bgm_player)
 	bgm_player.finished.connect(_on_music_finished.bind(bgm_player))
 	# Fixed reserve used only by explicit crossfade() between non-theme tracks.
@@ -55,6 +58,7 @@ func _ready() -> void:
 	crossfade_player = AudioStreamPlayer.new()
 	crossfade_player.name = "BGMCrossfadePlayer"
 	crossfade_player.bus = &"Music"
+	crossfade_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(crossfade_player)
 	crossfade_player.finished.connect(_on_music_finished.bind(crossfade_player))
 	for index in range(SE_POOL_SIZE):
@@ -85,6 +89,7 @@ func stop_bgm() -> void:
 	if bgm_player != null:
 		bgm_player.stop()
 		bgm_player.stream_paused = false
+		bgm_player.stream = null
 
 
 func fade_bgm(bgm_id: String, duration := 0.35) -> void:
@@ -108,6 +113,7 @@ func _cancel_music_transition() -> void:
 	if crossfade_player != null:
 		crossfade_player.stop()
 		crossfade_player.stream_paused = false
+		crossfade_player.stream = null
 	crossfade_bgm_id = ""
 	crossfade_envelope = 0.0
 
@@ -249,6 +255,7 @@ func fade_out(duration := THEME_FADE_OUT) -> void:
 	if serial == transition_serial:
 		bgm_player.stop()
 		current_bgm_id = ""
+		bgm_player.stream = null
 
 
 func crossfade(music_id: String, duration := 1.0) -> void:

@@ -223,8 +223,7 @@ func _run() -> void:
 	_clear_effects()
 	_stop_sound("explosion")
 	_stop_sound("engine")
-	get_node("/root/AudioManager").play_ending_theme()
-	await _cg("dawn", 8.0, true)
+	await _cg("dawn", 8.0, true, true)
 	await _fade(1.0, 2.0)
 	backdrop.texture = null
 	_stop_sound("waves")
@@ -245,7 +244,7 @@ func _run() -> void:
 			# Keep the previous TrueEnding save and use the legacy presentation.
 		else:
 			credits_started = true
-			get_tree().change_scene_to_file(CREDITS_CHECKPOINT.SCENE)
+			preload("res://scripts/ui/ending_transition.gd").new().start(get_tree(), CREDITS_CHECKPOINT.SCENE)
 			return
 	credits_started = true
 	await _credits()
@@ -258,11 +257,16 @@ func _run() -> void:
 	# The player returns only by tapping/clicking/confirming.
 	_beat("complete")
 
-func _cg(id: String, hold: float, pull_back := false) -> void:
+func _cg(id: String, hold: float, pull_back := false, start_theme := false) -> void:
 	if veil.color.a < 0.99: await _fade(1.0, 0.7)
 	_beat(id)
 	backdrop.show()
 	await _replace_backdrop(ART + id + ".png")
+	# Free the explosion plate/effects and finish the dawn upload before music
+	# starts. This stays inside the existing black fade, preserving the shot.
+	if start_theme:
+		await get_tree().process_frame
+		get_node("/root/AudioManager").play_ending_theme()
 	if shot_tween != null: shot_tween.kill()
 	backdrop.pivot_offset = Vector2(640, 360)
 	backdrop.scale = Vector2(1.07, 1.07) if pull_back else Vector2.ONE
@@ -339,6 +343,7 @@ func _sound(id: String, db: float) -> void:
 	else:
 		player = AudioStreamPlayer.new()
 		player.bus = &"SFX"
+		player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 		add_child(player)
 		sound_players[id] = player
 	if player.stream == null: player.stream = load(ART + id + ".wav")

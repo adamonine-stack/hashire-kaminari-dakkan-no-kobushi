@@ -46,6 +46,7 @@ func run_check() -> void:
 	render = DisplayServer.get_name() != "headless"
 	missing = "--missing-theme" in OS.get_cmdline_user_args()
 	audio = root.get_node("AudioManager")
+	check(audio.bgm_player.playback_type == AudioServer.PLAYBACK_TYPE_STREAM and audio.crossfade_player.playback_type == AudioServer.PLAYBACK_TYPE_STREAM, "music streams without whole-song Web AudioBuffer")
 	check(AudioServer.get_bus_index("Music") >= 0 and AudioServer.get_bus_index("SFX") >= 0, "separate Music/SFX buses")
 	change_scene_to_file("res://scenes/Title.tscn")
 	await wait_scene("res://scenes/Title.tscn")
@@ -163,6 +164,7 @@ func run_check() -> void:
 		audio.stop_music()
 		await create_timer(0.6).timeout
 		check(not audio.bgm_player.playing and audio.current_bgm_id.is_empty(), "stop cancels pending theme")
+		check(audio.bgm_player.stream == null and audio.crossfade_player.stream == null, "stop releases both music resources")
 		audio.play_bgm("battle")
 		audio.crossfade("clear", 0.3)
 		await create_timer(0.15).timeout

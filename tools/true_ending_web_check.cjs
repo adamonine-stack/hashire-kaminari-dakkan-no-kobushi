@@ -28,12 +28,25 @@ async function main() {
   }
   browser = await chromium.launch({ channel: 'msedge', headless: true, args: ['--enable-unsafe-swiftshader'] });
   const context = await browser.newContext({ viewport: mobile ? { width: 844, height: 390 } : { width: 1280, height: 720 }, hasTouch: mobile });
+  await context.addInitScript(() => {
+    window.longAudioBuffers = [];
+    const original = BaseAudioContext.prototype.createBuffer;
+    BaseAudioContext.prototype.createBuffer = function(channels, length, rate) {
+      if (length / rate > 30) window.longAudioBuffers.push({ channels, seconds: length / rate, bytes: channels * length * 4 });
+      return original.call(this, channels, length, rate);
+    };
+  });
   const page = await context.newPage(), logs = [], errors = [], beats = [], pending = [], network = [];
   let build = '', running = false, saved = '';
   const screenshot = name => page.screenshot({ path: path.join(out, name + '.png') });
   page.on('console', msg => {
     const value = msg.text(); logs.push(value);
     fs.appendFileSync(path.join(out, 'console.log'), value + '\n');
+    // The current release completes in the separate lightweight credits scene.
+    if (value === '[ENDING_CREDITS] complete route=true' && !beats.includes('complete')) {
+      beats.push('complete');
+      console.log('WEB_TRUE_ENDING_BEAT complete');
+    }
     if (value.startsWith('[TRUE_ENDING] ')) {
       const beat = value.slice('[TRUE_ENDING] '.length).trim(); beats.push(beat);
       console.log('WEB_TRUE_ENDING_BEAT ' + beat);
@@ -108,8 +121,10 @@ async function main() {
     return '';
   });
   if (!saved.includes('true_ending_unlocked=true')) throw Error('True ending not persisted to browser save');
+  const longAudioBuffers = await page.evaluate(() => window.longAudioBuffers);
+  if (longAudioBuffers.length) throw Error('Whole-song browser audio allocation: ' + JSON.stringify(longAudioBuffers));
   if (errors.length || logs.some(v => /^SCRIPT ERROR:|^ERROR:/.test(v))) throw Error(JSON.stringify(errors));
-  fs.writeFileSync(path.join(out, 'result.json'), JSON.stringify({ build, mobile, success: true, beats, save: saved, network, scenario: 'Private one-HP checkpoint, real attacks and unchanged released PCK/JS/WASM; automated browser execution, not full manual campaign or physical phone.' }, null, 2));
+  fs.writeFileSync(path.join(out, 'result.json'), JSON.stringify({ build, mobile, success: true, beats, save: saved, network, longAudioBuffers, scenario: 'Private one-HP checkpoint, real attacks and unchanged released PCK/JS/WASM; automated browser execution, not full manual campaign or physical phone.' }, null, 2));
   console.log('TRUE_ENDING_PUBLIC_WEB_OK ' + build + ' ' + (mobile ? 'mobile' : 'desktop'));
   await context.close();
 }
