@@ -42,6 +42,11 @@ async function main() {
   page.on('console', msg => {
     const value = msg.text(); logs.push(value);
     fs.appendFileSync(path.join(out, 'console.log'), value + '\n');
+    // The current release completes in the separate lightweight credits scene.
+    if (value === '[ENDING_CREDITS] complete route=true' && !beats.includes('complete')) {
+      beats.push('complete');
+      console.log('WEB_TRUE_ENDING_BEAT complete');
+    }
     if (value.startsWith('[TRUE_ENDING] ')) {
       const beat = value.slice('[TRUE_ENDING] '.length).trim(); beats.push(beat);
       console.log('WEB_TRUE_ENDING_BEAT ' + beat);
