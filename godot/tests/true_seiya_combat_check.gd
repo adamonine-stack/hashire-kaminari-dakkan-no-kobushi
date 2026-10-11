@@ -74,14 +74,21 @@ func run_check() -> void:
 	check(not manager.isRoundActive, "CONTINUE waits for fighter")
 	manager.select_player_by_id("player_01_akky")
 	await create_timer(1.3).timeout
+	for frame in range(360):
+		if manager.isRoundActive:
+			break
+		await physics_frame
 	player = manager.player
 	enemy = manager.enemy
 	check(enemy.current_hp == saved_boss_hp, "continued Seiya HP survives actor spawn")
 	enemy.ai_enabled = false
 	enemy.ai_profile = null
+	enemy.aura_controller.cancel()
 	# KO must be reached by contact, not by marking campaign flags.
 	manager.reset_active_fighter_state(player, Vector2(580,520), 1.0, player.max_hp)
 	manager.reset_active_fighter_state(enemy, Vector2(680,520), -1.0, 1)
+	var jab: Resource = player._get_attack_data(player.basic_move_ids.neutral_punch)
+	enemy.position.x = player.position.x + jab.hitbox_offset.x * player.battle_visual_scale_multiplier * player.fighter_definition.combat_geometry_scale
 	manager._set_battle_active(true)
 	enemy.input_enabled = true
 	await ticks(4)
