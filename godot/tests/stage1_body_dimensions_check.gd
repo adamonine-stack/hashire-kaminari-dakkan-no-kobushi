@@ -56,12 +56,12 @@ func run() -> void:
 		if is_akky:
 			for old_clip in baseline_frames.get_animation_names():
 				check(frames.has_animation(old_clip), "legacy animation preserved " + old_clip)
-			check(definition.basic_move_paths.size() == 10, "ten original basic actions registered")
+			check(actor.basic_move_ids.size() == 10, "ten original basic controls registered alongside chain followups")
 			check(scale.is_equal_approx(baseline_actor.animated_character_sprite.scale), "master display scale unchanged")
 			check(origin.is_equal_approx(baseline_actor.animated_character_sprite.position), "master sprite origin unchanged")
 		for clip in frames.get_animation_names():
 			var count := frames.get_frame_count(clip)
-			if is_akky and not String(clip).begins_with("basic_"):
+			if is_akky and baseline_frames.has_animation(clip) and not String(clip).begins_with("basic_"):
 				check(count == baseline_frames.get_frame_count(clip), "%s frame count unchanged" % clip)
 				check(frames.get_animation_speed(clip) == baseline_frames.get_animation_speed(clip), "%s fps unchanged" % clip)
 				check(frames.get_animation_loop(clip) == baseline_frames.get_animation_loop(clip), "%s loop unchanged" % clip)
@@ -83,7 +83,7 @@ func run() -> void:
 						check(Rect2(Vector2.ZERO,texture.atlas.get_size()).encloses(texture.region), label + " atlas bounds")
 					var image := texture.get_image()
 					check(image.get_used_rect().has_area(), label + " visible pixels")
-					if is_akky and facing == 1 and not String(clip).begins_with("basic_"):
+					if is_akky and facing == 1 and baseline_frames.has_animation(clip) and not String(clip).begins_with("basic_"):
 						check(frames.get_frame_duration(clip,index) == baseline_frames.get_frame_duration(clip,index), label + " duration unchanged")
 						var old: Texture2D = baseline_frames.get_frame_texture(clip,index)
 						var changed := texture_hash(texture) != texture_hash(old)

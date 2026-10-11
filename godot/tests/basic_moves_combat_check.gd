@@ -74,10 +74,13 @@ func run() -> void:
 			else:
 				k_recovery = minf(k_recovery, data.recovery_time)
 				k_damage = minf(k_damage, data.base_damage*actor.kick_damage)
-		check(k_recovery > p_recovery, label+" kicks have longer recovery")
+		# Pure normal chains deliberately share recovery for neutral endings.
+		var normal_p: Resource = actor._get_attack_data(actor.basic_move_ids.neutral_punch)
+		var normal_k: Resource = actor._get_attack_data(actor.basic_move_ids.neutral_kick)
+		check(normal_k.startup_time > normal_p.startup_time, label+" normal kicks start slower than punches")
 		check(k_damage > p_damage, label+" kicks have stronger damage")
-		check(actor._get_attack_data(actor.basic_move_ids.forward_kick).startup_time < actor._get_attack_data(actor.basic_move_ids.neutral_kick).startup_time, label+" forward kick starts faster")
-		check(actor._get_attack_data(actor.basic_move_ids.down_punch).hitbox_offset.y > actor._get_attack_data(actor.basic_move_ids.neutral_punch).hitbox_offset.y, label+" crouch fist below jab")
+		check(actor._get_attack_data(actor.basic_move_ids.down_punch).launch_velocity.y < 0.0, label+" down punch launches")
+		check(actor._get_attack_data(actor.basic_move_ids.back_punch).attack_height == "overhead", label+" back punch is overhead")
 		for facing in [1.0, -1.0]:
 			for key in CONTROLS:
 				settle()
@@ -87,12 +90,12 @@ func run() -> void:
 				var kind: String = key.split("_")[1]
 				var scale: float = actor.battle_visual_scale_multiplier*definition.combat_geometry_scale
 				var reach: float = data.hitbox_offset.x*scale
-				if key == "back_punch":
+				if key == "down_punch":
 					# A raised fist can lie over the torso. Keep the jumping target
 					# in front, inside the box width, so auto-facing does not turn away.
 					reach = maxf(12.0,reach)
 				opponent.global_position = Vector2(600 + reach*facing, 520)
-				if key == "back_punch":
+				if key == "down_punch":
 					# Put the airborne torso at the raised fist, not a ground target.
 					opponent.global_position.y = 520 + data.hitbox_offset.y*scale-opponent.hurt_box.position.y
 				opponent.velocity = Vector2.ZERO
@@ -108,7 +111,7 @@ func run() -> void:
 				check(not actor.punch_hitbox_active and not actor.kick_hitbox_active, label+" startup inactive "+key)
 				if direction == "up":
 					check(actor.velocity.y < 0.0 and actor.is_air_attack_active, label+" jump launches "+key)
-				if direction == "down": check(actor.is_crouching, label+" crouching "+key)
+				if key == "down_kick": check(actor.is_crouching, label+" crouching "+key)
 				var began: Vector2 = actor.global_position
 				var saw_contact := false
 				var saw_recovery := false
@@ -169,7 +172,7 @@ func run() -> void:
 		actor.situation_observed_state = "air"
 		actor.situation_observed_time = 1.0
 		if definition.team_type == &"ENEMY":
-			check(actor._select_situation_move() == actor.basic_move_ids.back_punch, label+" AI anti-air")
+			check(actor._select_situation_move() == actor.basic_move_ids.down_punch, label+" AI anti-air")
 			for kind in ["punch", "kick"]:
 				settle()
 				actor.global_position.y = 380

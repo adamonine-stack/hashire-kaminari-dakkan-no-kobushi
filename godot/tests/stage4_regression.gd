@@ -89,15 +89,17 @@ func run() -> void:
 	# Normal chains must keep their ordinary hit/guard semantics.
 	for kind in ["punch", "kick"]:
 		enemy.reset_attack_state()
-		for step in range(3):
+		var count := 3 if kind == "punch" else 2
+		for step in range(count):
 			var id: String = enemy.get_next_attack_id(kind)
 			check(not id.is_empty(), "normal chain entry")
 			enemy.start_attack(id)
 			check(not enemy.is_throwing and not player.is_throw_locked, "normal grapple is a strike")
 			check(enemy.current_attack_data.is_guardable, "normal grapple guardable")
-			if step == 2:
-				check(id.ends_with("finish"), "joint lock finishes " + kind)
-				check(enemy.current_attack_data.next_attack_ids.is_empty(), "finisher terminates chain")
+			check(enemy.current_attack_data.animation_name == "normal_%s_%d" % [kind,step+1], "distinct normal chain stage")
+			check(enemy.current_attack_data.launch_velocity == Vector2.ZERO and not enemy.current_attack_data.knockdown, "normal chain stays grounded")
+			if step == count-1:
+				check(enemy.get_next_attack_id(kind).is_empty(), "pure normal chain terminates " + kind)
 		enemy.finish_attack()
 	# Exercise actual target lock, single damage application and escape paths.
 	player.set_physics_process(false)

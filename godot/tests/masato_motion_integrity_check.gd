@@ -65,7 +65,8 @@ func run() -> void:
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
 			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/masato/")
-			check(basic_source or texture.atlas.resource_path.contains("masato_v3"),"all Masato motions use repaired originals "+clip)
+			var normal_source := String(texture.get_meta("source_texture_path", "")) == "res://assets/characters/overhead_v1/masato/source.png"
+			check(basic_source or normal_source or texture.atlas.resource_path.contains("masato_v3"),"all Masato motions use repaired originals "+clip)
 			check((basic_source and texture.get_size() in [Vector2(512,448),Vector2(640,448)]) or texture.get_size() == Vector2(512,448),"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
 			check((used.position.x>=1 and used.position.y>=1 and used.end.x<=texture.get_width()-1 and used.end.y<=404) if basic_source else (used.position.x>=8 and used.position.y>=8 and used.end.x<=504 and used.end.y<=404),"no clipped hair limbs boots "+clip)

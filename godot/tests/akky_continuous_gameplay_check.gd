@@ -162,7 +162,7 @@ func run() -> void:
 			var observed: Array[String] = []
 			for row in rows:
 				if row.iteration == iteration and row.sequence == case_index and String(row.clip) not in observed: observed.append(String(row.clip))
-			var required: Array = [["basic_neutral_punch"],["basic_neutral_kick"],["damage_light"],["walk_forward","jump_start","jump_fall","jump_land"],["walk_forward","basic_neutral_punch","damage_light"],special_clips()][case_index]
+			var required: Array = [["normal_punch_1"],["normal_kick_1"],["damage_light"],["walk_forward","jump_start","jump_fall","jump_land"],["walk_forward","normal_punch_1","damage_light"],special_clips()][case_index]
 			for clip in required: check(clip in observed,"required clip %s sequence %d facing %s" % [clip,case_index,facing])
 			if case_index == 3:
 				var landing_frames: Array[int] = []

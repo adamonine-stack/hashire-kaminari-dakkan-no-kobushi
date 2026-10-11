@@ -130,7 +130,8 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	# A one-hit attack is not a combo finisher. Use the attacker's combo length so
 	# fighters with a one-step local attack table (such as Stage 1 Crusher) do not
 	# fall down from every ordinary hit they receive.
-	var is_combo_finisher := combo_hit_max > 1 and combo_hit_index >= combo_hit_max
+	var normal_chain: bool = bool(attack_data.get("normal_chain", false))
+	var is_combo_finisher := not normal_chain and combo_hit_max > 1 and combo_hit_index >= combo_hit_max
 	var causes_down := should_cause_knockdown(
 		attack_data,
 		float(final_damage),
@@ -139,7 +140,7 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	# Power armor is checked before normal hitstun/action cancellation. Damage is
 	# still applied, but ordinary non-finishing strikes cannot stop an armored
 	# attack that is already in progress.
-	if not causes_down and final_damage < current_hp and _has_active_power_armor(attack_data, attacker):
+	if not normal_chain and not causes_down and final_damage < current_hp and _has_active_power_armor(attack_data, attacker):
 		_receive_power_armor_hit(attack_data, final_damage, hit_position, attacker)
 		return true
 
@@ -165,7 +166,9 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_enter_hit_state()
 	_play_visual_animation(last_damage_animation, true)
 	hit_reaction_timer = maxf(hit_reaction_timer, float(attack_data.get("hitstun_time", hit_reaction_timer)))
-	if _is_technical_combo_attack(attack_data) and combo_hit_index >= 2 and not causes_down:
+	if normal_chain:
+		hit_reaction_timer = float(attack_data["normal_chain_recovery"])
+	elif _is_technical_combo_attack(attack_data) and combo_hit_index >= 2 and not causes_down:
 		hit_reaction_timer = minf(hit_reaction_timer, technical_combo_escape_hitstun)
 	elif causes_down:
 		hit_reaction_timer = maxf(hit_reaction_timer, dev026_combo_hitstun_time)

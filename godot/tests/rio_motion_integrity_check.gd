@@ -65,7 +65,8 @@ func run() -> void:
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
 			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/rio/")
-			check(basic_source or texture.atlas.resource_path.contains("rio_garcia_v2"),"all Rio motions use repaired originals "+clip)
+			var normal_source := String(texture.get_meta("source_texture_path", "")) == "res://assets/characters/overhead_v1/rio/source.png"
+			check(basic_source or normal_source or texture.atlas.resource_path.contains("rio_garcia_v2"),"all Rio motions use repaired originals "+clip)
 			check((basic_source and texture.get_size() == Vector2(320,256)) or texture.get_size() == Vector2(320,256),"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
 			check((used.position.x>=1 and used.position.y>=1 and used.end.x<=texture.get_width()-1 and used.end.y<=240) if basic_source else (used.position.x>=8 and used.position.y>=8 and used.end.x<=312 and used.end.y<=240),"no clipped hair limbs boots "+clip)
@@ -114,7 +115,7 @@ func run() -> void:
 			await physics_frame
 			if rio.attack_phase == rio.AttackPhase.ACTIVE and not attack_seen:
 				attack_seen = true
-				check(sprite.frame == 1,"normal kick uses extended contact pose")
+				check(sprite.frame == rio.current_attack_data.contact_start_frame,"normal kick uses extended contact pose")
 				await capture("contact_kick_"+str(direction))
 		check(player.current_hp<hp,"Rio kick contacts player "+str(direction))
 		check(attack_seen,"Rio kick contact pose was observed "+str(direction))

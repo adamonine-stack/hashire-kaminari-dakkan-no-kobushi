@@ -43,7 +43,7 @@ const out=path.resolve(__dirname,'../evidence/web/stage9_'+(mobile?'mobile':'des
   fs.writeFileSync(path.join(out,'console.log'),logs.join('\n'));
   fs.writeFileSync(path.join(out,'errors.json'),JSON.stringify(errors,null,2));
   if(!logs.some(t=>t.includes('STAGE9_TWO_HIT_RESULT')&&t.includes('failures=[]')))throw Error('Published battle QA did not pass');
-  if(!logs.some(t=>t.includes('STAGE9_TWO_HIT_RESULT cases=54 frames=322')))throw Error('Incomplete Stage9 coverage');
+  if(!logs.some(t=>t.includes('STAGE9_TWO_HIT_RESULT cases=54 frames=475')))throw Error('Incomplete Stage9 coverage');
   if(process.env.EXPECTED_BUILD&&build!==process.env.EXPECTED_BUILD)throw Error('Unexpected published build '+build);
   if(errors.length||logs.some(t=>/SCRIPT ERROR:|^ERROR:/.test(t)))throw Error('Published battle QA has errors');
   fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({build,mobile,scenario:'Stage9 all frames and 54 two-hit boss/hero cases plus normal pillar; not manual gameplay',screenshots:screenshotCount,webglDiagnostics:logs.filter(t=>/WebGL.*INVALID_|GL_INVALID/.test(t)).length,success:true},null,2));
