@@ -167,6 +167,14 @@ jobs:
           grep -Fq 'NORMAL_CHAINS_LIVE_CHECK failures=[]' /tmp/normal-chains-live.log
           if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/normal-chains.log /tmp/normal-chains-live.log; then exit 1; fi
 
+      - name: Verify combo tempo and AI defense
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/combo_tempo_ai_check.gd 2>&1 | tee /tmp/combo-tempo-ai.log
+          grep -Fq 'COMBO_TEMPO_AI_CHECK failures=[]' /tmp/combo-tempo-ai.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/combo-tempo-ai.log; then exit 1; fi
+
       - name: Verify all character basic moves
         shell: bash
         run: |

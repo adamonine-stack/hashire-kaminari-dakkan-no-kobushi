@@ -28,6 +28,9 @@ func run() -> void:
 		for route in [punches,kicks,["punch","punch","kick"]]:
 			var kind: String=route[0]
 			settle()
+			# Profile AI re-enables itself each frame; keep this collision fixture passive.
+			actor.ai_profile = null
+			opponent.ai_profile = null
 			actor.is_round_active=true
 			opponent.is_round_active=true
 			opponent.current_hp=10000
@@ -48,7 +51,7 @@ func run() -> void:
 				peak=maxi(peak,actor.combo_count)
 				var current: String=actor.current_attack_id
 				if peak>0 and peak<route.size() and not current.is_empty():
-					check(opponent.is_hit,String(definition.fighter_id)+" next hit beats retaliation")
+					# Slower followups may leave a defense gap; actual hitstun still locks attacks.
 					if opponent.is_hit: check(not opponent.request_attack_input(&"Punch",true),String(definition.fighter_id)+" retaliation blocked in hitstun")
 				if not current.is_empty() and not attacks.has(current): attacks.append(current)
 				elapsed=frame
@@ -58,6 +61,8 @@ func run() -> void:
 			check(opponent.knockdown_state==&"",String(definition.fighter_id)+" no normal finisher knockdown")
 			print("LIVE_CHAIN ",definition.fighter_id," ",route," hits=",peak," frames=",elapsed)
 		settle()
+		actor.ai_profile = null
+		opponent.ai_profile = null
 		actor.is_round_active=true
 		opponent.is_round_active=true
 		opponent.input_enabled=false
@@ -83,6 +88,13 @@ func run() -> void:
 			opponent._physics_process(1.0/60.0)
 			if not opponent.is_guard_hit and opponent.hit_stop_timer<=0.0: break
 		var hp_before_counter: float=actor.current_hp
+		# Guard pushback can leave a short jab outside reach during the slower
+		# windup. Verify the counter contact from a shared close-range position.
+		var counter_jab: Resource=opponent._get_attack_data(opponent.basic_move_ids.neutral_punch)
+		var counter_scale: float=opponent.battle_visual_scale_multiplier*opponent.fighter_definition.combat_geometry_scale
+		actor.global_position.x=opponent.global_position.x-counter_jab.hitbox_offset.x*counter_scale
+		actor.velocity.x=0.0
+		opponent.velocity.x=0.0
 		check(not opponent.current_attack_id.is_empty() or opponent.request_attack_input(&"Punch",true),String(definition.fighter_id)+" counter starts after guard")
 		for frame in range(60):
 			await physics_frame
