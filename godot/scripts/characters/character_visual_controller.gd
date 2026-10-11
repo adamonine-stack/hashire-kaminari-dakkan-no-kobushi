@@ -395,6 +395,8 @@ func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteF
 			return null
 		var pose := source_image.get_region(region)
 		pose.convert(Image.FORMAT_RGBA8)
+		if atlas.isolate_source_component:
+			pose = _isolate_source_pose(pose)
 		if atlas.source_alpha_threshold > 0.0:
 			for y in range(pose.get_height()):
 				for x in range(pose.get_width()):
@@ -433,6 +435,39 @@ func _build_measured_motion_atlas(atlas: Resource, source: Texture2D) -> SpriteF
 			frame.set_meta("source_scale", atlas.frame_source_scales[number] if number < atlas.frame_source_scales.size() else 1.0)
 			frames.add_frame(key, frame)
 	return frames
+
+
+func _isolate_source_pose(pose: Image) -> Image:
+	var bytes := pose.get_data()
+	var width := pose.get_width()
+	var height := pose.get_height()
+	var seen := PackedByteArray()
+	seen.resize(width * height)
+	var largest := PackedInt32Array()
+	for pixel in range(width * height):
+		if seen[pixel] != 0 or bytes[pixel * 4 + 3] <= 8:
+			continue
+		var component := PackedInt32Array([pixel])
+		seen[pixel] = 1
+		var cursor := 0
+		while cursor < component.size():
+			var current := component[cursor]
+			cursor += 1
+			var x := current % width
+			var y := current / width
+			for next in [current - 1 if x > 0 else -1, current + 1 if x < width - 1 else -1, current - width if y > 0 else -1, current + width if y < height - 1 else -1]:
+				if next >= 0 and seen[next] == 0 and bytes[next * 4 + 3] > 8:
+					seen[next] = 1
+					component.append(next)
+		if component.size() > largest.size():
+			largest = component
+	seen.fill(0)
+	for pixel in largest:
+		seen[pixel] = 1
+	for pixel in range(width * height):
+		if seen[pixel] == 0:
+			bytes[pixel * 4 + 3] = 0
+	return Image.create_from_data(width, height, false, Image.FORMAT_RGBA8, bytes)
 
 
 func _overlay_authored_motion_atlas(frames: SpriteFrames, atlas: Resource) -> void:

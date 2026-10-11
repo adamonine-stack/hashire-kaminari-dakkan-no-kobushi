@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/player01/animations/forward_leap_v1/source_texture.res" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+cell_size = Vector2i(320,224)
+columns = 4
+head_scale_override = 1.0
+frame_regions = Array[Rect2i]([Rect2i(72,72,255,446),Rect2i(412,190,302,328),Rect2i(772,108,343,361),Rect2i(1116,108,409,383),Rect2i(18,604,456,361),Rect2i(412,598,467,360),Rect2i(819,620,322,354),Rect2i(1227,546,256,429)])
+frame_offsets = Array[Vector2i]([Vector2i(114,48),Vector2i(106,90),Vector2i(98,78),Vector2i(87,71),Vector2i(78,78),Vector2i(76,79),Vector2i(102,81),Vector2i(114,54)])
+frame_source_scales = Array[float]([0.35874439461883406,0.35874439461883406,0.35874439461883406,0.35874439461883406,0.35874439461883406,0.35874439461883406,0.35874439461883406,0.35874439461883406])
+frame_offsets_are_display_pixels = true
+source_alpha_threshold = 0.03137255
+isolate_source_component = true
+clips = {
+"akky_diagonal_jump": {"frames": [1,2,2], "fps": 13.636, "loop": false},
+"akky_diagonal_punch": {"frames": [3,4,5,5], "fps": 16.667, "loop": false},
+"akky_diagonal_land": {"frames": [6,6,7], "fps": 10.0, "loop": false}
+}

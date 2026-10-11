@@ -168,7 +168,7 @@ func _physics_process(delta: float) -> void:
 			if ai_jump_requested:
 				ai_jump_launch_pending = false
 			_spawn_movement_dust(global_position + Vector2(0.0, -4.0), 1.0)
-		elif not is_hit:
+		elif not is_hit and not is_character_special_busy():
 			velocity.y = 0.0
 	else:
 		velocity.y += gravity * delta

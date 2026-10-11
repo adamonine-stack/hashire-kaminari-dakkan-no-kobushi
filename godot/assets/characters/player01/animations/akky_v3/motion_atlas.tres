@@ -9,6 +9,9 @@ texture = ExtResource("2")
 cell_size = Vector2i(320, 224)
 columns = 4
 clips = {
+"akky_diagonal_jump": {"frames": [12,13,68,68,68], "fps": 12.5, "loop": false},
+"akky_diagonal_punch": {"frames": [77,78,78,78,78], "fps": 16.0, "loop": false},
+"akky_diagonal_land": {"frames": [79,15,15,0], "fps": 10.0, "loop": false},
 "idle": {"frames": [0,1,2,3], "fps": 5.0, "loop": true},
 "idle_ready": {"frames": [0,1,2,3], "fps": 5.0, "loop": true},
 "idle_prebattle": {"frames": [0,1,2,3], "fps": 5.0, "loop": true},

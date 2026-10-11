@@ -1574,6 +1574,10 @@ func start_character_special() -> void:
 	character_special_hit_targets.clear()
 	character_special_state = CharacterSpecialState.STARTUP
 	character_special_timer = maxf(float(character_special_data.startup_time), 0.01)
+	if character_special_data.diagonal_jump_special:
+		akky_special_launched = false
+		if character_special_data.special_takeoff_delay <= 0.0:
+			_launch_diagonal_special()
 	disable_character_special_hitbox()
 	_play_character_special_animation(&"special_startup", &"kick_1")
 	_spawn_reversal_effect("startup", character_special_timer)
@@ -1583,6 +1587,13 @@ func start_character_special() -> void:
 
 
 var seiya_somersault_turn := 0.0
+var akky_special_launched := false
+
+func _launch_diagonal_special() -> void:
+	akky_special_launched = true
+	velocity = Vector2(character_special_data.special_jump_velocity.x * character_special_direction, character_special_data.special_jump_velocity.y)
+	_spawn_movement_dust(global_position + Vector2(0, -4), 1.0)
+
 var seiya_two_hit_stage := 0
 var seiya_two_hit_sequence := 0
 var seiya_confirmed_targets: Array[WeakRef] = []
@@ -1702,6 +1713,13 @@ func update_character_special(delta: float) -> void:
 		reset_character_special_state(false)
 		return
 	_apply_character_special_movement(delta)
+	if character_special_data.diagonal_jump_special and not akky_special_launched and character_special_state == CharacterSpecialState.STARTUP:
+		if character_special_data.startup_time - character_special_timer >= character_special_data.special_takeoff_delay:
+			_launch_diagonal_special()
+	if character_special_data.diagonal_jump_special and character_special_state == CharacterSpecialState.ACTIVE and is_on_floor():
+		_spawn_movement_dust(global_position + Vector2(-24, -4), 1.8)
+		_spawn_movement_dust(global_position + Vector2(24, -4), 1.8)
+		enter_character_special_recovery()
 	if character_special_state == CharacterSpecialState.ACTIVE and _is_seiya_two_hit():
 		_update_seiya_two_hitbox()
 	elif character_special_state == CharacterSpecialState.ACTIVE and character_special_data.special_hit_window > 0.0:
@@ -1798,6 +1816,9 @@ func _setup_character_special_movement() -> void:
 	stop_character_special_movement()
 	if character_special_data == null:
 		return
+	if character_special_data.diagonal_jump_special:
+		velocity = Vector2(character_special_data.special_dive_velocity.x * character_special_direction, character_special_data.special_dive_velocity.y)
+		return
 	var duration := float(character_special_data.move_duration)
 	var distance := float(character_special_data.move_distance)
 	if duration <= 0.0:
@@ -1819,6 +1840,8 @@ func _apply_character_special_movement(delta: float) -> void:
 
 
 func stop_character_special_movement() -> void:
+	if character_special_state != CharacterSpecialState.NONE and character_special_data != null and character_special_data.diagonal_jump_special:
+		velocity.x = 0.0
 	# AI lock synchronization also calls this while receiving knockback.
 	# Only an active own special owns these visual transforms.
 	if character_special_state != CharacterSpecialState.NONE and character_special_data != null and (character_special_data.somersault_on_special or character_special_data.somersault_sidekick) and animated_character_sprite != null:
@@ -3015,7 +3038,7 @@ func _get_current_visual_animation() -> StringName:
 
 func _update_visual_state() -> void:
 	# Preserve reviewed special progress across the base animation update.
-	var preserve_authored_special := (_is_enemy8() or _uses_readable_grapple() or _is_cross_grappler() or character_special_id == "shadow_slip_counter") and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
+	var preserve_authored_special: bool = (_is_enemy8() or _uses_readable_grapple() or _is_cross_grappler() or character_special_id == "shadow_slip_counter" or (character_special_data != null and character_special_data.diagonal_jump_special)) and (is_character_special_busy() or is_boss_special_busy()) and animated_character_sprite != null
 	var previous_animation: StringName = animated_character_sprite.animation if preserve_authored_special else &""
 	var previous_frame: int = animated_character_sprite.frame if preserve_authored_special else 0
 	var previous_progress: float = animated_character_sprite.frame_progress if preserve_authored_special else 0.0

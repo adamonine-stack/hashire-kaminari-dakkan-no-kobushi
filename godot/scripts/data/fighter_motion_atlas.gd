@@ -28,3 +28,5 @@ class_name FighterMotionAtlas
 @export var frame_offsets_are_display_pixels := false
 ## Remove only near-transparent source noise; zero preserves existing sources.
 @export_range(0.0, 1.0) var source_alpha_threshold := 0.0
+## Irregular source rectangles may include a neighbouring silhouette.
+@export var isolate_source_component := false

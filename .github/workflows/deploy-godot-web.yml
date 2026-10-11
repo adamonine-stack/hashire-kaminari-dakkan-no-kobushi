@@ -88,6 +88,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          python3 tools/build_akky_forward_web_qa.py
+          timeout 90s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/akky_forward_web_qa.tscn 2>&1 | tee /tmp/akky-forward-qa.log
+          grep -Fq 'AKKY_DIAGONAL_SPECIAL_CHECK failures=[]' /tmp/akky-forward-qa.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/akky-forward-qa.log; then exit 1; fi
           python3 tools/build_crusher_web_qa.py
           timeout 120s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" res://tests/crusher_web_qa.tscn 2>&1 | tee /tmp/crusher-web-qa.log
           grep -Fq 'SPECIAL_LAUNCH_REACTION_CHECK failures=[]' /tmp/crusher-web-qa.log
