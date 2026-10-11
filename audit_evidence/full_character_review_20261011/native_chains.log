@@ -1,0 +1,2164 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+Vulkan 1.4.309 - Forward Mobile - Using Device #0: Intel - Intel(R) Iris(R) Xe Graphics
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 200
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 14
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 100
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 180
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 8
+[DEV035] Kick damage: 10
+[DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_01_crusher
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 200
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 14
+[DEV036] Attack started: chain_akky_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_akky_punch_1
+Punch Hit
+Damage: 8
+HP: 9992
+[Special] gauge_changed=6
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=8
+Punch HitBox OFF
+Cancel: chain_akky_punch_1 -> chain_akky_punch_2
+[DEV036] Attack started: chain_akky_punch_2
+[DEV036] Combo advanced: chain_akky_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_akky_punch_2
+Punch Hit
+Damage: 7
+HP: 9985
+[Special] gauge_changed=12
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=17
+Punch HitBox OFF
+Cancel: chain_akky_punch_2 -> chain_akky_punch_3
+[DEV036] Attack started: chain_akky_punch_3
+[DEV036] Combo advanced: chain_akky_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_akky_punch_3
+Punch Hit
+Damage: 6
+HP: 9979
+[Special] gauge_changed=18
+Combo: Player1 3 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=31
+Punch HitBox OFF
+[DEV036] Attack finished: chain_akky_punch_3
+LIVE_CHAIN player_01_akky ["punch", "punch", "punch"] hits=3 frames=38
+[DEV036] Attack started: chain_akky_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_akky_kick_1
+Kick Hit
+Damage: 15
+HP: 9985
+[Special] gauge_changed=27
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=41
+Kick HitBox OFF
+Cancel: chain_akky_kick_1 -> chain_akky_kick_2
+[DEV036] Attack started: chain_akky_kick_2
+[DEV036] Combo advanced: chain_akky_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_akky_kick_2
+Kick Hit
+Damage: 14
+HP: 9971
+[Special] gauge_changed=36
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=50
+Kick HitBox OFF
+[DEV036] Attack finished: chain_akky_kick_2
+LIVE_CHAIN player_01_akky ["kick", "kick"] hits=2 frames=37
+[DEV036] Attack started: chain_akky_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_akky_punch_1
+Punch Hit
+Damage: 8
+HP: 9992
+[Special] gauge_changed=42
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=58
+Punch HitBox OFF
+Cancel: chain_akky_punch_1 -> chain_akky_punch_2
+[DEV036] Attack started: chain_akky_punch_2
+[DEV036] Combo advanced: chain_akky_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_akky_punch_2
+Punch Hit
+Damage: 7
+HP: 9985
+[Special] gauge_changed=48
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=67
+Punch HitBox OFF
+Cancel: chain_akky_punch_2 -> chain_akky_kick_3
+[DEV036] Attack started: chain_akky_kick_3
+[DEV036] Combo advanced: chain_akky_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_akky_kick_3
+Kick Hit
+Damage: 12
+HP: 9973
+[Special] gauge_changed=57
+Combo: Player1 3 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=82
+Kick HitBox OFF
+[DEV036] Attack finished: chain_akky_kick_3
+LIVE_CHAIN player_01_akky ["punch", "punch", "kick"] hits=3 frames=42
+[DEV036] Attack started: chain_akky_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_akky_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_changed=85
+Damage: 0
+HP: 180
+[Special] gauge_changed=66
+[DEV062][enemy_01_crusher] Guard success -> counter armed
+[DEV036] Attack started: chain_crusher_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_1
+Punch Hit
+Damage: 6
+HP: 194
+[Special] gauge_changed=91
+[DEV036] Attack hit: Player
+[Special] gauge_changed=74
+Punch HitBox OFF
+[DEV036] Attack started: basic_akky_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_akky_back_punch
+Punch Hit
+Damage: 9
+HP: 171
+[Special] gauge_changed=80
+[DEV036] Attack hit: Enemy1
+[Special] gauge_changed=99
+Punch HitBox OFF
+[DEV036] Attack started: basic_akky_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_akky_down_punch
+Punch Hit
+Damage: 9
+HP: 171
+[Special] gauge_changed=86
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: player_02_gou
+[DEV035] Type: Power
+[DEV035] HP: 240
+[DEV035] Move speed: 175
+[DEV035] Punch damage: 15
+[DEV035] Kick damage: 20
+[DEV036] Attack started: chain_gou_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_gou_punch_1
+Punch Hit
+Damage: 11
+HP: 9989
+[Special] gauge_changed=92
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_gou_punch_1 -> chain_gou_punch_2
+[DEV036] Attack started: chain_gou_punch_2
+[DEV036] Combo advanced: chain_gou_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_gou_punch_2
+Punch Hit
+Damage: 10
+HP: 9979
+[Special] gauge_changed=98
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_gou_punch_2
+LIVE_CHAIN player_02_gou ["punch", "punch"] hits=2 frames=39
+[DEV036] Attack started: chain_gou_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_gou_kick_1
+Kick Hit
+Damage: 22
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_gou_kick_1 -> chain_gou_kick_2
+[DEV036] Attack started: chain_gou_kick_2
+[DEV036] Combo advanced: chain_gou_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_gou_kick_2
+Kick Hit
+Damage: 21
+HP: 9957
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_gou_kick_2
+LIVE_CHAIN player_02_gou ["kick", "kick"] hits=2 frames=45
+[DEV036] Attack started: chain_gou_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_gou_punch_1
+Punch Hit
+Damage: 11
+HP: 9989
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_gou_punch_1 -> chain_gou_punch_2
+[DEV036] Attack started: chain_gou_punch_2
+[DEV036] Combo advanced: chain_gou_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_gou_punch_2
+Punch Hit
+Damage: 10
+HP: 9979
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_gou_punch_2 -> chain_gou_kick_3
+[DEV036] Attack started: chain_gou_kick_3
+[DEV036] Combo advanced: chain_gou_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_gou_kick_3
+Kick Hit
+Damage: 21
+HP: 9958
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 3 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_gou_kick_3
+LIVE_CHAIN player_02_gou ["punch", "punch", "kick"] hits=3 frames=51
+[DEV036] Attack started: chain_gou_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_gou_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV062][enemy_01_crusher] Guard success -> counter armed
+[DEV062][enemy_01_crusher] Guard counter
+[DEV036] Attack started: chain_crusher_punch_1
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_1
+Punch Hit
+Damage: 6
+HP: 234
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_gou_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_gou_back_punch
+Punch Hit
+Damage: 13
+HP: 167
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_gou_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_gou_down_punch
+Punch Hit
+Damage: 13
+HP: 167
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: player_03_seiya
+[DEV035] Type: Technical
+[DEV035] HP: 180
+[DEV035] Move speed: 265
+[DEV035] Punch damage: 9
+[DEV035] Kick damage: 12
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 9993
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_seiya_punch_1 -> chain_seiya_punch_2
+[DEV036] Attack started: chain_seiya_punch_2
+[DEV036] Combo advanced: chain_seiya_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_2
+Punch Hit
+Damage: 6
+HP: 9987
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_seiya_punch_2 -> chain_seiya_punch_3
+[DEV036] Attack started: chain_seiya_punch_3
+[DEV036] Combo advanced: chain_seiya_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_3
+Punch Hit
+Damage: 5
+HP: 9982
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 3 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_seiya_punch_3 -> chain_seiya_punch_4
+[DEV036] Attack started: chain_seiya_punch_4
+[DEV036] Combo advanced: chain_seiya_punch_4
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_4
+Punch Hit
+Damage: 4
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 4 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_seiya_punch_4
+LIVE_CHAIN player_03_seiya ["punch", "punch", "punch", "punch"] hits=4 frames=36
+[DEV036] Attack started: chain_seiya_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_seiya_kick_1
+Kick Hit
+Damage: 13
+HP: 9987
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_seiya_kick_1 -> chain_seiya_kick_2
+[DEV036] Attack started: chain_seiya_kick_2
+[DEV036] Combo advanced: chain_seiya_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_seiya_kick_2
+Kick Hit
+Damage: 11
+HP: 9976
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_seiya_kick_2 -> chain_seiya_kick_3
+[DEV036] Attack started: chain_seiya_kick_3
+[DEV036] Combo advanced: chain_seiya_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_seiya_kick_3
+Kick Hit
+Damage: 9
+HP: 9967
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 3 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_seiya_kick_3
+LIVE_CHAIN player_03_seiya ["kick", "kick", "kick"] hits=3 frames=40
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 9993
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_seiya_punch_1 -> chain_seiya_punch_2
+[DEV036] Attack started: chain_seiya_punch_2
+[DEV036] Combo advanced: chain_seiya_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_2
+Punch Hit
+Damage: 6
+HP: 9987
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 2 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_seiya_punch_2 -> chain_seiya_kick_3
+[DEV036] Attack started: chain_seiya_kick_3
+[DEV036] Combo advanced: chain_seiya_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_seiya_kick_3
+Kick Hit
+Damage: 9
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player1 3 HIT
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_seiya_kick_3
+LIVE_CHAIN player_03_seiya ["punch", "punch", "kick"] hits=3 frames=35
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV062][enemy_01_crusher] Guard success -> counter armed
+[DEV062][enemy_01_crusher] Guard counter
+[DEV036] Attack started: chain_crusher_punch_1
+[DEV037][enemy_01_crusher] Attack selected: punch
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_1
+Punch Hit
+Damage: 6
+HP: 174
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_seiya_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_seiya_back_punch
+Punch Hit
+Damage: 8
+HP: 172
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_seiya_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_seiya_down_punch
+Punch Hit
+Damage: 8
+HP: 172
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 180
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 8
+[DEV035] Kick damage: 10
+Punch HitBox OFF
+[DEV036] Attack started: chain_crusher_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_1
+Punch Hit
+Damage: 6
+HP: 9994
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_crusher_punch_1 -> chain_crusher_punch_2
+[DEV036] Attack started: chain_crusher_punch_2
+[DEV036] Combo advanced: chain_crusher_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_2
+Punch Hit
+Damage: 6
+HP: 9988
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_crusher_punch_2
+LIVE_CHAIN enemy_01_crusher ["punch", "punch"] hits=2 frames=38
+[DEV036] Attack started: chain_crusher_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_crusher_kick_1
+Kick Hit
+Damage: 11
+HP: 9989
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_crusher_kick_1 -> chain_crusher_kick_2
+[DEV036] Attack started: chain_crusher_kick_2
+[DEV036] Combo advanced: chain_crusher_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_crusher_kick_2
+Kick Hit
+Damage: 10
+HP: 9979
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_crusher_kick_2
+LIVE_CHAIN enemy_01_crusher ["kick", "kick"] hits=2 frames=43
+[DEV036] Attack started: chain_crusher_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_1
+Punch Hit
+Damage: 6
+HP: 9994
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_crusher_punch_1 -> chain_crusher_punch_2
+[DEV036] Attack started: chain_crusher_punch_2
+[DEV036] Combo advanced: chain_crusher_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_2
+Punch Hit
+Damage: 6
+HP: 9988
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_crusher_punch_2 -> chain_crusher_kick_3
+[DEV036] Attack started: chain_crusher_kick_3
+[DEV036] Combo advanced: chain_crusher_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_crusher_kick_3
+Kick Hit
+Damage: 10
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_crusher_kick_3
+LIVE_CHAIN enemy_01_crusher ["punch", "punch", "kick"] hits=3 frames=49
+[DEV036] Attack started: chain_crusher_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_crusher_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 173
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_crusher_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_crusher_back_punch
+Punch Hit
+Damage: 7
+HP: 173
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_crusher_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_crusher_down_punch
+Punch Hit
+Damage: 7
+HP: 173
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_04_rei_kageyama
+[DEV035] Type: Karate
+[DEV035] HP: 112
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 7
+[DEV035] Kick damage: 10
+[DEV036] Attack started: chain_rei_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_rei_punch_1
+Punch Hit
+Damage: 5
+HP: 9995
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rei_punch_1 -> chain_rei_punch_2
+[DEV036] Attack started: chain_rei_punch_2
+[DEV036] Combo advanced: chain_rei_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_rei_punch_2
+Punch Hit
+Damage: 5
+HP: 9990
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rei_punch_2 -> chain_rei_punch_3
+[DEV036] Attack started: chain_rei_punch_3
+[DEV036] Combo advanced: chain_rei_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_rei_punch_3
+Punch Hit
+Damage: 5
+HP: 9985
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_rei_punch_3
+LIVE_CHAIN enemy_04_rei_kageyama ["punch", "punch", "punch"] hits=3 frames=37
+[DEV036] Attack started: chain_rei_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_rei_kick_1
+Kick Hit
+Damage: 11
+HP: 9989
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_rei_kick_1 -> chain_rei_kick_2
+[DEV036] Attack started: chain_rei_kick_2
+[DEV036] Combo advanced: chain_rei_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_rei_kick_2
+Kick Hit
+Damage: 11
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_rei_kick_2
+LIVE_CHAIN enemy_04_rei_kageyama ["kick", "kick"] hits=2 frames=36
+[DEV036] Attack started: chain_rei_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_rei_punch_1
+Punch Hit
+Damage: 5
+HP: 9995
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rei_punch_1 -> chain_rei_punch_2
+[DEV036] Attack started: chain_rei_punch_2
+[DEV036] Combo advanced: chain_rei_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_rei_punch_2
+Punch Hit
+Damage: 5
+HP: 9990
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rei_punch_2 -> chain_rei_kick_3
+[DEV036] Attack started: chain_rei_kick_3
+[DEV036] Combo advanced: chain_rei_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_rei_kick_3
+Kick Hit
+Damage: 10
+HP: 9980
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_rei_kick_3
+LIVE_CHAIN enemy_04_rei_kageyama ["punch", "punch", "kick"] hits=3 frames=41
+[DEV036] Attack started: chain_rei_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_rei_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 105
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_rei_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_rei_back_punch
+Punch Hit
+Damage: 6
+HP: 174
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_rei_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_rei_down_punch
+Punch Hit
+Damage: 6
+HP: 174
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_07_teki_fighter
+[DEV035] Type: Technical Grappler
+[DEV035] HP: 118
+[DEV035] Move speed: 300
+[DEV035] Punch damage: 7
+[DEV035] Kick damage: 9
+[DEV036] Attack started: chain_teki_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_teki_punch_1
+Punch Hit
+Damage: 5
+HP: 9995
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_teki_punch_1 -> chain_teki_punch_2
+[DEV036] Attack started: chain_teki_punch_2
+[DEV036] Combo advanced: chain_teki_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_teki_punch_2
+Punch Hit
+Damage: 4
+HP: 9991
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_teki_punch_2 -> chain_teki_punch_3
+[DEV036] Attack started: chain_teki_punch_3
+[DEV036] Combo advanced: chain_teki_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_teki_punch_3
+Punch Hit
+Damage: 4
+HP: 9987
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_teki_punch_3
+LIVE_CHAIN enemy_07_teki_fighter ["punch", "punch", "punch"] hits=3 frames=38
+[DEV036] Attack started: chain_teki_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_teki_kick_1
+Kick Hit
+Damage: 10
+HP: 9990
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_teki_kick_1 -> chain_teki_kick_2
+[DEV036] Attack started: chain_teki_kick_2
+[DEV036] Combo advanced: chain_teki_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_teki_kick_2
+Kick Hit
+Damage: 9
+HP: 9981
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_teki_kick_2
+LIVE_CHAIN enemy_07_teki_fighter ["kick", "kick"] hits=2 frames=37
+[DEV036] Attack started: chain_teki_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_teki_punch_1
+Punch Hit
+Damage: 5
+HP: 9995
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_teki_punch_1 -> chain_teki_punch_2
+[DEV036] Attack started: chain_teki_punch_2
+[DEV036] Combo advanced: chain_teki_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_teki_punch_2
+Punch Hit
+Damage: 4
+HP: 9991
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_teki_punch_2 -> chain_teki_kick_3
+[DEV036] Attack started: chain_teki_kick_3
+[DEV036] Combo advanced: chain_teki_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_teki_kick_3
+Kick Hit
+Damage: 7
+HP: 9984
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_teki_kick_3
+LIVE_CHAIN enemy_07_teki_fighter ["punch", "punch", "kick"] hits=3 frames=42
+[DEV036] Attack started: chain_teki_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_teki_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 111
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_teki_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_teki_back_punch
+Punch Hit
+Damage: 6
+HP: 174
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_teki_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_teki_down_punch
+Punch Hit
+Damage: 6
+HP: 174
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_05_cross_murasame
+[DEV035] Type: Jujutsu
+[DEV035] HP: 108
+[DEV035] Move speed: 305
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV036] Attack started: chain_cross_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_cross_punch_1
+Punch Hit
+Damage: 4
+HP: 9996
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_cross_punch_1 -> chain_cross_punch_2
+[DEV036] Attack started: chain_cross_punch_2
+[DEV036] Combo advanced: chain_cross_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_cross_punch_2
+Punch Hit
+Damage: 4
+HP: 9992
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_cross_punch_2 -> chain_cross_punch_3
+[DEV036] Attack started: chain_cross_punch_3
+[DEV036] Combo advanced: chain_cross_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_cross_punch_3
+Punch Hit
+Damage: 4
+HP: 9988
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_cross_punch_3
+LIVE_CHAIN enemy_05_cross_murasame ["punch", "punch", "punch"] hits=3 frames=37
+[DEV036] Attack started: chain_cross_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_cross_kick_1
+Kick Hit
+Damage: 8
+HP: 9992
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_cross_kick_1 -> chain_cross_kick_2
+[DEV036] Attack started: chain_cross_kick_2
+[DEV036] Combo advanced: chain_cross_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_cross_kick_2
+Kick Hit
+Damage: 8
+HP: 9984
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_cross_kick_2
+LIVE_CHAIN enemy_05_cross_murasame ["kick", "kick"] hits=2 frames=36
+[DEV036] Attack started: chain_cross_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_cross_punch_1
+Punch Hit
+Damage: 4
+HP: 9996
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_cross_punch_1 -> chain_cross_punch_2
+[DEV036] Attack started: chain_cross_punch_2
+[DEV036] Combo advanced: chain_cross_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_cross_punch_2
+Punch Hit
+Damage: 4
+HP: 9992
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_cross_punch_2 -> chain_cross_kick_3
+[DEV036] Attack started: chain_cross_kick_3
+[DEV036] Combo advanced: chain_cross_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_cross_kick_3
+Kick Hit
+Damage: 8
+HP: 9984
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_cross_kick_3
+LIVE_CHAIN enemy_05_cross_murasame ["punch", "punch", "kick"] hits=3 frames=41
+[DEV036] Attack started: chain_cross_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_cross_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 101
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_cross_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_cross_back_punch
+Punch Hit
+Damage: 4
+HP: 176
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_cross_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_cross_down_punch
+Punch Hit
+Damage: 4
+HP: 176
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_02_shadow_boxer
+[DEV035] Type: Boxer
+[DEV035] HP: 88
+[DEV035] Move speed: 335
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 7
+[DEV036] Attack started: chain_shadow_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_1
+Punch Hit
+Damage: 4
+HP: 9996
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_shadow_punch_1 -> chain_shadow_punch_2
+[DEV036] Attack started: chain_shadow_punch_2
+[DEV036] Combo advanced: chain_shadow_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_2
+Punch Hit
+Damage: 4
+HP: 9992
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_shadow_punch_2 -> chain_shadow_punch_3
+[DEV036] Attack started: chain_shadow_punch_3
+[DEV036] Combo advanced: chain_shadow_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_3
+Punch Hit
+Damage: 4
+HP: 9988
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_shadow_punch_3 -> chain_shadow_punch_4
+[DEV036] Attack started: chain_shadow_punch_4
+[DEV036] Combo advanced: chain_shadow_punch_4
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_4
+Punch Hit
+Damage: 4
+HP: 9984
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 4 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_shadow_punch_4
+LIVE_CHAIN enemy_02_shadow_boxer ["punch", "punch", "punch", "punch"] hits=4 frames=40
+[DEV036] Attack started: chain_shadow_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_shadow_kick_1
+Kick Hit
+Damage: 8
+HP: 9992
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_shadow_kick_1 -> chain_shadow_kick_2
+[DEV036] Attack started: chain_shadow_kick_2
+[DEV036] Combo advanced: chain_shadow_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_shadow_kick_2
+Kick Hit
+Damage: 8
+HP: 9984
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_shadow_kick_2 -> chain_shadow_kick_3
+[DEV036] Attack started: chain_shadow_kick_3
+[DEV036] Combo advanced: chain_shadow_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_shadow_kick_3
+Kick Hit
+Damage: 8
+HP: 9976
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_shadow_kick_3
+LIVE_CHAIN enemy_02_shadow_boxer ["kick", "kick", "kick"] hits=3 frames=43
+[DEV036] Attack started: chain_shadow_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_1
+Punch Hit
+Damage: 4
+HP: 9996
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_shadow_punch_1 -> chain_shadow_punch_2
+[DEV036] Attack started: chain_shadow_punch_2
+[DEV036] Combo advanced: chain_shadow_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_2
+Punch Hit
+Damage: 4
+HP: 9992
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_shadow_punch_2 -> chain_shadow_kick_3
+[DEV036] Attack started: chain_shadow_kick_3
+[DEV036] Combo advanced: chain_shadow_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_shadow_kick_3
+Kick Hit
+Damage: 8
+HP: 9984
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_shadow_kick_3
+LIVE_CHAIN enemy_02_shadow_boxer ["punch", "punch", "kick"] hits=3 frames=37
+[DEV036] Attack started: chain_shadow_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_shadow_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 81
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_shadow_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_shadow_back_punch
+Punch Hit
+Damage: 4
+HP: 176
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_shadow_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_shadow_down_punch
+Punch Hit
+Damage: 4
+HP: 176
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_06_rio_flick_garcia
+[DEV035] Type: Grapple Speed
+[DEV035] HP: 102
+[DEV035] Move speed: 340
+[DEV035] Punch damage: 5
+[DEV035] Kick damage: 8
+[DEV036] Attack started: chain_rio_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_1
+Punch Hit
+Damage: 4
+HP: 9996
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rio_punch_1 -> chain_rio_punch_2
+[DEV036] Attack started: chain_rio_punch_2
+[DEV036] Combo advanced: chain_rio_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_2
+Punch Hit
+Damage: 3
+HP: 9993
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rio_punch_2 -> chain_rio_punch_3
+[DEV036] Attack started: chain_rio_punch_3
+[DEV036] Combo advanced: chain_rio_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_3
+Punch Hit
+Damage: 3
+HP: 9990
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rio_punch_3 -> chain_rio_punch_4
+[DEV036] Attack started: chain_rio_punch_4
+[DEV036] Combo advanced: chain_rio_punch_4
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_4
+Punch Hit
+Damage: 2
+HP: 9988
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 4 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_rio_punch_4
+LIVE_CHAIN enemy_06_rio_flick_garcia ["punch", "punch", "punch", "punch"] hits=4 frames=41
+[DEV036] Attack started: chain_rio_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_rio_kick_1
+Kick Hit
+Damage: 9
+HP: 9991
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_rio_kick_1 -> chain_rio_kick_2
+[DEV036] Attack started: chain_rio_kick_2
+[DEV036] Combo advanced: chain_rio_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_rio_kick_2
+Kick Hit
+Damage: 8
+HP: 9983
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_rio_kick_2 -> chain_rio_kick_3
+[DEV036] Attack started: chain_rio_kick_3
+[DEV036] Combo advanced: chain_rio_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_rio_kick_3
+Kick Hit
+Damage: 6
+HP: 9977
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_rio_kick_3
+LIVE_CHAIN enemy_06_rio_flick_garcia ["kick", "kick", "kick"] hits=3 frames=44
+[DEV036] Attack started: chain_rio_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_1
+Punch Hit
+Damage: 4
+HP: 9996
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rio_punch_1 -> chain_rio_punch_2
+[DEV036] Attack started: chain_rio_punch_2
+[DEV036] Combo advanced: chain_rio_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_2
+Punch Hit
+Damage: 3
+HP: 9993
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_rio_punch_2 -> chain_rio_kick_3
+[DEV036] Attack started: chain_rio_kick_3
+[DEV036] Combo advanced: chain_rio_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_rio_kick_3
+Kick Hit
+Damage: 6
+HP: 9987
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_rio_kick_3
+LIVE_CHAIN enemy_06_rio_flick_garcia ["punch", "punch", "kick"] hits=3 frames=38
+[DEV036] Attack started: chain_rio_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_rio_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 95
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_rio_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_rio_back_punch
+Punch Hit
+Damage: 4
+HP: 176
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_rio_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_rio_down_punch
+Punch Hit
+Damage: 4
+HP: 176
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_03_masato_takahashi
+[DEV035] Type: Judo
+[DEV035] HP: 96
+[DEV035] Move speed: 285
+[DEV035] Punch damage: 4
+[DEV035] Kick damage: 6
+[DEV036] Attack started: chain_masato_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_masato_punch_1
+Punch Hit
+Damage: 3
+HP: 9997
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_masato_punch_1 -> chain_masato_punch_2
+[DEV036] Attack started: chain_masato_punch_2
+[DEV036] Combo advanced: chain_masato_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_masato_punch_2
+Punch Hit
+Damage: 3
+HP: 9994
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_masato_punch_2
+LIVE_CHAIN enemy_03_masato_takahashi ["punch", "punch"] hits=2 frames=33
+[DEV036] Attack started: chain_masato_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_masato_kick_1
+Kick Hit
+Damage: 7
+HP: 9993
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_masato_kick_1 -> chain_masato_kick_2
+[DEV036] Attack started: chain_masato_kick_2
+[DEV036] Combo advanced: chain_masato_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_masato_kick_2
+Kick Hit
+Damage: 7
+HP: 9986
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_masato_kick_2
+LIVE_CHAIN enemy_03_masato_takahashi ["kick", "kick"] hits=2 frames=39
+[DEV036] Attack started: chain_masato_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_masato_punch_1
+Punch Hit
+Damage: 3
+HP: 9997
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_masato_punch_1 -> chain_masato_punch_2
+[DEV036] Attack started: chain_masato_punch_2
+[DEV036] Combo advanced: chain_masato_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_masato_punch_2
+Punch Hit
+Damage: 3
+HP: 9994
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_masato_punch_2 -> chain_masato_kick_3
+[DEV036] Attack started: chain_masato_kick_3
+[DEV036] Combo advanced: chain_masato_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_masato_kick_3
+Kick Hit
+Damage: 6
+HP: 9988
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_masato_kick_3
+LIVE_CHAIN enemy_03_masato_takahashi ["punch", "punch", "kick"] hits=3 frames=43
+[DEV036] Attack started: chain_masato_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_masato_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 89
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_masato_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_masato_back_punch
+Punch Hit
+Damage: 3
+HP: 177
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_masato_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_masato_down_punch
+Punch Hit
+Damage: 3
+HP: 177
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_08_leon_crow
+[DEV035] Type: Boss
+[DEV035] HP: 170
+[DEV035] Move speed: 330
+[DEV035] Punch damage: 6
+[DEV035] Kick damage: 10
+[DEV036] Attack started: chain_leon_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_1
+Punch Hit
+Damage: 5
+HP: 9995
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_leon_punch_1 -> chain_leon_punch_2
+[DEV036] Attack started: chain_leon_punch_2
+[DEV036] Combo advanced: chain_leon_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_2
+Punch Hit
+Damage: 5
+HP: 9990
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_leon_punch_2 -> chain_leon_punch_3
+[DEV036] Attack started: chain_leon_punch_3
+[DEV036] Combo advanced: chain_leon_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_3
+Punch Hit
+Damage: 5
+HP: 9985
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_leon_punch_3 -> chain_leon_punch_4
+[DEV036] Attack started: chain_leon_punch_4
+[DEV036] Combo advanced: chain_leon_punch_4
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_4
+Punch Hit
+Damage: 5
+HP: 9980
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 4 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_leon_punch_4
+LIVE_CHAIN enemy_08_leon_crow ["punch", "punch", "punch", "punch"] hits=4 frames=42
+[DEV036] Attack started: chain_leon_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_leon_kick_1
+Kick Hit
+Damage: 11
+HP: 9989
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_leon_kick_1 -> chain_leon_kick_2
+[DEV036] Attack started: chain_leon_kick_2
+[DEV036] Combo advanced: chain_leon_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_leon_kick_2
+Kick Hit
+Damage: 11
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_leon_kick_2 -> chain_leon_kick_3
+[DEV036] Attack started: chain_leon_kick_3
+[DEV036] Combo advanced: chain_leon_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_leon_kick_3
+Kick Hit
+Damage: 12
+HP: 9966
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_leon_kick_3
+LIVE_CHAIN enemy_08_leon_crow ["kick", "kick", "kick"] hits=3 frames=45
+[DEV036] Attack started: chain_leon_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_1
+Punch Hit
+Damage: 5
+HP: 9995
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_leon_punch_1 -> chain_leon_punch_2
+[DEV036] Attack started: chain_leon_punch_2
+[DEV036] Combo advanced: chain_leon_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_2
+Punch Hit
+Damage: 5
+HP: 9990
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_leon_punch_2 -> chain_leon_kick_3
+[DEV036] Attack started: chain_leon_kick_3
+[DEV036] Combo advanced: chain_leon_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_leon_kick_3
+Kick Hit
+Damage: 12
+HP: 9978
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_leon_kick_3
+LIVE_CHAIN enemy_08_leon_crow ["punch", "punch", "kick"] hits=3 frames=39
+[DEV036] Attack started: chain_leon_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_leon_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 163
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_leon_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_leon_back_punch
+Punch Hit
+Damage: 5
+HP: 175
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_leon_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_leon_down_punch
+Punch Hit
+Damage: 5
+HP: 175
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[Special] gauge_full
+[DEV035] Character data loaded: enemy_09_seiya
+[DEV035] Type: Boss
+[DEV035] HP: 180
+[DEV035] Move speed: 280
+[DEV035] Punch damage: 18
+[DEV035] Kick damage: 24
+[DEV036] Attack started: chain_dark_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_1
+Punch Hit
+Damage: 14
+HP: 9986
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_dark_seiya_punch_1 -> chain_dark_seiya_punch_2
+[DEV036] Attack started: chain_dark_seiya_punch_2
+[DEV036] Combo advanced: chain_dark_seiya_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_2
+Punch Hit
+Damage: 14
+HP: 9972
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_dark_seiya_punch_2 -> chain_dark_seiya_punch_3
+[DEV036] Attack started: chain_dark_seiya_punch_3
+[DEV036] Combo advanced: chain_dark_seiya_punch_3
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_3
+Punch Hit
+Damage: 14
+HP: 9958
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_dark_seiya_punch_3 -> chain_dark_seiya_punch_4
+[DEV036] Attack started: chain_dark_seiya_punch_4
+[DEV036] Combo advanced: chain_dark_seiya_punch_4
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_4
+Punch Hit
+Damage: 14
+HP: 9944
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 4 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack finished: chain_dark_seiya_punch_4
+LIVE_CHAIN enemy_09_seiya ["punch", "punch", "punch", "punch"] hits=4 frames=36
+[DEV036] Attack started: chain_dark_seiya_kick_1
+Kick HitBox ON
+[DEV036] Attack active: chain_dark_seiya_kick_1
+Kick Hit
+Damage: 26
+HP: 9974
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_dark_seiya_kick_1 -> chain_dark_seiya_kick_2
+[DEV036] Attack started: chain_dark_seiya_kick_2
+[DEV036] Combo advanced: chain_dark_seiya_kick_2
+Kick HitBox ON
+[DEV036] Attack active: chain_dark_seiya_kick_2
+Kick Hit
+Damage: 26
+HP: 9948
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+Cancel: chain_dark_seiya_kick_2 -> chain_dark_seiya_kick_3
+[DEV036] Attack started: chain_dark_seiya_kick_3
+[DEV036] Combo advanced: chain_dark_seiya_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_dark_seiya_kick_3
+Kick Hit
+Damage: 27
+HP: 9921
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_dark_seiya_kick_3
+LIVE_CHAIN enemy_09_seiya ["kick", "kick", "kick"] hits=3 frames=40
+[DEV036] Attack started: chain_dark_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_1
+Punch Hit
+Damage: 14
+HP: 9986
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_dark_seiya_punch_1 -> chain_dark_seiya_punch_2
+[DEV036] Attack started: chain_dark_seiya_punch_2
+[DEV036] Combo advanced: chain_dark_seiya_punch_2
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_2
+Punch Hit
+Damage: 14
+HP: 9972
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 2 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+Cancel: chain_dark_seiya_punch_2 -> chain_dark_seiya_kick_3
+[DEV036] Attack started: chain_dark_seiya_kick_3
+[DEV036] Combo advanced: chain_dark_seiya_kick_3
+Kick HitBox ON
+[DEV036] Attack active: chain_dark_seiya_kick_3
+Kick Hit
+Damage: 27
+HP: 9945
+[Special] gauge_full
+[Special] gauge_changed=100
+Combo: Player2 3 HIT
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Kick HitBox OFF
+[DEV036] Attack finished: chain_dark_seiya_kick_3
+LIVE_CHAIN enemy_09_seiya ["punch", "punch", "kick"] hits=3 frames=35
+[DEV036] Attack started: chain_dark_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_dark_seiya_punch_1
+Punch Hit
+Punch HitBox OFF
+[Special] gauge_full
+[Special] gauge_changed=100
+Damage: 0
+HP: 180
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack started: chain_seiya_punch_1
+Punch HitBox ON
+[DEV036] Attack active: chain_seiya_punch_1
+Punch Hit
+Damage: 7
+HP: 173
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Enemy1
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_dark_seiya_back_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_dark_seiya_back_punch
+Punch Hit
+Damage: 15
+HP: 165
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+Punch HitBox OFF
+[DEV036] Attack started: basic_dark_seiya_down_punch
+Punch HitBox ON
+[DEV036] Attack active: basic_dark_seiya_down_punch
+Punch Hit
+Damage: 15
+HP: 165
+[Special] gauge_full
+[Special] gauge_changed=100
+[DEV036] Attack hit: Player
+[Special] gauge_full
+[Special] gauge_changed=100
+NORMAL_CHAINS_LIVE_CHECK failures=[]
+[DEV041][GameFlow] Battle cleanup completed

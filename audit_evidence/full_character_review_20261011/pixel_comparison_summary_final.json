@@ -1,0 +1,14 @@
+{
+  "player_03_seiya": {
+    "frames": 538,
+    "changed": 120,
+    "transform_changes": 0,
+    "idle_changes": 0
+  },
+  "enemy_09_seiya": {
+    "frames": 475,
+    "changed": 125,
+    "transform_changes": 0,
+    "idle_changes": 0
+  }
+}

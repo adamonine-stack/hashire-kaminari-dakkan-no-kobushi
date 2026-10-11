@@ -1,0 +1,33 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[FONT] Japanese UI font active: Noto Sans JP
+Game progress initialized
+[DEV033] Player select opened
+[ROTATION] Fighter selected for stage 1: player_01_akky
+[DEV035] Character data loaded: player_01_akky
+[DEV035] Type: Balance
+[DEV035] HP: 200
+[DEV035] Move speed: 235
+[DEV035] Punch damage: 11
+[DEV035] Kick damage: 14
+[DEV035] player_01_akky stats applied
+[DEV035] HUD max HP updated: 100
+[DEV035] Character data loaded: enemy_01_crusher
+[DEV035] Type: Power
+[DEV035] HP: 180
+[DEV035] Move speed: 245
+[DEV035] Punch damage: 8
+[DEV035] Kick damage: 10
+[DEV033] Enemy target updated: player_01_akky
+[Music] play=battle position=0.00
+BGM: BattleBGM
+Battle Start: player_01_akky VS enemy_01_crusher
+[DEV036] Attack started: test_back_punch
+Cancel: test_back_punch -> test_forward_followup
+[DEV036] Attack started: test_forward_followup
+[DEV036] Combo advanced: test_forward_followup
+[DEV036] Attack started: test_back_punch
+Cancel: test_back_punch -> test_forward_followup
+[DEV036] Attack started: test_forward_followup
+[DEV036] Combo advanced: test_forward_followup
+COMBAT_COMMAND_INTEGRATION_CHECK failures=[]

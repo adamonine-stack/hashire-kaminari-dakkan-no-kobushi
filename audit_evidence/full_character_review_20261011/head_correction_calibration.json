@@ -1,0 +1,2000 @@
+[
+  {
+    "actor": "player_03_seiya",
+    "clip": "crouch_punch",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      310,
+      274,
+      374,
+      332
+    ],
+    "hair_bounds": [
+      320,
+      285,
+      366,
+      332
+    ],
+    "hair_pixels": 923,
+    "file": "player_03_seiya/basic_down_punch_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "crouch_punch",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      302,
+      273,
+      362,
+      331
+    ],
+    "hair_bounds": [
+      308,
+      283,
+      355,
+      315
+    ],
+    "hair_pixels": 813,
+    "file": "player_03_seiya/crouch_punch_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "crouch_punch",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      293,
+      274,
+      356,
+      332
+    ],
+    "hair_bounds": [
+      302,
+      285,
+      349,
+      320
+    ],
+    "hair_pixels": 818,
+    "file": "player_03_seiya/basic_down_punch_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "crouch_punch",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      293,
+      274,
+      356,
+      332
+    ],
+    "hair_bounds": [
+      302,
+      285,
+      349,
+      320
+    ],
+    "hair_pixels": 818,
+    "file": "player_03_seiya/basic_down_punch_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "crouch_punch",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      310,
+      274,
+      371,
+      332
+    ],
+    "hair_bounds": [
+      318,
+      285,
+      364,
+      332
+    ],
+    "hair_pixels": 983,
+    "file": "player_03_seiya/basic_down_punch_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "crouch_punch",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      307,
+      279,
+      369,
+      339
+    ],
+    "hair_bounds": [
+      314,
+      289,
+      362,
+      325
+    ],
+    "hair_pixels": 870,
+    "file": "player_03_seiya/basic_down_punch_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 48,
+    "corrected_scale": 0.75
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "dash",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 288.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      344,
+      230,
+      400,
+      290
+    ],
+    "hair_bounds": [
+      352,
+      240,
+      393,
+      271
+    ],
+    "hair_pixels": 616,
+    "file": "player_03_seiya/dash_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:288",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 41,
+    "corrected_scale": 0.878049
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "dash",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 576.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      339,
+      232,
+      395,
+      303
+    ],
+    "hair_bounds": [
+      347,
+      244,
+      388,
+      288
+    ],
+    "hair_pixels": 750,
+    "file": "player_03_seiya/backstep_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:576",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 41,
+    "corrected_scale": 0.878049
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      201,
+      360,
+      258
+    ],
+    "hair_bounds": [
+      308,
+      211,
+      353,
+      258
+    ],
+    "hair_pixels": 889,
+    "file": "player_03_seiya/basic_neutral_kick_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      197,
+      359,
+      257
+    ],
+    "hair_bounds": [
+      309,
+      207,
+      352,
+      257
+    ],
+    "hair_pixels": 873,
+    "file": "player_03_seiya/combo_finisher_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 43,
+    "corrected_scale": 0.837209
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      247,
+      202,
+      309,
+      259
+    ],
+    "hair_bounds": [
+      255,
+      212,
+      302,
+      244
+    ],
+    "hair_pixels": 755,
+    "file": "player_03_seiya/basic_neutral_kick_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      239,
+      217,
+      298,
+      271
+    ],
+    "hair_bounds": [
+      246,
+      227,
+      291,
+      271
+    ],
+    "hair_pixels": 807,
+    "file": "player_03_seiya/basic_neutral_kick_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      302,
+      199,
+      360,
+      259
+    ],
+    "hair_bounds": [
+      309,
+      209,
+      353,
+      240
+    ],
+    "hair_pixels": 726,
+    "file": "player_03_seiya/basic_neutral_kick_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_1",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      299,
+      202,
+      359,
+      262
+    ],
+    "hair_bounds": [
+      306,
+      213,
+      352,
+      245
+    ],
+    "hair_pixels": 753,
+    "file": "player_03_seiya/basic_neutral_kick_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_2",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      201,
+      360,
+      258
+    ],
+    "hair_bounds": [
+      308,
+      211,
+      353,
+      258
+    ],
+    "hair_pixels": 889,
+    "file": "player_03_seiya/basic_neutral_kick_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_2",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      197,
+      359,
+      257
+    ],
+    "hair_bounds": [
+      309,
+      207,
+      352,
+      257
+    ],
+    "hair_pixels": 873,
+    "file": "player_03_seiya/combo_finisher_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 43,
+    "corrected_scale": 0.837209
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_2",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      247,
+      202,
+      309,
+      259
+    ],
+    "hair_bounds": [
+      255,
+      212,
+      302,
+      244
+    ],
+    "hair_pixels": 755,
+    "file": "player_03_seiya/basic_neutral_kick_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_2",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      239,
+      217,
+      298,
+      271
+    ],
+    "hair_bounds": [
+      246,
+      227,
+      291,
+      271
+    ],
+    "hair_pixels": 807,
+    "file": "player_03_seiya/basic_neutral_kick_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_2",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      302,
+      199,
+      360,
+      259
+    ],
+    "hair_bounds": [
+      309,
+      209,
+      353,
+      240
+    ],
+    "hair_pixels": 726,
+    "file": "player_03_seiya/basic_neutral_kick_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "kick_2",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      299,
+      202,
+      359,
+      262
+    ],
+    "hair_bounds": [
+      306,
+      213,
+      352,
+      245
+    ],
+    "hair_pixels": 753,
+    "file": "player_03_seiya/basic_neutral_kick_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_kick_1",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      201,
+      360,
+      258
+    ],
+    "hair_bounds": [
+      308,
+      211,
+      353,
+      258
+    ],
+    "hair_pixels": 889,
+    "file": "player_03_seiya/basic_neutral_kick_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_kick_1",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      197,
+      359,
+      257
+    ],
+    "hair_bounds": [
+      309,
+      207,
+      352,
+      257
+    ],
+    "hair_pixels": 873,
+    "file": "player_03_seiya/combo_finisher_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 43,
+    "corrected_scale": 0.837209
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_kick_1",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      239,
+      217,
+      298,
+      271
+    ],
+    "hair_bounds": [
+      246,
+      227,
+      291,
+      271
+    ],
+    "hair_pixels": 807,
+    "file": "player_03_seiya/basic_neutral_kick_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_kick_1",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      302,
+      199,
+      360,
+      259
+    ],
+    "hair_bounds": [
+      309,
+      209,
+      353,
+      240
+    ],
+    "hair_pixels": 726,
+    "file": "player_03_seiya/basic_neutral_kick_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_kick_1",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      299,
+      202,
+      359,
+      262
+    ],
+    "hair_bounds": [
+      306,
+      213,
+      352,
+      245
+    ],
+    "hair_pixels": 753,
+    "file": "player_03_seiya/basic_neutral_kick_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_1",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      309,
+      209,
+      368,
+      263
+    ],
+    "hair_bounds": [
+      319,
+      219,
+      361,
+      263
+    ],
+    "hair_pixels": 765,
+    "file": "player_03_seiya/basic_neutral_punch_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 42,
+    "corrected_scale": 0.857143
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_1",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      314,
+      213,
+      370,
+      267
+    ],
+    "hair_bounds": [
+      320,
+      223,
+      364,
+      252
+    ],
+    "hair_pixels": 669,
+    "file": "player_03_seiya/light_attack_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_1",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      311,
+      216,
+      369,
+      269
+    ],
+    "hair_bounds": [
+      318,
+      225,
+      361,
+      255
+    ],
+    "hair_pixels": 668,
+    "file": "player_03_seiya/basic_neutral_punch_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 43,
+    "corrected_scale": 0.837209
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_1",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      306,
+      212,
+      363,
+      272
+    ],
+    "hair_bounds": [
+      313,
+      223,
+      355,
+      272
+    ],
+    "hair_pixels": 771,
+    "file": "player_03_seiya/basic_neutral_punch_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 42,
+    "corrected_scale": 0.857143
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_1",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      304,
+      209,
+      362,
+      271
+    ],
+    "hair_bounds": [
+      311,
+      220,
+      355,
+      256
+    ],
+    "hair_pixels": 726,
+    "file": "player_03_seiya/basic_neutral_punch_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_3",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      310,
+      274,
+      374,
+      332
+    ],
+    "hair_bounds": [
+      320,
+      285,
+      366,
+      332
+    ],
+    "hair_pixels": 923,
+    "file": "player_03_seiya/basic_down_punch_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_3",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 1728.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      302,
+      273,
+      362,
+      331
+    ],
+    "hair_bounds": [
+      308,
+      283,
+      355,
+      315
+    ],
+    "hair_pixels": 813,
+    "file": "player_03_seiya/crouch_punch_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:1728",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_3",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      293,
+      274,
+      356,
+      332
+    ],
+    "hair_bounds": [
+      302,
+      285,
+      349,
+      320
+    ],
+    "hair_pixels": 818,
+    "file": "player_03_seiya/basic_down_punch_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_3",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      310,
+      274,
+      371,
+      332
+    ],
+    "hair_bounds": [
+      318,
+      285,
+      364,
+      332
+    ],
+    "hair_pixels": 983,
+    "file": "player_03_seiya/basic_down_punch_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_3",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 2016.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      307,
+      279,
+      369,
+      339
+    ],
+    "hair_bounds": [
+      314,
+      289,
+      362,
+      325
+    ],
+    "hair_pixels": 870,
+    "file": "player_03_seiya/basic_down_punch_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:2016",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 48,
+    "corrected_scale": 0.75
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_4",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      296,
+      202,
+      357,
+      257
+    ],
+    "hair_bounds": [
+      305,
+      212,
+      350,
+      245
+    ],
+    "hair_pixels": 731,
+    "file": "player_03_seiya/normal_punch_4_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_4",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      325,
+      207,
+      387,
+      267
+    ],
+    "hair_bounds": [
+      333,
+      217,
+      380,
+      249
+    ],
+    "hair_pixels": 768,
+    "file": "player_03_seiya/normal_punch_4_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_4",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      292,
+      209,
+      354,
+      274
+    ],
+    "hair_bounds": [
+      299,
+      220,
+      345,
+      258
+    ],
+    "hair_pixels": 755,
+    "file": "player_03_seiya/normal_punch_4_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_4",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      315,
+      210,
+      377,
+      270
+    ],
+    "hair_bounds": [
+      324,
+      220,
+      369,
+      270
+    ],
+    "hair_pixels": 886,
+    "file": "player_03_seiya/normal_punch_4_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "normal_punch_4",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      295,
+      201,
+      361,
+      265
+    ],
+    "hair_bounds": [
+      306,
+      213,
+      353,
+      246
+    ],
+    "hair_pixels": 760,
+    "file": "player_03_seiya/normal_punch_4_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      309,
+      209,
+      368,
+      263
+    ],
+    "hair_bounds": [
+      319,
+      219,
+      361,
+      263
+    ],
+    "hair_pixels": 765,
+    "file": "player_03_seiya/basic_neutral_punch_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 42,
+    "corrected_scale": 0.857143
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      314,
+      213,
+      370,
+      267
+    ],
+    "hair_bounds": [
+      320,
+      223,
+      364,
+      252
+    ],
+    "hair_pixels": 669,
+    "file": "player_03_seiya/light_attack_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      320,
+      217,
+      378,
+      274
+    ],
+    "hair_bounds": [
+      328,
+      227,
+      371,
+      255
+    ],
+    "hair_pixels": 647,
+    "file": "player_03_seiya/basic_neutral_punch_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 43,
+    "corrected_scale": 0.837209
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1152.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      311,
+      216,
+      369,
+      269
+    ],
+    "hair_bounds": [
+      318,
+      225,
+      361,
+      255
+    ],
+    "hair_pixels": 668,
+    "file": "player_03_seiya/basic_neutral_punch_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1152",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 43,
+    "corrected_scale": 0.837209
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      306,
+      212,
+      363,
+      272
+    ],
+    "hair_bounds": [
+      313,
+      223,
+      355,
+      272
+    ],
+    "hair_pixels": 771,
+    "file": "player_03_seiya/basic_neutral_punch_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 42,
+    "corrected_scale": 0.857143
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_1",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      304,
+      209,
+      362,
+      271
+    ],
+    "hair_bounds": [
+      311,
+      220,
+      355,
+      256
+    ],
+    "hair_pixels": 726,
+    "file": "player_03_seiya/basic_neutral_punch_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 44,
+    "corrected_scale": 0.818182
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_2",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      296,
+      202,
+      357,
+      257
+    ],
+    "hair_bounds": [
+      305,
+      212,
+      350,
+      245
+    ],
+    "hair_pixels": 731,
+    "file": "player_03_seiya/normal_punch_4_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_2",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      325,
+      207,
+      387,
+      267
+    ],
+    "hair_bounds": [
+      333,
+      217,
+      380,
+      249
+    ],
+    "hair_pixels": 768,
+    "file": "player_03_seiya/normal_punch_4_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_2",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      317,
+      209,
+      379,
+      263
+    ],
+    "hair_bounds": [
+      326,
+      218,
+      371,
+      249
+    ],
+    "hair_pixels": 777,
+    "file": "player_03_seiya/punch_2_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_2",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      292,
+      209,
+      354,
+      274
+    ],
+    "hair_bounds": [
+      299,
+      220,
+      345,
+      258
+    ],
+    "hair_pixels": 755,
+    "file": "player_03_seiya/normal_punch_4_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_2",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      315,
+      210,
+      377,
+      270
+    ],
+    "hair_bounds": [
+      324,
+      220,
+      369,
+      270
+    ],
+    "hair_pixels": 886,
+    "file": "player_03_seiya/normal_punch_4_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_2",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      295,
+      201,
+      361,
+      265
+    ],
+    "hair_bounds": [
+      306,
+      213,
+      353,
+      246
+    ],
+    "hair_pixels": 760,
+    "file": "player_03_seiya/normal_punch_4_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_3",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      296,
+      202,
+      357,
+      257
+    ],
+    "hair_bounds": [
+      305,
+      212,
+      350,
+      245
+    ],
+    "hair_pixels": 731,
+    "file": "player_03_seiya/normal_punch_4_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_3",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      325,
+      207,
+      387,
+      267
+    ],
+    "hair_bounds": [
+      333,
+      217,
+      380,
+      249
+    ],
+    "hair_pixels": 768,
+    "file": "player_03_seiya/normal_punch_4_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_3",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      317,
+      209,
+      379,
+      263
+    ],
+    "hair_bounds": [
+      326,
+      218,
+      371,
+      249
+    ],
+    "hair_pixels": 777,
+    "file": "player_03_seiya/punch_2_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_3",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      292,
+      209,
+      354,
+      274
+    ],
+    "hair_bounds": [
+      299,
+      220,
+      345,
+      258
+    ],
+    "hair_pixels": 755,
+    "file": "player_03_seiya/normal_punch_4_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_3",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      315,
+      210,
+      377,
+      270
+    ],
+    "hair_bounds": [
+      324,
+      220,
+      369,
+      270
+    ],
+    "hair_pixels": 886,
+    "file": "player_03_seiya/normal_punch_4_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "punch_3",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 1440.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      295,
+      201,
+      361,
+      265
+    ],
+    "hair_bounds": [
+      306,
+      213,
+      353,
+      246
+    ],
+    "hair_pixels": 760,
+    "file": "player_03_seiya/normal_punch_4_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:1440",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      304,
+      219,
+      361,
+      277
+    ],
+    "hair_bounds": [
+      310,
+      229,
+      355,
+      262
+    ],
+    "hair_pixels": 815,
+    "file": "player_03_seiya/special_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_attack",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      304,
+      219,
+      361,
+      277
+    ],
+    "hair_bounds": [
+      310,
+      229,
+      355,
+      262
+    ],
+    "hair_pixels": 815,
+    "file": "player_03_seiya/special_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_clear_counter",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      304,
+      219,
+      361,
+      277
+    ],
+    "hair_bounds": [
+      310,
+      229,
+      355,
+      262
+    ],
+    "hair_pixels": 815,
+    "file": "player_03_seiya/special_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_recovery",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 3168.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      288,
+      219,
+      347,
+      279
+    ],
+    "hair_bounds": [
+      295,
+      229,
+      341,
+      263
+    ],
+    "hair_pixels": 838,
+    "file": "player_03_seiya/special_recovery_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:3168",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_recovery",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (384.0, 3168.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      294,
+      212,
+      354,
+      272
+    ],
+    "hair_bounds": [
+      300,
+      223,
+      347,
+      272
+    ],
+    "hair_pixels": 1029,
+    "file": "player_03_seiya/special_recovery_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:384:3168",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_startup",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1536.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      286,
+      213,
+      345,
+      282
+    ],
+    "hair_bounds": [
+      293,
+      225,
+      338,
+      267
+    ],
+    "hair_pixels": 921,
+    "file": "player_03_seiya/special_startup_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:1536:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_startup",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      296,
+      223,
+      355,
+      283
+    ],
+    "hair_bounds": [
+      303,
+      234,
+      348,
+      263
+    ],
+    "hair_pixels": 799,
+    "file": "player_03_seiya/special_startup_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "special_startup",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      321,
+      276,
+      382,
+      334
+    ],
+    "hair_bounds": [
+      328,
+      286,
+      374,
+      333
+    ],
+    "hair_pixels": 1060,
+    "file": "player_03_seiya/special_startup_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "throw",
+    "frame": 0,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2304.0, 2592.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      306,
+      220,
+      366,
+      278
+    ],
+    "hair_bounds": [
+      313,
+      230,
+      359,
+      262
+    ],
+    "hair_pixels": 899,
+    "file": "player_03_seiya/throw_000.png",
+    "source_key": "seiya_v2/motion_atlas.png:2304:2592",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "throw",
+    "frame": 1,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (2688.0, 2592.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      312,
+      229,
+      372,
+      289
+    ],
+    "hair_bounds": [
+      319,
+      239,
+      365,
+      288
+    ],
+    "hair_pixels": 1056,
+    "file": "player_03_seiya/throw_001.png",
+    "source_key": "seiya_v2/motion_atlas.png:2688:2592",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "throw",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (0.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      306,
+      228,
+      368,
+      283
+    ],
+    "hair_bounds": [
+      315,
+      238,
+      361,
+      278
+    ],
+    "hair_pixels": 942,
+    "file": "player_03_seiya/throw_002.png",
+    "source_key": "seiya_v2/motion_atlas.png:0:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 46,
+    "corrected_scale": 0.782609
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "throw",
+    "frame": 4,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (768.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      288,
+      215,
+      348,
+      269
+    ],
+    "hair_bounds": [
+      294,
+      224,
+      341,
+      253
+    ],
+    "hair_pixels": 811,
+    "file": "player_03_seiya/throw_004.png",
+    "source_key": "seiya_v2/motion_atlas.png:768:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 47,
+    "corrected_scale": 0.765957
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "throw",
+    "frame": 5,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1152.0, 2880.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      291,
+      201,
+      350,
+      273
+    ],
+    "hair_bounds": [
+      298,
+      213,
+      343,
+      248
+    ],
+    "hair_pixels": 857,
+    "file": "player_03_seiya/throw_005.png",
+    "source_key": "seiya_v2/motion_atlas.png:1152:2880",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 45,
+    "corrected_scale": 0.8
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "walk",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 3456.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      210,
+      355,
+      270
+    ],
+    "hair_bounds": [
+      307,
+      221,
+      348,
+      270
+    ],
+    "hair_pixels": 765,
+    "file": "player_03_seiya/walk_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:3456",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 41,
+    "corrected_scale": 0.878049
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "walk_backward",
+    "frame": 2,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 3456.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      210,
+      355,
+      270
+    ],
+    "hair_bounds": [
+      307,
+      221,
+      348,
+      270
+    ],
+    "hair_pixels": 765,
+    "file": "player_03_seiya/walk_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:3456",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 41,
+    "corrected_scale": 0.878049
+  },
+  {
+    "actor": "player_03_seiya",
+    "clip": "walk_forward",
+    "frame": 3,
+    "source": "res://assets/characters/player03/animations/seiya_v2/motion_atlas.png",
+    "region": "[P: (1920.0, 3456.0), S: (384.0, 288.0)]",
+    "head_scale": 0.9,
+    "roi": [
+      300,
+      210,
+      355,
+      270
+    ],
+    "hair_bounds": [
+      307,
+      221,
+      348,
+      270
+    ],
+    "hair_pixels": 765,
+    "file": "player_03_seiya/walk_003.png",
+    "source_key": "seiya_v2/motion_atlas.png:1920:3456",
+    "reference_width": 38,
+    "tolerance_px": 2,
+    "observed_width": 41,
+    "corrected_scale": 0.878049
+  }
+]

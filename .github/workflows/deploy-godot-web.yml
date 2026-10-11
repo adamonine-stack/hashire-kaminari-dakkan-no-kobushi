@@ -459,6 +459,14 @@ jobs:
           timeout 180s godot --headless --main-pack "$WEB_BUILD_DIR/index.pck" --script res://tests/stage1_body_dimensions_check.gd 2>&1 | tee /tmp/exported-body-dimensions.log
           grep -F 'failures=[]' /tmp/exported-body-dimensions.log
 
+      - name: Verify reviewed Seiya head proportions in exported pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 180s godot --headless --main-pack "$WEB_BUILD_DIR/index.pck" --script res://tests/reviewed_head_pack_check.gd 2>&1 | tee /tmp/reviewed-head-pack.log
+          grep -Fq 'REVIEWED_HEAD_PACK_CHECK applied=37 protected=396 failures=[]' /tmp/reviewed-head-pack.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/reviewed-head-pack.log; then exit 1; fi
+
       - name: Force PNG web app icons
         shell: bash
         run: |
