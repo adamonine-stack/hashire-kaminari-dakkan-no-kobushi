@@ -64,7 +64,7 @@ func run() -> void:
    check(not player.punch_hitbox_active and not player.kick_hitbox_active,"startup inactive "+key)
    player.enter_attack_active()
    player._sync_attack_visual_phase()
-   check(sprite.animation == StringName("basic_"+key),"authored animation "+key)
+   check(sprite.animation == StringName(player.current_attack_data.animation_name),"authored animation "+key)
    check(sprite.frame == player.current_attack_data.contact_start_frame,"contact pose "+key)
    var area: Area2D = player.punch_area if key.ends_with("punch") else player.kick_area
    check(signf(area.position.x) == facing,"mirrored hitbox "+key)
