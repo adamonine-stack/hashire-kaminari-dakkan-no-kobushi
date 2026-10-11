@@ -3,6 +3,7 @@ extends SceneTree
 var failures: Array[String] = []
 var rows: Array[Dictionary] = []
 var hashes: Dictionary = {}
+const FORWARD_SPECIAL := {"akky_diagonal_jump":3, "akky_diagonal_punch":4, "akky_diagonal_land":3}
 const REPAIRED := ["damage_light", "damage_heavy", "damage_high", "damage_low", "akky_air_punch", "akky_throw_back_start", "akky_throw_back_release", "special_guard", "ground_impact", "ground_bounce", "wall_hit", "wall_fall"]
 
 func check(ok: bool, label: String) -> void:
@@ -61,7 +62,10 @@ func run() -> void:
 			check(origin.is_equal_approx(baseline_actor.animated_character_sprite.position), "master sprite origin unchanged")
 		for clip in frames.get_animation_names():
 			var count := frames.get_frame_count(clip)
-			if is_akky and baseline_frames.has_animation(clip) and not String(clip).begins_with("basic_"):
+			if is_akky and FORWARD_SPECIAL.has(String(clip)):
+				check(count == FORWARD_SPECIAL[String(clip)], "%s dedicated forward special count" % clip)
+				check(not frames.get_animation_loop(clip), "%s forward special does not loop" % clip)
+			if is_akky and baseline_frames.has_animation(clip) and not String(clip).begins_with("basic_") and not FORWARD_SPECIAL.has(String(clip)):
 				check(count == baseline_frames.get_frame_count(clip), "%s frame count unchanged" % clip)
 				check(frames.get_animation_speed(clip) == baseline_frames.get_animation_speed(clip), "%s fps unchanged" % clip)
 				check(frames.get_animation_loop(clip) == baseline_frames.get_animation_loop(clip), "%s loop unchanged" % clip)
@@ -76,6 +80,8 @@ func run() -> void:
 					var label := "%s/%s/%d/%d" % [definition.fighter_id,clip,index,facing]
 					check(texture != null, label + " texture")
 					if texture == null: continue
+					if is_akky and FORWARD_SPECIAL.has(String(clip)):
+						check("forward_leap_v1/" in String(texture.get_meta("source_texture_path", "")), label + " dedicated forward source")
 					check(sprite.scale.is_equal_approx(scale) and sprite.global_scale.is_equal_approx(global), label + " fixed scale")
 					check(sprite.position.is_equal_approx(origin) and sprite.offset.is_equal_approx(offset), label + " fixed origin")
 					check(sprite.flip_h == (facing < 0), label + " flip")
@@ -83,7 +89,7 @@ func run() -> void:
 						check(Rect2(Vector2.ZERO,texture.atlas.get_size()).encloses(texture.region), label + " atlas bounds")
 					var image := texture.get_image()
 					check(image.get_used_rect().has_area(), label + " visible pixels")
-					if is_akky and facing == 1 and baseline_frames.has_animation(clip) and not String(clip).begins_with("basic_"):
+					if is_akky and facing == 1 and baseline_frames.has_animation(clip) and not String(clip).begins_with("basic_") and not FORWARD_SPECIAL.has(String(clip)):
 						check(frames.get_frame_duration(clip,index) == baseline_frames.get_frame_duration(clip,index), label + " duration unchanged")
 						var old: Texture2D = baseline_frames.get_frame_texture(clip,index)
 						var changed := texture_hash(texture) != texture_hash(old)
