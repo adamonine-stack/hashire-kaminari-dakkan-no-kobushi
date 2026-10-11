@@ -65,7 +65,8 @@ func run() -> void:
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
 			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/leon/")
-			check(basic_source or texture.atlas.resource_path.contains("leon_v2"),"approved Leon motion sources "+clip)
+			var normal_source := String(texture.get_meta("source_texture_path", "")) == "res://assets/characters/overhead_v1/leon/source.png"
+			check(basic_source or normal_source or texture.atlas.resource_path.contains("leon_v2"),"approved Leon motion sources "+clip)
 			check(texture.get_size() == (Vector2(576,448) if basic_source else Vector2(512,448)),"complete cell for source "+clip)
 			var used := texture.get_image().get_used_rect()
 			check(used.position.x>=(1 if basic_source else 8) and used.position.y>=8 and used.end.x<=texture.get_size().x-(1 if basic_source else 8) and used.end.y<=404,"no clipped hair limbs boots "+clip)
@@ -113,7 +114,7 @@ func run() -> void:
 			await physics_frame
 			if leon.attack_phase == leon.AttackPhase.ACTIVE and not attack_seen:
 				attack_seen = true
-				check(sprite.frame == 1,"normal kick uses extended contact pose")
+				check(sprite.frame == leon.current_attack_data.contact_start_frame,"normal kick uses extended contact pose")
 				await capture("contact_kick_"+str(direction))
 		check(player.current_hp<hp,"Leon kick contacts player "+str(direction))
 		check(attack_seen,"Leon kick contact pose was observed "+str(direction))

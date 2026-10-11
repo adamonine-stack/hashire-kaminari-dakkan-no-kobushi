@@ -75,7 +75,8 @@ func run() -> void:
 			check(texture != null,"authored texture "+clip)
 			if texture == null: continue
 			var basic_source := texture.atlas.resource_path.contains("basic_moves_v2/shadow/")
-			check(basic_source or texture.atlas.resource_path.contains("shadow_boxer_v2"),"all Shadow motions use repaired originals "+clip)
+			var normal_source := String(texture.get_meta("source_texture_path", "")) == "res://assets/characters/overhead_v1/shadow/source.png"
+			check(basic_source or normal_source or texture.atlas.resource_path.contains("shadow_boxer_v2"),"all Shadow motions use repaired originals "+clip)
 			check(texture.get_size() == Vector2(320,256),"common complete cell "+clip)
 			var used := texture.get_image().get_used_rect()
 			check(used.position.x>=(1 if basic_source else 8) and used.position.y>=8 and used.end.x<=(319 if basic_source else 312) and used.end.y<=240,"no clipped hair limbs boots "+clip)
