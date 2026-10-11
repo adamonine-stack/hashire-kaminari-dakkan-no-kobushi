@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FighterMotionAtlas" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/fighter_motion_atlas.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/overhead_v1/rio/source.png" id="2"]
+[resource]
+script = ExtResource("1")
+texture = ExtResource("2")
+head_scale_override = 1.0
+cell_size = Vector2i(320, 256)
+columns = 3
+frame_offsets_are_display_pixels = true
+source_alpha_threshold = 0.01
+frame_regions = Array[Rect2i]([Rect2i(143, 13, 483, 686), Rect2i(781, 85, 490, 614), Rect2i(1505, 85, 483, 614)])
+frame_offsets = Array[Vector2i]([Vector2i(138, 48), Vector2i(90, 68), Vector2i(94, 68)])
+frame_source_scales = Array[float]([0.27986906710310966, 0.27986906710310966, 0.27986906710310966])
+clips = {"overhead_windup": {"frames": [0], "fps": 12, "loop": false}, "overhead_contact": {"frames": [1], "fps": 12, "loop": false}, "authored_normal_contact": {"frames": [2], "fps": 12, "loop": false}}

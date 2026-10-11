@@ -1377,6 +1377,11 @@ func apply_guard_recoil(attack_data: Dictionary) -> void:
 	if attack_type == "special" or attack_type == "ultimate" or attack_type == "throw":
 		return
 	var recoil_time := guard_recoil_kick_time if attack_type == "kick" else guard_recoil_punch_time
+	if bool(attack_data.get("normal_chain", false)):
+		# Leave time for a normal counter after the defender's guardstun.
+		recoil_time = maxf(recoil_time, float(attack_data.get("guard_hit_time", 0.13)) + 0.18)
+		if has_method("interrupt_combo"):
+			call("interrupt_combo")
 	var attacker_type := String(attack_data.get("attacker_archetype", "")).to_lower()
 	if attacker_type == "power":
 		recoil_time += guard_recoil_power_bonus
@@ -2914,7 +2919,7 @@ func _get_current_visual_animation() -> StringName:
 		return last_damage_animation
 	if _is_landing_recovery_busy() and _has_visual_animation(landing_recovery_animation):
 		return landing_recovery_animation
-	if current_attack_data != null and (not String(current_attack_data.command_direction).is_empty() or current_attack_data.attack_category in ["basic", "basic_air"]) and current_attack_type in ["Punch", "Kick"] and _has_visual_animation(StringName(current_attack_data.animation_name)):
+	if current_attack_data != null and (not String(current_attack_data.command_direction).is_empty() or current_attack_data.attack_category in ["basic", "basic_air", "normal_chain"]) and current_attack_type in ["Punch", "Kick"] and _has_visual_animation(StringName(current_attack_data.animation_name)):
 		return StringName(current_attack_data.animation_name)
 	if _is_cross_grappler() and current_attack_data != null and current_attack_type in ["Punch", "Kick"]:
 		return StringName(current_attack_data.animation_name)

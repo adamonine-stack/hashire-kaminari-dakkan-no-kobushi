@@ -716,7 +716,8 @@ func apply_basic_move_paths(paths: Dictionary) -> void:
 		if move == null or move.attack_id.is_empty():
 			push_error("Invalid basic move: %s" % paths[key])
 			continue
-		basic_move_ids[key] = move.attack_id
+		if not String(key).begins_with("chain_"):
+			basic_move_ids[key] = move.attack_id
 		attack_data_by_id[move.attack_id] = move
 		attack_data_sequence.append(move)
 	if basic_move_ids.has("down_kick"):
@@ -936,7 +937,7 @@ func start_attack(attack_id: String) -> void:
 	current_attack_id = attack_id
 	command_attack_elapsed = 0.0
 	current_attack_type = _attack_type_to_state_name(String(attack_data.attack_type))
-	if not String(attack_data.command_direction).is_empty():
+	if not String(attack_data.command_direction).is_empty() or attack_data.attack_category == "normal_chain":
 		is_crouching = attack_data.crouch_on_start
 	_play_audio_manager_se("kick_whiff" if current_attack_type == "Kick" else "punch_whiff")
 	_apply_crouch_sweep_hurtbox_if_needed(attack_data)
@@ -989,6 +990,7 @@ func enter_attack_recovery() -> void:
 
 func finish_attack() -> void:
 	var finished_attack_id := current_attack_id
+	var finished_normal_chain: bool = current_attack_data != null and current_attack_data.attack_category == "normal_chain"
 	var missed := not dev_current_attack_connected
 	var whiff_chain_allowed := can_chain_on_whiff()
 	disable_attack_hitbox()
@@ -1011,7 +1013,7 @@ func finish_attack() -> void:
 		_play_visual_animation(&"crouch_idle", true)
 	clear_attack_buffer()
 	close_combo_window()
-	if combo_count >= _combo_hit_limit():
+	if finished_normal_chain or combo_count >= _combo_hit_limit():
 		reset_combo()
 	if not finished_attack_id.is_empty():
 		attack_finished.emit(finished_attack_id)
@@ -1076,7 +1078,7 @@ func apply_attack_hitbox_data(data: Resource) -> void:
 		else:
 			target_shape.shape = target_shape.shape.duplicate()
 		target_shape.shape.size = data.hitbox_size * scale_multiplier
-	if data.attack_category in ["basic", "basic_air"]:
+	if data.attack_category in ["basic", "basic_air", "normal_chain"]:
 		# Explicit contact coordinates take precedence over legacy pose guesses.
 		target_area.position = Vector2(data.hitbox_offset.x*facing_direction, data.hitbox_offset.y)*scale_multiplier
 	if definition != null:
@@ -1250,7 +1252,11 @@ func receive_attack(attack_data: Dictionary, attack_direction: float, hit_positi
 	_cancel_current_action()
 	_enter_hit_state()
 	var combo_hit_index := int(attack_data.get("combo_hit_index", 1))
-	if _is_technical_combo_attack(attack_data) and combo_hit_index >= 2:
+	if bool(attack_data.get("normal_chain", false)):
+		# Match remaining recovery including asymmetric hitstop. Buffered startup
+		# lands during this window; without continuation both recover together.
+		hit_reaction_timer = float(attack_data["normal_chain_recovery"])
+	elif _is_technical_combo_attack(attack_data) and combo_hit_index >= 2:
 		# The first two hits may confirm, but the defender recovers before later
 		# technical hits so holding guard or countering can break the sequence.
 		hit_reaction_timer = minf(hit_reaction_timer, technical_combo_escape_hitstun)
@@ -1284,6 +1290,10 @@ func _apply_attack_to_target(target: Node, attack_data: Dictionary) -> void:
 		return
 
 	var scaled_attack_data := _build_combo_scaled_attack_data(attack_data, target)
+	if current_attack_data != null and current_attack_data.attack_category == "normal_chain":
+		scaled_attack_data["normal_chain"] = true
+		scaled_attack_data["normal_chain_recovery"] = maxf(0.0, attack_phase_timer + attack_recovery_time_actual + _get_attacker_hitstop_duration(scaled_attack_data) - _get_defender_hitstop_duration(scaled_attack_data))
+		scaled_attack_data["allows_combo_followup"] = true
 	var did_hit: bool = bool(target.receive_attack(scaled_attack_data, facing_direction, _get_hit_position(target), self))
 	if did_hit:
 		register_attack_hit(target)
@@ -1473,12 +1483,15 @@ func _try_cancel_attack_from_input() -> bool:
 
 
 func _can_cancel_attack() -> bool:
-	return is_round_active and dev_combo_window_open and can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and (dev_current_attack_connected or can_chain_on_whiff()) and combo_count < _combo_hit_limit() and is_on_floor() and not is_hit and not is_guard_hit and not is_guarding and not is_crouching and not is_crouch_guarding and not _is_throw_busy()
+	var low_chain: bool = current_attack_data != null and current_attack_data.attack_category == "normal_chain"
+	return is_round_active and dev_combo_window_open and can_cancel and cancel_window_timer > 0.0 and current_attack_type != "" and current_hp > 0 and (dev_current_attack_connected or can_chain_on_whiff()) and combo_count < _combo_hit_limit() and is_on_floor() and not is_hit and not is_guard_hit and not is_guarding and (not is_crouching or low_chain) and not is_crouch_guarding and not _is_throw_busy()
 
 
 func can_chain_attack(current_attack: StringName, next_attack: StringName) -> bool:
 	if current_attack_data == null:
 		return false
+	if current_attack_data.attack_category == "normal_chain":
+		return not get_next_attack_id(String(next_attack).to_lower()).is_empty()
 	if current_attack == &"Punch" and combo_count <= 1:
 		return next_attack == &"Punch" and not get_next_attack_id("punch").is_empty()
 	if current_attack == &"Punch" and combo_count == 2:
@@ -1610,6 +1623,8 @@ func _get_combat_archetype() -> StringName:
 
 
 func _is_technical_combo_attack(attack_data: Dictionary) -> bool:
+	if bool(attack_data.get("normal_chain", false)):
+		return false
 	return String(attack_data.get("attacker_archetype", "")).to_lower() == "technical"
 
 
@@ -1690,6 +1705,16 @@ func _maybe_buffer_ai_combo() -> void:
 
 
 func _choose_ai_combo_attack() -> StringName:
+	if current_attack_data != null and current_attack_data.attack_category == "normal_chain":
+		var same := String(current_attack_type).to_lower()
+		var other := "kick" if same == "punch" else "punch"
+		if not get_next_attack_id(same).is_empty() and randf() < 0.75:
+			return StringName(same.capitalize())
+		if not get_next_attack_id(other).is_empty():
+			return StringName(other.capitalize())
+		if not get_next_attack_id(same).is_empty():
+			return StringName(same.capitalize())
+		return &""
 	match StringName(current_attack_type):
 		&"Punch":
 			if combo_count <= 1 and not get_next_attack_id("punch").is_empty():
@@ -1980,7 +2005,7 @@ func _get_attack_recovery_multiplier(attack_type: String) -> float:
 
 
 func _attack_animation_name(attack_data: Resource) -> StringName:
-	if attack_data != null and attack_data.attack_category in ["basic", "basic_air"]:
+	if attack_data != null and attack_data.attack_category in ["basic", "basic_air", "normal_chain"]:
 		return StringName(attack_data.animation_name)
 	if attack_data != null and not String(attack_data.command_direction).is_empty():
 		return StringName(attack_data.animation_name)

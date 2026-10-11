@@ -1376,8 +1376,8 @@ func _select_situation_move() -> String:
 	if not opponent.is_on_floor():
 		if situation_observed_state != "air" or situation_observed_time < _profile_float(&"move_observation_seconds", 0.22):
 			return ""
-		if basic_move_ids.has("back_punch"):
-			var upper := _get_attack_data(basic_move_ids.back_punch)
+		if basic_move_ids.has("down_punch"):
+			var upper := _get_attack_data(basic_move_ids.down_punch)
 			if distance <= upper.ai_distance_max:
 				return String(upper.attack_id)
 		for move in attack_data_sequence:
