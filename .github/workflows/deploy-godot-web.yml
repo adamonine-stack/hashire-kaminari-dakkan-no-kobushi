@@ -153,6 +153,16 @@ jobs:
           timeout 30s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/dev_audio_smoke.gd 2>&1 | tee /tmp/dev-audio.log || true
           grep -q "DEV_AUDIO_OK" /tmp/dev-audio.log
 
+      - name: Verify all fighter normal chains
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/normal_chains_check.gd 2>&1 | tee /tmp/normal-chains.log
+          grep -Fq 'NORMAL_CHAINS_CHECK cases=24 failures=[]' /tmp/normal-chains.log
+          timeout 240s godot --headless --fixed-fps 60 --path "$GODOT_PROJECT_DIR" --script res://tests/normal_chains_live_check.gd 2>&1 | tee /tmp/normal-chains-live.log
+          grep -Fq 'NORMAL_CHAINS_LIVE_CHECK failures=[]' /tmp/normal-chains-live.log
+          if grep -E 'SCRIPT ERROR:|^ERROR:' /tmp/normal-chains.log /tmp/normal-chains-live.log; then exit 1; fi
+
       - name: Verify all character basic moves
         shell: bash
         run: |
@@ -424,6 +434,9 @@ jobs:
           test -s "$GODOT_PROJECT_DIR/audio/music/st_action_theme.ogg"
           timeout 180s godot --headless --path "$GODOT_PROJECT_DIR" --script res://tests/theme_music_check.gd 2>&1 | tee /tmp/theme-music.log
           grep -F 'failures=[]' /tmp/theme-music.log
+      - name: Prepare exported normal chain verification
+        run: python3 tools/build_normal_chains_web_qa.py
+
       - name: Export Web build
         shell: bash
         run: |
