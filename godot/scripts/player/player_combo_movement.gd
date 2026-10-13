@@ -1656,13 +1656,13 @@ func _try_guard_technical_combo_escape(attack_data: Dictionary, attack_direction
 			is_guarding = true
 			guard_type = "low" if is_crouch_guarding else "high"
 	elif name == "Enemy":
-		if normal_chain and not DifficultyMode.is_hard():
+		if normal_chain and not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 			return false
 		if normal_chain:
 			var profile: Resource = get("ai_profile")
 			if not bool(get("ai_enabled")) or (profile != null and not bool(profile.get("can_guard"))):
 				return false
-		wants_guard = randf() <= (0.75 if normal_chain and DifficultyMode.is_hard() else technical_ai_guard_escape_rate)
+		wants_guard = randf() <= (0.75 if normal_chain and Engine.get_main_loop().root.get_node("DifficultyMode").is_hard() else technical_ai_guard_escape_rate)
 		if wants_guard:
 			var attack_height := String(attack_data.get("attack_height", "middle")).to_lower()
 			is_crouch_guarding = attack_height == "low"

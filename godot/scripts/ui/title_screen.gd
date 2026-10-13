@@ -138,7 +138,7 @@ func start_new_game() -> void:
 		return
 	if FileAccess.file_exists(RUN_SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_SAVE_PATH))
-	DifficultyMode.persist_run_mode()
+	Engine.get_main_loop().root.get_node("DifficultyMode").persist_run_mode()
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, false)
 	await enter_opening_scene()
 
@@ -158,7 +158,7 @@ func continue_game() -> void:
 		if checkpoint.save_pending(replay_route) != OK:
 			push_error("Could not restore completed ending from story progress")
 			return
-	DifficultyMode.restore_run_mode()
+	Engine.get_main_loop().root.get_node("DifficultyMode").restore_run_mode()
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, true)
 	await _enter_battle_scene(true)
 
@@ -793,10 +793,10 @@ func _play_ui_se(se_id: String) -> void:
 		audio.call("play_ui_se", se_id)
 
 func _toggle_difficulty() -> void:
-	DifficultyMode.select_mode("normal" if DifficultyMode.is_hard() else "hard")
+	Engine.get_main_loop().root.get_node("DifficultyMode").select_mode("normal" if Engine.get_main_loop().root.get_node("DifficultyMode").is_hard() else "hard")
 	_refresh_difficulty()
 
 func _refresh_difficulty() -> void:
-	difficulty_button.text = "モード：ハード" if DifficultyMode.is_hard() else "モード：ノーマル"
-	difficulty_button.disabled = not DifficultyMode.hard_unlocked
-	difficulty_button.tooltip_text = "ノーマルクリアでハード解放" if not DifficultyMode.hard_unlocked else "押すとモードを切り替えます"
+	difficulty_button.text = "モード：ハード" if Engine.get_main_loop().root.get_node("DifficultyMode").is_hard() else "モード：ノーマル"
+	difficulty_button.disabled = not Engine.get_main_loop().root.get_node("DifficultyMode").hard_unlocked
+	difficulty_button.tooltip_text = "ノーマルクリアでハード解放" if not Engine.get_main_loop().root.get_node("DifficultyMode").hard_unlocked else "押すとモードを切り替えます"

@@ -386,7 +386,7 @@ func reset_character_stats() -> void:
 
 
 func apply_ai_profile(profile: Resource) -> void:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		_normal_apply_ai_profile(profile)
 		return
 	ai_profile = profile
@@ -1213,7 +1213,7 @@ func update_feint(delta: float) -> void:
 
 
 func should_guard_against_player() -> bool:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		return _normal_should_guard_against_player()
 	if not _profile_bool(&"can_guard", true) or not can_choose_guard():
 		return false
@@ -1239,7 +1239,7 @@ func should_guard_against_player() -> bool:
 
 
 func _choose_ai_guard_type_against_player() -> String:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		return _normal__choose_ai_guard_type_against_player()
 	var opponent := _get_opponent()
 	if opponent == null:
@@ -1379,7 +1379,7 @@ func _observe_situation_state(delta: float) -> void:
 
 
 func _select_situation_move() -> String:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		return _normal__select_situation_move()
 	if not _profile_bool(&"use_situation_moves", false):
 		return ""
@@ -1422,7 +1422,7 @@ func _select_situation_move() -> String:
 
 
 func _select_basic_situation_move(tag: String, distance: float) -> String:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		return _normal__select_basic_situation_move(tag, distance)
 	var choices: Array = {
 		"overhead": ["back_punch"],
@@ -2147,7 +2147,7 @@ func set_ai_debug_state(state_name: String) -> void:
 
 
 func _update_idle(delta: float) -> void:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		_normal__update_idle(delta)
 		return
 	if _is_player_attack_threatening(_get_opponent()) and should_guard_against_player():
@@ -2160,7 +2160,7 @@ func _update_idle(delta: float) -> void:
 
 
 func _update_ai_guard_state(delta: float) -> void:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		_normal__update_ai_guard_state(delta)
 		return
 	if not can_choose_guard() and not is_guarding:
@@ -2296,7 +2296,7 @@ func _randomized_preferred_distance() -> float:
 
 
 func _is_player_attack_threatening(opponent: Node) -> bool:
-	if not DifficultyMode.is_hard():
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
 		return _normal__is_player_attack_threatening(opponent)
 	if not (opponent is Node2D):
 		return false
