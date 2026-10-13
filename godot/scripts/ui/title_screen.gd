@@ -23,6 +23,7 @@ var title_menu: VBoxContainer
 var how_to_play_panel: PanelContainer
 var options_panel: PanelContainer
 var game_start_button: Button
+var difficulty_button: Button
 var continue_button: Button
 var how_to_play_button: Button
 var options_button: Button
@@ -39,6 +40,11 @@ var orientation_overlay: PanelContainer
 
 
 func _ready() -> void:
+	var difficulty_qa_path := "user://difficulty_qa.txt"
+	if OS.has_feature("web") and FileAccess.file_exists(difficulty_qa_path) and FileAccess.get_file_as_string(difficulty_qa_path).strip_edges() == "difficulty_v1":
+		DirAccess.remove_absolute(difficulty_qa_path)
+		get_tree().call_deferred("change_scene_to_file", "res://tests/difficulty_web_qa.tscn")
+		return
 	var normal_qa_path := "user://normal_chains_qa.txt"
 	if OS.has_feature("web") and FileAccess.file_exists(normal_qa_path) and FileAccess.get_file_as_string(normal_qa_path).strip_edges() == "normal_chains_v1":
 		DirAccess.remove_absolute(normal_qa_path)
@@ -132,6 +138,7 @@ func start_new_game() -> void:
 		return
 	if FileAccess.file_exists(RUN_SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_SAVE_PATH))
+	DifficultyMode.persist_run_mode()
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, false)
 	await enter_opening_scene()
 
@@ -151,6 +158,7 @@ func continue_game() -> void:
 		if checkpoint.save_pending(replay_route) != OK:
 			push_error("Could not restore completed ending from story progress")
 			return
+	DifficultyMode.restore_run_mode()
 	get_tree().root.set_meta(CONTINUE_REQUEST_META, true)
 	await _enter_battle_scene(true)
 
@@ -309,6 +317,10 @@ func _build_title_layout() -> void:
 	divider.custom_minimum_size = Vector2(320.0, 8.0)
 	title_menu.add_child(divider)
 
+	difficulty_button = _make_menu_button("")
+	difficulty_button.pressed.connect(_toggle_difficulty)
+	title_menu.add_child(difficulty_button)
+	_refresh_difficulty()
 	game_start_button = _make_menu_button("スタート")
 	game_start_button.pressed.connect(start_new_game)
 	_style_title_button(game_start_button, true)
@@ -779,3 +791,12 @@ func _play_ui_se(se_id: String) -> void:
 	var audio := _audio()
 	if audio != null and audio.has_method("play_ui_se"):
 		audio.call("play_ui_se", se_id)
+
+func _toggle_difficulty() -> void:
+	DifficultyMode.select_mode("normal" if DifficultyMode.is_hard() else "hard")
+	_refresh_difficulty()
+
+func _refresh_difficulty() -> void:
+	difficulty_button.text = "モード：ハード" if DifficultyMode.is_hard() else "モード：ノーマル"
+	difficulty_button.disabled = not DifficultyMode.hard_unlocked
+	difficulty_button.tooltip_text = "ノーマルクリアでハード解放" if not DifficultyMode.hard_unlocked else "押すとモードを切り替えます"

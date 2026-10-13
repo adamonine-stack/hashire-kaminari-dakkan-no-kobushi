@@ -480,6 +480,7 @@ func save_run_progress() -> bool:
 	if current_enemy_index < 0 or current_enemy_index >= enemy_team.size():
 		return false
 	var config := ConfigFile.new()
+	config.set_value("run", "difficulty", DifficultyMode.mode)
 	config.set_value("run", "version", 1)
 	config.set_value("run", "scene", get_parent().scene_file_path)
 	config.set_value("run", "current_enemy_index", current_enemy_index)
@@ -512,6 +513,7 @@ func load_run_progress() -> bool:
 	if error != OK:
 		push_warning("Failed to load run progress: %s" % error)
 		return false
+	DifficultyMode.restore_run_mode()
 	var saved_enemy_index := int(config.get_value("run", "current_enemy_index", 0))
 	if enemy_team.is_empty():
 		return false
@@ -1231,6 +1233,7 @@ func are_all_enemies_defeated() -> bool:
 func enter_game_clear() -> void:
 	if flow_state == BattleState.CLEAR:
 		return
+	DifficultyMode.complete_normal()
 	_set_battle_state(BattleState.CLEAR)
 	isBattleFinished = true
 	is_run_active = false
