@@ -386,6 +386,9 @@ func reset_character_stats() -> void:
 
 
 func apply_ai_profile(profile: Resource) -> void:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		_normal_apply_ai_profile(profile)
+		return
 	ai_profile = profile
 	reset_ai_state()
 	if ai_profile == null:
@@ -1210,6 +1213,8 @@ func update_feint(delta: float) -> void:
 
 
 func should_guard_against_player() -> bool:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		return _normal_should_guard_against_player()
 	if not _profile_bool(&"can_guard", true) or not can_choose_guard():
 		return false
 	var opponent := _get_opponent()
@@ -1234,6 +1239,8 @@ func should_guard_against_player() -> bool:
 
 
 func _choose_ai_guard_type_against_player() -> String:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		return _normal__choose_ai_guard_type_against_player()
 	var opponent := _get_opponent()
 	if opponent == null:
 		return "high"
@@ -1372,6 +1379,8 @@ func _observe_situation_state(delta: float) -> void:
 
 
 func _select_situation_move() -> String:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		return _normal__select_situation_move()
 	if not _profile_bool(&"use_situation_moves", false):
 		return ""
 	var opponent := _get_opponent()
@@ -1413,6 +1422,8 @@ func _select_situation_move() -> String:
 
 
 func _select_basic_situation_move(tag: String, distance: float) -> String:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		return _normal__select_basic_situation_move(tag, distance)
 	var choices: Array = {
 		"overhead": ["back_punch"],
 		"chain": ["neutral_punch", "neutral_kick"],
@@ -2136,6 +2147,9 @@ func set_ai_debug_state(state_name: String) -> void:
 
 
 func _update_idle(delta: float) -> void:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		_normal__update_idle(delta)
+		return
 	if _is_player_attack_threatening(_get_opponent()) and should_guard_against_player():
 		enter_guard()
 		return
@@ -2146,6 +2160,9 @@ func _update_idle(delta: float) -> void:
 
 
 func _update_ai_guard_state(delta: float) -> void:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		_normal__update_ai_guard_state(delta)
+		return
 	if not can_choose_guard() and not is_guarding:
 		enter_idle()
 		return
@@ -2279,6 +2296,8 @@ func _randomized_preferred_distance() -> float:
 
 
 func _is_player_attack_threatening(opponent: Node) -> bool:
+	if not Engine.get_main_loop().root.get_node("DifficultyMode").is_hard():
+		return _normal__is_player_attack_threatening(opponent)
 	if not (opponent is Node2D):
 		return false
 	var opponent_attack_type := String(opponent.get("current_attack_type"))
@@ -3174,3 +3193,163 @@ func _update_seiya_two_hit_visual() -> void:
 func _get_horizontal_movement_input() -> float:
 	if is_character_special_busy() and character_special_data != null and (character_special_data.somersault_on_special or character_special_data.somersault_sidekick): return 0.0
 	return super._get_horizontal_movement_input()
+
+
+func _normal_apply_ai_profile(profile: Resource) -> void:
+	ai_profile = profile
+	reset_ai_state()
+	if ai_profile == null:
+		return
+
+	ai_throw_probability = _profile_float(&"throw_weight", ai_throw_probability)
+	ai_throw_cooldown = _profile_float(&"throw_cooldown", ai_throw_cooldown)
+	ai_throw_check_interval = _profile_float(&"decision_interval_min", ai_throw_check_interval)
+	ai_guard_chance = _profile_float(&"guard_weight", ai_guard_chance)
+	ai_guard_check_interval = _profile_float(&"decision_interval_min", ai_guard_check_interval)
+	ai_guard_min_time = _profile_float(&"guard_duration_min", ai_guard_min_time)
+	ai_guard_max_time = _profile_float(&"guard_duration_max", ai_guard_max_time)
+	throw_escape_probability = _profile_float(&"throw_escape_probability", throw_escape_probability)
+	dev026_ai_combo_continue_probability = _profile_float(&"second_hit_probability", dev026_ai_combo_continue_probability)
+	dev026_ai_third_hit_probability = _profile_float(&"third_hit_probability", dev026_ai_third_hit_probability)
+	if _profile_bool(&"can_combo", false):
+		dev026_ai_combo_continue_probability = _profile_float(&"combo_rate", dev026_ai_combo_continue_probability)
+		dev026_ai_third_hit_probability = _profile_float(&"combo_rate", dev026_ai_third_hit_probability) * 0.65
+	show_ai_debug = _profile_bool(&"show_ai_debug", show_ai_debug)
+
+
+func _normal_should_guard_against_player() -> bool:
+	if not _profile_bool(&"can_guard", true) or not can_choose_guard():
+		return false
+	var opponent := _get_opponent()
+	var guard_rate := _profile_float(&"guard_rate", _profile_float(&"guard_weight", 0.15))
+	var is_threatening := _is_player_attack_threatening(opponent)
+	if is_threatening:
+		guard_rate = maxf(guard_rate, _profile_float(&"reactive_guard_rate", 0.45))
+	else:
+		var proactive_distance := _profile_float(&"attack_distance", 55.0) * 0.90
+		if evaluate_distance() > proactive_distance:
+			return false
+		guard_rate *= 0.30
+	if last_ai_action == &"guard" and repeated_action_count >= 2:
+		guard_rate *= 0.45
+	if randf() > guard_rate:
+		return false
+	print("[DEV062][%s] Guard selected type=%s%s" % [_debug_enemy_id(), _choose_ai_guard_type_against_player(), " threat" if is_threatening else " read"])
+	return true
+
+
+func _normal__choose_ai_guard_type_against_player() -> String:
+	var opponent := _get_opponent()
+	if opponent == null:
+		return "high"
+	var attack_data = opponent.get("current_attack_data")
+	if attack_data != null:
+		var category := String(attack_data.get("attack_category")).to_lower()
+		var height := String(attack_data.get("attack_height")).to_lower()
+		if category == "air" or height == "overhead":
+			return "high"
+		if height == "low" or category == "crouch":
+			return "low"
+	# Legacy/fallback attacks may not expose a Resource. A crouch state is an
+	# explicit low read; jump startup clears crouch before the fighter becomes airborne.
+	if bool(opponent.get("is_crouching")) and not String(opponent.get("current_attack_type")).is_empty():
+		return "low"
+	if opponent is CharacterBody2D and not opponent.is_on_floor() and not String(opponent.get("current_attack_type")).is_empty():
+		return "high"
+	return "high"
+
+
+func _normal__select_situation_move() -> String:
+	if not _profile_bool(&"use_situation_moves", false):
+		return ""
+	var opponent := _get_opponent()
+	if opponent == null or not is_on_floor():
+		return ""
+	var distance := evaluate_distance()
+	if not opponent.is_on_floor():
+		if situation_observed_state != "air" or situation_observed_time < _profile_float(&"move_observation_seconds", 0.22):
+			return ""
+		if basic_move_ids.has("down_punch"):
+			var upper := _get_attack_data(basic_move_ids.down_punch)
+			if distance <= upper.ai_distance_max:
+				return String(upper.attack_id)
+		for move in attack_data_sequence:
+			if move != null and move.ai_tags.has("anti_air") and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+				return String(move.attack_id)
+		return ""
+	var tag := "close" if distance < 65.0 else ("middle" if distance <= 130.0 else "approach")
+	if situation_observed_time >= _profile_float(&"move_observation_seconds", 0.22):
+		if situation_observed_state == "recovery":
+			tag = "punish"
+		elif situation_observed_state == "attack":
+			tag = "evade"
+		elif situation_observed_state == "idle" and distance > 90.0 and opponent.is_crouching:
+			tag = "low"
+	elif opponent.current_attack_type != "":
+		return ""
+	var basic := _select_basic_situation_move(tag, distance)
+	if not basic.is_empty():
+		return basic
+	for move in attack_data_sequence:
+		if move != null and move.ai_tags.has(tag) and distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+			return String(move.attack_id)
+	return ""
+
+
+func _normal__select_basic_situation_move(tag: String, distance: float) -> String:
+	var choices: Array = {
+		"close": ["neutral_punch", "down_punch", "back_kick"],
+		"middle": ["forward_kick", "neutral_kick", "down_kick"],
+		"approach": ["forward_punch"],
+		"punish": ["forward_punch", "forward_kick"],
+		"evade": ["back_kick", "down_punch"],
+		"low": ["down_kick"]
+	}.get(tag, [])
+	var candidates: Array[String] = []
+	for key in choices:
+		if not basic_move_ids.has(key):
+			continue
+		var move := _get_attack_data(basic_move_ids[key])
+		if distance >= move.ai_distance_min and distance <= move.ai_distance_max:
+			candidates.append(String(move.attack_id))
+	return candidates[randi() % candidates.size()] if not candidates.is_empty() else ""
+
+
+func _normal__update_idle(delta: float) -> void:
+	ai_idle_timer = maxf(ai_idle_timer - delta, 0.0)
+	if ai_idle_timer > 0.0:
+		return
+	choose_next_action()
+
+
+func _normal__update_ai_guard_state(delta: float) -> void:
+	if not can_choose_guard() and not is_guarding:
+		enter_idle()
+		return
+	ai_guard_timer = maxf(ai_guard_timer - delta, 0.0)
+	ai_guard_minimum_timer = maxf(ai_guard_minimum_timer - delta, 0.0)
+	is_guarding = true
+	is_crouch_guarding = is_on_floor() and ai_guard_type == "low"
+	is_crouching = false
+	guard_type = ai_guard_type if is_on_floor() else "air"
+	if ai_guard_timer == 0.0 and ai_guard_minimum_timer == 0.0:
+		_clear_guard_state()
+		ai_action_finished.emit("guard")
+		enter_idle()
+
+
+func _normal__is_player_attack_threatening(opponent: Node) -> bool:
+	if not (opponent is Node2D):
+		return false
+	var opponent_attack_type := String(opponent.get("current_attack_type"))
+	if opponent_attack_type.is_empty():
+		return false
+	var direction_to_enemy := signf(global_position.x - opponent.global_position.x)
+	if direction_to_enemy != 0.0 and signf(float(opponent.get("facing_direction"))) != direction_to_enemy:
+		return false
+	var distance := evaluate_distance()
+	var estimated_range := 70.0
+	var attack_data = opponent.get("current_attack_data")
+	if attack_data != null:
+		estimated_range = absf(float(attack_data.hitbox_offset.x)) + (float(attack_data.hitbox_size.x) * 0.5)
+	return distance <= estimated_range + 20.0

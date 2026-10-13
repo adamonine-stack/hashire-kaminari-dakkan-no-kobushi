@@ -22,6 +22,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+DifficultyMode="*res://scripts/autoload/difficulty_mode.gd"
+
 SettingsManager="*res://scripts/autoload/settings_manager.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
 GlobalFontManager="*res://scripts/autoload/global_font_manager.gd"

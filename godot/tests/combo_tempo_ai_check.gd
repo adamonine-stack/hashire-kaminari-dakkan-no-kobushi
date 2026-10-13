@@ -1,6 +1,7 @@
 extends "res://tests/directional_attacks_check.gd"
 
 func run() -> void:
+	root.get_node("DifficultyMode").mode = "hard"
 	seed(43)
 	var battle: Node = load("res://scenes/Battle.tscn").instantiate()
 	root.add_child(battle)

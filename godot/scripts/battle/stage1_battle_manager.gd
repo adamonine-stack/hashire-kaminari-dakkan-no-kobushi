@@ -235,6 +235,8 @@ func _process(_delta: float) -> void:
 func enter_game_clear() -> void:
 	if flow_state == BattleState.CLEAR:
 		return
+	if enemy_team.size() == 8:
+		Engine.get_main_loop().root.get_node("DifficultyMode").complete_normal()
 	_set_battle_state(BattleState.CLEAR)
 	isBattleFinished = true
 	is_run_active = false
